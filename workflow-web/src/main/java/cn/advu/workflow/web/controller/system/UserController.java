@@ -1,11 +1,9 @@
 package cn.advu.workflow.web.controller.system;
 
-import cn.advu.workflow.common.cache.RedisClient;
 import cn.advu.workflow.common.constant.Constants;
 import cn.advu.workflow.domain.database.BusinessChannel;
 import cn.advu.workflow.domain.database.SysPermission;
 import cn.advu.workflow.domain.database.SysUser;
-import cn.advu.workflow.web.common.component.SpringContextUtil;
 import cn.advu.workflow.web.common.RequestUtil;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.WebConstants;
@@ -13,8 +11,6 @@ import cn.advu.workflow.web.common.exception.LoginException;
 import cn.advu.workflow.web.common.loginContext.LoginTools;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.service.SysUserService;
-import net.sf.json.JSONArray;
-import net.sf.json.JsonConfig;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,12 +104,12 @@ public class UserController {
 
         LoginUser loginUser = LoginTools.parseLoginUser(loginCookie);
 
-        RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
-        String str = redisClient.getStr("login_permissions_key_" + loginUser.getUserId().toString());
-        JSONArray array = JSONArray.fromObject(str);
-        List<SysPermission> list = JSONArray.toList(array, new SysPermission(), new JsonConfig());
+//        RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
+//        String str = redisClient.getStr("login_permissions_key_" + loginUser.getUserId().toString());
+//        JSONArray array = JSONArray.fromObject(str);
+//        List<SysPermission> list = JSONArray.toList(array, new SysPermission(), new JsonConfig());
         ResultJson<List<SysPermission>> rj = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        rj.setData(list);
+//        rj.setData(list);
         return rj;
     }
 

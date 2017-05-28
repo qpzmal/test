@@ -1,17 +1,13 @@
 package cn.advu.workflow.web.user.controller;
 
-import cn.advu.workflow.common.cache.RedisClient;
 import cn.advu.workflow.common.constant.Constants;
 import cn.advu.workflow.common.golbal.AjaxJson;
-import cn.advu.workflow.domain.database.SysPermission;
-import cn.advu.workflow.web.common.component.SpringContextUtil;
 import cn.advu.workflow.web.common.RequestUtil;
 import cn.advu.workflow.web.common.exception.LoginException;
 import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginTools;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.user.service.UserService;
-import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.patchca.color.ColorFactory;
@@ -29,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.io.IOException;
-import java.util.List;
 import java.util.Random;
 
 
@@ -112,15 +107,13 @@ public class LoginController {
                 RequestUtil.addCookie(response, Constants.Login.LOGIN_COOKIE_KEY, cookieStr);
             }
 
-            RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
-
-
-            String str = redisClient.getStr("login_permissions_key_" + loginUser.getUserId().toString());
-            if( str == null || str.equals("")){
-                List<SysPermission> permissions = account.getPermissions();
-                JSONArray json = JSONArray.fromObject(permissions);
-                redisClient.set("login_permissions_key_"+loginUser.getUserId().toString(),json.toString());
-            }
+//            RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
+//            String str = redisClient.getStr("login_permissions_key_" + loginUser.getUserId().toString());
+//            if( str == null || str.equals("")){
+//                List<SysPermission> permissions = account.getPermissions();
+//                JSONArray json = JSONArray.fromObject(permissions);
+//                redisClient.set("login_permissions_key_"+loginUser.getUserId().toString(),json.toString());
+//            }
             ajaxJson.setSuccess(true);
             ajaxJson.setMsg("登录成功");
         } catch (Exception ex) {

@@ -1,13 +1,10 @@
 package cn.advu.workflow.web.common.loginContext;
 
-import cn.advu.workflow.common.cache.RedisClient;
 import cn.advu.workflow.common.constant.Constants;
 import cn.advu.workflow.common.utils.DesUtils;
-import cn.advu.workflow.web.common.component.SpringContextUtil;
 import cn.advu.workflow.web.common.RequestUtil;
 import cn.advu.workflow.web.common.exception.LoginException;
 import cn.advu.workflow.web.common.filter.AccessFilter;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,13 +65,12 @@ public class LoginTools {
     public static void validVCode(String vcode, HttpServletRequest request) {
         String ssid = RequestUtil.getCookieValue(request, AccessFilter.SSID_KEY);
 
-        RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
-
-        String token = redisClient.getStr("login_session_key_"+ ssid);
-        if (StringUtils.isEmpty(token) || !vcode.equalsIgnoreCase(token)) {
-            logger.info("当前的SessionID="+ssid+",vcode:" + vcode + ",token:" + token);
-            throw new LoginException("验证码填写错误");
-        }
+//        RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
+//        String token = redisClient.getStr("login_session_key_"+ ssid);
+//        if (StringUtils.isEmpty(token) || !vcode.equalsIgnoreCase(token)) {
+//            logger.info("当前的SessionID="+ssid+",vcode:" + vcode + ",token:" + token);
+//            throw new LoginException("验证码填写错误");
+//        }
     }
 
     public static void setVCode(String vcode, HttpServletRequest request) {
@@ -82,9 +78,9 @@ public class LoginTools {
 
         String ssid = RequestUtil.getCookieValue(request, AccessFilter.SSID_KEY);
 
-        RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
-
-        redisClient.setStrEx("login_session_key_"+ ssid, vcode, 60 * 60);
+//        RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
+//
+//        redisClient.setStrEx("login_session_key_"+ ssid, vcode, 60 * 60);
 
         logger.info("当前的会话ID=" + ssid + ",验证码=" + vcode);
     }

@@ -1,11 +1,9 @@
 package cn.advu.workflow.web.service.system.impl;
 
-import cn.advu.workflow.common.cache.RedisClient;
 import cn.advu.workflow.dao.database.SysPermissionMapper;
 import cn.advu.workflow.dao.database.SysRoleMapper;
 import cn.advu.workflow.domain.database.SysPermission;
 import cn.advu.workflow.domain.database.SysRole;
-import cn.advu.workflow.web.common.component.SpringContextUtil;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.WebConstants;
 import cn.advu.workflow.web.service.system.RoleService;
@@ -13,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class RoleServiceImpl implements RoleService{
@@ -82,11 +83,11 @@ public class RoleServiceImpl implements RoleService{
             permissionMapper.addPermissionForRole(creatorId, roleId, pid);
         }
 
-        RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
-        Set<String> keys = redisClient.keys("login_permissions_key_*");
-        for (String str : keys) {
-            redisClient.removeCache(str);
-        }
+//        RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
+//        Set<String> keys = redisClient.keys("login_permissions_key_*");
+//        for (String str : keys) {
+//            redisClient.removeCache(str);
+//        }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 

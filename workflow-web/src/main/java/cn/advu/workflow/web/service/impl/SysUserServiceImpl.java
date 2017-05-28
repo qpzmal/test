@@ -1,17 +1,13 @@
 package cn.advu.workflow.web.service.impl;
 
-import cn.advu.workflow.common.cache.RedisClient;
 import cn.advu.workflow.common.utils.StrMD5;
 import cn.advu.workflow.dao.database.SysPermissionMapper;
 import cn.advu.workflow.dao.database.SysUserMapper;
 import cn.advu.workflow.domain.database.BusinessChannel;
-import cn.advu.workflow.domain.database.SysPermission;
 import cn.advu.workflow.domain.database.SysUser;
-import cn.advu.workflow.web.common.component.SpringContextUtil;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.WebConstants;
 import cn.advu.workflow.web.service.SysUserService;
-import net.sf.json.JSONArray;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,10 +80,10 @@ public class SysUserServiceImpl implements SysUserService{
             userMapper.updateRoleByUserId(user.getUserId(),roleId);
         }
         //更改redis中的权限
-        RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
-        List<SysPermission> permissions = permissionMapper.getByUserId(user.getUserId().intValue());
-        JSONArray json = JSONArray.fromObject(permissions);
-        redisClient.set("login_permissions_key_"+user.getUserId().toString(),json.toString());
+//        RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
+//        List<SysPermission> permissions = permissionMapper.getByUserId(user.getUserId().intValue());
+//        JSONArray json = JSONArray.fromObject(permissions);
+//        redisClient.set("login_permissions_key_"+user.getUserId().toString(),json.toString());
 
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
