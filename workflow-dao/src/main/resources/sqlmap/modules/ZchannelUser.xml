@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.ZChannelUserMapper">
+
+
+    <select id="getChannelUser" resultType="cn.advu.workflow.domain.database.ChannelUser">
+       SELECT * FROM channel_user WHERE 1=1
+        <if test="cnid !=null and cnid !=''"  >
+        AND cnid LIKE "%"#{cnid}"%"
+        </if>
+        <if test="userType !=null and userType !=''"  >
+            AND userType = #{userType}
+        </if>
+        ORDER BY createTime DESC
+        limit  #{start, jdbcType=INTEGER},#{pageSize, jdbcType=INTEGER}
+    </select>
+
+    <select id="getChannelUsers" resultType="cn.advu.workflow.domain.database.ChannelUser">
+        SELECT * FROM channel_user WHERE 1=1
+        <if test="cnid !=null and cnid !=''"  >
+            AND cnid LIKE "%"#{cnid}"%"
+        </if>
+        <if test="userName !=null and  userName !=''">
+            AND userName = #{userName}
+        </if>
+        <if test="nickName !=null and nickName !=''">
+            AND nickName = #{nickName}
+        </if>
+        <if test="userType !=null and userType !=''"  >
+            AND userType = #{userType}
+        </if>
+        ORDER BY createTime DESC
+        limit  #{start, jdbcType=INTEGER},#{pageSize, jdbcType=INTEGER}
+    </select>
+
+    <select id="getChannelUsersCount" resultType="java.lang.Integer">
+        SELECT count(id) FROM channel_user WHERE 1=1
+        <if test="cnid !=null and cnid !=''" >
+            AND cnid LIKE  "%"#{cnid}"%"
+        </if>
+        <if test="userName !=null and  userName !=''">
+            AND userName = #{userName}
+        </if>
+        <if test="nickName !=null and nickName !=''">
+            AND nickName = #{nickName}
+        </if>
+        <if test="userType !=null and userType !=''"  >
+            AND userType = #{userType}
+        </if>
+    </select>
+
+    <select id="getChannelUserCount" resultType="java.lang.Integer">
+        SELECT count(id) FROM channel_user WHERE 1=1
+        <if test="cnid !=null and cnid !=''" >
+            AND cnid LIKE  "%"#{cnid}"%"
+        </if>
+        <if test="userType !=null and userType !=''"  >
+            AND userType = #{userType}
+        </if>
+    </select>
+
+    <insert id="addChannelUser" parameterType="cn.advu.workflow.domain.database.ChannelUser">
+        insert into channel_user
+        (userName,password,nickName,cnid,permid,columnper,updateUser,createTime,userType,remarks)
+         VALUES
+        (
+            #{channelUser.userName},
+            #{channelUser.password},
+            #{channelUser.nickName},
+            #{channelUser.cnid},
+            #{channelUser.permid},
+            #{channelUser.columnper},
+            #{channelUser.updateUser},
+            now(),
+            #{channelUser.userType},
+            #{channelUser.remarks}
+        )
+    </insert>
+
+    <update id="updateChannelUser">
+        update channel_user
+         <set>
+             userName=#{userName}
+              <if test="password!=null and password!=''">
+            , password=#{password}
+              </if>
+             <if test="nickName!=null and nickName!=''">
+             ,nickName=#{nickName}
+             </if>
+             <if test="cnid!=null and cnid!=''">
+                , cnid=#{cnid}
+             </if>
+             <if test="updateUser!=null and updateUser !=''">
+             ,updateUser=#{updateUser}
+             </if>
+             <if test="columnper!=null and columnper!='' ">
+                 ,columnper=#{columnper}
+             </if>
+             <if test="remarks!=null and remarks !=''">
+                , remarks=#{remarks}
+             </if>
+         </set>
+
+        WHERE id=#{id}
+    </update>
+    <delete id="deleteChannelUserById">
+        delete from channel_user where id=#{id}
+    </delete>
+
+    <select id="getChannelUserById" resultType="cn.advu.workflow.domain.database.ChannelUser">
+        select *
+        FROM
+        channel_user
+        where id=#{id}
+    </select>
+
+    <select id="getChannelUserByNameAndPass" resultType="cn.advu.workflow.domain.database.ChannelUser">
+        select *
+        FROM
+        channel_user
+        where userName=#{userName} and password=#{password}
+    </select>
+</mapper>

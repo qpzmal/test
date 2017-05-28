@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.CxbFreeDataMapper">
+
+    <sql id="conditions">
+            <if test="startTime != '' and startTime != null">
+                AND dt &gt;= #{startTime}
+            </if>
+            <if test="endTime != '' and endTime != null">
+                AND dt &lt;= #{endTime}
+            </if>
+            <if test="cnids != null and cnids != null">
+                AND cnid IN
+                <foreach collection="cnids" 
+                    item="cnid" open="(" separator="," close=")">
+                    ${cnid}
+                </foreach>
+            </if>
+    </sql>
+
+    <select id="getSdkDataByPage" resultType="Map">
+		SELECT
+		    dt,
+		    adver_type AS adType,
+		    SUM(bg_pv) AS bgpv,
+		    SUM(bg_uv) AS bguv,
+		    SUM(dj_pv) AS djpv,
+		    SUM(dj_uv) AS djuv
+		FROM freeaddata where apptype = '1'
+		<include refid="conditions"></include>
+        <if test="adType != '' and adType != null ">
+            and adver_type =#{adType}
+        </if>
+        <if test="version != '' and version != null">
+            and version = #{version}
+         </if>
+		GROUP BY dt,adver_type
+        ORDER BY dt DESC
+        <if test="pageSize != 0">
+            LIMIT #{startRow}, #{pageSize}
+        </if>
+    </select>
+    
+    <select id="getSdkPageCnt" resultType="int">
+        SELECT count(1) FROM
+        (
+            SELECT count(1) FROM freeaddata where apptype = '1'
+            <include refid="conditions"></include>
+            <if test="adType != '' and adType != null ">
+                and adver_type =#{adType}
+            </if>
+            <if test="version != '' and version != null">
+                and version = #{version}
+            </if>
+            GROUP BY dt, adver_type
+        ) t
+    </select>
+    
+    <select id="getSdkData" resultType="Map">
+        SELECT
+            dt,
+            adver_type AS adType,
+            SUM(bg_pv) AS bgpv,
+            SUM(bg_uv) AS bguv,
+            SUM(dj_pv) AS djpv,
+            SUM(dj_uv) AS djuv
+        FROM
+            freeaddata where apptype = '1'
+        <include refid="conditions"></include>
+        GROUP BY dt,adver_type
+    </select>
+
+    <select id="getAdType" resultType="java.util.Map">
+        select adver_type AS adType FROM freeaddata where apptype = '1' GROUP BY adver_type
+    </select>
+
+
+    <select id="getCollectDataPageCnt" resultType="java.lang.Integer">
+        SELECT count(1) FROM
+        (
+            SELECT count(1) FROM freeaddata_vn where apptype = '1'
+            <include refid="conditions"></include>
+            <if test="version != '' and version != null">
+                and version = #{version}
+            </if>
+            GROUP BY dt
+        ) t
+    </select>
+
+    <select id="getCollectDataByPage" resultType="java.util.Map">
+        SELECT
+            dt,
+            SUM(bg_pv) AS bgpv,
+            SUM(bg_uv) AS bguv,
+            SUM(dj_pv) AS djpv,
+            SUM(dj_uv) AS djuv
+        FROM
+        freeaddata_vn where apptype = '1'
+        <include refid="conditions"></include>
+        <if test="version != '' and version != null">
+            and version = #{version}
+        </if>
+        GROUP BY dt
+        order by dt desc
+        <if test="pageSize != 0">
+            LIMIT #{startRow}, #{pageSize}
+        </if>
+    </select>
+
+
+</mapper>

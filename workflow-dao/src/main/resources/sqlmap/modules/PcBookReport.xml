@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.PcBookReportMapper">
+
+<select id="getPcBookDataByTimeAndBookIdBookName" resultType="cn.advu.workflow.domain.database.PcBookReport">
+    SELECT bookid bookId,
+    book_name bookName,
+    IFNULL(SUM(consumer_user),0) consumerUser,
+    IFNULL(ROUND(SUM(consumer_allmoney)/100,2),0) consumerAllMoney ,
+    IFNULL(ROUND(SUM(consumer_money)/100,2),0)AS consumerMoney ,
+    IFNULL(SUM(ds_user),0) dsUser,
+    IFNULL(ROUND(SUM(ds_allmoney)/100,2),0) AS dsAllMoney ,
+    IFNULL(ROUND(SUM(ds_money)/100,2),0) AS dsMoney ,
+    IFNULL(SUM(book_user),0) AS bookUser,
+    IFNULL(SUM(catalog_page_user),0)AS catalogPageUser ,
+    IFNULL(SUM(book_page_user),0) AS bookPageUser ,
+    IFNULL(SUM(chapter_page_user),0)AS chapterPageUser ,
+    IFNULL(sum(enshrine_user),0) as enshineUser,
+    dt
+    FROM pc_book_report
+    WHERE
+    dt BETWEEN #{startTime} AND #{endTime}
+    <if test="bookId!=null and  bookId!=''">
+          AND bookid =#{bookId}
+    </if>
+    <if test="bookName!=null and bookName!=''">
+        AND  book_name=#{bookName}
+    </if>
+      GROUP BY bookid
+    limit  #{start, jdbcType=INTEGER},#{pageSize, jdbcType=INTEGER}
+
+</select>
+
+    <select id="getPcBookDataTotalByTimeAndBookIdBookName" resultType="java.lang.Integer">
+        SELECT count(distinct(bookid))
+        FROM pc_book_report
+        WHERE
+        dt BETWEEN #{startTime} AND #{endTime}
+        <if test="bookId!=null and  bookId!=''">
+            AND bookid =#{bookId}
+        </if>
+        <if test="bookName!=null and bookName!=''">
+            AND  book_name=#{bookName}
+        </if>
+
+    </select>
+</mapper>

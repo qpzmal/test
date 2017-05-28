@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+	http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+    ">
+
+    <util:properties id="dataSourceProps" location="classpath:${maven.config.dir}/db.properties"></util:properties>
+
+    <!-- workflow datasource begin -->
+    <!-- 连接池改用druid???????????? -->
+    <bean id="workflow_dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+        <property name="driverClass" value="#{dataSourceProps['jdbc.driverClass']}"/>
+        <property name="jdbcUrl" value="#{dataSourceProps['master.jdbc.url']}" />
+        <property name="username" value="#{dataSourceProps['master.jdbc.username']}" />
+        <property name="password" value="#{dataSourceProps['master.jdbc.password']}" />
+        <property name="maxConnectionsPerPartition" value="#{dataSourceProps['master.jdbc.maxConnectionsPerPartition']}" />
+        <property name="minConnectionsPerPartition" value="#{dataSourceProps['master.jdbc.minConnectionsPerPartition']}" />
+        <property name="partitionCount" value="#{dataSourceProps['master.jdbc.partitionCount']}" />
+        <property name="acquireIncrement" value="#{dataSourceProps['master.jdbc.acquireIncrement']}" />
+        <property name="idleMaxAgeInMinutes" value="#{dataSourceProps['master.jdbc.idleMaxAgeInMinutes']}"/>
+        <property name="idleConnectionTestPeriodInMinutes" value="#{dataSourceProps['master.jdbc.idleConnectionTestPeriodInMinutes']}"/>
+        <property name="maxConnectionAgeInSeconds" value="#{dataSourceProps['master.jdbc.maxConnectionAgeInSeconds']}"/>
+        <property name="connectionTestStatement" value="#{dataSourceProps['master.jdbc.connectionTestStatement']}"/>
+        <property name="disableConnectionTracking" value="true"/>  <!-- 设置自动关闭为true  -->
+    </bean>
+
+    <bean id="workflow_sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="workflow_dataSource" />
+        <property name="typeAliasesSuperType" value="cn.advu.workflow.domain.base.IDomain" />
+        <!--<property name="mapperLocations" value="classpath*:sqlmap/*.xml" />-->
+        <property name="mapperLocations">
+            <array>
+                <value>classpath*:sqlmap/sys/*.xml</value>
+                <value>classpath*:sqlmap/modules/*.xml</value>
+                <!--<value>classpath*:sqlmap/workflow/*.xml</value>-->
+            </array>
+        </property>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="markerInterface" value="cn.advu.workflow.dao.base.ISqlMapper" />
+        <property name="sqlSessionFactoryBeanName" value="workflow_sessionFactory"  />
+        <property name="basePackage" value="cn.advu.workflow.dao.database" />
+    </bean>
+    <bean id="workflow_transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="workflow_dataSource" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="workflow_transactionManager" proxy-target-class="true" order="1"/>
+    <!-- workflow datasource end -->
+
+ </beans>

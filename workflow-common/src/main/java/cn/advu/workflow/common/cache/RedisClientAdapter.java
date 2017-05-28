@@ -17,7 +17,7 @@ import java.util.Map.Entry;
  * @author NIUQIANGHONG
  *
  */
-@Component("redisAdapter")
+//@Component("redisAdapter")
 public class RedisClientAdapter {
 
 	@Autowired

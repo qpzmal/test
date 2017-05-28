@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" class="root61">
+<head>
+    <title>万维数据分析平台</title>
+    <meta charset="UTF-8"/>
+    <!-- css -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="${rc.contextPath}/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/animate.css" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/style.css?v=4.1.1" rel="stylesheet">    
+    #if($cssblock)$cssblock#end
+    <!-- end css -->
+    <!-- js -->
+    <!-- 全局js -->
+    <script src="${rc.contextPath}/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${rc.contextPath}/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="${rc.contextPath}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="${rc.contextPath}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="${rc.contextPath}/static/js/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="${rc.contextPath}/static/js/hAdmin.js?v=4.1.0"></script>
+    <script type="text/javascript" src="${rc.contextPath}/static/js/index.js"></script>
+    #if($jsblock)$jsblock#end
+    <!-- end js -->
+</head>
+    <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+    <!-- header -->
+    #parse('layout/header.vm')
+    <!-- end header -->
+    <!-- content -->
+    $screen_content
+    <!-- end content -->
+    <!-- footer -->
+    ##parse('layout/footer.vm')
+    <!-- end footer -->
+    </body>
+<script type="text/javascript">
+	var items = $(".J_menuItem");
+	var menus = new Array();
+	for(var i=0;i<items.length;i++){
+		$(items[i]).css("display", "none");
+	    menus.push(items[i].getAttribute("href"));
+	    //console.log(menus[i]);
+	}
+    showMenu();
+    
+	function showMenu(){
+		$.ajax({
+			url:"${rc.contextPath}/user/getPerms.json",
+			success:function(returnData){
+				$.each(returnData.data, function(i, item){
+					var index = $.inArray("${rc.contextPath}" + item.menuUri, menus);
+					if(index != -1){
+						$(items[index]).css("display", "block");						
+					}
+				});
+			}
+		});
+	}
+</script>
+</html>

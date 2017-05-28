@@ -1,0 +1,181 @@
+#if($page && $!page.pageTotal > 1)
+
+<div class="page">
+    <ul class="page_num">
+        <li>共<span>$!page.total条数据</span>,<span>$!page.pageTotal</span>页,</li>
+        <li>
+            <em>每页</em>
+                <select onchange="resetPageSize()" id="select_pagesize">
+                    <option #if($!page.pageSize == 10) selected #end>10</option>
+                    <option #if($!page.pageSize == 20) selected #end>20</option>
+                    <option #if($!page.pageSize == 30) selected #end>30</option>
+                    <option #if($!page.pageSize == 50) selected #end>50</option>
+                </select>
+            <em>条</em>
+        </li>
+    </ul>
+    <ul class="page_choose">
+    ## 定义区间大小
+        #set($range= 4 )
+    ## 如果当前页大于1 显示上一页
+        #if($!page.pageIndex > 1)
+            <li onclick="pageClick(1)"><a href="javascript:void(0)">首页</a></li>
+            <li onclick="pageClick($!page.pageIndex -1)"><a href="javascript:void(0)">上一页</a></li>
+        #else
+            <li><a href="javascript:void(0)" class="page_noclick">首页</a></li>
+            <li><a href="javascript:void(0)" class="page_noclick">上一页</a></li>
+        #end
+        <li>
+        ## 如果当前页大于2页   默认显示 1、2页  否则默认显示1页
+            #if($!page.pageIndex > 2)
+
+                <dl onclick="pageClick(1)"><a href="javascript:void(0)">1</a></dl>
+                <dl onclick="pageClick(2)"><a href="javascript:void(0)">2</a></dl>
+
+            #end
+            #if($!page.pageIndex == 2)
+                <dl onclick="pageClick(1)"><a href="javascript:void(0)">1</a></dl>
+            #end
+        ##判断前置.. 如果当前页大于 1+区间  显示..
+            #set($pageIndexTemp= $range +1)
+            #if($!page.pageIndex > 3)
+                <dl><span>...</span></dl>
+            #end
+        ## 遍历  当前页 至区间末端 的页码
+            #set($temp = $!page.pageIndex+$range)
+            #if($temp > $!page.pageTotal)
+                #set($temp = $!page.pageTotal)
+            #end
+            #foreach($i  in [$!page.pageIndex..$temp])
+                #if($i == $!page.pageIndex )
+                    <dl><a href="javascript:void(0)" class="page_click">$!i</a></dl>
+                #else
+                    <dl onclick="pageClick($!i)"><a href="javascript:void(0)">$!i</a></dl>
+                #end
+            #end
+        ## 设置后端.. 如果区间末页 小于最终页 显示.....
+            #if($page.pageTotal - $page.pageIndex > $range)
+                <dl><span>...</span></dl>
+            #end
+        </li>
+    ##设置显示下一页
+        #if($!page.pageTotal > $!page.pageIndex)
+            <li onclick="pageClick($!page.pageIndex +1)"><a href="javascript:void(0)">下一页</a></li>
+            <li onclick="pageClick($!page.pageTotal)"><a href="javascript:void(0)">尾页</a></li>
+        #else
+            <li><a href="javascript:void(0)" class="page_noclick">下一页</a></li>
+            <li><a href="javascript:void(0)" class="page_noclick">尾页</a></li>
+        #end
+        <li><input type="text" id="id_jump_page_index" value="$!page.pageIndex"/></li>
+        <li onclick="jumpPage()"><a href="javascript:void(0)">跳转</a></li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+
+    function resetPageSize() {
+        $("#pageSize").val($("#select_pagesize").val());
+        pageClick(1);
+        return false;
+    }
+
+    function jumpPage() {
+        pageClick($("#id_jump_page_index").val());
+    }
+
+    //跳转到指定页
+    function sureClick() {
+        pageClick($("#gotopage").val());
+        return false;
+    }
+    //跳转到上一页或者下一页
+    function pageClick(pageIndex) {
+        if (!isLegalSearch(pageIndex)) {
+            return;
+        }
+        $("#pageIndex").val(pageIndex);
+        $("#pageSize").val($("#select_pagesize").val());
+        
+        buildForm();
+        return false;
+    }
+
+    function buildForm() {
+        var form = $("form:first");
+        if("undefined" != typeof formId ) {
+            form = $("#" + formId);
+        }
+
+        //处理浏览器placeholder不兼容的问题
+        if (!isPlaceholer()) {
+            var elements = form.find("input[type='text'][placeholder]");
+            elements.each(function () {
+                var s = $(this);
+                var pValue = s.attr("placeholder");
+                var sValue = s.val();
+                if (pValue) {
+                    if (sValue == pValue) {
+                        s.val('');
+                    }
+                }
+            });
+        }
+
+        $(form).submit();
+        return false;
+    }
+
+    //判断是否支持placeholder
+    function isPlaceholer() {
+        var input = document.createElement('input');
+        return "placeholder" in input;
+    }
+
+    /**
+     * 【分页显示】：
+     * 获取总页数
+     */
+    function getTotalPage() {
+        return parseInt('$page.pageTotal');
+    }
+    /**
+     * 判断pageIndex是否合法
+     * 1: 是否是数字 2:是否小于1 3:是否大于总页数
+     */
+    function isLegalSearch(pageIndex) {
+        var isLegal = false;
+        if (!isPositiveInteger(pageIndex)) {
+            alert('请输入一个合法的页数！');
+            return isLegal;
+        }
+        if (pageIndex < 1) {
+            alert('少于第一页，请输入正确的页数！');
+            return isLegal;
+        }
+        if (pageIndex > getTotalPage()) {
+            alert('超过总页数，请输入正确的页数！');
+            return isLegal;
+        }
+        isLegal = true;
+        return isLegal;
+    }
+    //判断该对象是否是正的整数组成
+    function isPositiveInteger(number) {
+        var result = false;
+        var reg = /^[0-9]*[1-9][0-9]*$/;
+        if (reg.test(number)) {
+            result = true;
+        }
+        return result;
+    }
+</script>
+
+#end
+
+#*
+<script type="text/javascript">
+    $(function () {
+        alert($!page.total);
+    })
+</script>*#

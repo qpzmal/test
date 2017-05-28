@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.SysRoleMapper">
+
+    <resultMap id="roleResultMap" type="cn.advu.workflow.domain.database.SysRole">
+        <id column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="role_name" jdbcType="VARCHAR"  property="roleName"/>
+        <result column="role_status" jdbcType="TINYINT" property="roleStatus"/>
+        <result column="cmt" jdbcType="VARCHAR" property="cmt"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="roleResultMap">
+        SELECT * FROM sys_role
+    </select>
+    
+    <insert id="add" useGeneratedKeys="true" keyProperty="role.roleId"
+        parameterType="cn.advu.workflow.domain.database.SysRole">
+        INSERT INTO sys_role (role_name, create_time) VALUES (#{role.roleName}, NOW())
+    </insert>
+    
+    <delete id="clearPermissionsByName">
+		DELETE
+		FROM
+		    sys_role_permission
+		WHERE
+		    role_id = #{roleId}
+    </delete>
+    
+    <select id="getIdByName" resultType="int">
+        SELECT
+            role_id
+        FROM
+            sys_role
+        WHERE
+            role_name = #{roleName}    
+    </select>
+    
+</mapper>

@@ -1,0 +1,95 @@
+<div class="money-con mt-list">
+    <h3>积分加速：</h3>
+    <input type="button" value="导出" class="money-btn" onclick="exportSpeedData();">
+</div>
+<!--列表-->
+<table class="money-data mt-10 mb-30">
+    <thead>
+        <tr>
+            <th>日期</th>
+            <th>加速级别</th>
+            <th>超额积分数</th>
+            <th>用户数</th>            
+        </tr>
+    </thead>
+    <tbody id="speedTable">
+    </tbody>
+</table>
+<div class="tcdPageCode">
+</div>
+<link rel="stylesheet" href="${rc.contextPath}/static/css/page.css">
+<script src="${rc.contextPath}/static/js/jquery.page.js"></script>
+<script>
+
+
+    function drawSpeedTable(){
+        var params = {
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            cnids: $("#cnids").val()
+        };
+        setSpeedPageData(1);//加载后即展示第一页数据
+        createSpeedPageWidget(params);
+    }
+
+    function createSpeedPageWidget(params){
+        var totalPage = 0;
+        //获取总页数
+        $.ajax({
+            url: "${rc.contextPath}/cxb/earnPoint/getSpeedPageCnt.json",
+            type: "POST",
+            data: params,
+            success: function(returnData){
+                if(returnData.code == 1){
+                    totalPage = returnData.data;
+                    $(".tcdPageCode").createPage({
+                        pageCount: totalPage,
+                        current:1,
+                        backFn: function(p){//p为当前页号
+                            setSpeedPageData(p);
+                        }
+                    });
+                } else{
+                    alert(returnData.info);
+                    return;
+                }
+            }
+        });
+    }
+
+	function setSpeedPageData(pageNo){
+        var params = {
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            cnids: $("#cnids").val(),
+            pageNo:pageNo//添加页号信息
+        };
+	    $.ajax({
+	        url: "${rc.contextPath}/cxb/earnPoint/getSpeedData.json",
+	        type: "POST",
+	        data: params,
+	        success: function(returnData){
+	            if(returnData.code == 1){
+	                var tableData = "";
+	                $.each(returnData.data, function(i, item){
+	                    tableData += "<tr><td>"
+	                        + item.dt + "</td><td>"
+	                        + item.speedGrade + "</td><td>"
+	                        + item.pointSum + "</td><td>"
+	                        + item.userSum + "</td></tr>";
+	                });
+	                $("#speedTable").html(tableData);
+	            }
+	        }
+	    });
+	}
+	
+	function exportSpeedData(){
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        var version = $("#versionSel").val();
+        var cnids = $("#cnids").val();
+        window.location.href="/cxb/earnPoint/exportSpeedData.json?startTime="+startTime+"" +
+                "&endTime="+endTime+"&version="+version+"&cnids="+cnids+"";
+	}
+</script>

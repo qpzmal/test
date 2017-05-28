@@ -13,7 +13,7 @@
         <module>workflow-domain</module>
         <module>workflow-dao</module>
         <module>workflow-web</module>
-        <module>workflow-job</module>
+        <!--<module>workflow-job</module>-->
     </modules>
     <packaging>pom</packaging>
 
@@ -89,11 +89,13 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <!-- 使用spring3.2以上版本，不需要添加spring-asm.jar
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-asm</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+                        -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context-support</artifactId>
@@ -350,11 +352,20 @@
                 <version>4.12</version>
                 <scope>test</scope>
             </dependency>
+
+
             <dependency>
                 <groupId>net.sf.ehcache</groupId>
                 <artifactId>ehcache</artifactId>
                 <version>2.10.0</version>
             </dependency>
+            <dependency>
+                <groupId>com.googlecode.ehcache-spring-annotations</groupId>
+                <artifactId>ehcache-spring-annotations</artifactId>
+                <version>1.2.0</version>
+            </dependency>
+
+
             <dependency>
                 <groupId>it.sauronsoftware.base64</groupId>
                 <artifactId>javabase64</artifactId>
@@ -445,7 +456,30 @@
                 <version>1.6.1</version>
             </dependency>
 
+            <!-- jxl引入 -->
+            <dependency>
+                <groupId>net.sourceforge.jexcelapi</groupId>
+                <artifactId>jxl</artifactId>
+                <version>2.6.12</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
+
+
+    <repositories>
+        <repository>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+        <!-- 添加 sonatype仓库bai-->
+        <repository>
+            <id>sonatype</id>
+            <name>Sonatype Groups</name>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+    </repositories>
+
 
 </project>

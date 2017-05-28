@@ -1,0 +1,74 @@
+<div class="content-data">
+    <div class="h3-con clearfix">
+        <h3>个人资料：</h3>
+    </div>
+    <table border="0" cellspacing="0" cellpadding="0" width="730" class="add-account">
+        <tr>
+            <th width="125">姓名：</th>
+            <th width="125"><input id="realName" value="$!user.realName"></th>
+       </tr>
+        <tr>
+            <th width="125">账号：</th>
+            <th width="125"><input id="acctId" value="$!user.acctId"></th>
+        </tr>
+        <tr>
+            <th width="125">联系方式：</th>
+            <th width="125"><input id="phone" value="$!user.phone"></th>
+        </tr>
+        <tr>
+            <th width="125">邮箱：</th>
+            <th width="125"><input id="email" value="$!user.email"></th>
+        </tr>
+        <tr>
+            <th width="125">密码：</th>
+            <th width="125"><input id="passwd" type="password" ></th>
+        </tr>
+        <tr>
+            <th width="125">确认密码：</th>
+            <th width="125"><input id="repasswd"  type="password" ></th>
+        </tr>
+##        <tr>
+##            <th width="125" colspan="2">
+##             <button type="button" class="btn btn-info mt20 ml150 p25" onclick="updateUser()">修改资料</button>
+##            </th>
+##        </tr>
+    </table>
+    <button type="button" class="btn btn-info mt20 ml280 p25" onclick="updateUser()">修改资料</button>
+</div>
+<script>
+    function  updateUser() {
+        var realName = $("#realName").val();
+        var acctId = $("#acctId").val();
+        var email = $("#email").val();
+        var phone = $("#phone").val();
+        var passwd = $("#passwd").val();
+        var repasswd = $("#repasswd").val();
+        if (realName == "" || acctId == "" || email == "" || phone == "" ) {
+            alert("所有信息均为必填项, 请填写完整!");
+            return;
+        }
+        if (passwd != repasswd) {
+            alert("两次密码输入不一致, 请重新填写!");
+            return;
+        }
+        $.ajax({
+            url: "${rc.contextPath}/user/edit.json",
+            type: "POST",
+            data: {
+                userId: "${user.userId}",
+                realName: realName,
+                acctId: acctId,
+                email: email,
+                phone: phone,
+                passwd: passwd
+            },
+            success: function (returnData) {
+                if (returnData.code == 1) {
+                    alert("修改成功!");
+                } else {
+                    alert("修改失败, 请联系技术人员!");
+                }
+            }
+        });
+    }
+</script>

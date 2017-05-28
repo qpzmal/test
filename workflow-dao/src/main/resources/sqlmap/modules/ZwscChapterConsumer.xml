@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.ZwscChapterConsumeMapper">
+    
+    <sql id="conditions">
+        <where>
+            <if test="startTime != '' and startTime != null">
+                AND dt &gt;= #{startTime}
+            </if>
+            <if test="endTime != '' and endTime != null">
+                AND dt &lt;= #{endTime}
+            </if>
+            <if test="cnids != null and cnids != ''">
+                AND cnid IN
+                <foreach collection="cnids" item="cnid" open="(" separator="," close=")">
+                    ${cnid}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="getTypeDataByPage" resultType="Map">
+		SELECT
+		    dt,
+		    IFNULL(SUM(chapter10_pv),0) AS chapter10PV,
+            IFNULL(SUM(chapter10_uv),0) AS chapter10UV,
+            IFNULL(SUM(chapter40_pv),0) AS chapter40PV,
+            IFNULL(SUM(chapter40_uv),0) AS chapter40UV,
+            IFNULL(SUM(chapter100_pv),0) AS chapter100PV,
+            IFNULL(SUM(chapter100_uv),0) AS chapter100UV,
+            IFNULL(SUM(chapter_remain_pv),0) AS notAllPV,
+            IFNULL(SUM(chapter_remain_uv),0) AS notAllUV,
+            IFNULL(SUM(chapter1_pv),0) AS chapter1PV,
+            IFNULL(SUM(chapter1_uv),0) AS chapter1UV,
+            IFNULL(SUM(qb_pv),0) AS allChapterPV,
+            IFNULL(SUM(qb_uv),0) AS allChapterUV
+		FROM
+		    zwsc_chapter_consume
+        <include refid="conditions"></include>
+		GROUP BY dt
+        ORDER BY dt DESC
+        <if test="pageSize != 0">
+            LIMIT #{startRow}, #{pageSize}
+        </if>
+
+    </select>
+    
+    <select id="getTypePages" resultType="int">
+        SELECT COUNT(*) FROM (SELECT
+            dt
+        FROM
+            zwsc_chapter_consume
+        <include refid="conditions"></include>
+        GROUP BY
+            dt) t    
+    </select>
+    
+    <select id="getAmtDataByDay" resultType="Map">
+        SELECT
+            dt AS timeCycle,
+            IFNULL(SUM(book_money),0) AS totalMoney,
+            IFNULL(SUM(book_cash),0) AS totalCash,
+            IFNULL(SUM(book_pv),0) AS totalPV,
+            IFNULL(SUM(book_uv),0) AS totalUV
+        FROM
+            zwsc_consume
+        <include refid="conditions"></include>
+        GROUP BY
+            timeCycle
+    </select>
+    
+    <select id="getAmtDataByWeek" resultType="Map">
+        SELECT
+            DATE_FORMAT(dt, '%Y-%u') AS timeCycle,
+            IFNULL(,0)SUM(book_money) AS totalMoney,
+            IFNULL(,0)SUM(book_cash) AS totalCash,
+            IFNULL(,0)SUM(book_pv) AS totalPV,
+            IFNULL(,0)SUM(book_uv) AS totalUV
+        FROM
+            zwsc_consume
+        <include refid="conditions"></include>
+        GROUP BY
+            timeCycle
+    </select>
+    
+    <select id="getAmtDataByMonth" resultType="Map">
+        SELECT
+            DATE_FORMAT(dt, '%Y-%m') AS timeCycle,
+            IFNULL(SUM(book_money),0) AS totalMoney,
+            IFNULL(SUM(book_cash),0) AS totalCash,
+            IFNULL(SUM(book_pv),0) AS totalPV,
+            IFNULL(SUM(book_uv),0) AS totalUV
+        FROM
+            zwsc_consume
+        <include refid="conditions"></include>
+        GROUP BY
+            timeCycle
+    </select>
+    
+    <select id="getSummaryData" resultType="Map">
+        SELECT
+            DATE_FORMAT(dt, '%Y-%m') AS timeCycle,
+            IFNULL(SUM(book_money),0) AS totalMoney,
+            IFNULL(SUM(book_cash),0) AS totalCash,
+            IFNULL(SUM(book_pv),0) AS totalPV,
+            IFNULL(SUM(book_uv),0) AS totalUV
+        FROM
+            zwsc_consume
+        <include refid="conditions"></include>
+    </select>
+    
+    <select id="getTypeData" resultType="Map">
+        SELECT
+            dt,
+            IFNULL(SUM(chapter10_pv),0) AS chapter10PV,
+            IFNULL(SUM(chapter10_uv),0) AS chapter10UV,
+            IFNULL(SUM(chapter40_pv),0) AS chapter40PV,
+            IFNULL(SUM(chapter40_uv),0) AS chapter40UV,
+            IFNULL(SUM(chapter100_pv),0) AS chapter100PV,
+            IFNULL(SUM(chapter100_uv),0) AS chapter100UV,
+            IFNULL(SUM(chapter_remain_pv),0) AS notAllPV,
+            IFNULL(SUM(chapter_remain_uv),0) AS notAllUV,
+            IFNULL(SUM(chapter1_pv),0) AS chapter1PV,
+            IFNULL(SUM(chapter1_uv),0) AS chapter1UV,
+            IFNULL(SUM(qb_pv),0) AS allChapterPV,
+            IFNULL(SUM(qb_uv),0) AS allChapterUV
+        FROM
+            zwsc_chapter_consume
+        <include refid="conditions"></include>
+        GROUP BY
+            dt
+        ORDER BY dt DESC
+    </select>
+</mapper>

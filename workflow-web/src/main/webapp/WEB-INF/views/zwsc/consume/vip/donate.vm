@@ -1,0 +1,103 @@
+<div class="money-con mt-list">
+    <h3>VIP赠送：</h3>
+    <input type="button" value="导出" class="money-btn" onclick="exportDonateData();">
+</div>
+<table class="money-data mt-10 mb-30">
+    <thead>
+        <tr>
+            <th>日期</th>
+            <th>vip类型</th>
+            <th>赠送次数</th>
+            <th>次数占页面PV比</th>
+            <th>赠送用户数</th>
+            <th>占页面UV比例</th>
+        </tr>
+    </thead>
+    <tbody id="donateVipTable"></tbody>
+</table>
+<div class="tcdPageCode"></div>
+
+<link rel="stylesheet" href="${rc.contextPath}/static/css/page.css">
+<script src="${rc.contextPath}/static/js/jquery.page.js"></script>
+
+<script>
+
+    function drawDonatePage(){
+        var params = {
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            version: $("#versionSel").val(),
+            cnids: $("#cnids").val()
+        };
+        setDonateVipTableData(1);//加载后即展示第一页数据
+        createDonatePageWidget(params);
+    }
+
+    //创建分页插件, 只应该调用一次
+    function createDonatePageWidget(params){
+        var totalPage = 0;
+        //获取总页数
+        $.ajax({
+            url: "${rc.contextPath}/zwsc/consume/vip/getDonateTotalPages.json",
+            type: "POST",
+            data: params,
+            success: function(returnData){
+                if(returnData.code == 1){
+                    totalPage = returnData.data;
+                    $(".tcdPageCode").createPage({
+                        pageCount: totalPage,
+                        current:1,
+                        backFn: function(p){//p为当前页号
+                            setDonateVipTableData(p)
+                        }
+                    });
+                } else{
+                    alert(returnData.info);
+                    return;
+                }
+            }
+        });
+
+
+    }
+
+    function setDonateVipTableData(pageNo){
+        var params = {
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            version: $("#versionSel").val(),
+            cnids: $("#cnids").val(),
+            pageNo:pageNo//添加页号信息
+        };
+        $.ajax({
+            url: "${rc.contextPath}/zwsc/consume/vip/getDonateData.json",
+            type: "POST",
+            data: params,
+            success: function(returnData){
+                if(returnData.code == 1){
+                    var tableData = "";
+                    $.each(returnData.data, function(i, item){
+                        tableData += "<tr><td>"
+                           + item.dt +"</td><td>"
+                           + item.vipDays +"天</td><td>"
+                           + item.timeSum + "</td><td>"
+                           + item.timeRate +"%</td><td>"
+                           + item.userSum + "</td><td>"
+                           + item.userRate + "%</td></tr>";
+                    });
+                    $("#donateVipTable").html(tableData);
+                } else{
+                    alert(returnData.info);
+                }
+            }
+        });    	
+    }
+    
+    function exportDonateData(){
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        var cnids = $("#cnids").val();
+        window.location.href="/zwsc/consume/vip/exportDonate.json?startTime="+startTime+"" +
+                "&endTime="+endTime+"&cnids="+cnids+"";
+    }
+</script>

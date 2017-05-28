@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.ZConsumeMapper">
+
+    <sql id="conditions">
+            <if test="startTime != '' and startTime != null">
+                AND dt &gt;= #{startTime}
+            </if>
+            <if test="endTime != '' and endTime != null">
+                AND dt &lt;= #{endTime}
+            </if>
+            <if test="cnids != '' and cnids != null">
+                AND cnid IN
+                <foreach collection="cnids"
+                         item="cnid" open="(" separator="," close=")">
+                    ${cnid}
+                </foreach>
+            </if>
+    </sql>
+
+    <select id="getSummary" resultType="java.util.Map">
+        select
+        IFNULL(sum(consumer_unitvirtual),0) currencySum,
+        IFNULL(sum(consumer_cash),0) voucherSum,
+        IFNULL(sum(consumer_user),0) manSum
+        from zwsc_base_data where 1 = 1
+        <include refid="conditions"></include>
+    </select>
+
+    <select id="getDataByDay" resultType="java.util.Map">
+        SELECT
+            dt AS timeCycle,
+            IFNULL(sum(consumer_unitvirtual),0) currencySum,
+            IFNULL(sum(consumer_cash),0) voucherSum,
+            IFNULL(sum(consumer_user),0) manSum
+            from zwsc_base_data where 1 = 1
+        <include refid="conditions"></include>
+        GROUP BY timeCycle;
+    </select>
+
+    <select id="getDataByWeek" resultType="java.util.Map">
+        SELECT
+            DATE_FORMAT(dt,'%Y-%u') AS timeCycle,
+            IFNULL(sum(consumer_unitvirtual),0) currencySum,
+            IFNULL(sum(consumer_cash),0) voucherSum,
+            IFNULL(sum(consumer_user),0) manSum
+        from zwsc_base_data where 1 = 1
+        <include refid="conditions"></include>
+        GROUP BY
+        timeCycle;
+    </select>
+
+    <select id="getDataByMonth" resultType="java.util.Map">
+        SELECT
+            DATE_FORMAT(dt,'%Y-%m') AS timeCycle,
+            IFNULL(sum(consumer_unitvirtual),0) currencySum,
+            IFNULL(sum(consumer_cash),0) voucherSum,
+            IFNULL(sum(consumer_user),0) manSum
+        from zwsc_base_data where 1 = 1
+        <include refid="conditions"></include>
+        GROUP BY
+        timeCycle;
+    </select>
+
+    <select id="getWayDataByPage" resultType="java.util.Map">
+        select
+            IFNULL(sum(pv_lt200),0) pvLt200,
+            IFNULL(sum(uv_lt200),0) uvLt200,
+            IFNULL(sum(pv_lt400),0) pvLt400,
+            IFNULL(sum(uv_lt400),0) uvLt400,
+            IFNULL(sum(pv_lt600),0) pvLt600,
+            IFNULL(sum(uv_lt600),0) uvLt600,
+            IFNULL(sum(pv_gt600),0) pvGt600,
+            IFNULL(sum(uv_gt600),0) uvGt600,
+            dt
+        from zwsc_consume_range where 1=1
+        <include refid="conditions"></include>
+        GROUP BY dt desc
+        LIMIT #{startRow}, #{pageSize};
+    </select>
+
+    <select id="getWayTotal" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM
+        (SELECT COUNT(1) FROM zwsc_consume_range where 1=1
+        <include refid="conditions"></include>
+        GROUP BY dt desc ) t
+    </select>
+    <select id="getAllWayData" resultType="java.util.Map">
+        select
+            IFNULL(sum(pv_lt200),0) pvLt200,
+            IFNULL(sum(uv_lt200),0) uvLt200,
+            IFNULL(sum(pv_lt400),0) pvLt400,
+            IFNULL(sum(uv_lt400),0) uvLt400,
+            IFNULL(sum(pv_lt600),0) pvLt600,
+            IFNULL(sum(uv_lt600),0) uvLt600,
+            IFNULL(sum(pv_gt600),0) pvGt600,
+            IFNULL(sum(uv_gt600),0) uvGt600,
+            dt
+        from zwsc_consume_range where 1=1
+        <include refid="conditions"></include>
+        GROUP BY dt desc
+    </select>
+    <select id="getGivePageData" resultType="java.util.Map">
+        SELECT
+            IFNULL(SUM(book_money),0) bookMoney,
+            IFNULL(SUM(book_cash),0) bookCash,
+            IFNULL(SUM(book_pv),0) bookPv,
+            IFNULL(SUM(book_uv),0) bookUv,
+            IFNULL(SUM(vip_money),0) vipMoney,
+            IFNULL(SUM(vip_cash) ,0)vipCash,
+            IFNULL(SUM(vip_pv),0) vipPv,
+            IFNULL(SUM(vip_uv),0) vipUv,
+            IFNULL(SUM(dashang_money),0) dashangMoney,
+            IFNULL(SUM(dashang_cash),0) dashangCash,
+            IFNULL(SUM(dashang_pv),0) dashangPv,
+            IFNULL(SUM(dashang_uv),0) dashangUv,
+            dt
+        FROM zwsc_consume where 1=1
+        <include refid="conditions"></include>
+        GROUP BY DT DESC
+        LIMIT #{startRow}, #{pageSize};
+    </select>
+
+    <select id="getGivTotalPages" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM
+        (SELECT COUNT(1) FROM zwsc_consume where 1=1
+        <include refid="conditions"></include>
+        GROUP BY dt desc ) t
+    </select>
+    <select id="getAllGiveData" resultType="java.util.Map">
+        SELECT
+            IFNULL(SUM(book_money),0) bookMoney,
+            IFNULL(SUM(book_cash),0) bookCash,
+            IFNULL(SUM(book_pv),0) bookPv,
+            IFNULL(SUM(book_uv),0) bookUv,
+            IFNULL(SUM(vip_money),0) vipMoney,
+            IFNULL(SUM(vip_cash),0) vipCash,
+            IFNULL(SUM(vip_pv),0) vipPv,
+            IFNULL(SUM(vip_uv),0) vipUv,
+            IFNULL(SUM(dashang_money),0) dashangMoney,
+            IFNULL(SUM(dashang_cash),0) dashangCash,
+            IFNULL(SUM(dashang_pv),0) dashangPv,
+            IFNULL(SUM(dashang_uv),0) dashangUv,
+            dt
+        FROM zwsc_consume where 1=1
+        <include refid="conditions"></include>
+        GROUP BY DT DESC
+    </select>
+</mapper>

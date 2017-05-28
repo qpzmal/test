@@ -1,0 +1,58 @@
+<form class="form-inline mt50 mb20" role="form">
+    <div class="form-group">
+        <label class="input-group">
+            <button type="button" class="btn btn-info" onclick="toEditRole();">新增角色</button>
+        </label>
+    </div>
+</form>
+<div class="row">
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="w-150">角色</th>
+                        <th>权限</th>
+                        <th class="w-100">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="rpTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+    	//展示角色及其权限
+    	listRoleAndPermission();
+    });
+    
+    function listRoleAndPermission(){
+    	$.ajax({
+            url:"${rc.contextPath}/role/getRolesAndPermissions.json",
+            type:"GET",
+            success: function(returnData){
+                var tableHtml = "";
+                $.each(returnData.data, function(i, item){
+                	var perms = "<div>";
+                	$.each(item.perms, function(n, perm){
+                		perms += "<label class='checkbox-inline t-l'>"
+                			  + "<input type='checkbox'>" + perm.permissionName + "</label> ";
+                	});
+                	perms += "</div>";
+                    tableHtml += "<tr><td>"+ item.role.roleName +"</td><td>"+perms
+                    +"</td><td><a href='${rc.contextPath}/role/toEdit?roleId="+item.role.roleId+"&roleName="+item.role.roleName+"'>编辑</a></td></tr>"
+                });
+                $("#rpTable").html(tableHtml);
+            }
+    	});
+    }
+
+    function toEditRole(){
+    	window.location.href = "${rc.contextPath}/role/toAdd";
+    }
+</script>

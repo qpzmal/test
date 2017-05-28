@@ -1,0 +1,157 @@
+#set($layout = '/layout/empty.vm')
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360浏览器优先以webkit内核解析-->
+    <title> - 主页示例</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="${rc.contextPath}/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/animate.css" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="${rc.contextPath}/static/js/plugins/layer/laydate/need/laydate.css" rel="stylesheet">
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content">
+<div class="top">
+    <div class="top-r">
+        <label>*选择时间：</label>
+        <input type="text" id="startTime" name="startTime" class="datepicker" value="$!{startTime}">&nbsp;&nbsp;——&nbsp;&nbsp;
+        <input type="text" id="endTime" name="endTime" class="datepicker" value="$!{endTime}">
+        <label class="ml20">作品ID：</label>
+        <input type="text" class="inp-name" name="cnid" id="cnid" value="$!{cnid}">
+        <label class="ml20">作品名：</label>
+        <input type="text" class="inp-name" name="cnid" id="cnid" value="$!{cnid}">
+        <input type="button" value="  查  询  " class="inp-sure" onclick="drawDetailPage();">
+    </div>
+</div>
+<div class="money-con mt-list">
+        <h3>数据总览：</h3>
+        <input type="button" value="导出" class="money-btn" onclick="exportDetailData();">
+    </div>
+    <!--列表-->
+<table class="money-data mb-30 mt-10">
+    <tbody>
+        <tr>
+            <th>日作品ID</th>
+            <th>作品名</th>
+            <th>数据点击UV</th>
+            <th>详情页UV</th>
+            <th>目录页UV</th>
+            <th>阅读页UV</th>
+            <th>书架收藏UV</th>
+            <th>订阅UV</th>
+            <th>订阅钱数(元)</th>
+            <th>订阅真钱(元)</th>
+            <th>打赏UV</th>
+            <th>打赏钱数(元)</th>
+            <th>真钱打赏(元)</th>
+        </tr>
+     </tbody>
+
+    <tr></tr>
+     <tbody id="tableBody">
+     </tbody>        
+</table>
+<div class="tcdPageCode">
+</div>
+</div>
+</body>
+<link rel="stylesheet" href="${rc.contextPath}/static/css/page.css">
+<script src="${rc.contextPath}/static/js/jquery.page.js"></script>
+<script>
+
+    $(function(){
+        //设置产品选项
+        $("#productSel").html("<option value='1'>中文书城</option>");
+        jsUtil.setHeaderInfo("${rc.contextPath}");
+    	drawDetailPage();
+    });
+
+    function drawDetailPage(){
+        var params = {
+            startTime: "$!{dt}",
+            endTime: "$!{dt}",
+            cnids: $("#cnids").val()
+        };
+        setWayPageData(1);//加载后即展示第一页数据
+        createDetailPageWidget(params);
+    }
+    
+    //创建分页插件, 只应该调用一次
+    function createDetailPageWidget(params){
+        var totalPage = 0;
+        //获取总页数
+        $.ajax({
+            url: "${rc.contextPath}/zwsc/channel/getDetailTotalPages.json",
+            type: "POST",
+            data: params,
+            success: function(returnData){
+                if(returnData.code == 1){
+                    totalPage = returnData.data;
+                    $(".tcdPageCode").createPage({
+                        pageCount: totalPage,
+                        current:1,
+                        backFn: function(p){//p为当前页号
+                            setWayPageData(p);
+                        }
+                    });
+                } else{
+                    alert(returnData.info);
+                    return;
+                }
+            }
+        });      
+    }
+    
+    function setWayPageData(pageNo){
+        var params = {
+            startTime: "$!{dt}",
+            endTime: "$!{dt}",
+            cnids: $("#cnids").val(),
+            pageNo:pageNo//添加页号信息
+        };
+        $.ajax({
+            url: "${rc.contextPath}/zwsc/channel/getDetailPageData.json",
+            type: "POST",
+            data: params,
+            success: function(returnData){
+                if(returnData.code == 1){
+                    var tableData = "";
+                    $.each(returnData.data, function(i, item){
+                        tableData += "<tr><td>"
+                           +item.cnid +"</td><td>"
+                           + item.accumUsers + "</td><td>" 
+                           + item.qdUsers +"</td><td>"
+                           + item.newUsers + "</td><td>"
+                           + item.qdTimes + "</td><td>"
+                           + item.chargeUsers +"</td><td>"
+                           + item.chargeMoney +"</td><td>"
+                           + item.consumeUsers +"</td><td>"
+                           + item.consumerMoneyUser +"</td><td>"
+                           + item.realMoney +"</td><td>"
+                           + item.copperCoin +"</td><td>"
+                           + item.vouchers +"</td><td>"
+                           + item.bookNum +"</td><td>"
+                           + item.chapterNum +"</td><td>"
+                           + item.qdRemain +"%</td><td>"
+                           + item.addRemain +"%</td></tr>";
+                    });
+                    $("#tableBody").html(tableData);
+                } else{
+                    alert(returnData.info);
+                }
+            }
+        });
+    }
+    
+    function exportDetailData(){
+        var startTime = "$!{dt}";
+        var endTime = "$!{dt}";
+        var version = $("#versionSel").val();
+        var cnids = $("#cnids").val();
+        window.location.href="/zwsc/channel/exportDetailData.json?startTime="+startTime+"" +
+                "&endTime="+endTime+"&version="+version+"&cnids="+cnids+"";
+
+    }
+</script>

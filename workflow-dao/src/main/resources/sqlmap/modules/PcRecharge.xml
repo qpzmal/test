@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.PcRechargeMapper">
+
+    <select id="getPcRechargeByTimeAndCnidsAndType" resultType="cn.advu.workflow.domain.database.PcRecharge">
+        SELECT a.dt dt,
+        IFNULL(SUM(dau),0) dau,
+        IFNULL(SUM(paypage_user),0) payPageUser,
+        IFNULL(SUM(recharge_user),0) rechargeUser ,
+        IFNULL(ROUND(SUM(paypage_user)/SUM(dau)*100,2),0) payPageUseruvAnddauPercent ,
+        IFNULL(ROUND(SUM(recharge_user)/SUM(paypage_user)*100,2),0) rechargeUserPayPageUserPercent ,
+        IFNULL(SUM(recharge_num),0) rechargeNum ,
+        IFNULL(ROUND(SUM(recharge_money)/100,2),0) rechargeMoney
+         FROM (SELECT * FROM pc_recharge WHERE
+          dt BETWEEN #{startTime} AND #{endTime}
+        <if test="type!=null and  type!=''">
+            AND type=#{type}
+        </if>
+        <if test="cnids!=null and  cnids !=''">
+          AND cnid IN
+          <foreach collection="cnids" index="index" item="item" open="(" separator="," close=")">
+              #{item}
+          </foreach>
+        </if>
+          ) a
+        LEFT JOIN pc_base_data b ON a.dt=b.dt AND a.cnid=b.cnid
+        GROUP BY a.dt
+    </select>
+
+    <select id="getPcRechargeTotalByTimeAndCnidsAndType" resultType="java.lang.Integer">
+        SELECT count(distinct(a.dt))
+        FROM (SELECT * FROM pc_recharge WHERE
+        dt BETWEEN #{startTime} AND #{endTime}
+        <if test="type!=null and  type!=''">
+            AND type=#{type}
+        </if>
+        <if test="cnids!=null and  cnids !=''">
+        AND cnid IN
+        <foreach collection="cnids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        </if>
+        ) a
+        LEFT JOIN pc_base_data b ON a.dt=b.dt AND a.cnid=b.cnid
+    </select>
+</mapper>

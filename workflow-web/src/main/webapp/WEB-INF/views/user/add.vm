@@ -1,0 +1,87 @@
+<div class="account-manage">
+    <h3>账号管理:</h3>
+    <form action="${rc.contextPath}/user/add.json">
+	    <ul class="manage-list">
+	        <li class="clearfix"><label>姓名：</label>
+	        <input type="text" name="realName" id="realName" value="" /><label>账号：</label>
+	        <input type="text" name="acctId" id="acctId" value="" /></li>
+	        <li class="clearfix"><label>电话：</label>
+	        <input type="text" name="phone" id="phone" value="" /><label>邮箱：</label>
+	        <input type="text" name="email" id="email" value="" /></li>
+	        <li class="clearfix">
+	            <label>角色：</label>
+	            <select class="super" name="role" id="roleSel">
+	            </select>
+	            <!-- <label class="w60">渠道号：</label><input type="text" class="channel"/> -->
+ 	            <!--<label>项目：</label>
+	            <select name="belongTo">
+	                <option value="0">全部</option>
+	                <option value="1">中文书城</option>
+	                <option value="2">创新版</option>
+	            </select> -->
+	        </li>
+	        <li class="clearfix"><label>密码：</label><input type="password" id="passwd" name="passwd" value="" />
+	        <label>确认密码：</label><input type="password" id="repasswd" value="" /></li>
+	    </ul>
+	    <div class="refer-btn">
+	       <button type="button" class="btn btn-info mt20 ml150 p25" onclick="addUser();">提交</button>
+	    </div>
+    </form>
+</div>
+<script>
+    $(function(){
+    	//获取角色信息添加到select中
+    	setRoles();
+    });
+    
+    function setRoles(){
+        $.ajax({
+            url:"${rc.contextPath}/role/getAll.json",
+            type:"POST",
+            success: function(returnData){
+                var selHtml = "";
+                $.each(returnData.data, function(i, item){
+                	selHtml += "<option value='"+item.roleId+"'>"+item.roleName+"</option>";
+                });
+                $("#roleSel").html(selHtml);
+            }
+        });
+    }
+    
+    function addUser(){
+    	var realName = $("#realName").val();
+    	var acctId = $("#acctId").val();
+    	var email = $("#email").val();
+    	var phone = $("#phone").val();
+    	var passwd = $("#passwd").val();
+    	var repasswd = $("#repasswd").val();
+    	if(realName == "" || acctId == "" || email == "" || phone == "" || passwd == "" || repasswd == ""){
+    		alert("所有信息均为必填项, 请填写完整!");
+    		return;
+    	}
+    	if(passwd != repasswd){
+    		alert("两次密码输入不一致, 请重新填写!");
+    		return;
+    	}
+        $.ajax({
+            url:"${rc.contextPath}/user/add.json",
+            type:"POST",
+            data:{
+            	realName:realName,
+            	acctId:acctId,
+            	email:email,
+            	phone:phone,
+            	passwd:passwd,
+            	roleId:$("#roleSel").val()
+            },
+            success: function(returnData){
+                if(returnData.code == 1){
+                	alert("添加成功!");
+                	window.location.href = "${rc.contextPath}/user/toList";
+                } else{
+                	alert("添加失败, 请联系技术人员!");
+                }
+            }
+        });
+    }
+</script>

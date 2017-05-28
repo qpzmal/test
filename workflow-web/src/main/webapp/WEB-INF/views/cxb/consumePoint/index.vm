@@ -1,0 +1,93 @@
+<div class="top">
+    <label class="top-l">消耗积分：</label>
+    <div class="top-r">
+         <label class="content-lab">*选择时间：</label>
+         <input type="text" id="startTime" name="startTime" class="datepicker">&nbsp;&nbsp;——&nbsp;&nbsp;
+         <input type="text" id="endTime" name="endTime" class="datepicker">
+         <input type="button" value="  确  定  " class="inp-sure" onclick="toQuery();">
+     </div>
+     <div class="bottom">
+        <span>消耗总积分:<b id="totalPoint">0</b>&nbsp;消耗用户数(UV)：<b id="totalUser">0</b></span>
+     </div>
+ </div>
+ <!--下拉框-->
+ <div class="timer" style="margin-bottom:10px;">
+     <label>时间周期：</label>
+     <select id="timeCycleSel" name="timeCycle">
+         <option value="1">日</option>
+         <option value="2">周</option>
+         <option value="3">月</option>
+     </select>       
+ </div>
+ <div id="tabs">
+     <ul>
+         <li><a href="#cchart">消耗总积分</a></li>
+         <li><a href="#ctype">积分消耗</a></li>
+     </ul>
+     <div id="cchart">
+          <div class="pic" id="chartDiv" style="width: 600px;height:400px;margin-left:auto;margin-right:auto; margin-top:30px;">
+          </div>
+      </div>
+      <div id="ctype">
+         #parse('cxb/consumePoint/type.vm')
+      </div>
+ </div>	    
+<script src="${rc.contextPath}/static/js/jquery-ui.tab.js"></script>
+<link href="${rc.contextPath}/static/css/jquery-ui.tab.css" rel="stylesheet">
+<script>
+    $(function(){
+        //设置产品选项
+        $("#productSel").html("<option value='1'>中文书城</option>");
+        jsUtil.setHeaderInfo("${rc.contextPath}");
+        drawChart();
+        $( "#tabs" ).tabs({
+            activate: function(event, ui){
+                if(ui.newPanel.selector == "#ctype"){
+                    drawWayTable();
+                }
+            }
+        });        
+    });
+
+    function toQuery(){
+        var params = {
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            cnids: $("#cnids").val(),
+        };
+        drawChart(params);
+        drawWayTable();
+    }
+    
+    function drawChart(params){
+        if(params === undefined){
+            params = {
+                timeCycle: $("#timeCycleSel").val(),
+                startTime: $("#startTime").val(),
+                endTime: $("#endTime").val(),
+                version: $("#versionSel").val(),
+                cnids: $("#cnids").val()
+            };
+        } else{
+            params["timeCycle"] = $("#timeCycleSel").val();
+        }
+        $.ajax({
+            url: "${rc.contextPath}/cxb/consumePoint/getChart.json",
+            type: "POST",
+            data: params,
+            success: function(returnData){
+                if(returnData.code == 1){
+                    
+                    $("#totalPoint").text(returnData.data.summary.pointSum);
+                    $("#totalUser").text(returnData.data.summary.userSum);
+                    
+                    var myChart = echarts.init(document.getElementById("chartDiv"));
+                    myChart.setOption(returnData.data.chart);
+                } else{
+                    alert(returnData.info);
+                    window.location.reload();
+                }
+            }
+        });
+    }
+</script>

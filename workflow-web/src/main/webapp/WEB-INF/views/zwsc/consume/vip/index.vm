@@ -1,0 +1,117 @@
+<div class="top">
+    <label class="top-l">消费数据：</label>
+    <div class="top-r">
+        <label class="content-lab">*选择时间：</label>
+           <input type="text" id="startTime" name="startTime" class="datepicker">&nbsp;&nbsp;——&nbsp;&nbsp;
+           <input type="text" id="endTime" name="endTime" class="datepicker">
+           <input type="button" value="  确  定  " class="inp-sure" onclick="refreshData();">
+    </div>
+    <div class="bottom">
+        <span>vip消费金额:<b id="moneySum">0</b>铜币&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        开通&续订次数：<b id="pvSum">0</b>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        用户数：<b id="uvSum">0</b></span>
+    </div>
+</div>
+<!--下拉框-->
+<div class="timer" style="margin-bottom:10px;">
+    <label>时间周期：</label>
+       <select id="timeCycleSel" name="timeCycle">
+           <option value="1">日</option>
+           <option value="2">周</option>
+           <option value="3">月</option>
+       </select>   
+</div>
+<div id="tabs">
+    <ul>
+           <li><a href="#zvamt">VIP消费图</a></li>
+           <li><a href="#zvopen">VIP开通</a></li>
+           <li><a href="#zdonate">VIP赠送</a></li>
+       </ul>
+    <!--统计图-->
+    <div id="zvamt" style="margin-top:10px">
+        <div class="money-con mt-list">
+            <input type="button" value="导出" class="money-btn" onclick="exportUserData();">
+        </div>
+        <div class="pic" id="chartDiv" style="width: 600px;height:400px;margin-left:auto;margin-right:auto">
+        </div>
+    </div>
+    <div id="zvopen">
+        #parse('zwsc/consume/vip/open.vm')
+    </div>
+    <div id="zdonate">
+        #parse('zwsc/consume/vip/donate.vm')
+    </div>
+</div>  
+<script src="${rc.contextPath}/static/js/jquery-ui.tab.js"></script>
+<link href="${rc.contextPath}/static/css/jquery-ui.tab.css" rel="stylesheet">
+<script>
+	$(function(){
+	    //设置产品选项
+	    $("#productSel").html("<option value='1'>中文书城</option>");
+	    jsUtil.setHeaderInfo("${rc.contextPath}");
+        drawAmtChart();
+	    $("#tabs").tabs({
+	        activate: function(event, ui){
+	            if(ui.newPanel.selector == "#zvopen"){
+                    drawOpenPage();
+	            }
+	            if(ui.newPanel.selector == "#zdonate"){
+                    drawDonatePage();
+	            }
+	        }
+	    });
+	});
+
+    function refreshData(){
+        var params = {
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            cnids: $("#cnids").val()
+        };
+        drawAmtChart(params);
+        drawOpenPage();
+        drawDonatePage();
+    }
+	
+    //绘制echarts图表并展示头部总览数据
+    function drawAmtChart(params){
+        if(params === undefined){
+            params = {
+                timeCycle: $("#timeCycleSel").val(),
+                startTime: $("#startTime").val(),
+                endTime: $("#endTime").val(),
+                cnids: $("#cnids").val()
+            };
+        } else{
+            params["timeCycle"] = $("#timeCycleSel").val();
+        }
+        $.ajax({
+            url: "${rc.contextPath}/zwsc/consume/vip/getAmtChart.json",
+            type: "POST",
+            data: params,
+            success: function(returnData){
+                if(returnData.code == 1){
+
+                    $("#moneySum").text(returnData.data.summary.moneySum);
+                    $("#pvSum").text(returnData.data.summary.pvSum);
+                    $("#uvSum").text(returnData.data.summary.uvSum);
+
+                    var myChart = echarts.init(document.getElementById("chartDiv"));
+                    myChart.setOption(returnData.data.chart);
+                } else{
+                    alert(returnData.info);
+                    window.location.reload();
+                }
+            }
+        });
+    }
+
+    function exportUserData(){
+        var startTime = $("#startTime").val();
+        var timeCycle = $("#timeCycleSel").val();
+        var endTime = $("#endTime").val();
+        var cnids = $("#cnids").val();
+        window.location.href="/zwsc/consume/vip/exportChart.json?startTime="+startTime +
+                "&endTime="+endTime+"&cnids="+cnids+"&timeCycle="+timeCycle+"";
+    }
+</script>

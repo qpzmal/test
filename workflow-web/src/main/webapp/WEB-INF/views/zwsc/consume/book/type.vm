@@ -1,0 +1,128 @@
+<div class="money-con mt-list">
+    <h3>购买类型：</h3>
+    <input type="button" value="导出" class="money-btn" onclick="exportTypeData();">
+</div>
+<!--列表-->
+<table class="money-data mt-10 mb-30">
+    <thead>
+        <tr>
+            <th></th>
+            <th colspan="2">后10章</th>
+            <th colspan="2">后40章</th>
+            <th colspan="2">后100章</th>
+            <th colspan="2">未购全部</th>
+            <th colspan="2">单章购买</th>
+            <th colspan="2">整本</th>
+        </tr>
+        <tr>
+            <th>日期</th>
+            <th>购买次数</th>
+            <th>用户数</th>
+            <th>购买次数</th>
+            <th>用户数</th>
+            <th>购买次数</th>
+            <th>用户数</th>
+            <th>购买次数</th>
+            <th>用户数</th>
+            <th>购买次数</th>
+            <th>用户数</th>
+            <th>购买次数</th>
+            <th>用户数</th>
+        </tr>
+    </thead>
+    <tbody id="typeTable">
+    </tbody>
+</table>
+<div class="tcdPageCode">
+</div>
+<link rel="stylesheet" href="${rc.contextPath}/static/css/page.css">
+<script src="${rc.contextPath}/static/js/jquery.page.js"></script>
+<script>
+
+
+	function drawTypePage(){
+        var params = {
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            cnids: $("#cnids").val()
+        };
+        setTypeTableData(1);
+        createGivePageWidget(params);
+	}
+
+
+	//创建分页插件
+	function createGivePageWidget(params){
+	    var totalPage = 0;
+	    //获取总页数
+	    $.ajax({
+	        url: "${rc.contextPath}/zwsc/consume/book/getTypeTotalPages.json",
+	        type: "POST",
+	        data: params,
+	        success: function(returnData){
+	            if(returnData.code == 1){
+	                totalPage = returnData.data;
+                    $(".tcdPageCode").createPage({
+                        pageCount: totalPage,
+                        current:1,
+                        backFn: function(p){//p为当前页号
+                            setTypeTableData(p);
+                        }
+                    });
+	            } else{
+	                alert(returnData.info);
+	                return;
+	            }
+	        }
+	    });    
+	    
+
+	}
+
+    function setTypeTableData(pageNo){
+        var params = {
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            cnids: $("#cnids").val(),
+            pageNo:pageNo//添加页号信息
+        };
+    	$.ajax({
+    		url: "${rc.contextPath}/zwsc/consume/book/getTypeDataByPage.json",
+    		type: "POST",
+    		data: params,
+    		success: function(returnData){
+    			if(returnData.code == 1){
+    				var tableData = "";
+    				$.each(returnData.data, function(i, item){
+    					tableData += "<tr><td>"
+    						   + item.dt + "</td><td>"
+    						   + item.chapter10PV + "</td><td>"
+    						   + item.chapter10UV + "</td><td>"
+    						   + item.chapter40PV + "</td><td>"
+    						   + item.chapter40UV + "</td><td>"
+    						   + item.chapter100PV + "</td><td>"
+    						   + item.chapter100UV + "</td><td>"
+    						   + item.notAllPV + "</td><td>"
+    						   + item.notAllUV + "</td><td>"
+    						   + item.chapter1PV + "</td><td>"
+    						   + item.chapter1UV + "</td><td>"
+    						   + item.allChapterPV + "</td><td>"
+    						   + item.allChapterUV + "</td></tr>";
+    				});
+    				$("#typeTable").html(tableData);
+    			} else if(returnData.code == 0){
+    				alert(returnData.info);
+    			} 
+    		}
+    	});
+    }
+    
+    function exportTypeData(){
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        var version = $("#versionSel").val();
+        var cnids = $("#cnids").val();
+        window.location.href="/zwsc/consume/book/exportTypeData.json?startTime="+startTime+"" +
+                "&endTime="+endTime+"&version="+version+"&cnids="+cnids+"";
+    }
+</script>

@@ -1,0 +1,98 @@
+#set($layout = '/layout/empty.vm')
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360浏览器优先以webkit内核解析-->
+    <title> - 主页示例</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="${rc.contextPath}/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/animate.css" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="${rc.contextPath}/static/js/plugins/layer/laydate/need/laydate.css" rel="stylesheet">
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content">
+<div class="top">
+    <form id="form1" action="/pc/channel/channelmonthdata"  method="post" name="pageForm">
+        <input type="hidden"  name="pageSize" id="pageSize" value="$!{page.pageSize}" ></input>
+        <input type="hidden"  name="pageIndex" id="pageIndex" value="$!{page.pageIndex}" ></input>
+    <div class="top-r">
+        <label>*月份选择：</label>
+        <input type="text" id="startTime" name="startTime" class="datepicker" value="$!{startTime}">&nbsp;&nbsp;&nbsp;&nbsp;
+        #*<input type="text" id="endTime" name="endTime" class="datepicker" value="$!{endTime}">*#
+        <label class="ml20">渠道ID：</label>
+        <input type="text" class="inp-name" name="cnid" id="cnid" value="$!{cnid}">
+        <input type="submit" value="  查  询  " class="inp-sure" />
+    </div>
+    </form>
+</div>
+#*<div class="money-con mt-list">
+        <h3>数据总览：</h3>
+        <input type="button" value="导出" class="money-btn" onclick="exportDetailData();">
+    </div>*#
+    <!--列表-->
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            #*<th width="100">日期</th>*#
+            <th width="40">渠道ID</th>
+            <th>网站总PV</th>
+            <th>DAU(uv)</th>
+            <th>新增用户数</th>
+         #*   <th>用户次日留存</th>
+            <th>新增次日留存</th>*#
+            <th>登录用户数</th>
+            <th>注册用户数</th>
+           #* <th>阅读用户数</th>*#
+            <th>充值用户数</th>
+            <th>充值额度(元)</th>
+            <th>消费用户数</th>
+            <th>消费额度(元)</th>
+            <th>消费真钱用户数</th>
+            <th>消费真钱额度(元)</th>
+        </tr>
+     </tbody>
+      #foreach($PcBaseData in $!{page.getData()})
+        <tr>
+            #*<td>$!{PcBaseData.dt}</td>*#
+            <td>$!{PcBaseData.cnid}</td>
+            <td>$!{PcBaseData.pv}</td>
+            <td>$!{PcBaseData.dau}</td>
+            <td>$!{PcBaseData.newUser}</td>
+           #* <td>$!{PcBaseData.dauRemain}</td>
+            <td>$!{PcBaseData.newRemain}</td>*#
+            <td>$!{PcBaseData.loginUser}</td>
+            <td>$!{PcBaseData.regUser}</td>
+            #*<td>$!{PcBaseData.readUser}</td>*#
+            <td>$!{PcBaseData.chargeUser}</td>
+            <td>$!{PcBaseData.chargeMoney}</td>
+            <td>$!{PcBaseData.consumerUser}</td>
+            <td>$!{PcBaseData.consumerAllMoney}</td>
+            <td>$!{PcBaseData.consumerMoneyUser}</td>
+            <td>$!{PcBaseData.consumerMoney}</td>
+
+        </tr>
+      #end
+</table>
+<div class="tcdPageCode">
+    #parse('layout/page.vm')
+</div>
+</div>
+</body>
+<script src="${rc.contextPath}/static/js/jquery.min.js?v=2.1.4"></script>
+<script src="${rc.contextPath}/static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="${rc.contextPath}/static/js/plugins/layer/laydate/laydate.js"></script>
+<!-- 自定义js -->
+<script src="${rc.contextPath}/static/js/pc/channelmonthdata.js"></script>
+<script>
+    function exportDetailData(){
+        var startTime = "$!{dt}";
+        var endTime = "$!{dt}";
+        var version = $("#versionSel").val();
+        var cnids = $("#cnids").val();
+        window.location.href="/zwsc/channel/exportDetailData.json?startTime="+startTime+"" +
+                "&endTime="+endTime+"&version="+version+"&cnids="+cnids+"";
+
+    }
+</script>

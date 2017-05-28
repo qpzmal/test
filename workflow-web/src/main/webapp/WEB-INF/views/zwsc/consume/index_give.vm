@@ -1,0 +1,125 @@
+<div class="money-con mt-list">
+    <h3>消费类型统计：</h3>
+    <input type="button" value="导出" class="money-btn" onclick="exportGiveData();">
+</div>
+    <!--列表-->
+<div style="vertical-align: middle;">
+<table class="money-data mb-30 mt-10" >
+    <thead>
+    <tr>
+        <th rowspan="2">日期</th>
+        <th colspan="4">购买图书</th>
+        <th colspan="3">VIP</th>
+        <th colspan="4">打赏</th>
+    </tr>
+    <tr>
+        <th>消费真钱</th>
+        <th>消费代金券</th>
+        <th>次数</th>
+        <th>用户数</th>
+        <th>消费真钱</th>
+        <th>次数</th>
+        <th>用户数</th>
+        <th>消费真钱</th>
+        <th>消费代金券</th>
+        <th>次数</th>
+        <th>用户数</th>
+    </tr>
+     </thead>
+     <tbody id="giveTableBody">
+     </tbody>        
+</table>
+</div>
+<div class="tcdPageCode">
+</div>
+<link rel="stylesheet" href="${rc.contextPath}/static/css/page.css">
+<script src="${rc.contextPath}/static/js/jquery.page.js"></script>
+<script>
+	function drawGivePage(){
+		var params = {
+                timeCycle: 1,
+                startTime: $("#startTime").val(),
+                endTime: $("#endTime").val(),
+                version: $("#versionSel").val(),
+                cnids: $("#cnids").val()
+        };
+        setGivePageData(1);//加载后即展示第一页数据
+        createGivePageWidget(params);
+	}
+	
+	//创建分页插件, 只应该调用一次
+	function createGivePageWidget(params){
+		var totalPage = 0;
+		//获取总页数
+		$.ajax({
+			url: "${rc.contextPath}/zwsc/consume/getgivetotalpages.json",
+            type: "POST",
+            data: params,
+            success: function(returnData){
+            	if(returnData.code == 1){
+            		totalPage = returnData.data;
+                    $(".tcdPageCode").createPage({
+                        pageCount: totalPage,
+                        current:1,
+                        backFn: function(p){//p为当前页号
+                            setGivePageData(p)
+                        }
+                    });
+            	} else{
+            		alert(returnData.info);
+            		return;
+            	}
+            }
+		});
+		
+
+	}
+	
+	function setGivePageData(pageNo){
+        var params = {
+            timeCycle: 1,
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            version: $("#versionSel").val(),
+            cnids: $("#cnids").val(),
+            pageNo:pageNo//添加页号信息
+        };
+		$.ajax({
+            url: "${rc.contextPath}/zwsc/consume/getgivepagedata.json",
+            type: "POST",
+            data: params,
+            success: function(returnData){
+                if(returnData.code == 1){
+                    var tableData = "";
+                    $.each(returnData.data, function(i, item){
+                        tableData += "<tr><td>"
+                           +item.dt +"</td><td>"
+                           +item.bookMoney +"</td><td>"
+                           +item.bookCash +"</td><td>"
+                           +item.bookPv +"</td><td>"
+                           +item.bookUv +"</td><td>"
+                           +item.vipMoney +"</td><td>"
+                           +item.vipPv +"</td><td>"
+                           +item.vipUv +"</td><td>"
+                           +item.dashangMoney +"</td><td>"
+                           +item.dashangCash +"</td><td>"
+                           +item.dashangPv +"</td><td>"
+                           +item.dashangUv + "</td></tr>";
+                    });
+                    $("#giveTableBody").html(tableData);
+                } else{
+                    alert(returnData.info);
+                }
+            }
+        });
+	}
+
+    function exportGiveData(){
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        var version = $("#versionSel").val();
+        var cnids = $("#cnids").val();
+        window.location.href="/zwsc/consume/exportgive.json?startTime="+startTime+"" +
+                "&endTime="+endTime+"&version="+version+"&cnids="+cnids+"";
+    }
+</script>

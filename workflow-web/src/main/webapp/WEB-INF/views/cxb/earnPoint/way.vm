@@ -1,0 +1,96 @@
+<div class="money-con mt-list">
+    <h3>赚取方式：</h3>
+    <input type="button" value="导出" class="money-btn" onclick="exportWayData();">
+</div>
+<!--列表-->
+<table class="money-data mt-10" cellpadding="0" cellspacing="0">
+    <thead>
+        <tr>
+            <th>日期</th>
+            <th>赚取方式</th>
+            <th>积分数</th>
+            <th>赚取次数</th>
+            <th>用户数</th>
+        </tr>
+    </thead>
+    <tbody id="wayTable">
+    </tbody>
+</table>
+<div class="tcdPageCodes">
+</div>
+<link rel="stylesheet" href="${rc.contextPath}/static/css/page.css">
+<script src="${rc.contextPath}/static/js/jquery.page.js"></script>
+<script>
+
+    function drawWayTable(){
+        var params = {
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            cnids: $("#cnids").val()
+        };
+        setWayPageData(1);//加载后即展示第一页数据
+        createWayPageWidget(params);
+    }
+
+    function createWayPageWidget(params){
+        var totalPage = 0;
+        //获取总页数
+        $.ajax({
+            url: "${rc.contextPath}/cxb/earnPoint/getWayPageCnt.json",
+            type: "POST",
+            data: params,
+            success: function(returnData){
+                if(returnData.code == 1){
+                    totalPage = returnData.data;
+                    $(".tcdPageCodes").createPage({
+                        pageCount: totalPage,
+                        current:1,
+                        backFn: function(p){//p为当前页号
+                            setWayPageData(p);
+                        }
+                    });
+                } else{
+                    alert(returnData.info);
+                    return;
+                }
+            }
+        });
+    }
+
+    function setWayPageData(pageNo){
+        var params = {
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            cnids: $("#cnids").val(),
+            pageNo:pageNo//添加页号信息
+        };
+    	$.ajax({
+            url: "${rc.contextPath}/cxb/earnPoint/getWayData.json",
+            type: "POST",
+            data: params,
+            success: function(returnData){
+                if(returnData.code == 1){
+                    var tableData = "";
+                    $.each(returnData.data, function(i, item){
+                        tableData += "<tr><td>"
+                            + item.dt + "</td><td>"
+                            + item.earnWay + "</td><td>"
+                            + item.pointSum + "</td><td>"
+                            + item.timeSum + "</td><td>"
+                            + item.userSum + "</td></tr>";
+                    });
+                    $("#wayTable").html(tableData);
+                }
+            }
+    	});
+    }
+    
+    function exportWayData(){
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        var version = $("#versionSel").val();
+        var cnids = $("#cnids").val();
+        window.location.href="/cxb/earnPoint/exportWayData.json?startTime="+startTime+"" +
+                "&endTime="+endTime+"&version="+version+"&cnids="+cnids+"";
+    }
+</script>

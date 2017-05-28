@@ -1,0 +1,103 @@
+#set($layout = '/layout/empty.vm')
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360浏览器优先以webkit内核解析-->
+    <title> - 主页示例</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="${rc.contextPath}/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/animate.css" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="${rc.contextPath}/static/js/plugins/layer/laydate/need/laydate.css" rel="stylesheet">
+</head>
+<form id="form" action="/zwsc/channelshare/addchanneldatashare" method="post">
+<body class="white-bg">
+<div class="wrapper wrapper-content">
+    <div class="top">
+        <div>
+            <label>*选择时间：</label>
+            <input type="text" id="startTime" name="startTime" class="datepicker">&nbsp;&nbsp;——&nbsp;&nbsp;
+            <input type="text" id="endTime" name="endTime" class="datepicker">
+        </div>
+    </div>
+ #*   <from class="form-horizontal">*#
+    $!{msg}
+        <ul class="add-list">
+            <li>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">新增用户比例：</label>
+                        <div class="col-sm-9">
+                            <select name="newUserScale">
+                                #foreach($scale in $scales)
+                                    <option name="newUserScale" value=" $!{scale}"> $!{scale}</option>
+                                #end
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">活跃用户比例：</label>
+                        <div class="col-sm-9">
+                            <select name="activeUserScale">
+                                #foreach($scale in $scales)
+                                    <option name="activeUserScale" value=" $!{scale}"> $!{scale}</option>
+                                #end
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">收入比例：</label>
+                        <div class="col-sm-9">
+                            <select name="incomeScale">
+                                #foreach($scale in $scales)
+                                    <option name="incomeScale" value=" $!{scale}"> $!{scale}</option>
+                                #end
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">渠道：</label>
+                        <div class="col-sm-9">
+                            <textarea rows="3" cols="30" name="cnid"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <input class="form-control" value="$!{scaleType}" type="hidden" name="scaleType"></input>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    #*</from>*#
+    <div class="sub mt-0"><input type="submit" value="添加"/></div>
+
+</div>
+<!-- 全局js -->
+<script src="${rc.contextPath}/static/js/jquery.min.js?v=2.1.4"></script>
+<script src="${rc.contextPath}/static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="${rc.contextPath}/static/js/plugins/layer/laydate/laydate.js"></script>
+<!-- 自定义js -->
+<script src="${rc.contextPath}/static/js/zwsc/channelshare.js"></script>
+
+</body>
+
+

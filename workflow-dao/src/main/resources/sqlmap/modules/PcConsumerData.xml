@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.PcConsumerDataMapper">
+
+
+<select id="getPcConsumerDataByTimeAndCnids" resultType="cn.advu.workflow.domain.database.PcConsumer">
+
+    SELECT  dt ,IFNULL(SUM(consumer_user),0) consumerUser,
+    ROUND(IFNULL(SUM(consumer_allmoney),0)/100,2) consumerAllMoney,
+    ROUND(IFNULL(SUM(consumer_money),0)/100,2) consumerMoney,
+    IFNULL(SUM(consumer1cp_user),0) consumer1CpUser,
+    IFNULL(SUM(consumerallcp_user),0) consumerAllCpUser,
+    IFNULL(SUM(ds_user),0) dsUser,
+    ROUND(IFNULL(SUM(ds_allmoney),0)/100,2) dsAllMoney,
+    ROUND(IFNULL(SUM(ds_money),0)/100,2) dsMoney
+     FROM pc_consumer
+     WHERE
+     dt BETWEEN #{startTime} AND #{endTime}
+    <if test="cnids!=null and cnids.length>0">
+        AND cnid in
+        <foreach item="item" index="index" collection="cnids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </if>
+     GROUP BY dt
+    limit  #{start, jdbcType=INTEGER},#{pageSize, jdbcType=INTEGER}
+
+</select>
+
+    <select id="getPcConsumerDataTotalByTimeAndCnids" resultType="java.lang.Integer">
+        SELECT  count(DISTINCT(dt))
+        FROM pc_consumer
+        WHERE
+        dt BETWEEN #{startTime} AND #{endTime}
+        <if test="cnids!=null and cnids.length>0">
+            AND cnid in
+            <foreach item="item" index="index" collection="cnids"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+    </select>
+
+
+</mapper>

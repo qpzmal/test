@@ -1,0 +1,98 @@
+#set($layout = '/layout/content.vm')
+<div>
+    <p class="ml-20 lh-40 font-size-18">
+       <span id="chargeWay">${dt}${chargeWay}</span>：<span id="moneySum">${sumMoney}</span>元</p>
+    <!--导出-->
+    <div class="money-con">
+        <h3>充值金额阶梯统计：</h3>
+    </div>
+    <!--列表-->
+    <table class="money-data mt-10 mb-30" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th>充值金额(元)</th>
+                <th>充值次数</th>
+                <th>次数占比</th>
+                <th>充值用户数</th>
+                <th>用户占比</th>
+            </tr>
+        </thead>
+        <tbody id="wayDetailData">
+        </tbody>
+    </table>
+</div>
+<script>
+    $(function(){
+        //设置产品选项
+        $("#productSel").html("<option value='1'>中文书城</option>");
+        jsUtil.setHeaderInfo("${rc.contextPath}");
+    	
+    	$.ajax({
+    		url: "${rc.contextPath}/zwsc/charge/getWayDetail.json",
+    		type: "POST",
+    		data: window.location.search.substring(1),
+    		success: function(returnData){
+    			if(returnData.code == 1){
+    				var tableData = "";
+    				$.each(returnData.data, function(i, item){
+    					tableData += "<tr><td>"
+    						+ gradeTrans(item.grade) + "</td><td>"
+    						+ item.pv + "</td><td>"
+    						+ item.pvRate + "%</td><td>"
+    						+ item.uv + "</td><td>"
+    						+ item.uvRate + "%</td></tr>"
+    				});
+    				$("#wayDetailData").html(tableData);
+    			}
+    		}
+    	});
+    });
+    
+    //梯度含义转换
+    function gradeTrans(gradeCode){
+    	if(gradeCode == "lt10"){
+    		return "0~10";
+    	}
+    	if(gradeCode == "lt50"){
+    		return "11~50";
+    	}
+    	if(gradeCode == "lt100"){
+    		return "51~100";
+    	}
+    	if(gradeCode == "lt200"){
+    		return "101~200";
+    	}
+    	if(gradeCode == "gt200"){
+    		return "200以上";
+    	}
+    }
+    
+    function exportDetail(){
+    	$.ajax({
+    		url: "${rc.contextPath}/zwsc/charge/exportDetail.json",
+    		type: "POST",
+    		data: window.location.search.substring(1),
+    		success: function(returnData){
+    			if(returnData.code == 1){
+    				var form = $("<form>");
+    				form.css("display", "none");
+    				form.attr("target", "");
+    				form.attr("method", "post");
+    				form.attr("action", "${rc.contextPath}/zwsc/charge/downDetail");
+    				
+    				var input = $("<input>");
+    				input.attr("type", "hidden");
+    				input.attr("name", "chargeWay");
+    				input.attr("value", "${chargeWay}");//文件名参数
+    				
+    				form.append(input);
+    				console.log(form);
+    				$("body").append(form);
+    				form.submit();
+    			} else{
+    				alert("导出失败, 请联系技术人员!");
+    			}
+    		}
+    	});
+    }
+</script>

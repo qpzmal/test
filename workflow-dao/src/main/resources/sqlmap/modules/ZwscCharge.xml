@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.ZwscChargeMapper">
+    
+    <sql id="conditions">
+        <where>
+            <if test="startTime != '' and startTime != null">
+                AND dt &gt;= #{startTime}
+            </if>
+            <if test="endTime != '' and endTime != null">
+                AND dt &lt;= #{endTime}
+            </if>
+            <if test="cnids != null and cnids != ''">
+                AND cnid IN
+                <foreach collection="cnids" item="cnid" open="(" separator="," close=")">
+                    ${cnid}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="getDataByDay" resultType="Map">
+        SELECT
+            dt AS timeCycle,
+            IFNULL(SUM(charge_money),0) AS chargeAmt,
+            IFNULL(SUM(charge_pv),0) AS chargeTime,
+            IFNULL(SUM(charge_user),0) AS chargeUsers
+        FROM
+            zwsc_charge
+        <include refid="conditions"></include>
+        GROUP BY
+            timeCycle;       
+    </select>
+    
+    <select id="getDataByWeek" resultType="Map">
+        SELECT
+            DATE_FORMAT(dt,'%Y-%u') AS timeCycle,
+            IFNULL(SUM(charge_money),0) AS chargeAmt,
+            IFNULL(SUM(charge_pv),0) AS chargeTime,
+            IFNULL(SUM(charge_user),0) AS chargeUsers
+        FROM
+            zwsc_charge
+        <include refid="conditions"></include>
+        GROUP BY
+            timeCycle;       
+    </select>
+    
+    <select id="getDataByMonth" resultType="Map">
+        SELECT
+            DATE_FORMAT(dt,'%Y-%m') AS timeCycle,
+            IFNULL(SUM(charge_money),0) AS chargeAmt,
+            IFNULL(SUM(charge_pv),0) AS chargeTime,
+            IFNULL(SUM(charge_user),0) AS chargeUsers
+        FROM
+            zwsc_charge
+        <include refid="conditions"></include>
+        GROUP BY
+            timeCycle;       
+    </select>
+    
+    <select id="getWayDataByPage" resultType="Map">
+        SELECT
+            dt,
+            wayCode,
+            chargeWay,
+            IFNULL(SUM(charge_money),0) AS chargeMoney,
+            ROUND(IFNULL(SUM(charge_money) / (SELECT IFNULL(SUM(charge_money),0) FROM zwsc_charge_range where dt = t1.dt )*100,0),2) AS moneyRate,
+            IFNULL(SUM(charge_pv),0) AS chargePV,
+            ROUND(IFNULL(SUM(charge_pv) / (	SELECT IFNULL(SUM(charge_pv),0) FROM zwsc_charge_range where dt = t1.dt)*100 ,0),2)AS pvRate,
+            IFNULL(SUM(charge_user),0) AS chargeUV,
+            ROUND(IFNULL(SUM(charge_user) / (SELECT IFNULL(SUM(charge_user),0) FROM zwsc_charge_range where dt = t1.dt)*100,0),2) AS uvRate
+        FROM
+        (
+            SELECT z.charge_way AS wayCode, d.meaning AS chargeWay, z.*
+            FROM zwsc_charge z JOIN sys_charge_consume_dict d ON z.charge_way = d.code
+        )t1
+        <include refid="conditions"></include>
+        GROUP BY charge_way,dt
+        ORDER BY dt desc
+        <if test="pageSize != 0">
+            LIMIT #{startRow}, #{pageSize}
+        </if>
+    </select>
+    
+    <select id="getWayTotal" resultType="int">
+        select count(1) count from
+        (
+            SELECT count(1) FROM zwsc_charge b JOIN sys_charge_consume_dict d
+            ON b.charge_way = d.code
+            <include refid="conditions"></include>
+            GROUP BY charge_way,dt ORDER BY dt desc
+        ) t
+    </select>
+    
+    <select id="getGiveData" resultType="Map">
+		SELECT
+            dt,
+		    meaning AS chargeWay,
+            IFNULL(SUM(charge_virtualmoney),0) AS givenCoins
+		FROM zwsc_charge
+		JOIN sys_charge_consume_dict ON charge_way = CODE
+		<include refid="conditions"></include>
+		GROUP BY  meaning,dt
+        order by dt desc
+		LIMIT #{startRow}, #{pageSize}
+    </select>
+    
+    <select id="getGiveTotal" resultType="int">
+        SELECT COUNT(1) FROM
+        (
+          SELECT meaning AS chargeWay FROM zwsc_charge JOIN sys_charge_consume_dict ON charge_way = CODE
+          <include refid="conditions"></include>
+          GROUP BY meaning,dt
+        ) t
+    </select>
+    
+    <select id="getWaySumMoney" resultType="int">
+        SELECT
+        IFNULL(SUM(charge_money),0)
+        FROM zwsc_charge b left join sys_charge_consume_dict d on b.charge_way = d.code
+        <include refid="conditions"></include>
+        and d.code = #{wayCode}
+    </select>
+    
+    <select id="getSummary" resultType="Map">
+		SELECT
+		    IFNULL(SUM(charge_money),0) AS moneySum,
+            IFNULL(SUM(charge_pv),0) AS timeSum,
+            IFNULL(SUM(charge_user),0) AS userSum
+		FROM
+		    zwsc_charge
+		<include refid="conditions"></include>
+    </select>
+    
+</mapper>

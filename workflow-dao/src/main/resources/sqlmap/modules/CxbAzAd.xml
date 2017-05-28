@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.CxbAzAdMapper">
+
+    <sql id="conditions">
+            <if test="startTime != '' and startTime != null">
+                AND dt &gt;= #{startTime}
+            </if>
+            <if test="endTime != '' and endTime != null">
+                AND dt &lt;= #{endTime}
+            </if>
+            <if test="cnids != null and cnids != null">
+                AND cnid IN
+                <foreach collection="cnids"
+                         item="cnid" open="(" separator="," close=")">
+                    ${cnid}
+                </foreach>
+            </if>
+    </sql>
+
+    <select id="getItemCnt" resultType="int">
+		SELECT COUNT(1) FROM
+        (
+            SELECT count(1) FROM  az_ad where  apptype = '1'
+            <if test="earnName != '' and earnName != null ">
+                and earnname =#{earnName}
+            </if>
+            <include refid="conditions"></include>
+            GROUP BY dt,earnname
+        ) t
+    </select>
+    
+    <select id="getInstallDataByPage" resultType="map">
+        SELECT
+            dt,
+            earnname,
+            SUM(bg_pv) AS bgPVs,
+            SUM(bg_uv) AS bgUVs,
+            SUM(dj_pv) AS djPVs,
+            SUM(dj_uv) AS djUVs,
+            SUM(az_pv) AS azPVs,
+            SUM(az_uv) AS azUVs
+        FROM  az_ad where  apptype = '1'
+        <if test="earnName != '' and earnName != null ">
+            and earnname =#{earnName}
+        </if>
+        <include refid="conditions"></include>
+        GROUP BY dt, earnname
+        order by dt desc
+        <if test="pageSize != 0">
+            LIMIT #{startRow}, #{pageSize}
+        </if>
+    </select>
+    
+    <select id="getInstallData" resultType="map">
+        SELECT
+            dt,
+            id,
+            earnname,
+            SUM(bg_pv) AS bgPVs,
+            SUM(bg_uv) AS bgUVs,
+            SUM(dj_pv) AS djPVs,
+            SUM(dj_uv) AS djUVs,
+            SUM(az_pv) AS azPVs,
+            SUM(az_uv) AS azUVs
+        FROM  az_ad where  apptype = '1'
+        <include refid="conditions"></include>
+        GROUP BY dt,id
+    </select>
+
+    <select id="getEarnName" resultType="java.util.Map">
+        SELECT earnname AS earnName FROM az_ad where apptype = '1' GROUP BY earnname
+    </select>
+</mapper>

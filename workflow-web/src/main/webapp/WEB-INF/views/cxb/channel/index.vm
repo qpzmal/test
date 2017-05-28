@@ -1,0 +1,100 @@
+<div class="top">
+    <div class="top-r">
+         <label class="content-lab">*选择时间：</label>
+         <input type="text" id="startTime" name="startTime" class="datepicker">&nbsp;&nbsp;——&nbsp;&nbsp;
+         <input type="text" id="endTime" name="endTime" class="datepicker">
+         <input type="button" value="  确  定  " class="inp-sure" onclick="toQuery();">
+     </div>
+ </div>
+ <!--下拉框-->
+ <div class="timer" style="margin-bottom:10px;">
+     <label>时间周期：</label>
+     <select id="timeCycleSel" name="timeCycle">
+         <option value="1">日</option>
+         <option value="2">周</option>
+         <option value="3">月</option>
+     </select>       
+ </div>
+ <div id="tabs">
+     <ul>
+         <li><a href="#ccuser">渠道用户数据</a></li>
+         <li><a href="#ccsummary">数据总览</a></li>
+     </ul>
+     <div id="ccuser">
+           <div class="money-con mt-list">    
+               <input type="button" value="导出" class="money-btn" onclick="exportUserData();">
+           </div>     
+          <div class="pic" id="chartDiv" style="width: 600px;height:400px;margin-left:auto;margin-right:auto; margin-top:30px;">
+          </div>
+      </div>
+      <div id="ccsummary">
+         #parse('cxb/channel/summary.vm')
+      </div>
+ </div>     
+<script src="${rc.contextPath}/static/js/jquery-ui.tab.js"></script>
+<link href="${rc.contextPath}/static/css/jquery-ui.tab.css" rel="stylesheet">
+<script>
+    $(function(){
+        //设置产品选项
+        $("#productSel").html("<option value='2'>创新版</option>");
+        jsUtil.setHeaderInfo("${rc.contextPath}");
+        //绘制默认图表
+        drawChart();
+        $( "#tabs" ).tabs({
+              activate: function(event, ui){
+                    if(ui.newPanel.selector == "#ccsummary"){
+                    	drawSummaryPage();
+                    }
+              }
+        });
+    });
+
+
+    function toQuery(){
+        var params = {
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            cnids: $("#cnids").val(),
+        };
+        drawChart(params);
+        drawSummaryPage();
+    }
+    
+    //绘制图表
+    function drawChart(params){
+        if(params === undefined){
+            params = {
+                    timeCycle: $("#timeCycleSel").val(),
+                    startTime: $("#startTime").val(),
+                    endTime: $("#endTime").val(),
+                    version: $("#versionSel").val(),
+                    cnids: $("#cnids").val()
+                };
+        } else{
+            params["timeCycle"] = $("#timeCycleSel").val();
+        }
+        $.ajax({
+            url: "${rc.contextPath}/cxb/channel/getUserDataChart.json",
+            type: "POST",
+            data: params,
+            success: function(returnData){
+                if(returnData.code == 1){
+                    var myChart = echarts.init(document.getElementById("chartDiv"));
+                    myChart.setOption(returnData.data);
+                } else{
+                    alert(returnData.info);
+                    window.location.reload();
+                }
+            }
+        });
+    }
+
+    function exportUserData(){
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        var timeCycle = $("#timeCycleSel").val();
+        var cnids = $("#cnids").val();
+        window.location.href="/cxb/channel/exportUserData.json?startTime="+startTime+"" +
+                "&endTime="+endTime+"&timeCycle="+timeCycle+"&cnids="+cnids+"";
+    }
+</script>    

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.ZwscVipConsumeMapper">
+
+    <sql id="conditions">
+        <where>
+            <if test="startTime != '' and startTime != null">
+                AND dt &gt;= #{startTime}
+            </if>
+            <if test="endTime != '' and endTime != null">
+                AND dt &lt;= #{endTime}
+            </if>
+            <if test="cnids != null and cnids != ''">
+                AND cnid IN
+                <foreach collection="cnids" item="cnid" open="(" separator="," close=")">
+                    ${cnid}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="getAmtDataByDay" resultType="Map">
+		SELECT
+		    dt AS timeCycle,
+		    IFNULL(SUM(vip_pv),0) AS pvSum,
+            IFNULL(SUM(vip_uv),0) AS uvSum,
+            IFNULL(SUM(money),0) AS moneySum
+		FROM
+		    zwsc_vip_consume
+		<include refid="conditions"></include>
+		GROUP BY timeCycle    
+    </select>
+    
+    <select id="getAmtDataByWeek" resultType="Map">
+        SELECT
+            DATE_FORMAT(dt,'%Y-%u') AS timeCycle,
+            IFNULL(SUM(vip_pv),0) AS pvSum,
+            IFNULL(SUM(vip_uv),0) AS uvSum,
+            IFNULL(SUM(money),0) AS moneySum
+        FROM
+            zwsc_vip_consume
+        <include refid="conditions"></include>
+        GROUP BY timeCycle     
+    </select>
+    
+    <select id="getAmtDataByMonth" resultType="Map">
+        SELECT
+            DATE_FORMAT(dt,'%Y-%m') AS timeCycle,
+            IFNULL(SUM(vip_pv),0) AS pvSum,
+            IFNULL(SUM(vip_uv),0) AS uvSum,
+            IFNULL(SUM(money),0) AS moneySum
+        FROM
+            zwsc_vip_consume
+        <include refid="conditions"></include>
+        GROUP BY timeCycle     
+    </select>
+    
+    <select id="getSummaryData" resultType="Map">
+		SELECT
+            IFNULL(SUM(vip_pv),0) AS pvSum,
+            IFNULL(SUM(vip_uv),0) AS uvSum,
+            IFNULL(SUM(money),0) AS moneySum
+		FROM
+		    zwsc_vip_consume
+		<include refid="conditions"></include>    
+    </select>
+    
+    <select id="getOpenData" resultType="Map">
+        SELECT
+            dt,
+            IFNULL(day_number, '其他') AS vipDays,
+            IFNULL(SUM(vip_pv),0) AS timeSum,
+            IFNULL(ROUND(SUM(vip_pv)/(SELECT IFNULL(SUM(vip_pv),0) FROM zwsc_vip_consume where dt = t.dt)*100,2),0) AS timeRate,
+            IFNULL(SUM(vip_uv),0) AS userSum,
+            IFNULL(ROUND(SUM(vip_uv)/(SELECT IFNULL(SUM(vip_uv),0) FROM zwsc_vip_consume where dt = t.dt)*100,2),0) AS userRate,
+            IFNULL(SUM(money) ,0)AS moneySum,
+            IFNULL(ROUND(SUM(money)/(SELECT IFNULL(SUM(money),0) FROM	zwsc_vip_consume where dt = t.dt)*100,2),0) AS moneyRate
+        FROM
+          zwsc_vip_consume t
+        <include refid="conditions"></include>
+        GROUP BY day_number,dt
+        ORDER BY dt DESC
+        <if test="pageSize != 0">
+            LIMIT  #{startRow}, #{pageSize}
+        </if>
+
+    </select>
+
+    <select id="getOpenTotalPages" resultType="java.lang.Integer">
+        SELECT count(1) FROM (
+            SELECT count(1) FROM zwsc_vip_consume
+            <include refid="conditions"></include>
+            GROUP BY day_number,dt
+        ) t
+    </select>
+
+    <select id="getDonataData" resultType="java.util.Map">
+        SELECT
+            dt,
+            IFNULL(day_number, '其他') AS vipDays,
+            IFNULL(SUM(vip_pv),0) AS timeSum,
+            IFNULL(ROUND(SUM(vip_pv)/(SELECT IFNULL(SUM(vip_pv),0) FROM zwsc_vip_zs_consume where dt = t.dt)*100,2),0) AS timeRate,
+            IFNULL(SUM(vip_uv),0) AS userSum,
+            IFNULL(ROUND(SUM(vip_uv)/(SELECT IFNULL(SUM(vip_uv),0) FROM zwsc_vip_zs_consume where dt = t.dt)*100,2),0) AS userRate
+        FROM
+          zwsc_vip_zs_consume t
+        <include refid="conditions"></include>
+        GROUP BY day_number,dt
+        ORDER BY dt DESC
+        <if test="pageSize != 0">
+            LIMIT  #{startRow}, #{pageSize}
+        </if>
+
+    </select>
+
+    <select id="getDonateTotalPages" resultType="java.lang.Integer">
+        SELECT count(1) FROM (
+            SELECT count(1) FROM zwsc_vip_zs_consume
+            <include refid="conditions"></include>
+            GROUP BY  day_number,dt
+        ) t
+    </select>
+
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.CxbIntegralMapper">
+
+    <sql id="conditions">
+        <where>
+            <if test="startTime != '' and startTime != null">
+                AND dt &gt;= #{startTime}
+            </if>
+            <if test="endTime != '' and endTime != null">
+                AND dt &lt;= #{endTime}
+            </if>
+            <if test="cnids != null and cnids != ''">
+                AND cnid IN
+                <foreach collection="cnids" item="cnid" open="(" separator="," close=")">
+                    ${cnid}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="getConsumeWayData" resultType="Map">
+        SELECT
+            meaning AS consumeWay,
+            SUM(integral_sum) AS pointSum,
+            SUM(user_num) AS userSum,
+            SUM(integral_num) AS timeSum
+        FROM
+            cxb_integral c
+        JOIN sys_integral_dict d ON c.integral_type = d. CODE
+        AND d.type = 1
+        <include refid="conditions"></include>
+        GROUP BY
+            consumeWay
+    </select>
+    
+    <select id="getEarnWayData" resultType="Map">
+        SELECT
+            dt,
+            d.meaning AS earnWay,
+            SUM(integral_sum) AS pointSum,
+            SUM(user_num) AS userSum,
+            SUM(integral_num) AS timeSum
+        FROM
+            cxb_integral c
+        JOIN sys_integral_dict d ON c.integral_type = d.code
+        AND d.type = 0
+        <include refid="conditions"></include>
+        GROUP BY integral_type,dt
+        ORDER BY dt DESC
+        <if test="pageSize != 0">
+            LIMIT #{startRow}, #{pageSize}
+        </if>
+    </select>
+    
+    <select id="getSpeedData" resultType="Map">
+        SELECT
+            dt,
+            d.meaning AS speedGrade,
+            ROUND(SUM(integral_sum)*(d.code-1),2) AS pointSum,
+            SUM(user_num) AS userSum,
+            SUM(integral_num) AS timeSum
+        FROM
+            cxb_integral c
+        JOIN sys_integral_dict d ON c.integral_type = d.code
+        AND d.type = 2
+        <include refid="conditions"></include>
+        GROUP BY  d.meaning,dt
+        ORDER BY dt DESC
+        <if test="pageSize != 0">
+            LIMIT #{startRow}, #{pageSize}
+        </if>
+
+    </select>
+    
+    <select id="getConsumeTypeData" resultType="Map">
+		SELECT
+            dt,
+		    meaning AS consumeType,
+		    SUM(integral_sum) AS pointSum,
+		    SUM(user_num) AS userSum,
+            SUM(integral_num) AS timeSum
+		FROM
+		    cxb_integral c
+		JOIN sys_integral_dict s ON c.integral_type = s.code
+		AND s.type = 1
+		<include refid="conditions"></include>
+		GROUP BY meaning,dt
+        ORDER BY dt DESC
+        <if test="pageSize != 0">
+            LIMIT #{startRow}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getWayPageCnt" resultType="java.lang.Integer">
+        select count(1) from (
+            SELECT COUNT(1) FROM cxb_integral c
+            JOIN sys_integral_dict d ON c.integral_type = d.code
+            <include refid="conditions"></include>
+            AND d.type = 0
+            GROUP BY integral_type,dt ORDER BY dt DESC
+        ) t
+    </select>
+
+    <select id="getSpeedPageCnt" resultType="java.lang.Integer">
+        select count(1) from
+        (
+            SELECT count(1) FROM cxb_integral c
+            JOIN sys_integral_dict d ON c.integral_type = d.code
+            <include refid="conditions"></include>
+            AND d.type = 2
+            GROUP BY d.meaning,dt
+        ) t
+    </select>
+
+    <select id="getTypeDataCnt" resultType="java.lang.Integer">
+        select count(1) from
+        (
+            SELECT count(1)	FROM cxb_integral c
+            JOIN sys_integral_dict s ON c.integral_type = s.code
+            <include refid="conditions"></include>
+            AND s.type = 1
+            GROUP BY meaning,dt
+        )t
+    </select>
+
+</mapper>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.database.PcBaseDataMapper">
+
+
+	<select id="getZwscBaseDataByChannelAndDate" resultType="cn.advu.workflow.domain.database.PcBaseData">
+		SELECT dt,
+		 IFNULL(SUM(pv),0) pv,
+		  IFNULL(SUM(dau),0) dau,
+		  IFNULL(SUM(new_user),0) newUser ,
+		  IFNULL(SUM(charge_money),0) chargeMoney
+		   FROM pc_base_data zbd
+		WHERE
+		zbd.`dt`= #{date}
+
+		AND cnid =#{cnid} AND TYPE=1
+
+	</select>
+
+	<select id="getPcBaseDataList" resultType="cn.advu.workflow.domain.database.PcBaseData">
+	    SELECT cnid,
+		IFNULL(SUM(pv),0)pv,
+		IFNULL(SUM(dau),0)dau,
+		IFNULL(SUM(new_user),0) newUser,
+		IFNULL(ROUND(SUM(new_remain)/new_user*100,2),0) newRemain,
+		IFNULL(ROUND(SUM(dau_remain)/dau*100,2),0) dauRemain,
+		IFNULL(SUM(login_user),0)loginUser,
+		IFNULL(SUM(reg_user),0) regUser,
+		IFNULL(SUM(charge_user),0)chargeUser,
+		IFNULL(ROUND(SUM(charge_money)/100,2),0) chargeMoney,
+		IFNULL(SUM(consumer_user),0) consumerUser,
+		IFNULL(ROUND(SUM(consumer_allmoney)/100,2),0) consumerAllMoney,
+		IFNULL(SUM(consumer_money_user),0)consumerMoneyUser,
+		IFNULL(ROUND(SUM(consumer_money)/100,2),0)consumerMoney,
+		TYPE,dt,IFNULL(SUM(paypage_user),0) payPageUser,
+		IFNULL(SUM(read_user),0) readUser
+	    FROM pc_base_data
+	    WHERE dt BETWEEN #{startTime} AND #{endTime}
+	    <if test="cnids!=null and cnids.length>0">
+			AND cnid in
+			<foreach item="item" index="index" collection="cnids"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		AND TYPE=1
+	     GROUP BY  dt,cnid
+	     order by dt desc
+	    limit  #{start, jdbcType=INTEGER},#{pageSize, jdbcType=INTEGER}
+	</select>
+
+	<select id="getPcBaseDataCount" resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM pc_base_data
+		WHERE dt BETWEEN #{startTime} AND #{endTime}
+		<if test="cnids!=null and cnids.length>0">
+			AND cnid in
+			<foreach item="item" index="index" collection="cnids"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		AND TYPE=1
+	</select>
+
+	<select id="getPcChannelMonthDatas" resultType="cn.advu.workflow.domain.database.PcBaseData">
+		SELECT cnid,
+		IFNULL(SUM(pv),0)pv,
+		IFNULL(SUM(dau),0)dau,
+		IFNULL(SUM(new_user),0) newUser,
+		IFNULL(ROUND(SUM(new_remain)/new_user*100,2),0) newRemain,
+		IFNULL(ROUND(SUM(dau_remain)/dau*100,2),2) dauRemain,
+		IFNULL(SUM(login_user),0)loginUser,
+		IFNULL(SUM(reg_user),0) regUser,
+		IFNULL(SUM(charge_user),0)chargeUser,
+		IFNULL(ROUND(SUM(charge_money)/100,2),0) chargeMoney,
+		IFNULL(SUM(consumer_user),0) consumerUser,
+		IFNULL(ROUND(SUM(consumer_allmoney)/100,2),0) consumerAllMoney,
+		IFNULL(SUM(consumer_money_user),0)consumerMoneyUser,
+		IFNULL(ROUND(SUM(consumer_money)/100,2),0)consumerMoney,
+		TYPE,dt,IFNULL(SUM(paypage_user),0) payPageUser,
+		IFNULL(SUM(read_user),0) readUser
+		FROM pc_base_data
+		WHERE dt =#{startTime}
+		<if test="cnids!=null and cnids.length>0">
+			AND cnid in
+			<foreach item="item" index="index" collection="cnids"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		AND TYPE=3
+		GROUP BY  cnid
+		order by cnid
+		limit  #{start, jdbcType=INTEGER},#{pageSize, jdbcType=INTEGER}
+
+	</select>
+
+	<select id="getPcChannelMonthDatasCount" resultType="java.lang.Integer">
+		SELECT COUNT(DISTINCT(cnid))
+		FROM pc_base_data
+		WHERE dt = #{startTime}
+		<if test="cnids!=null and cnids.length>0">
+			AND cnid in
+			<foreach item="item" index="index" collection="cnids"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		AND TYPE=3
+	</select>
+
+	<select id="getPcChannelTotalDatas" resultType="cn.advu.workflow.domain.database.PcBaseData">
+		SELECT
+		IFNULL(SUM(pv),0)pv,
+		IFNULL(SUM(dau),0)dau,
+		IFNULL(SUM(new_user),0) newUser,
+		IFNULL(ROUND(SUM(new_remain)/sum(new_user)*100,2),0) newRemain,
+		IFNULL(ROUND(SUM(dau_remain)/sum(dau)*100,2),0) dauRemain,
+		IFNULL(SUM(login_user),0)loginUser,
+		IFNULL(SUM(reg_user),0) regUser,
+		IFNULL(SUM(charge_user),0)chargeUser,
+		IFNULL(ROUND(SUM(charge_money)/100,2),0) chargeMoney,
+		IFNULL(SUM(consumer_user),0) consumerUser,
+		IFNULL(ROUND(SUM(consumer_allmoney)/100,2),0) consumerAllMoney,
+		IFNULL(SUM(consumer_money_user),0)consumerMoneyUser,
+		IFNULL(ROUND(SUM(consumer_money)/100,2),0)consumerMoney,
+		TYPE,dt,IFNULL(SUM(paypage_user),0) payPageUser,
+		IFNULL(SUM(read_user),0) readUser
+		FROM pc_base_data
+		WHERE dt BETWEEN #{startTime} AND #{endTime}
+		<if test="cnids!=null and cnids.length>0">
+			AND cnid in
+			<foreach item="item" index="index" collection="cnids"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		AND TYPE=1
+		GROUP BY  dt
+		order by dt desc
+		limit  #{start, jdbcType=INTEGER},#{pageSize, jdbcType=INTEGER}
+	</select>
+
+	<select id="getPcChannelTotalDatasCount" resultType="java.lang.Integer">
+		SELECT
+		COUNT(DISTINCT(dt))
+		FROM pc_base_data
+		WHERE dt BETWEEN #{startTime} AND #{endTime}
+		<if test="cnids!=null and cnids.length>0">
+			AND cnid in
+			<foreach item="item" index="index" collection="cnids"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		AND TYPE=1
+	</select>
+
+</mapper>

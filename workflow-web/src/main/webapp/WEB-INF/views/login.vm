@@ -1,0 +1,60 @@
+#set($layout = '/layout/empty.vm')
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>中文万维数据分析-登录</title>
+    <link href="${rc.contextPath}/static/css/login.css" rel="stylesheet" type="text/css"/>
+    <script src="${rc.contextPath}/static/js/jquery-1.12.2.js" type="text/javascript" language="javascript"></script>
+    <script src="${rc.contextPath}/static/js/placeholder.js" type="text/javascript" language="javascript"></script>
+    <script src="${rc.contextPath}/static/js/login/login.js" type="text/javascript"language="javascript"></script>
+    <script src="${rc.contextPath}/static/js/jquery.form.js" type="text/javascript" language="javascript"></script>
+    <script type="text/javascript" >
+        function changeImage() {
+            $('#login_image').attr('src', '${rc.contextPath}/login/generateImage?' + new Date().getTime());
+        }
+    </script>
+</head>
+
+<body class="oa">
+<div class="loginmain">
+    <div class="login_banner"><img src="${rc.contextPath}/static/images/pic-data.png"/></div>
+    <form id="id_loginform" method="post">
+        <input type="hidden" name="returnUrl" value="$!escapeTool.html($!returnUrl)">
+        <div class="logindetail">
+            <p class="login_logo"><img src="${rc.contextPath}/static/images/logo_t.png" width="350" height="60"/></p>
+            <div class="login_input">
+                <input type="text" placeholder="用户名" class="login_text" name="uname" id="id_uname"/>
+
+                <div class="login_passwordmain">
+                    <input type="password" placeholder="密码" class="login_password" autocomplete="off" name="passwd"
+                           id="id_passwd"/>
+                </div>
+                #*<div class="login_code">
+                    <input type="text" placeholder="验证码" class="login_text" name="vcode" id="id_vcode"/>
+                    <img src="${rc.contextPath}/login/generateImage" class="login_image" id="login_image"
+                         onclick="$('#login_image').attr('src','${rc.contextPath}/login/generateImage?'+new Date().getTime())"
+                         style="cursor: pointer">
+                    <a href="javascript:changeImage()" tabindex="-1">换一张</a>
+                </div>
+                <div class="login_detail">
+                    <div class="login_checkbox"><input type="checkbox" name="remember" value="1" id="id_remember">
+                        <label for="id_remember">下次自动登陆</label>
+                    </div>
+                </div>*#
+                <div class="login_error"></div>
+                <a href="javascript:void(0)" class="loginbtn">登&nbsp;&nbsp;&nbsp;&nbsp;录</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="loginbottom">copyright 中文万维 版权所有	京ICP证010590号 	京ICP备09030667号-2 	京公网安备11010102000012
+</div>
+
+</body>
+</html>

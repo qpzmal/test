@@ -1,0 +1,96 @@
+#set($layout = '/layout/empty.vm')
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360浏览器优先以webkit内核解析-->
+    <title> - 主页示例</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="${rc.contextPath}/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/animate.css" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="${rc.contextPath}/static/js/plugins/layer/laydate/need/laydate.css" rel="stylesheet">
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content">
+<div class="top">
+    <form id="form1" action="/pc/channel/consumerdata"  method="post" name="pageForm">
+        <input type="hidden"  name="pageSize" id="pageSize" value="$!{page.pageSize}" ></input>
+        <input type="hidden"  name="pageIndex" id="pageIndex" value="$!{page.pageIndex}" ></input>
+    <div class="top-r">
+        <label>*选择时间：</label>
+        <input type="text" id="startTime" name="startTime" class="datepicker" value="$!{startTime}">&nbsp;&nbsp;——&nbsp;&nbsp;
+        <input type="text" id="endTime" name="endTime" class="datepicker" value="$!{endTime}">
+        <label class="ml20">渠道：</label>
+        <input type="text" class="inp-name" name="cnid" id="cnid" value="$!{cnid}">
+        <input type="submit" value="  查  询  " class="inp-sure" />
+    </div>
+    </form>
+</div>
+#*<div class="money-con mt-list">
+        <h3>数据总览：</h3>
+        <input type="button" value="导出" class="money-btn" onclick="exportDetailData();">
+    </div>*#
+    <!--列表-->
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <th >日期</th>
+            <th >购书人数</th>
+            <th>购书金额(元)</th>
+            <th>购书真钱(元)</th>
+            <th>购本章人数</th>
+            <th>自动订阅人数</th>
+            <th>购全部章节人数</th>
+            <th>打赏人数</th>
+            <th>打赏金额(元)</th>
+            <th>打赏真钱(元)</th>
+        </tr>
+     </tbody>
+      #foreach($PcConsumer in $!{page.getData()})
+        <tr>
+            #*    id                  int(11)
+            cnid                int(11)      渠道ID
+            consumer_user       int(11)      消费人数
+            consumer_allmoney   int(11)      消费总额
+            consumer_money      int(11)      消费真钱额
+            consumer1cp_user    int(11)      订购单章人数
+            consumerallcp_user  int(11)      订购全本人数
+            ds_user             int(11)      打赏人数
+            ds_allmoney         int(11)      打赏总额
+            ds_money            int(11)      打赏真钱额
+            dt                  varchar(20)  时间*#
+            <td>$!{PcConsumer.dt}</td>
+            <td>$!{PcConsumer.consumerUser}</td>
+            <td>$!{PcConsumer.consumerAllMoney}</td>
+            <td>$!{PcConsumer.consumerMoney}</td>
+            <td>$!{PcConsumer.consumer1CpUser}</td>
+            <td></td>
+            <td>$!{PcConsumer.consumerAllCpUser}</td>
+            <td>$!{PcConsumer.dsUser}</td>
+            <td>$!{PcConsumer.dsAllMoney}</td>
+            <td>$!{PcConsumer.dsMoney}</td>
+        </tr>
+      #end
+</table>
+<div class="tcdPageCode">
+    #parse('layout/page.vm')
+</div>
+</div>
+</body>
+<script src="${rc.contextPath}/static/js/jquery.min.js?v=2.1.4"></script>
+<script src="${rc.contextPath}/static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="${rc.contextPath}/static/js/plugins/layer/laydate/laydate.js"></script>
+<!-- 自定义js -->
+<script src="${rc.contextPath}/static/js/pc/channel.js"></script>
+<script>
+    function exportDetailData(){
+        var startTime = "$!{dt}";
+        var endTime = "$!{dt}";
+        var version = $("#versionSel").val();
+        var cnids = $("#cnids").val();
+        window.location.href="/zwsc/channel/exportDetailData.json?startTime="+startTime+"" +
+                "&endTime="+endTime+"&version="+version+"&cnids="+cnids+"";
+
+    }
+</script>

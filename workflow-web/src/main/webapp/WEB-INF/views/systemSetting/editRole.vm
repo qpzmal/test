@@ -1,0 +1,64 @@
+<div>
+    <label>角色名称：</label>
+    <input type="text" id="roleName" value="${roleName}">
+</div>
+
+<p class="mt50">权限设置：</p>
+<div class="checkboxes ml150 mb20 w-720" id="permissionDiv">
+</div>
+<button type="button" class="btn btn-info mt20 ml150 p25" onclick="editRole();">提交</button>
+<script>
+    $(function(){
+    	//获取权限信息
+    	getAllPermissions();
+    });
+    
+    function getAllPermissions(){
+    	$.ajax({
+    		url:"${rc.contextPath}/role/getAllPermissions.json",
+    		type:"GET",
+    		success: function(returnData){
+    			var perHtml = "";
+    			$.each(returnData.data, function(i, item){
+    				perHtml += "<label class='checkbox-inline t-l'>" + 
+    			    "<input type='checkbox' name='permissionId' value='"+ item.permissionId +
+    			    "'>"+ item.permissionName +"</label>";
+    			});
+    			$("#permissionDiv").html(perHtml);
+    			//设置选中
+    		     #foreach($perm in ${perms})  
+    		        $("input[value='$perm.permissionId']").each(function (i, n) {
+    		            $(n).attr("checked", true);
+    		        }); 
+    		     #end 
+    		}
+    	});
+    }
+    
+    function editRole(){   
+    	var permissions = "";
+    	$("input[name='permissionId']:checked").each(function (i, n) {
+    	    permissions += $(n).val() + "-";
+    	});
+    	if(permissions.length > 1){
+    		permissions = permissions.substr(0, permissions.length-1);
+    	}
+    	alert(permissions);
+        $.ajax({
+            url:"${rc.contextPath}/role/edit.json",
+            type:"POST",
+            data:{
+            	creatorId : "0",
+            	roleName : $("#roleName").val(),
+            	permissionId : permissions
+            },
+            success: function(returnData){
+                if(returnData.code == 1){
+                	window.location.href = "${rc.contextPath}/role/manage";
+                } else{
+                	alert(returnData.info);
+                }
+            }
+        });
+    }
+</script>

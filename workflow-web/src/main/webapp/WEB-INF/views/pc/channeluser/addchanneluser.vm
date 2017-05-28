@@ -1,0 +1,102 @@
+#set($layout = '/layout/empty.vm')
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360浏览器优先以webkit内核解析-->
+    <title> - 主页示例</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="${rc.contextPath}/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/animate.css" rel="stylesheet">
+    <link href="${rc.contextPath}/static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="${rc.contextPath}/static/js/plugins/layer/laydate/need/laydate.css" rel="stylesheet">
+</head>
+<form id="form" action="/pc/channeluser/addchanneluser" method="post">
+<body class="white-bg">
+<div class="wrapper wrapper-content">
+   #* <from class="form-horizontal">*#
+        <ul class="add-list">
+            <li>
+                <div class="col-md-12 mt20">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户名：</label>
+                        <div class="col-sm-2">
+                            <input class="form-control" type="text" id="name" name="userName"/>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="col-md-12 mt20">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">密码：</label>
+                        <div class="col-sm-2">
+                            <input id="pass" class="form-control" type="text" name="password" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="col-md-12 mt20">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">渠道名：</label>
+                        <div class="col-sm-2">
+                            <input  class="form-control" type="text" name="nickName" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="col-md-12 mt20">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">渠道ID：</label>
+                        <div class="col-sm-2">
+                            <textarea rows="3" cols="30" name="cnid"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="col-md-12 mt20">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">权限选择：</label>
+                        <div class="col-sm-2">
+                            <input type="checkbox" name="dpu" value="A1"/>日常PV、UV<br>
+                            <input type="checkbox" name="newuv" value="A2"/>新增UV<br>
+                            <input type="checkbox" name="income" value="A3"/>收入
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="col-md-12 mt20">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">备注：</label>
+                        <div class="col-sm-2">
+                            <textarea rows="3" cols="30" name="remarks"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="col-md-12 mt20">
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <input class="form-control" value="pc" type="hidden" name="userType"></input>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+  #*  </from>*#
+    <div class="sub mt-0"><input type="button" onclick="add()" value="添加"/></div>
+</div>
+<!-- 全局js -->
+<script src="${rc.contextPath}/static/js/jquery.min.js?v=2.1.4"></script>
+<script src="${rc.contextPath}/static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="${rc.contextPath}/static/js/plugins/layer/laydate/laydate.js"></script>
+<!-- 自定义js -->
+<script src="${rc.contextPath}/static/js/pc/channeluser.js"></script>
+</body>
+    </form>
+

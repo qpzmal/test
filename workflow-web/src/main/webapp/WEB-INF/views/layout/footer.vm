@@ -1,0 +1,8 @@
+<!-- Footer -->
+<script>
+    $(document).ready(function(){
+        var id = window.location.search.substring(1);
+        var tree = $.fn.zTree.getZTreeObj("menuTree");
+        tree.selectNode(tree.getNodeByParam("id", id));
+    }); 
+</script>
