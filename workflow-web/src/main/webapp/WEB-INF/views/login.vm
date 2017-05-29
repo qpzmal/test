@@ -56,5 +56,20 @@
 <div class="loginbottom">copyright 中文万维 版权所有	京ICP证010590号 	京ICP备09030667号-2 	京公网安备11010102000012
 </div>
 
+<script type="text/javascript">
+
+    $(function(){
+        $("#id_uname").focus();
+    });
+
+
+    ## 支持回车登录
+    $("body").keydown(function(ev){
+        var ev=ev||event;
+        if(ev.keyCode==13){
+            $(".loginbtn").trigger("click");
+        }
+    });
+</script>
 </body>
 </html>
