@@ -1,0 +1,83 @@
+
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/webuploader/webuploader.css?$!application.getAttribute('/static/css/plugins/webuploader/webuploader.css')" rel="stylesheet" type="text/css"/>
+#end
+
+<div class="content-data">
+    <div class="h3-con clearfix">
+        <h3>中文书城：&nbsp;<button type="button" class="btn btn-info p25" onclick="addUser();">新增用户</button></h3>
+    </div>
+    <a href="#" class="btn btn-sm btn-success"> 下载文档 </a>
+    <a href="#" class="btn btn-sm btn-primary"> 更多信息</a>
+</div>
+
+
+<div class="col-sm-6">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>流程名称</th>
+                    <th>发布时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                #foreach($!{deployment} in $!{depList})
+                <tr>
+                    <td>$!{deployment.id}</td>
+                    <td>$!{deployment.name}</td>
+                    <td>$!date.format('yyyy-MM-dd HH:mm:ss ',$!{deployment.deploymentTime})</td>
+                    <td>23</td>
+                </tr>
+                #end
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+
+#define($cssblock)
+<script src="#springUrl("")/static/js/plugins/webuploader/webuploader.min.js?$!application.getAttribute('/static/js/plugins/webuploader/webuploader.min.js')" type="text/javascript" language="javascript"></script>
+
+
+<script>
+    $(function(){
+    	//填充用户列表
+    	listAllUser();
+    });
+    
+##    function listAllUser(){
+##    	$.ajax({
+##    		url:"${rc.contextPath}/user/getAll.json",
+##    		type:"POST",
+##    		success: function(returnData){
+##                if(returnData.code == 1 ) {
+##                    var tableHtml = "";
+##                    $.each(returnData.data, function(i, item){
+##                        tableHtml += "<tr><td>"+ item.realName +"</td><td>"
+##                                +item.acctId+"</td><td>"
+##                                +item.phone+"</td><td>"
+##                                +item.email+"</td><td><input type='button'  value='编辑' onclick='toEdit("+ item.userId
+##                                +");'/><input type='button'  value='关闭' /></td></tr>";
+##                    });
+##                    $("#tableBody").html(tableHtml);
+##                }
+##    		}
+##    	});
+##    }
+##
+    function addUser(){
+    	window.location.href = "${rc.contextPath}/user/toAdd";
+    }
+    
+    function toEdit(userId){
+    	window.location.href = "${rc.contextPath}/user/toEdit?userId=" + userId;
+    }
+</script>
+#end

@@ -32,7 +32,7 @@
         </property>
     </bean>
     <bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
-        <property name="layoutUrl" value="layout/default.vm"></property><!--指定layout文件-->
+        <property name="layoutUrl" value="layout/content.vm"></property><!--指定layout文件-->
         <property name="cache" value="${velocity.cache}"/>
         <property name="exposeSpringMacroHelpers" value="true"/>
         <property name="suffix" value=".vm"/><!-- 视图文件的后缀名 -->

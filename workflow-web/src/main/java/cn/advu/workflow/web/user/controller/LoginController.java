@@ -9,12 +9,13 @@ import cn.advu.workflow.web.common.loginContext.LoginTools;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.user.service.UserService;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.patchca.color.ColorFactory;
 import org.patchca.filter.predefined.*;
 import org.patchca.service.ConfigurableCaptchaService;
 import org.patchca.utils.encoder.EncoderHelper;
 import org.patchca.word.RandomWordFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +41,7 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
-    private static Logger LOGGER = Logger.getLogger(LoginController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
 
     @RequestMapping("/in")
@@ -89,6 +90,7 @@ public class LoginController {
         AjaxJson ajaxJson = new AjaxJson();
         LoginAccount account = null;
         try {
+            LOGGER.info("name:{}, pw:{}", uname, passwd);
 
             //登录失败抛出异常
             LoginUser loginUser = userService.login(uname, passwd, vcode, request);
@@ -123,6 +125,7 @@ public class LoginController {
             ajaxJson.setMsg(ex.getMessage());
 
         }
+        LOGGER.debug("login info：{}", ajaxJson);
 
 
         return ajaxJson;

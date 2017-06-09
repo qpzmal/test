@@ -7,7 +7,7 @@
     <meta http-equiv="Expires" content="0">
     <title>中文万维渠道用户-登录</title>
     <link href="${rc.contextPath}/static/css/login.css" rel="stylesheet" type="text/css"/>
-    <script src="${rc.contextPath}/static/js/jquery-1.12.2.js" type="text/javascript" language="javascript"></script>
+    <script src="${rc.contextPath}/static/js/jquery.min.js" type="text/javascript" language="javascript"></script>
     <script src="${rc.contextPath}/static/js/placeholder.js" type="text/javascript" language="javascript"></script>
     <script src="${rc.contextPath}/static/js/login/channellogin.js" type="text/javascript" language="javascript"></script>
     <script src="${rc.contextPath}/static/js/jquery.form.js" type="text/javascript" language="javascript"></script>

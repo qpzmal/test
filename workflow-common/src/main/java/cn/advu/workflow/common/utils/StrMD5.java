@@ -138,7 +138,7 @@ public class StrMD5 {
 	}
 
     public static void main(String[] args) {
-        String md5Pass = StrMD5.getInstance().encrypt("123456", "iwanvi_salt");
+        String md5Pass = StrMD5.getInstance().encrypt("123456", "iwanvi");
 
         System.out.println(md5Pass);
     }

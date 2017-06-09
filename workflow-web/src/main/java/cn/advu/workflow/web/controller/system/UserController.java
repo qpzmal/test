@@ -8,11 +8,16 @@ import cn.advu.workflow.web.common.RequestUtil;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.WebConstants;
 import cn.advu.workflow.web.common.exception.LoginException;
+import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginTools;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.service.SysUserService;
+import cn.advu.workflow.web.user.service.UserService;
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,13 +31,17 @@ import java.util.List;
 @RequestMapping("user")
 public class UserController {
 
-    private static Logger LOGGER = Logger.getLogger(UserController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    private SysUserService userService;
-    
+    private SysUserService sysUserService;
+
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/toAdd")
     public String toAdd(){
+        LOGGER.debug("user-to-add-start");
         return "user/add";
     }
 
@@ -51,9 +60,9 @@ public class UserController {
     public ResultJson<List<SysUser>> getAll(){
         ResultJson<List<SysUser>> all = null;
         try {
-            all = userService.getAll();
+            all = sysUserService.getAll();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("", e);
             return null;
         }
         return all;
@@ -71,13 +80,13 @@ public class UserController {
         
         //TODO 设置创建者
         user.setCreatorId(1);
-        return userService.add(user, roleId);
+        return sysUserService.add(user, roleId);
     }
     
     @RequestMapping("/toEdit")
     public String toEdit(Model model, HttpServletRequest request){
         Integer userId = Integer.valueOf(request.getParameter("userId"));
-        SysUser user = userService.getById(userId);
+        SysUser user = sysUserService.getById(userId);
         model.addAttribute("user", user);
         return "user/edit";
     }
@@ -90,13 +99,14 @@ public class UserController {
             roleId = Integer.valueOf(request.getParameter("roleId"));
         }
 
-        return userService.edit(user, roleId);
+        return sysUserService.edit(user, roleId);
     }
     
     @ResponseBody
     @RequestMapping("/getPerms")
     public ResultJson<List<SysPermission>> getPermsById(HttpServletRequest request){
         String loginCookie = RequestUtil.getCookieValue(request, Constants.Login.LOGIN_COOKIE_KEY);
+
 
         if (StringUtils.isBlank(loginCookie)) {
             return null;
@@ -108,8 +118,14 @@ public class UserController {
 //        String str = redisClient.getStr("login_permissions_key_" + loginUser.getUserId().toString());
 //        JSONArray array = JSONArray.fromObject(str);
 //        List<SysPermission> list = JSONArray.toList(array, new SysPermission(), new JsonConfig());
+
+        LoginAccount account = userService.getAccount(loginUser);
+        List<SysPermission> permissions = account.getPermissions();
+        JSONArray array = JSONArray.fromObject(permissions);
+        List<SysPermission> list = JSONArray.toList(array, new SysPermission(), new JsonConfig());
+
         ResultJson<List<SysPermission>> rj = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-//        rj.setData(list);
+        rj.setData(list);
         return rj;
     }
 
@@ -117,7 +133,7 @@ public class UserController {
     public String toUser(HttpServletRequest request, Model model){
         String loginCookie = RequestUtil.getCookieValue(request, Constants.Login.LOGIN_COOKIE_KEY);
         LoginUser loginUser = LoginTools.parseLoginUser(loginCookie);
-        SysUser user = userService.getById(loginUser.getUserId().intValue());
+        SysUser user = sysUserService.getById(loginUser.getUserId().intValue());
         model.addAttribute("user",user);
         return "user/user";
     }
@@ -136,9 +152,9 @@ public class UserController {
     public ResultJson<List<SysUser>> getBusinessAll(){
         ResultJson<List<SysUser>> all = null;
         try {
-            all = userService.getBusinessAll();
+            all = sysUserService.getBusinessAll();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("", e);
             return null;
         }
         return all;
@@ -161,7 +177,7 @@ public class UserController {
                 LoginUser loginUser = LoginTools.parseLoginUser(loginCookie);
                 businessChannel.setUpdateUser(loginUser.getUserId().intValue());
             }
-            userService.allotChannel(businessChannel);
+            sysUserService.allotChannel(businessChannel);
             rj = new ResultJson<>();
             rj.setCode(WebConstants.OPERATION_SUCCESS);
             rj.setData("渠道分配成功");

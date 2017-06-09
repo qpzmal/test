@@ -177,7 +177,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <!--<scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>net.sf.ehcache</groupId>
@@ -280,6 +280,32 @@
             <artifactId>jxl</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-bpmn-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-image-generator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-process-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-bpmn-converter</artifactId>
+        </dependency>
+
     </dependencies>
 
 
@@ -300,6 +326,8 @@
                 <includes>
                     <include>**/*.xlsx</include>
                     <include>**/*.xls</include>
+                    <include>**/*.bpmn</include>
+                    <include>**/*.png</include>
                 </includes>
             </resource>
         </resources>
@@ -392,7 +420,7 @@
                     <webDefaultXml>src/main/resources/webdefault.xml</webDefaultXml>
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>9012</port>
+                            <port>9000</port>
                             <host>127.0.0.1</host>
                             <!--<host>192.168.1.166</host>-->
                         </connector>
