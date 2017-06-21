@@ -29,9 +29,9 @@ public interface ActivitiFacade {
     /**
      * 完成部署
      * @param file 页面上传递的zip格式的文件，格式是File类型
-     * @param filename 文件名称
+     * @param flowName 流程名称
      */
-    void saveNewDeploye(CommonsMultipartFile file, String filename);
+    void saveNewDeploye(CommonsMultipartFile file, String flowName);
 
     /**
      * 使用部署对象ID，删除流程定义

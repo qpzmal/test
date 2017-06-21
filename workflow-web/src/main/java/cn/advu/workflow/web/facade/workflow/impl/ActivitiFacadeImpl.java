@@ -50,19 +50,19 @@ public class ActivitiFacadeImpl implements ActivitiFacade {
     @Override
     public List<ProcessDefinition> findProcessDefinitionList() {
         List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery()//创建流程定义查询
-                .orderByProcessDefinitionVersion().asc()//
+                .orderByProcessDefinitionVersion().desc()//
                 .list();
         return list;
     }
 
     @Override
-    public void saveNewDeploye(CommonsMultipartFile file, String filename) {
+    public void saveNewDeploye(CommonsMultipartFile file, String flowName) {
         try {
             //2：将File类型的文件转化成ZipInputStream流
 //            ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
             ZipInputStream zipInputStream = new ZipInputStream(file.getInputStream());
             repositoryService.createDeployment()//创建部署对象
-                    .name(filename)//添加部署名称
+                    .name(flowName)//添加部署名称
                     .addZipInputStream(zipInputStream)//
                     .deploy();//完成部署
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class ActivitiFacadeImpl implements ActivitiFacade {
     public List<Task> findTaskListByName(String name) {
         List<Task> list = taskService.createTaskQuery()//
                 .taskAssignee(name)//指定个人任务查询
-                .orderByTaskCreateTime().asc()//
+                .orderByTaskCreateTime().desc()//
                 .list();
         return list;
     }

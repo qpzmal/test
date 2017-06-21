@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
@@ -22,10 +24,10 @@ import java.util.List;
  * Created by weiqz on 2017/6/4.
  */
 @Controller
-@RequestMapping("workflow")
-public class WorkflowController {
+@RequestMapping("/workflow/deploy")
+public class DeployController {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(WorkflowController.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(DeployController.class);
 
     @Autowired
     private ActivitiFacade activitiFacade;
@@ -49,18 +51,24 @@ public class WorkflowController {
     }
 
     /**
-     * 发布流程
+     * 发布新流程
      * @return
      */
     @RequestMapping("/saveDeploy")
-    public String newdeploy( @RequestParam("upload_file") CommonsMultipartFile uploadFile, WorkflowVO workflowVO){
+    public String saveDeploy(@RequestParam("file") CommonsMultipartFile uploadFile, WorkflowVO workflowVO){
+
+//        , WebuploaderVO webuploaderVO
+        LOGGER.debug("aaaa");
+
         //获取页面传递的值
 //        //1：获取页面上传递的zip格式的文件，格式是File类型
 //        File file = workflowBean.getFile();
+
+
         //文件名称
-        String filename = workflowVO.getFilename();
+        String flowName = workflowVO.getFlowName();
         //完成部署
-        activitiFacade.saveNewDeploye(uploadFile, filename);
+        activitiFacade.saveNewDeploye(uploadFile, flowName);
         // TODO 改为ajax请求
         return "workflow/deploy_index";
     }
@@ -81,24 +89,32 @@ public class WorkflowController {
      * 查看流程图
      * @throws Exception
      */
-    public String viewImage(HttpServletResponse response, WorkflowVO workflowVO) throws Exception{
+    @RequestMapping("/viewImage")
+    public void viewImage(HttpServletResponse response, WorkflowVO workflowVO) throws Exception{
         //1：获取页面传递的部署对象ID和资源图片名称
         //部署对象ID
         String deploymentId = workflowVO.getDeploymentId();
         //资源图片名称
         String imageName = workflowVO.getImageName();
+        LOGGER.debug("deploymentId:{}, imageName:{}", deploymentId, imageName);
+
         //2：获取资源文件表（act_ge_bytearray）中资源图片输入流InputStream
         InputStream in = activitiFacade.findImageInputStream(deploymentId,imageName);
-        //3：从response对象获取输出流
-        OutputStream out = response.getOutputStream();
-        //4：将输入流中的数据读取出来，写到输出流中
-        for(int b=-1;(b=in.read())!=-1;){
-            out.write(b);
-        }
-        out.close();
-        in.close();
-        //将图写到页面上，用输出流写
-        return null;
+//        //3：从response对象获取输出流
+//        OutputStream out = response.getOutputStream();
+//        //4：将输入流中的数据读取出来，写到输出流中
+//        for(int b=-1;(b=in.read())!=-1;){
+//            out.write(b);
+//        }
+//        out.close();
+//        in.close();
+//        //将图写到页面上，用输出流写
+
+        //将图片输出给浏览器
+        BufferedImage image = ImageIO.read(in);
+        response.setContentType("image/png");
+        OutputStream os = response.getOutputStream();
+        ImageIO.write(image, "png", os);
     }
 
 //    // 启动流程

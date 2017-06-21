@@ -498,7 +498,50 @@
                 <artifactId>activiti-bpmn-converter</artifactId>
                 <version>${org.activiti.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-rest</artifactId>
+                <version>${org.activiti.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-explorer</artifactId>
+                <version>${org.activiti.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.vaadin</groupId>
+                        <artifactId>vaadin</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.vaadin.addons</groupId>
+                        <artifactId>dcharts-widget</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.activiti</groupId>
+                        <artifactId>activiti-simple-workflow</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-modeler</artifactId>
+                <version>${org.activiti.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>batik</groupId>
+                <artifactId>batik-transcoder</artifactId>
+                <version>1.7</version>
+            </dependency>
+            <dependency>
+                <groupId>batik</groupId>
+                <artifactId>batik-dom</artifactId>
+                <version>1.7</version>
+            </dependency>
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-rest</artifactId>
+                <version>${org.activiti.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

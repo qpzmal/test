@@ -1,3 +1,6 @@
+## 引用文件参考index_v1.html
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,21 +26,11 @@
 
 
 <script type="text/javascript" src="#springUrl("")/static/js/jquery.min.js?$!application.getAttribute('/static/js/jquery.min.js')"></script>
-<script type="text/javascript" src="#springUrl("")/static/js/echarts.common.min.js?$!application.getAttribute('/static/js/echarts.common.min.js')"></script>
-<script type="text/javascript" src="#springUrl("")/static/js/jquery-ui.min.js?$!application.getAttribute('/static/js/jquery-ui.min.js')"></script>
-<script type="text/javascript" src="#springUrl("")/static/js/datepicker-zh-CN.js?$!application.getAttribute('/static/js/datepicker-zh-CN.min.js')"></script>
-<script type="text/javascript" src="#springUrl("")/static/js/jquery.ztree.core.min.js?$!application.getAttribute('/static/js/jquery.ztree.core.min.js')"></script>
-
-<!-- 全局js -->
 <script type="text/javascript" src="#springUrl("")/static/js/bootstrap.min.js?$!application.getAttribute('/static/js/bootstrap.min.js')"></script>
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/layer/layer-v3.0.3/layer/layer.js?$!application.getAttribute('/static/js/plugins/layer/layer-v3.0.3/layer/layer.js')"></script>
+
 
 #if($jsblock)$jsblock#end
-<script>
-    $(function(){
-        $(".datepicker").datepicker($.datepicker.regional["zh-CN"]);
-        $(".datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
-    });
-</script>
+
 </body>
 </html>

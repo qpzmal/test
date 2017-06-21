@@ -1,12 +1,10 @@
 package cn.advu.workflow.web.facade.workflow.vo;
 
-import java.io.File;
-
 public class WorkflowVO {
 
-	private File file;		//流程定义部署文件
-	private String filename;//流程定义名称
-	
+//	private File file;		//流程定义部署文件
+	private String flowName;//流程定义名称
+
 	private String id;//申请单ID
 	
 	private String deploymentId;//部署对象ID
@@ -15,20 +13,20 @@ public class WorkflowVO {
 	private String outcome;		//连线名称
 	private String comment;		//备注
 
-	public File getFile() {
-		return file;
+//	public File getFile() {
+//		return file;
+//	}
+//
+//	public void setFile(File file) {
+//		this.file = file;
+//	}
+
+	public String getFlowName() {
+		return flowName;
 	}
 
-	public void setFile(File file) {
-		this.file = file;
-	}
-
-	public String getFilename() {
-		return filename;
-	}
-
-	public void setFilename(String filename) {
-		this.filename = filename;
+	public void setFlowName(String flowName) {
+		this.flowName = flowName;
 	}
 
 	public String getId() {

@@ -3,81 +3,175 @@
 <link href="#springUrl("")/static/css/plugins/webuploader/webuploader.css?$!application.getAttribute('/static/css/plugins/webuploader/webuploader.css')" rel="stylesheet" type="text/css"/>
 #end
 
-<div class="content-data">
-    <div class="h3-con clearfix">
-        <h3>中文书城：&nbsp;<button type="button" class="btn btn-info p25" onclick="addUser();">新增用户</button></h3>
+
+<div class="row">
+    <div id="uploader" class="wu-example">
+        <!--用来存放文件信息-->
+        <div id="thelist" class="uploader-list"></div>
+        <div class="btns">
+    ##        <div id="upload_file" class="btn btn-sm">选择文件</div>
+    ##        <button id="ctlBtn" class="btn btn-sm btn-primary">开始上传</button>
+            <div id="upload_file" class="btn btn-sm">选择文件</div>
+            <button id="ctlBtn" class="btn btn-sm btn-primary">开始上传</button>
+        </div>
     </div>
-    <a href="#" class="btn btn-sm btn-success"> 下载文档 </a>
-    <a href="#" class="btn btn-sm btn-primary"> 更多信息</a>
 </div>
 
+<div class="row">
+    <div class="col-sm-6">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>部署</h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>流程名称</th>
+                        <th>发布时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    #foreach($!{deployment} in $!{depList})
+                    <tr>
+                        <td>$!{deployment.id}</td>
+                        <td>$!{deployment.name}</td>
+                        <td>$!date.format('yyyy-MM-dd HH:mm:ss ',$!{deployment.deploymentTime})</td>
+                        <td>XXXXXXXX</td>
+                    </tr>
+                    #end
+                    </tbody>
+                </table>
 
-<div class="col-sm-6">
-    <div class="ibox float-e-margins">
-        <div class="ibox-content">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>流程名称</th>
-                    <th>发布时间</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                #foreach($!{deployment} in $!{depList})
-                <tr>
-                    <td>$!{deployment.id}</td>
-                    <td>$!{deployment.name}</td>
-                    <td>$!date.format('yyyy-MM-dd HH:mm:ss ',$!{deployment.deploymentTime})</td>
-                    <td>23</td>
-                </tr>
-                #end
-                </tbody>
-            </table>
-
+            </div>
         </div>
     </div>
 </div>
 
 
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>流程</h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>名称</th>
+                        <th>流程KEY</th>
+                        <th>流程版本</th>
+                        <th>流程定义的规则文件名</th>
+                        <th>流程定义的规则图片名</th>
+                        <th>部署ID</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #foreach($!{pd} in $!{pdList})
+                        <tr>
+                            <td>$!{pd.id}</td>
+                            <td>$!{pd.name}</td>
+                            <td>$!{pd.key}</td>
+                            <td>$!{pd.version}</td>
+                            <td>$!{pd.resourceName}</td>
+                            <td class="val_diagramResourceName">$!{pd.diagramResourceName}</td>
+                            <td class="val_deploymentId">$!{pd.deploymentId}</td>
+                            <td>
+                                <a href="javascript:;" class="btn btn-white btn-sm button_view_pd"><i class="fa fa-photo "></i> 查看图片 </a>
+                            </td>
+                        </tr>
+                        #end
+                    </tbody>
+                </table>
 
-#define($cssblock)
+            </div>
+        </div>
+    </div>
+</div>
+
+
+#define($jsblock)
 <script src="#springUrl("")/static/js/plugins/webuploader/webuploader.min.js?$!application.getAttribute('/static/js/plugins/webuploader/webuploader.min.js')" type="text/javascript" language="javascript"></script>
 
 
 <script>
     $(function(){
-    	//填充用户列表
-    	listAllUser();
+//    	//填充用户列表
+//    	listAllUser();
     });
-    
-##    function listAllUser(){
-##    	$.ajax({
-##    		url:"${rc.contextPath}/user/getAll.json",
-##    		type:"POST",
-##    		success: function(returnData){
-##                if(returnData.code == 1 ) {
-##                    var tableHtml = "";
-##                    $.each(returnData.data, function(i, item){
-##                        tableHtml += "<tr><td>"+ item.realName +"</td><td>"
-##                                +item.acctId+"</td><td>"
-##                                +item.phone+"</td><td>"
-##                                +item.email+"</td><td><input type='button'  value='编辑' onclick='toEdit("+ item.userId
-##                                +");'/><input type='button'  value='关闭' /></td></tr>";
-##                    });
-##                    $("#tableBody").html(tableHtml);
-##                }
-##    		}
-##    	});
-##    }
-##
-    function addUser(){
-    	window.location.href = "${rc.contextPath}/user/toAdd";
-    }
-    
-    function toEdit(userId){
-    	window.location.href = "${rc.contextPath}/user/toEdit?userId=" + userId;
-    }
+
+    var upload_btn =$("#ctlBtn");   //开始上传
+
+    ## WebUploader初始化
+    var uploader = WebUploader.create({
+        // swf文件路径
+        swf: #springUrl("") + '/static/js/Uploader.swf',
+
+        // 文件接收服务端。
+        server: '/workflow/saveDeploy',
+
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#upload_file',
+
+##      // 初始化的时候直接添加自定义参数
+##        formData: {
+##            uid: xxxx
+##        }
+
+        // 只允许选择图片文件。
+        accept: {
+//            title: 'Images',
+//            extensions: 'gif,jpg,jpeg,bmp,png',
+//            mimeTypes: 'image/*'
+            title: 'Zips',
+            extensions: 'zip',
+            mimeTypes: 'zip/*'
+        },
+
+        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+        resize: false
+    });
+    // WebUploader初始化以后添加自定义参数
+    uploader.options.formData.flowName = "workflow";
+
+
+    uploader.on( 'uploadSuccess', function( file ) {
+        $( '#'+file.id ).find('p.state').text('已上传');
+    });
+
+    uploader.on( 'uploadError', function( file ) {
+        $( '#'+file.id ).find('p.state').text('上传出错');
+    });
+
+    uploader.on( 'uploadComplete', function( file ) {
+        $( '#'+file.id ).find('.progress').fadeOut();
+    });
+    upload_btn.on('click', function(){
+        console.log("上传...");
+        uploader.upload();
+        console.log("上传成功");
+    });
+
+    $(".button_view_pd").click(function(){
+        var deploymentId = $(this).parent().siblings("td.val_deploymentId").text();
+        var imageName = $(this).parent().siblings("td.val_diagramResourceName").text();
+        var url="/workflow/viewImage?deploymentId="+deploymentId+"&imageName="+imageName;
+        //iframe层-多媒体
+        layer.open({
+            type: 2,
+            title: false,
+            area: ['1024px', '768px'],
+            shade: 0.8,
+            closeBtn: 0,
+            shadeClose: true,
+            content: url
+        });
+    })
 </script>
 #end
