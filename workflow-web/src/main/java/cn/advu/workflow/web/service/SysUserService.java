@@ -1,6 +1,5 @@
 package cn.advu.workflow.web.service;
 
-import cn.advu.workflow.domain.database.BusinessChannel;
 import cn.advu.workflow.domain.database.SysUser;
 import cn.advu.workflow.web.common.ResultJson;
 
@@ -15,8 +14,4 @@ public interface SysUserService {
     SysUser getById(Integer userId);
 
     ResultJson<Object> edit(SysUser user, Integer roleId);
-
-    ResultJson<List<SysUser>> getBusinessAll();
-
-    void allotChannel(BusinessChannel businessChannel);
 }

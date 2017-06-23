@@ -3,7 +3,6 @@ package cn.advu.workflow.web.service.impl;
 import cn.advu.workflow.common.utils.StrMD5;
 import cn.advu.workflow.dao.database.SysPermissionMapper;
 import cn.advu.workflow.dao.database.SysUserMapper;
-import cn.advu.workflow.domain.database.BusinessChannel;
 import cn.advu.workflow.domain.database.SysUser;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.WebConstants;
@@ -88,37 +87,4 @@ public class SysUserServiceImpl implements SysUserService{
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
-    /**
-     * 获得商务有效用户
-     * @return
-     */
-    @Override
-    public ResultJson<List<SysUser>> getBusinessAll() {
-        ResultJson<List<SysUser>> rj = null;
-        try {
-            List<SysUser> users = userMapper.getBusinessAll();
-            rj = new ResultJson<>();
-            rj.setCode(WebConstants.OPERATION_SUCCESS);
-            rj.setData(users);
-        } catch (Exception e) {
-            LOGGER.error(e);
-            return null;
-        }
-        return rj;
-    }
-
-    /**
-     * 分配商务渠道
-     * @param businessChannel
-     */
-    @Override
-    public void allotChannel(BusinessChannel businessChannel) {
-        Integer count = userMapper.selectBusinessChannelCount(businessChannel.getUserId());
-        if(count != null && count > 0){
-            userMapper.updateAllotChannel(businessChannel);
-        }else{
-            userMapper.insertAllotChannel(businessChannel);
-        }
-
-    }
 }

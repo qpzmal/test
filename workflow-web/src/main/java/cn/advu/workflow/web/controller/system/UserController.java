@@ -1,13 +1,11 @@
 package cn.advu.workflow.web.controller.system;
 
 import cn.advu.workflow.common.constant.Constants;
-import cn.advu.workflow.domain.database.BusinessChannel;
 import cn.advu.workflow.domain.database.SysPermission;
 import cn.advu.workflow.domain.database.SysUser;
 import cn.advu.workflow.web.common.RequestUtil;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.WebConstants;
-import cn.advu.workflow.web.common.exception.LoginException;
 import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginTools;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
@@ -137,61 +135,4 @@ public class UserController {
         model.addAttribute("user",user);
         return "user/user";
     }
-
-    /**
-     * 跳转商务用户列表
-     * @return
-     */
-    @RequestMapping("tobusinessuserlist")
-    public String toBusinessUserList(){
-        return "user/businessList";
-    }
-
-    @RequestMapping("/getBusinessAll")
-    @ResponseBody
-    public ResultJson<List<SysUser>> getBusinessAll(){
-        ResultJson<List<SysUser>> all = null;
-        try {
-            all = sysUserService.getBusinessAll();
-        } catch (Exception e) {
-            LOGGER.error("", e);
-            return null;
-        }
-        return all;
-    }
-
-
-    /**
-     * 商务用户分配渠道
-     * @param businessChannel
-     * @param request
-     * @return
-     */
-    @RequestMapping("/allotChannel")
-    @ResponseBody
-    public ResultJson<String> allotChannel(BusinessChannel businessChannel, HttpServletRequest request){
-        ResultJson<String> rj = null;
-        try {
-            String loginCookie = RequestUtil.getCookieValue(request, Constants.Login.LOGIN_COOKIE_KEY);
-            if (StringUtils.isNotBlank(loginCookie)) {
-                LoginUser loginUser = LoginTools.parseLoginUser(loginCookie);
-                businessChannel.setUpdateUser(loginUser.getUserId().intValue());
-            }
-            sysUserService.allotChannel(businessChannel);
-            rj = new ResultJson<>();
-            rj.setCode(WebConstants.OPERATION_SUCCESS);
-            rj.setData("渠道分配成功");
-        } catch (LoginException e) {
-            e.printStackTrace();
-            rj.setCode(WebConstants.OPERATION_FAILURE);
-            rj.setData("渠道分配失败，请联系技术人员");
-        }
-        return rj;
-
-    }
-
-
-
-
-
 }
