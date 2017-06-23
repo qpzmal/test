@@ -151,10 +151,6 @@
             <artifactId>log4j</artifactId>
         </dependency>
         <dependency>
-            <groupId>it.sauronsoftware.base64</groupId>
-            <artifactId>javabase64</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
         </dependency>
@@ -219,10 +215,10 @@
             <artifactId>mail</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.patchca</groupId>
-            <artifactId>patchca</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.patchca</groupId>-->
+            <!--<artifactId>patchca</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -241,11 +237,6 @@
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
             <version>1.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.iwanvi.zwsc</groupId>
-            <artifactId>zwsc_app-job</artifactId>
-            <version>1.0</version>
         </dependency>
 <!--        <dependency>
             <groupId>io.springfox</groupId>
