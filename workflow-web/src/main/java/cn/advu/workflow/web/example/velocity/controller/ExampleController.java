@@ -1,7 +1,7 @@
 package cn.advu.workflow.web.example.velocity.controller;
 
 
-import com.iwanvi.zwsc.web.modules.example.vo.ExampleVO;
+import cn.advu.workflow.web.example.velocity.vo.ExampleVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
