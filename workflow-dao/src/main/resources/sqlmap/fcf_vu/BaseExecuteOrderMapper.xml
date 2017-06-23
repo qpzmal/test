@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseExecuteOrderMapper">
+  <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
+    <result column="sec_order_num" jdbcType="VARCHAR" property="secOrderNum" />
+    <result column="type" jdbcType="BIT" property="type" />
+    <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
+    <result column="delivery_area_ids" jdbcType="VARCHAR" property="deliveryAreaIds" />
+    <result column="delivery_area_names" jdbcType="VARCHAR" property="deliveryAreaNames" />
+    <result column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="person_sales_id" jdbcType="INTEGER" property="personSalesId" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="public_rebate" jdbcType="DECIMAL" property="publicRebate" />
+    <result column="private_rebate" jdbcType="DECIMAL" property="privateRebate" />
+    <result column="tax_amount" jdbcType="DECIMAL" property="taxAmount" />
+    <result column="tax_free_amount" jdbcType="DECIMAL" property="taxFreeAmount" />
+    <result column="sign_type" jdbcType="TINYINT" property="signType" />
+    <result column="sign_company_name" jdbcType="VARCHAR" property="signCompanyName" />
+    <result column="custom_industry_id" jdbcType="TINYINT" property="customIndustryId" />
+    <result column="custom_name" jdbcType="VARCHAR" property="customName" />
+    <result column="monitor_ids" jdbcType="VARCHAR" property="monitorIds" />
+    <result column="monitor_names" jdbcType="VARCHAR" property="monitorNames" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="person_leader_id" jdbcType="INTEGER" property="personLeaderId" />
+    <result column="our_monitor_name" jdbcType="VARCHAR" property="ourMonitorName" />
+    <result column="report_type_id" jdbcType="VARCHAR" property="reportTypeId" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="person_payee_id" jdbcType="INTEGER" property="personPayeeId" />
+    <result column="pay_percent" jdbcType="DECIMAL" property="payPercent" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="account_period" jdbcType="INTEGER" property="accountPeriod" />
+    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, order_num, sec_order_num, type, order_date, delivery_area_ids, delivery_area_names, 
+    area_id, person_sales_id, amount, public_rebate, private_rebate, tax_amount, tax_free_amount, 
+    sign_type, sign_company_name, custom_industry_id, custom_name, monitor_ids, monitor_names, 
+    start_date, end_date, person_leader_id, our_monitor_name, report_type_id, status, 
+    person_payee_id, pay_percent, user_id, account_period, item_status, create_time, 
+    update_time, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_execute_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from base_execute_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
+    insert into base_execute_order (id, name, order_num, 
+      sec_order_num, type, order_date, 
+      delivery_area_ids, delivery_area_names, area_id, 
+      person_sales_id, amount, public_rebate, 
+      private_rebate, tax_amount, tax_free_amount, 
+      sign_type, sign_company_name, custom_industry_id, 
+      custom_name, monitor_ids, monitor_names, 
+      start_date, end_date, person_leader_id, 
+      our_monitor_name, report_type_id, status, 
+      person_payee_id, pay_percent, user_id, 
+      account_period, item_status, create_time, 
+      update_time, remark)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR}, 
+      #{secOrderNum,jdbcType=VARCHAR}, #{type,jdbcType=BIT}, #{orderDate,jdbcType=TIMESTAMP}, 
+      #{deliveryAreaIds,jdbcType=VARCHAR}, #{deliveryAreaNames,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, 
+      #{personSalesId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, #{publicRebate,jdbcType=DECIMAL}, 
+      #{privateRebate,jdbcType=DECIMAL}, #{taxAmount,jdbcType=DECIMAL}, #{taxFreeAmount,jdbcType=DECIMAL}, 
+      #{signType,jdbcType=TINYINT}, #{signCompanyName,jdbcType=VARCHAR}, #{customIndustryId,jdbcType=TINYINT}, 
+      #{customName,jdbcType=VARCHAR}, #{monitorIds,jdbcType=VARCHAR}, #{monitorNames,jdbcType=VARCHAR}, 
+      #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{personLeaderId,jdbcType=INTEGER}, 
+      #{ourMonitorName,jdbcType=VARCHAR}, #{reportTypeId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{personPayeeId,jdbcType=INTEGER}, #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, 
+      #{accountPeriod,jdbcType=INTEGER}, #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
+    insert into base_execute_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="secOrderNum != null">
+        sec_order_num,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="orderDate != null">
+        order_date,
+      </if>
+      <if test="deliveryAreaIds != null">
+        delivery_area_ids,
+      </if>
+      <if test="deliveryAreaNames != null">
+        delivery_area_names,
+      </if>
+      <if test="areaId != null">
+        area_id,
+      </if>
+      <if test="personSalesId != null">
+        person_sales_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="publicRebate != null">
+        public_rebate,
+      </if>
+      <if test="privateRebate != null">
+        private_rebate,
+      </if>
+      <if test="taxAmount != null">
+        tax_amount,
+      </if>
+      <if test="taxFreeAmount != null">
+        tax_free_amount,
+      </if>
+      <if test="signType != null">
+        sign_type,
+      </if>
+      <if test="signCompanyName != null">
+        sign_company_name,
+      </if>
+      <if test="customIndustryId != null">
+        custom_industry_id,
+      </if>
+      <if test="customName != null">
+        custom_name,
+      </if>
+      <if test="monitorIds != null">
+        monitor_ids,
+      </if>
+      <if test="monitorNames != null">
+        monitor_names,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="personLeaderId != null">
+        person_leader_id,
+      </if>
+      <if test="ourMonitorName != null">
+        our_monitor_name,
+      </if>
+      <if test="reportTypeId != null">
+        report_type_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="personPayeeId != null">
+        person_payee_id,
+      </if>
+      <if test="payPercent != null">
+        pay_percent,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="accountPeriod != null">
+        account_period,
+      </if>
+      <if test="itemStatus != null">
+        item_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="secOrderNum != null">
+        #{secOrderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=BIT},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryAreaIds != null">
+        #{deliveryAreaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryAreaNames != null">
+        #{deliveryAreaNames,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="personSalesId != null">
+        #{personSalesId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="publicRebate != null">
+        #{publicRebate,jdbcType=DECIMAL},
+      </if>
+      <if test="privateRebate != null">
+        #{privateRebate,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmount != null">
+        #{taxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxFreeAmount != null">
+        #{taxFreeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="signType != null">
+        #{signType,jdbcType=TINYINT},
+      </if>
+      <if test="signCompanyName != null">
+        #{signCompanyName,jdbcType=VARCHAR},
+      </if>
+      <if test="customIndustryId != null">
+        #{customIndustryId,jdbcType=TINYINT},
+      </if>
+      <if test="customName != null">
+        #{customName,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorIds != null">
+        #{monitorIds,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorNames != null">
+        #{monitorNames,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="personLeaderId != null">
+        #{personLeaderId,jdbcType=INTEGER},
+      </if>
+      <if test="ourMonitorName != null">
+        #{ourMonitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="reportTypeId != null">
+        #{reportTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="personPayeeId != null">
+        #{personPayeeId,jdbcType=INTEGER},
+      </if>
+      <if test="payPercent != null">
+        #{payPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="accountPeriod != null">
+        #{accountPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="itemStatus != null">
+        #{itemStatus,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
+    update base_execute_order
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="secOrderNum != null">
+        sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=BIT},
+      </if>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryAreaIds != null">
+        delivery_area_ids = #{deliveryAreaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryAreaNames != null">
+        delivery_area_names = #{deliveryAreaNames,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        area_id = #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="personSalesId != null">
+        person_sales_id = #{personSalesId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="publicRebate != null">
+        public_rebate = #{publicRebate,jdbcType=DECIMAL},
+      </if>
+      <if test="privateRebate != null">
+        private_rebate = #{privateRebate,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmount != null">
+        tax_amount = #{taxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxFreeAmount != null">
+        tax_free_amount = #{taxFreeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="signType != null">
+        sign_type = #{signType,jdbcType=TINYINT},
+      </if>
+      <if test="signCompanyName != null">
+        sign_company_name = #{signCompanyName,jdbcType=VARCHAR},
+      </if>
+      <if test="customIndustryId != null">
+        custom_industry_id = #{customIndustryId,jdbcType=TINYINT},
+      </if>
+      <if test="customName != null">
+        custom_name = #{customName,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorIds != null">
+        monitor_ids = #{monitorIds,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorNames != null">
+        monitor_names = #{monitorNames,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="personLeaderId != null">
+        person_leader_id = #{personLeaderId,jdbcType=INTEGER},
+      </if>
+      <if test="ourMonitorName != null">
+        our_monitor_name = #{ourMonitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="reportTypeId != null">
+        report_type_id = #{reportTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="personPayeeId != null">
+        person_payee_id = #{personPayeeId,jdbcType=INTEGER},
+      </if>
+      <if test="payPercent != null">
+        pay_percent = #{payPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="accountPeriod != null">
+        account_period = #{accountPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="itemStatus != null">
+        item_status = #{itemStatus,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
+    update base_execute_order
+    set name = #{name,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=VARCHAR},
+      sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BIT},
+      order_date = #{orderDate,jdbcType=TIMESTAMP},
+      delivery_area_ids = #{deliveryAreaIds,jdbcType=VARCHAR},
+      delivery_area_names = #{deliveryAreaNames,jdbcType=VARCHAR},
+      area_id = #{areaId,jdbcType=INTEGER},
+      person_sales_id = #{personSalesId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      public_rebate = #{publicRebate,jdbcType=DECIMAL},
+      private_rebate = #{privateRebate,jdbcType=DECIMAL},
+      tax_amount = #{taxAmount,jdbcType=DECIMAL},
+      tax_free_amount = #{taxFreeAmount,jdbcType=DECIMAL},
+      sign_type = #{signType,jdbcType=TINYINT},
+      sign_company_name = #{signCompanyName,jdbcType=VARCHAR},
+      custom_industry_id = #{customIndustryId,jdbcType=TINYINT},
+      custom_name = #{customName,jdbcType=VARCHAR},
+      monitor_ids = #{monitorIds,jdbcType=VARCHAR},
+      monitor_names = #{monitorNames,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      person_leader_id = #{personLeaderId,jdbcType=INTEGER},
+      our_monitor_name = #{ourMonitorName,jdbcType=VARCHAR},
+      report_type_id = #{reportTypeId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      person_payee_id = #{personPayeeId,jdbcType=INTEGER},
+      pay_percent = #{payPercent,jdbcType=DECIMAL},
+      user_id = #{userId,jdbcType=INTEGER},
+      account_period = #{accountPeriod,jdbcType=INTEGER},
+      item_status = #{itemStatus,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

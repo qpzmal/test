@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseBuyOrderMapper">
+  <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
+    <result column="sec_order_num" jdbcType="VARCHAR" property="secOrderNum" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="sign_company_name" jdbcType="VARCHAR" property="signCompanyName" />
+    <result column="account_period" jdbcType="INTEGER" property="accountPeriod" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="person_id" jdbcType="INTEGER" property="personId" />
+    <result column="launch_media" jdbcType="TINYINT" property="launchMedia" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="pay_percent" jdbcType="DECIMAL" property="payPercent" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_num, sec_order_num, name, type, order_date, amount, sign_company_name, 
+    account_period, start_date, end_date, person_id, launch_media, status, pay_percent, 
+    user_id, area_id, item_status, create_time, update_time, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_buy_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from base_buy_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
+    insert into base_buy_order (id, order_num, sec_order_num, 
+      name, type, order_date, 
+      amount, sign_company_name, account_period, 
+      start_date, end_date, person_id, 
+      launch_media, status, pay_percent, 
+      user_id, area_id, item_status, 
+      create_time, update_time, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderNum,jdbcType=VARCHAR}, #{secOrderNum,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{orderDate,jdbcType=TIMESTAMP}, 
+      #{amount,jdbcType=DECIMAL}, #{signCompanyName,jdbcType=VARCHAR}, #{accountPeriod,jdbcType=INTEGER}, 
+      #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{personId,jdbcType=INTEGER}, 
+      #{launchMedia,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{payPercent,jdbcType=DECIMAL}, 
+      #{userId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}, #{itemStatus,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
+    insert into base_buy_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="secOrderNum != null">
+        sec_order_num,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="orderDate != null">
+        order_date,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="signCompanyName != null">
+        sign_company_name,
+      </if>
+      <if test="accountPeriod != null">
+        account_period,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="personId != null">
+        person_id,
+      </if>
+      <if test="launchMedia != null">
+        launch_media,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="payPercent != null">
+        pay_percent,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="areaId != null">
+        area_id,
+      </if>
+      <if test="itemStatus != null">
+        item_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="secOrderNum != null">
+        #{secOrderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="signCompanyName != null">
+        #{signCompanyName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPeriod != null">
+        #{accountPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="personId != null">
+        #{personId,jdbcType=INTEGER},
+      </if>
+      <if test="launchMedia != null">
+        #{launchMedia,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="payPercent != null">
+        #{payPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="itemStatus != null">
+        #{itemStatus,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
+    update base_buy_order
+    <set>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="secOrderNum != null">
+        sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="signCompanyName != null">
+        sign_company_name = #{signCompanyName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPeriod != null">
+        account_period = #{accountPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="personId != null">
+        person_id = #{personId,jdbcType=INTEGER},
+      </if>
+      <if test="launchMedia != null">
+        launch_media = #{launchMedia,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="payPercent != null">
+        pay_percent = #{payPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="areaId != null">
+        area_id = #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="itemStatus != null">
+        item_status = #{itemStatus,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
+    update base_buy_order
+    set order_num = #{orderNum,jdbcType=VARCHAR},
+      sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      order_date = #{orderDate,jdbcType=TIMESTAMP},
+      amount = #{amount,jdbcType=DECIMAL},
+      sign_company_name = #{signCompanyName,jdbcType=VARCHAR},
+      account_period = #{accountPeriod,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      person_id = #{personId,jdbcType=INTEGER},
+      launch_media = #{launchMedia,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      pay_percent = #{payPercent,jdbcType=DECIMAL},
+      user_id = #{userId,jdbcType=INTEGER},
+      area_id = #{areaId,jdbcType=INTEGER},
+      item_status = #{itemStatus,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,12 @@
+
+## http://127.0.0.1:9012/example/filUpload
+<html>
+<center>
+    <h1>文件辅助页面</h1>1111
+    <form action = "/interface/uploadUserImg" method="post" enctype = "multipart/form-data">
+        <input type = "file" name = "attachment_content"/><br>
+        <input type = "text" name = "uid" value="1"/><br>
+        <input type = "submit" name = "上传文件"/>
+    </form>
+</center>
+</html>

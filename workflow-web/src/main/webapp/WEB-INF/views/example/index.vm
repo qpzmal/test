@@ -1,0 +1,57 @@
+
+#*
+  多行注释
+  本页面访问地址：http://127.0.0.1:9012/example/index
+ *#
+
+
+## 页面模版
+## #set($layout = '/layout/empty.vm')
+
+
+## css文件引入和css代码块
+#define($afterCssblock)
+<link href="#springUrl("")/static/css/style-before-4.1.css?$!application.getAttribute('/static/css/style-before-4.1.css')" rel="stylesheet" type="text/css"/>
+#end
+
+## 页面内容
+#set($page_title='页面标题')
+#set($rankIndex = 0)
+
+## 字符串转数字
+#set($Integer = 0)
+#set($intString = "9")
+$Integer.parseInt($intString)
+
+
+## 循环和判断
+#foreach($user in $userList)
+    总数：$!{userList.size()}
+    行数：$!{velocityCount}
+    #if($!user.name == "robot" )
+        机器人：<li value = "$!user.id"><span>$!user.name</span></li>
+    #else
+        <li value = "$!user.id"><span>$!user.name</span>--<span>$!user.age</span></li>
+    #end
+
+#end
+
+
+
+<li value = "$!exampleVO.id"><span>$!exampleVO.name</span>--<span>$!exampleVO.age</span></li>
+
+## 引入片段页面
+#*
+    #parse可以包含velocity代码。
+    #include不可以包含velocity代码。
+ *#
+#parse("/example/ajax/segment_up.vm")
+#include("/example/ajax/segment_mid.vm")
+#parse("/example/ajax/segment_down.vm")
+
+## js文件引入和js代码块
+#define($jsblock)
+<script src="#springUrl("")/static/js/jquery-1.8.3.min.js?$!application.getAttribute('/static/js/jquery-1.8.3.min.js')" type="text/javascript" language="javascript"></script>
+<script>
+</script>
+#end
