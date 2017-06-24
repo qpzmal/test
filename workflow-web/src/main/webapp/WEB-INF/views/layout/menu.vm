@@ -13,13 +13,79 @@
                         <span class="clear">
                             <span class="block m-t-xs" style="font-size:20px;">
                              <i class="fa fa-area-chart"></i>
-                             <strong class="font-bold">万维数据分析平台</strong>
+                             <strong class="font-bold">管理平台</strong>
                             </span>
                         </span>
                     </a>
                 </div>
-                <div class="logo-element">万维数据分析平台</div>
+                <div class="logo-element">管理平台</div>
             </li>
+
+
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">需求管理</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="#">综合计价</a>
+                        <a class="J_menuItem" href="#">添制需求单</a>
+                        <a class="J_menuItem" href="#">管理需求</a>
+                        <a class="J_menuItem" href="#">添制采购单</a>
+                        <a class="J_menuItem" href="#">管理采购</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">报表中心</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="#">投放报告</a>
+                        <a class="J_menuItem" href="#">财务报告</a>
+                        <a class="J_menuItem" href="#">管理报告</a>
+                        <a class="J_menuItem" href="#">定制报告</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">基础信息</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="#">通讯录</a>
+                        <a class="J_menuItem" href="#">区域管理</a>
+                        <a class="J_menuItem" href="#">客户管理</a>
+                        <a class="J_menuItem" href="#">客户行业管理</a>
+                        <a class="J_menuItem" href="#">媒体管理</a>
+                        <a class="J_menuItem" href="#">媒体分类管理</a>
+                        <a class="J_menuItem" href="#">监测机构管理</a>
+                        <a class="J_menuItem" href="#">财务指标管理</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">系统管理</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="#">系统管理</a>
+                    </li>
+                </ul>
+            </li>
+
+
 
             <li>
                 <a href="#">
@@ -59,108 +125,6 @@
                 </ul>
             </li>
 
-            <!-- <li>
-                <a href="#">
-                    <i class="fa fa fa-bar-chart-o"></i>
-                    <span class="nav-label">技术-系统状态页</span>
-                </a>
-            </li> -->
-            <li>
-                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">中文书城</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-
-                    #*<li>
-                        <a class="J_menuItem" href="#">每日数据</a>
-                    </li>*#
-                    <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/zwsc/channel/index">数据总览</a>
-                    </li>
-                    <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/zwsc/channel/channelDetail">渠道详细</a>
-                    </li>
-                    <li>
-                        <a href="${rc.contextPath}/zwsc/charge/index" class="J_menuItem">充值数据</a>
-                    </li>
-                    <li>
-                        <a class="J_menuItem" href="/zwsc/consume/index">消费数据<span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem" href="${rc.contextPath}/zwsc/consume/book/index">购买图书</a></li>
-                            <li><a class="J_menuItem" href="${rc.contextPath}/zwsc/consume/vip/index">VIP</a></li>
-                            #*<li><a class="J_menuItem" href="${rc.contextPath}/zwsc/consume/dashang/index">打赏</a></li>*#
-                        </ul>
-                    </li>
-                   <li>
-                        <a href="${rc.contextPath}/zwsc/ad/index" class="J_menuItem" >广告数据</a>
-                   </li>
-                    <li>
-                        <a href="${rc.contextPath}/zwsc/channelshare/getchannelsharelist?scaleType=zwsc" class="J_menuItem">渠道分成比例</a>
-                    </li>
-                    <li>
-                        <a href="${rc.contextPath}/zwsc/channeluser/getchanneluserlist?userType=zwsc" class="J_menuItem">渠道用户管理</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">创新版</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/cxb/channel/index">数据总览</a>
-                    </li>
-                    <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/cxb/earnPoint/index">赚取积分</a>
-                    </li>
-                    <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/cxb/consumePoint/index">消耗积分</a>
-                    </li>
-                    <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/cxb/ad/index">广告数据</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">H5</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="${rc.contextPath}/user/tobusinessuserlist" class="J_menuItem">商务用户管理</a>
-                    </li>
-                    <li>
-                        <a href="${rc.contextPath}/zwsc/channelshare/getchannelsharelist?scaleType=h5" class="J_menuItem">渠道分成比例</a>
-                    </li>
-                    <li>
-                        <a href="${rc.contextPath}/zwsc/channeluser/getchanneluserlist?userType=h5" class="J_menuItem">渠道用户管理</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">PC</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="${rc.contextPath}/pc/channel/index?userType=pc" class="J_menuItem">数据总览</a>
-                    </li>
-                    <li>
-                        <a href="${rc.contextPath}/pc/channel/totaldata?userType=pc" class="J_menuItem">渠道总数据</a>
-                    </li>
-                    <li>
-                        <a href="${rc.contextPath}/pc/channel/channelmonthdata?userType=pc" class="J_menuItem">渠道月数据</a>
-                    </li>
-                    <li>
-                        <a href="${rc.contextPath}/pc/channel/pcbookdata?userType=pc" class="J_menuItem">渠道图书数据</a>
-                    </li>
-                    <li>
-                        <a href="${rc.contextPath}/pc/channel/pcrechargedata?userType=pc" class="J_menuItem">充值数据</a>
-                    </li>
-                    <li>
-                        <a href="${rc.contextPath}/pc/channel/consumerdata?userType=pc" class="J_menuItem">渠道消费数据</a>
-                    </li>
-                    <li>
-                        <a href="${rc.contextPath}/pc/channeluser/getchanneluserlist?userType=pc" class="J_menuItem">渠道用户管理</a>
-                    </li>
-                    <li>
-                        <a href="${rc.contextPath}/pc/channelshare/getchannelsharelist?scaleType=pc" class="J_menuItem">渠道分成比例</a>
-                    </li>
-
-                </ul>
-            </li>
         </ul>
     </div>
 </nav>
