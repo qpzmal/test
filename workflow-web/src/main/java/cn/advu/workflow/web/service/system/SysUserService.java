@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface SysUserService {
 
-    ResultJson<Object> add(SysUser user, Integer role);
+    ResultJson<Object> add(SysUser user);
+
+//    ResultJson<Object> add(SysUser user, Integer role);
 
     ResultJson<List<SysUser>> getAll(int status);
 

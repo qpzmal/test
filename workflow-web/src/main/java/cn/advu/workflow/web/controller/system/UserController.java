@@ -67,7 +67,7 @@ public class UserController {
             return rj;
         }
 
-        return sysUserService.add(user, roleId);
+        return sysUserService.add(user);
     }
     
     @RequestMapping("/toEdit")

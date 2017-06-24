@@ -23,7 +23,7 @@ public class SysUserServiceImpl implements SysUserService{
     
     @Override
     @Transactional
-    public ResultJson<Object> add(SysUser user, Integer role) {
+    public ResultJson<Object> add(SysUser user) {
         ResultJson<Object> rj = new ResultJson<>();
         //密码加密
         user.setPassword(StrMD5.getInstance().encrypt(user.getPassword(), WebConstants.MD5_SALT));

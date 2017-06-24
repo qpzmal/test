@@ -15,7 +15,7 @@ public class TestServiceImpl implements TestService {
 
     private final Logger logger = Logger.getLogger(TestServiceImpl.class);
     @Autowired
-    private SysUserMapper userMapper;
+    private SysUserMapper sysUserMapper;
 
 
     @Override
@@ -23,7 +23,7 @@ public class TestServiceImpl implements TestService {
 
         logger.info("method m() param:" + param);
 
-        SysUser user = userMapper.selectByPrimaryKey(1);
+        SysUser user = sysUserMapper.selectByPrimaryKey(1);
         return user;
     }
 }
