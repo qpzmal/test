@@ -1,19 +1,14 @@
 package cn.advu.workflow.web.common.interceptor;
 
 import cn.advu.workflow.common.constant.Constants;
-import cn.advu.workflow.domain.database.SysPermission;
 import cn.advu.workflow.web.common.RequestUtil;
-import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginTools;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
-import cn.advu.workflow.web.user.service.UserService;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * Created by Administrator on 2017/2/17.
@@ -21,8 +16,8 @@ import java.util.List;
 public class UrlInterceptor extends HandlerInterceptorAdapter {
 
 
-    @Autowired
-    private UserService userService;
+//    @Autowired
+//    private UserService userService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -39,30 +34,16 @@ public class UrlInterceptor extends HandlerInterceptorAdapter {
 
             LoginUser loginUser = LoginTools.parseLoginUser(loginCookie);
 
-//            RedisClient redisClient = (RedisClient) SpringContextUtil.getBean("redisClient");
-//            String str = redisClient.getStr("login_permissions_key_" + loginUser.getUserId().toString());
-//            if(str != null ) {
-//                JSONArray array = JSONArray.fromObject(str);
-//                List<SysPermission> list = JSONArray.toList(array, new SysPermission(), new JsonConfig());
-//
-//                for(SysPermission sp : list ){
-//                    if(sp.getMenuUri() != null){
-//                        if(requestUri.equals(sp.getMenuUri())){
-//                            flag = true;
-//                        }
+//            LoginAccount account = userService.getAccount(loginUser);
+//            List<SysPermission> permissions = account.getPermissions();
+//            for(SysPermission sp : permissions ){
+//                if(sp.getMenuUri() != null){
+//                    if(requestUri.equals(sp.getMenuUri())){
+//                        flag = true;
 //                    }
-//
 //                }
 //            }
-            LoginAccount account = userService.getAccount(loginUser);
-            List<SysPermission> permissions = account.getPermissions();
-            for(SysPermission sp : permissions ){
-                if(sp.getMenuUri() != null){
-                    if(requestUri.equals(sp.getMenuUri())){
-                        flag = true;
-                    }
-                }
-            }
+            flag = true;
 
         } catch (Exception e) {
             e.printStackTrace();

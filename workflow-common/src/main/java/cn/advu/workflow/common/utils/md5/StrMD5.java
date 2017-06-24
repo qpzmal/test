@@ -1,6 +1,7 @@
-package cn.advu.workflow.common.utils;
+package cn.advu.workflow.common.utils.md5;
 
 import cn.advu.workflow.common.exception.IWanviException;
+import cn.advu.workflow.common.utils.ImportExcelUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,7 +139,7 @@ public class StrMD5 {
 	}
 
     public static void main(String[] args) {
-        String md5Pass = StrMD5.getInstance().encrypt("123456", "iwanvi");
+        String md5Pass = StrMD5.getInstance().encrypt("111111", "advu"); // 111111-advu:f7ad7cc1c8ee8431b0a8c3abb872a33c
 
         System.out.println(md5Pass);
     }

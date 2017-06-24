@@ -1,6 +1,6 @@
 package cn.advu.workflow.web.common.util.echarts;
 
-import cn.advu.workflow.web.common.WebConstants;
+import cn.advu.workflow.web.common.constant.WebConstants;
 
 import java.util.ArrayList;
 import java.util.List;

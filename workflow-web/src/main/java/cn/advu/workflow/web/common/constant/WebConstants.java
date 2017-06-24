@@ -1,4 +1,4 @@
-package cn.advu.workflow.web.common;
+package cn.advu.workflow.web.common.constant;
 
 public class WebConstants {    
     public static final int OPERATION_FAILURE = 0;//操作失败返回值
@@ -8,6 +8,8 @@ public class WebConstants {
     public static final int COMMON_PAGESIZE = 10;//通用页大小
     public static final int BIG_PAGESIZE = 50;//广告页大小
     public static final int NO_PAGESIZE = 0;//导出使用
-    public static final String MD5_SALT = "iwanvi";//md5加盐值
     public static final String SESSION_USER = "account";//session中user的key
+
+
+    public static final String MD5_SALT = "advu";//md5加盐值
 }

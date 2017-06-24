@@ -7,7 +7,7 @@ import cn.advu.workflow.web.common.exception.LoginException;
 import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginTools;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
-import cn.advu.workflow.web.user.service.UserService;
+import cn.advu.workflow.web.service.system.LoginService;
 import org.apache.commons.lang.StringUtils;
 import org.patchca.color.ColorFactory;
 import org.patchca.filter.predefined.*;
@@ -35,16 +35,20 @@ import java.util.Random;
  *
  */
 @Controller
-@RequestMapping("/login")
 public class LoginController {
 
-
-    @Autowired
-    private UserService userService;
     private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
+    @Autowired
+    private LoginService loginService;
 
-    @RequestMapping("/in")
+
+    @RequestMapping("/index")
+    public String toIndex(){
+        return "index";
+    }
+
+    @RequestMapping("/login/in")
     public String toLogin(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 
         //校验是否存在cookie
@@ -63,7 +67,7 @@ public class LoginController {
                 LoginUser loginUser = LoginTools.parseLoginUser(loginCookie);
 
                 //验证不通过会抛出异常
-                userService.validLoginUser(loginUser);
+                loginService.validLoginUser(loginUser);
                 //登录状态校验通过，跳转首页
                 response.sendRedirect(returnURL);
                 return null;
@@ -81,7 +85,7 @@ public class LoginController {
 
 
 
-    @RequestMapping("dologin")
+    @RequestMapping("/login/dologin")
     @ResponseBody
     public AjaxJson doLogin(
             String uname, String passwd, String vcode, Integer remember,
@@ -93,10 +97,10 @@ public class LoginController {
             LOGGER.info("name:{}, pw:{}", uname, passwd);
 
             //登录失败抛出异常
-            LoginUser loginUser = userService.login(uname, passwd, vcode, request);
+            LoginUser loginUser = loginService.login(uname, passwd, vcode, request);
 
             if(loginUser != null ){
-                account = userService.getAccount(loginUser);
+//                account = loginService.getAccount(loginUser);
             }
 
             String cookieStr = LoginTools.toCookieStr(loginUser);
@@ -135,7 +139,7 @@ public class LoginController {
     /**
      * 生成验证码图片io流
      */
-    @RequestMapping(value = "/generateImage")
+    @RequestMapping(value = "/login/generateImage")
     public void ImageCaptcha(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         switch (random.nextInt(5)) {
