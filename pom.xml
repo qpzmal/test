@@ -410,11 +410,11 @@
             </dependency>
 
 
-            <!--<dependency>-->
-                <!--<groupId>org.patchca</groupId>-->
-                <!--<artifactId>patchca</artifactId>-->
-                <!--<version>0.5.0</version>-->
-            <!--</dependency>-->
+            <dependency>
+                <groupId>org.patchca</groupId>
+                <artifactId>patchca</artifactId>
+                <version>0.5.0</version>
+            </dependency>
 
             <dependency>
                 <groupId>javax.mail</groupId>

@@ -215,10 +215,10 @@
             <artifactId>mail</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.patchca</groupId>-->
-            <!--<artifactId>patchca</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.patchca</groupId>
+            <artifactId>patchca</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>
