@@ -2,6 +2,9 @@ package cn.advu.workflow.domain.fcf_vu;
 
 import java.util.Date;
 
+/**
+ * 用户
+ */
 public class SysUser {
     private Integer id;
 

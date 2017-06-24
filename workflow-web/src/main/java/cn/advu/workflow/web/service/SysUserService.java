@@ -1,17 +1,17 @@
 package cn.advu.workflow.web.service;
 
-import cn.advu.workflow.domain.database.SysUser;
+import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.web.common.ResultJson;
-
-import java.util.List;
 
 public interface SysUserService {
 
-    ResultJson<Object> add(SysUser user, Integer role);
+    ResultJson<Void> add(SysUser user);
 
-    ResultJson<List<SysUser>> getAll();
+//    ResultJson<Object> add(SysUser user, Integer role);
 
-    SysUser getById(Integer userId);
+//    ResultJson<List<SysUser>> getAll();
 
-    ResultJson<Object> edit(SysUser user, Integer roleId);
+//    SysUser getById(Integer userId);
+
+//    ResultJson<Object> edit(SysUser user, Integer roleId);
 }

@@ -1,34 +1,110 @@
 <div class="account-manage">
     <h3>账号管理:</h3>
-    <form action="${rc.contextPath}/user/add.json">
-	    <ul class="manage-list">
-	        <li class="clearfix"><label>姓名：</label>
-	        <input type="text" name="realName" id="realName" value="" /><label>账号：</label>
-	        <input type="text" name="acctId" id="acctId" value="" /></li>
-	        <li class="clearfix"><label>电话：</label>
-	        <input type="text" name="phone" id="phone" value="" /><label>邮箱：</label>
-	        <input type="text" name="email" id="email" value="" /></li>
-	        <li class="clearfix">
-	            <label>角色：</label>
-	            <select class="super" name="role" id="roleSel">
-	            </select>
-	            <!-- <label class="w60">渠道号：</label><input type="text" class="channel"/> -->
- 	            <!--<label>项目：</label>
-	            <select name="belongTo">
-	                <option value="0">全部</option>
-	                <option value="1">中文书城</option>
-	                <option value="2">创新版</option>
-	            </select> -->
-	        </li>
-	        <li class="clearfix"><label>密码：</label><input type="password" id="passwd" name="passwd" value="" />
-	        <label>确认密码：</label><input type="password" id="repasswd" value="" /></li>
-	    </ul>
-	    <div class="refer-btn">
-	       <button type="button" class="btn btn-info mt20 ml150 p25" onclick="addUser();">提交</button>
-	    </div>
-    </form>
+    <form action="${rc.contextPath}/user/add">
+        <div class="line">
+            <i class="label"><i class="x">*</i>登录名称:</i>
+            <input type="text" id="login_name" name="login_name"  />
+            <i class="desc">6-20位字符，支持字母、数字下划线组合</i>
+        </div>
+        <div class="line">
+            <i class="label"><i class="x">*</i>用户名称:</i>
+            <input type="text" id="user_name" name="user_name"  />
+            <i class="desc">填写用户中文姓名</i>
+        </div>
+        <div class="line">
+            <i class="label"><i class="x">*</i>用户密码:</i>
+            <input type="password" id="password" name="password" />
+        </div>
+        <div class="line">
+            <i class="label"><i class="x">*</i>确认密码:</i>
+            <input type="password" id="repassword" name="repassword"  />
+        </div>
+        <div class="line">
+            <i class="label">手机号码:</i>
+            <input type="text" name="mobile" />
+        </div>
+        <div class="line">
+            <i class="label">电话号码:</i>
+            <input type="text" name="phone" />
+        </div>
+        <div class="line">
+            <i class="label">地址:</i>
+            <input type="text" name="address" />
+        </div>
+        <div class="line">
+            <i class="label">email:</i>
+            <input type="text" name="email"  />
+        </div>
+        <div class="line">
+            <i class="label">部门:</i>
+            <select id="department_id" name="department_id">
+                <option value="1">
+                    管理</option>
+                <option value="16">
+                    运营</option>
+                <option value="14">
+                    销售</option>
+                <option value="15">
+                    财务</option>
+                <option value="21">
+                    上海</option>
+                <option value="22">
+                    广州</option>
+                <option value="23">
+                    四川</option>
+                <option value="24">
+                    代理商</option>
+                <option value="25">
+                    江苏</option>
+                <option value="27">
+                    北京</option>
+            </select>
+        </div>
+        <div class="bm">
+            <i class="label"><i class="x">*</i>是否可用:</i>
+            <select id="is_enabled" name="is_enabled">
+                <option value="true" >可用</option>
+                <option value="false" >不可用</option>
+            </select>
+        </div>
+        <div class="line">
+            <i class="label">排序:</i>
+            <input type="text" name="order"/>
+        </div>
+        <div class="line">
+            <i class="label">角色:</i>
+            <label>
+                <input name="roleIds" type="checkbox" value="106" />
+                测试角色&nbsp;&nbsp;
+            </label>
+            <label>
+                <input name="roleIds" type="checkbox" value="105" />
+                普通管理员&nbsp;&nbsp;
+            </label>
+            <label>
+                <input name="roleIds" type="checkbox" value="104" />
+                财务&nbsp;&nbsp;
+            </label>
+            <label>
+                <input name="roleIds" type="checkbox" value="103" />
+                运营&nbsp;&nbsp;
+            </label>
+            <label>
+                <input name="roleIds" type="checkbox" value="100" />
+                销售&nbsp;&nbsp;
+            </label>
+            <label>
+                <input name="roleIds" type="checkbox" value="1" />
+                超级管理员&nbsp;&nbsp;
+            </label>
+        </div>
+        <div class="btns">
+            <input type="submit" class="button button-sub" value="保存" />
+        </div>
+	</form>
 </div>
 <script>
+
     $(function(){
     	//获取角色信息添加到select中
     	setRoles();
@@ -49,30 +125,40 @@
     }
     
     function addUser(){
-    	var realName = $("#realName").val();
-    	var acctId = $("#acctId").val();
-    	var email = $("#email").val();
+    	var login_name = $("#login_name").val();
+    	var user_name = $("#user_name").val();
+    	var password = $("#password").val();
+    	var mobile = $("#mobile").val();
     	var phone = $("#phone").val();
-    	var passwd = $("#passwd").val();
-    	var repasswd = $("#repasswd").val();
-    	if(realName == "" || acctId == "" || email == "" || phone == "" || passwd == "" || repasswd == ""){
-    		alert("所有信息均为必填项, 请填写完整!");
-    		return;
-    	}
-    	if(passwd != repasswd){
-    		alert("两次密码输入不一致, 请重新填写!");
-    		return;
-    	}
+    	var address = $("#address").val();
+        var email = $("#email").val();
+        var department_id = $("#department_id").val();
+        var is_enabled = $("#is_enabled").val();
+        var order = $("#order").val();
+        var roleIds = $("#roleIds").val();
+//    	if(realName == "" || acctId == "" || email == "" || phone == "" || passwd == "" || repasswd == ""){
+//    		alert("所有信息均为必填项, 请填写完整!");
+//    		return;
+//    	}
+//    	if(passwd != repasswd){
+//    		alert("两次密码输入不一致, 请重新填写!");
+//    		return;
+//    	}
         $.ajax({
             url:"${rc.contextPath}/user/add.json",
             type:"POST",
             data:{
-            	realName:realName,
-            	acctId:acctId,
+                loginName:login_name,
+            	userName:user_name,
+                password:password,
+                mobile:mobile,
+                phone:phone,
+                address:address,
             	email:email,
-            	phone:phone,
-            	passwd:passwd,
-            	roleId:$("#roleSel").val()
+                departmentId:department_id,
+                isEnabled:is_enabled,
+                isEnabled:order,
+                roleIds:roleIds
             },
             success: function(returnData){
                 if(returnData.code == 1){
