@@ -1,5 +1,7 @@
 package cn.advu.workflow.web.common;
 
+import cn.advu.workflow.web.common.constant.WebConstants;
+
 /**
  * ajax请求返回的实体类
  * @author Niu Qianghong

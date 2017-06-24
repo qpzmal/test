@@ -26,7 +26,7 @@ public class LoginTools {
 
             LoginUser user = new LoginUser();
 
-            user.setUserId(Long.parseLong(strArr[0]));
+            user.setUserId(strArr[0]);
 
             user.setUserName(strArr[1]);
 

@@ -1,8 +1,8 @@
-package cn.advu.workflow.web.test.service.impl;
+package cn.advu.workflow.web.example.velocity.service.impl;
 
-import cn.advu.workflow.dao.database.UserMapper;
-import cn.advu.workflow.domain.database.User;
-import cn.advu.workflow.web.test.service.TestService;
+import cn.advu.workflow.dao.fcf_vu.SysUserMapper;
+import cn.advu.workflow.domain.fcf_vu.SysUser;
+import cn.advu.workflow.web.example.velocity.service.TestService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +15,15 @@ public class TestServiceImpl implements TestService {
 
     private final Logger logger = Logger.getLogger(TestServiceImpl.class);
     @Autowired
-    private UserMapper userMapper;
+    private SysUserMapper userMapper;
 
 
     @Override
-    public User findUser(String param) {
+    public SysUser findUser(String param) {
 
         logger.info("method m() param:" + param);
 
-        User user = userMapper.findUserById(1l);
+        SysUser user = userMapper.selectByPrimaryKey(1);
         return user;
     }
 }

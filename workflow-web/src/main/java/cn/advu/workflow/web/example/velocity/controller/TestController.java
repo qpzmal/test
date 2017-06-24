@@ -1,10 +1,8 @@
-package cn.advu.workflow.web.test.controller;
+package cn.advu.workflow.web.example.velocity.controller;
 
-import cn.advu.workflow.dao.database.SysPermissionMapper;
-import cn.advu.workflow.domain.database.SysPermission;
-import cn.advu.workflow.domain.database.User;
+import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.web.common.util.echarts.*;
-import cn.advu.workflow.web.test.service.TestService;
+import cn.advu.workflow.web.example.velocity.service.TestService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +19,6 @@ import java.util.List;
 public class TestController {
 
     private Log logger = LogFactory.getLog(getClass());
-    
-    @Autowired
-    private SysPermissionMapper pMapper;
 
     @Autowired
     private TestService testService;
@@ -35,7 +30,7 @@ public class TestController {
         ModelAndView mav = new ModelAndView("index");
 
 //        User user  = testService.findUser(1l);
-        User user = testService.findUser("hello");
+        SysUser user = testService.findUser("hello");
         mav.addObject("user", user );
 
         return mav;
@@ -88,13 +83,7 @@ public class TestController {
                 "数据总览实时监控", "渠道详细", "数据总览", "赚取积分","消耗积分", "广告数据"
          };
         for(String p:permissions){
-            SysPermission per = new SysPermission();
-            per.setBelongTo(2);
-            per.setPermissionName(p);
-            per.setMenuName(p);
-            per.setPermissionStatus(0);
-            per.setCmt("");
-            pMapper.add(per);
+
         }
     }
 }

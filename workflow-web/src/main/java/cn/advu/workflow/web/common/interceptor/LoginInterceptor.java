@@ -7,10 +7,10 @@ import cn.advu.workflow.web.common.exception.LoginException;
 import cn.advu.workflow.web.common.loginContext.LoginTools;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
-import cn.advu.workflow.web.user.service.UserService;
+import cn.advu.workflow.web.service.system.LoginService;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -27,10 +27,10 @@ import java.io.IOException;
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
-	private final static Log logger = LogFactory.getLog(LoginInterceptor.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(LoginInterceptor.class);
 
 	@Autowired
-	private UserService adminUserService;
+	private LoginService loginService;
 
 	/**
 	 *
@@ -61,21 +61,19 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 			LoginUser loginUser = LoginTools.parseLoginUser(loginCookie);
 
-			adminUserService.validLoginUser(loginUser);
+			loginService.validLoginUser(loginUser);
 
 			UserThreadLocalContext.addCurrentUser(loginUser);
 
 			request.setAttribute(Constants.Login.LOGIN_USER_ATTR_KEY,loginUser);
 
-			if (logger.isDebugEnabled()) {
-				logger.debug(loginUser);
-			}
+			LOGGER.debug("", loginUser);
 
 			return true;
 
 
 		} catch (LoginException e) {
-			logger.error( e.getMessage());
+			LOGGER.error("", e);
 
 			response.sendRedirect(Constants.Login.LOGIN_URL);
 

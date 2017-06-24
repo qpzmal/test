@@ -29,6 +29,8 @@ public class SysUser {
 
     private Integer deptId;
 
+    private Long lastLoginTime;
+
     private Boolean itemStatus;
 
     private Date createTime;
@@ -137,6 +139,14 @@ public class SysUser {
 
     public void setDeptId(Integer deptId) {
         this.deptId = deptId;
+    }
+
+    public Long getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Long lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 
     public Boolean getItemStatus() {

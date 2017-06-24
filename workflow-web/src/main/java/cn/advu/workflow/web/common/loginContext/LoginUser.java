@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by kai on 15/8/5.
  */
 public class LoginUser implements Serializable {
-    private long userId;
+    private String userId;
 
     private String userName;
 
@@ -18,11 +18,11 @@ public class LoginUser implements Serializable {
 
     private Integer leader;
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -1,16 +1,14 @@
-package cn.advu.workflow.web.user.service;
-
+package cn.advu.workflow.web.service.system;
 
 import cn.advu.workflow.web.common.exception.LoginException;
-import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by kai
+ * Created by weiqz on 2017/6/24.
  */
-public interface UserService {
+public interface LoginService {
 
     /**
      * 校验登录用户是否匹配
@@ -32,6 +30,4 @@ public interface UserService {
      */
     LoginUser login(String uname, String passwd, String vcode, HttpServletRequest request) throws LoginException;
 
-
-    LoginAccount getAccount(LoginUser loginUser);
 }

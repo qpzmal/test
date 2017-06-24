@@ -40,8 +40,8 @@
         <!--<property name="mapperLocations" value="classpath*:sqlmap/*.xml" />-->
         <property name="mapperLocations">
             <array>
-                <value>classpath*:sqlmap/sys/*.xml</value>
-                <value>classpath*:sqlmap/modules/*.xml</value>
+                <value>classpath*:sqlmap/fcf_vu/*.xml</value>
+                <!--<value>classpath*:sqlmap/modules/*.xml</value>-->
                 <!--<value>classpath*:sqlmap/workflow/*.xml</value>-->
             </array>
         </property>
@@ -50,7 +50,7 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="markerInterface" value="cn.advu.workflow.dao.base.ISqlMapper" />
         <property name="sqlSessionFactoryBeanName" value="workflow_sessionFactory"  />
-        <property name="basePackage" value="cn.advu.workflow.dao.database" />
+        <property name="basePackage" value="cn.advu.workflow.dao.fcf_vu" />
     </bean>
     <bean id="workflow_transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="workflow_dataSource" />
