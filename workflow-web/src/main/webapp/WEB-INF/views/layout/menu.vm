@@ -24,7 +24,7 @@
 
             <li>
                 <a href="#">
-                    <i class="fa fa-home"></i>
+                    <i class="fa fa-credit-card"></i>
                     <span class="nav-label">需求管理</span>
                     <span class="fa arrow"></span>
                 </a>
@@ -40,7 +40,7 @@
             </li>
             <li>
                 <a href="#">
-                    <i class="fa fa-home"></i>
+                    <i class="fa fa-line-chart"></i>
                     <span class="nav-label">报表中心</span>
                     <span class="fa arrow"></span>
                 </a>
@@ -55,7 +55,7 @@
             </li>
             <li>
                 <a href="#">
-                    <i class="fa fa-home"></i>
+                    <i class="fa fa-users"></i>
                     <span class="nav-label">基础信息</span>
                     <span class="fa arrow"></span>
                 </a>
@@ -67,7 +67,7 @@
                         <a class="J_menuItem" href="#">客户行业管理</a>
                         <a class="J_menuItem" href="#">媒体管理</a>
                         <a class="J_menuItem" href="#">媒体分类管理</a>
-                        <a class="J_menuItem" href="#">监测机构管理</a>
+                        <a class="J_menuItem" href="${rc.contextPath}/monitor/index">监测机构管理</a>
                         <a class="J_menuItem" href="#">财务指标管理</a>
                     </li>
                 </ul>
@@ -89,7 +89,7 @@
 
             <li>
                 <a href="#">
-                    <i class="fa fa-home"></i>
+                    <i class="fa fa-tasks"></i>
                     <span class="nav-label">工作流</span>
                     <span class="fa arrow"></span>
                 </a>
@@ -103,7 +103,7 @@
 
             <li>
                 <a href="#">
-                    <i class="fa fa-home"></i>
+                    <i class="fa fa-user"></i>
                     <span class="nav-label">用户管理</span>
                     <span class="fa arrow"></span>
                 </a>
