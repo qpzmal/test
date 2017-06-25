@@ -25,7 +25,7 @@ public class MonitorController {
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
         List<BaseMonitorRequest> monitorList = monitorService.queryAll();
-        resultModel.addAttribute("monitorList",monitorList);
+        resultModel.addAttribute("dataList",monitorList);
         return "base/monitor_index";
     }
 
