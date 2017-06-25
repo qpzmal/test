@@ -1,0 +1,80 @@
+<div class="account-manage">
+    <form id="inputForm" action="save.vuhtml" method="post" class="manage">
+        <div class="line">
+            <i class="label"><i class="x">*</i>角色名称:</i>
+            <input type="text" id="name" name="name" class="text" required maxlength="50"/>
+        </div>
+        <div class="line">
+            <i class="label">角色描述:</i>
+            <input type="text" id="description" name="description" class="text"  maxlength="100"/>
+        </div>
+        <!--div class="line">
+            <i class="label">排序:</i>
+            <input type="text" name="order" class="text" min="1" digits="true"/>
+        </div-->
+        <div class="line">
+            <i class="label">是否是系统用户:</i>
+            <input type="radio" id="is_system" name="is_system" class="text" value="true" />是
+            <input type="radio" id="is_system" name="is_system" class="text" value="false" checked/>不是
+        </div>
+        <div class="btns">
+            <input type="button" class="button button-sub" value="保存" />
+        </div>
+    </form>
+</div>
+
+## 引入js
+#define($jsblock)
+
+<script>
+
+//    $(function(){
+//        //获取角色信息添加到select中
+//        setRoles();
+//    });
+
+##    function setRoles(){
+##        $.ajax({
+##            url:"${rc.contextPath}/role/getAll.json",
+##            type:"POST",
+##            success: function(returnData){
+##                var selHtml = "";
+##                $.each(returnData.data, function(i, item){
+##                    selHtml += "<option value='"+item.roleId+"'>"+item.roleName+"</option>";
+##                });
+##                $("#roleSel").html(selHtml);
+##            }
+##        });
+##    }
+
+    $(".button-sub").click(function(){
+        addRole();
+    })
+
+    function addRole(){
+        var name = $("#name").val();
+        var description = $("#description").val();
+        var is_system = $("#is_system").val();
+
+        $.ajax({
+            url:"/role/add.json",
+            type:"post",
+            data:{
+                name:name,
+                description:description,
+                isSystem:is_system
+            },
+            success: function(returnData){
+                console.log(returnData);
+                if(returnData.code == 1){
+                    alert("添加成功!");
+                    window.location.href = "/role/toList";
+                } else{
+                    alert("添加失败, 请联系技术人员!");
+                }
+            }
+
+        });
+    }
+</script>
+#end

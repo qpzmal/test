@@ -1,6 +1,11 @@
 package cn.advu.workflow.web.service.system;
 
+import cn.advu.workflow.domain.fcf_vu.SysRole;
+import cn.advu.workflow.web.common.ResultJson;
+
 public interface RoleService {
+
+    ResultJson<Object> addRole(SysRole sysRole);
 //
 //    ResultJson<List<Map<String, Object>>> getAllRoleAndPers();
 //

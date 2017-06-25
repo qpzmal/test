@@ -80,6 +80,8 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
+                        <a class="J_menuItem" href="#">用户管理</a>
+                        <a class="J_menuItem" href="#">权限管理</a>
                         <a class="J_menuItem" href="#">系统管理</a>
                     </li>
                 </ul>

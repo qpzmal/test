@@ -6,6 +6,9 @@ package cn.advu.workflow.dao.base;
  * @author hekai
  */
 public interface ISqlMapper {
+
+
+
 }
 
 

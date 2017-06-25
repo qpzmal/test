@@ -1,16 +1,22 @@
 package cn.advu.workflow.web.service.system.impl;
 
+import cn.advu.workflow.dao.fcf_vu.SysRoleMapper;
+import cn.advu.workflow.domain.fcf_vu.SysRole;
+import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.system.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RoleServiceImpl implements RoleService{
     private static Logger LOGGER = LoggerFactory.getLogger(RoleServiceImpl.class);
 //
-//    @Autowired
-//    private SysRoleMapper roleMapper;
+    @Autowired
+    private SysRoleMapper roleMapper;
 //
 //    @Autowired
 //    private SysPermissionMapper permissionMapper;
@@ -33,20 +39,15 @@ public class RoleServiceImpl implements RoleService{
 //        return rj;
 //    }
 //
-//    @Override
-//    @Transactional
-//    public ResultJson<Object> addRole(Integer creatorId, String roleName, String[] permissionIds) {
-//        SysRole role = new SysRole();
-//        role.setRoleName(roleName);
-//        int result = roleMapper.add(role);//添加角色
-//        if(result != 1){
-//            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建角色失败!");
-//        }
-//        for(String pid:permissionIds){
-//            permissionMapper.addPermissionForRole(creatorId, role.getRoleId(), pid);
-//        }
-//        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-//    }
+    @Override
+    @Transactional
+    public ResultJson<Object> addRole(SysRole sysRole) {
+        int result = roleMapper.insert(sysRole);//添加角色
+        if(result != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建角色失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
 //
 //    @Override
 //    public ResultJson<List<SysPermission>> getAllPermissions() {
