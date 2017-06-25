@@ -1,7 +1,6 @@
 package cn.advu.workflow.repo.fcf_vu.impl;
 
 import cn.advu.workflow.dao.base.BaseDAO;
-import cn.advu.workflow.dao.base.ISqlMapper;
 import cn.advu.workflow.dao.fcf_vu.SysUserMapper;
 import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;

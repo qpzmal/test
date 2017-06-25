@@ -5,7 +5,7 @@ import cn.advu.workflow.domain.base.IEntity;
 /**
  * mapper接口
  *
- * @author hekai
+ * @author wangry
  */
 public interface BaseDAO<T extends IEntity> extends ISqlMapper {
 
