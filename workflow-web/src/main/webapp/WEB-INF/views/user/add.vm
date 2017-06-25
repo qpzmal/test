@@ -1,6 +1,8 @@
+
+
 <div class="account-manage">
     <h3>账号管理:</h3>
-    <form action="${rc.contextPath}/user/add">
+    <form action="/user/add">
         <div class="line">
             <i class="label"><i class="x">*</i>登录名称:</i>
             <input type="text" id="login_name" name="login_name"  />
@@ -99,38 +101,46 @@
             </label>
         </div>
         <div class="btns">
-            <input type="submit" class="button button-sub" value="保存" />
+            <input type="button" class="button button-sub" value="保存" />
         </div>
-	</form>
+    </form>
 </div>
+
+## 引入js
+#define($jsblock)
+
 <script>
 
-    $(function(){
-    	//获取角色信息添加到select中
-    	setRoles();
-    });
-    
-    function setRoles(){
-        $.ajax({
-            url:"${rc.contextPath}/role/getAll.json",
-            type:"POST",
-            success: function(returnData){
-                var selHtml = "";
-                $.each(returnData.data, function(i, item){
-                	selHtml += "<option value='"+item.roleId+"'>"+item.roleName+"</option>";
-                });
-                $("#roleSel").html(selHtml);
-            }
-        });
-    }
-    
+//    $(function(){
+//        //获取角色信息添加到select中
+//        setRoles();
+//    });
+
+##    function setRoles(){
+##        $.ajax({
+##            url:"${rc.contextPath}/role/getAll.json",
+##            type:"POST",
+##            success: function(returnData){
+##                var selHtml = "";
+##                $.each(returnData.data, function(i, item){
+##                    selHtml += "<option value='"+item.roleId+"'>"+item.roleName+"</option>";
+##                });
+##                $("#roleSel").html(selHtml);
+##            }
+##        });
+##    }
+
+    $(".button-sub").click(function(){
+        addUser();
+    })
+
     function addUser(){
-    	var login_name = $("#login_name").val();
-    	var user_name = $("#user_name").val();
-    	var password = $("#password").val();
-    	var mobile = $("#mobile").val();
-    	var phone = $("#phone").val();
-    	var address = $("#address").val();
+        var login_name = $("#login_name").val();
+        var user_name = $("#user_name").val();
+        var password = $("#password").val();
+        var mobile = $("#mobile").val();
+        var phone = $("#phone").val();
+        var address = $("#address").val();
         var email = $("#email").val();
         var department_id = $("#department_id").val();
         var is_enabled = $("#is_enabled").val();
@@ -145,29 +155,32 @@
 //    		return;
 //    	}
         $.ajax({
-            url:"${rc.contextPath}/user/add.json",
-            type:"POST",
+            url:"/user/add.json",
+            type:"post",
             data:{
                 loginName:login_name,
-            	userName:user_name,
+                userName:user_name,
                 password:password,
                 mobile:mobile,
                 phone:phone,
                 address:address,
-            	email:email,
+                email:email,
                 departmentId:department_id,
                 isEnabled:is_enabled,
-                isEnabled:order,
+                order:order,
                 roleIds:roleIds
             },
             success: function(returnData){
+                console.log(returnData);
                 if(returnData.code == 1){
-                	alert("添加成功!");
-                	window.location.href = "${rc.contextPath}/user/toList";
+                    alert("添加成功!");
+                    window.location.href = "/user/toList";
                 } else{
-                	alert("添加失败, 请联系技术人员!");
+                    alert("添加失败, 请联系技术人员!");
                 }
             }
+
         });
     }
 </script>
+#end
