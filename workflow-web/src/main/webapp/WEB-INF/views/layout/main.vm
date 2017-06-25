@@ -154,7 +154,7 @@
             </div>
 
             <div class="footer">
-                <div class="pull-right">&copy; 2014-2015 <a href="http://www.zi-han.net/" target="_blank">zihan's blog</a>
+                <div class="pull-right">&copy; 2017-2020 <a href="http://www.zi-han.net/" target="_blank">zihan's blog</a>
                 </div>
             </div>
         </div>
@@ -192,28 +192,28 @@
     #if($jsblock)$jsblock#end
 <!-- end js -->
 <script type="text/javascript">
-	var items = $(".J_menuItem");
-	var menus = new Array();
-	for(var i=0;i<items.length;i++){
-		$(items[i]).css("display", "none");
-	    menus.push(items[i].getAttribute("href"));
-	    //console.log(menus[i]);
-	}
-    showMenu();
+//	var items = $(".J_menuItem");
+//	var menus = new Array();
+//	for(var i=0;i<items.length;i++){
+//		$(items[i]).css("display", "none");
+//	    menus.push(items[i].getAttribute("href"));
+//	    //console.log(menus[i]);
+//	}
+//    showMenu();
     
-	function showMenu(){
-        console.log("showMenu");
-		$.ajax({
-			url:"${rc.contextPath}/user/getPerms.json",
-			success:function(returnData){
-				$.each(returnData.data, function(i, item){
-					var index = $.inArray("${rc.contextPath}" + item.menuUri, menus);
-					if(index != -1){
-						$(items[index]).css("display", "block");						
-					}
-				});
-			}
-		});
-	}
+##	function showMenu(){
+##        console.log("showMenu");
+##		$.ajax({
+##			url:"${rc.contextPath}/user/getPerms.json",
+##			success:function(returnData){
+##				$.each(returnData.data, function(i, item){
+##					var index = $.inArray("${rc.contextPath}" + item.menuUri, menus);
+##					if(index != -1){
+##						$(items[index]).css("display", "block");
+##					}
+##				});
+##			}
+##		});
+##	}
 </script>
 </html>
