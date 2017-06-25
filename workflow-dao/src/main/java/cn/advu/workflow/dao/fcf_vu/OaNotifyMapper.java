@@ -2,6 +2,9 @@ package cn.advu.workflow.dao.fcf_vu;
 
 import cn.advu.workflow.dao.base.ISqlMapper;
 import cn.advu.workflow.domain.fcf_vu.OaNotify;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface OaNotifyMapper extends ISqlMapper {
     int deleteByPrimaryKey(Integer id);
@@ -15,4 +18,7 @@ public interface OaNotifyMapper extends ISqlMapper {
     int updateByPrimaryKeySelective(OaNotify record);
 
     int updateByPrimaryKey(OaNotify record);
+
+    // 以下为自定义SQL
+    List<OaNotify> queryAll(@Param("status") int status);
 }

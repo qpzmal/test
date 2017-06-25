@@ -236,6 +236,14 @@
 
 
   <!-- 以上为自动生成SQL，以下为自定义SQL -->
+  <select id="queryAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_user
+    <if test="status != null">
+      where item_status = #{status,jdbcType=BIT}
+    </if>
+  </select>
   <select id="queryUserByNameAndId" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -247,11 +255,5 @@
     <include refid="Base_Column_List" />
     from sys_user
     where login_name = #{username,jdbcType=VARCHAR}, password = #{password,jdbcType=VARCHAR} AND item_status = 0
-  </select>
-  <select id="queryAllUsers" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from sys_user
-    where item_status = #{status,jdbcType=BIT}
   </select>
 </mapper>

@@ -149,4 +149,17 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+
+
+  <!-- 以上为自动生成SQL，以下为自定义SQL -->
+  <select id="queryAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_menu
+    <if test="status != null">
+      where status = #{status,jdbcType=BIT}
+    </if>
+  </select>
 </mapper>

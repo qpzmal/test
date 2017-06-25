@@ -20,11 +20,13 @@ public interface SysUserMapper extends ISqlMapper {
 
     int updateByPrimaryKey(SysUser record);
 
+
+    // 以下为自定义SQL
+    List<SysUser> queryAll(@Param("item_status") int status);
+
     SysUser queryUserByNameAndId(@Param("username") String userName, @Param("userid") String userid);
 
     SysUser queryUserByNameAndPassword(@Param("username") String userName, @Param("password") String password);
-
-    List<SysUser> queryAllUsers(@Param("item_status") int status);
 
 
 }

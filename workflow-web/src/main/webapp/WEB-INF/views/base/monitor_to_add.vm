@@ -1,0 +1,16 @@
+
+#define($cssblock)
+#end
+
+
+#define($jsblock)
+<script>
+    $(function(){
+    });
+
+    // 添加
+    $(".btn-primary").click(function(){
+        window.location.href = "${rc.contextPath}/monitor/deployIndex";
+    })
+</script>
+#end

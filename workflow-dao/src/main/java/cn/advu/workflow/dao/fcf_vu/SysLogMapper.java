@@ -4,6 +4,8 @@ import cn.advu.workflow.dao.base.ISqlMapper;
 import cn.advu.workflow.domain.fcf_vu.SysLog;
 import cn.advu.workflow.domain.fcf_vu.SysLogWithBLOBs;
 
+import java.util.List;
+
 public interface SysLogMapper extends ISqlMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -18,4 +20,7 @@ public interface SysLogMapper extends ISqlMapper {
     int updateByPrimaryKeyWithBLOBs(SysLogWithBLOBs record);
 
     int updateByPrimaryKey(SysLog record);
+
+    // 以下为自定义SQL
+    List<SysLogWithBLOBs> queryAll();
 }

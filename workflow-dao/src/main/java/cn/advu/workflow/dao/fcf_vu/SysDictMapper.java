@@ -3,6 +3,8 @@ package cn.advu.workflow.dao.fcf_vu;
 import cn.advu.workflow.dao.base.ISqlMapper;
 import cn.advu.workflow.domain.fcf_vu.SysDict;
 
+import java.util.List;
+
 public interface SysDictMapper extends ISqlMapper {
     int deleteByPrimaryKey(String id);
 
@@ -15,4 +17,7 @@ public interface SysDictMapper extends ISqlMapper {
     int updateByPrimaryKeySelective(SysDict record);
 
     int updateByPrimaryKey(SysDict record);
+
+    // 以下为自定义SQL
+    List<SysDict> queryAll();
 }

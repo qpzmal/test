@@ -45,7 +45,7 @@ public class SysUserServiceImpl implements SysUserService{
         ResultJson<List<SysUser>> rj = null;
         try {
             //获得有效用户
-            List<SysUser> users = sysUserMapper.queryAllUsers(status);
+            List<SysUser> users = sysUserMapper.queryAll(status);
             rj = new ResultJson<>();
             rj.setCode(WebConstants.OPERATION_SUCCESS);
             rj.setData(users);

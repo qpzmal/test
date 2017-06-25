@@ -11,7 +11,7 @@
 
 ## css文件引入和css代码块
 #define($afterCssblock)
-<link href="#springUrl("")/static/css/style-before-4.1.css?$!application.getAttribute('/static/css/style-before-4.1.css')" rel="stylesheet" type="text/css"/>
+<link href="#springUrl("")/static/css/style.css?$!application.getAttribute('/static/css/style.css')" rel="stylesheet" type="text/css"/>
 #end
 
 ## 页面内容
@@ -33,6 +33,7 @@ $Integer.parseInt($intString)
     #else
         <li value = "$!user.id"><span>$!user.name</span>--<span>$!user.age</span></li>
     #end
+##    <li>$!date.format('yyyy-MM-dd HH:mm:ss ',${user.createTime})</li>
 
 #end
 

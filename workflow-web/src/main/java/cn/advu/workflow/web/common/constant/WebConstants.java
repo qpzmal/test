@@ -12,4 +12,7 @@ public class WebConstants {
 
 
     public static final String MD5_SALT = "advu";//md5加盐值
+    public static final int ITEM_STATUS_NORMAL = 0;// 状态 ，0正常；1停用；9删除
+    public static final int ITEM_STATUS_STOP = 1;// 状态 ，0正常；1停用；9删除
+    public static final int ITEM_STATUS_DEL = 9;// 状态 ，0正常；1停用；9删除
 }
