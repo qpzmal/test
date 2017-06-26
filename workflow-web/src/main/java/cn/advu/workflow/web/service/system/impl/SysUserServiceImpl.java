@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class SysUserServiceImpl implements SysUserService{
     private static Logger LOGGER = LoggerFactory.getLogger(SysUserServiceImpl.class);
@@ -39,6 +41,18 @@ public class SysUserServiceImpl implements SysUserService{
 //        //设定角色
 //        userMapper.setRole(user.getUserId(), role, user.getCreatorId());
         rj.setCode(WebConstants.OPERATION_SUCCESS);
+        return rj;
+    }
+
+    @Override
+    public ResultJson<List<SysUser>> findAll() {
+
+        List<SysUser> sysUserList = sysUserRepo.findAll();
+
+        ResultJson<List<SysUser>> rj = new ResultJson();
+        rj.setData(sysUserList);
+        rj.setCode(WebConstants.OPERATION_SUCCESS);
+
         return rj;
     }
 

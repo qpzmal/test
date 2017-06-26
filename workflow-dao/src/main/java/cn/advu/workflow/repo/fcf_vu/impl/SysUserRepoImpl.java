@@ -8,6 +8,8 @@ import cn.advu.workflow.repo.fcf_vu.SysUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 用户
  *
@@ -21,5 +23,10 @@ public class SysUserRepoImpl extends AbstractRepo<SysUser> implements SysUserRep
     @Override
     protected BaseDAO<SysUser> getSqlMapper() {
         return sysUserMapper;
+    }
+
+    @Override
+    public List<SysUser> findAll() {
+        return sysUserMapper.queryAll(null);
     }
 }
