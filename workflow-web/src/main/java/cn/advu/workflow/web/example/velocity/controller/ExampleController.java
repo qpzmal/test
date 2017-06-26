@@ -2,6 +2,7 @@ package cn.advu.workflow.web.example.velocity.controller;
 
 
 import cn.advu.workflow.web.example.velocity.vo.ExampleVO;
+import cn.advu.workflow.web.example.velocity.vo.PullDownVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -39,16 +40,33 @@ public class ExampleController {
         List<ExampleVO> userList = new ArrayList();
         userList.add(exampleVO);
         userList.add(anotherExampleVO);
+
+        List<PullDownVO> pulldownList = new ArrayList();
+        PullDownVO pulldown = new PullDownVO();
+        pulldown.setId("1");
+        pulldown.setName("北京");
+        pulldownList.add(pulldown);
+        pulldown = new PullDownVO();
+        pulldown.setId("2");
+        pulldown.setName("图们");
+        pulldownList.add(pulldown);
+        pulldown = new PullDownVO();
+        pulldown.setId("3");
+        pulldown.setName("石家庄");
+        pulldownList.add(pulldown);
+
+
         model.addAttribute("exampleVO",exampleVO);
+        model.addAttribute("pulldownList",pulldownList);
         model.addAttribute("userList",userList);
         return "/example/index";
     }
+
+
     @RequestMapping("/filUpload")
     public String getTest(HttpServletRequest request){
         return "example/filUpload";
     }
-
-
 
 //    public static void main(String[] args){
 //        Gson gson = new Gson();

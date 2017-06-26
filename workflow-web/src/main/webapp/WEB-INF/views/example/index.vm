@@ -37,7 +37,16 @@ $Integer.parseInt($intString)
 
 #end
 
+<select>
 
+#foreach($data in $pulldownList)
+    #if($velocityCount == 1)
+        <option value ="$data.id" selected>$data.name</option>
+    #else
+        <option value ="$data.id">$data.name</option>
+    #end
+#end
+</select>
 
 <li value = "$!exampleVO.id"><span>$!exampleVO.name</span>--<span>$!exampleVO.age</span></li>
 
