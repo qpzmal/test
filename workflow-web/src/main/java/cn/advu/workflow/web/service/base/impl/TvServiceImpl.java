@@ -1,7 +1,9 @@
 package cn.advu.workflow.web.service.base.impl;
 
-import cn.advu.workflow.dao.fcf_vu.BaseTvMapper;
 import cn.advu.workflow.domain.fcf_vu.BaseTv;
+import cn.advu.workflow.repo.fcf_vu.BaseTvRepo;
+import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.base.TvService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,30 +20,22 @@ public class TvServiceImpl implements TvService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TvServiceImpl.class);
 
     @Autowired
-    private BaseTvMapper baseTvMapper;
+    private BaseTvRepo baseTvRepo;
+
 
     @Override
-    public int insert(BaseTv obj) {
-        return 0;
+    public ResultJson<Integer> addTv(BaseTv baseTv) {
+        Integer insertCount = baseTvRepo.addSelective(baseTv);
+        if(insertCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建媒体类型失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
     @Override
-    public int delete(String id) {
-        return 0;
-    }
-
-    @Override
-    public int update(String id) {
-        return 0;
-    }
-
-    @Override
-    public List<BaseTv> queryAll() {
-        return null;
-    }
-
-    @Override
-    public List<BaseTv> queryByCondition(BaseTv obj) {
-        return null;
+    public ResultJson<List<BaseTv>> findAll() {
+        ResultJson<List<BaseTv>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseTvRepo.findAll());
+        return result;
     }
 }

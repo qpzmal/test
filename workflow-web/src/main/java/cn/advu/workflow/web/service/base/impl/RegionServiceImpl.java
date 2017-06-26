@@ -1,7 +1,9 @@
 package cn.advu.workflow.web.service.base.impl;
 
-import cn.advu.workflow.dao.fcf_vu.BaseRegionMapper;
 import cn.advu.workflow.domain.fcf_vu.BaseRegion;
+import cn.advu.workflow.repo.fcf_vu.BaseRegionRepo;
+import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.base.RegionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,33 +17,25 @@ import java.util.List;
  */
 @Service
 public class RegionServiceImpl implements RegionService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(RegionServiceImpl.class);
 
     @Autowired
-    private BaseRegionMapper baseRegionMapper;
+    private BaseRegionRepo baseRegionRepo;
 
     @Override
-    public int insert(BaseRegion obj) {
-        return 0;
+    public ResultJson<Integer> addRegion(BaseRegion baseRegion) {
+        Integer insertCount = baseRegionRepo.addSelective(baseRegion);
+        if(insertCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建区域失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
     @Override
-    public int delete(String id) {
-        return 0;
-    }
-
-    @Override
-    public int update(String id) {
-        return 0;
-    }
-
-    @Override
-    public List<BaseRegion> queryAll() {
-        return null;
-    }
-
-    @Override
-    public List<BaseRegion> queryByCondition(BaseRegion obj) {
-        return null;
+    public ResultJson<List<BaseRegion>> findAll() {
+        ResultJson<List<BaseRegion>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseRegionRepo.findAll());
+        return result;
     }
 }
