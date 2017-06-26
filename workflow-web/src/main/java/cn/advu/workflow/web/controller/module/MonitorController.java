@@ -49,8 +49,10 @@ public class MonitorController {
     }
 
     @RequestMapping("/toUpdate")
-    public String toUpdate(){
-        return "base/monitor_to_update";
+    public String toUpdate(BaseMonitorRequest baseMonitorRequest, Model resultModel){
+        baseMonitorRequest = monitorRequestService.queryById(baseMonitorRequest.getId() + "").getData();
+        resultModel.addAttribute("data", baseMonitorRequest);
+        return "modules/monitor/update";
     }
 
 

@@ -2,7 +2,6 @@ package cn.advu.workflow.repo.fcf_vu.impl;
 
 import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.dao.fcf_vu.BaseMonitorRequestMapper;
-import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
 import cn.advu.workflow.domain.fcf_vu.BaseMonitorRequest;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseMonitorRequestRepo;
@@ -29,5 +28,10 @@ public class BaseMonitorRequestRepoImpl extends AbstractRepo<BaseMonitorRequest>
     @Override
     public List<BaseMonitorRequest> findAll() {
         return baseMonitorRequestMapper.queryAll(null);
+    }
+
+    @Override
+    public BaseMonitorRequest queryById(String id) {
+        return baseMonitorRequestMapper.selectByPrimaryKey(Integer.valueOf(id));
     }
 }

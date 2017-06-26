@@ -11,4 +11,5 @@ import java.util.List;
 public interface BaseMonitorRequestRepo extends IRepo<BaseMonitorRequest> {
 
     List<BaseMonitorRequest> findAll();
+    BaseMonitorRequest queryById(String id);
 }

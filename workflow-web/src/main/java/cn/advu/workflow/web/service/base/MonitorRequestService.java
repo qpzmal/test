@@ -13,5 +13,6 @@ public interface MonitorRequestService {
 
     ResultJson<Integer> addMonitorRequest(BaseMonitorRequest baseMonitorRequest);
     ResultJson<List<BaseMonitorRequest>> findAll();
+    ResultJson<BaseMonitorRequest> queryById(String id);
 
 }
