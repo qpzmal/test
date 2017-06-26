@@ -1,7 +1,9 @@
 package cn.advu.workflow.web.service.base.impl;
 
-import cn.advu.workflow.dao.fcf_vu.BaseAdtypeMapper;
 import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
+import cn.advu.workflow.repo.fcf_vu.BaseAdtypeRepo;
+import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.base.AdtypeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,31 +20,22 @@ public class AdtypeServiceImpl implements AdtypeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdtypeServiceImpl.class);
 
     @Autowired
-    private BaseAdtypeMapper baseAdtypeMapper;
+    private BaseAdtypeRepo baseAdtypeRepo;
 
 
     @Override
-    public int insert(BaseAdtype obj) {
-        return 0;
+    public ResultJson<Integer> addAdtype(BaseAdtype baseAdtype) {
+        Integer insertCount = baseAdtypeRepo.addSelective(baseAdtype);
+        if(insertCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建媒体失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
     @Override
-    public int delete(String id) {
-        return 0;
-    }
-
-    @Override
-    public int update(String id) {
-        return 0;
-    }
-
-    @Override
-    public List<BaseAdtype> queryAll() {
-        return null;
-    }
-
-    @Override
-    public List<BaseAdtype> queryByCondition(BaseAdtype obj) {
-        return null;
+    public ResultJson<List<BaseAdtype>> findAll() {
+        ResultJson<List<BaseAdtype>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseAdtypeRepo.findAll());
+        return result;
     }
 }

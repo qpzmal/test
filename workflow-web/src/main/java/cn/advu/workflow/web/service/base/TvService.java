@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.service.base;
 
 import cn.advu.workflow.domain.fcf_vu.BaseTv;
+import cn.advu.workflow.web.common.ResultJson;
 
 import java.util.List;
 
@@ -10,10 +11,7 @@ import java.util.List;
  */
 public interface TvService {
 
-    int insert(BaseTv obj);
-    int delete(String id);
-    int update(String id);
-    List<BaseTv> queryAll();
+    ResultJson<Integer> addTv(BaseTv baseTv);
+    ResultJson<List<BaseTv>> findAll();
 
-    List<BaseTv> queryByCondition(BaseTv obj);
 }

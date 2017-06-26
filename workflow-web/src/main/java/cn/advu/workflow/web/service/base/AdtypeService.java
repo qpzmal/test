@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.service.base;
 
 import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
+import cn.advu.workflow.web.common.ResultJson;
 
 import java.util.List;
 
@@ -10,10 +11,7 @@ import java.util.List;
  */
 public interface AdtypeService {
 
-    int insert(BaseAdtype obj);
-    int delete(String id);
-    int update(String id);
-    List<BaseAdtype> queryAll();
+    ResultJson<Integer> addAdtype(BaseAdtype baseAdtype);
+    ResultJson<List<BaseAdtype>> findAll();
 
-    List<BaseAdtype> queryByCondition(BaseAdtype obj);
 }
