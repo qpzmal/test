@@ -15,13 +15,13 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">用户密码:</label>
             <div class="col-sm-8">
-                <input id="password" name="password"  class="form-control" type="text" >
+                <input id="password" name="password"  class="form-control"  type="password" required="">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">确认密码:</label>
             <div class="col-sm-8">
-                <input id="repassword" name="repassword"  class="form-control" type="text" >
+                <input id="repassword" name="repassword"  class="form-control"  type="password" required="">
             </div>
         </div>
         <div class="form-group">
@@ -51,25 +51,25 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">部门:</label>
             <div class="col-sm-8">
-                <input id="curl" type="url" class="form-control" name="url">
+                <input id="curl" type="text" class="form-control" name="url">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">是否可用:</label>
             <div class="col-sm-8">
-                <input id="curl" type="url" class="form-control" name="url">
+                <input id="curl" type="text" class="form-control" name="url">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">排序:</label>
             <div class="col-sm-8">
-                <input id="curl" type="url" class="form-control" name="url">
+                <input id="curl" type="text" class="form-control" name="url">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">角色:</label>
             <div class="col-sm-8">
-                <input id="curl" type="url" class="form-control" name="url">
+                <input id="curl" type="text" class="form-control">
             </div>
         </div>
 
@@ -119,7 +119,21 @@
     ),
     $().ready(
         function(){
-            $("#commentForm").validate();
+            var e="<i class='fa fa-times-circle'></i> ";
+            $("#commentForm").validate(
+                    {
+                        rules:{
+                            repassword:{
+                                equalTo:"#password"
+                            }
+                        },
+                        messages:{
+                            repassword:{
+                                equalTo:e+"两次输入的密码不一致"
+                            }
+                        }
+                    }
+            );
         }
         );
     $(".btn-primary").click(function(){

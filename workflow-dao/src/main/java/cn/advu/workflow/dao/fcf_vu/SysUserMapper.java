@@ -11,7 +11,8 @@ public interface SysUserMapper extends BaseDAO<SysUser> {
 
 
     // 以下为自定义SQL
-    List<SysUser> queryAll(@Param("item_status") int status);
+
+    List<SysUser> queryAll(@Param("item_status") Integer status);
 
     SysUser queryUserByNameAndId(@Param("username") String userName, @Param("userid") String userid);
 

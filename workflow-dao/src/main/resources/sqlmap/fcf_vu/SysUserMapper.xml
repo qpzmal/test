@@ -240,7 +240,7 @@
     select
     <include refid="Base_Column_List" />
     from sys_user
-    <if test="status != null">
+    <if test="item_status != null">
       where item_status = #{status,jdbcType=BIT}
     </if>
   </select>

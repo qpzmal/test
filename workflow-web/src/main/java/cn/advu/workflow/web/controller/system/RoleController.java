@@ -2,14 +2,16 @@ package cn.advu.workflow.web.controller.system;
 
 import cn.advu.workflow.domain.fcf_vu.SysRole;
 import cn.advu.workflow.web.common.ResultJson;
-import cn.advu.workflow.web.service.system.RoleService;
+import cn.advu.workflow.web.service.system.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 角色相关controller, 用于系统设置——角色管理
@@ -22,7 +24,32 @@ import javax.servlet.http.HttpServletRequest;
 public class RoleController {
     
     @Autowired
-    private RoleService roleService;
+    private SysRoleService sysRoleService;
+
+    /**
+     * 跳转角色业务首页-角色列表页
+     *
+     * @param resultModel
+     * @return
+     */
+    @RequestMapping("/index")
+    public String toIndex(Model resultModel){
+        ResultJson<List<SysRole>> result = sysRoleService.findAll();
+        resultModel.addAttribute("dataList",result.getData());
+        return "role/index_list";
+    }
+
+    /**
+     * 新增角色
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/add", method = RequestMethod.POST)
+    public ResultJson<Object> addRole(SysRole sysRole, HttpServletRequest request){
+        return sysRoleService.addRole(sysRole);
+    }
+
 //
 //    /**
 //     * 查询所有角色, 状态及其权限
@@ -44,16 +71,7 @@ public class RoleController {
 //        return roleService.getAllPermissions();
 //    }
 //
-    /**
-     * 新增角色
-     *
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Object> addRole(SysRole sysRole, HttpServletRequest request){
-        return roleService.addRole(sysRole);
-    }
+
 //
 //    @RequestMapping("/manage")
 //    public String toManage(){
