@@ -90,7 +90,8 @@
 
     // 返回
     $(".btn-default").click(function(){
-        window.location.href = "/workflow/model/index";
+//        window.location.href = "/workflow/model/index";
+        history.go(-1);
     })
 
 </script>

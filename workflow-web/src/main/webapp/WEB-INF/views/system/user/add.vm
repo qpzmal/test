@@ -73,9 +73,13 @@
             </div>
         </div>
 
+
         <div class="form-group">
             <div class="col-sm-4 col-sm-offset-3">
-                <button class="btn btn-primary" type="botton">保存</button>
+                <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
             </div>
         </div>
     </form>
@@ -181,14 +185,19 @@
             success: function(returnData){
                 console.log(returnData);
                 if(returnData.code == 1){
-                    alert("添加成功!");
+                    layer.msg('添加成功!');
                     window.location.href = "/user/toList";
                 } else{
-                    alert("添加失败, 请联系技术人员!");
+                    layer.msg('添加失败, 请联系技术人员!');
                 }
             }
 
         });
     }
+
+// 返回
+$(".btn-default").click(function(){
+    history.go(-1);
+})
 </script>
 #end
