@@ -34,7 +34,7 @@ public class SysUserServiceImpl implements SysUserService{
         int result = sysUserRepo.add(user);
         
         if(result == 0){
-            rj.setCode(WebConstants.OPERATION_FAILURE);
+//            rj.setCode(WebConstants.OPERATION_FAILURE);
             return rj;
         }
         

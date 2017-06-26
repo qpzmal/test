@@ -1,5 +1,7 @@
 package cn.advu.workflow.web.controller.workflow;
 
+import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.constant.WebConstants;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -16,9 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,20 +43,26 @@ public class ModelController {
     /**
      * 模型列表
      */
-    @RequestMapping(value = "list")
-    public String modelList(Model model) {
-//        ModelAndView mav = new ModelAndView("workflow/model-list");
+    @RequestMapping(value = "index")
+    public String index(Model model) {
         List<org.activiti.engine.repository.Model> list = repositoryService.createModelQuery().list();
         model.addAttribute("modelList", list);
-        return "workflow/model-list";
+        return "workflow/model_index";
+    }
+
+    @RequestMapping("/toAdd")
+    public String toAdd(){
+        return "workflow/model_add";
     }
 
     /**
      * 创建模型
      */
-    @RequestMapping(value = "create")
-    public void create(@RequestParam("name") String name, @RequestParam("key") String key, @RequestParam("description") String description,
+    @RequestMapping(value = "add", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultJson<Object> create(@RequestParam("name") String name, @RequestParam("key") String key, @RequestParam("description") String description,
                        HttpServletRequest request, HttpServletResponse response) {
+        ResultJson<Object> rj = new ResultJson<>();
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectNode editorNode = objectMapper.createObjectNode();
@@ -79,10 +85,13 @@ public class ModelController {
             repositoryService.saveModel(modelData);
             repositoryService.addModelEditorSource(modelData.getId(), editorNode.toString().getBytes("utf-8"));
 
-            response.sendRedirect(request.getContextPath() + "/service/editor?id=" + modelData.getId());
+            rj = new ResultJson<>();
+            rj.setCode(WebConstants.OPERATION_SUCCESS);
+            return rj;
         } catch (Exception e) {
             LOGGER.error("创建模型失败：", e);
         }
+        return rj;
     }
 
     /**
