@@ -1,0 +1,93 @@
+## 引入css
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
+#end
+
+<div class="ibox-content">
+    <form class="form-horizontal m-t" id="commentForm">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">检测公司名称:</label>
+            <div class="col-sm-8">
+                <input id="monitor_request_name" name="monitor_request_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">检测链接:</label>
+            <div class="col-sm-8">
+                <input id="link" name="link" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">启用:</label>
+            <div class="col-sm-8">
+                <input id="item_status" name="item_status" type="checkbox" class="js-switch" checked />
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-3">
+                <button class="btn btn-primary" type="submit">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+## 引入js
+#define($jsblock)
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
+
+<script>
+    $.validator.setDefaults(
+            {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+                success:function(e){
+                    e.closest(".form-group").removeClass("has-error").addClass("has-success")
+                },
+                errorElement:"span",
+                errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+                errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+    ),
+            $().ready(
+                    function(){
+                        var e="<i class='fa fa-times-circle'></i> ";
+                        $("#commentForm").validate();
+                        {var i=document.querySelector(".js-switch"),
+                                t=(new Switchery(i,{color:"#1AB394"}));
+                        };
+                    }
+            );
+
+    $(".btn-primary").click(function(){
+        addRegion();
+    })
+
+    function addRegion(){
+        var name = $("#monitor_request_name").val();
+        var link = $("#link").val();
+        var item_status = $(".js-switch")[0].checked;
+        $.ajax({
+            url:"/monitor/add.json",
+            type:"post",
+            data:{
+                name:name,
+                link:link,
+                itemStatus:item_status
+            },
+            success: function(returnData){
+                console.log(returnData);
+                if(returnData.code == 1){
+                    alert("添加成功!");
+                    window.location.href = "/monitor/index";
+                } else{
+                    alert("添加失败, 请联系技术人员!");
+                }
+            }
+
+        });
+    }
+</script>
+#end

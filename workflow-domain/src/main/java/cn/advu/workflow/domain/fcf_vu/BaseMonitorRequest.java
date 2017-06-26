@@ -1,9 +1,10 @@
 package cn.advu.workflow.domain.fcf_vu;
 
+import cn.advu.workflow.domain.base.AbstractEntity;
+
 import java.util.Date;
 
-public class BaseMonitorRequest {
-    private Integer id;
+public class BaseMonitorRequest extends AbstractEntity {
 
     private String name;
 
@@ -17,13 +18,6 @@ public class BaseMonitorRequest {
 
     private String remark;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -47,22 +41,6 @@ public class BaseMonitorRequest {
 
     public void setItemStatus(Boolean itemStatus) {
         this.itemStatus = itemStatus;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 
     public String getRemark() {
