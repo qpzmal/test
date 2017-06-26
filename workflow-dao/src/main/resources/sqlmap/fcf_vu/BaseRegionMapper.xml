@@ -88,8 +88,5 @@
     select
     <include refid="Base_Column_List" />
     from base_region
-    <if test="status != null">
-      where item_status = #{status,jdbcType=BIT}
-    </if>
   </select>
 </mapper>

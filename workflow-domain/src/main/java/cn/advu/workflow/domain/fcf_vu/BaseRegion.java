@@ -1,21 +1,18 @@
 package cn.advu.workflow.domain.fcf_vu;
 
-public class BaseRegion {
-    private Integer id;
+import cn.advu.workflow.domain.base.AbstractEntity;
+
+/**
+ * 区域
+ *
+ */
+public class BaseRegion extends AbstractEntity {
 
     private String name;
 
     private Integer type;
 
     private Integer parentId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

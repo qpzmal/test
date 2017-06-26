@@ -62,7 +62,7 @@
                 <ul class="nav nav-second-level">
                     <li>
                         <a class="J_menuItem" href="${rc.contextPath}/user/addressList">通讯录</a> ## sys_user
-                        <a class="J_menuItem" href="${rc.contextPath}/area/index">区域管理</a> ## base_area
+                        <a class="J_menuItem" href="${rc.contextPath}/region/index">区域管理</a> ## base_area
                         <a class="J_menuItem" href="${rc.contextPath}/xxxxxx/index">客户管理</a> ##
                         <a class="J_menuItem" href="${rc.contextPath}/industry/index">客户行业管理</a> ## base_industry
                         <a class="J_menuItem" href="${rc.contextPath}/adtype/index">媒体管理</a> ## base_adtype
