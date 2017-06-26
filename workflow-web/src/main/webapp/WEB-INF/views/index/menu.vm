@@ -83,26 +83,27 @@
                         <a class="J_menuItem" href="${rc.contextPath}/user/index">用户管理</a>
                         <a class="J_menuItem" href="${rc.contextPath}/role/index">权限管理</a>
                         <a class="J_menuItem" href="${rc.contextPath}/system/index">系统管理</a>
-                    </li>
-                </ul>
-            </li>
-
-
-
-            <li>
-                <a href="#">
-                    <i class="fa fa-tasks"></i>
-                    <span class="nav-label">工作流</span>
-                    <span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/workflow/deployIndex">部署</a>
+                        <a class="J_menuItem" href="${rc.contextPath}/workflow/deploy/deployIndex">部署</a>
                         <a class="J_menuItem" href="${rc.contextPath}/workflow/model/list">model</a>
                     </li>
                 </ul>
             </li>
 
+
+
+##            <li>
+##                <a href="#">
+##                    <i class="fa fa-tasks"></i>
+##                    <span class="nav-label">工作流</span>
+##                    <span class="fa arrow"></span>
+##                </a>
+##                <ul class="nav nav-second-level">
+##                    <li>
+##                        <a class="J_menuItem" href="${rc.contextPath}/workflow/deployIndex">部署</a>
+##                        <a class="J_menuItem" href="${rc.contextPath}/workflow/model/list">model</a>
+##                    </li>
+##                </ul>
+##            </li>
 ##            <li>
 ##                <a href="#">
 ##                    <i class="fa fa-user"></i>

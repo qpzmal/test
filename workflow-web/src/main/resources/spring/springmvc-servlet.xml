@@ -121,4 +121,25 @@
     <!-- Setup Jackson instance -->
     <bean id="jackson" class="com.fasterxml.jackson.databind.ObjectMapper" />
 
+
+
+    <mvc:view-controller path="/resourceNotFound" view-name="error/404"/>
+    <mvc:view-controller path="/uncaughtException" view-name="error/500"/>
+    <mvc:view-controller path="/dataAccessFailure" view-name="error/500"/>
+    <mvc:view-controller path="/accessDenied" view-name="error/500"/>
+    <mvc:view-controller path="/RequestMethodNotSupported" view-name="error/500"/>
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <!-- 定义默认的异常处理页面 -->
+        <property name="defaultErrorView" value="error/500"/>
+        <!-- 定义异常处理页面用来获取异常信息的变量名，如果不添加exceptionAttribute属性，则默认为exception -->
+        <property name="exceptionAttribute" value="exception"/>
+        <!-- 定义需要特殊处理的异常，用类名或完全路径名作为key，异常页面名作为值 -->
+        <property name="exceptionMappings">
+            <props>
+                <!--<prop key="IOException">error/io.jsp</prop>-->
+                <!--<prop key="cn.advu.common.exception.NoCookieException">error/cookie_time_out</prop>-->
+            </props>
+        </property>
+    </bean>
+
 </beans>

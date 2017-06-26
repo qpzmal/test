@@ -40,17 +40,23 @@
         <servlet-name>springmvc</servlet-name>
     </filter-mapping>
 
+
+
+    <!--<error-page>-->
+        <!--<error-code>404</error-code>-->
+        <!--<location>/WEB-INF/views/error/404.vm</location>-->
+    <!--</error-page>-->
     <error-page>
         <error-code>404</error-code>
-        <location>/static/pagenotfound.html</location>
+        <location>/resourceNotFound</location>
     </error-page>
     <error-page>
         <error-code>405</error-code>
-        <location>/static/error.html</location>
+        <location>/uncaughtException</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/static/error.html</location>
+        <location>/uncaughtException</location>
     </error-page>
 
     <welcome-file-list>
