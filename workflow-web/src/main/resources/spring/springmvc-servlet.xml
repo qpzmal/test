@@ -122,7 +122,10 @@
     <bean id="jackson" class="com.fasterxml.jackson.databind.ObjectMapper" />
 
 
+    <!-- 避免jetty不访问welcome-file-list -->
+    <mvc:view-controller path="/" view-name="index" />
 
+    <!-- 异常处理页面 -->
     <mvc:view-controller path="/resourceNotFound" view-name="error/404"/>
     <mvc:view-controller path="/uncaughtException" view-name="error/500"/>
     <mvc:view-controller path="/dataAccessFailure" view-name="error/500"/>

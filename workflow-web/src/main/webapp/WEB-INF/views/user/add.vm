@@ -1,9 +1,9 @@
 <div class="ibox-content">
-    <form class="form-horizontal m-t" id="commentForm" action="/user/add">
+    <form class="form-horizontal m-t" id="commentForm" action="">
         <div class="form-group">
             <label class="col-sm-3 control-label">*登录名称:</label>
             <div class="col-sm-8">
-                <input id="login_name" name="login_name" placeholder="6-20位字符，支持字母、数字下划线组合"  minlength="2" type="text" class="form-control" required="" aria-required="true">
+                <input id="login_name" name="login_name" placeholder="2-20位字符，支持字母、数字下划线组合"  minlength="2" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
@@ -75,7 +75,7 @@
 
         <div class="form-group">
             <div class="col-sm-4 col-sm-offset-3">
-                <button class="btn btn-primary" type="submit">保存</button>
+                <button class="btn btn-primary" type="botton">保存</button>
             </div>
         </div>
     </form>
@@ -109,33 +109,34 @@
 ##        });
 ##    }
     $.validator.setDefaults(
-            {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
-                success:function(e){
-                    e.closest(".form-group").removeClass("has-error").addClass("has-success")
-                },
-                errorElement:"span",
-                errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
-                errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+        {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+            success:function(e){
+                e.closest(".form-group").removeClass("has-error").addClass("has-success")
+            },
+            errorElement:"span",
+            errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+            errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
     ),
     $().ready(
         function(){
             var e="<i class='fa fa-times-circle'></i> ";
             $("#commentForm").validate(
-                    {
-                        rules:{
-                            repassword:{
-                                equalTo:"#password"
-                            }
-                        },
-                        messages:{
-                            repassword:{
-                                equalTo:e+"两次输入的密码不一致"
-                            }
+                {
+                    rules:{
+                        repassword:{
+                            equalTo:"#password"
+                        }
+                    },
+                    messages:{
+                        repassword:{
+                            equalTo:e+"两次输入的密码不一致"
                         }
                     }
+                }
             );
         }
-        );
+    );
+
     $(".btn-primary").click(function(){
         addUser();
     })

@@ -1,11 +1,17 @@
 <!--此文件为cn.advu.workflow.web.example.activiti5.controller.Helloworld.java使用的测试文件，非项目使用文件-->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+>
+
+
 	<!-- 
 		ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration();
 		//连接数据库的配置
@@ -21,12 +27,15 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		 */
 		processEngineConfiguration.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
 	 -->
+
+	<util:properties id="dataSourceProps" location="classpath:${maven.config.dir}/db.properties"></util:properties>
+
 	<bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
 		<!-- 连接数据的配置 -->
-		<property name="jdbcDriver" value="com.mysql.jdbc.Driver"></property>
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3308/data_report?useUnicode=true&amp;characterEncoding=utf8"></property>
-		<property name="jdbcUsername" value="root"></property>
-		<property name="jdbcPassword" value="1234"></property>
+		<property name="jdbcDriver" value="#{dataSourceProps['jdbc.driverClass']}"></property>
+		<property name="jdbcUrl" value="#{dataSourceProps['master.jdbc.url']}"></property>
+		<property name="jdbcUsername" value="#{dataSourceProps['master.jdbc.username']}"></property>
+		<property name="jdbcPassword" value="#{dataSourceProps['master.jdbc.password']}"></property>
 		<!-- 没有表创建表 -->
 		<property name="databaseSchemaUpdate" value="true"></property>
 	</bean>

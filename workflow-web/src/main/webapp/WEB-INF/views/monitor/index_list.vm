@@ -72,7 +72,6 @@
 
 
 #define($jsblock)
-##<script src="#springUrl("")/static/js/contabs.min.js?$!application.getAttribute('/static/js/contabs.min.js')"></script>
 <script>
     $(function(){
     });
