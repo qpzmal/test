@@ -1,8 +1,8 @@
-package cn.advu.workflow.web.controller.base;
+package cn.advu.workflow.web.controller.module;
 
-import cn.advu.workflow.domain.fcf_vu.BaseRegion;
+import cn.advu.workflow.domain.fcf_vu.BaseIndustry;
 import cn.advu.workflow.web.common.ResultJson;
-import cn.advu.workflow.web.service.base.RegionService;
+import cn.advu.workflow.web.service.base.IndustryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,48 +15,48 @@ import java.util.List;
 
 
 /**
- * 区域相关controller，用于管理区域
+ * 行业相关controller，用于管理行业
  *
  */
 @Controller
-@RequestMapping("/region")
-public class RegionController {
+@RequestMapping("/industry")
+public class IndustryController {
     
     @Autowired
-    private RegionService regionService;
+    private IndustryService industryService;
 
     /**
-     * 跳转区域业务首页-区域列表页
+     * 跳转行业业务首页-行业列表页
      *
      * @param resultModel
      * @return
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
-        ResultJson<List<BaseRegion>> result = regionService.findAll();
+        ResultJson<List<BaseIndustry>> result = industryService.findAll();
         resultModel.addAttribute("dataList",result.getData());
-        return "region/index_list";
+        return "modules/industry/list";
     }
 
     /**
-     * 新增区域
+     * 新增行业
      *
      * @return
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addRegion(BaseRegion baseRegion, HttpServletRequest request){
-        return regionService.addRegion(baseRegion);
+    public ResultJson<Integer> addIndustry(BaseIndustry baseIndustry, HttpServletRequest request){
+        return industryService.addIndustry(baseIndustry);
     }
 
     /**
-     * 跳转新增区域页面
+     * 跳转新增行业页面
      *
      * @return
      */
     @RequestMapping("/toAdd")
     public String toAdd(){
-        return "region/add";
+        return "modules/industry/add";
     }
 
 }

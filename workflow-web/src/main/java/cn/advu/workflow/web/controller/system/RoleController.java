@@ -36,7 +36,7 @@ public class RoleController {
     public String toIndex(Model resultModel){
         ResultJson<List<SysRole>> result = sysRoleService.findAll();
         resultModel.addAttribute("dataList",result.getData());
-        return "role/index_list";
+        return "system/role/list";
     }
 
     /**
@@ -80,7 +80,7 @@ public class RoleController {
 //
     @RequestMapping("/toAdd")
     public String toAdd(){
-        return "role/add";
+        return "system/role/add";
     }
 //
 //    @RequestMapping("/toEdit")

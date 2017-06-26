@@ -1,4 +1,4 @@
-package cn.advu.workflow.web.controller.base;
+package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseMonitorRequest;
 import cn.advu.workflow.web.common.ResultJson;
@@ -28,7 +28,7 @@ public class MonitorController {
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
         resultModel.addAttribute("dataList",monitorRequestService.findAll().getData());
-        return "monitor/index_list";
+        return "modules/monitor/list";
     }
 
 
@@ -45,7 +45,7 @@ public class MonitorController {
 
     @RequestMapping("/toAdd")
     public String toAdd(){
-        return "monitor/add";
+        return "modules/monitor/add";
     }
 
     @RequestMapping("/toUpdate")

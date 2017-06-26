@@ -1,8 +1,8 @@
-package cn.advu.workflow.web.controller.base;
+package cn.advu.workflow.web.controller.module;
 
-import cn.advu.workflow.domain.fcf_vu.BaseIndustry;
+import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
 import cn.advu.workflow.web.common.ResultJson;
-import cn.advu.workflow.web.service.base.IndustryService;
+import cn.advu.workflow.web.service.base.AdtypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,15 +15,15 @@ import java.util.List;
 
 
 /**
- * 行业相关controller，用于管理行业
+ * 媒体相关controller，用于管理行业
  *
  */
 @Controller
-@RequestMapping("/industry")
-public class IndustryController {
+@RequestMapping("/adtype")
+public class AdtypeController {
     
     @Autowired
-    private IndustryService industryService;
+    private AdtypeService adtypeService;
 
     /**
      * 跳转行业业务首页-行业列表页
@@ -33,9 +33,9 @@ public class IndustryController {
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
-        ResultJson<List<BaseIndustry>> result = industryService.findAll();
+        ResultJson<List<BaseAdtype>> result = adtypeService.findAll();
         resultModel.addAttribute("dataList",result.getData());
-        return "industry/index_list";
+        return "modules/adtype/list";
     }
 
     /**
@@ -45,8 +45,8 @@ public class IndustryController {
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addIndustry(BaseIndustry baseIndustry, HttpServletRequest request){
-        return industryService.addIndustry(baseIndustry);
+    public ResultJson<Integer> addAdtype(BaseAdtype baseAdtype, HttpServletRequest request){
+        return adtypeService.addAdtype(baseAdtype);
     }
 
     /**
@@ -56,7 +56,7 @@ public class IndustryController {
      */
     @RequestMapping("/toAdd")
     public String toAdd(){
-        return "industry/add";
+        return "modules/adtype/add";
     }
 
 }

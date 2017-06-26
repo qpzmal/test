@@ -1,4 +1,4 @@
-package cn.advu.workflow.web.controller.base;
+package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseTv;
 import cn.advu.workflow.web.common.ResultJson;
@@ -35,7 +35,7 @@ public class TvController {
     public String toIndex(Model resultModel){
         ResultJson<List<BaseTv>> result = tvService.findAll();
         resultModel.addAttribute("dataList",result.getData());
-        return "tv/index_list";
+        return "modules/tv/list";
     }
 
     /**
@@ -56,7 +56,7 @@ public class TvController {
      */
     @RequestMapping("/toAdd")
     public String toAdd(){
-        return "tv/add";
+        return "modules/tv/add";
     }
 
 }

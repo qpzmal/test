@@ -35,7 +35,7 @@ public class UserController {
     public String toIndex(Model resultModel){
         ResultJson<List<SysUser>> result = sysUserService.findAll();
         resultModel.addAttribute("dataList",result.getData());
-        return "user/index_list";
+        return "system/user/list";
     }
 
     /**
@@ -61,7 +61,7 @@ public class UserController {
     @RequestMapping("/toAdd")
     public String toAdd(){
         LOGGER.debug("user-to-add-start");
-        return "user/add";
+        return "system/user/add";
     }
 
     @RequestMapping("/index_content")
@@ -71,7 +71,7 @@ public class UserController {
     
     @RequestMapping("/toList")
     public String toList(){
-        return "user/list";
+        return "system/user/list";
     }
     
 //    @RequestMapping("/getAll")

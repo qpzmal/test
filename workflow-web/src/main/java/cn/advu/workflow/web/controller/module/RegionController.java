@@ -1,8 +1,8 @@
-package cn.advu.workflow.web.controller.base;
+package cn.advu.workflow.web.controller.module;
 
-import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
+import cn.advu.workflow.domain.fcf_vu.BaseRegion;
 import cn.advu.workflow.web.common.ResultJson;
-import cn.advu.workflow.web.service.base.AdtypeService;
+import cn.advu.workflow.web.service.base.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,48 +15,48 @@ import java.util.List;
 
 
 /**
- * 媒体相关controller，用于管理行业
+ * 区域相关controller，用于管理区域
  *
  */
 @Controller
-@RequestMapping("/adtype")
-public class AdtypeController {
+@RequestMapping("/region")
+public class RegionController {
     
     @Autowired
-    private AdtypeService adtypeService;
+    private RegionService regionService;
 
     /**
-     * 跳转行业业务首页-行业列表页
+     * 跳转区域业务首页-区域列表页
      *
      * @param resultModel
      * @return
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
-        ResultJson<List<BaseAdtype>> result = adtypeService.findAll();
+        ResultJson<List<BaseRegion>> result = regionService.findAll();
         resultModel.addAttribute("dataList",result.getData());
-        return "adtype/index_list";
+        return "modules/region/list";
     }
 
     /**
-     * 新增行业
+     * 新增区域
      *
      * @return
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addAdtype(BaseAdtype baseAdtype, HttpServletRequest request){
-        return adtypeService.addAdtype(baseAdtype);
+    public ResultJson<Integer> addRegion(BaseRegion baseRegion, HttpServletRequest request){
+        return regionService.addRegion(baseRegion);
     }
 
     /**
-     * 跳转新增行业页面
+     * 跳转新增区域页面
      *
      * @return
      */
     @RequestMapping("/toAdd")
     public String toAdd(){
-        return "adtype/add";
+        return "modules/region/add";
     }
 
 }
