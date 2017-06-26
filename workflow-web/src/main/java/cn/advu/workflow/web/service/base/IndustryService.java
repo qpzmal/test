@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.service.base;
 
 import cn.advu.workflow.domain.fcf_vu.BaseIndustry;
+import cn.advu.workflow.web.common.ResultJson;
 
 import java.util.List;
 
@@ -10,10 +11,8 @@ import java.util.List;
  */
 public interface IndustryService {
 
-    int insert(BaseIndustry obj);
-    int delete(String id);
-    int update(String id);
-    List<BaseIndustry> queryAll();
+    ResultJson<Integer> addIndustry(BaseIndustry baseIndustry);
+    ResultJson<List<BaseIndustry>> findAll();
 
-    List<BaseIndustry> queryByCondition(BaseIndustry obj);
+
 }

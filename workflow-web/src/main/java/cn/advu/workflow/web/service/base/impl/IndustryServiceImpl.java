@@ -1,7 +1,9 @@
 package cn.advu.workflow.web.service.base.impl;
 
-import cn.advu.workflow.dao.fcf_vu.BaseIndustryMapper;
 import cn.advu.workflow.domain.fcf_vu.BaseIndustry;
+import cn.advu.workflow.repo.fcf_vu.BaseIndustryRepo;
+import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.base.IndustryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,30 +20,22 @@ public class IndustryServiceImpl implements IndustryService {
     private static final Logger LOGGER = LoggerFactory.getLogger(IndustryServiceImpl.class);
 
     @Autowired
-    private BaseIndustryMapper baseIndustryMapper;
+    private BaseIndustryRepo baseIndustryRepo;
+
 
     @Override
-    public int insert(BaseIndustry obj) {
-        return 0;
+    public ResultJson<Integer> addIndustry(BaseIndustry baseIndustry) {
+        Integer insertCount = baseIndustryRepo.addSelective(baseIndustry);
+        if(insertCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建区域失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
     @Override
-    public int delete(String id) {
-        return 0;
-    }
-
-    @Override
-    public int update(String id) {
-        return 0;
-    }
-
-    @Override
-    public List<BaseIndustry> queryAll() {
-        return null;
-    }
-
-    @Override
-    public List<BaseIndustry> queryByCondition(BaseIndustry obj) {
-        return null;
+    public ResultJson<List<BaseIndustry>> findAll() {
+        ResultJson<List<BaseIndustry>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseIndustryRepo.findAll());
+        return result;
     }
 }
