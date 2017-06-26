@@ -28,9 +28,9 @@ public class UserController {
         return "user/add";
     }
 
-    @RequestMapping("/index_v1")
-    public String toIndexV1(){
-        return "index_v1";
+    @RequestMapping("/index_content")
+    public String toIndexContent(){
+        return "index_content";
     }
     
     @RequestMapping("/toList")

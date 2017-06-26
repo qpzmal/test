@@ -21,7 +21,7 @@
 
     <div id="wrapper">
         ##	左侧导航开始
-        #parse('layout/menu.vm')
+        #parse('index/menu.vm')
         ##	左侧导航结束
 
         ## 右侧头部部分开始
@@ -86,7 +86,7 @@
                 </button>
                 <nav class="page-tabs J_menuTabs">
                     <div class="page-tabs-content">
-                        <a href="javascript:;" class="active J_menuTab" data-id="index_v1.html">首页</a>
+                        <a href="javascript:;" class="active J_menuTab" data-id="index_content.html">首页</a>
                     </div>
                 </nav>
                 <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>
@@ -108,7 +108,7 @@
                 <a href="login.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main">
-                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/user/index_v1" frameborder="0" data-id="index_v1.html" seamless></iframe>
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/user/index_content" frameborder="0" data-id="index_content.html" seamless></iframe>
             </div>
 
             <div class="footer">

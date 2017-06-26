@@ -1,1 +1,1 @@
-#set($layout = '/layout/main.vm')
+#set($layout = '/index/main.vm')

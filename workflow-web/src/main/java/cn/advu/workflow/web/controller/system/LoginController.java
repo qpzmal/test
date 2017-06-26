@@ -1,4 +1,4 @@
-package cn.advu.workflow.web.user.controller;
+package cn.advu.workflow.web.controller.system;
 
 import cn.advu.workflow.common.constant.Constants;
 import cn.advu.workflow.common.golbal.AjaxJson;

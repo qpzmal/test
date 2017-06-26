@@ -1,7 +1,7 @@
 
 #*
   多行注释
-  本页面访问地址：http://127.0.0.1:9012/example/index
+  本页面访问地址：http://127.0.0.1:9000/example/index
  *#
 
 
@@ -10,8 +10,8 @@
 
 
 ## css文件引入和css代码块
-#define($afterCssblock)
-<link href="#springUrl("")/static/css/style.css?$!application.getAttribute('/static/css/style.css')" rel="stylesheet" type="text/css"/>
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
 #end
 
 ## 页面内容
