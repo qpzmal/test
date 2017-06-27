@@ -1,6 +1,8 @@
 package cn.advu.workflow.domain.fcf_vu;
 
-public class SysUserRoleKey {
+import cn.advu.workflow.domain.base.AbstractEntity;
+
+public class SysUserRole extends AbstractEntity {
     private Integer admins;
 
     private Integer roles;

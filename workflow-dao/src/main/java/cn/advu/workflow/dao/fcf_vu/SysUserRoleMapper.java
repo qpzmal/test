@@ -1,12 +1,21 @@
 package cn.advu.workflow.dao.fcf_vu;
 
-import cn.advu.workflow.dao.base.ISqlMapper;
-import cn.advu.workflow.domain.fcf_vu.SysUserRoleKey;
+import cn.advu.workflow.dao.base.BaseDAO;
+import cn.advu.workflow.domain.fcf_vu.SysUserRole;
+import org.apache.ibatis.annotations.Param;
 
-public interface SysUserRoleMapper extends ISqlMapper {
-    int deleteByPrimaryKey(SysUserRoleKey key);
+import java.util.List;
 
-    int insert(SysUserRoleKey record);
+public interface SysUserRoleMapper extends BaseDAO<SysUserRole> {
 
-    int insertSelective(SysUserRoleKey record);
+    List<SysUserRole> queryAll();
+
+    List<SysUserRole> queryByUser(@Param("userId")Integer userId);
+
+    List<SysUserRole> queryByRole(@Param("roleId")Integer roleId);
+
+    int deleteByUser(@Param("userId")Integer userId);
+
+    int deleteByRole(@Param("roleId")Integer roleId);
+
 }

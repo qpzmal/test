@@ -11,4 +11,5 @@ import java.util.List;
 public interface SysRoleRepo extends IRepo<SysRole> {
 
     List<SysRole> findAll();
+
 }

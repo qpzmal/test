@@ -37,8 +37,6 @@ public class SysUser extends AbstractEntity {
 
     private Boolean itemStatus;
 
-
-
     public String getLoginName() {
         return loginName;
     }

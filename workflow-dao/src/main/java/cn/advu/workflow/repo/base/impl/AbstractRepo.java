@@ -32,4 +32,13 @@ public abstract class AbstractRepo<T extends IEntity> implements IRepo<T> {
         }
         return count;
     }
+
+    @Override
+    public int remove(Integer id) {
+        int count = 0;
+        if (id != null) {
+            count = getSqlMapper().deleteByPrimaryKey(id);
+        }
+        return count;
+    }
 }

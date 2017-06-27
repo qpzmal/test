@@ -1,7 +1,9 @@
 package cn.advu.workflow.web.service.system.impl;
 
 import cn.advu.workflow.domain.fcf_vu.SysRole;
+import cn.advu.workflow.domain.fcf_vu.SysUserRole;
 import cn.advu.workflow.repo.fcf_vu.SysRoleRepo;
+import cn.advu.workflow.repo.fcf_vu.SysUserRoleRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.system.SysRoleService;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +23,8 @@ public class SysRoleServiceImpl implements SysRoleService {
 //
     @Autowired
     private SysRoleRepo sysRoleRepo;
+    @Autowired
+    private SysUserRoleRepo sysUserRoleRepo;
 
     @Override
     public ResultJson<List<SysRole>> findAll() {
@@ -29,28 +34,11 @@ public class SysRoleServiceImpl implements SysRoleService {
         return rj;
     }
 
-//
-//    @Autowired
-//    private SysPermissionMapper permissionMapper;
-//
-//    @Override
-//    public ResultJson<List<Map<String, Object>>> getAllRoleAndPers() {
-//        List<Map<String, Object>> data = new ArrayList<>();
-//        List<SysRole> roles = roleMapper.getAll();//查询所有角色
-//        for(SysRole role:roles){
-//            List<SysPermission> permissions =
-//                    permissionMapper.getByRoleId(role.getRoleId());//根据角色id查询该角色权限
-//            Map<String, Object> roleAndPerms = new HashMap<>();//角色权限存放到map中
-//            roleAndPerms.put("role", role);
-//            roleAndPerms.put("perms", permissions);
-//            data.add(roleAndPerms);
-//        }
-//        ResultJson<List<Map<String, Object>>> rj =
-//                new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-//        rj.setData(data);
-//        return rj;
-//    }
-//
+    @Override
+    public ResultJson<List<SysRole>> findUserRoleAll(Integer userId) {
+        return null;
+    }
+
     @Override
     @Transactional
     public ResultJson<Object> addRole(SysRole sysRole) {
@@ -61,41 +49,32 @@ public class SysRoleServiceImpl implements SysRoleService {
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
-//
-//    @Override
-//    public ResultJson<List<SysPermission>> getAllPermissions() {
-//        List<SysPermission> permissions = permissionMapper.getAll();
-//        ResultJson<List<SysPermission>> rj = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-//        rj.setData(permissions);
-//        return rj;
-//    }
-//
-//    @Override
-//    public List<SysPermission> getPermissionsOf(Integer roleId) {
-//        List<SysPermission> perms = permissionMapper.getByRoleId(roleId);
-//        return perms;
-//    }
-//
-//    @Override
-//    @Transactional
-//    public ResultJson<Object> editRole(Integer creatorId, String roleName, String[] permissionIds) {
-//        Integer roleId = roleMapper.getIdByName(roleName);
-//        //删除原有的权限
-//        roleMapper.clearPermissionsByName(roleId);
-//        //赋予新权限
-//        for(String pid:permissionIds){
-//            permissionMapper.addPermissionForRole(creatorId, roleId, pid);
-//        }
-//
-//        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-//    }
-//
-//    @Override
-//    public ResultJson<List<SysRole>> getAll() {
-//        List<SysRole> roles = roleMapper.getAll();
-//        ResultJson<List<SysRole>> rj = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-//        rj.setData(roles);
-//        return rj;
-//    }
+    @Override
+    public ResultJson<List<Integer>> addUserRole(Integer userId, List<Integer> roleIds) {
+
+        List<SysRole> sysRoles = sysRoleRepo.findAll();
+        List<Integer> activeRoleIds = new ArrayList<>();
+
+        for (Integer roleId : roleIds) {
+            boolean isActiveRole = false;
+
+            for (SysRole sysRole : sysRoles) {
+                if (sysRole.getId().equals(roleId)) {
+                    isActiveRole = true;
+                    break;
+                }
+            }
+            if (isActiveRole) {
+                SysUserRole sysUserRole = new SysUserRole();
+                sysUserRole.setAdmins(userId);
+                sysUserRole.setRoles(roleId);
+                sysUserRoleRepo.addSelective(sysUserRole);
+                activeRoleIds.add(roleId);
+            }
+        }
+        ResultJson<List<Integer>> resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        resultJson.setData(activeRoleIds);
+        return resultJson;
+    }
 
 }

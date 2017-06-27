@@ -30,4 +30,6 @@ public class SysRoleRepoImpl extends AbstractRepo<SysRole> implements SysRoleRep
     public List<SysRole> findAll() {
         return sysRoleMapper.queryAll();
     }
+
+
 }

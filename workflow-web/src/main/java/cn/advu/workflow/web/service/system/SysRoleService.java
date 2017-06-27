@@ -16,11 +16,28 @@ public interface SysRoleService {
     ResultJson<Object> addRole(SysRole sysRole);
 
     /**
+     * 批量给用户赋予角色
+     *
+     * @param userId
+     * @param roleIds
+     * @return
+     */
+    ResultJson<List<Integer>> addUserRole(Integer userId, List<Integer> roleIds);
+
+    /**
      * 返回全部角色
      *
      * @return
      */
     ResultJson<List<SysRole>> findAll();
+
+    /**
+     * 返回用户全部角色
+     *
+     * @return
+     */
+    ResultJson<List<SysRole>> findUserRoleAll(Integer userId);
+
 //
 //    ResultJson<List<Map<String, Object>>> getAllRoleAndPers();
 //
