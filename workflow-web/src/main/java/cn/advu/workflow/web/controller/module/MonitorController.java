@@ -48,10 +48,17 @@ public class MonitorController {
         return "modules/monitor/add";
     }
 
+    /**
+     * 跳转至监测机构更新页面
+     *
+     * @param baseMonitorRequest
+     * @param resultModel
+     * @return
+     */
     @RequestMapping("/toUpdate")
-    public String toUpdate(BaseMonitorRequest baseMonitorRequest, Model resultModel){
-        baseMonitorRequest = monitorRequestService.queryById(baseMonitorRequest.getId() + "").getData();
-        resultModel.addAttribute("data", baseMonitorRequest);
+    public String toUpdate(Integer id, Model resultModel){
+        BaseMonitorRequest baseMonitorRequest = monitorRequestService.findById(id).getData();
+        resultModel.addAttribute("baseMonitorRequest", baseMonitorRequest);
         return "modules/monitor/update";
     }
 

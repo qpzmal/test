@@ -38,4 +38,11 @@ public class AdtypeServiceImpl implements AdtypeService {
         result.setData(baseAdtypeRepo.findAll());
         return result;
     }
+
+    @Override
+    public ResultJson<BaseAdtype> findById(Integer id) {
+        ResultJson<BaseAdtype> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseAdtypeRepo.findOne(id));
+        return result;
+    }
 }

@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.service.system;
 
 import cn.advu.workflow.domain.fcf_vu.SysRole;
+import cn.advu.workflow.domain.fcf_vu.SysUserRole;
 import cn.advu.workflow.web.common.ResultJson;
 
 import java.util.List;
@@ -16,6 +17,23 @@ public interface SysRoleService {
     ResultJson<Object> addRole(SysRole sysRole);
 
     /**
+     * 返回全部角色
+     *
+     * @return
+     */
+    ResultJson<List<SysRole>> findAll();
+
+    /**
+     * 返回当前角色
+     *
+     * @param roleId
+     * @return
+     */
+    ResultJson<SysRole> findByRoleId(Integer roleId);
+
+    // 用户-角色 关系
+
+    /**
      * 批量给用户赋予角色
      *
      * @param userId
@@ -25,28 +43,18 @@ public interface SysRoleService {
     ResultJson<List<Integer>> addUserRole(Integer userId, List<Integer> roleIds);
 
     /**
-     * 返回全部角色
-     *
-     * @return
-     */
-    ResultJson<List<SysRole>> findAll();
-
-    /**
      * 返回用户全部角色
      *
      * @return
      */
-    ResultJson<List<SysRole>> findUserRoleAll(Integer userId);
+    ResultJson<List<SysUserRole>> findUserRoleAll(Integer userId);
 
-//
-//    ResultJson<List<Map<String, Object>>> getAllRoleAndPers();
-//
-//    ResultJson<Object> addRole(Integer creatorId, String roleName, String[] permissionIds);
-
-//    ResultJson<List<SysPermission>> getAllPermissions();
-//
-//    List<SysPermission> getPermissionsOf(Integer roleId);
-
-//    ResultJson<Object> editRole(Integer creatorId, String roleName, String[] permissionIds);
+    /**
+     * 删除用户所有角色
+     *
+     * @param userId
+     * @return
+     */
+    ResultJson<Integer> removeUserRole(Integer userId);
 
 }

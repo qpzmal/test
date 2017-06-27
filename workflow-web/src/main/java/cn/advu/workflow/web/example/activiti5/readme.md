@@ -1,3 +1,13 @@
+TODO列表
+1、列表页中的删除按钮，没有触发删除事件
+2、更新页面如果数据库里该项没有值，则显示空。
+3、启用停用，做成checkbox样式
+4、UserController里面的index_content和list都是干什么用的？不是我加的
+5、角色页面，checkbox的展示错误
+6、
+
+
+
 整合activiti5笔记
 =
 

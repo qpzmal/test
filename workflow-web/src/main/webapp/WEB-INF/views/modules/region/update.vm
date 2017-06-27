@@ -1,34 +1,30 @@
 ## 引入css
 #define($cssblock)
-<link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
 #end
 
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
-        <input type="hidden" name="id" value="$baseMonitorRequest.id">
         <div class="form-group">
-            <label class="col-sm-3 control-label">检测公司名称:</label>
+            <label class="col-sm-3 control-label">区域名称:</label>
             <div class="col-sm-8">
-                <input value="$baseMonitorRequest.name" id="monitor_request_name" name="monitor_request_name" maxlength="50" type="text" class="form-control" required="" aria-required="true" value="$!{data.name}">
+                <input value = "$baseRegion.name" id="region_name" name="region_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">检测链接:</label>
+            <label class="col-sm-3 control-label">区域类型:</label>
             <div class="col-sm-8">
-                <input value="$baseMonitorRequest.link" id="link" name="link" maxlength="50" type="text" class="form-control" required="" aria-required="true" value="$!{data.link}">
+                <select data-placeholder="选择区域类型..." class="chosen-select" style="width:350px;" tabindex="2">
+                    <option value="">请选择区域类型</option>
+                    <option value="1" hassubinfo="true">省</option>
+                    <option value="2" hassubinfo="true">市</option>
+                    <option value="3" hassubinfo="true">自治州</option>
+                    <option value="4" hassubinfo="true">区</option>
+                </select>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label">启用${data.itemStatus}:</label>
-            <div class="col-sm-8">
-                <input id="item_status" name="item_status" type="checkbox" class="js-switch"
-                       #if($!{baseMonitorRequest.itemStatus} == true)
-                       checked
-                       #end
-                />
-            </div>
 
-        </div>
         <div class="form-group">
             <div class="col-sm-4 col-sm-offset-3">
                 <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
@@ -45,9 +41,9 @@
 
 ## 引入js
 #define($jsblock)
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
 
 <script>
     $.validator.setDefaults(
@@ -63,33 +59,39 @@
                     function(){
                         var e="<i class='fa fa-times-circle'></i> ";
                         $("#commentForm").validate();
-                        {var i=document.querySelector(".js-switch"),
-                                t=(new Switchery(i,{color:"#1AB394"}));
-                        };
                     }
             );
+    var config = {
+        ".chosen-select": {},
+        ".chosen-select-deselect": {allow_single_deselect: !0},
+        ".chosen-select-no-single": {disable_search_threshold: 10},
+        ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
+        ".chosen-select-width": {width: "95%"}
+    };
+    for (var selector in config)
+        $(selector).chosen(config[selector]);
 
     $(".btn-primary").click(function(){
         addRegion();
     })
 
     function addRegion(){
-        var name = $("#monitor_request_name").val();
-        var link = $("#link").val();
-        var item_status = $(".js-switch")[0].checked;
+        var name = $("#region_name").val();
+//        var description = $("#description").val();
+//        var is_system = $(".js-switch")[0].checked;
         $.ajax({
-            url:"/monitor/add.json",
+            url:"/region/add.json",
             type:"post",
             data:{
-                name:name,
-                link:link,
-                itemStatus:item_status
+                name:name
+//                description:description,
+//                isSystem:is_system
             },
             success: function(returnData){
                 console.log(returnData);
                 if(returnData.code == 1){
                     layer.msg('添加成功!');
-                    window.location.href = "/monitor/index";
+                    window.location.href = "/region/index";
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }
@@ -102,6 +104,5 @@
     $(".btn-default").click(function(){
         history.go(-1);
     })
-
 </script>
 #end

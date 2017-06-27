@@ -3,6 +3,7 @@ package cn.advu.workflow.domain.fcf_vu;
 import cn.advu.workflow.domain.base.AbstractEntity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户
@@ -36,6 +37,16 @@ public class SysUser extends AbstractEntity {
     private Long lastLoginTime;
 
     private Boolean itemStatus;
+
+    private List<Integer> userRoleList;
+
+    public List<Integer> getUserRoleList() {
+        return userRoleList;
+    }
+
+    public void setUserRoleList(List<Integer> userRoleList) {
+        this.userRoleList = userRoleList;
+    }
 
     public String getLoginName() {
         return loginName;

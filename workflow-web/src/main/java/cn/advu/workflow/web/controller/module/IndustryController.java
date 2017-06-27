@@ -59,4 +59,21 @@ public class IndustryController {
         return "modules/industry/add";
     }
 
+    /**
+     * 跳转到更新行业页面
+     *
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toUpdate")
+    public String toUpdate(Integer id, Model model){
+
+        BaseIndustry baseIndustry = industryService.findById(id).getData();
+
+        model.addAttribute("baseIndustry", baseIndustry);
+
+        return "modules/industry/update";
+    }
+
 }

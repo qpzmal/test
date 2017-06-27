@@ -41,4 +41,13 @@ public abstract class AbstractRepo<T extends IEntity> implements IRepo<T> {
         }
         return count;
     }
+
+    @Override
+    public T findOne(Integer id) {
+        T entity = null;
+        if (id != null) {
+            entity = getSqlMapper().selectByPrimaryKey(id);
+        }
+        return entity;
+    }
 }

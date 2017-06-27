@@ -38,4 +38,11 @@ public class TvServiceImpl implements TvService {
         result.setData(baseTvRepo.findAll());
         return result;
     }
+
+    @Override
+    public ResultJson<BaseTv> findById(Integer id) {
+        ResultJson<BaseTv> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseTvRepo.findOne(id));
+        return result;
+    }
 }

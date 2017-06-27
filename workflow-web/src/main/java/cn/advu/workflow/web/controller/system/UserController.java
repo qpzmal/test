@@ -2,12 +2,13 @@ package cn.advu.workflow.web.controller.system;
 
 import cn.advu.workflow.domain.fcf_vu.SysRole;
 import cn.advu.workflow.domain.fcf_vu.SysUser;
+import cn.advu.workflow.domain.fcf_vu.SysUserRole;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
-import cn.advu.workflow.web.dto.system.User;
 import cn.advu.workflow.web.dto.system.UserRole;
 import cn.advu.workflow.web.service.system.SysRoleService;
 import cn.advu.workflow.web.service.system.SysUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class UserController {
     private static Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    private SysUserService sysUserService;
+    SysUserService sysUserService;
 
     @Autowired
     SysRoleService sysRoleService;
@@ -49,32 +50,44 @@ public class UserController {
     /**
      * 新增用户
      *
-     * @param user
+     * @param sysUser
      * @param request
      * @return
      */
     @RequestMapping(value="/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResultJson<User> add(User user, HttpServletRequest request){
+    public ResultJson<SysUser> add(SysUser sysUser, String userRoleList, HttpServletRequest request){
 
-        ResultJson<User> resultJson = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        ResultJson<SysUser> resultJson = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
 
         // 新增用户
-        SysUser sysUser = user.getSysUser();
         sysUserService.add(sysUser);
 
-        // 新增用户角色
-        List<Integer> userRoleIdList = sysRoleService.addUserRole(
+        String[] userRoleStrList = userRoleList.split(",");
+        List<Integer> userRoleIdList = new ArrayList<>();
+        for (String userRole : userRoleStrList) {
+            if (StringUtils.isNoneEmpty(userRole)) {
+                userRoleIdList.add(Integer.valueOf(userRole));
+            }
+        }
+
+        userRoleIdList = sysRoleService.addUserRole(
                 sysUser.getId(),
-                user.getUserRoleIdList()
+                userRoleIdList
         ).getData();
 
-        user.setUserRoleIdList(userRoleIdList);
-        resultJson.setData(user);
+        sysUser.setUserRoleList(userRoleIdList);
+        resultJson.setData(sysUser);
 
         return resultJson;
     }
 
+    /**
+     * 跳转新增页
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping("/toAdd")
     public String toAdd(Model model){
 
@@ -83,6 +96,36 @@ public class UserController {
         model.addAttribute("roleList", userRoleList);
 
         return "system/user/add";
+    }
+
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toUpdate")
+    public String toUpdate(Integer userId, Model model){
+
+        SysUser sysUser = sysUserService.findByUserId(userId).getData();
+
+        List<UserRole> userRoleList = initUserRoleList(userId);
+
+        model.addAttribute("roleList", userRoleList);
+        model.addAttribute("sysUser", sysUser);
+
+        return "system/user/update";
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param userId
+     */
+    @RequestMapping("/remove")
+    public void remove(Integer userId){
+        sysRoleService.removeUserRole(userId);
+        sysUserService.remove(userId);
     }
 
     @RequestMapping("/index_content")
@@ -95,6 +138,31 @@ public class UserController {
         return "system/user/list";
     }
 
+    /**
+     * 初始化用户角色列表
+     *
+     * @param userId
+     * @return
+     */
+    private List<UserRole> initUserRoleList(Integer userId) {
+        List<UserRole> userRoleList = new ArrayList<>();
+        List<SysUserRole> sysUserRoleList = sysRoleService.findUserRoleAll(userId).getData();
+        List<SysRole> roleList = sysRoleService.findAll().getData();
+        for (SysRole sysRole : roleList) {
+            UserRole userRole = new UserRole();
+            userRole.setSysRole(sysRole);
+            // 设置当前用户是否拥有此角色
+            for (SysUserRole sysUserRole : sysUserRoleList) {
+                if (sysRole.getId().equals(sysUserRole.getRoles())) {
+                    userRole.setSelected(true);
+                    break;
+                }
+            }
+            userRoleList.add(userRole);
+        }
+
+        return userRoleList;
+    }
 
     /**
      * 初始化用户角色列表

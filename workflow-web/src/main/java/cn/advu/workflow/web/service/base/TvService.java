@@ -11,7 +11,28 @@ import java.util.List;
  */
 public interface TvService {
 
+    /**
+     * 新增媒体分类
+     *
+     * @param baseTv
+     * @return
+     */
     ResultJson<Integer> addTv(BaseTv baseTv);
+
+    /**
+     * 返回全部媒体
+     *
+     * @return
+     */
     ResultJson<List<BaseTv>> findAll();
+
+    /**
+     * 返回当前媒体分类
+     *
+     * @param id
+     * @return
+     */
+    ResultJson<BaseTv> findById(Integer id);
+
 
 }

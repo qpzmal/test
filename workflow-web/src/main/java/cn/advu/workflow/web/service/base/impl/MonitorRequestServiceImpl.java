@@ -40,9 +40,10 @@ public class MonitorRequestServiceImpl implements MonitorRequestService {
     }
 
     @Override
-    public ResultJson<BaseMonitorRequest> queryById(String id) {
+    public ResultJson<BaseMonitorRequest> findById(Integer id) {
         ResultJson<BaseMonitorRequest> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        result.setData(baseMonitorRequestRepo.queryById(id));
+        result.setData(baseMonitorRequestRepo.findOne(id));
         return result;
     }
+
 }

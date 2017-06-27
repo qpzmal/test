@@ -20,7 +20,7 @@ import java.util.List;
 public class SysRoleServiceImpl implements SysRoleService {
 
     private static Logger LOGGER = LoggerFactory.getLogger(SysRoleServiceImpl.class);
-//
+
     @Autowired
     private SysRoleRepo sysRoleRepo;
     @Autowired
@@ -35,8 +35,24 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public ResultJson<List<SysRole>> findUserRoleAll(Integer userId) {
-        return null;
+    public ResultJson<SysRole> findByRoleId(Integer roleId) {
+        ResultJson<SysRole> rj = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        rj.setData(sysRoleRepo.findOne(roleId));
+        return rj;
+    }
+
+    @Override
+    public ResultJson<List<SysUserRole>> findUserRoleAll(Integer userId) {
+        ResultJson<List<SysUserRole>> rj = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        rj.setData(sysUserRoleRepo.findUserRole(userId));
+        return rj;
+    }
+
+    @Override
+    public ResultJson<Integer> removeUserRole(Integer userId) {
+        ResultJson<Integer> rj = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        rj.setData(sysUserRoleRepo.removeUserRole(userId));
+        return rj;
     }
 
     @Override

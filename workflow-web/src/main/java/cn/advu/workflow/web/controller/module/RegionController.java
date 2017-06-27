@@ -59,4 +59,21 @@ public class RegionController {
         return "modules/region/add";
     }
 
+
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toUpdate")
+    public String toUpdate(Integer id, Model model){
+
+        BaseRegion baseRegion = regionService.findById(id).getData();
+
+        model.addAttribute("baseRegion", baseRegion);
+
+        return "modules/region/update";
+    }
+
 }
