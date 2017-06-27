@@ -7,15 +7,35 @@ import java.util.List;
 
 public interface SysUserService {
 
+    /**
+     * 新增用户
+     *
+     * @param user
+     * @return
+     */
     ResultJson<Object> add(SysUser user);
 
-//    ResultJson<Object> add(SysUser user, Integer role);
-
+    /**
+     * 返回所有用户
+     *
+     * @return
+     */
     ResultJson<List<SysUser>> findAll();
-/*
 
-SysUser getById(Integer userId);
+    /**
+     * 返回当前用户
+     *
+     * @param userId
+     * @return
+     */
+    ResultJson<SysUser> findByUserId(Integer userId);
 
-ResultJson<Object> edit(SysUser user, Integer roleId);
-*/
+    /**
+     * 删除用户
+     *
+     * @param userId
+     * @return
+     */
+    ResultJson<Integer> remove(Integer userId);
+
 }

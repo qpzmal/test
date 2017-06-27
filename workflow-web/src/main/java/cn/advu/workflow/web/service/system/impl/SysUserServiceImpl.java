@@ -18,9 +18,6 @@ import java.util.List;
 public class SysUserServiceImpl implements SysUserService{
     private static Logger LOGGER = LoggerFactory.getLogger(SysUserServiceImpl.class);
 
-//    @Autowired
-//    private SysUserMapper sysUserMapper;
-
     @Autowired
     SysUserRepo sysUserRepo;
     
@@ -34,12 +31,9 @@ public class SysUserServiceImpl implements SysUserService{
         int result = sysUserRepo.add(user);
         
         if(result == 0){
-//            rj.setCode(WebConstants.OPERATION_FAILURE);
+            rj.setCode(WebConstants.OPERATION_FAILURE);
             return rj;
         }
-        
-//        //设定角色
-//        userMapper.setRole(user.getUserId(), role, user.getCreatorId());
         rj.setCode(WebConstants.OPERATION_SUCCESS);
         return rj;
     }
@@ -56,43 +50,19 @@ public class SysUserServiceImpl implements SysUserService{
         return rj;
     }
 
-//    @Override
-//    public ResultJson<List<SysUser>> getAll(int status) {
-//        ResultJson<List<SysUser>> rj = null;
-//        try {
-//            //获得有效用户
-//            List<SysUser> users = sysUserMapper.queryAllUsers(status);
-//            rj = new ResultJson<>();
-//            rj.setCode(WebConstants.OPERATION_SUCCESS);
-//            rj.setData(users);
-//        } catch (Exception e) {
-//            LOGGER.error("", e);
-//            return null;
-//        }
-//        return rj;
-//    }
-//
-//    @Override
-//    public SysUser getById(Integer userId) {
-//        return sysUserMapper.selectByPrimaryKey(userId);
-//    }
-//
-//    @Override
-//    public ResultJson<Object> edit(SysUser user, Integer roleId) {
-//
-//        //如果密码为空不加密
-//        if(user.getPassword() != null && user.getPassword() != "") {
-//            user.setPassword(StrMD5.getInstance().encrypt(user.getPassword(), WebConstants.MD5_SALT));
-//        }
-//        //用户信息修改
-//        sysUserMapper.updateByPrimaryKeySelective(user);
-//        //判断是否修改权限
-//        if( null != roleId ) {
-////            userMapper.updateRoleByUserId(user.getUserId(),roleId);
-//        }
-//
-//
-//        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-//    }
+    @Override
+    public ResultJson<SysUser> findByUserId(Integer userId) {
+        ResultJson resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        SysUser sysUser = sysUserRepo.findOne(userId);
+        resultJson.setData(sysUser);
+        return resultJson;
+    }
+
+    @Override
+    public ResultJson<Integer> remove(Integer userId) {
+        ResultJson resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        resultJson.setData(sysUserRepo.remove(userId));
+        return resultJson;
+    }
 
 }

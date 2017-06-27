@@ -57,7 +57,7 @@
     // 修改
     $(".btn-info").click(function(){
         var id = $(this).parent().children(":first").val();
-        window.location.href = "${rc.contextPath}/user/toUpdate?id=" + id;
+        window.location.href = "${rc.contextPath}/user/toUpdate?userId=" + id;
     })
     // 删除
     $(".btn-danger").click(function(){

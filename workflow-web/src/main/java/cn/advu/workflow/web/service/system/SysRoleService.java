@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.service.system;
 
 import cn.advu.workflow.domain.fcf_vu.SysRole;
+import cn.advu.workflow.domain.fcf_vu.SysUserRole;
 import cn.advu.workflow.web.common.ResultJson;
 
 import java.util.List;
@@ -36,17 +37,14 @@ public interface SysRoleService {
      *
      * @return
      */
-    ResultJson<List<SysRole>> findUserRoleAll(Integer userId);
+    ResultJson<List<SysUserRole>> findUserRoleAll(Integer userId);
 
-//
-//    ResultJson<List<Map<String, Object>>> getAllRoleAndPers();
-//
-//    ResultJson<Object> addRole(Integer creatorId, String roleName, String[] permissionIds);
-
-//    ResultJson<List<SysPermission>> getAllPermissions();
-//
-//    List<SysPermission> getPermissionsOf(Integer roleId);
-
-//    ResultJson<Object> editRole(Integer creatorId, String roleName, String[] permissionIds);
+    /**
+     * 删除用户所有角色
+     *
+     * @param userId
+     * @return
+     */
+    ResultJson<Integer> removeUserRole(Integer userId);
 
 }
