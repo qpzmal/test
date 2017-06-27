@@ -35,6 +35,13 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
+    public ResultJson<SysRole> findByRoleId(Integer roleId) {
+        ResultJson<SysRole> rj = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        rj.setData(sysRoleRepo.findOne(roleId));
+        return rj;
+    }
+
+    @Override
     public ResultJson<List<SysUserRole>> findUserRoleAll(Integer userId) {
         ResultJson<List<SysUserRole>> rj = new ResultJson(WebConstants.OPERATION_SUCCESS);
         rj.setData(sysUserRoleRepo.findUserRole(userId));

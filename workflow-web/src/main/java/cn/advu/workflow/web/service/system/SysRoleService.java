@@ -17,6 +17,23 @@ public interface SysRoleService {
     ResultJson<Object> addRole(SysRole sysRole);
 
     /**
+     * 返回全部角色
+     *
+     * @return
+     */
+    ResultJson<List<SysRole>> findAll();
+
+    /**
+     * 返回当前角色
+     *
+     * @param roleId
+     * @return
+     */
+    ResultJson<SysRole> findByRoleId(Integer roleId);
+
+    // 用户-角色 关系
+
+    /**
      * 批量给用户赋予角色
      *
      * @param userId
@@ -24,13 +41,6 @@ public interface SysRoleService {
      * @return
      */
     ResultJson<List<Integer>> addUserRole(Integer userId, List<Integer> roleIds);
-
-    /**
-     * 返回全部角色
-     *
-     * @return
-     */
-    ResultJson<List<SysRole>> findAll();
 
     /**
      * 返回用户全部角色

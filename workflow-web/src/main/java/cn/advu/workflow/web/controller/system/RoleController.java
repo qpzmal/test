@@ -50,61 +50,30 @@ public class RoleController {
         return sysRoleService.addRole(sysRole);
     }
 
-//
-//    /**
-//     * 查询所有角色, 状态及其权限
-//     * @return
-//     */
-//    @ResponseBody
-//    @RequestMapping("getRolesAndPermissions")
-//    public ResultJson<List<Map<String, Object>>> getRolesAndPermissions(){
-//        return roleService.getAllRoleAndPers();
-//    }
-//
-//    /**
-//     * 查询并返回所有可用的权限
-//     * @return
-//     */
-//    @ResponseBody
-//    @RequestMapping("getAllPermissions")
-//    public ResultJson<List<SysPermission>> getAllPermissions(){
-//        return roleService.getAllPermissions();
-//    }
-//
-
-//
-//    @RequestMapping("/manage")
-//    public String toManage(){
-//        return "systemSetting/roleManage";
-//    }
-//
+    /**
+     * 跳转至新增角色页
+     *
+     * @return
+     */
     @RequestMapping("/toAdd")
     public String toAdd(){
         return "system/role/add";
     }
-//
-//    @RequestMapping("/toEdit")
-//    public String toEdit(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
-//        Integer roleId = Integer.valueOf(request.getParameter("roleId"));
-//        String roleName = new String(request.getParameter("roleName").getBytes("iso8859-1"),"utf-8");
-//        List<SysPermission> permissions = roleService.getPermissionsOf(roleId);
-//        model.addAttribute("perms", permissions);
-//        model.addAttribute("roleName", roleName);
-//        return "systemSetting/editRole";
-//    }
-//
-//    @ResponseBody
-//    @RequestMapping("/edit")
-//    public ResultJson<Object> edotRole(HttpServletRequest request){
-//        String roleName = request.getParameter("roleName");
-//        String[] permissionIds = request.getParameter("permissionId").split("-");
-//        Integer creatorId = Integer.valueOf(request.getParameter("creatorId"));
-//        return roleService.editRole(creatorId, roleName, permissionIds);
-//    }
-//
-//    @ResponseBody
-//    @RequestMapping("/getAll")
-//    public ResultJson<List<SysRole>> getAll(){
-//        return roleService.getAll();
-//    }
+
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toUpdate")
+    public String toUpdate(Integer roleId, Model model){
+
+        SysRole sysRole = sysRoleService.findByRoleId(roleId).getData();
+
+        model.addAttribute("sysRole", sysRole);
+
+        return "system/role/update";
+    }
+
 }
