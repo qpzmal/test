@@ -1,5 +1,3 @@
--- 建表语句
-
 -- --------------------------------------------------------
 -- 主机:                           127.0.0.1
 -- 服务器版本:                        5.6.23 - MySQL Community Server (GPL)
@@ -19,19 +17,16 @@ USE `fcf_vu`;
 
 -- 导出  表 fcf_vu.base_adtype 结构
 CREATE TABLE IF NOT EXISTS `base_adtype` (
-  `id` int(11) unsigned NOT NULL COMMENT '广告类型编码',
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '广告类型编码',
   `name` varchar(30) NOT NULL COMMENT '广告类型名字',
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用；9删除',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `remark` varchar(500) NOT NULL DEFAULT '无' COMMENT '备注',
+  `remark` varchar(500) DEFAULT '无' COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='广告类型';
 
--- 正在导出表  fcf_vu.base_adtype 的数据：~0 rows (大约)
-DELETE FROM `base_adtype`;
-/*!40000 ALTER TABLE `base_adtype` DISABLE KEYS */;
-/*!40000 ALTER TABLE `base_adtype` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.base_area 结构
@@ -47,10 +42,7 @@ CREATE TABLE IF NOT EXISTS `base_area` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='区域（公司）信息';
 
--- 正在导出表  fcf_vu.base_area 的数据：~0 rows (大约)
-DELETE FROM `base_area`;
-/*!40000 ALTER TABLE `base_area` DISABLE KEYS */;
-/*!40000 ALTER TABLE `base_area` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.base_buy_order 结构
@@ -79,10 +71,7 @@ CREATE TABLE IF NOT EXISTS `base_buy_order` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='媒介采购合同';
 
--- 正在导出表  fcf_vu.base_buy_order 的数据：~0 rows (大约)
-DELETE FROM `base_buy_order`;
-/*!40000 ALTER TABLE `base_buy_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `base_buy_order` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.base_dept 结构
@@ -100,10 +89,7 @@ CREATE TABLE IF NOT EXISTS `base_dept` (
   KEY `FK_Reference_30` (`parent_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门架构';
 
--- 正在导出表  fcf_vu.base_dept 的数据：~0 rows (大约)
-DELETE FROM `base_dept`;
-/*!40000 ALTER TABLE `base_dept` DISABLE KEYS */;
-/*!40000 ALTER TABLE `base_dept` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.base_execute_order 结构
@@ -146,10 +132,7 @@ CREATE TABLE IF NOT EXISTS `base_execute_order` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户需求单';
 
--- 正在导出表  fcf_vu.base_execute_order 的数据：~0 rows (大约)
-DELETE FROM `base_execute_order`;
-/*!40000 ALTER TABLE `base_execute_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `base_execute_order` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.base_industry 结构
@@ -162,30 +145,22 @@ CREATE TABLE IF NOT EXISTS `base_industry` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行业管理表';
 
--- 正在导出表  fcf_vu.base_industry 的数据：~0 rows (大约)
-DELETE FROM `base_industry`;
-/*!40000 ALTER TABLE `base_industry` DISABLE KEYS */;
-/*!40000 ALTER TABLE `base_industry` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.base_monitor_request 结构
 CREATE TABLE IF NOT EXISTS `base_monitor_request` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(10) NOT NULL COMMENT '检测公司名字 ：1，秒针2，Admaster3，记刻',
-  `link` varchar(300) NOT NULL COMMENT '检测链接',
+  `link` varchar(300) DEFAULT '' COMMENT '检测链接',
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用；9删除',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `remark` varchar(500) NOT NULL,
+  `remark` varchar(500) DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='客户要求监测';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户要求监测';
 
--- 正在导出表  fcf_vu.base_monitor_request 的数据：~1 rows (大约)
-DELETE FROM `base_monitor_request`;
-/*!40000 ALTER TABLE `base_monitor_request` DISABLE KEYS */;
-INSERT INTO `base_monitor_request` (`id`, `name`, `link`, `item_status`, `create_time`, `update_time`, `remark`) VALUES
-	(1, '秒针', 'http://www.baidu.com', 0, '2017-06-25 18:15:35', '2017-06-25 18:15:35', '我是备注，哈哈哈哈哈');
-/*!40000 ALTER TABLE `base_monitor_request` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.base_person 结构
@@ -206,25 +181,21 @@ CREATE TABLE IF NOT EXISTS `base_person` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司人员表';
 
--- 正在导出表  fcf_vu.base_person 的数据：~0 rows (大约)
-DELETE FROM `base_person`;
-/*!40000 ALTER TABLE `base_person` DISABLE KEYS */;
-/*!40000 ALTER TABLE `base_person` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.base_region 结构
 CREATE TABLE IF NOT EXISTS `base_region` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '地区Id',
   `name` varchar(128) NOT NULL COMMENT '地区名称',
-  `type` int(1) NOT NULL COMMENT '地区类型\n            1=省份\n            2=市',
-  `parent_id` int(11) NOT NULL COMMENT '上级地区',
+  `type` int(1) DEFAULT NULL COMMENT '地区类型\\n            1=省份\\n            2=市',
+  `parent_id` int(11) DEFAULT NULL COMMENT '上级地区',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='地区管理';
 
--- 正在导出表  fcf_vu.base_region 的数据：~0 rows (大约)
-DELETE FROM `base_region`;
-/*!40000 ALTER TABLE `base_region` DISABLE KEYS */;
-/*!40000 ALTER TABLE `base_region` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.base_reporttype 结构
@@ -238,27 +209,21 @@ CREATE TABLE IF NOT EXISTS `base_reporttype` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报告';
 
--- 正在导出表  fcf_vu.base_reporttype 的数据：~0 rows (大约)
-DELETE FROM `base_reporttype`;
-/*!40000 ALTER TABLE `base_reporttype` DISABLE KEYS */;
-/*!40000 ALTER TABLE `base_reporttype` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.base_tv 结构
 CREATE TABLE IF NOT EXISTS `base_tv` (
-  `id` int(11) unsigned NOT NULL COMMENT '厂商编码',
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '厂商编码',
   `name` varchar(30) NOT NULL COMMENT '厂家名字',
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用；9删除',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `remark` varchar(500) NOT NULL COMMENT '备注',
+  `remark` varchar(500) DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='厂商管理';
 
--- 正在导出表  fcf_vu.base_tv 的数据：~0 rows (大约)
-DELETE FROM `base_tv`;
-/*!40000 ALTER TABLE `base_tv` DISABLE KEYS */;
-/*!40000 ALTER TABLE `base_tv` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.oa_notify 结构
@@ -276,10 +241,7 @@ CREATE TABLE IF NOT EXISTS `oa_notify` (
   KEY `oa_notify_del_flag` (`item_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='通知内容管理';
 
--- 正在导出表  fcf_vu.oa_notify 的数据：~0 rows (大约)
-DELETE FROM `oa_notify`;
-/*!40000 ALTER TABLE `oa_notify` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_notify` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.oa_notify_record 结构
@@ -295,10 +257,7 @@ CREATE TABLE IF NOT EXISTS `oa_notify_record` (
   KEY `oa_notify_record_user_id` (`user_ids`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='通知发送记录';
 
--- 正在导出表  fcf_vu.oa_notify_record 的数据：~0 rows (大约)
-DELETE FROM `oa_notify_record`;
-/*!40000 ALTER TABLE `oa_notify_record` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oa_notify_record` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.sys_dict 结构
@@ -318,10 +277,7 @@ CREATE TABLE IF NOT EXISTS `sys_dict` (
   KEY `sys_dict_del_flag` (`item_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='字典表';
 
--- 正在导出表  fcf_vu.sys_dict 的数据：~0 rows (大约)
-DELETE FROM `sys_dict`;
-/*!40000 ALTER TABLE `sys_dict` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sys_dict` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.sys_log 结构
@@ -338,10 +294,7 @@ CREATE TABLE IF NOT EXISTS `sys_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  fcf_vu.sys_log 的数据：~0 rows (大约)
-DELETE FROM `sys_log`;
-/*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.sys_menu 结构
@@ -360,10 +313,7 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   KEY `index_menu_parent` (`parent_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单资源表';
 
--- 正在导出表  fcf_vu.sys_menu 的数据：~0 rows (大约)
-DELETE FROM `sys_menu`;
-/*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.sys_role 结构
@@ -372,16 +322,13 @@ CREATE TABLE IF NOT EXISTS `sys_role` (
   `name` varchar(255) NOT NULL COMMENT '名称',
   `description` varchar(255) NOT NULL COMMENT '描述',
   `is_system` bit(1) NOT NULL COMMENT '是否系统内置',
-  `sort` int(11) NOT NULL COMMENT '排序',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色管理';
 
--- 正在导出表  fcf_vu.sys_role 的数据：~0 rows (大约)
-DELETE FROM `sys_role`;
-/*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.sys_role_menu 结构
@@ -392,10 +339,7 @@ CREATE TABLE IF NOT EXISTS `sys_role_menu` (
   KEY `index_rolemenu_menu` (`menu_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色资源表';
 
--- 正在导出表  fcf_vu.sys_role_menu 的数据：~0 rows (大约)
-DELETE FROM `sys_role_menu`;
-/*!40000 ALTER TABLE `sys_role_menu` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sys_role_menu` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.sys_user 结构
@@ -404,42 +348,40 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
   `login_name` varchar(255) NOT NULL COMMENT '登录名',
   `user_name` varchar(255) NOT NULL COMMENT '用户名',
   `password` varchar(255) NOT NULL COMMENT '密码',
-  `mobile` varchar(255) NOT NULL COMMENT '手机',
-  `phone` varchar(255) NOT NULL COMMENT '联系电话',
-  `address` varchar(255) NOT NULL COMMENT '地址',
-  `email` varchar(255) NOT NULL COMMENT '邮箱',
-  `dept` varchar(255) NOT NULL COMMENT '部门名称',
-  `lockedDate` datetime NOT NULL COMMENT '锁定时间',
-  `login_fail_count` int(11) NOT NULL COMMENT '登录失败次数',
-  `sort` int(11) NOT NULL COMMENT '排序',
-  `dept_id` int(10) NOT NULL COMMENT '部门id',
-  `last_login_time` bigint(20) NOT NULL COMMENT '最后登录时间',
-  `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用；9删除',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `mobile` varchar(255) DEFAULT '' COMMENT '手机',
+  `phone` varchar(255) DEFAULT '' COMMENT '联系电话',
+  `address` varchar(255) DEFAULT '' COMMENT '地址',
+  `email` varchar(255) DEFAULT '' COMMENT '邮箱',
+  `dept` varchar(255) DEFAULT '' COMMENT '部门名称',
+  `lockedDate` datetime DEFAULT NULL COMMENT '锁定时间',
+  `login_fail_count` int(11) DEFAULT NULL COMMENT '登录失败次数',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  `dept_id` int(10) DEFAULT NULL COMMENT '部门id',
+  `last_login_time` bigint(20) DEFAULT NULL COMMENT '最后登录时间',
+  `item_status` tinyint(1) DEFAULT '0' COMMENT '状态 ，0正常；1停用；9删除',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `AK_admin_loginname` (`login_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户管理';
 
--- 正在导出表  fcf_vu.sys_user 的数据：~0 rows (大约)
-DELETE FROM `sys_user`;
-/*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
+-- 数据导出被取消选择。
 
 
 -- 导出  表 fcf_vu.sys_user_role 结构
 CREATE TABLE IF NOT EXISTS `sys_user_role` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `admins` int(11) NOT NULL COMMENT '用户id',
   `roles` int(11) NOT NULL COMMENT '角色id',
-  PRIMARY KEY (`admins`,`roles`),
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `admins` (`admins`,`roles`),
   KEY `index_adminrole_role` (`roles`) USING BTREE,
   KEY `index_adminrole_admin` (`admins`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色中间表';
 
--- 正在导出表  fcf_vu.sys_user_role 的数据：~0 rows (大约)
-DELETE FROM `sys_user_role`;
-/*!40000 ALTER TABLE `sys_user_role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sys_user_role` ENABLE KEYS */;
+-- 数据导出被取消选择。
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
