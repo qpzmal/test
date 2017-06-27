@@ -5,16 +5,17 @@
 
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
+        <input type="hidden" name="id" value="$baseTv.id">
         <div class="form-group">
             <label class="col-sm-3 control-label">媒体类型名称:</label>
             <div class="col-sm-8">
-                <input value="$baseTv.name" id="tv_name" name="tv_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseTv.name}" id="tv_name" name="tv_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">启用:</label>
             <div class="col-sm-8">
-                <input value="$baseTv.itemStatus" id="item_status" name="item_status" type="checkbox" class="js-switch" checked />
+                <input value="$!{baseTv.itemStatus}" id="item_status" name="item_status" type="checkbox" class="js-switch" checked />
             </div>
 
         </div>
