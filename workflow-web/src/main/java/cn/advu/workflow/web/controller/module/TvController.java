@@ -15,7 +15,7 @@ import java.util.List;
 
 
 /**
- * 媒体相关controller，用于管理行业
+ * 媒体分类相关controller，用于管理行业
  *
  */
 @Controller
@@ -26,7 +26,7 @@ public class TvController {
     private TvService tvService;
 
     /**
-     * 跳转行业业务首页-行业列表页
+     * 跳转媒体分类业务首页-行业列表页
      *
      * @param resultModel
      * @return
@@ -39,18 +39,19 @@ public class TvController {
     }
 
     /**
-     * 新增行业
+     * 新增媒体分类
      *
      * @return
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     public ResultJson<Integer> addTv(BaseTv baseTv, HttpServletRequest request){
+
         return tvService.addTv(baseTv);
     }
 
     /**
-     * 跳转新增行业页面
+     * 跳转新增媒体分类页面
      *
      * @return
      */
@@ -59,4 +60,20 @@ public class TvController {
         return "modules/tv/add";
     }
 
+    /**
+     * 跳转到更新媒体分类页面
+     *
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toUpdate")
+    public String toUpdate(Integer id, Model model){
+
+        BaseTv baseTv = tvService.findById(id).getData();
+
+        model.addAttribute("baseTv", baseTv);
+
+        return "modules/tv/update";
+    }
 }

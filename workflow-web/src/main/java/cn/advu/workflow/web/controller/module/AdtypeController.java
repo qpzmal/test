@@ -26,7 +26,7 @@ public class AdtypeController {
     private AdtypeService adtypeService;
 
     /**
-     * 跳转行业业务首页-行业列表页
+     * 跳转媒体业务首页-行业列表页
      *
      * @param resultModel
      * @return
@@ -39,7 +39,7 @@ public class AdtypeController {
     }
 
     /**
-     * 新增行业
+     * 新增媒体
      *
      * @return
      */
@@ -50,13 +50,31 @@ public class AdtypeController {
     }
 
     /**
-     * 跳转新增行业页面
+     * 跳转新增媒体页面
      *
      * @return
      */
     @RequestMapping("/toAdd")
     public String toAdd(){
         return "modules/adtype/add";
+    }
+
+    /**
+     *
+     * 跳转至更新媒体页面
+     *
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toUpdate")
+    public String toUpdate(Integer id, Model model){
+
+        BaseAdtype baseAdtype = adtypeService.findById(id).getData();
+
+        model.addAttribute("baseAdtype", baseAdtype);
+
+        return "modules/adtype/update";
     }
 
 }

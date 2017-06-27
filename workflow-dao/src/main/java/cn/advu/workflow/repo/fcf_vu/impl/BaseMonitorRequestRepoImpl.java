@@ -30,8 +30,4 @@ public class BaseMonitorRequestRepoImpl extends AbstractRepo<BaseMonitorRequest>
         return baseMonitorRequestMapper.queryAll(null);
     }
 
-    @Override
-    public BaseMonitorRequest queryById(String id) {
-        return baseMonitorRequestMapper.selectByPrimaryKey(Integer.valueOf(id));
-    }
 }
