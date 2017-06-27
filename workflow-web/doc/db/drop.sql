@@ -1,0 +1,22 @@
+-- 删除表语句
+DROP TABLE IF EXISTS  `base_adtype`;
+DROP TABLE IF EXISTS  `base_area`;
+DROP TABLE IF EXISTS  `base_buy_order`;
+DROP TABLE IF EXISTS  `base_dept`;
+DROP TABLE IF EXISTS  `base_execute_order`;
+DROP TABLE IF EXISTS  `base_industry`;
+DROP TABLE IF EXISTS  `base_monitor_request`;
+DROP TABLE IF EXISTS  `base_person`;
+DROP TABLE IF EXISTS  `base_region`;
+DROP TABLE IF EXISTS  `base_reporttype`;
+DROP TABLE IF EXISTS  `base_tv`;
+DROP TABLE IF EXISTS  `oa_notify`;
+DROP TABLE IF EXISTS  `oa_notify_record`;
+DROP TABLE IF EXISTS  `sys_dict`;
+DROP TABLE IF EXISTS  `sys_log`;
+DROP TABLE IF EXISTS  `sys_menu`;
+DROP TABLE IF EXISTS  `sys_role`;
+DROP TABLE IF EXISTS  `sys_role_menu`;
+DROP TABLE IF EXISTS  `sys_user`;
+DROP TABLE IF EXISTS  `sys_user_role`;
+DROP TABLE IF EXISTS  ``;
