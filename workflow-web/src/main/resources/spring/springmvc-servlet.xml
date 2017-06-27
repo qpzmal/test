@@ -131,7 +131,7 @@
     <mvc:view-controller path="/dataAccessFailure" view-name="error/500"/>
     <mvc:view-controller path="/accessDenied" view-name="error/500"/>
     <mvc:view-controller path="/RequestMethodNotSupported" view-name="error/500"/>
-    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    <bean class="cn.advu.workflow.web.common.exception.LogMappingExceptionResolver">
         <!-- 定义默认的异常处理页面 -->
         <property name="defaultErrorView" value="error/500"/>
         <!-- 定义异常处理页面用来获取异常信息的变量名，如果不添加exceptionAttribute属性，则默认为exception -->
