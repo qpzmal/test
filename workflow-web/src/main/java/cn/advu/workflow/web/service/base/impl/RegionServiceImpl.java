@@ -38,4 +38,11 @@ public class RegionServiceImpl implements RegionService {
         result.setData(baseRegionRepo.findAll());
         return result;
     }
+
+    @Override
+    public ResultJson<BaseRegion> findById(Integer id) {
+        ResultJson<BaseRegion> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseRegionRepo.findOne(id));
+        return result;
+    }
 }

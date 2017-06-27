@@ -11,11 +11,27 @@ import java.util.List;
  */
 public interface RegionService {
 
+    /**
+     * 新增区域
+     *
+     * @param baseRegion
+     * @return
+     */
     ResultJson<Integer> addRegion(BaseRegion baseRegion);
+
+    /**
+     * 返回全部区域
+     *
+     * @return
+     */
     ResultJson<List<BaseRegion>> findAll();
 
-//    int delete(String id);
-//    int update(String id);
-//    List<BaseRegion> queryByCondition(BaseRegion obj);
+    /**
+     * 返回当前区域
+     *
+     * @param id
+     * @return
+     */
+    ResultJson<BaseRegion> findById(Integer id);
 
 }
