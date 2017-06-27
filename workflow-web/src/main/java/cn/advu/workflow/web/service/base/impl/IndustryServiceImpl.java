@@ -38,4 +38,11 @@ public class IndustryServiceImpl implements IndustryService {
         result.setData(baseIndustryRepo.findAll());
         return result;
     }
+
+    @Override
+    public ResultJson<BaseIndustry> findById(Integer id) {
+        ResultJson<BaseIndustry> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseIndustryRepo.findOne(id));
+        return result;
+    }
 }
