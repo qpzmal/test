@@ -164,6 +164,12 @@
         var is_enabled = $("#is_enabled").val();
         var order = $("#order").val();
         var roleIds = $(".chosen-select").val();
+        var userRoleList = "";
+        for (var i = 0; i < roleIds.length; i++) {
+            userRoleList = userRoleList + "," + roleIds[i];
+        };
+
+
 //    	if(realName == "" || acctId == "" || email == "" || phone == "" || passwd == "" || repasswd == ""){
 //    		alert("所有信息均为必填项, 请填写完整!");
 //    		return;
@@ -176,17 +182,17 @@
             url:"/user/add.json",
             type:"post",
             data:{
-                loginName:login_name,
-                userName:user_name,
-                password:password,
-                mobile:mobile,
-                phone:phone,
-                address:address,
-                email:email,
-                departmentId:department_id,
-                isEnabled:is_enabled,
-                order:order,
-                userRoleIdList:roleIds
+                "loginName":login_name,
+                "userName":user_name,
+                "password":password,
+                "mobile":mobile,
+                "phone":phone,
+                "address":address,
+                "email":email,
+                "departmentId":department_id,
+                "isEnabled":is_enabled,
+                "order":order,
+                "userRoleList":userRoleList
             },
             success: function(returnData){
                 console.log(returnData);
