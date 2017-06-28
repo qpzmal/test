@@ -15,7 +15,7 @@ import java.util.List;
 
 
 /**
- * 行业相关controller，用于管理行业
+ * 客户行业相关controller，用于管理客户行业
  *
  */
 @Controller
@@ -26,7 +26,7 @@ public class IndustryController {
     private IndustryService industryService;
 
     /**
-     * 跳转行业业务首页-行业列表页
+     * 跳转客户行业业务首页-客户行业列表页
      *
      * @param resultModel
      * @return
@@ -39,7 +39,7 @@ public class IndustryController {
     }
 
     /**
-     * 新增行业
+     * 新增客户行业
      *
      * @return
      */
@@ -50,7 +50,18 @@ public class IndustryController {
     }
 
     /**
-     * 跳转新增行业页面
+     * 更新客户行业
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/update", method = RequestMethod.POST)
+    public ResultJson<Integer> updateIndustry(BaseIndustry baseIndustry, HttpServletRequest request){
+        return industryService.updateIndustry(baseIndustry);
+    }
+
+    /**
+     * 跳转新增客户行业页面
      *
      * @return
      */
@@ -60,7 +71,7 @@ public class IndustryController {
     }
 
     /**
-     * 跳转到更新行业页面
+     * 跳转到更新客户行业页面
      *
      * @param id
      * @param model

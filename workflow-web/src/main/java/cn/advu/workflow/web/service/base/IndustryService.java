@@ -20,6 +20,14 @@ public interface IndustryService {
     ResultJson<Integer> addIndustry(BaseIndustry baseIndustry);
 
     /**
+     * 更新客户行业
+     *
+     * @param baseIndustry
+     * @return
+     */
+    ResultJson<Integer> updateIndustry(BaseIndustry baseIndustry);
+
+    /**
      * 返回全部客户行业
      *
      * @return

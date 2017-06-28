@@ -27,7 +27,19 @@ public class IndustryServiceImpl implements IndustryService {
     public ResultJson<Integer> addIndustry(BaseIndustry baseIndustry) {
         Integer insertCount = baseIndustryRepo.addSelective(baseIndustry);
         if(insertCount != 1){
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建区域失败!");
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建客户行业失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
+    @Override
+    public ResultJson<Integer> updateIndustry(BaseIndustry baseIndustry) {
+        if (baseIndustry.getId() == null) {
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "客户行业ID没有设置!");
+        }
+        Integer updateCount = baseIndustryRepo.updateSelective(baseIndustry);
+        if(updateCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新客户行业失败!");
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
