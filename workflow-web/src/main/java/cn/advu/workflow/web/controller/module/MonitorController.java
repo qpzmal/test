@@ -33,14 +33,26 @@ public class MonitorController {
 
 
     /**
-     * 新增行业
+     * 新增监测机构
      *
      * @return
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addIndustry(BaseMonitorRequest baseMonitorRequest, HttpServletRequest request){
+    public ResultJson<Integer> addMonitor(BaseMonitorRequest baseMonitorRequest, HttpServletRequest request){
         return monitorRequestService.addMonitorRequest(baseMonitorRequest);
+    }
+
+
+    /**
+     * 新增监测机构
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/update", method = RequestMethod.POST)
+    public ResultJson<Integer> updateMonitor(BaseMonitorRequest baseMonitorRequest, HttpServletRequest request){
+        return monitorRequestService.updateMonitorRequest(baseMonitorRequest);
     }
 
     @RequestMapping("/toAdd")
@@ -51,7 +63,7 @@ public class MonitorController {
     /**
      * 跳转至监测机构更新页面
      *
-     * @param baseMonitorRequest
+     * @param id
      * @param resultModel
      * @return
      */
@@ -62,10 +74,4 @@ public class MonitorController {
         return "modules/monitor/update";
     }
 
-
-
-    @RequestMapping("/update")
-    public String doUpdate(){
-        return "";
-    }
 }

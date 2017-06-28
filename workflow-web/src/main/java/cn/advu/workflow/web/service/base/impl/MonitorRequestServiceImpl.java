@@ -27,7 +27,19 @@ public class MonitorRequestServiceImpl implements MonitorRequestService {
     public ResultJson<Integer> addMonitorRequest(BaseMonitorRequest baseMonitorRequest) {
         Integer insertCount = baseMonitorRequestRepo.addSelective(baseMonitorRequest);
         if(insertCount != 1){
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建区域失败!");
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建监测机构失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
+    @Override
+    public ResultJson<Integer> updateMonitorRequest(BaseMonitorRequest baseMonitorRequest) {
+        if (baseMonitorRequest.getId() == null) {
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
+        }
+        Integer updateCount = baseMonitorRequestRepo.updateSelective(baseMonitorRequest);
+        if(updateCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新监测机构失败!");
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }

@@ -6,7 +6,7 @@
 
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
-        <input type="hidden" name="id" value="$baseRegion.id">
+        <input type="hidden" id="id" name="id" value="$baseRegion.id">
         <div class="form-group">
             <label class="col-sm-3 control-label">区域名称:</label>
             <div class="col-sm-8">
@@ -77,13 +77,15 @@
     })
 
     function addRegion(){
+        var id = $("#id").val();
         var name = $("#region_name").val();
 //        var description = $("#description").val();
 //        var is_system = $(".js-switch")[0].checked;
         $.ajax({
-            url:"/region/add.json",
+            url:"/region/update.json",
             type:"post",
             data:{
+                id:id,
                 name:name
 //                description:description,
 //                isSystem:is_system

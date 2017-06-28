@@ -20,6 +20,14 @@ public interface RegionService {
     ResultJson<Integer> addRegion(BaseRegion baseRegion);
 
     /**
+     * 更新区域
+     *
+     * @param baseRegion
+     * @return
+     */
+    ResultJson<Integer> updateRegion(BaseRegion baseRegion);
+
+    /**
      * 返回全部区域
      *
      * @return

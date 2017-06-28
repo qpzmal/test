@@ -66,6 +66,21 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
+    public ResultJson<Object> updateRole(SysRole sysRole) {
+        ResultJson<Object> rj = new ResultJson<>();
+        Integer id = sysRole.getId();
+        if (id == null) {
+            rj.setCode(WebConstants.OPERATION_FAILURE);
+            return rj;
+        }
+        int result = sysRoleRepo.updateSelective(sysRole);
+        if(result != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建角色失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
+    @Override
     public ResultJson<List<Integer>> addUserRole(Integer userId, List<Integer> roleIds) {
 
         List<Integer> activeRoleIds = addUserRoleInner(userId, roleIds);

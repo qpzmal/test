@@ -51,6 +51,17 @@ public class RoleController {
     }
 
     /**
+     * 更新角色
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/update", method = RequestMethod.POST)
+    public ResultJson<Object> updateRole(SysRole sysRole, HttpServletRequest request){
+        return sysRoleService.updateRole(sysRole);
+    }
+
+    /**
      * 跳转至新增角色页
      *
      * @return

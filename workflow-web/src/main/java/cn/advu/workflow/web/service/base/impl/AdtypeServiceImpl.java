@@ -45,4 +45,16 @@ public class AdtypeServiceImpl implements AdtypeService {
         result.setData(baseAdtypeRepo.findOne(id));
         return result;
     }
+
+    @Override
+    public ResultJson<Integer> udpateAdtype(BaseAdtype baseAdtype) {
+        if (baseAdtype.getId() == null) {
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
+        }
+        Integer updateCount = baseAdtypeRepo.updateSelective(baseAdtype);
+        if(updateCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新广告类型失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
 }

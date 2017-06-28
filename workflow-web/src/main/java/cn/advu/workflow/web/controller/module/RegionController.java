@@ -50,6 +50,17 @@ public class RegionController {
     }
 
     /**
+     * 更新区域
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/update", method = RequestMethod.POST)
+    public ResultJson<Integer> updateRegion(BaseRegion baseRegion, HttpServletRequest request){
+        return regionService.updateRegion(baseRegion);
+    }
+
+    /**
      * 跳转新增区域页面
      *
      * @return

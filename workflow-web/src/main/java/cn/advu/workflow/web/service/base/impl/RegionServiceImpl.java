@@ -33,6 +33,18 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
+    public ResultJson<Integer> updateRegion(BaseRegion baseRegion) {
+        if (baseRegion.getId() == null) {
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
+        }
+        Integer insertCount = baseRegionRepo.updateSelective(baseRegion);
+        if(insertCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新区域失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
+    @Override
     public ResultJson<List<BaseRegion>> findAll() {
         ResultJson<List<BaseRegion>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         result.setData(baseRegionRepo.findAll());

@@ -12,7 +12,7 @@ import java.util.List;
 public interface AdtypeService {
 
     /**
-     * 新增媒体
+     * 新增广告类型
      *
      * @param baseAdtype
      * @return
@@ -20,18 +20,26 @@ public interface AdtypeService {
     ResultJson<Integer> addAdtype(BaseAdtype baseAdtype);
 
     /**
-     * 返回全部媒体
+     * 返回全部广告类型
      *
      * @return
      */
     ResultJson<List<BaseAdtype>> findAll();
 
     /**
-     * 返回当前媒体
+     * 返回当前广告类型
      *
      * @param id
      * @return
      */
     ResultJson<BaseAdtype> findById(Integer id);
+
+    /**
+     * 更新广告类型
+     *
+     * @param baseAdtype
+     * @return
+     */
+    ResultJson<Integer> udpateAdtype(BaseAdtype baseAdtype);
 
 }
