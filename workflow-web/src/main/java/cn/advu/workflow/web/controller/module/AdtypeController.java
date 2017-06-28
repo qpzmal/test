@@ -15,7 +15,7 @@ import java.util.List;
 
 
 /**
- * 媒体相关controller，用于管理行业
+ * 广告类型相关controller，用于管理广告类型
  *
  */
 @Controller
@@ -26,7 +26,7 @@ public class AdtypeController {
     private AdtypeService adtypeService;
 
     /**
-     * 跳转媒体业务首页-行业列表页
+     * 跳转广告类型业务首页-广告类型列表页
      *
      * @param resultModel
      * @return
@@ -39,7 +39,7 @@ public class AdtypeController {
     }
 
     /**
-     * 新增媒体
+     * 新增广告类型
      *
      * @return
      */
@@ -50,7 +50,18 @@ public class AdtypeController {
     }
 
     /**
-     * 跳转新增媒体页面
+     * 更新广告类型
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/update", method = RequestMethod.POST)
+    public ResultJson<Integer> updateAdtype(BaseAdtype baseAdtype, HttpServletRequest request){
+        return adtypeService.udpateAdtype(baseAdtype);
+    }
+
+    /**
+     * 跳转新增广告类型页面
      *
      * @return
      */
@@ -61,7 +72,7 @@ public class AdtypeController {
 
     /**
      *
-     * 跳转至更新媒体页面
+     * 跳转至更新广告类型页面
      *
      * @param id
      * @param model
