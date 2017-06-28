@@ -43,6 +43,15 @@ public interface SysRoleService {
     ResultJson<List<Integer>> addUserRole(Integer userId, List<Integer> roleIds);
 
     /**
+     * 批量给用户更新角色
+     *
+     * @param userId
+     * @param roleIds
+     * @return
+     */
+    ResultJson<Void> updateUserRole(Integer userId, List<Integer> roleIds);
+
+    /**
      * 返回用户全部角色
      *
      * @return

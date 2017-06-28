@@ -38,6 +38,25 @@ public class SysUserServiceImpl implements SysUserService{
         return rj;
     }
 
+
+    @Override
+    @Transactional
+    public ResultJson<Object> update(SysUser user) {
+
+        ResultJson<Object> rj = new ResultJson<>();
+        //密码加密
+        user.setPassword(StrMD5.getInstance().encrypt(user.getPassword(), WebConstants.MD5_SALT));
+
+        int result = sysUserRepo.updateSelective(user);
+
+        if(result == 0){
+            rj.setCode(WebConstants.OPERATION_FAILURE);
+            return rj;
+        }
+        rj.setCode(WebConstants.OPERATION_SUCCESS);
+        return rj;
+    }
+
     @Override
     public ResultJson<List<SysUser>> findAll() {
 

@@ -83,6 +83,46 @@ public class UserController {
     }
 
     /**
+     * 更新用户
+     *
+     * @param sysUser
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultJson<SysUser> update(SysUser sysUser, String userRoleList, HttpServletRequest request){
+
+        ResultJson<SysUser> resultJson = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+
+        Integer id = sysUser.getId();
+        if (id == null) {
+            resultJson.setCode(WebConstants.OPERATION_FAILURE);
+        }
+
+        // 更新用户
+        sysUserService.update(sysUser);
+
+        String[] userRoleStrList = userRoleList.split(",");
+        List<Integer> userRoleIdList = new ArrayList<>();
+        for (String userRole : userRoleStrList) {
+            if (StringUtils.isNoneEmpty(userRole)) {
+                userRoleIdList.add(Integer.valueOf(userRole));
+            }
+        }
+
+        sysRoleService.updateUserRole(
+                sysUser.getId(),
+                userRoleIdList
+        );
+
+        sysUser.setUserRoleList(userRoleIdList);
+        resultJson.setData(sysUser);
+
+        return resultJson;
+    }
+
+    /**
      * 跳转新增页
      *
      * @param model

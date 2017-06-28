@@ -18,6 +18,8 @@ public interface SysUserRoleRepo extends IRepo<SysUserRole> {
 
     int removeUserRole(Integer userId);
 
+    int removeUserRole(List<Integer> userRoleIds);
+
     int removeRoleUser(Integer roleId);
 
 }
