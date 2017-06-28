@@ -20,6 +20,14 @@ public interface MonitorRequestService {
     ResultJson<Integer> addMonitorRequest(BaseMonitorRequest baseMonitorRequest);
 
     /**
+     * 更新监测机构
+     *
+     * @param baseMonitorRequest
+     * @return
+     */
+    ResultJson<Integer> updateMonitorRequest(BaseMonitorRequest baseMonitorRequest);
+
+    /**
      * 返回全部监测机构
      *
      * @return
