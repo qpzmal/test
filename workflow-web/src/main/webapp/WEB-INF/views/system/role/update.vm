@@ -5,7 +5,7 @@
 
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
-        <input type="hidden" name="id" value="$sysRole.id">
+        <input type="hidden" id="id" name="id" value="$sysRole.id">
         <div class="form-group">
             <label class="col-sm-3 control-label">角色名称:</label>
             <div class="col-sm-8">
@@ -21,7 +21,11 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">是否是系统用户:</label>
             <div class="col-sm-8">
-                <input value = "$!{sysRole.isSystem}"  id="is_system" name="is_system" type="checkbox" class="js-switch" checked />
+                <input id="is_system" name="is_system" type="checkbox" class="js-switch"
+                        #if($!{sysRole.isSystem} == true)
+                            checked
+                        #end
+                       />
             </div>
 
         </div>
@@ -99,6 +103,7 @@
     })
 
     function addRole(){
+        var id = $("#id").val();
         var name = $("#role_name").val();
         var description = $("#description").val();
         var is_system = $(".js-switch")[0].checked;
@@ -106,6 +111,7 @@
             url:"/role/update.json",
             type:"post",
             data:{
+                id:id,
                 name:name,
                 description:description,
                 isSystem:is_system
@@ -113,10 +119,10 @@
             success: function(returnData){
                 console.log(returnData);
                 if(returnData.code == 1){
-                    layer.msg('添加成功!');
+                    layer.msg('更新成功!');
                     window.location.href = "/role/toList";
                 } else{
-                    layer.msg('添加失败, 请联系技术人员!');
+                    layer.msg('更新失败, 请联系技术人员!');
                 }
             }
 

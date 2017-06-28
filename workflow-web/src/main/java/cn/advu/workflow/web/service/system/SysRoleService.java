@@ -17,6 +17,14 @@ public interface SysRoleService {
     ResultJson<Object> addRole(SysRole sysRole);
 
     /**
+     * 更新角色
+     *
+     * @param sysRole
+     * @return
+     */
+    ResultJson<Object> updateRole(SysRole sysRole);
+
+    /**
      * 返回全部角色
      *
      * @return
