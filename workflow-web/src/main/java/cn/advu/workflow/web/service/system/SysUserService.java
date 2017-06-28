@@ -38,4 +38,12 @@ public interface SysUserService {
      */
     ResultJson<Integer> remove(Integer userId);
 
+    /**
+     * 更新用户
+     *
+     * @param user
+     * @return
+     */
+    ResultJson<Object> update(SysUser user);
+
 }

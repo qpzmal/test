@@ -34,6 +34,25 @@ public abstract class AbstractRepo<T extends IEntity> implements IRepo<T> {
     }
 
     @Override
+    public int update(T entity) {
+        int count = 0;
+        if (entity != null) {
+            count = getSqlMapper().updateByPrimaryKey(entity);
+        }
+
+        return count;
+    }
+
+    @Override
+    public int updateSelective(T entity) {
+        int count = 0;
+        if (entity != null) {
+            count = getSqlMapper().updateByPrimaryKeySelective(entity);
+        }
+        return count;
+    }
+
+    @Override
     public int remove(Integer id) {
         int count = 0;
         if (id != null) {

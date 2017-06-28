@@ -6,7 +6,7 @@
 
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
-        <input type="hidden" name="id" value="$sysUser.id">
+        <input type="hidden" id="id" name="id" value="$sysUser.id">
         <div class="form-group">
             <label class="col-sm-3 control-label">*登录名称:</label>
             <div class="col-sm-8">
@@ -149,11 +149,12 @@
     );
 
     $(".btn-primary").click(function(){
-        addUser();
+        updateUser();
     })
 
 
-    function addUser(){
+    function updateUser(){
+        var id =  $("#id").val();
         var login_name = $("#login_name").val();
         var user_name = $("#user_name").val();
         var password = $("#password").val();
@@ -184,6 +185,7 @@
             url:"/user/update.json",
             type:"post",
             data:{
+                "id":id,
                 "loginName":login_name,
                 "userName":user_name,
                 "password":password,
@@ -199,10 +201,10 @@
             success: function(returnData){
                 console.log(returnData);
                 if(returnData.code == 1){
-                    layer.msg('添加成功!');
+                    layer.msg('更新成功!');
                     window.location.href = "/user/toList";
                 } else{
-                    layer.msg('添加失败, 请联系技术人员!');
+                    layer.msg('更新失败, 请联系技术人员!');
                 }
             }
 

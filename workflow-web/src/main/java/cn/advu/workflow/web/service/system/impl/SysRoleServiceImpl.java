@@ -68,6 +68,50 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public ResultJson<List<Integer>> addUserRole(Integer userId, List<Integer> roleIds) {
 
+        List<Integer> activeRoleIds = addUserRoleInner(userId, roleIds);
+        ResultJson<List<Integer>> resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        resultJson.setData(activeRoleIds);
+        return resultJson;
+    }
+
+
+    @Override
+    public ResultJson<Void> updateUserRole(Integer userId, List<Integer> roleIds) {
+        List<SysUserRole> exsitsUserRoles = sysUserRoleRepo.findUserRole(userId);
+        List<Integer> removeUserRoleIds = new ArrayList<>();
+        for (SysUserRole sysUserRole : exsitsUserRoles) {
+            Integer userRoleId = sysUserRole.getRoles();
+            if (!roleIds.contains(userRoleId)) {
+                removeUserRoleIds.add(sysUserRole.getId());
+            }
+            roleIds.remove(userRoleId);
+        }
+        addUserRoleInner(userId, roleIds);
+        removeUserRole(removeUserRoleIds);
+        ResultJson<Void> resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        return resultJson;
+    }
+
+    /**
+     * 删除特定用户角色
+     *
+     * @param userRoleIds
+     */
+    private void removeUserRole(List<Integer> userRoleIds) {
+        if(userRoleIds == null || userRoleIds.isEmpty()) {
+            return;
+        }
+        sysUserRoleRepo.removeUserRole(userRoleIds);
+    }
+
+    /**
+     * 给用户赋予角色
+     *
+     * @param userId
+     * @param roleIds
+     * @return
+     */
+    private List<Integer> addUserRoleInner(Integer userId, List<Integer> roleIds) {
         List<SysRole> sysRoles = sysRoleRepo.findAll();
         List<Integer> activeRoleIds = new ArrayList<>();
 
@@ -88,9 +132,7 @@ public class SysRoleServiceImpl implements SysRoleService {
                 activeRoleIds.add(roleId);
             }
         }
-        ResultJson<List<Integer>> resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
-        resultJson.setData(activeRoleIds);
-        return resultJson;
+        return activeRoleIds;
     }
 
 }

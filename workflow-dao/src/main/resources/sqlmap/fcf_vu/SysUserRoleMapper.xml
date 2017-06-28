@@ -62,4 +62,11 @@
     delete from sys_user_role
     where roles = ${roleId}
   </delete>
+  <delete id="deleteByIds">
+    delete from sys_user_role
+    where id in
+    <foreach close=")" collection="userRoleIds" item="userRoleId" open="(" separator=",">
+      ${userRoleId}
+    </foreach>
+  </delete>
 </mapper>

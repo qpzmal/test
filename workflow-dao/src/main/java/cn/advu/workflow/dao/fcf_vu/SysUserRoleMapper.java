@@ -18,4 +18,6 @@ public interface SysUserRoleMapper extends BaseDAO<SysUserRole> {
 
     int deleteByRole(@Param("roleId")Integer roleId);
 
+    int deleteByIds(@Param("userRoleIds")List<Integer> userRoleIds);
+
 }

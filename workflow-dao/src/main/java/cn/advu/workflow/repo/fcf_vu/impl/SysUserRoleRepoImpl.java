@@ -23,16 +23,19 @@ public class SysUserRoleRepoImpl extends AbstractRepo<SysUserRole> implements Sy
 
     @Override
     protected BaseDAO<SysUserRole> getSqlMapper() {
+
         return sysUserRoleMapper;
     }
 
     @Override
     public List<SysUserRole> findAll() {
+
         return sysUserRoleMapper.queryAll();
     }
 
     @Override
     public List<SysUserRole> findUserRole(Integer userId) {
+
         return sysUserRoleMapper.queryByUser(userId);
     }
 
@@ -43,11 +46,18 @@ public class SysUserRoleRepoImpl extends AbstractRepo<SysUserRole> implements Sy
 
     @Override
     public int removeUserRole(Integer userId) {
+
         return sysUserRoleMapper.deleteByUser(userId);
     }
 
     @Override
+    public int removeUserRole(List<Integer> userRoleIds) {
+        return sysUserRoleMapper.deleteByIds(userRoleIds);
+    }
+
+    @Override
     public int removeRoleUser(Integer roleId) {
+
         return sysUserRoleMapper.deleteByRole(roleId);
     }
 
