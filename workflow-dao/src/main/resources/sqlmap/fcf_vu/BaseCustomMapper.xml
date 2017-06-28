@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseCustomMapper">
+  <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseCustom">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="custom_name" jdbcType="VARCHAR" property="customName" />
+    <result column="custom_industry_id" jdbcType="TINYINT" property="customIndustryId" />
+    <result column="custom_type" jdbcType="BIT" property="customType" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, custom_name, custom_industry_id, custom_type, contacts, mobile, address, 
+    email, del_flag, item_status, creator_id, updater_id, create_time, update_time, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_custom
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from base_custom
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustom">
+    insert into base_custom (id, name, custom_name, 
+      custom_industry_id, custom_type, contacts, 
+      mobile, address, email, 
+      del_flag, item_status, creator_id, 
+      updater_id, create_time, update_time, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{customName,jdbcType=VARCHAR}, 
+      #{customIndustryId,jdbcType=TINYINT}, #{customType,jdbcType=BIT}, #{contacts,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, #{creatorId,jdbcType=INTEGER}, 
+      #{updaterId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustom">
+    insert into base_custom
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="customName != null">
+        custom_name,
+      </if>
+      <if test="customIndustryId != null">
+        custom_industry_id,
+      </if>
+      <if test="customType != null">
+        custom_type,
+      </if>
+      <if test="contacts != null">
+        contacts,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="itemStatus != null">
+        item_status,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="updaterId != null">
+        updater_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="customName != null">
+        #{customName,jdbcType=VARCHAR},
+      </if>
+      <if test="customIndustryId != null">
+        #{customIndustryId,jdbcType=TINYINT},
+      </if>
+      <if test="customType != null">
+        #{customType,jdbcType=BIT},
+      </if>
+      <if test="contacts != null">
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="itemStatus != null">
+        #{itemStatus,jdbcType=BIT},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustom">
+    update base_custom
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="customName != null">
+        custom_name = #{customName,jdbcType=VARCHAR},
+      </if>
+      <if test="customIndustryId != null">
+        custom_industry_id = #{customIndustryId,jdbcType=TINYINT},
+      </if>
+      <if test="customType != null">
+        custom_type = #{customType,jdbcType=BIT},
+      </if>
+      <if test="contacts != null">
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="itemStatus != null">
+        item_status = #{itemStatus,jdbcType=BIT},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="updaterId != null">
+        updater_id = #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustom">
+    update base_custom
+    set name = #{name,jdbcType=VARCHAR},
+      custom_name = #{customName,jdbcType=VARCHAR},
+      custom_industry_id = #{customIndustryId,jdbcType=TINYINT},
+      custom_type = #{customType,jdbcType=BIT},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=BIT},
+      item_status = #{itemStatus,jdbcType=BIT},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      updater_id = #{updaterId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
