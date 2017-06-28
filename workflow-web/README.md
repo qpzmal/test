@@ -1,27 +1,43 @@
+开发文档
+=
+
 导入本地patchca-0.5.0.jar包到maven库
 > mvn install:install-file  -Dfile=/Users/wangry/WorkFlower/patchca-0.5.0.jar  -DgroupId=org.patchca  -DartifactId=patchca -Dversion=0.5.0 -Dpackaging=jar
 
 模版主页：http://www.zi-han.net/theme/hplus/
 
-相关插件版本：
+####相关插件版本：
 1. layer--3.0.3
 官网：http://layer.layui.com/
 2. Font Awesome--4.4.0
 图标示例：http://code.zoomla.cn/boot/font.html
 
 
-对static文件夹的修改
+####对static文件夹的修改
 1. 更新layer版本，由2.0升级到3.0.3版本
 
+####项目中部分守则
+1. 每个表有以下字段，字段为NOT NULL 并设置默认值
+>     `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+>     `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记 ，0正常，1删除',
+>     `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',
+>     `creator_id` int(11) unsigned NOT NULL COMMENT '创建者ID',
+>     `updater_id` int(11) unsigned NOT NULL COMMENT '更新者ID',
+>     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+>     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+>     `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
 
-* 问题记录
+2. 按钮颜色以及对应图案
+* 新增 btn-primary --> fa-plus
+* 修改 btn-info --> fa-pencil
+* 删除 btn-danger --> fa-trash
+* 搜索 btn-info --> fa-search
+* 查看 btn-default --> fa-photo 或 fa-search
+* 返回 btn-default --> fa-reply
+
+
+####问题记录
 1. 数据库--菜单对应如下
-
-
-（已做）
-（未做）
-（暂无菜单，工作流用）
-
 
 | 表名 | 表名注释（对应菜单名） | 备注 |
 | -----|:----| ----:|
@@ -50,4 +66,3 @@
 | sys_role_menu    | 角色资源   |  无   |
 | sys_user    | 系统用户   |  无   |
 | sys_user_role    | 用户角色中间   |  无   |
-2. 以下表是否不用创建，直接写入字典表

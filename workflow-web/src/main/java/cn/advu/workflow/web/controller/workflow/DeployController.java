@@ -36,7 +36,7 @@ public class DeployController {
      * 部署管理首页显示
      * @return
      */
-    @RequestMapping("/deployIndex")
+    @RequestMapping("/index")
     public String deployHome(Model model) {
         // 1:查询部署对象信息，对应表（act_re_deployment）
         List<Deployment> depList = activitiFacade.findDeploymentList();
@@ -54,7 +54,7 @@ public class DeployController {
      * 发布新流程
      * @return
      */
-    @RequestMapping("/saveDeploy")
+    @RequestMapping("/save")
     public String saveDeploy(@RequestParam("file") CommonsMultipartFile uploadFile, WorkflowVO workflowVO){
 
 //        , WebuploaderVO webuploaderVO
@@ -76,7 +76,7 @@ public class DeployController {
     /**
      * 删除部署信息
      */
-    @RequestMapping("/delDeploy")
+    @RequestMapping("/delete")
     public String delDeployment(WorkflowVO workflowVO){
         //1：获取部署对象ID
         String deploymentId = workflowVO.getDeploymentId();

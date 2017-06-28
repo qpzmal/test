@@ -81,11 +81,11 @@
 ##        <div class="alert alert-warning">
 ##        </div>
     </div>
-    <div class="signup-footer">
-        <div class="pull-left">
-            &copy; 2017-2027 All Rights Reserved. XXXXXXXX 版权所有	京ICP证XXXXX号 	京ICP备XXXXXX号-2 	京公网安备XXXXXXXXX
-        </div>
-    </div>
+##    <div class="signup-footer">
+##        <div class="pull-left">
+##            &copy; 2017-2027 All Rights Reserved. XXXXXXXX 版权所有	京ICP证XXXXX号 	京ICP备XXXXXX号-2 	京公网安备XXXXXXXXX
+##        </div>
+##    </div>
 </div>
 
 <script src="${rc.contextPath}/static/js/jquery.min.js" type="text/javascript" language="javascript"></script>

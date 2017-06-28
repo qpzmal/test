@@ -82,7 +82,7 @@
                             <td class="val_diagramResourceName">$!{pd.diagramResourceName}</td>
                             <td class="val_deploymentId">$!{pd.deploymentId}</td>
                             <td>
-                                <a href="javascript:;" class="btn btn-white btn-sm button_view_pd"><i class="fa fa-photo "></i> 查看图片 </a>
+                                <a href="javascript:;" class="btn btn-default btn-sm button_view_pd"><i class="fa fa-photo "></i> 查看图片 </a>
                             </td>
                         </tr>
                         #end
@@ -113,7 +113,7 @@
         swf: #springUrl("") + '/static/js/Uploader.swf',
 
         // 文件接收服务端。
-        server: '/workflow/saveDeploy',
+        server: '/workflow/deploy/save',
 
         // 选择文件的按钮。可选。
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -161,7 +161,7 @@
     $(".button_view_pd").click(function(){
         var deploymentId = $(this).parent().siblings("td.val_deploymentId").text();
         var imageName = $(this).parent().siblings("td.val_diagramResourceName").text();
-        var url="/workflow/viewImage?deploymentId="+deploymentId+"&imageName="+imageName;
+        var url="/workflow/deploy/viewImage?deploymentId="+deploymentId+"&imageName="+imageName;
         //iframe层-多媒体
         layer.open({
             type: 2,

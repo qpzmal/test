@@ -113,7 +113,7 @@ public class ModelController {
         } catch (Exception e) {
             LOGGER.error("根据模型部署流程失败：modelId={}", modelId, e);
         }
-        return "redirect:/workflow/model/list";
+        return "redirect:/workflow/model/index";
     }
 
     /**
