@@ -31,9 +31,9 @@
                 <ul class="nav nav-second-level">
                     <li>
                         <a class="J_menuItem" href="${rc.contextPath}/xxxxxx/index">综合计价</a>
-                        <a class="J_menuItem" href="${rc.contextPath}/xxxxxx/index">添制需求单</a>
+                        <a class="J_menuItem" href="${rc.contextPath}/executeOrder/index">添制需求单</a> ## base_execute_order
                         <a class="J_menuItem" href="${rc.contextPath}/xxxxxx/index">管理需求</a>
-                        <a class="J_menuItem" href="${rc.contextPath}/xxxxxx/index">添制采购单</a>
+                        <a class="J_menuItem" href="${rc.contextPath}/buyOrder/index">添制采购单</a> ## base_buy_order
                         <a class="J_menuItem" href="${rc.contextPath}/xxxxxx/index">管理采购</a>
                     </li>
                 </ul>
@@ -61,17 +61,41 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/user/addressList">通讯录</a> ## sys_user
-                        <a class="J_menuItem" href="${rc.contextPath}/region/index">区域管理</a> ## base_area
-                        <a class="J_menuItem" href="${rc.contextPath}/xxxxxx/index">客户管理</a> ##
+                        <a class="J_menuItem" href="${rc.contextPath}/adtype/index">广告类型管理</a> ## base_adtype
                         <a class="J_menuItem" href="${rc.contextPath}/industry/index">客户行业管理</a> ## base_industry
-                        <a class="J_menuItem" href="${rc.contextPath}/adtype/index">媒体管理</a> ## base_adtype
-                        <a class="J_menuItem" href="${rc.contextPath}/tv/index">媒体分类管理</a> ## base_tv
                         <a class="J_menuItem" href="${rc.contextPath}/monitor/index">监测机构管理</a> ## base_monitor_request
-                        <a class="J_menuItem" href="${rc.contextPath}/xxxxxx/index">财务指标管理</a> ##
+                        <a class="J_menuItem" href="${rc.contextPath}/region/index">省市地域管理</a> ## base_region
+                    ##                        <a class="J_menuItem" href="${rc.contextPath}/tv/index">媒体分类管理</a> ## base_tv
                     </li>
                 </ul>
             </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-users"></i>
+                    <span class="nav-label">还没做的</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="${rc.contextPath}/area/index">区域管理</a> ## base_area
+                        <a class="J_menuItem" href="${rc.contextPath}/custom/index">客户管理</a> ## base_custom
+                        <a class="J_menuItem" href="${rc.contextPath}/dept/index">部门管理</a> ## base_custom
+                        <a class="J_menuItem" href="${rc.contextPath}/financial/index">财务指标管理</a> ## base_financialindex
+                        <a class="J_menuItem" href="${rc.contextPath}/media/index">媒体管理</a> ## base_media
+                        <a class="J_menuItem" href="${rc.contextPath}/mediaType/index">媒体类型管理</a> ## base_media_type
+                        <a class="J_menuItem" href="${rc.contextPath}/orderCpm/index">CPM明细</a> ## base_order_cpm
+                        <a class="J_menuItem" href="${rc.contextPath}/person/index">通讯录</a> ## sys_user --> base_person
+                        <a class="J_menuItem" href="${rc.contextPath}/notify/index">通知内容管理</a> ## oa_notify
+                        <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知内容管理</a> ## oa_notify_record
+                        <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知发送记录</a> ## oa_notify_record
+                        <a class="J_menuItem" href="${rc.contextPath}/executeOrder/index">添制需求单</a> ## base_execute_order
+                        <a class="J_menuItem" href="${rc.contextPath}/buyOrder/index">添制采购单</a> ## base_buy_order
+                    </li>
+                </ul>
+            </li>
+
+
+
             <li>
                 <a href="#">
                     <i class="fa fa-home"></i>
@@ -83,7 +107,7 @@
                         <a class="J_menuItem" href="${rc.contextPath}/user/index">用户管理</a>
                         <a class="J_menuItem" href="${rc.contextPath}/role/index">权限管理</a>
                         <a class="J_menuItem" href="${rc.contextPath}/system/index">系统管理</a>
-                        <a class="J_menuItem" href="${rc.contextPath}/workflow/deploy/deployIndex">流程部署</a>
+##                        <a class="J_menuItem" href="${rc.contextPath}/workflow/deploy/deployIndex">流程部署</a>
                         <a class="J_menuItem" href="${rc.contextPath}/workflow/model/index">流程模型</a>
                     </li>
                 </ul>
