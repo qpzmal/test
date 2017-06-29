@@ -6,13 +6,13 @@ import cn.advu.workflow.web.common.ResultJson;
 import java.util.List;
 
 /**
- * 地区管理
+ * 地域管理
  * Created by weiqz on 2017/6/25.
  */
 public interface RegionService {
 
     /**
-     * 新增区域
+     * 新增地域
      *
      * @param baseRegion
      * @return
@@ -20,7 +20,7 @@ public interface RegionService {
     ResultJson<Integer> addRegion(BaseRegion baseRegion);
 
     /**
-     * 更新区域
+     * 更新地域
      *
      * @param baseRegion
      * @return
@@ -28,14 +28,14 @@ public interface RegionService {
     ResultJson<Integer> updateRegion(BaseRegion baseRegion);
 
     /**
-     * 返回全部区域
+     * 返回全部地域
      *
      * @return
      */
     ResultJson<List<BaseRegion>> findAll();
 
     /**
-     * 返回当前区域
+     * 返回当前地域
      *
      * @param id
      * @return

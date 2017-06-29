@@ -7,16 +7,16 @@
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
         <div class="form-group">
-            <label class="col-sm-3 control-label">区域名称:</label>
+            <label class="col-sm-3 control-label">地域名称:</label>
             <div class="col-sm-8">
                 <input id="region_name" name="region_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">区域类型:</label>
+            <label class="col-sm-3 control-label">地域类型:</label>
             <div class="col-sm-8">
                 <select data-placeholder="选择区域类型..." class="chosen-select" style="width:350px;" tabindex="2">
-                    <option value="">请选择区域类型</option>
+                    <option value="">请选择地域类型</option>
                     <option value="1" hassubinfo="true">省</option>
                     <option value="2" hassubinfo="true">市</option>
                     <option value="3" hassubinfo="true">自治州</option>

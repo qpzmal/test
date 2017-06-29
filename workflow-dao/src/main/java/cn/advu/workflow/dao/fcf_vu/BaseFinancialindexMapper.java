@@ -1,17 +1,15 @@
 package cn.advu.workflow.dao.fcf_vu;
 
+import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.domain.fcf_vu.BaseFinancialindex;
+import cn.advu.workflow.domain.fcf_vu.BaseMediaType;
+import org.apache.ibatis.annotations.Param;
 
-public interface BaseFinancialindexMapper {
-    int deleteByPrimaryKey(Integer id);
+import java.util.List;
 
-    int insert(BaseFinancialindex record);
+public interface BaseFinancialindexMapper extends BaseDAO<BaseFinancialindex> {
 
-    int insertSelective(BaseFinancialindex record);
+    // 以下为自定义SQL
+    List<BaseFinancialindex> queryAll(@Param("status") Integer status);
 
-    BaseFinancialindex selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(BaseFinancialindex record);
-
-    int updateByPrimaryKey(BaseFinancialindex record);
 }

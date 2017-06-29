@@ -1,138 +1,108 @@
-$(document).ready(function () {
-    function e() {
-        var e = $("body")[0].style;
-        $("#demo_apidemo").colorpicker({color: e.backgroundColor}).on("changeColor", function (o) {
-            e.backgroundColor = o.color.toHex()
-        }), $("#demo_forceformat").colorpicker({
-            format: "rgba",
-            horizontal: !0
-        }), $(".demo-auto").colorpicker(), $(".disable-button").click(function (e) {
-            e.preventDefault(), $("#demo_endis").colorpicker("disable")
-        }), $(".enable-button").click(function (e) {
-            e.preventDefault(), $("#demo_endis").colorpicker("enable")
-        })
-    }
-
-    var o = $(".image-crop > img");
-    $(o).cropper({
-        aspectRatio: 1.618, preview: ".img-preview", done: function () {
+$(function () {
+    var e = [{
+            text: "父节点 1",
+            href: "#parent1",
+            tags: ["4"],
+            nodes: [{
+                text: "子节点 1",
+                href: "#child1",
+                tags: ["2"],
+                nodes: [{text: "孙子节点 1", href: "#grandchild1", tags: ["0"]}, {
+                    text: "孙子节点 2",
+                    href: "#grandchild2",
+                    tags: ["0"]
+                }]
+            }, {text: "子节点 2", href: "#child2", tags: ["0"]}]
+        }, {text: "父节点 2", href: "#parent2", tags: ["0"]}, {text: "父节点 3", href: "#parent3", tags: ["0"]}, {
+            text: "父节点 4",
+            href: "#parent4",
+            tags: ["0"]
+        }, {text: "父节点 5", href: "#parent5", tags: ["0"]}], o = [{
+            text: "父节点 1",
+            tags: ["2"],
+            nodes: [{
+                text: "子节点 1",
+                tags: ["3"],
+                nodes: [{text: "孙子节点 1", tags: ["6"]}, {text: "孙子节点 2", tags: ["3"]}]
+            }, {text: "子节点 2", tags: ["3"]}]
+        }, {text: "父节点 2", tags: ["7"]}, {
+            text: "父节点 3",
+            icon: "glyphicon glyphicon-earphone",
+            href: "#demo",
+            tags: ["11"]
+        }, {
+            text: "父节点 4",
+            icon: "glyphicon glyphicon-cloud-download",
+            href: "/demo.html",
+            tags: ["19"],
+            selected: !0
+        }, {
+            text: "父节点 5",
+            icon: "glyphicon glyphicon-certificate",
+            color: "pink",
+            backColor: "red",
+            href: "http://www.tesco.com",
+            tags: ["available", "0"]
+        }],
+        t = '[{"text": "父节点 1","nodes": [{"text": "子节点 1","nodes": [{"text": "孙子节点 1"},{"text": "孙子节点 2"}]},{"text": "子节点 2"}]},{"text": "父节点 2"},{"text": "父节点 3"},{"text": "父节点 4"},{"text": "父节点 5"}]';
+    $("#treeview1").treeview({data: e}), $("#treeview2").treeview({
+        levels: 1,
+        data: e
+    }), $("#treeview3").treeview({levels: 99, data: e}), $("#treeview4").treeview({
+        color: "#428bca",
+        data: e
+    }), $("#treeview5").treeview({
+        color: "#428bca",
+        expandIcon: "glyphicon glyphicon-chevron-right",
+        collapseIcon: "glyphicon glyphicon-chevron-down",
+        nodeIcon: "glyphicon glyphicon-bookmark",
+        data: e
+    }), $("#treeview6").treeview({
+        color: "#428bca",
+        expandIcon: "glyphicon glyphicon-stop",
+        collapseIcon: "glyphicon glyphicon-unchecked",
+        nodeIcon: "glyphicon glyphicon-user",
+        showTags: !0,
+        data: e
+    }), $("#treeview7").treeview({
+        color: "#428bca",
+        showBorder: !1,
+        data: e
+    }), $("#treeview8").treeview({
+        expandIcon: "glyphicon glyphicon-stop",
+        collapseIcon: "glyphicon glyphicon-unchecked",
+        nodeIcon: "glyphicon glyphicon-user",
+        color: "yellow",
+        backColor: "purple",
+        onhoverColor: "orange",
+        borderColor: "red",
+        showBorder: !1,
+        showTags: !0,
+        highlightSelected: !0,
+        selectedColor: "yellow",
+        selectedBackColor: "darkorange",
+        data: e
+    }), $("#treeview9").treeview({
+        expandIcon: "glyphicon glyphicon-stop",
+        collapseIcon: "glyphicon glyphicon-unchecked",
+        nodeIcon: "glyphicon glyphicon-user",
+        color: "yellow",
+        backColor: "purple",
+        onhoverColor: "orange",
+        borderColor: "red",
+        showBorder: !1,
+        showTags: !0,
+        highlightSelected: !0,
+        selectedColor: "yellow",
+        selectedBackColor: "darkorange",
+        data: o
+    }), $("#treeview10").treeview({
+        color: "#428bca",
+        enableLinks: !0,
+        data: e
+    }), $("#treeview11").treeview({
+        color: "#428bca", data: e, onNodeSelected: function (e, o) {
+            $("#event_output").prepend("<p>您单击了 " + o.text + "</p>")
         }
-    });
-    var r = $("#inputImage");
-    window.FileReader ? r.change(function () {
-        var e, i = new FileReader, t = this.files;
-        t.length && (e = t[0], /^image\/\w+$/.test(e.type) ? (i.readAsDataURL(e), i.onload = function () {
-            r.val(""), o.cropper("reset", !0).cropper("replace", this.result)
-        }) : showMessage("请选择图片文件"))
-    }) : r.addClass("hide"), $("#download").click(function () {
-        window.open(o.cropper("getDataURL"))
-    }), $("#zoomIn").click(function () {
-        o.cropper("zoom", .1)
-    }), $("#zoomOut").click(function () {
-        o.cropper("zoom", -.1)
-    }), $("#rotateLeft").click(function () {
-        o.cropper("rotate", 45)
-    }), $("#rotateRight").click(function () {
-        o.cropper("rotate", -45)
-    }), $("#setDrag").click(function () {
-        o.cropper("setDragMode", "crop")
-    }), $("#data_1 .input-group.date").datepicker({
-        todayBtn: "linked",
-        keyboardNavigation: !1,
-        forceParse: !1,
-        calendarWeeks: !0,
-        autoclose: !0
-    }), $("#data_2 .input-group.date").datepicker({
-        startView: 1,
-        todayBtn: "linked",
-        keyboardNavigation: !1,
-        forceParse: !1,
-        autoclose: !0,
-        format: "yyyy-mm-dd"
-    }), $("#data_3 .input-group.date").datepicker({
-        startView: 2,
-        todayBtn: "linked",
-        keyboardNavigation: !1,
-        forceParse: !1,
-        autoclose: !0
-    }), $("#data_4 .input-group.date").datepicker({
-        minViewMode: 1,
-        keyboardNavigation: !1,
-        forceParse: !1,
-        autoclose: !0,
-        todayHighlight: !0
-    }), $("#data_5 .input-daterange").datepicker({keyboardNavigation: !1, forceParse: !1, autoclose: !0});
-    {
-        var i = document.querySelector(".js-switch"),
-            t = (new Switchery(i, {color: "#1AB394"}), document.querySelector(".js-switch_2")),
-            a = (new Switchery(t, {color: "#ED5565"}), document.querySelector(".js-switch_3"));
-        new Switchery(a, {color: "#1AB394"})
-    }
-    $(".i-checks").iCheck({
-        checkboxClass: "icheckbox_square-green",
-        radioClass: "iradio_square-green"
-    }), $(".colorpicker-demo1").colorpicker(), $(".colorpicker-demo2").colorpicker(), $(".colorpicker-demo3").colorpicker(), e(), $(".demo-destroy").click(function (e) {
-        e.preventDefault(), $(".demo").colorpicker("destroy"), $(".disable-button, .enable-button").off("click")
-    }), $(".demo-create").click(function (o) {
-        o.preventDefault(), e()
-    });
-    var c = $(".back-change")[0].style;
-    $("#demo_apidemo").colorpicker({color: c.backgroundColor}).on("changeColor", function (e) {
-        c.backgroundColor = e.color.toHex()
-    }), $(".clockpicker").clockpicker(), $('#file-pretty input[type="file"]').prettyFile()
+    }), $("#treeview12").treeview({data: t})
 });
-var config = {
-    ".chosen-select": {},
-    ".chosen-select-deselect": {allow_single_deselect: !0},
-    ".chosen-select-no-single": {disable_search_threshold: 10},
-    ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
-    ".chosen-select-width": {width: "95%"}
-};
-for (var selector in config)
-    $(selector).chosen(config[selector]);
-$("#ionrange_1").ionRangeSlider({
-    min: 0,
-    max: 5e3,
-    type: "double",
-    prefix: "&yen;",
-    maxPostfix: "+",
-    prettify: !1,
-    hasGrid: !0
-}), $("#ionrange_2").ionRangeSlider({
-    min: 0,
-    max: 10,
-    type: "single",
-    step: .1,
-    postfix: " 克",
-    prettify: !1,
-    hasGrid: !0
-}), $("#ionrange_3").ionRangeSlider({
-    min: -50,
-    max: 50,
-    from: 0,
-    postfix: "°",
-    prettify: !1,
-    hasGrid: !0
-}), $("#ionrange_4").ionRangeSlider({
-    values: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-    type: "single",
-    hasGrid: !0
-}), $("#ionrange_5").ionRangeSlider({
-    min: 1e4,
-    max: 1e5,
-    step: 100,
-    postfix: " km",
-    from: 55e3,
-    hideMinMax: !0,
-    hideFromTo: !1
-}), $(".dial").knob(), $("#basic_slider").noUiSlider({
-    start: 40,
-    behaviour: "tap",
-    connect: "upper",
-    range: {min: 20, max: 80}
-}), $("#range_slider").noUiSlider({
-    start: [40, 60],
-    behaviour: "drag",
-    connect: !0,
-    range: {min: 20, max: 80}
-}), $("#drag-fixed").noUiSlider({start: [40, 60], behaviour: "drag-fixed", connect: !0, range: {min: 20, max: 80}});

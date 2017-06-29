@@ -6,9 +6,57 @@
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
         <div class="form-group">
-            <label class="col-sm-3 control-label">行业名称:</label>
+            <label class="col-sm-3 control-label">签约公司名称:</label>
             <div class="col-sm-8">
-                <input id="industry_name" name="industry_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="p_name" name="p_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">广告主名:</label>
+            <div class="col-sm-8">
+                <input id="custom_name" name="custom_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">客户行业:</label>
+            <div class="col-sm-8">
+                <input id="custom_industry_id" name="custom_industry_id" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">类型:</label>
+            <div class="col-sm-8">
+                <input id="custom_type" name="custom_type" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">联系人:</label>
+            <div class="col-sm-8">
+                <input id="contacts" name="contacts" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">手机:</label>
+            <div class="col-sm-8">
+                <input id="mobile" name="mobile" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">地址:</label>
+            <div class="col-sm-8">
+                <input id="address" name="address" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">邮箱地址:</label>
+            <div class="col-sm-8">
+                <input id="email" name="email" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">备注:</label>
+            <div class="col-sm-8">
+                <input id="remark" name="remark" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
@@ -62,10 +110,17 @@
     })
 
     function add(){
-        var name = $("#industry_name").val();
+        var name = $("#p_name").val();
+        var cutomName = $("#custom_name").val();
+        var cutomIndustryId = $("#custom_industry_id").val();
+        var contacts = $("#contacts").val();
+        var mobile = $("#mobile").val();
+        var address = $("#address").val();
+        var email = $("#email").val();
+        var remark = $("#remark").val();
         var item_status = $(".js-switch")[0].checked;
         $.ajax({
-            url:"/industry/add.json",
+            url:"/custom/add.json",
             type:"post",
             data:{
                 name:name,
@@ -75,7 +130,7 @@
                 console.log(returnData);
                 if(returnData.code == 1){
                     layer.msg('添加成功!');
-                    window.location.href = "/industry/index";
+                    window.location.href = "/custom/index";
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }

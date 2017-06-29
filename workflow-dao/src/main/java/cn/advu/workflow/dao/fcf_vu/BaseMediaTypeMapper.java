@@ -1,17 +1,15 @@
 package cn.advu.workflow.dao.fcf_vu;
 
+import cn.advu.workflow.dao.base.BaseDAO;
+import cn.advu.workflow.domain.fcf_vu.BaseMedia;
 import cn.advu.workflow.domain.fcf_vu.BaseMediaType;
+import org.apache.ibatis.annotations.Param;
 
-public interface BaseMediaTypeMapper {
-    int deleteByPrimaryKey(Integer id);
+import java.util.List;
 
-    int insert(BaseMediaType record);
+public interface BaseMediaTypeMapper extends BaseDAO<BaseMediaType> {
 
-    int insertSelective(BaseMediaType record);
 
-    BaseMediaType selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(BaseMediaType record);
-
-    int updateByPrimaryKey(BaseMediaType record);
+    // 以下为自定义SQL
+    List<BaseMediaType> queryAll(@Param("status") Integer status);
 }

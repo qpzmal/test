@@ -65,7 +65,13 @@
                         <a class="J_menuItem" href="${rc.contextPath}/industry/index">客户行业管理</a> ## base_industry
                         <a class="J_menuItem" href="${rc.contextPath}/monitor/index">监测机构管理</a> ## base_monitor_request
                         <a class="J_menuItem" href="${rc.contextPath}/region/index">省市地域管理</a> ## base_region
-                    ##                        <a class="J_menuItem" href="${rc.contextPath}/tv/index">媒体分类管理</a> ## base_tv
+##                        <a class="J_menuItem" href="${rc.contextPath}/dept/index">部门管理</a> ## base_dept
+##                        <a class="J_menuItem" href="${rc.contextPath}/person/index">通讯录</a> ## sys_user --> base_person
+                        <a class="J_menuItem" href="${rc.contextPath}/area/index">区域管理</a> ## base_area
+                        <a class="J_menuItem" href="${rc.contextPath}/custom/index">客户管理</a> ## base_custom
+                        <a class="J_menuItem" href="${rc.contextPath}/financial/index">财务指标管理</a> ## base_financialindex
+                        <a class="J_menuItem" href="${rc.contextPath}/media/index">媒体管理</a> ## base_media
+                        <a class="J_menuItem" href="${rc.contextPath}/mediaType/index">媒体类型管理</a> ## base_media_type
                     </li>
                 </ul>
             </li>
@@ -77,14 +83,10 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/area/index">区域管理</a> ## base_area
-                        <a class="J_menuItem" href="${rc.contextPath}/custom/index">客户管理</a> ## base_custom
-                        <a class="J_menuItem" href="${rc.contextPath}/dept/index">部门管理</a> ## base_custom
-                        <a class="J_menuItem" href="${rc.contextPath}/financial/index">财务指标管理</a> ## base_financialindex
-                        <a class="J_menuItem" href="${rc.contextPath}/media/index">媒体管理</a> ## base_media
-                        <a class="J_menuItem" href="${rc.contextPath}/mediaType/index">媒体类型管理</a> ## base_media_type
+##                        <a class="J_menuItem" href="${rc.contextPath}/custom/index">客户管理</a> ## base_custom
+##                        <a class="J_menuItem" href="${rc.contextPath}/dept/index">部门管理</a> ## base_custom
                         <a class="J_menuItem" href="${rc.contextPath}/orderCpm/index">CPM明细</a> ## base_order_cpm
-                        <a class="J_menuItem" href="${rc.contextPath}/person/index">通讯录</a> ## sys_user --> base_person
+##                        <a class="J_menuItem" href="${rc.contextPath}/person/index">通讯录</a> ## sys_user --> base_person
                         <a class="J_menuItem" href="${rc.contextPath}/notify/index">通知内容管理</a> ## oa_notify
                         <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知内容管理</a> ## oa_notify_record
                         <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知发送记录</a> ## oa_notify_record

@@ -1,19 +1,47 @@
 package cn.advu.workflow.web.service.base;
 
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
+import cn.advu.workflow.domain.fcf_vu.BaseMedia;
+import cn.advu.workflow.domain.fcf_vu.BaseRegion;
+import cn.advu.workflow.web.common.ResultJson;
 
 import java.util.List;
 
 /**
- * 区域（公司）信息
+ * 区域信息
  * Created by weiqz on 2017/6/25.
  */
 public interface AreaService {
 
-    int insert(BaseArea obj);
-    int delete(String id);
-    int update(String id);
-    List<BaseArea> queryAll();
 
-    List<BaseArea> queryByCondition(BaseArea obj);
+    /**
+     * 返回全部区域
+     *
+     * @return
+     */
+    ResultJson<List<BaseArea>> findAll();
+
+    /**
+     * 新增区域
+     *
+     * @param baseArea
+     * @return
+     */
+    ResultJson<Integer> addArea(BaseArea baseArea);
+
+    /**
+     * 更新区域
+     *
+     * @param baseArea
+     * @return
+     */
+    ResultJson<Integer> updateArea(BaseArea baseArea);
+
+    /**
+     * 返回当前区域
+     *
+     * @param id
+     * @return
+     */
+    ResultJson<BaseArea> findById(Integer id);
 }

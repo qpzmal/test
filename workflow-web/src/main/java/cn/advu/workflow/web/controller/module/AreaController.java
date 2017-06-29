@@ -1,7 +1,9 @@
 package cn.advu.workflow.web.controller.module;
 
+import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseRegion;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,27 +17,27 @@ import java.util.List;
 
 
 /**
- * 地域相关controller，用于管理地域
+ * 区域相关controller，用于管理区域
  *
  */
 @Controller
-@RequestMapping("/region")
-public class RegionController {
+@RequestMapping("/area")
+public class AreaController {
     
     @Autowired
-    private RegionService regionService;
+    private AreaService areaService;
 
     /**
-     * 跳转地域业务首页-地域列表页
+     * 跳转区域业务首页-区域列表页
      *
      * @param resultModel
      * @return
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
-        ResultJson<List<BaseRegion>> result = regionService.findAll();
+        ResultJson<List<BaseArea>> result = areaService.findAll();
         resultModel.addAttribute("dataList",result.getData());
-        return "modules/region/list";
+        return "modules/area/list";
     }
 
     /**
@@ -45,8 +47,8 @@ public class RegionController {
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addRegion(BaseRegion baseRegion, HttpServletRequest request){
-        return regionService.addRegion(baseRegion);
+    public ResultJson<Integer> addRegion(BaseArea baseArea, HttpServletRequest request){
+        return areaService.addArea(baseArea);
     }
 
     /**
@@ -56,8 +58,8 @@ public class RegionController {
      */
     @ResponseBody
     @RequestMapping(value ="/update", method = RequestMethod.POST)
-    public ResultJson<Integer> updateRegion(BaseRegion baseRegion, HttpServletRequest request){
-        return regionService.updateRegion(baseRegion);
+    public ResultJson<Integer> updateArea(BaseArea baseArea, HttpServletRequest request){
+        return areaService.updateArea(baseArea);
     }
 
     /**
@@ -67,7 +69,7 @@ public class RegionController {
      */
     @RequestMapping("/toAdd")
     public String toAdd(){
-        return "modules/region/add";
+        return "modules/area/add";
     }
 
 
@@ -80,11 +82,12 @@ public class RegionController {
     @RequestMapping("/toUpdate")
     public String toUpdate(Integer id, Model model){
 
-        BaseRegion baseRegion = regionService.findById(id).getData();
+        BaseArea baseArea = areaService.findById(id).getData();
 
-        model.addAttribute("baseRegion", baseRegion);
+        model.addAttribute("baseArea", baseArea);
 
-        return "modules/region/update";
+        return "modules/area/update";
     }
+
 
 }

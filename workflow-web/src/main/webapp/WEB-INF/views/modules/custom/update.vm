@@ -1,0 +1,162 @@
+## 引入css
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
+#end
+
+<div class="ibox-content">
+    <form class="form-horizontal m-t" id="commentForm">
+        <input type="hidden" id="id" name="id" value="$baseCustom.id">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">签约公司名称:</label>
+            <div class="col-sm-8">
+                <input value="$!{baseCustom.name}" id="p_name" name="p_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">广告主名:</label>
+            <div class="col-sm-8">
+                <input value="$!{baseCustom.customName}" id="custom_name" name="custom_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">客户行业:</label>
+            <div class="col-sm-8">
+                <input value="$!{baseCustom.customIndustryId}" id="custom_industry_id" name="custom_industry_id" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">类型:</label>
+            <div class="col-sm-8">
+                <input value="$!{baseCustom.customType}" id="custom_type" name="custom_type" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">联系人:</label>
+            <div class="col-sm-8">
+                <input value="$!{baseCustom.contacts}" id="contacts" name="contacts" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">手机:</label>
+            <div class="col-sm-8">
+                <input value="$!{baseCustom.mobile}" id="mobile" name="mobile" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">地址:</label>
+            <div class="col-sm-8">
+                <input value="$!{baseCustom.address}" id="address" name="address" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">邮箱地址:</label>
+            <div class="col-sm-8">
+                <input value="$!{baseCustom.email}" id="email" name="email" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">备注:</label>
+            <div class="col-sm-8">
+                <input value="$!{baseCustom.remark}" id="remark" name="remark" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">启用:</label>
+            <div class="col-sm-8">
+                <input id="item_status" name="item_status" type="checkbox" class="js-switch"
+                    #if($!{baseCustom.itemStatus} == true)
+                       checked
+                    #end
+                />
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-3">
+                <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+## 引入js
+#define($jsblock)
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
+
+<script>
+    $.validator.setDefaults(
+            {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+                success:function(e){
+                    e.closest(".form-group").removeClass("has-error").addClass("has-success")
+                },
+                errorElement:"span",
+                errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+                errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+    ),
+            $().ready(
+                    function(){
+                        var e="<i class='fa fa-times-circle'></i> ";
+                        $("#commentForm").validate();
+                        {var i=document.querySelector(".js-switch"),
+                                t=(new Switchery(i,{color:"#1AB394"}));
+                        };
+                    }
+            );
+
+    $(".btn-primary").click(function(){
+        update();
+    })
+
+    function update(){
+        var id = $("#id").val();
+        var name = $("#p_name").val();
+        var cutomName = $("#custom_name").val();
+        var cutomIndustryId = $("#custom_industry_id").val();
+        var contacts = $("#contacts").val();
+        var mobile = $("#mobile").val();
+        var address = $("#address").val();
+        var email = $("#email").val();
+        var remark = $("#remark").val();
+        var item_status = $(".js-switch")[0].checked;
+        $.ajax({
+            url:"/custom/update.json",
+            type:"post",
+            data:{
+                id:id,
+                name:name,
+                cutomName:cutomName,
+                cutomIndustryId:cutomIndustryId,
+                contacts:contacts,
+                mobile:mobile,
+                address:address,
+                email:email,
+                remark:remark,
+                itemStatus:item_status
+            },
+            success: function(returnData){
+                console.log(returnData);
+                if(returnData.code == 1){
+                    layer.msg('更新成功!');
+                    window.location.href = "/custom/index";
+                } else{
+                    layer.msg('更新失败, 请联系技术人员!');
+                }
+            }
+
+        });
+    }
+
+    // 返回
+    $(".btn-default").click(function(){
+        history.go(-1);
+    })
+</script>
+#end

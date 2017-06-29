@@ -27,7 +27,7 @@ public class RegionServiceImpl implements RegionService {
     public ResultJson<Integer> addRegion(BaseRegion baseRegion) {
         Integer insertCount = baseRegionRepo.addSelective(baseRegion);
         if(insertCount != 1){
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建区域失败!");
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建地域失败!");
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
@@ -39,7 +39,7 @@ public class RegionServiceImpl implements RegionService {
         }
         Integer insertCount = baseRegionRepo.updateSelective(baseRegion);
         if(insertCount != 1){
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新区域失败!");
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新地域失败!");
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }

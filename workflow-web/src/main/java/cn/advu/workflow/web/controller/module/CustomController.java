@@ -1,8 +1,8 @@
 package cn.advu.workflow.web.controller.module;
 
-import cn.advu.workflow.domain.fcf_vu.BaseRegion;
+import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.web.common.ResultJson;
-import cn.advu.workflow.web.service.base.RegionService;
+import cn.advu.workflow.web.service.base.CustomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,59 +15,59 @@ import java.util.List;
 
 
 /**
- * 地域相关controller，用于管理地域
+ * 客户相关controller，用于管理客户
  *
  */
 @Controller
-@RequestMapping("/region")
-public class RegionController {
-    
+@RequestMapping("/custom")
+public class CustomController {
+
     @Autowired
-    private RegionService regionService;
+    private CustomService customService;
 
     /**
-     * 跳转地域业务首页-地域列表页
+     * 跳转客户首页-客户列表页
      *
      * @param resultModel
      * @return
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
-        ResultJson<List<BaseRegion>> result = regionService.findAll();
+        ResultJson<List<BaseCustom>> result = customService.findAll();
         resultModel.addAttribute("dataList",result.getData());
-        return "modules/region/list";
+        return "modules/custom/list";
     }
 
     /**
-     * 新增地域
+     * 新增客户
      *
      * @return
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addRegion(BaseRegion baseRegion, HttpServletRequest request){
-        return regionService.addRegion(baseRegion);
+    public ResultJson<Integer> addRegion(BaseCustom baseCustom, HttpServletRequest request){
+        return customService.add(baseCustom);
     }
 
     /**
-     * 更新地域
+     * 更新客户
      *
      * @return
      */
     @ResponseBody
     @RequestMapping(value ="/update", method = RequestMethod.POST)
-    public ResultJson<Integer> updateRegion(BaseRegion baseRegion, HttpServletRequest request){
-        return regionService.updateRegion(baseRegion);
+    public ResultJson<Integer> updateArea(BaseCustom baseCustom, HttpServletRequest request){
+        return customService.update(baseCustom);
     }
 
     /**
-     * 跳转新增地域页面
+     * 跳转新增客户页面
      *
      * @return
      */
     @RequestMapping("/toAdd")
     public String toAdd(){
-        return "modules/region/add";
+        return "modules/custom/add";
     }
 
 
@@ -80,11 +80,12 @@ public class RegionController {
     @RequestMapping("/toUpdate")
     public String toUpdate(Integer id, Model model){
 
-        BaseRegion baseRegion = regionService.findById(id).getData();
+        BaseCustom baseCustom = customService.findById(id).getData();
 
-        model.addAttribute("baseRegion", baseRegion);
+        model.addAttribute("baseCustom", baseCustom);
 
-        return "modules/region/update";
+        return "modules/custom/update";
     }
+
 
 }
