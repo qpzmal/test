@@ -12,7 +12,7 @@ public class BaseCustom extends AbstractEntity {
 
     private Byte customIndustryId;
 
-    private Boolean customType;
+    private Byte customType;
 
     private String contacts;
 
@@ -57,11 +57,11 @@ public class BaseCustom extends AbstractEntity {
         this.customIndustryId = customIndustryId;
     }
 
-    public Boolean getCustomType() {
+    public Byte getCustomType() {
         return customType;
     }
 
-    public void setCustomType(Boolean customType) {
+    public void setCustomType(Byte customType) {
         this.customType = customType;
     }
 

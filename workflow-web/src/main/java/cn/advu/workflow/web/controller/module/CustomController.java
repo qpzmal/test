@@ -1,8 +1,10 @@
 package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
+import cn.advu.workflow.domain.fcf_vu.BaseIndustry;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.service.base.CustomService;
+import cn.advu.workflow.web.service.base.IndustryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,9 @@ public class CustomController {
 
     @Autowired
     private CustomService customService;
+
+    @Autowired
+    private IndustryService industryService;
 
     /**
      * 跳转客户首页-客户列表页
@@ -66,7 +71,9 @@ public class CustomController {
      * @return
      */
     @RequestMapping("/toAdd")
-    public String toAdd(){
+    public String toAdd(Model resultModel){
+        List<BaseIndustry> industryList = industryService.findAll().getData();
+        resultModel.addAttribute("industryList", industryList);
         return "modules/custom/add";
     }
 
@@ -83,6 +90,9 @@ public class CustomController {
         BaseCustom baseCustom = customService.findById(id).getData();
 
         model.addAttribute("baseCustom", baseCustom);
+
+        List<BaseIndustry> industryList = industryService.findAll().getData();
+        model.addAttribute("industryList", industryList);
 
         return "modules/custom/update";
     }

@@ -1,67 +1,91 @@
 ## 引入css
 #define($cssblock)
 <link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
 #end
 
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
         <input type="hidden" id="id" name="id" value="$baseCustom.id">
         <div class="form-group">
-            <label class="col-sm-3 control-label">签约公司名称:</label>
+            <label class="col-sm-3 control-label">客户名称(签约公司名称)</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustom.name}" id="p_name" name="p_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustom.name}" id="p_name" name="p_name" maxlength="100" type="text" class="form-control">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">广告主名:</label>
+            <label class="col-sm-3 control-label">客户名称(产品所有者，广告主名)</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustom.customName}" id="custom_name" name="custom_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustom.customName}" id="custom_name" name="custom_name" maxlength="50" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">客户行业:</label>
+            <label class="col-sm-3 control-label">客户行业</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustom.customIndustryId}" id="custom_industry_id" name="custom_industry_id" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <select data-placeholder="请选择行业" class="chosen-select" style="width:350px;" tabindex="2">
+                    <option value="">请选择行业</option>
+                    #foreach($data in $industryList)
+                        <option value ="$data.id"
+                            #if($!{baseCustom.customIndustryId} == $data.id)
+                                selected
+                            #end
+                        >$data.name</option>
+                    #end
+                </select>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">类型:</label>
+            <label class="col-sm-3 control-label">类型</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustom.customType}" id="custom_type" name="custom_type" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <select id="custom_type" data-placeholder="请选择客户类型" class="chosen-select" style="width:350px;" tabindex="2">
+                    <option value="">请选择客户类型</option>
+                    <option value="1" hassubinfo="true"
+                        #if($!{baseCustom.customType} == 1)
+                            selected
+                        #end
+                    >4A公司</option>
+                    <option value="2" hassubinfo="true"
+                        #if($!{baseCustom.customType} == 2)
+                            selected
+                        #end
+                        >直客</option>
+                </select>
+##                <input value="$!{baseCustom.customType}" id="custom_type" name="custom_type" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">联系人:</label>
+            <label class="col-sm-3 control-label">联系人</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustom.contacts}" id="contacts" name="contacts" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustom.contacts}" id="contacts" name="contacts" maxlength="30" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">手机:</label>
+            <label class="col-sm-3 control-label">手机</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustom.mobile}" id="mobile" name="mobile" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustom.mobile}" id="mobile" name="mobile" maxlength="30" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">地址:</label>
+            <label class="col-sm-3 control-label">地址</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustom.address}" id="address" name="address" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustom.address}" id="address" name="address" maxlength="255" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">邮箱地址:</label>
+            <label class="col-sm-3 control-label">邮箱地址</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustom.email}" id="email" name="email" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustom.email}" id="email" name="email" maxlength="60" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">备注:</label>
+            <label class="col-sm-3 control-label">备注</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustom.remark}" id="remark" name="remark" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustom.remark}" id="remark" name="remark" maxlength="500" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">启用:</label>
+            <label class="col-sm-3 control-label">启用/停用</label>
             <div class="col-sm-8">
                 <input id="item_status" name="item_status" type="checkbox" class="js-switch"
                     #if($!{baseCustom.itemStatus} == true)
@@ -90,8 +114,19 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
 
 <script>
+    var config = {
+        ".chosen-select": {},
+        ".chosen-select-deselect": {allow_single_deselect: !0},
+        ".chosen-select-no-single": {disable_search_threshold: 10},
+        ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
+        ".chosen-select-width": {width: "95%"}
+    };
+    for (var selector in config)
+        $(selector).chosen(config[selector]);
+
     $.validator.setDefaults(
             {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
                 success:function(e){
@@ -118,13 +153,14 @@
     function update(){
         var id = $("#id").val();
         var name = $("#p_name").val();
-        var cutomName = $("#custom_name").val();
-        var cutomIndustryId = $("#custom_industry_id").val();
+        var customName = $("#custom_name").val();
         var contacts = $("#contacts").val();
         var mobile = $("#mobile").val();
         var address = $("#address").val();
         var email = $("#email").val();
         var remark = $("#remark").val();
+        var customIndustryId = $(".chosen-select").val();
+        var custom_type = $("#custom_type").val();
         var item_status = $(".js-switch")[0].checked;
         $.ajax({
             url:"/custom/update.json",
@@ -132,13 +168,14 @@
             data:{
                 id:id,
                 name:name,
-                cutomName:cutomName,
-                cutomIndustryId:cutomIndustryId,
+                customName:customName,
                 contacts:contacts,
+                customIndustryId:customIndustryId,
                 mobile:mobile,
                 address:address,
                 email:email,
                 remark:remark,
+                customType:custom_type,
                 itemStatus:item_status
             },
             success: function(returnData){
