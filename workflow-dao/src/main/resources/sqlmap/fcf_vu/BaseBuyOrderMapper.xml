@@ -5,16 +5,15 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
     <result column="sec_order_num" jdbcType="VARCHAR" property="secOrderNum" />
+    <result column="custom_id" jdbcType="INTEGER" property="customId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
-    <result column="sign_company_name" jdbcType="VARCHAR" property="signCompanyName" />
     <result column="account_period" jdbcType="INTEGER" property="accountPeriod" />
     <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
     <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
     <result column="person_id" jdbcType="INTEGER" property="personId" />
-    <result column="launch_media" jdbcType="TINYINT" property="launchMedia" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="pay_percent" jdbcType="DECIMAL" property="payPercent" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
@@ -25,9 +24,9 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_num, sec_order_num, name, type, order_date, amount, sign_company_name, 
-    account_period, start_date, end_date, person_id, launch_media, status, pay_percent, 
-    user_id, area_id, item_status, create_time, update_time, remark
+    id, order_num, sec_order_num, custom_id, name, type, order_date, amount, account_period, 
+    start_date, end_date, person_id, status, pay_percent, user_id, area_id, item_status, 
+    create_time, update_time, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -41,21 +40,19 @@
   </delete>
   <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
     insert into base_buy_order (id, order_num, sec_order_num, 
-      name, type, order_date, 
-      amount, sign_company_name, account_period, 
+      custom_id, name, type, 
+      order_date, amount, account_period, 
       start_date, end_date, person_id, 
-      launch_media, status, pay_percent, 
-      user_id, area_id, item_status, 
-      create_time, update_time, remark
-      )
+      status, pay_percent, user_id, 
+      area_id, item_status, create_time, 
+      update_time, remark)
     values (#{id,jdbcType=INTEGER}, #{orderNum,jdbcType=VARCHAR}, #{secOrderNum,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{orderDate,jdbcType=TIMESTAMP}, 
-      #{amount,jdbcType=DECIMAL}, #{signCompanyName,jdbcType=VARCHAR}, #{accountPeriod,jdbcType=INTEGER}, 
+      #{customId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{orderDate,jdbcType=TIMESTAMP}, #{amount,jdbcType=DECIMAL}, #{accountPeriod,jdbcType=INTEGER}, 
       #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{personId,jdbcType=INTEGER}, 
-      #{launchMedia,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{payPercent,jdbcType=DECIMAL}, 
-      #{userId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}, #{itemStatus,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
-      )
+      #{status,jdbcType=TINYINT}, #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, 
+      #{areaId,jdbcType=INTEGER}, #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
     insert into base_buy_order
@@ -69,6 +66,9 @@
       <if test="secOrderNum != null">
         sec_order_num,
       </if>
+      <if test="customId != null">
+        custom_id,
+      </if>
       <if test="name != null">
         name,
       </if>
@@ -81,9 +81,6 @@
       <if test="amount != null">
         amount,
       </if>
-      <if test="signCompanyName != null">
-        sign_company_name,
-      </if>
       <if test="accountPeriod != null">
         account_period,
       </if>
@@ -95,9 +92,6 @@
       </if>
       <if test="personId != null">
         person_id,
-      </if>
-      <if test="launchMedia != null">
-        launch_media,
       </if>
       <if test="status != null">
         status,
@@ -134,6 +128,9 @@
       <if test="secOrderNum != null">
         #{secOrderNum,jdbcType=VARCHAR},
       </if>
+      <if test="customId != null">
+        #{customId,jdbcType=INTEGER},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -146,9 +143,6 @@
       <if test="amount != null">
         #{amount,jdbcType=DECIMAL},
       </if>
-      <if test="signCompanyName != null">
-        #{signCompanyName,jdbcType=VARCHAR},
-      </if>
       <if test="accountPeriod != null">
         #{accountPeriod,jdbcType=INTEGER},
       </if>
@@ -160,9 +154,6 @@
       </if>
       <if test="personId != null">
         #{personId,jdbcType=INTEGER},
-      </if>
-      <if test="launchMedia != null">
-        #{launchMedia,jdbcType=TINYINT},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -199,6 +190,9 @@
       <if test="secOrderNum != null">
         sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
       </if>
+      <if test="customId != null">
+        custom_id = #{customId,jdbcType=INTEGER},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -211,9 +205,6 @@
       <if test="amount != null">
         amount = #{amount,jdbcType=DECIMAL},
       </if>
-      <if test="signCompanyName != null">
-        sign_company_name = #{signCompanyName,jdbcType=VARCHAR},
-      </if>
       <if test="accountPeriod != null">
         account_period = #{accountPeriod,jdbcType=INTEGER},
       </if>
@@ -225,9 +216,6 @@
       </if>
       <if test="personId != null">
         person_id = #{personId,jdbcType=INTEGER},
-      </if>
-      <if test="launchMedia != null">
-        launch_media = #{launchMedia,jdbcType=TINYINT},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
@@ -260,16 +248,15 @@
     update base_buy_order
     set order_num = #{orderNum,jdbcType=VARCHAR},
       sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
+      custom_id = #{customId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=TINYINT},
       order_date = #{orderDate,jdbcType=TIMESTAMP},
       amount = #{amount,jdbcType=DECIMAL},
-      sign_company_name = #{signCompanyName,jdbcType=VARCHAR},
       account_period = #{accountPeriod,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=TIMESTAMP},
       end_date = #{endDate,jdbcType=TIMESTAMP},
       person_id = #{personId,jdbcType=INTEGER},
-      launch_media = #{launchMedia,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
       pay_percent = #{payPercent,jdbcType=DECIMAL},
       user_id = #{userId,jdbcType=INTEGER},
