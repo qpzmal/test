@@ -169,15 +169,6 @@
             userRoleList = userRoleList + "," + roleIds[i];
         };
 
-
-//    	if(realName == "" || acctId == "" || email == "" || phone == "" || passwd == "" || repasswd == ""){
-//    		alert("所有信息均为必填项, 请填写完整!");
-//    		return;
-//    	}
-//    	if(passwd != repasswd){
-//    		alert("两次密码输入不一致, 请重新填写!");
-//    		return;
-//    	}
         $.ajax({
             url:"/user/add.json",
             type:"post",

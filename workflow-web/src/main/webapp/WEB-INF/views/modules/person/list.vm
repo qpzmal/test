@@ -1,0 +1,114 @@
+## 引入css
+#define($cssblock)
+##树状展示
+<link href="#springUrl("")/static/css/plugins/treeview/bootstrap-treeview.css?$!application.getAttribute('/static/css/plugins/treeview/bootstrap-treeview.css')" rel="stylesheet">
+#end
+
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        ##部门列表
+        <div class="col-sm-3">
+            <div class="ibox-title">
+                <h5>部门</h5>
+            </div>
+            <div class="ibox-content">
+                <div id="treeview7" class="test"></div>
+            </div>
+        </div>
+        ##部门下的员工列表
+        <div class="col-sm-9">
+            <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <table class="table table-striped table-bordered table-hover dataTables-example">
+                                <thead>
+                                <tr>
+                                    <th>签约公司名称</th>
+                                    <th>广告主名</th>
+                                    <th>状态</th>
+                                    <th>管理</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+## 引入js
+#define($jsblock)
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
+
+<script>
+    $(function () {
+        var e = [{
+                    text: "父节点 1",
+                    value:10001,
+                    href: "#parent1",
+                    tags: ["4"],
+                    nodes: [{
+                        text: "子节点 1",
+                        href: "#child1",
+                        tags: ["2"] ,
+                        nodes: [{text: "孙子节点 1", href: "#grandchild1", tags: ["0"]}, {
+                            text: "孙子节点 2",
+                            href: "#grandchild2",
+                            tags: ["0"]
+                        }]
+                    }, {text: "子节点 2", href: "#child2", tags: ["0"]}]
+                }, {text: "父节点 2", href: "#parent2", tags: ["0"]}, {text: "父节点 3", href: "#parent3", tags: ["0"]}, {
+                    text: "父节点 4",
+                    href: "#parent4",
+                    tags: ["0"]
+                }, {text: "父节点 5", href: "#parent5", tags: ["0"]}], o = [{
+                    text: "父节点 1",
+                    tags: ["2"],
+                    nodes: [{
+                        text: "子节点 1",
+                        tags: ["3"],
+                        nodes: [{text: "孙子节点 1", tags: ["6"]}, {text: "孙子节点 2", tags: ["3"]}]
+                    }, {text: "子节点 2", tags: ["3"]}]
+                }, {text: "父节点 2", tags: ["7"]}, {
+                    text: "父节点 3",
+                    icon: "glyphicon glyphicon-earphone",
+                    href: "#demo",
+                    tags: ["11"]
+                }, {
+                    text: "父节点 4",
+                    icon: "glyphicon glyphicon-cloud-download",
+                    href: "/demo.html",
+                    tags: ["19"],
+                    selected: !0
+                }, {
+                    text: "父节点 5",
+                    icon: "glyphicon glyphicon-certificate",
+                    color: "pink",
+                    backColor: "red",
+                    href: "http://www.tesco.com",
+                    tags: ["available", "0"]
+                }],
+                t = '[{"text": "父节点 1","nodes": [{"text": "子节点 1","nodes": [{"text": "孙子节点 1"},{"text": "孙子节点 2"}]},{"text": "子节点 2"}]},{"text": "父节点 2"},{"text": "父节点 3"},{"text": "父节点 4"},{"text": "父节点 5"}]';
+        $("#treeview7").treeview({
+            color: "#428bca",
+            showBorder: !1,
+            levels:1,
+            data: e,
+            onNodeSelected: function (e, o) {
+                alert(o.value);
+//                o.inner
+//                $("#event_output").prepend("<p>您单击了 " + o.text + "</p>")
+            }
+        })
+    });
+
+</script>
+#end

@@ -66,7 +66,7 @@
                         <a class="J_menuItem" href="${rc.contextPath}/monitor/index">监测机构管理</a> ## base_monitor_request
                         <a class="J_menuItem" href="${rc.contextPath}/region/index">省市地域管理</a> ## base_region
 ##                        <a class="J_menuItem" href="${rc.contextPath}/dept/index">部门管理</a> ## base_dept
-##                        <a class="J_menuItem" href="${rc.contextPath}/person/index">通讯录</a> ## sys_user --> base_person
+                        <a class="J_menuItem" href="${rc.contextPath}/person/index">通讯录</a> ## sys_user --> base_person
                         <a class="J_menuItem" href="${rc.contextPath}/area/index">区域管理</a> ## base_area
                         <a class="J_menuItem" href="${rc.contextPath}/custom/index">客户管理</a> ## base_custom
                         <a class="J_menuItem" href="${rc.contextPath}/financial/index">财务指标管理</a> ## base_financialindex

@@ -17,10 +17,6 @@
     <result column="private_rebate" jdbcType="DECIMAL" property="privateRebate" />
     <result column="tax_amount" jdbcType="DECIMAL" property="taxAmount" />
     <result column="tax_free_amount" jdbcType="DECIMAL" property="taxFreeAmount" />
-    <result column="sign_type" jdbcType="TINYINT" property="signType" />
-    <result column="sign_company_name" jdbcType="VARCHAR" property="signCompanyName" />
-    <result column="custom_industry_id" jdbcType="TINYINT" property="customIndustryId" />
-    <result column="custom_name" jdbcType="VARCHAR" property="customName" />
     <result column="monitor_ids" jdbcType="VARCHAR" property="monitorIds" />
     <result column="monitor_names" jdbcType="VARCHAR" property="monitorNames" />
     <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
@@ -41,10 +37,9 @@
   <sql id="Base_Column_List">
     id, name, order_num, sec_order_num, type, order_date, delivery_area_ids, delivery_area_names, 
     area_id, person_sales_id, amount, public_rebate, private_rebate, tax_amount, tax_free_amount, 
-    sign_type, sign_company_name, custom_industry_id, custom_name, monitor_ids, monitor_names, 
-    start_date, end_date, person_leader_id, our_monitor_name, report_type_id, status, 
-    person_payee_id, pay_percent, user_id, account_period, item_status, create_time, 
-    update_time, remark
+    monitor_ids, monitor_names, start_date, end_date, person_leader_id, our_monitor_name, 
+    report_type_id, status, person_payee_id, pay_percent, user_id, account_period, item_status, 
+    create_time, update_time, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -62,25 +57,23 @@
       delivery_area_ids, delivery_area_names, area_id, 
       person_sales_id, amount, public_rebate, 
       private_rebate, tax_amount, tax_free_amount, 
-      sign_type, sign_company_name, custom_industry_id, 
-      custom_name, monitor_ids, monitor_names, 
-      start_date, end_date, person_leader_id, 
-      our_monitor_name, report_type_id, status, 
-      person_payee_id, pay_percent, user_id, 
-      account_period, item_status, create_time, 
-      update_time, remark)
+      monitor_ids, monitor_names, start_date, 
+      end_date, person_leader_id, our_monitor_name, 
+      report_type_id, status, person_payee_id, 
+      pay_percent, user_id, account_period, 
+      item_status, create_time, update_time, 
+      remark)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR}, 
       #{secOrderNum,jdbcType=VARCHAR}, #{type,jdbcType=BIT}, #{orderDate,jdbcType=TIMESTAMP}, 
       #{deliveryAreaIds,jdbcType=VARCHAR}, #{deliveryAreaNames,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, 
       #{personSalesId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, #{publicRebate,jdbcType=DECIMAL}, 
       #{privateRebate,jdbcType=DECIMAL}, #{taxAmount,jdbcType=DECIMAL}, #{taxFreeAmount,jdbcType=DECIMAL}, 
-      #{signType,jdbcType=TINYINT}, #{signCompanyName,jdbcType=VARCHAR}, #{customIndustryId,jdbcType=TINYINT}, 
-      #{customName,jdbcType=VARCHAR}, #{monitorIds,jdbcType=VARCHAR}, #{monitorNames,jdbcType=VARCHAR}, 
-      #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{personLeaderId,jdbcType=INTEGER}, 
-      #{ourMonitorName,jdbcType=VARCHAR}, #{reportTypeId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{personPayeeId,jdbcType=INTEGER}, #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, 
-      #{accountPeriod,jdbcType=INTEGER}, #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+      #{monitorIds,jdbcType=VARCHAR}, #{monitorNames,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{personLeaderId,jdbcType=INTEGER}, #{ourMonitorName,jdbcType=VARCHAR}, 
+      #{reportTypeId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{personPayeeId,jdbcType=INTEGER}, 
+      #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, #{accountPeriod,jdbcType=INTEGER}, 
+      #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
     insert into base_execute_order
@@ -129,18 +122,6 @@
       </if>
       <if test="taxFreeAmount != null">
         tax_free_amount,
-      </if>
-      <if test="signType != null">
-        sign_type,
-      </if>
-      <if test="signCompanyName != null">
-        sign_company_name,
-      </if>
-      <if test="customIndustryId != null">
-        custom_industry_id,
-      </if>
-      <if test="customName != null">
-        custom_name,
       </if>
       <if test="monitorIds != null">
         monitor_ids,
@@ -237,18 +218,6 @@
       <if test="taxFreeAmount != null">
         #{taxFreeAmount,jdbcType=DECIMAL},
       </if>
-      <if test="signType != null">
-        #{signType,jdbcType=TINYINT},
-      </if>
-      <if test="signCompanyName != null">
-        #{signCompanyName,jdbcType=VARCHAR},
-      </if>
-      <if test="customIndustryId != null">
-        #{customIndustryId,jdbcType=TINYINT},
-      </if>
-      <if test="customName != null">
-        #{customName,jdbcType=VARCHAR},
-      </if>
       <if test="monitorIds != null">
         #{monitorIds,jdbcType=VARCHAR},
       </if>
@@ -344,18 +313,6 @@
       <if test="taxFreeAmount != null">
         tax_free_amount = #{taxFreeAmount,jdbcType=DECIMAL},
       </if>
-      <if test="signType != null">
-        sign_type = #{signType,jdbcType=TINYINT},
-      </if>
-      <if test="signCompanyName != null">
-        sign_company_name = #{signCompanyName,jdbcType=VARCHAR},
-      </if>
-      <if test="customIndustryId != null">
-        custom_industry_id = #{customIndustryId,jdbcType=TINYINT},
-      </if>
-      <if test="customName != null">
-        custom_name = #{customName,jdbcType=VARCHAR},
-      </if>
       <if test="monitorIds != null">
         monitor_ids = #{monitorIds,jdbcType=VARCHAR},
       </if>
@@ -423,10 +380,6 @@
       private_rebate = #{privateRebate,jdbcType=DECIMAL},
       tax_amount = #{taxAmount,jdbcType=DECIMAL},
       tax_free_amount = #{taxFreeAmount,jdbcType=DECIMAL},
-      sign_type = #{signType,jdbcType=TINYINT},
-      sign_company_name = #{signCompanyName,jdbcType=VARCHAR},
-      custom_industry_id = #{customIndustryId,jdbcType=TINYINT},
-      custom_name = #{customName,jdbcType=VARCHAR},
       monitor_ids = #{monitorIds,jdbcType=VARCHAR},
       monitor_names = #{monitorNames,jdbcType=VARCHAR},
       start_date = #{startDate,jdbcType=TIMESTAMP},
@@ -445,6 +398,8 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
 
 
 
