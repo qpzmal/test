@@ -5,6 +5,7 @@ import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.repo.fcf_vu.SysUserRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.service.system.SysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,9 @@ public class SysUserServiceImpl implements SysUserService{
 
     @Autowired
     SysUserRepo sysUserRepo;
+
+    @Autowired
+    ActivitiFacade activitiFacade;
     
     @Override
     @Transactional
@@ -29,7 +33,8 @@ public class SysUserServiceImpl implements SysUserService{
         user.setPassword(StrMD5.getInstance().encrypt(user.getPassword(), WebConstants.MD5_SALT));
 
         int result = sysUserRepo.add(user);
-        
+        activitiFacade.createUser(user);
+
         if(result == 0){
             rj.setCode(WebConstants.OPERATION_FAILURE);
             return rj;
@@ -81,6 +86,8 @@ public class SysUserServiceImpl implements SysUserService{
     public ResultJson<Integer> remove(Integer userId) {
         ResultJson resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
         resultJson.setData(sysUserRepo.remove(userId));
+
+        activitiFacade.deleteUser(userId + "");
         return resultJson;
     }
 

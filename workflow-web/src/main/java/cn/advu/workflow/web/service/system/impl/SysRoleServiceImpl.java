@@ -6,6 +6,7 @@ import cn.advu.workflow.repo.fcf_vu.SysRoleRepo;
 import cn.advu.workflow.repo.fcf_vu.SysUserRoleRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.service.system.SysRoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,8 @@ public class SysRoleServiceImpl implements SysRoleService {
     private SysRoleRepo sysRoleRepo;
     @Autowired
     private SysUserRoleRepo sysUserRoleRepo;
+    @Autowired
+    ActivitiFacade activitiFacade;
 
     @Override
     public ResultJson<List<SysRole>> findAll() {
@@ -59,6 +62,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Transactional
     public ResultJson<Object> addRole(SysRole sysRole) {
         int result = sysRoleRepo.addSelective(sysRole);//添加角色
+        activitiFacade.createGroup(sysRole);
         if(result != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建角色失败!");
         }

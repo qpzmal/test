@@ -17,6 +17,17 @@
         <property name="databaseSchemaUpdate" value="true" />
         <!-- 是否启动jobExecutor -->
         <!-- <property name="jobExecutorActivate"value="false" /> -->
+
+        <!--<property name="customSessionFactories">-->
+            <!--<list>-->
+                <!--<bean class="com.jimubox.transformers.factory.workflow.CustomUserEntityManagerFactory">-->
+                    <!--<property name="customUserEntityManager" ref="customUserEntityManager"/>-->
+                <!--</bean>-->
+                <!--<bean class="com.jimubox.transformers.factory.workflow.CustomGroupEntityManagerFactory">-->
+                    <!--<property name="customGroupEntityManager" ref="customGroupEntityManager"/>-->
+                <!--</bean>-->
+            <!--</list>-->
+        <!--</property>-->
     </bean>
 
     <!-- 创建流程引擎对象 -->
@@ -35,8 +46,9 @@
     <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" />
     <!-- 工作流管理服务-->
     <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" />
+    <!-- XXXX服务-->
     <bean id="formService" factory-bean="processEngine" factory-method="getFormService" />
-    <!-- 工作流唯一服务 -->
-    <!-- <bean id="IdentityService"factory-bean="processEngine"factory-method="getIdentityService"/> -->
+    <!-- 工作流唯一服务，管理用户、组等 -->
+     <bean id="IdentityService" factory-bean="processEngine" factory-method="getIdentityService"/>
 
 </beans>

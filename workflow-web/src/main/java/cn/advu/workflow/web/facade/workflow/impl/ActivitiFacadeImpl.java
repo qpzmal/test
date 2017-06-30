@@ -1,9 +1,13 @@
 package cn.advu.workflow.web.facade.workflow.impl;
 
+import cn.advu.workflow.domain.fcf_vu.SysRole;
+import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.facade.workflow.vo.WorkflowVO;
 import org.activiti.engine.*;
 import org.activiti.engine.form.TaskFormData;
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.identity.User;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Task;
@@ -37,6 +41,9 @@ public class ActivitiFacadeImpl implements ActivitiFacade {
     private ManagementService managementService;
     @Autowired
     private FormService formService;
+    @Autowired
+    private IdentityService identityService;
+
 
 
     @Override
@@ -125,5 +132,39 @@ public class ActivitiFacadeImpl implements ActivitiFacade {
 //        variables.put("objId", objId);
 //        //6：使用流程定义的key，启动流程实例，同时设置流程变量，同时向正在执行的执行对象表中的字段BUSINESS_KEY添加业务数据，同时让流程关联业务
 //        runtimeService.startProcessInstanceByKey(key,objId,variables);
+    }
+
+    @Override
+    public void createUser(SysUser sysUser) {
+        User user = identityService.createUserQuery().userId(sysUser.getId() + "").singleResult();
+        if (user == null) {
+            user = identityService.newUser(sysUser.getId() + "");
+        }
+        user.setFirstName(sysUser.getUserName().substring(0,1));
+        user.setLastName(sysUser.getUserName().substring(1));
+        user.setPassword(sysUser.getPassword());
+        user.setEmail(sysUser.getEmail());
+        identityService.saveUser(user);
+    }
+
+    @Override
+    public void deleteUser(String uid) {
+        identityService.deleteUser(uid);
+    }
+
+    @Override
+    public void createGroup(SysRole sysRole) {
+        Group group = identityService.createGroupQuery().groupId(sysRole.getId() + "").singleResult();
+        if (group == null) {
+            group = identityService.newGroup(sysRole.getId() + "");
+        }
+        group.setName(sysRole.getName());
+        group.setType("");
+        identityService.saveGroup(group);
+    }
+
+    @Override
+    public void deleteGroup(String gid) {
+        identityService.deleteGroup(gid);
     }
 }

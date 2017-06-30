@@ -1,5 +1,7 @@
 package cn.advu.workflow.web.facade.workflow;
 
+import cn.advu.workflow.domain.fcf_vu.SysRole;
+import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.web.facade.workflow.vo.WorkflowVO;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -66,5 +68,30 @@ public interface ActivitiFacade {
      * @param workflowVO
      */
     void saveStartProcess(WorkflowVO workflowVO);
+
+    /**
+     * 建立用户
+     * @param sysUser
+     */
+    void createUser(SysUser sysUser);
+
+
+    /**
+     * 删除用户
+     * @param uid
+     */
+    void deleteUser(String uid);
+
+    /**
+     * 建立组
+     * @param sysRole
+     */
+    void createGroup(SysRole sysRole);
+
+    /**
+     * 删除组
+     * @param gid
+     */
+    void deleteGroup(String gid);
 
 }

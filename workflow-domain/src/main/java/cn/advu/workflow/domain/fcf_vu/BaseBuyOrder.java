@@ -10,6 +10,8 @@ public class BaseBuyOrder {
 
     private String secOrderNum;
 
+    private Integer customId;
+
     private String name;
 
     private Byte type;
@@ -18,8 +20,6 @@ public class BaseBuyOrder {
 
     private BigDecimal amount;
 
-    private String signCompanyName;
-
     private Integer accountPeriod;
 
     private Date startDate;
@@ -27,8 +27,6 @@ public class BaseBuyOrder {
     private Date endDate;
 
     private Integer personId;
-
-    private Byte launchMedia;
 
     private Byte status;
 
@@ -70,6 +68,14 @@ public class BaseBuyOrder {
         this.secOrderNum = secOrderNum == null ? null : secOrderNum.trim();
     }
 
+    public Integer getCustomId() {
+        return customId;
+    }
+
+    public void setCustomId(Integer customId) {
+        this.customId = customId;
+    }
+
     public String getName() {
         return name;
     }
@@ -102,14 +108,6 @@ public class BaseBuyOrder {
         this.amount = amount;
     }
 
-    public String getSignCompanyName() {
-        return signCompanyName;
-    }
-
-    public void setSignCompanyName(String signCompanyName) {
-        this.signCompanyName = signCompanyName == null ? null : signCompanyName.trim();
-    }
-
     public Integer getAccountPeriod() {
         return accountPeriod;
     }
@@ -140,14 +138,6 @@ public class BaseBuyOrder {
 
     public void setPersonId(Integer personId) {
         this.personId = personId;
-    }
-
-    public Byte getLaunchMedia() {
-        return launchMedia;
-    }
-
-    public void setLaunchMedia(Byte launchMedia) {
-        this.launchMedia = launchMedia;
     }
 
     public Byte getStatus() {

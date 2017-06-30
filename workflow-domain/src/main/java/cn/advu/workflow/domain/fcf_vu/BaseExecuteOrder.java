@@ -35,14 +35,6 @@ public class BaseExecuteOrder extends AbstractEntity {
 
     private Long taxFreeAmount;
 
-    private Byte signType;
-
-    private String signCompanyName;
-
-    private Byte customIndustryId;
-
-    private String customName;
-
     private String monitorIds;
 
     private String monitorNames;
@@ -181,38 +173,6 @@ public class BaseExecuteOrder extends AbstractEntity {
 
     public void setTaxFreeAmount(Long taxFreeAmount) {
         this.taxFreeAmount = taxFreeAmount;
-    }
-
-    public Byte getSignType() {
-        return signType;
-    }
-
-    public void setSignType(Byte signType) {
-        this.signType = signType;
-    }
-
-    public String getSignCompanyName() {
-        return signCompanyName;
-    }
-
-    public void setSignCompanyName(String signCompanyName) {
-        this.signCompanyName = signCompanyName == null ? null : signCompanyName.trim();
-    }
-
-    public Byte getCustomIndustryId() {
-        return customIndustryId;
-    }
-
-    public void setCustomIndustryId(Byte customIndustryId) {
-        this.customIndustryId = customIndustryId;
-    }
-
-    public String getCustomName() {
-        return customName;
-    }
-
-    public void setCustomName(String customName) {
-        this.customName = customName == null ? null : customName.trim();
     }
 
     public String getMonitorIds() {
