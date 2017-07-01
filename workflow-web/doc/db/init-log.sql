@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
--- 主机:                           127.0.0.1
--- 服务器版本:                        5.6.23 - MySQL Community Server (GPL)
--- 服务器操作系统:                      Win64
+-- 主机:                           114.113.126.212
+-- 服务器版本:                        5.6.25-log - Source distribution
+-- 服务器操作系统:                      Linux
 -- HeidiSQL 版本:                  9.1.0.4867
 -- --------------------------------------------------------
 
@@ -561,7 +561,7 @@ CREATE TABLE IF NOT EXISTS `base_adtype` (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `remark` varchar(500) DEFAULT '无' COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='广告类型';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='广告形式类型';
 
 -- 数据导出被取消选择。
 
@@ -575,7 +575,15 @@ CREATE TABLE IF NOT EXISTS `base_area` (
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用；9删除',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `room_pay` decimal(18,2) DEFAULT '0.00' COMMENT '房租成本',
   `remark` varchar(255) NOT NULL DEFAULT '无' COMMENT '备注',
+  `person_pay` decimal(18,2) DEFAULT '0.00' COMMENT '人员成本',
+  `other_pay` decimal(18,2) DEFAULT '0.00' COMMENT '其他费用',
+  `tax_amount` decimal(18,2) DEFAULT '0.00' COMMENT '含税金额',
+  `tax_free_amount` decimal(18,2) DEFAULT '0.00' COMMENT '不含税金额',
+  `pay2` decimal(18,2) DEFAULT '0.00' COMMENT '备用字段',
+  `pay3` decimal(18,2) DEFAULT '0.00' COMMENT '备用字段',
+  `pay4` decimal(18,2) DEFAULT '0.00' COMMENT '备用字段',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='区域（公司）信息';
 
@@ -587,7 +595,6 @@ CREATE TABLE IF NOT EXISTS `base_buy_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增',
   `order_num` varchar(15) NOT NULL COMMENT '项目编号',
   `sec_order_num` varchar(15) NOT NULL COMMENT '项目补充编号',
-  `custom_id` int(10) unsigned NOT NULL COMMENT '客户id',
   `name` varchar(50) NOT NULL COMMENT '项目名称',
   `type` tinyint(3) unsigned NOT NULL COMMENT '项目类型：1，框架 2,单采（下拉）',
   `order_date` datetime NOT NULL COMMENT '项目日期',
@@ -597,6 +604,37 @@ CREATE TABLE IF NOT EXISTS `base_buy_order` (
   `end_date` datetime NOT NULL COMMENT '执行结束日期',
   `person_id` int(11) NOT NULL COMMENT '项目负责人ID',
   `status` tinyint(3) DEFAULT '1' COMMENT '执行状态：1，未开始； 2，进行中；3，已结束',
+  `pay_percent` decimal(5,4) DEFAULT '0.0000' COMMENT '付款比例',
+  `user_id` int(11) NOT NULL,
+  `area_id` int(11) NOT NULL COMMENT '所属区域Id',
+  `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用；9删除',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `remark` varchar(500) NOT NULL COMMENT '备注',
+  `delivery_area_ids` varchar(255) NOT NULL COMMENT '投放地区编号，多个地区用逗号隔开',
+  `delivery_area_names` varchar(255) NOT NULL COMMENT '投放地区名称，多个地区用逗号隔开',
+  `frame_id` int(11) DEFAULT NULL COMMENT '框架协议id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='媒介采购合同';
+
+-- 数据导出被取消选择。
+
+
+-- 导出  表 fcf_vu.base_buy_order_frame 结构
+CREATE TABLE IF NOT EXISTS `base_buy_order_frame` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增',
+  `order_num` varchar(15) NOT NULL COMMENT '项目编号',
+  `sec_order_num` varchar(15) NOT NULL COMMENT '项目补充编号',
+  `name` varchar(50) NOT NULL COMMENT '项目名称',
+  `order_date` datetime NOT NULL COMMENT '订单日期',
+  `amount` decimal(18,2) NOT NULL COMMENT '项目总金额',
+  `account_period` int(5) DEFAULT '0' COMMENT '账期，以日为单位',
+  `start_date` datetime NOT NULL COMMENT '执行开始日期',
+  `end_date` datetime NOT NULL COMMENT '执行结束日期',
+  `person_id` int(11) NOT NULL COMMENT '项目负责人ID',
+  `status` tinyint(3) DEFAULT '1' COMMENT '执行状态：1，未开始； 2，进行中；3，已结束',
+  `delivery_area_ids` varchar(255) NOT NULL COMMENT '投放地区编号，多个地区用逗号隔开',
+  `delivery_area_names` varchar(255) NOT NULL COMMENT '投放地区名称，多个地区用逗号隔开',
   `pay_percent` decimal(5,4) DEFAULT '0.0000' COMMENT '付款比例',
   `user_id` int(11) NOT NULL,
   `area_id` int(11) NOT NULL COMMENT '所属区域Id',
@@ -614,7 +652,7 @@ CREATE TABLE IF NOT EXISTS `base_buy_order` (
 CREATE TABLE IF NOT EXISTS `base_custom` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '客户ID',
   `name` varchar(100) NOT NULL DEFAULT '' COMMENT '客户名称(签约公司名称)',
-  `custom_name` varchar(100) NOT NULL DEFAULT '' COMMENT '客户名称(产品所有者，广告主名)',
+  `parent_id` int(11) NOT NULL COMMENT '所属上一级id',
   `custom_industry_id` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '客户行业 :1,汽车2,化妆品3,快消4,金融5,旅游6,教育7,游戏8,生活9,IT（下拉）',
   `custom_type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '类型 1,4A公司 2,直客（下拉）',
   `contacts` varchar(30) NOT NULL DEFAULT '' COMMENT '联系人',
@@ -668,7 +706,7 @@ CREATE TABLE IF NOT EXISTS `base_execute_order` (
   `public_rebate` decimal(5,4) NOT NULL COMMENT '对公返点',
   `private_rebate` decimal(5,4) NOT NULL COMMENT '对私返点',
   `tax_amount` decimal(18,2) DEFAULT '0.00' COMMENT '含税金额',
-  `tax_free_amount` decimal(18,0) DEFAULT '0' COMMENT '不含税金额',
+  `tax_free_amount` decimal(18,2) DEFAULT '0.00' COMMENT '不含税金额',
   `monitor_ids` varchar(50) NOT NULL COMMENT '客户要求监测编号:1,秒针2,Admaster3,记刻（下拉菜单，可多选，多选用逗号隔开)',
   `monitor_names` varchar(100) NOT NULL COMMENT '客户要求监测名称',
   `start_date` datetime NOT NULL COMMENT '投放开始日期',
@@ -677,6 +715,7 @@ CREATE TABLE IF NOT EXISTS `base_execute_order` (
   `our_monitor_name` varchar(50) NOT NULL COMMENT '我方监测',
   `report_type_id` varchar(50) NOT NULL COMMENT '报告类型Id',
   `status` tinyint(3) DEFAULT '1' COMMENT '执行状态：1，未开始； 2，进行中；3，已结束',
+  `signing intention` varchar(30) DEFAULT NULL COMMENT '签约意向',
   `person_payee_id` int(11) NOT NULL COMMENT '收款负责人',
   `pay_percent` decimal(5,4) DEFAULT '0.0000' COMMENT '回款比例',
   `user_id` int(11) NOT NULL COMMENT '登录用户id',
@@ -685,8 +724,49 @@ CREATE TABLE IF NOT EXISTS `base_execute_order` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `remark` varchar(500) NOT NULL COMMENT '备注',
+  `frame_id` int(11) DEFAULT NULL COMMENT '框架协议id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户需求单';
+
+-- 数据导出被取消选择。
+
+
+-- 导出  表 fcf_vu.base_execute_order_frame 结构
+CREATE TABLE IF NOT EXISTS `base_execute_order_frame` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增',
+  `name` varchar(50) NOT NULL COMMENT '项目名称',
+  `order_num` varchar(15) NOT NULL COMMENT '项目编号',
+  `sec_order_num` varchar(15) NOT NULL COMMENT '项目补充编号',
+  `order_date` datetime NOT NULL COMMENT '项目日期',
+  `delivery_area_ids` varchar(255) NOT NULL COMMENT '投放地区编号，多个地区用逗号隔开',
+  `delivery_area_names` varchar(255) NOT NULL COMMENT '投放地区名称，多个地区用逗号隔开',
+  `area_id` int(11) NOT NULL COMMENT '公司区域编号，连接vu_Area表（如北京公司）',
+  `person_sales_id` int(11) NOT NULL COMMENT '销售负责人ID',
+  `amount` decimal(18,2) DEFAULT '0.00' COMMENT '项目总金额',
+  `public_rebate` decimal(5,4) NOT NULL COMMENT '对公返点',
+  `private_rebate` decimal(5,4) NOT NULL COMMENT '对私返点',
+  `tax_amount` decimal(18,2) DEFAULT '0.00' COMMENT '含税金额',
+  `tax_free_amount` decimal(18,2) DEFAULT '0.00' COMMENT '不含税金额',
+  `monitor_ids` varchar(50) NOT NULL COMMENT '客户要求监测编号:1,秒针2,Admaster3,记刻（下拉菜单，可多选，多选用逗号隔开)',
+  `monitor_names` varchar(100) NOT NULL COMMENT '客户要求监测名称',
+  `start_date` datetime NOT NULL COMMENT '投放开始日期',
+  `end_date` datetime NOT NULL COMMENT '投放结束日期',
+  `person_leader_id` int(11) NOT NULL COMMENT '项目负责人ID',
+  `our_monitor_name` varchar(50) NOT NULL COMMENT '我方监测',
+  `report_type_id` varchar(50) NOT NULL COMMENT '报告类型Id',
+  `status` tinyint(3) DEFAULT '1' COMMENT '执行状态：1，未开始； 2，进行中；3，已结束',
+  `signing intention` varchar(30) DEFAULT NULL COMMENT '签约意向',
+  `person_payee_id` int(11) NOT NULL COMMENT '收款负责人',
+  `pay_percent` decimal(5,4) DEFAULT '0.0000' COMMENT '回款比例',
+  `user_id` int(11) NOT NULL COMMENT '登录用户id',
+  `account_period` int(5) DEFAULT '0' COMMENT '账期，以日为单位',
+  `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用；9删除',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `remark` varchar(500) NOT NULL COMMENT '备注',
+  `frame_id` int(11) DEFAULT NULL COMMENT '框架协议id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='框架协议';
 
 -- 数据导出被取消选择。
 
@@ -758,8 +838,8 @@ CREATE TABLE IF NOT EXISTS `base_media_type` (
 -- 数据导出被取消选择。
 
 
--- 导出  表 fcf_vu.base_monitor_request 结构
-CREATE TABLE IF NOT EXISTS `base_monitor_request` (
+-- 导出  表 fcf_vu.base_monitor 结构
+CREATE TABLE IF NOT EXISTS `base_monitor` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(10) NOT NULL COMMENT '检测公司名字 ：1，秒针2，Admaster3，记刻',
   `link` varchar(300) DEFAULT '' COMMENT '检测链接',
@@ -808,6 +888,8 @@ CREATE TABLE IF NOT EXISTS `base_person` (
   `state` int(11) DEFAULT '0' COMMENT '状态 0，正常 1，停用',
   `parent_id` int(11) NOT NULL COMMENT '上级领导',
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用；9删除',
+  `pay2` decimal(18,2) DEFAULT '0.00' COMMENT '备用字段',
+  `person_pay` decimal(18,2) DEFAULT '0.00' COMMENT '人员成本',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `remark` varchar(500) NOT NULL COMMENT '备注',
@@ -849,8 +931,8 @@ CREATE TABLE IF NOT EXISTS `base_report` (
 -- 数据导出被取消选择。
 
 
--- 导出  表 fcf_vu.base_reporttype 结构
-CREATE TABLE IF NOT EXISTS `base_reporttype` (
+-- 导出  表 fcf_vu.base_report_type 结构
+CREATE TABLE IF NOT EXISTS `base_report_type` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(10) NOT NULL COMMENT '报告类型名字：1，日报2，周报3，月报4，年报5，结案报告',
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用；9删除',
