@@ -1,6 +1,8 @@
 package cn.advu.workflow.web.service.base;
 
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
+import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
+import cn.advu.workflow.web.common.ResultJson;
 
 import java.util.List;
 
@@ -10,10 +12,34 @@ import java.util.List;
  */
 public interface BuyOrderService {
 
-    int insert(BaseBuyOrder obj);
-    int delete(String id);
-    int update(String id);
-    List<BaseBuyOrder> queryAll();
 
-    List<BaseBuyOrder> queryByCondition(BaseBuyOrder obj);
+    /**
+     * 返回全部需求单
+     *
+     * @return
+     */
+    ResultJson<List<BaseBuyOrder>> findAll();
+
+    /**
+     * 新增需求单
+     *
+     * @param baseBuyOrder
+     * @return
+     */
+    ResultJson<Integer> add(BaseBuyOrder baseBuyOrder);
+
+    /**
+     * 更新需求单
+     *
+     * @param baseBuyOrder
+     * @return
+     */
+    ResultJson<Integer> update(BaseBuyOrder baseBuyOrder);
+
+    /**
+     * 返回当前需求单
+     * @param id
+     * @return
+     */
+    ResultJson<BaseBuyOrder> findById(Integer id);
 }

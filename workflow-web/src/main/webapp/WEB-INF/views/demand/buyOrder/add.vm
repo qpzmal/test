@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目负责人ID</label>
                         <div class="col-sm-8">
-                            <input id="person_leader_id" name="person_leader_id" maxlength="100" type="text" class="form-control">
+                            <input id="person_id" name="person_id" maxlength="100" type="text" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -101,87 +101,13 @@
         <div class="row">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>监测信息</h5>
-                </div>
-                <div class="ibox-content">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">监测公司（客户指定）</label>
-                        <div class="col-sm-8">
-                            <select id="monitor_ids" data-placeholder="请选择监测公司" class="chosen-select" style="width:350px;" tabindex="2">
-                                <option value="">请选择监测公司</option>
-                                #foreach($data in $monitorRequestList)
-                                    <option value ="$data.id">$data.name</option>
-                                #end
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">监测公司（我方指定）</label>
-                        <div class="col-sm-8">
-                            <select id="our_monitor_id" data-placeholder="请选择监测公司" class="chosen-select" style="width:350px;" tabindex="2">
-                                <option value="">请选择监测公司</option>
-                                #foreach($data in $monitorRequestList)
-                                    <option value ="$data.id">$data.name</option>
-                                #end
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">报告类型</label>
-                        <div class="col-sm-8">
-                            <select id="report_type_id" data-placeholder="选择报告类型..." class="chosen-select" style="width:350px;"  tabindex="2">
-                                <option value="">请选择报告类型</option>
-                                <option value="1" hassubinfo="true">日报</option>
-                                <option value="2" hassubinfo="true">周报</option>
-                                <option value="3" hassubinfo="true">月报</option>
-                                <option value="4" hassubinfo="true">年报</option>
-                                <option value="5" hassubinfo="true">结案报告</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
                     <h5>销售信息</h5>
                 </div>
                 <div class="ibox-content">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">销售负责人</label>
-                        <div class="col-sm-8">
-                            <input id="person_sales_id" name="person_sales_id" maxlength="100" type="text" class="form-control" aria-required="true">
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-sm-3 control-label">项目总金额</label>
                         <div class="col-sm-8">
                             <input id="amount" name="amount" type="text" class="form-control" aria-required="true">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">对公返点</label>
-                        <div class="col-sm-8">
-                            <input id="public_rebate" name="public_rebate" type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">对私返点</label>
-                        <div class="col-sm-8">
-                            <input id="private_rebate" name="private_rebate" type="text" class="form-control" >
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">含税金额</label>
-                        <div class="col-sm-8">
-                            <input id="tax_amount" name="tax_amount" type="text" class="form-control" >
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">不含税金额</label>
-                        <div class="col-sm-8">
-                            <input id="tax_free_amount" name="tax_free_amount" type="text" class="form-control" >
                         </div>
                     </div>
                 </div>
@@ -194,15 +120,9 @@
                 </div>
                 <div class="ibox-content">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">收款负责人</label>
-                        <div class="col-sm-8">
-                            <input id="person_payee_id" name="person_payee_id" type="text" class="form-control" >
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-sm-3 control-label">回款比例</label>
                         <div class="col-sm-8 ">
-                            <input id="pay_percent" name="pay_percent" type="text" class="form-control" >
+                            <input id="pay_percent" type="text" value="0" class="dial m-r" data-fgColor="#1AB394" data-width="85" data-height="85" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -290,6 +210,7 @@
                 {var i=document.querySelector(".js-switch"),
                         t=(new Switchery(i,{color:"#1AB394"}));
                 };
+                $("#pay_percent").knob();
             }
 
     );
@@ -304,34 +225,22 @@
         var secOrderNum = $("#sec_order_num").val();
         var type = $("#type").val();
         var orderDate = $("#order_date").val();
-        var personLeaderId = $("#person_leader_id").val();
-        var deliveryAreaIds = $("#delivery_area_ids").val();
 
         var startDate = $("#start_date").val();
         var endDate = $("#end_date").val();
-        var areaId = $("#area_id").val();
 
         var areaId = $("#area_id").val();
-        var monitorIds = $("#monitor_ids").val();
-        var ourMonitorId = $("#our_monitor_id").val();
-        var reportTypeId = $("#report_type_id").val();
-        var personSalesId = $("#person_sales_id").val();
+        var personId = $("#person_id").val();
 
 
-        var personSalesId = $("#person_sales_id").val();
         var amount = $("#amount").val();
-        var publicRebate = $("#public_rebate").val();
-        var privateRebate = $("#private_rebate").val();
-        var taxAmount = $("#tax_amount").val();
-        var taxFreeAmount = $("#tax_free_amount").val();
 
 
-        var personPayeeId = $("#person_payee_id").val();
         var payPercent = $("#pay_percent").val();
         var accountPeriod = $("#account_period").val();
 
         $.ajax({
-            url:"/executeOrder/add.json",
+            url:"/buyOrder/add.json",
             type:"post",
             data:{
                 name:name,
@@ -339,21 +248,11 @@
                 secOrderNum:secOrderNum,
                 type:type,
 //                orderDate:orderDate,
-//                deliveryAreaIds:deliveryAreaIds,
                 areaId:areaId,
-                personSalesId:personSalesId,
                 amount:amount,
-                publicRebate:publicRebate,
-                privateRebate:privateRebate,
-                taxAmount:taxAmount,
-                taxFreeAmount:taxFreeAmount,
-                monitorIds:monitorIds,
 //                startDate:startDate,
 //                endDate:endDate,
-                personLeaderId:personLeaderId,
-                ourMonitorName:ourMonitorId, ## 注意修改
-                reportTypeId:reportTypeId,
-                personPayeeId:personPayeeId,
+                personId:personId,
 //                payPercent:payPercent,
                 accountPeriod:accountPeriod
             },
@@ -361,7 +260,7 @@
                 console.log(returnData);
                 if(returnData.code == 1){
                     layer.msg('添加成功!');
-                    window.location.href = "/executeOrder/index";
+                    window.location.href = "/buyOrder/index";
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }
