@@ -87,8 +87,8 @@
                         <a class="J_menuItem" href="${rc.contextPath}/notify/index">通知内容管理</a> ## oa_notify
                         <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知内容管理</a> ## oa_notify_record
                         <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知发送记录</a> ## oa_notify_record
-                        <a class="J_menuItem" href="${rc.contextPath}/executeOrder/index">添制需求单</a> ## base_execute_order
-                        <a class="J_menuItem" href="${rc.contextPath}/buyOrder/index">添制采购单</a> ## base_buy_order
+##                        <a class="J_menuItem" href="${rc.contextPath}/executeOrder/index">添制需求单</a> ## base_execute_order
+##                        <a class="J_menuItem" href="${rc.contextPath}/buyOrder/index">添制采购单</a> ## base_buy_order
                     </li>
                 </ul>
             </li>

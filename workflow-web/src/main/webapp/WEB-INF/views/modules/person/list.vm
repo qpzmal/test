@@ -13,7 +13,7 @@
                 <h5>部门</h5>
             </div>
             <div class="ibox-content">
-                <div id="treeview7" class="test"></div>
+                <div id="treeview7"></div>
             </div>
         </div>
         ##部门下的员工列表
@@ -109,6 +109,9 @@
             }
         })
     });
-
+    // 添加
+    $(".btn-primary").click(function(){
+        window.location.href = "${rc.contextPath}/person/toAdd";
+    })
 </script>
 #end
