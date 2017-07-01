@@ -3,6 +3,8 @@ package cn.advu.workflow.web.facade.workflow;
 import cn.advu.workflow.domain.fcf_vu.SysRole;
 import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.web.facade.workflow.vo.WorkflowVO;
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.identity.User;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Task;
@@ -70,6 +72,13 @@ public interface ActivitiFacade {
     void saveStartProcess(WorkflowVO workflowVO);
 
     /**
+     * 查询用户
+     * @param loginName
+     * @return
+     */
+    User queryUser(String loginName);
+
+    /**
      * 建立用户
      * @param sysUser
      */
@@ -81,6 +90,13 @@ public interface ActivitiFacade {
      * @param uid
      */
     void deleteUser(String uid);
+
+    /**
+     * 查询用户对应的组
+     * @param loginName
+     * @return
+     */
+    List<Group> queryGroup(String loginName);
 
     /**
      * 建立组

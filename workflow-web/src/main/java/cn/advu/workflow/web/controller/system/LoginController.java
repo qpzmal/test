@@ -7,7 +7,11 @@ import cn.advu.workflow.web.common.exception.LoginException;
 import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginTools;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
+import cn.advu.workflow.web.common.tool.UserTool;
+import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.service.system.LoginService;
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.identity.User;
 import org.apache.commons.lang.StringUtils;
 import org.patchca.color.ColorFactory;
 import org.patchca.filter.predefined.*;
@@ -24,8 +28,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 
@@ -42,9 +48,23 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private ActivitiFacade activitiFacade;
+
 
     @RequestMapping("/index")
-    public String toIndex(){
+    public String toIndex(HttpSession session){
+
+        // TODO 测试代码 START
+        // read user from database
+        String loginName = "u1";
+        User user = activitiFacade.queryUser(loginName);
+        UserTool.saveUserToSession(session, user);
+
+        List<Group> groupList = activitiFacade.queryGroup(loginName);
+        session.setAttribute("groups", groupList);
+        // TODO 测试代码 END
+
         return "index";
     }
 

@@ -135,10 +135,15 @@ public class ActivitiFacadeImpl implements ActivitiFacade {
     }
 
     @Override
+    public User queryUser(String loginName) {
+        return identityService.createUserQuery().userId(loginName).singleResult();
+    }
+
+    @Override
     public void createUser(SysUser sysUser) {
-        User user = identityService.createUserQuery().userId(sysUser.getId() + "").singleResult();
+        User user = this.queryUser(sysUser.getLoginName());
         if (user == null) {
-            user = identityService.newUser(sysUser.getId() + "");
+            user = identityService.newUser(sysUser.getLoginName());
         }
         user.setFirstName(sysUser.getUserName().substring(0,1));
         user.setLastName(sysUser.getUserName().substring(1));
@@ -150,6 +155,11 @@ public class ActivitiFacadeImpl implements ActivitiFacade {
     @Override
     public void deleteUser(String uid) {
         identityService.deleteUser(uid);
+    }
+
+    @Override
+    public List<Group> queryGroup(String loginName) {
+        return identityService.createGroupQuery().groupMember(loginName).list();
     }
 
     @Override
