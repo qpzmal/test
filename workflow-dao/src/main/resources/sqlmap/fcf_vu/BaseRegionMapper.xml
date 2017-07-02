@@ -20,13 +20,13 @@
     delete from base_region
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseRegion">
+  <insert id="insert" keyColumn="id" keyProperty="id"   parameterType="cn.advu.workflow.domain.fcf_vu.BaseRegion">
     insert into base_region (id, name, type, 
       parent_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{parentId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseRegion">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseRegion">
     insert into base_region
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

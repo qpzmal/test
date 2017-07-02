@@ -235,10 +235,10 @@
                         <tr>
                             <th data-field="state" data-checkbox="true"></th>
                             <th data-field="id" data-editable="true">行号</th>
-                            <th data-field="media_id" data-editable="true">媒体Id</th>
-                            <th data-field="media_price" data-editable="true" >媒体单价</th>
-                            <th data-field="first_price" data-editable="true" >媒体采购成本单价</th>
-                            <th data-field="ad_type_id" data-editable="true" >广告形式Id</th>
+                            <th data-field="mediaId" data-editable="true">媒体Id</th>
+                            <th data-field="mediaPrice" data-editable="true" >媒体单价</th>
+                            <th data-field="firstPrice" data-editable="true" >媒体采购成本单价</th>
+                            <th data-field="adTypeId" data-editable="true" >广告形式Id</th>
                             <th data-field="cpm" data-editable="true" >CPM数</th>
                             <th data-field="remark" data-editable="true" >备注</th>
                         </tr>
@@ -283,10 +283,10 @@
             var index = cpmTable.bootstrapTable('getData').length;
             cpmTable.bootstrapTable('insertRow', {index: index,row: {
                 id: index+1,
-                media_id:'',
-                media_price:'',
-                first_price:'',
-                ad_type_id:'',
+                mediaId:'',
+                mediaPrice:'',
+                firstPrice:'',
+                adTypeId:'',
                 cpm:'',
                 remark:''
             }
@@ -340,11 +340,11 @@
                         checkbox: true
                     },
                     {
-                        field: "No",
+                        field: "id",
                         title: "行号"
                     },
                     {
-                        field: "media_id",
+                        field: "mediaId",
                         title: "媒体",
                         editable: {
                             type: "select",
@@ -360,15 +360,15 @@
                         }
                     },
                     {
-                    field: "media_price",
+                    field: "mediaPrice",
                     title: "媒体单价"
                     },
                     {
-                        field: "first_price",
+                        field: "firstPrice",
                         title: "媒体采购成本单价"
                     },
                     {
-                        field: "ad_type_id",
+                        field: "adTypeId",
                         title: "广告形式",
                         editable: {
                             type: "select",
@@ -501,7 +501,7 @@
         var personPayeeId = $("#person_payee_id").val();
         var payPercent = $("#pay_percent").val();
         var accountPeriod = $("#account_period").val();
-        var allTableData = JSON.stringify(cpmTable.bootstrapTable('getData'));
+        var cpmJsonStr = JSON.stringify(cpmTable.bootstrapTable('getData'));
 
         $.ajax({
             url:"/executeOrder/add.json",
@@ -528,7 +528,8 @@
                 reportTypeId:reportTypeId,
                 personPayeeId:personPayeeId,
 //                payPercent:payPercent,
-                accountPeriod:accountPeriod
+                accountPeriod:accountPeriod,
+                cpmJsonStr:cpmJsonStr
             },
             success: function(returnData){
                 console.log(returnData);

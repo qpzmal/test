@@ -65,7 +65,7 @@
                         <a class="J_menuItem" href="${rc.contextPath}/industry/index">客户行业管理</a> ## base_industry
                         <a class="J_menuItem" href="${rc.contextPath}/monitor/index">监测机构管理</a> ## base_monitor_request
                         <a class="J_menuItem" href="${rc.contextPath}/region/index">省市地域管理</a> ## base_region
-##                        <a class="J_menuItem" href="${rc.contextPath}/dept/index">部门管理</a> ## base_dept
+                        <a class="J_menuItem" href="${rc.contextPath}/dept/index">部门管理</a> ## base_dept
                         <a class="J_menuItem" href="${rc.contextPath}/person/index">通讯录</a> ## sys_user --> base_person
                         <a class="J_menuItem" href="${rc.contextPath}/area/index">区域管理</a> ## base_area
                         <a class="J_menuItem" href="${rc.contextPath}/custom/index">客户管理</a> ## base_custom
@@ -83,12 +83,9 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/orderCpm/index">CPM明细</a> ## base_order_cpm
                         <a class="J_menuItem" href="${rc.contextPath}/notify/index">通知内容管理</a> ## oa_notify
                         <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知内容管理</a> ## oa_notify_record
                         <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知发送记录</a> ## oa_notify_record
-##                        <a class="J_menuItem" href="${rc.contextPath}/executeOrder/index">添制需求单</a> ## base_execute_order
-##                        <a class="J_menuItem" href="${rc.contextPath}/buyOrder/index">添制采购单</a> ## base_buy_order
                     </li>
                 </ul>
             </li>

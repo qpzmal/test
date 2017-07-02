@@ -27,7 +27,7 @@
     delete from base_report
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseReport">
+  <insert id="insert" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseReport">
     insert into base_report (id, name, report_type_id, 
       del_flag, item_status, creator_id, 
       updater_id, create_time, update_time, 
@@ -37,7 +37,7 @@
       #{updaterId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseReport">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"   parameterType="cn.advu.workflow.domain.fcf_vu.BaseReport">
     insert into base_report
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

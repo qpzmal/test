@@ -72,6 +72,17 @@ public class RoleController {
     }
 
     /**
+     * 跳转至角色授权页
+     *
+     * @return
+     */
+    @RequestMapping("/toAuth")
+    public String toAuth(Model resultModel){
+
+        return "system/role/auth";
+    }
+
+    /**
      * 跳转修改页
      *
      * @param model

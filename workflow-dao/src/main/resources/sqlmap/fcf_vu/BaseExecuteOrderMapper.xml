@@ -51,7 +51,7 @@
     delete from base_execute_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
+  <insert id="insert" keyColumn="id" keyProperty="id"  useGeneratedKeys="true" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
     insert into base_execute_order (id, name, order_num, 
       sec_order_num, type, order_date, 
       delivery_area_ids, delivery_area_names, area_id, 
@@ -75,7 +75,7 @@
       #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"  useGeneratedKeys="true" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
     insert into base_execute_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

@@ -22,7 +22,7 @@
     delete from base_adtype
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseAdtype">
+  <insert id="insert" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseAdtype">
     insert into base_adtype (id, name, item_status, 
       create_time, update_time, remark
       )
@@ -30,7 +30,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseAdtype">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseAdtype">
     insert into base_adtype
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

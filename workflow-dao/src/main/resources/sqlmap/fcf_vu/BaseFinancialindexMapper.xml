@@ -28,7 +28,7 @@
     delete from base_financialindex
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseFinancialindex">
+  <insert id="insert" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseFinancialindex">
     insert into base_financialindex (id, number, name, 
       value, del_flag, item_status, 
       creator_id, updater_id, create_time, 
@@ -38,7 +38,7 @@
       #{creatorId,jdbcType=INTEGER}, #{updaterId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseFinancialindex">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseFinancialindex">
     insert into base_financialindex
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

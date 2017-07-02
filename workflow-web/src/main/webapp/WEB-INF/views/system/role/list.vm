@@ -27,6 +27,7 @@
                                 <td class="right">
                                     <input type="hidden" value="$!{data.id}">
                                     <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>
+                                    <a href="javascript:;" class="btn btn-warning btn-sm button_view_pd"><i class="fa fa-trash "></i> 授权 </a>
                                     <a href="javascript:;" class="btn btn-danger btn-sm button_view_pd"><i class="fa fa-trash "></i> 删除 </a>
                                 </td>
                             </tr>
@@ -56,6 +57,11 @@
     $(".btn-info").click(function(){
         var id = $(this).parent().children(":first").val();
         window.location.href = "${rc.contextPath}/role/toUpdate?roleId=" + id;
+    })
+    // 修改
+    $(".btn-warning").click(function(){
+        var id = $(this).parent().children(":first").val();
+        window.location.href = "${rc.contextPath}/role/toAuth?roleId=" + id;
     })
     // 删除
     $(".btn-danger").click(function(){

@@ -1,14 +1,14 @@
 package cn.advu.workflow.domain.fcf_vu;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import cn.advu.workflow.domain.base.AbstractEntity;
 
-public class BaseOrderCpm {
-    private Integer id;
+import java.math.BigDecimal;
+
+public class BaseOrderCpm extends AbstractEntity {
 
     private Integer orderId;
 
-    private Boolean orderCpmType;
+    private String orderCpmType;
 
     private Integer mediaId;
 
@@ -16,7 +16,7 @@ public class BaseOrderCpm {
 
     private BigDecimal firstPrice;
 
-    private Boolean adTypeId;
+    private Integer adTypeId;
 
     private Integer cpm;
 
@@ -28,19 +28,7 @@ public class BaseOrderCpm {
 
     private Integer updaterId;
 
-    private Date createTime;
-
-    private Date updateTime;
-
     private String remark;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getOrderId() {
         return orderId;
@@ -50,11 +38,11 @@ public class BaseOrderCpm {
         this.orderId = orderId;
     }
 
-    public Boolean getOrderCpmType() {
+    public String getOrderCpmType() {
         return orderCpmType;
     }
 
-    public void setOrderCpmType(Boolean orderCpmType) {
+    public void setOrderCpmType(String orderCpmType) {
         this.orderCpmType = orderCpmType;
     }
 
@@ -82,11 +70,11 @@ public class BaseOrderCpm {
         this.firstPrice = firstPrice;
     }
 
-    public Boolean getAdTypeId() {
+    public Integer getAdTypeId() {
         return adTypeId;
     }
 
-    public void setAdTypeId(Boolean adTypeId) {
+    public void setAdTypeId(Integer adTypeId) {
         this.adTypeId = adTypeId;
     }
 
@@ -130,21 +118,6 @@ public class BaseOrderCpm {
         this.updaterId = updaterId;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getRemark() {
         return remark;
