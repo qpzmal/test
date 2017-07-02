@@ -65,7 +65,8 @@ public class BuyOrderServiceImpl implements BuyOrderService {
             ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, baseBuyOrder.getId() + "", new HashMap<String, Object>());
             LOGGER.info("customId:{}, processInstanceId:{}", baseBuyOrder.getCustomId(), processInstance.getId());
 
-
+            baseBuyOrder.setProcessInstanceId(processInstance.getId());
+            baseBuyOrderRepo.updateSelective(baseBuyOrder);
 
         } catch (ActivitiException e) {
             if (e.getMessage().indexOf("no processes deployed with key") != -1) {

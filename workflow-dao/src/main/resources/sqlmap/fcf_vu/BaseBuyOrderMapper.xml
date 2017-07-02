@@ -39,7 +39,7 @@
     delete from base_buy_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_buy_order (id, process_instance_id, order_num, sec_order_num,
       custom_id, name, type, 
       order_date, amount, account_period, 
@@ -55,7 +55,7 @@
       #{areaId,jdbcType=INTEGER}, #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_buy_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

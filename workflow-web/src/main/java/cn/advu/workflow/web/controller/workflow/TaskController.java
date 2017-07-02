@@ -4,7 +4,10 @@ import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.base.BuyOrderService;
+import cn.advu.workflow.web.vo.BaseBuyOrderVO;
+import com.alibaba.dubbo.common.utils.StringUtils;
 import org.activiti.engine.*;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
@@ -91,8 +94,8 @@ public class TaskController {
      * @return
      */
     @RequestMapping(value = "running")
-    public String runningList(HttpServletRequest request) {
-        List<BaseBuyOrder> results = new ArrayList<BaseBuyOrder>();
+    public String runningList(HttpServletRequest request, Model model) {
+        List<BaseBuyOrderVO> results = new ArrayList<BaseBuyOrderVO>();
         ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_BUY).active().orderByProcessInstanceId().desc();
 //        List<ProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
         List<ProcessInstance> list = query.list();
@@ -100,19 +103,38 @@ public class TaskController {
 
         // 关联业务实体
         for (ProcessInstance processInstance : list) {
+            BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
+
             String businessKey = processInstance.getBusinessKey();
-            if (businessKey == null) {
+            if (StringUtils.isEmpty(businessKey)) {
                 continue;
             }
-//            Leave leave = leaveManager.getLeave(new Long(businessKey));
-//            leave.setProcessInstance(processInstance);
-//            leave.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
-//            results.add(leave);
-//
-//            // 设置当前任务信息
-//            List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
-//            leave.setTask(tasks.get(0));
+
+            BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
+            baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
+            baseBuyOrderVO.setProcessInstance(processInstance);
+            baseBuyOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+
+            // 设置当前任务信息
+            List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
+            baseBuyOrderVO.setTask(tasks.get(0));
+
+            results.add(baseBuyOrderVO);
         }
-        return "workflow/task_todoList";
+        LOGGER.debug("results.size:{}", results.size());
+        model.addAttribute("resultList", results);
+        return "workflow/task_runningList";
     }
+
+    /**
+     * 查询流程定义对象
+     *
+     * @param processDefinitionId 流程定义ID
+     * @return
+     */
+    protected ProcessDefinition getProcessDefinition(String processDefinitionId) {
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+        return processDefinition;
+    }
+
 }
