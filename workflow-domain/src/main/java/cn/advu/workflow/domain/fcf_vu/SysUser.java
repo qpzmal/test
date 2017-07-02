@@ -36,8 +36,6 @@ public class SysUser extends AbstractEntity {
 
     private Long lastLoginTime;
 
-    private Boolean itemStatus;
-
     private List<Integer> userRoleList;
 
     public List<Integer> getUserRoleList() {
@@ -150,14 +148,6 @@ public class SysUser extends AbstractEntity {
 
     public void setLastLoginTime(Long lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
-    }
-
-    public Boolean getItemStatus() {
-        return itemStatus;
-    }
-
-    public void setItemStatus(Boolean itemStatus) {
-        this.itemStatus = itemStatus;
     }
 
 }

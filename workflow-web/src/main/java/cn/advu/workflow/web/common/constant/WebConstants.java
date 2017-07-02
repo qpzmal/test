@@ -15,4 +15,11 @@ public class WebConstants {
     public static final int ITEM_STATUS_NORMAL = 0;// 状态 ，0正常；1停用；9删除
     public static final int ITEM_STATUS_STOP = 1;// 状态 ，0正常；1停用；9删除
     public static final int ITEM_STATUS_DEL = 9;// 状态 ，0正常；1停用；9删除
+
+
+    public static final String WORKFLOW_BUY = "buy"; // 年度采购框架合同模型
+    public static final String WORKFLOW_BUY_FRAME = "buy_frame";// 合同审批模型
+    public static final String WORKFLOW_SALE = "sale"; // 排期执行审批模型
+    public static final String WORKFLOW_SALE_FRAME = "sale_frame";// CPM采购成本单模型
+    public static final String WORKFLOW_EXECUTE = "execute";// 年度需求单审批模型
 }

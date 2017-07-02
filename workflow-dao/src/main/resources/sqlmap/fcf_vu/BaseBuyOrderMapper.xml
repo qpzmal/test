@@ -3,6 +3,7 @@
 <mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseBuyOrderMapper">
   <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="process_instance_id" jdbcType="VARCHAR" property="processInstanceId" />
     <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
     <result column="sec_order_num" jdbcType="VARCHAR" property="secOrderNum" />
     <result column="custom_id" jdbcType="INTEGER" property="customId" />
@@ -39,14 +40,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
-    insert into base_buy_order (id, order_num, sec_order_num, 
+    insert into base_buy_order (id, process_instance_id, order_num, sec_order_num,
       custom_id, name, type, 
       order_date, amount, account_period, 
       start_date, end_date, person_id, 
       status, pay_percent, user_id, 
       area_id, item_status, create_time, 
       update_time, remark)
-    values (#{id,jdbcType=INTEGER}, #{orderNum,jdbcType=VARCHAR}, #{secOrderNum,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER},  #{processInstanceId,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR}, #{secOrderNum,jdbcType=VARCHAR},
       #{customId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
       #{orderDate,jdbcType=TIMESTAMP}, #{amount,jdbcType=DECIMAL}, #{accountPeriod,jdbcType=INTEGER}, 
       #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{personId,jdbcType=INTEGER}, 
@@ -59,6 +60,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="processInstanceId != null">
+        process_instance_id,
       </if>
       <if test="orderNum != null">
         order_num,
@@ -122,6 +126,9 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="processInstanceId != null">
+        #{processInstanceId,jdbcType=VARCHAR},
+      </if>
       <if test="orderNum != null">
         #{orderNum,jdbcType=VARCHAR},
       </if>
@@ -184,6 +191,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
     update base_buy_order
     <set>
+      <if test="processInstanceId != null">
+        process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      </if>
       <if test="orderNum != null">
         order_num = #{orderNum,jdbcType=VARCHAR},
       </if>
@@ -246,7 +256,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
     update base_buy_order
-    set order_num = #{orderNum,jdbcType=VARCHAR},
+    set
+      process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=VARCHAR},
       sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
       custom_id = #{customId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},

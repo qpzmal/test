@@ -1,10 +1,10 @@
 package cn.advu.workflow.domain.fcf_vu;
 
+import cn.advu.workflow.domain.base.AbstractEntity;
+
 import java.util.Date;
 
-public class OaNotify {
-    private Integer id;
-
+public class OaNotify extends AbstractEntity {
     private Integer type;
 
     private String title;
@@ -12,22 +12,6 @@ public class OaNotify {
     private String content;
 
     private String files;
-
-    private Boolean itemStatus;
-
-    private Date createTime;
-
-    private Date updateTime;
-
-    private String remark;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getType() {
         return type;
@@ -59,37 +43,5 @@ public class OaNotify {
 
     public void setFiles(String files) {
         this.files = files == null ? null : files.trim();
-    }
-
-    public Boolean getItemStatus() {
-        return itemStatus;
-    }
-
-    public void setItemStatus(Boolean itemStatus) {
-        this.itemStatus = itemStatus;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
     }
 }

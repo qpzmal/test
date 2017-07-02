@@ -164,9 +164,9 @@ public class ActivitiFacadeImpl implements ActivitiFacade {
 
     @Override
     public void createGroup(SysRole sysRole) {
-        Group group = identityService.createGroupQuery().groupId(sysRole.getId() + "").singleResult();
+        Group group = identityService.createGroupQuery().groupId(sysRole.getActivitiName()).singleResult();
         if (group == null) {
-            group = identityService.newGroup(sysRole.getId() + "");
+            group = identityService.newGroup(sysRole.getActivitiName());
         }
         group.setName(sysRole.getName());
         group.setType("");

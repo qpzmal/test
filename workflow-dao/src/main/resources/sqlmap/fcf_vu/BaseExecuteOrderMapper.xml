@@ -3,6 +3,7 @@
 <mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseExecuteOrderMapper">
   <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="process_instance_id" jdbcType="VARCHAR" property="processInstanceId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
     <result column="sec_order_num" jdbcType="VARCHAR" property="secOrderNum" />
@@ -35,7 +36,7 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, order_num, sec_order_num, type, order_date, delivery_area_ids, delivery_area_names, 
+    id, process_instance_id, name, order_num, sec_order_num, type, order_date, delivery_area_ids, delivery_area_names,
     area_id, person_sales_id, amount, public_rebate, private_rebate, tax_amount, tax_free_amount, 
     monitor_ids, monitor_names, start_date, end_date, person_leader_id, our_monitor_name, 
     report_type_id, status, person_payee_id, pay_percent, user_id, account_period, item_status, 
@@ -52,7 +53,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
-    insert into base_execute_order (id, name, order_num, 
+    insert into base_execute_order (id, process_instance_id, name, order_num,
       sec_order_num, type, order_date, 
       delivery_area_ids, delivery_area_names, area_id, 
       person_sales_id, amount, public_rebate, 
@@ -63,7 +64,7 @@
       pay_percent, user_id, account_period, 
       item_status, create_time, update_time, 
       remark)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER},  #{processInstanceId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR},
       #{secOrderNum,jdbcType=VARCHAR}, #{type,jdbcType=BIT}, #{orderDate,jdbcType=TIMESTAMP}, 
       #{deliveryAreaIds,jdbcType=VARCHAR}, #{deliveryAreaNames,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, 
       #{personSalesId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, #{publicRebate,jdbcType=DECIMAL}, 
@@ -80,6 +81,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="processInstanceId != null">
+        process_instance_id,
       </if>
       <if test="name != null">
         name,
@@ -176,6 +180,9 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="processInstanceId != null">
+        #{processInstanceId,jdbcType=VARCHAR},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -271,6 +278,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
     update base_execute_order
     <set>
+      <if test="processInstanceId != null">
+        process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -366,7 +376,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
     update base_execute_order
-    set name = #{name,jdbcType=VARCHAR},
+    set
+      process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       order_num = #{orderNum,jdbcType=VARCHAR},
       sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
       type = #{type,jdbcType=BIT},

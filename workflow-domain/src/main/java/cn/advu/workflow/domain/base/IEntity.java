@@ -24,11 +24,20 @@ public interface IEntity extends IDomain {
      * @return
      */
     public Date getCreateTime();
+    public void setCreateTime(Date date);
 
     /**
      * 获取修改时间
      * @return
      */
     public Date getUpdateTime();
+    public void setUpdateTime(Date date);
+
+
+    public String getCreatorId();
+    public void setCreatorId(String creatorId);
+
+    public String getUpdaterId();
+    public void setUpdaterId(String updaterId);
 
 }

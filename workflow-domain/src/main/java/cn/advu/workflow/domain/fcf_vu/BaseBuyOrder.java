@@ -7,6 +7,8 @@ import java.util.Date;
 
 public class BaseBuyOrder extends AbstractEntity {
 
+    private String processInstanceId;
+
     private String orderNum;
 
     private String secOrderNum;
@@ -37,11 +39,13 @@ public class BaseBuyOrder extends AbstractEntity {
 
     private Integer areaId;
 
-    private Boolean itemStatus;
+    public String getProcessInstanceId() {
+        return processInstanceId;
+    }
 
-    private String remark;
-
-
+    public void setProcessInstanceId(String processInstanceId) {
+        this.processInstanceId = processInstanceId;
+    }
 
     public String getOrderNum() {
         return orderNum;
@@ -161,21 +165,5 @@ public class BaseBuyOrder extends AbstractEntity {
 
     public void setAreaId(Integer areaId) {
         this.areaId = areaId;
-    }
-
-    public Boolean getItemStatus() {
-        return itemStatus;
-    }
-
-    public void setItemStatus(Boolean itemStatus) {
-        this.itemStatus = itemStatus;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
     }
 }

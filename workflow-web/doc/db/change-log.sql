@@ -1,7 +1,17 @@
 -- 数据库变动记录
+-- 4.20170702 魏修改，流程相关表增加与activiti关联的process_instance_id字段
 -- 3.20170628 兆华修改
 -- 2.20170628 燕燕修改
 -- 1.20170620 兆华建立
+
+-- 20170702 魏修改
+ALTER TABLE `base_buy_order`
+	ADD COLUMN `process_instance_id` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '流程ID' AFTER `id`;
+ALTER TABLE `base_execute_order`
+	ADD COLUMN `process_instance_id` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '流程ID' AFTER `id`;
+ALTER TABLE `sys_role`
+	ADD COLUMN `activiti_name` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'activiti内部用名' AFTER `id`,
+	ADD UNIQUE INDEX `activiti_name` (`activiti_name`);
 
 -- 20170628 兆华修改
 CREATE TABLE IF NOT EXISTS `base_financialindex` (

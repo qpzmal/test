@@ -7,14 +7,20 @@ import java.util.Date;
  * 抽象实体
  */
 public class AbstractEntity implements IEntity {
+    private static final String EMPTY = "";
 
     private Integer id;
-    private Date createTime;
-    private Date updateTime;
+    private Date createTime; // 建立时间
+    private Date updateTime; // 更新时间
+    private String creatorId; // 建立者ID
+    private String updaterId; // 更新者ID
+    private String delFlag; // 删除标记 ，0正常，1删除
+    private String itemStatus; // 状态 ，0正常；1停用
+    private String remark; // 备注
 
     @Override
     public Integer getId() {
-        return this.id;
+        return id;
     }
 
     @Override
@@ -24,11 +30,65 @@ public class AbstractEntity implements IEntity {
 
     @Override
     public Date getCreateTime() {
-        return this.createTime;
+        return createTime;
+    }
+
+    @Override
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     @Override
     public Date getUpdateTime() {
-        return this.updateTime;
+        return updateTime;
+    }
+
+    @Override
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String getCreatorId() {
+        return creatorId;
+    }
+
+    @Override
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId == null ? EMPTY : creatorId.trim();
+    }
+
+    @Override
+    public String getUpdaterId() {
+        return updaterId;
+    }
+
+    @Override
+    public void setUpdaterId(String updaterId) {
+        this.updaterId = updaterId == null ? EMPTY : updaterId.trim();
+    }
+
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag == null ? EMPTY : delFlag.trim();
+    }
+
+    public String getItemStatus() {
+        return itemStatus;
+    }
+
+    public void setItemStatus(String itemStatus) {
+        this.itemStatus = itemStatus == null ? EMPTY : itemStatus.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? EMPTY : remark.trim();
     }
 }

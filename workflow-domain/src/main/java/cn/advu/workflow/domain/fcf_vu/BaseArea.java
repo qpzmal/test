@@ -12,13 +12,6 @@ public class BaseArea extends AbstractEntity {
 
     private String code;
 
-    private Boolean itemStatus;
-
-
-    private String remark;
-
-
-
     public String getName() {
         return name;
     }
@@ -41,22 +34,5 @@ public class BaseArea extends AbstractEntity {
 
     public void setCode(String code) {
         this.code = code == null ? null : code.trim();
-    }
-
-    public Boolean getItemStatus() {
-        return itemStatus;
-    }
-
-    public void setItemStatus(Boolean itemStatus) {
-        this.itemStatus = itemStatus;
-    }
-
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
     }
 }

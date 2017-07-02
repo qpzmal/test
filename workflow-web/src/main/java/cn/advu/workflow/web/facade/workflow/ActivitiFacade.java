@@ -110,4 +110,5 @@ public interface ActivitiFacade {
      */
     void deleteGroup(String gid);
 
+
 }

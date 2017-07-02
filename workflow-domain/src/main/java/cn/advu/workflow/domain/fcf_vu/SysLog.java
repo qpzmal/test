@@ -1,10 +1,10 @@
 package cn.advu.workflow.domain.fcf_vu;
 
+import cn.advu.workflow.domain.base.AbstractEntity;
+
 import java.util.Date;
 
-public class SysLog {
-    private Integer id;
-
+public class SysLog extends AbstractEntity {
     private String ip;
 
     private String operation;
@@ -12,18 +12,6 @@ public class SysLog {
     private String operator;
 
     private Integer type;
-
-    private Date createTime;
-
-    private Date updateTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getIp() {
         return ip;
@@ -55,21 +43,5 @@ public class SysLog {
 
     public void setType(Integer type) {
         this.type = type;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 }

@@ -7,6 +7,8 @@ import java.util.Date;
 
 public class BaseExecuteOrder extends AbstractEntity {
 
+    private String processInstanceId;
+
     private String name;
 
     private String orderNum;
@@ -59,9 +61,13 @@ public class BaseExecuteOrder extends AbstractEntity {
 
     private Integer accountPeriod;
 
-    private Boolean itemStatus;
+    public String getProcessInstanceId() {
+        return processInstanceId;
+    }
 
-    private String remark;
+    public void setProcessInstanceId(String processInstanceId) {
+        this.processInstanceId = processInstanceId;
+    }
 
     public String getName() {
         return name;
@@ -269,21 +275,5 @@ public class BaseExecuteOrder extends AbstractEntity {
 
     public void setAccountPeriod(Integer accountPeriod) {
         this.accountPeriod = accountPeriod;
-    }
-
-    public Boolean getItemStatus() {
-        return itemStatus;
-    }
-
-    public void setItemStatus(Boolean itemStatus) {
-        this.itemStatus = itemStatus;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
     }
 }

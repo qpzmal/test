@@ -1,6 +1,8 @@
 package cn.advu.workflow.domain.fcf_vu;
 
-public class SysRoleMenu {
+import cn.advu.workflow.domain.base.AbstractEntity;
+
+public class SysRoleMenu extends AbstractEntity {
     private Integer roleId;
 
     private Integer menuId;

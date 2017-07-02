@@ -1,10 +1,8 @@
 package cn.advu.workflow.domain.fcf_vu;
 
-import java.util.Date;
+import cn.advu.workflow.domain.base.AbstractEntity;
 
-public class SysMenu {
-    private Integer id;
-
+public class SysMenu extends AbstractEntity {
     private String name;
 
     private Integer parentId;
@@ -18,18 +16,6 @@ public class SysMenu {
     private String status;
 
     private Integer sort;
-
-    private Date createTime;
-
-    private Date updateTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -85,21 +71,5 @@ public class SysMenu {
 
     public void setSort(Integer sort) {
         this.sort = sort;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 }

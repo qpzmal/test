@@ -1,13 +1,13 @@
 
 
 <div class="wrapper wrapper-content">
-    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
+##    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>部署</h5>
-                </div>
+##                <div class="ibox-title">
+##                    <h5>部署</h5>
+##                </div>
                 <div class="ibox-content">
                     <table class="table table-bordered table-striped">
                         <thead>
@@ -40,8 +40,7 @@
                                     <a href="/workflow/model/deploy/${data.id}">部署</a>
                                     导出(<a href="/workflow/model/export/${data.id}/bpmn" target="_blank">BPMN</a>
                                     |&nbsp;<a href="/workflow/model/export/${data.id}/json" target="_blank">JSON</a>
-##                                    |&nbsp;<a href="javascript:;" onclick='showSvgTip()'>SVG</a>
-                                     )
+                                    |&nbsp;<a href="javascript:;" onclick='showSvgTip()'>SVG</a>)
                                     <a href="/workflow/model/delete/${data.id}">删除</a>
                                 </td>
                             </tr>
@@ -61,32 +60,5 @@
 <script>
     $(function(){
     });
-
-    // 添加
-    $(".btn-primary").click(function(){
-        window.location.href = "${rc.contextPath}/workflow/model/toAdd";
-    })
-    // 修改
-    $(".btn-info").click(function(){
-        var id = $(this).parent().children(":first").val();
-        window.location.href = "${rc.contextPath}/monitor/toUpdate?id=" + id;
-    })
-    // 删除
-    $(".btn-danger").click(function(){
-        var id = $(this).parent().children(":first").val();
-
-        layer.confirm('确认删除？', {
-            btn: ['确认','取消'] //按钮
-        }, function(){
-//                layer.msg('的确很重要', {icon: 1});
-        }, function(){
-//                layer.msg('也可以这样', {
-//                    time: 20000, //20s后自动关闭
-//                    btn: ['明白了', '知道了']
-//                });
-        });
-
-    })
-
 </script>
 #end
