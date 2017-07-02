@@ -93,7 +93,8 @@
     function showMenu() {
         var cityObj = $("#dept_id");
         var cityOffset = $("#dept_id_content").offset();
-        $("#treeview7Content").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+        var cityObjOffset = $("#dept_id").offset();
+        $("#treeview7Content").css({left:cityOffset.left + "px", top:cityObjOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
 //        $("body").bind("mousedown", onBodyDown);
     };
     var config = {
@@ -178,6 +179,7 @@
                             onNodeSelected: function (e, o) {
                                 var dept_id = $("#dept_id");
                                 dept_id.attr("value", o.value);
+                                $("#treeview7Content").fadeOut("fast");
 //                o.inner
 //                $("#event_output").prepend("<p>您单击了 " + o.text + "</p>")
                             }

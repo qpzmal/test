@@ -1,13 +1,14 @@
 package cn.advu.workflow.domain.fcf_vu;
 
+import cn.advu.workflow.domain.base.AbstractEntity;
+
 import java.math.BigDecimal;
 
-public class BaseOrderCpm {
-    private Integer id;
+public class BaseOrderCpm extends AbstractEntity {
 
     private Integer orderId;
 
-    private Boolean orderCpmType;
+    private String orderCpmType;
 
     private Integer mediaId;
 
@@ -15,17 +16,19 @@ public class BaseOrderCpm {
 
     private BigDecimal firstPrice;
 
-    private Boolean adTypeId;
+    private Integer adTypeId;
 
     private Integer cpm;
 
-    public Integer getId() {
-        return id;
-    }
+    private Boolean delFlag;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private Boolean itemStatus;
+
+    private Integer creatorId;
+
+    private Integer updaterId;
+
+    private String remark;
 
     public Integer getOrderId() {
         return orderId;
@@ -35,11 +38,11 @@ public class BaseOrderCpm {
         this.orderId = orderId;
     }
 
-    public Boolean getOrderCpmType() {
+    public String getOrderCpmType() {
         return orderCpmType;
     }
 
-    public void setOrderCpmType(Boolean orderCpmType) {
+    public void setOrderCpmType(String orderCpmType) {
         this.orderCpmType = orderCpmType;
     }
 
@@ -67,11 +70,11 @@ public class BaseOrderCpm {
         this.firstPrice = firstPrice;
     }
 
-    public Boolean getAdTypeId() {
+    public Integer getAdTypeId() {
         return adTypeId;
     }
 
-    public void setAdTypeId(Boolean adTypeId) {
+    public void setAdTypeId(Integer adTypeId) {
         this.adTypeId = adTypeId;
     }
 
@@ -81,5 +84,46 @@ public class BaseOrderCpm {
 
     public void setCpm(Integer cpm) {
         this.cpm = cpm;
+    }
+
+    public Boolean getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Boolean delFlag) {
+        this.delFlag = delFlag;
+    }
+
+    public Boolean getItemStatus() {
+        return itemStatus;
+    }
+
+    public void setItemStatus(Boolean itemStatus) {
+        this.itemStatus = itemStatus;
+    }
+
+    public Integer getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Integer creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public Integer getUpdaterId() {
+        return updaterId;
+    }
+
+    public void setUpdaterId(Integer updaterId) {
+        this.updaterId = updaterId;
+    }
+
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

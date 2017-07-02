@@ -3,7 +3,9 @@
 <link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
 <link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
 <link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
-
+##table
+<link href="#springUrl("")/static/css/plugins/bootstrap-table/bootstrap-table.min.css?$!application.getAttribute('/static/css/plugins/bootstrap-table/bootstrap-table.min.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/plugins/bootstrap-table/bootstrap-editable.css?$!application.getAttribute('/static/css/plugins/bootstrap-table/bootstrap-editable.css')" rel="stylesheet">
 
 #end
 
@@ -215,12 +217,43 @@
             </div>
         </div>
         <div class="row">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>CPM信息</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                        <button id="btn_plus" type="button" class="btn btn-outline btn-default">
+                            <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                        </button>
+                        <button id="btn_trash" type="button" class="btn btn-outline btn-default">
+                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <table id="exampleTableEvents" data-height="400" data-mobile-responsive="true">
+                        <thead>
+                        <tr>
+                            <th data-field="state" data-checkbox="true"></th>
+                            <th data-field="id" data-editable="true">行号</th>
+                            <th data-field="mediaId" data-editable="true">媒体Id</th>
+                            <th data-field="mediaPrice" data-editable="true" >媒体单价</th>
+                            <th data-field="firstPrice" data-editable="true" >媒体采购成本单价</th>
+                            <th data-field="adTypeId" data-editable="true" >广告形式Id</th>
+                            <th data-field="cpm" data-editable="true" >CPM数</th>
+                            <th data-field="remark" data-editable="true" >备注</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-3">
                 <button class="btn btn-primary" type="button"><i class="fa fa-check"></i> 保存</button>
             </div>
                 <div class="col-sm-3 col-sm-offset-1">
-                    <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
+                    <button id="btn_cancel" class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
                 </div>
             </div>
         </div>
@@ -236,8 +269,147 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/jsKnob/jquery.knob.js?$!application.getAttribute('/static/js/plugins/jsKnob/jquery.knob.js')"></script>
+##table
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-table.min.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-table.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-editable.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-table-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-table-editable.js')"></script>
 
 <script>
+    var cpmTable =$("#exampleTableEvents");
+    $("#btn_plus").click(
+        function () {
+            var index = cpmTable.bootstrapTable('getData').length;
+            cpmTable.bootstrapTable('insertRow', {index: index,row: {
+                id: index+1,
+                mediaId:'',
+                mediaPrice:'',
+                firstPrice:'',
+                adTypeId:'',
+                cpm:'',
+                remark:''
+            }
+            });
+            return false;
+    });
+    $("#btn_trash").click(function () {
+    var ids = $.map(cpmTable.bootstrapTable('getSelections'), function (row) {return row.id;});
+    if (ids.length < 1 ) {return;}
+        cpmTable.bootstrapTable('remove', {field: 'id',values: ids});
+    });
+    function cellStyle(e, t, o) {
+        var n = ["active", "success", "info", "warning", "danger"];
+        return o % 2 === 0 && o / 2 < n.length ? {classes: n[o / 2]} : {}
+    }
+    function rowStyle(e, t) {
+        var o = ["active", "success", "info", "warning", "danger"];
+        return t % 2 === 0 && t / 2 < o.length ? {classes: o[t / 2]} : {}
+    }
+    function scoreSorter(e, t) {
+        return e > t ? 1 : t > e ? -1 : 0
+    }
+    function nameFormatter(e) {
+        return e + '<i class="icon wb-book" aria-hidden="true"></i> '
+    }
+    function starsFormatter(e) {
+        return '<i class="icon wb-star" aria-hidden="true"></i> ' + e
+    }
+    function queryParams() {
+        return {type: "owner", sort: "updated", direction: "desc", per_page: 100, page: 1}
+    }
+    function buildTable(e, t, o) {
+        var n, l, s, a = [], c = [];
+        for (n = 0; t > n; n++)a.push({field: "字段" + n, title: "单元" + n});
+        for (n = 0; o > n; n++) {
+            for (s = {}, l = 0; t > l; l++)s["字段" + l] = "Row-" + n + "-" + l;
+            c.push(s)
+        }
+        e.bootstrapTable("destroy").bootstrapTable({
+            columns: a,
+            data: c,
+            iconSize: "outline",
+            icons: {columns: "glyphicon-list"}
+        })
+    }
+    !function (e, t, o) {
+        !function () {
+            o("#exampleTableEvents").bootstrapTable({
+                columns: [
+                    {
+                        checkbox: true
+                    },
+                    {
+                        field: "id",
+                        title: "行号"
+                    },
+                    {
+                        field: "mediaId",
+                        title: "媒体",
+                        editable: {
+                            type: "select",
+                            title: "媒体",
+                            source: function () {
+                                var result = [];
+                                $.each($.parseJSON('$areaListJson'), function (key, value) {
+                                    result.push({ value: value.id, text: value.name });
+                                }
+                                );
+                                return result;
+                            }
+                        }
+                    },
+                    {
+                    field: "mediaPrice",
+                    title: "媒体单价"
+                    },
+                    {
+                        field: "firstPrice",
+                        title: "媒体采购成本单价"
+                    },
+                    {
+                        field: "adTypeId",
+                        title: "广告形式",
+                        editable: {
+                            type: "select",
+                            title: "广告形式",
+                            source: function () {
+                                var result = [];
+                                $.each($.parseJSON('$areaListJson'), function (key, value) {
+                                            result.push({ value: value.id, text: value.name });
+                                        }
+                                );
+                                return result;
+                            }
+                        }
+                    },
+                    {
+                        field: "cpm",
+                        title: "CPM数"
+                    },
+                    {
+                        field: "remark",
+                        title: "备注"
+                    }
+                ]
+            });
+            var e = o("#examplebtTableEventsResult");
+            o("#exampleTableEvents")
+                    .on("all.bs.table", function (e, t, o) {console.log("Event:", t, ", data:", o)})
+                    .on("click-row.bs.table", function () {e.text("Event: click-row.bs.table")})
+                    .on("dbl-click-row.bs.table", function () {e.text("Event: dbl-click-row.bs.table")})
+                    .on("sort.bs.table", function () {e.text("Event: sort.bs.table")})
+                    .on("check.bs.table", function () {e.text("Event: check.bs.table")})
+                    .on("uncheck.bs.table", function () {e.text("Event: uncheck.bs.table")})
+                    .on("check-all.bs.table", function () {e.text("Event: check-all.bs.table")})
+                    .on("uncheck-all.bs.table", function () {e.text("Event: uncheck-all.bs.table")})
+                    .on("load-success.bs.table", function () {e.text("Event: load-success.bs.table")})
+                    .on("load-error.bs.table", function () {e.text("Event: load-error.bs.table")})
+                    .on("column-switch.bs.table", function () {e.text("Event: column-switch.bs.table")})
+                    .on("page-change.bs.table", function () {e.text("Event: page-change.bs.table")})
+                    .on("search.bs.table", function () {e.text("Event: search.bs.table")})
+        }()
+    }(document, window, jQuery);
     var start = {
         elem: "#start_date",
         format: "YYYY/MM/DD",
@@ -329,6 +501,7 @@
         var personPayeeId = $("#person_payee_id").val();
         var payPercent = $("#pay_percent").val();
         var accountPeriod = $("#account_period").val();
+        var cpmJsonStr = JSON.stringify(cpmTable.bootstrapTable('getData'));
 
         $.ajax({
             url:"/executeOrder/add.json",
@@ -355,7 +528,8 @@
                 reportTypeId:reportTypeId,
                 personPayeeId:personPayeeId,
 //                payPercent:payPercent,
-                accountPeriod:accountPeriod
+                accountPeriod:accountPeriod,
+                cpmJsonStr:cpmJsonStr
             },
             success: function(returnData){
                 console.log(returnData);
@@ -371,7 +545,7 @@
     }
 
     // 返回
-    $(".btn-default").click(function(){
+    $("#btn_cancel").click(function(){
         history.go(-1);
     })
 </script>

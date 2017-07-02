@@ -26,7 +26,7 @@
     delete from base_media_type
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseMediaType">
+  <insert id="insert" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseMediaType">
     insert into base_media_type (id, name, del_flag, 
       item_status, creator_id, updater_id, 
       create_time, update_time, remark
@@ -36,7 +36,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseMediaType">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseMediaType">
     insert into base_media_type
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

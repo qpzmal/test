@@ -22,7 +22,7 @@
     delete from base_tv
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseTv">
+  <insert id="insert" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseTv">
     insert into base_tv (id, name, item_status, 
       create_time, update_time, remark
       )
@@ -30,7 +30,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseTv">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseTv">
     insert into base_tv
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
