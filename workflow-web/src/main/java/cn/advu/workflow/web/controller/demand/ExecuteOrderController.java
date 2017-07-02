@@ -5,6 +5,7 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
+import com.alibaba.fastjson.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,6 +81,7 @@ public class ExecuteOrderController {
 
         List<BaseArea> areaList = areaService.findAll().getData();
         resultModel.addAttribute("areaList", areaList);
+        resultModel.addAttribute("areaListJson", JSONArray.toJSON(areaList));
 
         List<BaseMonitorRequest> baseMonitorRequestList = monitorRequestService.findAll().getData();
         resultModel.addAttribute("monitorRequestList", baseMonitorRequestList);
