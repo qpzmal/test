@@ -1,8 +1,8 @@
 package cn.advu.workflow.web.controller.workflow;
 
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
-import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.service.base.BuyOrderService;
 import cn.advu.workflow.web.vo.BaseBuyOrderVO;
 import com.alibaba.dubbo.common.utils.StringUtils;
@@ -17,7 +17,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -58,31 +61,39 @@ public class TaskController {
      */
     @RequestMapping(value = "todo")
     public String todoList(HttpServletRequest request, HttpSession session, Model model) {
+        List<BaseBuyOrderVO> results = new ArrayList<BaseBuyOrderVO>();
+
         // 根据当前人的ID查询
-        TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateOrAssigned("u1");
+        TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateOrAssigned(UserThreadLocalContext.getCurrentUser().getUserName());
         List<Task> tasks = taskQuery.list();
 
         // 根据流程的业务ID查询实体并关联
         for (Task task : tasks) {
+            BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
+
             String processInstanceId = task.getProcessInstanceId();
             ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).active().singleResult();
             if (processInstance == null) {
                 continue;
             }
             String businessKey = processInstance.getBusinessKey();
-            if (businessKey == null) {
+            if (StringUtils.isEmpty(businessKey)) {
                 continue;
             }
             LOGGER.info("businessKey:{}", businessKey);
 
 
-//            Leave leave = leaveManager.getLeave(new Long(businessKey));
-//            leave.setTask(task);
-//            leave.setProcessInstance(processInstance);
-//            leave.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+            BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
+            baseBuyOrderVO.setTask(task);
+            baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
+            baseBuyOrderVO.setProcessInstance(processInstance);
+            baseBuyOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+
+            results.add(baseBuyOrderVO);
+
         }
-        ResultJson<List<BaseBuyOrder>> buyOrderList = buyOrderService.findAll();
-        model.addAttribute("buyOrderList", "buyOrderList");
+        LOGGER.debug("results.size:{}", results.size());
+        model.addAttribute("resultList", results);
         return "workflow/task_todoList";
     }
 
@@ -124,6 +135,35 @@ public class TaskController {
         LOGGER.debug("results.size:{}", results.size());
         model.addAttribute("resultList", results);
         return "workflow/task_runningList";
+    }
+
+    /**
+     * 签收任务
+     */
+    @RequestMapping(value = "claim/{id}")
+    public String claim(@PathVariable("id") String taskId, HttpSession session) {
+        String userName = UserThreadLocalContext.getCurrentUser().getUserName();
+        taskService.claim(taskId, userName);
+        return "redirect:/workflow/task/todo";
+    }
+
+    /**
+     * 完成任务
+     *
+     * @param taskId
+     * @return
+     */
+    @RequestMapping(value = "complete/{id}", method = {RequestMethod.POST, RequestMethod.GET})
+    @ResponseBody
+    public String complete(@PathVariable("id") String taskId) {
+        try {
+            taskService.complete(taskId);
+            return "success";
+        } catch (Exception e) {
+            LOGGER.error("", e);
+//            LOGGER.error("error on complete task {}, variables={}", new Object[]{taskId, var.getVariableMap(), e});
+            return "error";
+        }
     }
 
     /**

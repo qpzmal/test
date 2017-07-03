@@ -81,12 +81,12 @@
 
 
 * 4A--customer4A
-* 媒介主管--mediaGM
-* 销售普通--saler
-* 销售主管--salerDM
-* 销售总经理--salerGM
-* 财务主管--financialGM
-* 法务主管--legalGM
+* 媒介主管--mediaGM--mediaAudit
+* 销售普通--saler--
+* 销售主管--salerDM--salerDMAudit
+* 销售总经理--salerGM--salerGMAudit
+* 财务主管--financialGM--salerGMAudit
+* 法务主管--legalGM--legalGMAudit
 * hr--hr
 
 #### 待实现功能
