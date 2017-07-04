@@ -86,36 +86,14 @@ public class BaseOrderCpm extends AbstractEntity {
         this.cpm = cpm;
     }
 
-    public Boolean getDelFlag() {
-        return delFlag;
-    }
 
     public void setDelFlag(Boolean delFlag) {
         this.delFlag = delFlag;
     }
 
-    public Boolean getItemStatus() {
-        return itemStatus;
-    }
 
     public void setItemStatus(Boolean itemStatus) {
         this.itemStatus = itemStatus;
-    }
-
-    public Integer getCreatorId() {
-        return creatorId;
-    }
-
-    public void setCreatorId(Integer creatorId) {
-        this.creatorId = creatorId;
-    }
-
-    public Integer getUpdaterId() {
-        return updaterId;
-    }
-
-    public void setUpdaterId(Integer updaterId) {
-        this.updaterId = updaterId;
     }
 
 

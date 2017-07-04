@@ -1,7 +1,10 @@
 package cn.advu.workflow.web.service.base;
 
 import cn.advu.workflow.domain.fcf_vu.BaseDept;
+import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.dto.TreeNode;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -10,10 +13,16 @@ import java.util.List;
  */
 public interface DeptService {
 
-    int insert(BaseDept obj);
-    int delete(String id);
-    int update(String id);
-    List<BaseDept> queryAll();
+    ResultJson<List<BaseDept>> findAll();
 
-    List<BaseDept> queryByCondition(BaseDept obj);
+    ResultJson<List<BaseDept>> findAreaDept(Integer areaId);
+
+    ResultJson<Integer> add(BaseDept baseDept);
+
+    ResultJson<BaseDept> findById(Integer id);
+
+    ResultJson<Collection<TreeNode>> findAreaDeptNodeList(Integer areaId);
+
+    ResultJson<Collection<TreeNode>> findDeptNodeList(List<BaseDept> deptList);
+
 }

@@ -8,12 +8,13 @@
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="level" jdbcType="INTEGER" property="level" />
     <result column="item_status" jdbcType="BIT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, parent_id, sort, description, area_id, item_status, create_time, update_time
+    id, name, parent_id, sort, description, area_id, level, item_status, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,11 +28,11 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseDept">
     insert into base_dept (id, name, parent_id, 
-      sort, description, area_id, 
+      sort, description, area_id, level,
       item_status, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
-      #{sort,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, 
+      #{sort,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, #{level,jdbcType=INTEGER},
       #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -55,6 +56,9 @@
       </if>
       <if test="areaId != null">
         area_id,
+      </if>
+      <if test="level != null">
+        level,
       </if>
       <if test="itemStatus != null">
         item_status,
@@ -85,6 +89,9 @@
       <if test="areaId != null">
         #{areaId,jdbcType=INTEGER},
       </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
       <if test="itemStatus != null">
         #{itemStatus,jdbcType=BIT},
       </if>
@@ -114,6 +121,9 @@
       <if test="areaId != null">
         area_id = #{areaId,jdbcType=INTEGER},
       </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
       <if test="itemStatus != null">
         item_status = #{itemStatus,jdbcType=BIT},
       </if>
@@ -133,6 +143,7 @@
       sort = #{sort,jdbcType=INTEGER},
       description = #{description,jdbcType=VARCHAR},
       area_id = #{areaId,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
       item_status = #{itemStatus,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
@@ -151,4 +162,16 @@
       where item_status = #{status,jdbcType=BIT}
     </if>
   </select>
+
+
+  <select id="queryByArea" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_dept
+    <if test="areaId != null">
+      where area_id = #{areaId,jdbcType=INTEGER}
+    </if>
+  </select>
+
+
 </mapper>
