@@ -6,6 +6,9 @@
 
 模版主页：http://www.zi-han.net/theme/hplus/
 
+# 流程图和项目之间的关系
+1. 图中的 **流程标识** 需要和流程相关的Controller的URI向匹配。比如采购定价单中的URI是/buyOrder/xxxx，因此流程标识应该设置为buyOrder，这样在审核列表页面中才能根据此地址，定位到相应的参考页面。
+
 ####相关插件版本：
 1. layer--3.0.3
 官网：http://layer.layui.com/
@@ -69,9 +72,9 @@
 
 #### 流程相关定义
 * 采购定价单（buy_frame）--》年度采购框架合同模型，三方（媒介、销售总经理、财务）顺序审批--》年度采购框架合同
-* 采购定价单（buy）--》CPM采购成本单模型，四方（媒介、销售总经理、财务、法务）顺序审批--》CPM采购成本单
+* 采购定价单（buy..buyOrder）--》CPM采购成本单模型，四方（媒介、销售总经理、财务、法务）顺序审批--》CPM采购成本单
 * 客户需求单（sale_frame）--》年度需求单审批模型，三方（销售总经理、媒介、财务）顺序审批--》年度需求单框架合同
-* 客户需求单（sale）--》合同审批模型，五方（销售主管、销售总经理、媒介、财务、法务）顺序审批--》需求单合同
+* 客户需求单（sale..executeOrder）--》合同审批模型，五方（销售主管、销售总经理、媒介、财务、法务）顺序审批--》需求单合同
 * 排期执行单（execute）--》排期执行审批模型，四方（销售主管、销售总经理、媒介、财务）顺序审批--》需求单合同
 
 #### 项目中角色相关英文
@@ -81,13 +84,14 @@
 
 
 * 4A--customer4A
-* 媒介主管--mediaGM--mediaAudit
+* 媒介主管--mediaGM--mediaAudit--${mediaGMPass}--${!mediaGMPass}
 * 销售普通--saler--
-* 销售主管--salerDM--salerDMAudit
-* 销售总经理--salerGM--salerGMAudit
-* 财务主管--financialGM--salerGMAudit
-* 法务主管--legalGM--legalGMAudit
+* 销售主管--salerDM--salerDMAudit--${salerDMPass}--${!salerDMPass}
+* 销售总经理--salerGM--salerGMAudit--${salerGMPass}--${!salerGMPass}
+* 财务主管--financialGM--financialGMAudit--${financialGMPass}--${!financialGMPass}
+* 法务主管--legalGM--legalGMAudit--${legalGMPass}--${!legalGMPass}
 * hr--hr
+* 调整申请-----------modifyApply--${reApply}--${!reApply}
 
 #### 待实现功能
 * 流程的历史记录

@@ -5,13 +5,13 @@ import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.service.base.BuyOrderService;
 import cn.advu.workflow.web.vo.BaseBuyOrderVO;
-import com.alibaba.dubbo.common.utils.StringUtils;
 import org.activiti.engine.*;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by weiqz on 2017/6/4.
@@ -61,7 +62,7 @@ public class TaskController {
      */
     @RequestMapping(value = "todo")
     public String todoList(HttpServletRequest request, HttpSession session, Model model) {
-        List<BaseBuyOrderVO> results = new ArrayList<BaseBuyOrderVO>();
+        Map<String, List<BaseBuyOrderVO>> resultMap = new HashMap();
 
         // 根据当前人的ID查询
         TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateOrAssigned(UserThreadLocalContext.getCurrentUser().getUserName());
@@ -81,6 +82,7 @@ public class TaskController {
                 continue;
             }
             LOGGER.info("businessKey:{}", businessKey);
+            LOGGER.info("ProcessDefinitionKey:{}", processInstance.getProcessDefinitionKey());
 
 
             BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
@@ -89,11 +91,23 @@ public class TaskController {
             baseBuyOrderVO.setProcessInstance(processInstance);
             baseBuyOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 
-            results.add(baseBuyOrderVO);
+
+
+            String mapKey = processInstance.getProcessDefinitionKey();
+            if (resultMap.get(mapKey) == null) {
+                List<BaseBuyOrderVO> results = new ArrayList<BaseBuyOrderVO>();
+                results.add(baseBuyOrderVO);
+                resultMap.put(mapKey, results);
+            } else {
+                List<BaseBuyOrderVO> results = resultMap.get(mapKey);
+                results.add(baseBuyOrderVO);
+            }
 
         }
-        LOGGER.debug("results.size:{}", results.size());
-        model.addAttribute("resultList", results);
+//        LOGGER.debug("results.size:{}", results.size());
+//        model.addAttribute("resultList", results);
+
+        model.addAttribute("resultMap", resultMap);
         return "workflow/task_todoList";
     }
 
@@ -153,11 +167,14 @@ public class TaskController {
      * @param taskId
      * @return
      */
-    @RequestMapping(value = "complete/{id}", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "complete")
     @ResponseBody
-    public String complete(@PathVariable("id") String taskId) {
+    public String complete(String taskId, String mediaGMPass) {
+        Map paramMap = new HashMap<>();
+        paramMap.put("mediaGMPass", mediaGMPass);
+
         try {
-            taskService.complete(taskId);
+            taskService.complete(taskId, paramMap);
             return "success";
         } catch (Exception e) {
             LOGGER.error("", e);

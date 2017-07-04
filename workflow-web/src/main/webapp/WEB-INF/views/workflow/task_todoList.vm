@@ -12,7 +12,7 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>假种</th>
+                            <th>审批流程名称</th>
                             <th>申请人</th>
                             <th>申请时间</th>
                             <th>开始时间</th>
@@ -42,7 +42,7 @@
                                 </td>
                                 <td>
                                     #if(!${data.task.assignee})
-                                        <a class="claim" href="/workflow/task/claim/$!{data.task.id}">签收</a>
+                                        <a class="claim btn_claim" href="javascript:;">签收</a>
                                     #end
                                     #if(${data.task.assignee})
 ##                                        此处用tkey记录当前节点的名称
@@ -67,16 +67,44 @@
     $(function(){
 
     });
+
+    ## 签收（示例：弹出确认框）
+    $(".btn_claim").click(function(){
+        var taskId = $(this).parents('tr').attr('tid');
+
+        layer.confirm('确认签收？', {
+            title: '确认',
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            window.location.href = "/workflow/task/claim/" + taskId;
+        }, function(){
+        });
+    })
+
+    ## 办理
     $(".btn_handle").click(function(){
         var taskId = $(this).parents('tr').attr('tid');
-        console.log(taskId);
         openPopPage(taskId);
     })
+
+
+    ## 签收（示例：弹出确认页）
     function openPopPage(taskId){
-        doHandle(taskId);
+        layer.open({
+            type: 2,
+            title: '确认',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['893px', '600px'],
+            content: '/workflow/task/audit'
+        });
+//        doHandle(taskId);
     }
+
     function doHandle(taskId) {
-        window.location.href = "/workflow/task/complete/"+taskId;
+        var mediaGMPass = true;
+        window.location.href = "/workflow/task/complete?taskId="+taskId+ "&mediaGMPass=true";
     }
 </script>
 #end
