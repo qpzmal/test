@@ -7,13 +7,15 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="files" jdbcType="VARCHAR" property="files" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
     <result column="item_status" jdbcType="BIT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, type, title, content, files, item_status, create_time, update_time, remark
+    id, type, title, content, files, del_flag, item_status, create_time, update_time, 
+    remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -25,17 +27,17 @@
     delete from oa_notify
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.OaNotify">
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.OaNotify"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into oa_notify (id, type, title, 
-      content, files, item_status, 
-      create_time, update_time, remark
-      )
+      content, files, del_flag, 
+      item_status, create_time, update_time, 
+      remark)
     values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{files,jdbcType=VARCHAR}, #{itemStatus,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
-      )
+      #{content,jdbcType=VARCHAR}, #{files,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, 
+      #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.OaNotify">
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.OaNotify"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into oa_notify
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -52,6 +54,9 @@
       </if>
       <if test="files != null">
         files,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
       </if>
       <if test="itemStatus != null">
         item_status,
@@ -82,6 +87,9 @@
       <if test="files != null">
         #{files,jdbcType=VARCHAR},
       </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
       <if test="itemStatus != null">
         #{itemStatus,jdbcType=BIT},
       </if>
@@ -111,6 +119,9 @@
       <if test="files != null">
         files = #{files,jdbcType=VARCHAR},
       </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
       <if test="itemStatus != null">
         item_status = #{itemStatus,jdbcType=BIT},
       </if>
@@ -132,6 +143,7 @@
       title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       files = #{files,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=BIT},
       item_status = #{itemStatus,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

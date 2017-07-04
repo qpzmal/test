@@ -2,12 +2,10 @@ package cn.advu.workflow.web.controller.demand;
 
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
-import cn.advu.workflow.domain.fcf_vu.BaseMonitorRequest;
+import cn.advu.workflow.domain.fcf_vu.BaseMonitor;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.BuyOrderService;
-import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -85,7 +83,7 @@ public class BuyOrderController {
         List<BaseArea> areaList = areaService.findAll().getData();
         resultModel.addAttribute("areaList", areaList);
 
-        List<BaseMonitorRequest> baseMonitorRequestList = monitorRequestService.findAll().getData();
+        List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
         resultModel.addAttribute("monitorRequestList", baseMonitorRequestList);
 
         return "demand/buyOrder/add";

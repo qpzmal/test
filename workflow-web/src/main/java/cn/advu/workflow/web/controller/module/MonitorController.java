@@ -1,6 +1,6 @@
 package cn.advu.workflow.web.controller.module;
 
-import cn.advu.workflow.domain.fcf_vu.BaseMonitorRequest;
+import cn.advu.workflow.domain.fcf_vu.BaseMonitor;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public class MonitorController {
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addMonitor(BaseMonitorRequest baseMonitorRequest, HttpServletRequest request){
+    public ResultJson<Integer> addMonitor(BaseMonitor baseMonitorRequest, HttpServletRequest request){
         return monitorRequestService.addMonitorRequest(baseMonitorRequest);
     }
 
@@ -51,7 +51,7 @@ public class MonitorController {
      */
     @ResponseBody
     @RequestMapping(value ="/update", method = RequestMethod.POST)
-    public ResultJson<Integer> updateMonitor(BaseMonitorRequest baseMonitorRequest, HttpServletRequest request){
+    public ResultJson<Integer> updateMonitor(BaseMonitor baseMonitorRequest, HttpServletRequest request){
         return monitorRequestService.updateMonitorRequest(baseMonitorRequest);
     }
 
@@ -69,7 +69,7 @@ public class MonitorController {
      */
     @RequestMapping("/toUpdate")
     public String toUpdate(Integer id, Model resultModel){
-        BaseMonitorRequest baseMonitorRequest = monitorRequestService.findById(id).getData();
+        BaseMonitor baseMonitorRequest = monitorRequestService.findById(id).getData();
         resultModel.addAttribute("baseMonitorRequest", baseMonitorRequest);
         return "modules/monitor/update";
     }

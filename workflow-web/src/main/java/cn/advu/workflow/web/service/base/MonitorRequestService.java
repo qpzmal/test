@@ -1,6 +1,6 @@
 package cn.advu.workflow.web.service.base;
 
-import cn.advu.workflow.domain.fcf_vu.BaseMonitorRequest;
+import cn.advu.workflow.domain.fcf_vu.BaseMonitor;
 import cn.advu.workflow.web.common.ResultJson;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public interface MonitorRequestService {
      * @param baseMonitorRequest
      * @return
      */
-    ResultJson<Integer> addMonitorRequest(BaseMonitorRequest baseMonitorRequest);
+    ResultJson<Integer> addMonitorRequest(BaseMonitor baseMonitorRequest);
 
     /**
      * 更新监测机构
@@ -25,14 +25,14 @@ public interface MonitorRequestService {
      * @param baseMonitorRequest
      * @return
      */
-    ResultJson<Integer> updateMonitorRequest(BaseMonitorRequest baseMonitorRequest);
+    ResultJson<Integer> updateMonitorRequest(BaseMonitor baseMonitorRequest);
 
     /**
      * 返回全部监测机构
      *
      * @return
      */
-    ResultJson<List<BaseMonitorRequest>> findAll();
+    ResultJson<List<BaseMonitor>> findAll();
 
     /**
      * 返回当前监测机构
@@ -40,6 +40,6 @@ public interface MonitorRequestService {
      * @param id
      * @return
      */
-    ResultJson<BaseMonitorRequest> findById(Integer id);
+    ResultJson<BaseMonitor> findById(Integer id);
 
 }

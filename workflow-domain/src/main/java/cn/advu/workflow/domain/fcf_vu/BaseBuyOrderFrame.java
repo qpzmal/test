@@ -5,7 +5,7 @@ import cn.advu.workflow.domain.base.AbstractEntity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class BaseBuyOrder extends AbstractEntity {
+public class BaseBuyOrderFrame extends AbstractEntity {
 
     private String processInstanceId;
 
@@ -14,8 +14,6 @@ public class BaseBuyOrder extends AbstractEntity {
     private String secOrderNum;
 
     private String name;
-
-    private Byte type;
 
     private Date orderDate;
 
@@ -31,17 +29,15 @@ public class BaseBuyOrder extends AbstractEntity {
 
     private Byte status;
 
+    private String deliveryAreaIds;
+
+    private String deliveryAreaNames;
+
     private BigDecimal payPercent;
 
     private Integer userId;
 
     private Integer areaId;
-
-    private String deliveryAreaIds;
-
-    private String deliveryAreaNames;
-
-    private Integer frameId;
 
     public String getProcessInstanceId() {
         return processInstanceId;
@@ -73,14 +69,6 @@ public class BaseBuyOrder extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
     }
 
     public Date getOrderDate() {
@@ -139,6 +127,22 @@ public class BaseBuyOrder extends AbstractEntity {
         this.status = status;
     }
 
+    public String getDeliveryAreaIds() {
+        return deliveryAreaIds;
+    }
+
+    public void setDeliveryAreaIds(String deliveryAreaIds) {
+        this.deliveryAreaIds = deliveryAreaIds == null ? null : deliveryAreaIds.trim();
+    }
+
+    public String getDeliveryAreaNames() {
+        return deliveryAreaNames;
+    }
+
+    public void setDeliveryAreaNames(String deliveryAreaNames) {
+        this.deliveryAreaNames = deliveryAreaNames == null ? null : deliveryAreaNames.trim();
+    }
+
     public BigDecimal getPayPercent() {
         return payPercent;
     }
@@ -163,27 +167,4 @@ public class BaseBuyOrder extends AbstractEntity {
         this.areaId = areaId;
     }
 
-    public String getDeliveryAreaIds() {
-        return deliveryAreaIds;
-    }
-
-    public void setDeliveryAreaIds(String deliveryAreaIds) {
-        this.deliveryAreaIds = deliveryAreaIds == null ? null : deliveryAreaIds.trim();
-    }
-
-    public String getDeliveryAreaNames() {
-        return deliveryAreaNames;
-    }
-
-    public void setDeliveryAreaNames(String deliveryAreaNames) {
-        this.deliveryAreaNames = deliveryAreaNames == null ? null : deliveryAreaNames.trim();
-    }
-
-    public Integer getFrameId() {
-        return frameId;
-    }
-
-    public void setFrameId(Integer frameId) {
-        this.frameId = frameId;
-    }
 }

@@ -37,4 +37,5 @@ public class BaseRegion extends AbstractEntity {
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
+
 }

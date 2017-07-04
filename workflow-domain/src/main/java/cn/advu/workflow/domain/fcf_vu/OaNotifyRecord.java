@@ -2,8 +2,6 @@ package cn.advu.workflow.domain.fcf_vu;
 
 import cn.advu.workflow.domain.base.AbstractEntity;
 
-import java.util.Date;
-
 public class OaNotifyRecord extends AbstractEntity {
 
     private Integer notifyId;

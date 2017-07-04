@@ -5,6 +5,7 @@ import cn.advu.workflow.domain.base.AbstractEntity;
 import java.util.Date;
 
 public class SysLog extends AbstractEntity {
+
     private String ip;
 
     private String operation;

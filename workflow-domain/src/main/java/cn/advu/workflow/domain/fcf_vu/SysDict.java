@@ -43,4 +43,5 @@ public class SysDict extends AbstractEntity {
     public void setSort(Long sort) {
         this.sort = sort;
     }
+
 }

@@ -22,7 +22,7 @@
     delete from oa_notify_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.OaNotifyRecord">
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.OaNotifyRecord"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into oa_notify_record (id, notify_id, user_ids, 
       user_names, create_time, update_time
       )
@@ -30,7 +30,7 @@
       #{userNames,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.OaNotifyRecord">
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.OaNotifyRecord"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into oa_notify_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

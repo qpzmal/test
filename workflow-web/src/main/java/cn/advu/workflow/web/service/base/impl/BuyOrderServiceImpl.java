@@ -63,7 +63,7 @@ public class BuyOrderServiceImpl implements BuyOrderService {
             identityService.setAuthenticatedUserId(userName);
 
             ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, baseBuyOrder.getId() + "", new HashMap<String, Object>());
-            LOGGER.info("customId:{}, processInstanceId:{}", baseBuyOrder.getCustomId(), processInstance.getId());
+            LOGGER.info(" processInstanceId:{}", processInstance.getId());
 
             baseBuyOrder.setProcessInstanceId(processInstance.getId());
             baseBuyOrderRepo.updateSelective(baseBuyOrder);

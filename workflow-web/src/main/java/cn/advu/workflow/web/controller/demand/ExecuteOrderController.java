@@ -83,7 +83,7 @@ public class ExecuteOrderController {
         resultModel.addAttribute("areaList", areaList);
         resultModel.addAttribute("areaListJson", JSONArray.toJSON(areaList));
 
-        List<BaseMonitorRequest> baseMonitorRequestList = monitorRequestService.findAll().getData();
+        List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
         resultModel.addAttribute("monitorRequestList", baseMonitorRequestList);
 
         return "demand/executeOrder/add";

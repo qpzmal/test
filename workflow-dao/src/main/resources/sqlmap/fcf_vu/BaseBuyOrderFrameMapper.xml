@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseBuyOrderMapper">
-  <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
+<mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseBuyOrderFrameMapper">
+  <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="process_instance_id" jdbcType="VARCHAR" property="processInstanceId" />
     <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
     <result column="sec_order_num" jdbcType="VARCHAR" property="secOrderNum" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
     <result column="account_period" jdbcType="INTEGER" property="accountPeriod" />
@@ -15,6 +14,8 @@
     <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
     <result column="person_id" jdbcType="INTEGER" property="personId" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="delivery_area_ids" jdbcType="VARCHAR" property="deliveryAreaIds" />
+    <result column="delivery_area_names" jdbcType="VARCHAR" property="deliveryAreaNames" />
     <result column="pay_percent" jdbcType="DECIMAL" property="payPercent" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="area_id" jdbcType="INTEGER" property="areaId" />
@@ -23,45 +24,42 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="delivery_area_ids" jdbcType="VARCHAR" property="deliveryAreaIds" />
-    <result column="delivery_area_names" jdbcType="VARCHAR" property="deliveryAreaNames" />
-    <result column="frame_id" jdbcType="INTEGER" property="frameId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, process_instance_id, order_num, sec_order_num, name, type, order_date, amount, account_period, start_date,
-    end_date, person_id, status, pay_percent, user_id, area_id, del_flag, item_status, 
-    create_time, update_time, remark, delivery_area_ids, delivery_area_names, frame_id
+    id, process_instance_id, order_num, sec_order_num, name, order_date, amount, account_period, start_date,
+    end_date, person_id, status, delivery_area_ids, delivery_area_names, pay_percent, 
+    user_id, area_id, del_flag, item_status, create_time, update_time, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from base_buy_order
+    from base_buy_order_frame
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from base_buy_order
+    delete from base_buy_order_frame
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
-    insert into base_buy_order (id, process_instance_id, order_num, sec_order_num,
-      name, type, order_date, 
-      amount, account_period, start_date, 
-      end_date, person_id, status, 
-      pay_percent, user_id, area_id, 
-      del_flag, item_status, create_time, 
-      update_time, remark, delivery_area_ids, 
-      delivery_area_names, frame_id)
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
+    insert into base_buy_order_frame (id, process_instance_id, order_num, sec_order_num,
+      name, order_date, amount, 
+      account_period, start_date, end_date, 
+      person_id, status, delivery_area_ids, 
+      delivery_area_names, pay_percent, user_id, 
+      area_id, del_flag, item_status, 
+      create_time, update_time, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{processInstanceId,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR}, #{secOrderNum,jdbcType=VARCHAR},
-      #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{orderDate,jdbcType=TIMESTAMP}, 
-      #{amount,jdbcType=DECIMAL}, #{accountPeriod,jdbcType=INTEGER}, #{startDate,jdbcType=TIMESTAMP}, 
-      #{endDate,jdbcType=TIMESTAMP}, #{personId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
-      #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}, 
-      #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{deliveryAreaIds,jdbcType=VARCHAR}, 
-      #{deliveryAreaNames,jdbcType=VARCHAR}, #{frameId,jdbcType=INTEGER})
+      #{name,jdbcType=VARCHAR}, #{orderDate,jdbcType=TIMESTAMP}, #{amount,jdbcType=DECIMAL}, 
+      #{accountPeriod,jdbcType=INTEGER}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+      #{personId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{deliveryAreaIds,jdbcType=VARCHAR}, 
+      #{deliveryAreaNames,jdbcType=VARCHAR}, #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, 
+      #{areaId,jdbcType=INTEGER}, #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
-    insert into base_buy_order
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
+    insert into base_buy_order_frame
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -77,9 +75,6 @@
       </if>
       <if test="name != null">
         name,
-      </if>
-      <if test="type != null">
-        type,
       </if>
       <if test="orderDate != null">
         order_date,
@@ -101,6 +96,12 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="deliveryAreaIds != null">
+        delivery_area_ids,
+      </if>
+      <if test="deliveryAreaNames != null">
+        delivery_area_names,
       </if>
       <if test="payPercent != null">
         pay_percent,
@@ -126,15 +127,6 @@
       <if test="remark != null">
         remark,
       </if>
-      <if test="deliveryAreaIds != null">
-        delivery_area_ids,
-      </if>
-      <if test="deliveryAreaNames != null">
-        delivery_area_names,
-      </if>
-      <if test="frameId != null">
-        frame_id,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -151,9 +143,6 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=TINYINT},
       </if>
       <if test="orderDate != null">
         #{orderDate,jdbcType=TIMESTAMP},
@@ -175,6 +164,12 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="deliveryAreaIds != null">
+        #{deliveryAreaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryAreaNames != null">
+        #{deliveryAreaNames,jdbcType=VARCHAR},
       </if>
       <if test="payPercent != null">
         #{payPercent,jdbcType=DECIMAL},
@@ -200,19 +195,10 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="deliveryAreaIds != null">
-        #{deliveryAreaIds,jdbcType=VARCHAR},
-      </if>
-      <if test="deliveryAreaNames != null">
-        #{deliveryAreaNames,jdbcType=VARCHAR},
-      </if>
-      <if test="frameId != null">
-        #{frameId,jdbcType=INTEGER},
-      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
-    update base_buy_order
+  <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame">
+    update base_buy_order_frame
     <set>
       <if test="processInstanceId != null">
         process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
@@ -225,9 +211,6 @@
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="orderDate != null">
         order_date = #{orderDate,jdbcType=TIMESTAMP},
@@ -249,6 +232,12 @@
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="deliveryAreaIds != null">
+        delivery_area_ids = #{deliveryAreaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryAreaNames != null">
+        delivery_area_names = #{deliveryAreaNames,jdbcType=VARCHAR},
       </if>
       <if test="payPercent != null">
         pay_percent = #{payPercent,jdbcType=DECIMAL},
@@ -274,26 +263,16 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="deliveryAreaIds != null">
-        delivery_area_ids = #{deliveryAreaIds,jdbcType=VARCHAR},
-      </if>
-      <if test="deliveryAreaNames != null">
-        delivery_area_names = #{deliveryAreaNames,jdbcType=VARCHAR},
-      </if>
-      <if test="frameId != null">
-        frame_id = #{frameId,jdbcType=INTEGER},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrder">
-    update base_buy_order
+  <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame">
+    update base_buy_order_frame
     set
       process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
       order_num = #{orderNum,jdbcType=VARCHAR},
       sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT},
       order_date = #{orderDate,jdbcType=TIMESTAMP},
       amount = #{amount,jdbcType=DECIMAL},
       account_period = #{accountPeriod,jdbcType=INTEGER},
@@ -301,6 +280,8 @@
       end_date = #{endDate,jdbcType=TIMESTAMP},
       person_id = #{personId,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT},
+      delivery_area_ids = #{deliveryAreaIds,jdbcType=VARCHAR},
+      delivery_area_names = #{deliveryAreaNames,jdbcType=VARCHAR},
       pay_percent = #{payPercent,jdbcType=DECIMAL},
       user_id = #{userId,jdbcType=INTEGER},
       area_id = #{areaId,jdbcType=INTEGER},
@@ -308,23 +289,7 @@
       item_status = #{itemStatus,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      remark = #{remark,jdbcType=VARCHAR},
-      delivery_area_ids = #{deliveryAreaIds,jdbcType=VARCHAR},
-      delivery_area_names = #{deliveryAreaNames,jdbcType=VARCHAR},
-      frame_id = #{frameId,jdbcType=INTEGER}
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-
-
-
-  <!-- 以上为自动生成SQL，以下为自定义SQL -->
-  <select id="queryAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from base_buy_order
-    <if test="status != null">
-      where item_status = #{status,jdbcType=BIT}
-    </if>
-  </select>
 </mapper>

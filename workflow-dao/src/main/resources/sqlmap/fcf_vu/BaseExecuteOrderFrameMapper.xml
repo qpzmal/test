@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseExecuteOrderMapper">
-  <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
+<mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseExecuteOrderFrameMapper">
+  <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="process_instance_id" jdbcType="VARCHAR" property="processInstanceId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
     <result column="sec_order_num" jdbcType="VARCHAR" property="secOrderNum" />
-    <result column="type" jdbcType="BIT" property="type" />
     <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
     <result column="delivery_area_ids" jdbcType="VARCHAR" property="deliveryAreaIds" />
     <result column="delivery_area_names" jdbcType="VARCHAR" property="deliveryAreaNames" />
@@ -26,7 +25,7 @@
     <result column="our_monitor_name" jdbcType="VARCHAR" property="ourMonitorName" />
     <result column="report_type_id" jdbcType="VARCHAR" property="reportTypeId" />
     <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="signing_intention" jdbcType="VARCHAR" property="signingIntention" />
+    <result column="signing intention" jdbcType="VARCHAR" property="signingIntention" />
     <result column="person_payee_id" jdbcType="INTEGER" property="personPayeeId" />
     <result column="pay_percent" jdbcType="DECIMAL" property="payPercent" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
@@ -39,50 +38,50 @@
     <result column="frame_id" jdbcType="INTEGER" property="frameId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, process_instance_id, name, order_num, sec_order_num, type, order_date, delivery_area_ids, delivery_area_names,
+    id, process_instance_id, name, order_num, sec_order_num, order_date, delivery_area_ids, delivery_area_names,
     area_id, person_sales_id, amount, public_rebate, private_rebate, tax_amount, tax_free_amount, 
     monitor_ids, monitor_names, start_date, end_date, person_leader_id, our_monitor_name, 
-    report_type_id, status, "signing_intention", person_payee_id, pay_percent, user_id,
+    report_type_id, status, "signing intention", person_payee_id, pay_percent, user_id, 
     account_period, del_flag, item_status, create_time, update_time, remark, frame_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from base_execute_order
+    from base_execute_order_frame
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from base_execute_order
+    delete from base_execute_order_frame
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
-    insert into base_execute_order (id, process_instance_id, name, order_num,
-      sec_order_num, type, order_date, 
-      delivery_area_ids, delivery_area_names, area_id, 
-      person_sales_id, amount, public_rebate, 
-      private_rebate, tax_amount, tax_free_amount, 
-      monitor_ids, monitor_names, start_date, 
-      end_date, person_leader_id, our_monitor_name, 
-      report_type_id, status, signing_intention,
-      person_payee_id, pay_percent, user_id, 
-      account_period, del_flag, item_status, 
-      create_time, update_time, remark, 
-      frame_id)
-    values (#{id,jdbcType=INTEGER},  #{processInstanceId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR},
-      #{secOrderNum,jdbcType=VARCHAR}, #{type,jdbcType=BIT}, #{orderDate,jdbcType=TIMESTAMP}, 
-      #{deliveryAreaIds,jdbcType=VARCHAR}, #{deliveryAreaNames,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, 
-      #{personSalesId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, #{publicRebate,jdbcType=DECIMAL}, 
-      #{privateRebate,jdbcType=DECIMAL}, #{taxAmount,jdbcType=DECIMAL}, #{taxFreeAmount,jdbcType=DECIMAL}, 
-      #{monitorIds,jdbcType=VARCHAR}, #{monitorNames,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, 
-      #{endDate,jdbcType=TIMESTAMP}, #{personLeaderId,jdbcType=INTEGER}, #{ourMonitorName,jdbcType=VARCHAR}, 
-      #{reportTypeId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{signingIntention,jdbcType=VARCHAR}, 
-      #{personPayeeId,jdbcType=INTEGER}, #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, 
-      #{accountPeriod,jdbcType=INTEGER}, #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
-      #{frameId,jdbcType=INTEGER})
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
+    insert into base_execute_order_frame (id, process_instance_id, name, order_num,
+      sec_order_num, order_date, delivery_area_ids, 
+      delivery_area_names, area_id, person_sales_id, 
+      amount, public_rebate, private_rebate, 
+      tax_amount, tax_free_amount, monitor_ids, 
+      monitor_names, start_date, end_date, 
+      person_leader_id, our_monitor_name, report_type_id, 
+      status, "signing intention", person_payee_id, 
+      pay_percent, user_id, account_period, 
+      del_flag, item_status, create_time, 
+      update_time, remark, frame_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{processInstanceId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR},
+      #{secOrderNum,jdbcType=VARCHAR}, #{orderDate,jdbcType=TIMESTAMP}, #{deliveryAreaIds,jdbcType=VARCHAR}, 
+      #{deliveryAreaNames,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, #{personSalesId,jdbcType=INTEGER}, 
+      #{amount,jdbcType=DECIMAL}, #{publicRebate,jdbcType=DECIMAL}, #{privateRebate,jdbcType=DECIMAL}, 
+      #{taxAmount,jdbcType=DECIMAL}, #{taxFreeAmount,jdbcType=DECIMAL}, #{monitorIds,jdbcType=VARCHAR}, 
+      #{monitorNames,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+      #{personLeaderId,jdbcType=INTEGER}, #{ourMonitorName,jdbcType=VARCHAR}, #{reportTypeId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{signingIntention,jdbcType=VARCHAR}, #{personPayeeId,jdbcType=INTEGER}, 
+      #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, #{accountPeriod,jdbcType=INTEGER}, 
+      #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{frameId,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
-    insert into base_execute_order
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
+    insert into base_execute_order_frame
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -98,9 +97,6 @@
       </if>
       <if test="secOrderNum != null">
         sec_order_num,
-      </if>
-      <if test="type != null">
-        type,
       </if>
       <if test="orderDate != null">
         order_date,
@@ -157,7 +153,7 @@
         status,
       </if>
       <if test="signingIntention != null">
-        signing_intention,
+        "signing intention",
       </if>
       <if test="personPayeeId != null">
         person_payee_id,
@@ -205,9 +201,6 @@
       </if>
       <if test="secOrderNum != null">
         #{secOrderNum,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=BIT},
       </if>
       <if test="orderDate != null">
         #{orderDate,jdbcType=TIMESTAMP},
@@ -298,8 +291,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
-    update base_execute_order
+  <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame">
+    update base_execute_order_frame
     <set>
       <if test="processInstanceId != null">
         process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
@@ -312,9 +305,6 @@
       </if>
       <if test="secOrderNum != null">
         sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=BIT},
       </if>
       <if test="orderDate != null">
         order_date = #{orderDate,jdbcType=TIMESTAMP},
@@ -371,7 +361,7 @@
         status = #{status,jdbcType=TINYINT},
       </if>
       <if test="signingIntention != null">
-        signing_intention = #{signingIntention,jdbcType=VARCHAR},
+        "signing intention" = #{signingIntention,jdbcType=VARCHAR},
       </if>
       <if test="personPayeeId != null">
         person_payee_id = #{personPayeeId,jdbcType=INTEGER},
@@ -406,14 +396,13 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
-    update base_execute_order
+  <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame">
+    update base_execute_order_frame
     set
       process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       order_num = #{orderNum,jdbcType=VARCHAR},
       sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
-      type = #{type,jdbcType=BIT},
       order_date = #{orderDate,jdbcType=TIMESTAMP},
       delivery_area_ids = #{deliveryAreaIds,jdbcType=VARCHAR},
       delivery_area_names = #{deliveryAreaNames,jdbcType=VARCHAR},
@@ -432,7 +421,7 @@
       our_monitor_name = #{ourMonitorName,jdbcType=VARCHAR},
       report_type_id = #{reportTypeId,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
-      signing_intention = #{signingIntention,jdbcType=VARCHAR},
+      "signing intention" = #{signingIntention,jdbcType=VARCHAR},
       person_payee_id = #{personPayeeId,jdbcType=INTEGER},
       pay_percent = #{payPercent,jdbcType=DECIMAL},
       user_id = #{userId,jdbcType=INTEGER},
@@ -445,19 +434,4 @@
       frame_id = #{frameId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-
-
-
-
-
-  <!-- 以上为自动生成SQL，以下为自定义SQL -->
-  <select id="queryAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from base_execute_order
-    <if test="status != null">
-      where item_status = #{status,jdbcType=BIT}
-    </if>
-  </select>
 </mapper>

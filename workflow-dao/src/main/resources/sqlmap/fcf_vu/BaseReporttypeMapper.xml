@@ -1,43 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseReporttypeMapper">
-  <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseReporttype">
+<mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseReportTypeMapper">
+  <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseReportType">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
     <result column="item_status" jdbcType="BIT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, item_status, create_time, update_time, remark
+    id, name, del_flag, item_status, create_time, update_time, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from base_reporttype
+    from base_report_type
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from base_reporttype
+    delete from base_report_type
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseReporttype">
-    insert into base_reporttype (id, name, item_status, 
-      create_time, update_time, remark
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{itemStatus,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseReportType"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
+    insert into base_report_type (id, name, del_flag, 
+      item_status, create_time, update_time, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, 
+      #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id"   parameterType="cn.advu.workflow.domain.fcf_vu.BaseReporttype">
-    insert into base_reporttype
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseReportType"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
+    insert into base_report_type
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
       </if>
       <if test="itemStatus != null">
         item_status,
@@ -59,6 +63,9 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
       <if test="itemStatus != null">
         #{itemStatus,jdbcType=BIT},
       </if>
@@ -73,11 +80,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseReporttype">
-    update base_reporttype
+  <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseReportType">
+    update base_report_type
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
       </if>
       <if test="itemStatus != null">
         item_status = #{itemStatus,jdbcType=BIT},
@@ -94,26 +104,14 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseReporttype">
-    update base_reporttype
+  <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseReportType">
+    update base_report_type
     set name = #{name,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=BIT},
       item_status = #{itemStatus,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-
-
-
-  <!-- 以上为自动生成SQL，以下为自定义SQL -->
-  <select id="queryAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from base_reporttype
-    <if test="status != null">
-      where item_status = #{status,jdbcType=BIT}
-    </if>
-  </select>
 </mapper>

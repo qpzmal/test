@@ -1,6 +1,6 @@
 package cn.advu.workflow.web.service.base;
 
-import cn.advu.workflow.domain.fcf_vu.BaseReporttype;
+import cn.advu.workflow.domain.fcf_vu.BaseReportType;
 
 import java.util.List;
 
@@ -8,12 +8,12 @@ import java.util.List;
  * 报告
  * Created by weiqz on 2017/6/25.
  */
-public interface ReporttypeService {
+public interface ReportTypeService {
 
-    int insert(BaseReporttype obj);
+    int insert(BaseReportType obj);
     int delete(String id);
     int update(String id);
-    List<BaseReporttype> queryAll();
+    List<BaseReportType> queryAll();
 
-    List<BaseReporttype> queryByCondition(BaseReporttype obj);
+    List<BaseReportType> queryByCondition(BaseReportType obj);
 }

@@ -7,13 +7,15 @@
     <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="sort" jdbcType="DECIMAL" property="sort" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
     <result column="item_status" jdbcType="BIT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, value, label, description, sort, item_status, create_time, update_time, remark
+    id, value, label, description, sort, del_flag, item_status, create_time, update_time, 
+    remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -25,17 +27,17 @@
     delete from sys_dict
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.SysDict">
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.SysDict"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into sys_dict (id, value, label, 
-      description, sort, item_status, 
-      create_time, update_time, remark
-      )
+      description, sort, del_flag, 
+      item_status, create_time, update_time, 
+      remark)
     values (#{id,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{sort,jdbcType=DECIMAL}, #{itemStatus,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
-      )
+      #{description,jdbcType=VARCHAR}, #{sort,jdbcType=DECIMAL}, #{delFlag,jdbcType=BIT}, 
+      #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.SysDict">
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.SysDict"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into sys_dict
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -52,6 +54,9 @@
       </if>
       <if test="sort != null">
         sort,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
       </if>
       <if test="itemStatus != null">
         item_status,
@@ -82,6 +87,9 @@
       <if test="sort != null">
         #{sort,jdbcType=DECIMAL},
       </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
       <if test="itemStatus != null">
         #{itemStatus,jdbcType=BIT},
       </if>
@@ -111,6 +119,9 @@
       <if test="sort != null">
         sort = #{sort,jdbcType=DECIMAL},
       </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
       <if test="itemStatus != null">
         item_status = #{itemStatus,jdbcType=BIT},
       </if>
@@ -132,6 +143,7 @@
       label = #{label,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=DECIMAL},
+      del_flag = #{delFlag,jdbcType=BIT},
       item_status = #{itemStatus,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

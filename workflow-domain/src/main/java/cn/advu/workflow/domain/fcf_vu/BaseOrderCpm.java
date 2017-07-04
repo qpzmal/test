@@ -75,4 +75,5 @@ public class BaseOrderCpm extends AbstractEntity {
     public void setCpm(Integer cpm) {
         this.cpm = cpm;
     }
+
 }

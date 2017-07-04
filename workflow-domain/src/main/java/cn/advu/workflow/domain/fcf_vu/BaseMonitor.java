@@ -2,12 +2,11 @@ package cn.advu.workflow.domain.fcf_vu;
 
 import cn.advu.workflow.domain.base.AbstractEntity;
 
-public class BaseMonitorRequest extends AbstractEntity {
+public class BaseMonitor extends AbstractEntity {
 
     private String name;
 
     private String link;
-
 
     public String getName() {
         return name;
@@ -24,4 +23,5 @@ public class BaseMonitorRequest extends AbstractEntity {
     public void setLink(String link) {
         this.link = link == null ? null : link.trim();
     }
+
 }

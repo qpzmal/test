@@ -1,8 +1,10 @@
 package cn.advu.workflow.domain.fcf_vu;
 
-public class BasePerson {
-    private Integer id;
+import cn.advu.workflow.domain.base.AbstractEntity;
 
+import java.math.BigDecimal;
+
+public class BasePerson extends AbstractEntity {
     private String name;
 
     private Integer areaId;
@@ -19,14 +21,9 @@ public class BasePerson {
 
     private Integer parentId;
 
+    private BigDecimal pay2;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private BigDecimal personPay;
 
     public String getName() {
         return name;
@@ -90,6 +87,22 @@ public class BasePerson {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public BigDecimal getPay2() {
+        return pay2;
+    }
+
+    public void setPay2(BigDecimal pay2) {
+        this.pay2 = pay2;
+    }
+
+    public BigDecimal getPersonPay() {
+        return personPay;
+    }
+
+    public void setPersonPay(BigDecimal personPay) {
+        this.personPay = personPay;
     }
 
 }

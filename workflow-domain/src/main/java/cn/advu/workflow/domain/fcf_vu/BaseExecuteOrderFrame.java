@@ -4,9 +4,8 @@ import cn.advu.workflow.domain.base.AbstractEntity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
-public class BaseExecuteOrder extends AbstractEntity {
+public class BaseExecuteOrderFrame extends AbstractEntity {
 
     private String processInstanceId;
 
@@ -15,8 +14,6 @@ public class BaseExecuteOrder extends AbstractEntity {
     private String orderNum;
 
     private String secOrderNum;
-
-    private Boolean type;
 
     private Date orderDate;
 
@@ -74,26 +71,6 @@ public class BaseExecuteOrder extends AbstractEntity {
         this.processInstanceId = processInstanceId;
     }
 
-    private List<BaseOrderCpm> baseOrderCpmList;
-
-    private String cpmJsonStr;
-
-    public List<BaseOrderCpm> getBaseOrderCpmList() {
-        return baseOrderCpmList;
-    }
-
-    public void setBaseOrderCpmList(List<BaseOrderCpm> baseOrderCpmList) {
-        this.baseOrderCpmList = baseOrderCpmList;
-    }
-
-    public String getCpmJsonStr() {
-        return cpmJsonStr;
-    }
-
-    public void setCpmJsonStr(String cpmJsonStr) {
-        this.cpmJsonStr = cpmJsonStr;
-    }
-
     public String getName() {
         return name;
     }
@@ -116,14 +93,6 @@ public class BaseExecuteOrder extends AbstractEntity {
 
     public void setSecOrderNum(String secOrderNum) {
         this.secOrderNum = secOrderNum == null ? null : secOrderNum.trim();
-    }
-
-    public Boolean getType() {
-        return type;
-    }
-
-    public void setType(Boolean type) {
-        this.type = type;
     }
 
     public Date getOrderDate() {

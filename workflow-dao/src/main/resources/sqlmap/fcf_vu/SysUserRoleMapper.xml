@@ -2,8 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.advu.workflow.dao.fcf_vu.SysUserRoleMapper">
   <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.SysUserRole">
-    <id column="admins" jdbcType="INTEGER" property="admins" />
-    <id column="roles" jdbcType="INTEGER" property="roles" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="admins" jdbcType="INTEGER" property="admins" />
+    <result column="roles" jdbcType="INTEGER" property="roles" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
     id, admins, roles, create_time, update_time
@@ -11,7 +14,7 @@
   <delete id="deleteByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.SysUserRole">
     delete from sys_user_role
     where admins = #{admins,jdbcType=INTEGER}
-      and roles = #{roles,jdbcType=INTEGER}
+    and roles = #{roles,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.SysUserRole">
     insert into sys_user_role (admins, roles)

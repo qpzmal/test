@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseMonitorRequestMapper">
-  <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseMonitorRequest">
+<mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseMonitorMapper">
+  <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseMonitor">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="link" jdbcType="VARCHAR" property="link" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
     <result column="item_status" jdbcType="BIT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, link, item_status, create_time, update_time, remark
+    id, name, link, del_flag, item_status, create_time, update_time, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from base_monitor_request
+    from base_monitor
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from base_monitor_request
+    delete from base_monitor
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseMonitorRequest">
-    insert into base_monitor_request (id, name, link, 
-      item_status, create_time, update_time, 
-      remark)
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseMonitor">
+    insert into base_monitor (id, name, link, 
+      del_flag, item_status, create_time, 
+      update_time, remark)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{link,jdbcType=VARCHAR}, 
-      #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{remark,jdbcType=VARCHAR})
+      #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseMonitorRequest">
-    insert into base_monitor_request
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseMonitor">
+    insert into base_monitor
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -42,6 +43,9 @@
       </if>
       <if test="link != null">
         link,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
       </if>
       <if test="itemStatus != null">
         item_status,
@@ -66,6 +70,9 @@
       <if test="link != null">
         #{link,jdbcType=VARCHAR},
       </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
       <if test="itemStatus != null">
         #{itemStatus,jdbcType=BIT},
       </if>
@@ -80,14 +87,17 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseMonitorRequest">
-    update base_monitor_request
+  <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseMonitor">
+    update base_monitor
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="link != null">
         link = #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
       </if>
       <if test="itemStatus != null">
         item_status = #{itemStatus,jdbcType=BIT},
@@ -104,10 +114,11 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseMonitorRequest">
-    update base_monitor_request
+  <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseMonitor">
+    update base_monitor
     set name = #{name,jdbcType=VARCHAR},
       link = #{link,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=BIT},
       item_status = #{itemStatus,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -122,7 +133,7 @@
   <select id="queryAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from base_monitor_request
+    from base_monitor
     <if test="status != null">
       where item_status = #{status,jdbcType=BIT}
     </if>

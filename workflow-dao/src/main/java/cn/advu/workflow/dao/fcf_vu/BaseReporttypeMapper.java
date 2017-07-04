@@ -1,24 +1,18 @@
 package cn.advu.workflow.dao.fcf_vu;
 
 import cn.advu.workflow.dao.base.ISqlMapper;
-import cn.advu.workflow.domain.fcf_vu.BaseReporttype;
-import org.apache.ibatis.annotations.Param;
+import cn.advu.workflow.domain.fcf_vu.BaseReportType;
 
-import java.util.List;
-
-public interface BaseReporttypeMapper extends ISqlMapper {
+public interface BaseReportTypeMapper extends ISqlMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(BaseReporttype record);
+    int insert(BaseReportType record);
 
-    int insertSelective(BaseReporttype record);
+    int insertSelective(BaseReportType record);
 
-    BaseReporttype selectByPrimaryKey(Integer id);
+    BaseReportType selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(BaseReporttype record);
+    int updateByPrimaryKeySelective(BaseReportType record);
 
-    int updateByPrimaryKey(BaseReporttype record);
-
-    // 以下为自定义SQL
-    List<BaseReporttype> queryAll(@Param("status") int status);
+    int updateByPrimaryKey(BaseReportType record);
 }

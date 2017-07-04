@@ -32,7 +32,7 @@
     delete from sys_log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.SysLogWithBLOBs">
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.SysLogWithBLOBs"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into sys_log (id, ip, operation, 
       operator, type, create_time, 
       update_time, content, parameter
@@ -42,7 +42,7 @@
       #{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}, #{parameter,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.SysLogWithBLOBs">
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.SysLogWithBLOBs"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into sys_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

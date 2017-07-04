@@ -1,7 +1,8 @@
 package cn.advu.workflow.domain.fcf_vu;
 
-public class BaseDept {
-    private Integer id;
+import cn.advu.workflow.domain.base.AbstractEntity;
+
+public class BaseDept extends AbstractEntity {
 
     private String name;
 
@@ -12,14 +13,6 @@ public class BaseDept {
     private String description;
 
     private Integer areaId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseCustom">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="custom_name" jdbcType="VARCHAR" property="customName" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="custom_industry_id" jdbcType="TINYINT" property="customIndustryId" />
     <result column="custom_type" jdbcType="TINYINT" property="customType" />
     <result column="contacts" jdbcType="VARCHAR" property="contacts" />
@@ -20,7 +20,7 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, custom_name, custom_industry_id, custom_type, contacts, mobile, address, 
+    id, name, parent_id, custom_industry_id, custom_type, contacts, mobile, address, 
     email, del_flag, item_status, creator_id, updater_id, create_time, update_time, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -33,21 +33,21 @@
     delete from base_custom
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustom">
-    insert into base_custom (id, name, custom_name, 
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustom" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
+    insert into base_custom (id, name, parent_id, 
       custom_industry_id, custom_type, contacts, 
       mobile, address, email, 
       del_flag, item_status, creator_id, 
       updater_id, create_time, update_time, 
       remark)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{customName,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
       #{customIndustryId,jdbcType=TINYINT}, #{customType,jdbcType=TINYINT}, #{contacts,jdbcType=VARCHAR},
       #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, #{creatorId,jdbcType=INTEGER}, 
       #{updaterId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustom">
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustom" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_custom
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -56,8 +56,8 @@
       <if test="name != null">
         name,
       </if>
-      <if test="customName != null">
-        custom_name,
+      <if test="parentId != null">
+        parent_id,
       </if>
       <if test="customIndustryId != null">
         custom_industry_id,
@@ -106,8 +106,8 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="customName != null">
-        #{customName,jdbcType=VARCHAR},
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
       </if>
       <if test="customIndustryId != null">
         #{customIndustryId,jdbcType=TINYINT},
@@ -156,8 +156,8 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="customName != null">
-        custom_name = #{customName,jdbcType=VARCHAR},
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
       </if>
       <if test="customIndustryId != null">
         custom_industry_id = #{customIndustryId,jdbcType=TINYINT},
@@ -204,7 +204,7 @@
   <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustom">
     update base_custom
     set name = #{name,jdbcType=VARCHAR},
-      custom_name = #{customName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
       custom_industry_id = #{customIndustryId,jdbcType=TINYINT},
       custom_type = #{customType,jdbcType=TINYINT},
       contacts = #{contacts,jdbcType=VARCHAR},
@@ -220,6 +220,8 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
   <!-- 以上为自动生成SQL，以下为自定义SQL -->
   <select id="queryAll" resultMap="BaseResultMap">
     select

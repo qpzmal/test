@@ -1,8 +1,8 @@
 package cn.advu.workflow.repo.fcf_vu.impl;
 
 import cn.advu.workflow.dao.base.BaseDAO;
-import cn.advu.workflow.dao.fcf_vu.BaseMonitorRequestMapper;
-import cn.advu.workflow.domain.fcf_vu.BaseMonitorRequest;
+import cn.advu.workflow.dao.fcf_vu.BaseMonitorMapper;
+import cn.advu.workflow.domain.fcf_vu.BaseMonitor;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseMonitorRequestRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +15,19 @@ import java.util.List;
  *
  */
 @Repository
-public class BaseMonitorRequestRepoImpl extends AbstractRepo<BaseMonitorRequest> implements BaseMonitorRequestRepo {
+public class BaseMonitorRequestRepoImpl extends AbstractRepo<BaseMonitor> implements BaseMonitorRequestRepo {
 
     @Autowired
-    BaseMonitorRequestMapper baseMonitorRequestMapper;
+    BaseMonitorMapper baseMonitorMapper;
 
     @Override
-    protected BaseDAO<BaseMonitorRequest> getSqlMapper() {
-        return baseMonitorRequestMapper;
+    protected BaseDAO<BaseMonitor> getSqlMapper() {
+        return baseMonitorMapper;
     }
 
     @Override
-    public List<BaseMonitorRequest> findAll() {
-        return baseMonitorRequestMapper.queryAll(null);
+    public List<BaseMonitor> findAll() {
+        return baseMonitorMapper.queryAll(null);
     }
 
 }

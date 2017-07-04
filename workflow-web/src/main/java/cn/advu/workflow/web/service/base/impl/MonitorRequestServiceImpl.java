@@ -1,6 +1,6 @@
 package cn.advu.workflow.web.service.base.impl;
 
-import cn.advu.workflow.domain.fcf_vu.BaseMonitorRequest;
+import cn.advu.workflow.domain.fcf_vu.BaseMonitor;
 import cn.advu.workflow.repo.fcf_vu.BaseMonitorRequestRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
@@ -24,7 +24,7 @@ public class MonitorRequestServiceImpl implements MonitorRequestService {
 
 
     @Override
-    public ResultJson<Integer> addMonitorRequest(BaseMonitorRequest baseMonitorRequest) {
+    public ResultJson<Integer> addMonitorRequest(BaseMonitor baseMonitorRequest) {
         Integer insertCount = baseMonitorRequestRepo.addSelective(baseMonitorRequest);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建监测机构失败!");
@@ -33,7 +33,7 @@ public class MonitorRequestServiceImpl implements MonitorRequestService {
     }
 
     @Override
-    public ResultJson<Integer> updateMonitorRequest(BaseMonitorRequest baseMonitorRequest) {
+    public ResultJson<Integer> updateMonitorRequest(BaseMonitor baseMonitorRequest) {
         if (baseMonitorRequest.getId() == null) {
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
         }
@@ -45,15 +45,15 @@ public class MonitorRequestServiceImpl implements MonitorRequestService {
     }
 
     @Override
-    public ResultJson<List<BaseMonitorRequest>> findAll() {
-        ResultJson<List<BaseMonitorRequest>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    public ResultJson<List<BaseMonitor>> findAll() {
+        ResultJson<List<BaseMonitor>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         result.setData(baseMonitorRequestRepo.findAll());
         return result;
     }
 
     @Override
-    public ResultJson<BaseMonitorRequest> findById(Integer id) {
-        ResultJson<BaseMonitorRequest> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    public ResultJson<BaseMonitor> findById(Integer id) {
+        ResultJson<BaseMonitor> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         result.setData(baseMonitorRequestRepo.findOne(id));
         return result;
     }

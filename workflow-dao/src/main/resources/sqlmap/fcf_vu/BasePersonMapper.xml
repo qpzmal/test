@@ -11,14 +11,17 @@
     <result column="dept_id" jdbcType="INTEGER" property="deptId" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
     <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="pay2" jdbcType="DECIMAL" property="pay2" />
+    <result column="person_pay" jdbcType="DECIMAL" property="personPay" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, area_id, mobile, address, email, dept_id, state, parent_id, item_status, 
-    create_time, update_time, remark
+    id, name, area_id, mobile, address, email, dept_id, state, parent_id, del_flag, item_status, 
+    pay2, person_pay, create_time, update_time, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -30,19 +33,21 @@
     delete from base_person
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BasePerson">
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BasePerson"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_person (id, name, area_id, 
       mobile, address, email, 
       dept_id, state, parent_id, 
-      item_status, create_time, update_time, 
+      del_flag, item_status, pay2, 
+      person_pay, create_time, update_time, 
       remark)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, 
       #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{deptId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
-      #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, #{pay2,jdbcType=DECIMAL}, 
+      #{personPay,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id"  parameterType="cn.advu.workflow.domain.fcf_vu.BasePerson">
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BasePerson"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_person
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -72,8 +77,17 @@
       <if test="parentId != null">
         parent_id,
       </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
       <if test="itemStatus != null">
         item_status,
+      </if>
+      <if test="pay2 != null">
+        pay2,
+      </if>
+      <if test="personPay != null">
+        person_pay,
       </if>
       <if test="createTime != null">
         create_time,
@@ -113,8 +127,17 @@
       <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
       </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
       <if test="itemStatus != null">
         #{itemStatus,jdbcType=BIT},
+      </if>
+      <if test="pay2 != null">
+        #{pay2,jdbcType=DECIMAL},
+      </if>
+      <if test="personPay != null">
+        #{personPay,jdbcType=DECIMAL},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -154,8 +177,17 @@
       <if test="parentId != null">
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
       <if test="itemStatus != null">
         item_status = #{itemStatus,jdbcType=BIT},
+      </if>
+      <if test="pay2 != null">
+        pay2 = #{pay2,jdbcType=DECIMAL},
+      </if>
+      <if test="personPay != null">
+        person_pay = #{personPay,jdbcType=DECIMAL},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -179,7 +211,10 @@
       dept_id = #{deptId,jdbcType=INTEGER},
       state = #{state,jdbcType=INTEGER},
       parent_id = #{parentId,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=BIT},
       item_status = #{itemStatus,jdbcType=BIT},
+      pay2 = #{pay2,jdbcType=DECIMAL},
+      person_pay = #{personPay,jdbcType=DECIMAL},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}

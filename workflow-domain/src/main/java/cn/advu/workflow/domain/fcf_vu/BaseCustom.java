@@ -6,11 +6,11 @@ public class BaseCustom extends AbstractEntity {
 
     private String name;
 
-    private String customName;
+    private Integer parentId;
 
     private Byte customIndustryId;
 
-    private Byte customType;
+    private Boolean customType;
 
     private String contacts;
 
@@ -28,12 +28,12 @@ public class BaseCustom extends AbstractEntity {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getCustomName() {
-        return customName;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setCustomName(String customName) {
-        this.customName = customName == null ? null : customName.trim();
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public Byte getCustomIndustryId() {
@@ -44,11 +44,11 @@ public class BaseCustom extends AbstractEntity {
         this.customIndustryId = customIndustryId;
     }
 
-    public Byte getCustomType() {
+    public Boolean getCustomType() {
         return customType;
     }
 
-    public void setCustomType(Byte customType) {
+    public void setCustomType(Boolean customType) {
         this.customType = customType;
     }
 
@@ -83,4 +83,5 @@ public class BaseCustom extends AbstractEntity {
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
     }
+
 }

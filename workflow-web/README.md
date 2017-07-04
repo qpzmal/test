@@ -97,3 +97,7 @@
 * 流程的历史记录
 * 流程触发时的短信
 * 报表
+
+
+#### mybatis相关mapper配置
+*  keyColumn="id" keyProperty="id"  useGeneratedKeys="true"
