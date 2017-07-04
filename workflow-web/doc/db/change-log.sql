@@ -3,6 +3,9 @@
 -- 3.20170628 兆华修改
 -- 2.20170628 燕燕修改
 -- 1.20170620 兆华建立
+--20170703 王润燕
+ALTER TABLE `base_dept` ADD `level` INT  NULL  DEFAULT NULL  AFTER `update_time`;
+ALTER TABLE `base_dept` CHANGE `level` `level` INT(11)  NOT NULL;
 
 -- 20170702 魏修改
 ALTER TABLE `base_buy_order`

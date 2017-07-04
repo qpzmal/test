@@ -1,0 +1,219 @@
+## 引入css
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
+##树状展示
+<link href="#springUrl("")/static/css/plugins/treeview/bootstrap-treeview.css?$!application.getAttribute('/static/css/plugins/treeview/bootstrap-treeview.css')" rel="stylesheet">
+
+#end
+
+<div class="ibox-content">
+    <form class="form-horizontal m-t" id="commentForm">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">所属公司</label>
+            <div class="col-sm-8">
+                <select id="area_id" ata-placeholder="请选择所属公司" class="chosen-select" style="width:350px;" tabindex="2">
+                    <option value="">请选择所属公司</option>
+                    #foreach($data in $areaList)
+                        <option value ="$data.id">$data.name</option>
+                    #end
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">部门名称</label>
+            <div class="col-sm-8">
+                <input id="p_name" name="p_name" maxlength="10" type="text" class="form-control" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">上级部门</label>
+            <div id="parent_id_content"  class="col-sm-8">
+                <input id="parent_id" name="parent_id" type="text" class="form-control" onclick="showMenu(); return false;">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">描述</label>
+            <div class="col-sm-8">
+                <input id="description" name="description" maxlength="10" type="text" class="form-control" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">启用/停用</label>
+            <div class="col-sm-8">
+                <input id="item_status" name="item_status" type="checkbox" class="js-switch" checked />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-3">
+                <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div id="treeview7Content" class="col-sm-8 ibox-content" style="display:none; position: absolute;">
+    <div id="treeview7" class="test" ></div>
+</div>
+
+
+## 引入js
+#define($jsblock)
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
+
+<script>
+    function showMenu() {
+        var cityObj = $("#parent_id");
+        var cityOffset = $("#parent_id_content").offset();
+        var cityObjOffset = $("#parent_id").offset();
+        $("#treeview7Content").css({left:cityOffset.left + "px", top:cityObjOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+//        $("body").bind("mousedown", onBodyDown);
+    };
+    var config = {
+        ".chosen-select": {},
+        ".chosen-select-deselect": {allow_single_deselect: !0},
+        ".chosen-select-no-single": {disable_search_threshold: 10},
+        ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
+        ".chosen-select-width": {width: "95%"}
+    };
+    for (var selector in config)
+        $(selector).chosen(config[selector]);
+
+    $.validator.setDefaults(
+            {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+                success:function(e){
+                    e.closest(".form-group").removeClass("has-error").addClass("has-success")
+                },
+                errorElement:"span",
+                errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+                errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+    ),
+            $().ready(
+                    function(){
+                        var e="<i class='fa fa-times-circle'></i> ";
+                        $("#commentForm").validate();
+                        {var i=document.querySelector(".js-switch"),
+                                t=(new Switchery(i,{color:"#1AB394"}));
+                        };
+
+                        var e = [{
+                                    text: "父节点 1",
+                                    value:10001,
+                                    href: "#parent1",
+                                    tags: ["4"],
+                                    nodes: [{
+                                        text: "子节点 1",
+                                        href: "#child1",
+                                        tags: ["2"] ,
+                                        nodes: [{text: "孙子节点 1", href: "#grandchild1", tags: ["0"]}, {
+                                            text: "孙子节点 2",
+                                            href: "#grandchild2",
+                                            tags: ["0"]
+                                        }]
+                                    }, {text: "子节点 2", href: "#child2", tags: ["0"]}]
+                                }, {text: "父节点 2", href: "#parent2", tags: ["0"]}, {text: "父节点 3", href: "#parent3", tags: ["0"]}, {
+                                    text: "父节点 4",
+                                    href: "#parent4",
+                                    tags: ["0"]
+                                }, {text: "父节点 5", href: "#parent5", tags: ["0"]}], o = [{
+                                    text: "父节点 1",
+                                    tags: ["2"],
+                                    nodes: [{
+                                        text: "子节点 1",
+                                        tags: ["3"],
+                                        nodes: [{text: "孙子节点 1", tags: ["6"]}, {text: "孙子节点 2", tags: ["3"]}]
+                                    }, {text: "子节点 2", tags: ["3"]}]
+                                }, {text: "父节点 2", tags: ["7"]}, {
+                                    text: "父节点 3",
+                                    icon: "glyphicon glyphicon-earphone",
+                                    href: "#demo",
+                                    tags: ["11"]
+                                }, {
+                                    text: "父节点 4",
+                                    icon: "glyphicon glyphicon-cloud-download",
+                                    href: "/demo.html",
+                                    tags: ["19"],
+                                    selected: !0
+                                }, {
+                                    text: "父节点 5",
+                                    icon: "glyphicon glyphicon-certificate",
+                                    color: "pink",
+                                    backColor: "red",
+                                    href: "http://www.tesco.com",
+                                    tags: ["available", "0"]
+                                }],
+                                t = '[{"text": "父节点 1","nodes": [{"text": "子节点 1","nodes": [{"text": "孙子节点 1"},{"text": "孙子节点 2"}]},{"text": "子节点 2"}]},{"text": "父节点 2"},{"text": "父节点 3"},{"text": "父节点 4"},{"text": "父节点 5"}]';
+                        $("#treeview7").treeview({
+                            color: "#428bca",
+                            showBorder: !1,
+                            levels:1,
+                            data: e,
+                            onNodeSelected: function (e, o) {
+                                var dept_id = $("#parent_id");
+                                dept_id.attr("value", o.value);
+                                $("#treeview7Content").fadeOut("fast");
+//                o.inner
+//                $("#event_output").prepend("<p>您单击了 " + o.text + "</p>")
+                            }
+                        })
+                    }
+            );
+
+    $(".btn-primary").click(function(){
+        add();
+    })
+
+    function add(){
+        var name = $("#p_name").val();
+        var customName = $("#custom_name").val();
+        var contacts = $("#contacts").val();
+        var mobile = $("#mobile").val();
+        var address = $("#address").val();
+        var email = $("#email").val();
+        var remark = $("#remark").val();
+        var customIndustryId = $(".chosen-select").val();
+        var customType = $("#custom_type").val();
+        var item_status = $(".js-switch")[0].checked;
+        $.ajax({
+            url:"/custom/add.json",
+            type:"post",
+            data:{
+                name:name,
+                customName:customName,
+                contacts:contacts,
+                customIndustryId:customIndustryId,
+                mobile:mobile,
+                address:address,
+                email:email,
+                remark:remark,
+                customType:customType,
+                itemStatus:item_status
+            },
+            success: function(returnData){
+                console.log(returnData);
+                if(returnData.code == 1){
+                    layer.msg('添加成功!');
+                    window.location.href = "/custom/index";
+                } else{
+                    layer.msg('添加失败, 请联系技术人员!');
+                }
+            }
+
+        });
+    }
+
+    // 返回
+    $(".btn-default").click(function(){
+        history.go(-1);
+    })
+</script>
+#end

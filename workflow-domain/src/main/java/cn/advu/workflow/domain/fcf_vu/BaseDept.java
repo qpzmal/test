@@ -14,6 +14,16 @@ public class BaseDept extends AbstractEntity {
 
     private Integer areaId;
 
+    private Integer level;
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
     public String getName() {
         return name;
     }
@@ -45,7 +55,6 @@ public class BaseDept extends AbstractEntity {
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
     }
-
     public Integer getAreaId() {
         return areaId;
     }
