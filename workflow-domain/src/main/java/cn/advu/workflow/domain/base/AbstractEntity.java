@@ -14,7 +14,7 @@ public class AbstractEntity implements IEntity {
     private Date updateTime; // 更新时间
     private String creatorId; // 建立者ID
     private String updaterId; // 更新者ID
-    private String delFlag; // 删除标记 ，0正常，1删除
+    private Boolean delFlag; // 删除标记 ，0正常，1删除
     private Boolean itemStatus; // 状态 ，0正常；1停用
     private String remark; // 备注
 
@@ -68,26 +68,32 @@ public class AbstractEntity implements IEntity {
         this.updaterId = updaterId == null ? EMPTY : updaterId.trim();
     }
 
-    public String getDelFlag() {
+    @Override
+    public Boolean getDelFlag() {
         return delFlag;
     }
 
-    public void setDelFlag(String delFlag) {
-        this.delFlag = delFlag == null ? EMPTY : delFlag.trim();
+    @Override
+    public void setDelFlag(Boolean delFlag) {
+        this.delFlag = delFlag;
     }
 
+    @Override
     public Boolean getItemStatus() {
         return itemStatus;
     }
 
+    @Override
     public void setItemStatus(Boolean itemStatus) {
         this.itemStatus = itemStatus == null ? false : itemStatus;
     }
 
+    @Override
     public String getRemark() {
         return remark;
     }
 
+    @Override
     public void setRemark(String remark) {
         this.remark = remark == null ? EMPTY : remark.trim();
     }

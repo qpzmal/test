@@ -13,30 +13,6 @@ import java.util.Map;
  */
 public class BaseBuyOrderVO {
 
-    public BaseBuyOrder getBaseBuyOrder() {
-        return baseBuyOrder;
-    }
-
-    public Task getTask() {
-        return task;
-    }
-
-    public Map<String, Object> getVariables() {
-        return variables;
-    }
-
-    public ProcessInstance getProcessInstance() {
-        return processInstance;
-    }
-
-    public HistoricProcessInstance getHistoricProcessInstance() {
-        return historicProcessInstance;
-    }
-
-    public ProcessDefinition getProcessDefinition() {
-        return processDefinition;
-    }
-
     private BaseBuyOrder baseBuyOrder;
 
     // 流程任务

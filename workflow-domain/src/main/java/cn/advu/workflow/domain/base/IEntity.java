@@ -12,32 +12,40 @@ public interface IEntity extends IDomain {
      * 获取ID
      * @return
      */
-    public Integer getId();
+    Integer getId();
     /**
      * 设置ID
      * @param id
      */
-    public void setId(Integer id);
+    void setId(Integer id);
     /**
     /**
      * 获取创建时间
      * @return
      */
-    public Date getCreateTime();
-    public void setCreateTime(Date date);
+    Date getCreateTime();
+    void setCreateTime(Date date);
 
     /**
      * 获取修改时间
      * @return
      */
-    public Date getUpdateTime();
-    public void setUpdateTime(Date date);
+    Date getUpdateTime();
+    void setUpdateTime(Date date);
 
 
-    public String getCreatorId();
-    public void setCreatorId(String creatorId);
+    String getCreatorId();
+    void setCreatorId(String creatorId);
 
-    public String getUpdaterId();
-    public void setUpdaterId(String updaterId);
+    String getUpdaterId();
+    void setUpdaterId(String updaterId);
 
+    Boolean getDelFlag();
+    void setDelFlag(Boolean delFlag);
+
+    Boolean getItemStatus();
+    void setItemStatus(Boolean itemStatus);
+
+    String getRemark();
+    void setRemark(String remark);
 }
