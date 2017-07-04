@@ -24,10 +24,6 @@ public class BaseOrderCpm extends AbstractEntity {
 
     private Boolean itemStatus;
 
-    private Integer creatorId;
-
-    private Integer updaterId;
-
     private String remark;
 
     public Integer getOrderId() {

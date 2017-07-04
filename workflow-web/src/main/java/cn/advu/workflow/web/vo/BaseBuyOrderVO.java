@@ -53,24 +53,48 @@ public class BaseBuyOrderVO {
     // 流程定义
     private ProcessDefinition processDefinition;
 
+    public BaseBuyOrder getBaseBuyOrder() {
+        return baseBuyOrder;
+    }
+
     public void setBaseBuyOrder(BaseBuyOrder baseBuyOrder) {
         this.baseBuyOrder = baseBuyOrder;
+    }
+
+    public Task getTask() {
+        return task;
     }
 
     public void setTask(Task task) {
         this.task = task;
     }
 
+    public Map<String, Object> getVariables() {
+        return variables;
+    }
+
     public void setVariables(Map<String, Object> variables) {
         this.variables = variables;
+    }
+
+    public ProcessInstance getProcessInstance() {
+        return processInstance;
     }
 
     public void setProcessInstance(ProcessInstance processInstance) {
         this.processInstance = processInstance;
     }
 
+    public HistoricProcessInstance getHistoricProcessInstance() {
+        return historicProcessInstance;
+    }
+
     public void setHistoricProcessInstance(HistoricProcessInstance historicProcessInstance) {
         this.historicProcessInstance = historicProcessInstance;
+    }
+
+    public ProcessDefinition getProcessDefinition() {
+        return processDefinition;
     }
 
     public void setProcessDefinition(ProcessDefinition processDefinition) {
