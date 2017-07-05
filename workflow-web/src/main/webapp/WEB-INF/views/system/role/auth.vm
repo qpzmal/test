@@ -8,35 +8,59 @@
         <div class="row">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>项目基本信息</h5>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h5>项目基本信息</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="checkbox checkbox-success">
+                                <input id="module" type="checkbox" class="module function">
+                                <label for="module">
+                                    <b>全选</b>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-2">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
-                                    广告类型
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            广告类型
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="adType_add" type="checkbox" class="function">
                                         <label for="adType_add">
                                             新增
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="adType_update" type="checkbox" class="function">
                                         <label for="adType_update">
                                             更新
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="adType_del" type="checkbox" class="function">
                                         <label for="adType_del">
                                             删除
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="adType_query" type="checkbox" class="function">
                                         <label for="adType_query">
                                             查询
@@ -49,28 +73,41 @@
                         <div class="col-sm-2">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
-                                    客户行业
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            客户行业
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="panel-body">
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="custom_industry_add" type="checkbox" class="function">
                                         <label for="custom_industry_add">
                                             新增
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="custom_industry_update" type="checkbox" class="function">
                                         <label for="custom_update">
                                             更新
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="custom_industry_del" type="checkbox" class="function">
                                         <label for="custom_industry_del">
                                             删除
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="custom_industry_query" type="checkbox" class="function">
                                         <label for="custom_industry_query">
                                             查询
@@ -82,28 +119,40 @@
                         <div class="col-sm-2">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
-                                    监测机构
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            监测机构
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="monitor_add" type="checkbox" class="function">
                                         <label for="monitor_add">
                                             新增
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="monitor_update" type="checkbox" class="function">
                                         <label for="monitor_update">
                                             更新
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="monitor_del" type="checkbox" class="function">
                                         <label for="monitor_del">
                                             删除
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="monitor_query" type="checkbox" class="function">
                                         <label for="monitor_query">
                                             查询
@@ -115,28 +164,40 @@
                         <div class="col-sm-2">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
-                                    省市地域管理
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            省市地域管理
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="region_add" type="checkbox" class="function">
                                         <label for="region_add">
                                             新增
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="region_update" type="checkbox" class="function">
                                         <label for="region_update">
                                             更新
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="region_del" type="checkbox" class="function">
                                         <label for="region_del">
                                             删除
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="region_query" type="checkbox" class="function">
                                         <label for="region_query">
                                             查询
@@ -148,28 +209,40 @@
                         <div class="col-sm-2">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
-                                    通讯录
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            通讯录
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="person_add" type="checkbox" class="function">
                                         <label for="person_add">
                                             新增
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="person_update" type="checkbox" class="function">
                                         <label for="person_update">
                                             更新
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="person_del" type="checkbox" class="function">
                                         <label for="person_del">
                                             删除
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="person_query" type="checkbox" class="function">
                                         <label for="person_query">
                                             查询
@@ -181,28 +254,40 @@
                         <div class="col-sm-2">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
-                                    客户管理
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            客户管理
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="custom_add" type="checkbox" class="function">
                                         <label for="custom_add">
                                             新增
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="custom_update" type="checkbox" class="function">
                                         <label for="custom_update">
                                             更新
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="custom_del" type="checkbox" class="function">
                                         <label for="custom_del">
                                             删除
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="custom_query" type="checkbox" class="function">
                                         <label for="custom_query">
                                             查询
@@ -216,28 +301,40 @@
                         <div class="col-sm-2">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
-                                    区域
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            区域
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="area_add" type="checkbox" class="function">
                                         <label for="area_add">
                                             新增
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="area_update" type="checkbox" class="function">
                                         <label for="area_update">
                                             更新
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="area_del" type="checkbox" class="function">
                                         <label for="area_del">
                                             删除
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="area_query" type="checkbox" class="function">
                                         <label for="area_query">
                                             查询
@@ -250,28 +347,40 @@
                         <div class="col-sm-2">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
-                                    财务指标
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            财务指标
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="financial_add" type="checkbox" class="function">
                                         <label for="financial_add">
                                             新增
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="financial_update" type="checkbox" class="function">
                                         <label for="financial_update">
                                             更新
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="financial_del" type="checkbox" class="function">
                                         <label for="financial_del">
                                             删除
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="financial_query" type="checkbox" class="function">
                                         <label for="financial_query">
                                             查询
@@ -283,28 +392,40 @@
                         <div class="col-sm-2">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
-                                    媒体
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            媒体
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="media_add" type="checkbox" class="function">
                                         <label for="media_add">
                                             新增
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="media_update" type="checkbox" class="function">
                                         <label for="media_update">
                                             更新
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="media_del" type="checkbox" class="function">
                                         <label for="media_del">
                                             删除
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="media_query" type="checkbox" class="function">
                                         <label for="media_query">
                                             查询
@@ -316,33 +437,481 @@
                         <div class="col-sm-2">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
-                                    媒体类型
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            媒体类型
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="media_type_add" type="checkbox" class="function">
                                         <label for="media_type_add">
                                             新增
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="media_type_update" type="checkbox" class="function">
                                         <label for="media_type_update">
                                             更新
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="media_type_del" type="checkbox" class="function">
                                         <label for="media_type_del">
                                             删除
                                         </label>
                                     </div>
-                                    <div class="checkbox checkbox-success">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
                                         <input id="media_type_query" type="checkbox" class="function">
                                         <label for="media_type_query">
                                             查询
                                         </label>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            部门
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="dept_add" type="checkbox" class="function">
+                                        <label for="dept_add">
+                                            新增
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="dept_update" type="checkbox" class="function">
+                                        <label for="dept_update">
+                                            更新
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="dept_del" type="checkbox" class="function">
+                                        <label for="dept_del">
+                                            删除
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="dept_query" type="checkbox" class="function">
+                                        <label for="dept_query">
+                                            查询
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h5>需求管理</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="checkbox checkbox-success">
+                                <input id="adType_add" type="checkbox" class="function">
+                                <label for="adType_add">
+                                    <b>全选</b>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            综合计价
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="pricing_add" type="checkbox" class="function">
+                                        <label for="pricing_add">
+                                            新增
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="pricing_update" type="checkbox" class="function">
+                                        <label for="pricing_update">
+                                            更新
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="pricing_del" type="checkbox" class="function">
+                                        <label for="pricing_del">
+                                            删除
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="pricing_query" type="checkbox" class="function">
+                                        <label for="pricing_query">
+                                            查询
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            需求单
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            采购单
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            待处理流程
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            运行中流程
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            已结束流程
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h5>报表中心</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="checkbox checkbox-success">
+                                <input id="adType_add" type="checkbox" class="function">
+                                <label for="adType_add">
+                                    <b>全选</b>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            投放报告
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            财务报告
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            管理报告
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            定制报告
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h5>系统管理</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="checkbox checkbox-success">
+                                <input id="adType_add" type="checkbox" class="function">
+                                <label for="adType_add">
+                                    <b>全选</b>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            用户管理
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            权限管理
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            流程部署
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            流程模型
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="module" type="checkbox" class="module function">
+                                                <label for="module">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
                                 </div>
                             </div>
                         </div>
