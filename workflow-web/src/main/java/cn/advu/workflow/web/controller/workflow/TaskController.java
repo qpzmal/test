@@ -73,17 +73,18 @@ public class TaskController {
             BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
 
             String processInstanceId = task.getProcessInstanceId();
+            LOGGER.info("processInstanceId:{}", processInstanceId);
             ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).active().singleResult();
             if (processInstance == null) {
                 continue;
             }
+
             String businessKey = processInstance.getBusinessKey();
             if (StringUtils.isEmpty(businessKey)) {
                 continue;
             }
             LOGGER.info("businessKey:{}", businessKey);
             LOGGER.info("ProcessDefinitionKey:{}", processInstance.getProcessDefinitionKey());
-
 
             BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
             baseBuyOrderVO.setTask(task);

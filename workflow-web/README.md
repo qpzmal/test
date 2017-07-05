@@ -38,6 +38,9 @@
 * 查看 btn-default --> fa-photo 或 fa-search
 * 返回 btn-default --> fa-reply
 
+3. 示例部分代码有如下注释
+* （示例：XXXX）
+
 
 ####问题记录
 1. 数据库--菜单对应如下
