@@ -12,4 +12,6 @@ public interface BaseDeptMapper extends BaseDAO<BaseDept> {
     List<BaseDept> queryAll(@Param("status") Integer status);
     // 以下为自定义SQL
     List<BaseDept> queryByArea(@Param("areaId") Integer areaId);
+    // 以下为自定义SQL
+    List<BaseDept> queryChildDept(@Param("areaId") Integer areaId, @Param("parentId") Integer parentId);
 }

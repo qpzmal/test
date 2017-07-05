@@ -38,4 +38,9 @@ public class BaseDeptRepoImpl extends AbstractRepo<BaseDept> implements BaseDept
     public List<BaseDept> findAreaDept(Integer areaId) {
         return baseDeptMapper.queryByArea(areaId);
     }
+
+    @Override
+    public List<BaseDept> findChildDept(Integer areaId, Integer parentId) {
+        return baseDeptMapper.queryChildDept(areaId, parentId);
+    }
 }

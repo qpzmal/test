@@ -13,4 +13,6 @@ public interface BaseDeptRepo extends IRepo<BaseDept> {
     List<BaseDept> findAll();
 
     List<BaseDept> findAreaDept(Integer areaId);
+
+    List<BaseDept> findChildDept(Integer areaId, Integer parentId);
 }

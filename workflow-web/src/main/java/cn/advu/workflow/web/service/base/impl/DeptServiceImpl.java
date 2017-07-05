@@ -48,9 +48,31 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public ResultJson<Integer> add(BaseDept baseDept) {
+    public ResultJson<List<BaseDept>> findChildDept(Integer areaId, Integer parentId) {
         ResultJson resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
-        // TODO 校验areaId 和 parentId是否一致
+        if (areaId == null || parentId == null) {
+            resultJson.setCode(WebConstants.OPERATION_FAILURE);
+            return resultJson;
+        }
+        resultJson.setData(baseDeptRepo.findChildDept(areaId, parentId));
+        return resultJson;
+    }
+
+    @Override
+    public ResultJson<Integer> add(BaseDept baseDept) {
+
+        ResultJson resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        if (baseDept.getAreaId() == null) {
+            resultJson.setCode(WebConstants.OPERATION_FAILURE);
+            resultJson.setInfo("所属公司不能为空！");
+            return resultJson;
+        }
+        if (baseDept.getParentId() == null) {
+            resultJson.setCode(WebConstants.OPERATION_FAILURE);
+            resultJson.setInfo("所属公司不能为空！");
+            return resultJson;
+        }
+
         Integer parentId = baseDept.getParentId();
         if (parentId == null) {
             baseDept.setParentId(-1);
