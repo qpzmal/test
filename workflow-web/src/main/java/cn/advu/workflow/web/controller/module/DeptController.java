@@ -50,6 +50,7 @@ public class DeptController {
 
 
     @RequestMapping("/deptList")
+//    @ResponseBody
     public String toIndex(Integer areaId, Integer parentId, Model model){
 
         // 列表展示
@@ -161,7 +162,7 @@ public class DeptController {
 
             // 设置公司名称、上级部门名称
             Integer parentId = baseDept.getParentId();
-            if (parentId != null) {
+            if (parentId != null && parentId != -1) {
                 BaseDept parentDept = deptService.findById(parentId).getData();
                 deptVO.setParentName(parentDept.getName());
             }

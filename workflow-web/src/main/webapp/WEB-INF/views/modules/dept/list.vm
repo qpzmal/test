@@ -57,6 +57,7 @@
                             <th>部门名称</th>
                             <th>所属公司</th>
                             <th>上级部门</th>
+                            <th>状态</th>
                             <th>管理</th>
                         </tr>
                         </thead>
@@ -151,7 +152,7 @@
                                     $("#parent_id").attr("value", o.value);
                                     $("#parent_name").attr("value", o.text);
                                     $("#parent_tree_content").fadeOut("fast");
-                                    findDeptBody();
+                                    findDeptBody($("#area_id").val(), $("#parent_id").val());
                                 }
                             });
                         } else{
@@ -159,12 +160,13 @@
                         }
                     }
                 });
+                findDeptBody($("#area_id").val(), -1);
             }
     )
 
     function findDeptBody(area_id, parent_id) {
         $.ajax({
-            url:"/dept/deptList.json?areaId=" + $("#area_id").val() + "&parentId=" + $("#parent_id").val(),
+            url:"/dept/deptList.json?areaId=" + area_id + "&parentId=" + parent_id,
             type:"get",
             success: function(returnData){
                 console.log(returnData);
