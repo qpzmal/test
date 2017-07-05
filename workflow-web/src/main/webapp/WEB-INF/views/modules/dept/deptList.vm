@@ -1,11 +1,11 @@
+#set($layout = '/layout/empty.vm')
 
-<tbody id="dept_list_tbody">
 #foreach($data in $dataList)
 <tr class="gradeX">
     <td>$!{data.baseDept.name}</td>
     <td>$!{data.areaName}</td>
     #if(!${data.parentName})
-        -
+    <td>-</td>
     #else
         <td>${data.parentName}</td>
     #end
@@ -17,4 +17,3 @@
     </td>
 </tr>
 #end
-</tbody>
