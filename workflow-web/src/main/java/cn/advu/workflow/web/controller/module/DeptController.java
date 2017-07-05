@@ -38,14 +38,36 @@ public class DeptController {
     @Autowired
     DeptService deptService;
 
-    @RequestMapping("/deptList")
-    public ResultJson<String> deptList(Integer areaId) {
+    @RequestMapping("/deptTreeList")
+    public ResultJson<String> deptTreeList(Integer areaId) {
         ResultJson resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
         List<TreeNode> deptNodes = new LinkedList<>();
         deptNodes.addAll(deptService.findAreaDeptNodeList(areaId).getData());
         String deptTreeJson = JSONObject.toJSONString(deptNodes);
         resultJson.setData(deptTreeJson);
         return resultJson;
+    }
+
+
+    @RequestMapping("/deptList")
+    public String toIndex(Integer areaId, Integer parentId, Model model){
+
+        // 列表展示
+        List<DeptVO> deptVOList = null;
+
+        if (parentId != null) {
+
+            List<BaseDept> deptList = deptService.findChildDept(areaId, parentId).getData();
+
+            BaseArea baseArea = areaService.findById(areaId).getData();
+
+            deptVOList = buildDeptVOList(deptList, baseArea);
+
+        }
+
+        model.addAttribute("dataList", deptVOList);
+
+        return "modules/dept/deptList";
     }
 
     @RequestMapping("/index")
@@ -85,7 +107,7 @@ public class DeptController {
     public String toAdd(Integer areaId, Integer parentId, Model model) {
 
         // TODO 测试数据
-        areaId = 1;
+//        areaId = 1;
 
         List<BaseArea> areaList = areaService.findAll().getData();
 
@@ -123,6 +145,7 @@ public class DeptController {
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     public ResultJson<Integer> add(BaseDept baseDept, HttpServletRequest request){
+
         return deptService.add(baseDept);
     }
 

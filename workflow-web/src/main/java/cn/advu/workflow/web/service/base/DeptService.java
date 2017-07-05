@@ -17,6 +17,8 @@ public interface DeptService {
 
     ResultJson<List<BaseDept>> findAreaDept(Integer areaId);
 
+    ResultJson<List<BaseDept>> findChildDept(Integer areaId, Integer parentId);
+
     ResultJson<Integer> add(BaseDept baseDept);
 
     ResultJson<BaseDept> findById(Integer id);

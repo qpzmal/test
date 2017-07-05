@@ -180,9 +180,15 @@
     select
     <include refid="Base_Column_List" />
     from base_dept
-    <if test="areaId != null">
+    where area_id = #{areaId,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryChildDept" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_dept
       where area_id = #{areaId,jdbcType=INTEGER}
-    </if>
+      and parent_id = #{parentId,jdbcType=INTEGER}
   </select>
 
 
