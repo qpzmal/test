@@ -260,7 +260,11 @@
                 console.log(returnData);
                 if(returnData.code == 1){
                     layer.msg('添加成功!');
-                    window.location.href = "/buyOrder/index";
+
+                    setTimeout(function(){
+                        window.location.href = "/buyOrder/index";
+                        }, 1000
+                    );
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }
