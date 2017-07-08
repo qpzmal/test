@@ -2,6 +2,7 @@ package cn.advu.workflow.web.controller.system;
 
 import cn.advu.workflow.domain.fcf_vu.SysRole;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.system.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -96,6 +97,27 @@ public class RoleController {
         model.addAttribute("sysRole", sysRole);
 
         return "system/role/update";
+    }
+
+    /**
+     * 跳转修改页
+     *
+     * @param functionListJsonStr
+     * @param roleId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/auth", method = RequestMethod.POST)
+    public ResultJson<Void> toUpdate(String functionListJsonStr, Integer roleId){
+
+        ResultJson result = new ResultJson(WebConstants.OPERATION_SUCCESS);
+
+        // 逻辑删除角色下的功能列表
+
+        // 新增角色功能列表
+
+        return result;
+
     }
 
 }

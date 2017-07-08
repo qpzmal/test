@@ -74,4 +74,13 @@ public interface SysRoleService {
      */
     ResultJson<Integer> removeUserRole(Integer userId);
 
+    /**
+     * 给角色赋予权限
+     *
+     * @param functionIds
+     * @param roleId
+     * @return
+     */
+    ResultJson<Void> auth(List<Integer> functionIds, Integer roleId);
+
 }
