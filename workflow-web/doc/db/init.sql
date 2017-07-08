@@ -1,3 +1,41 @@
+
+-- 功能权限表
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('1', '添加广告类型', '0', '0', '0', '1');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('2', '更新广告类型', '0', '0', '0', '1');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('3', '删除广告类型', '0', '0', '0', '1');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('4', '添加客户行业', '0', '0', '0', '2');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('5', '更新客户行业', '0', '0', '0', '2');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('6', '删除客户行业', '0', '0', '0', '2');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('7', '添加监测机构', '0', '0', '0', '3');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('8', '更新监测机构', '0', '0', '0', '3');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('9', '删除监测机构', '0', '0', '0', '3');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('10', '添加省市地域', '0', '0', '0', '4');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('11', '更新省市地域', '0', '0', '0', '4');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('12', '删除省市地域', '0', '0', '0', '4');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('13', '添加通讯录', '0', '0', '0', '5');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('14', '更新通讯录', '0', '0', '0', '5');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('15', '删除通讯录', '0', '0', '0', '5');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('16', '添加客户', '0', '0', '0', '6');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('17', '更新客户', '0', '0', '0', '6');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('18', '删除客户', '0', '0', '0', '6');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('19', '添加区域', '0', '0', '0', '7');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('20', '更新区域', '0', '0', '0', '7');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('21', '删除区域', '0', '0', '0', '7');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('22', '添加财物指标', '0', '0', '0', '8');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('23', '更新财物指标', '0', '0', '0', '8');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('24', '删除财物指标', '0', '0', '0', '8');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('25', '添加媒体', '0', '0', '0', '9');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('26', '更新媒体', '0', '0', '0', '9');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('27', '删除媒体', '0', '0', '0', '9');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('28', '添加媒体类型', '0', '0', '0', '10');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('29', '更新媒体类型', '0', '0', '0', '10');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('30', '删除媒体类型', '0', '0', '0', '10');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('31', '添加部门', '0', '0', '0', '11');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('32', '更新部门', '0', '0', '0', '11');
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('33', '删除部门', '0', '0', '0', '11');
+
+
+
 -- 初始化数据
 
 INSERT INTO `sys_role` (`activiti_name`, `name`, `description`, `is_system`, `sort`) VALUES

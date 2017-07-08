@@ -121,8 +121,7 @@
             success: function(returnData){
                 console.log(returnData);
                 if(returnData.code == 1){
-                    layer.msg('添加成功!');
-                    window.location.href = "/role/toList";
+                    window.location.href = "/role/index";
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }

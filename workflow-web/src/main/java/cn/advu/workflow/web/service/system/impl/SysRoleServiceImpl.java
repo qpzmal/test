@@ -59,6 +59,11 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
+    public ResultJson<Void> auth(List<Integer> functionIds, Integer roleId) {
+        return null;
+    }
+
+    @Override
     @Transactional
     public ResultJson<Object> addRole(SysRole sysRole) {
         int result = sysRoleRepo.addSelective(sysRole);//添加角色
