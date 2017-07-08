@@ -52,12 +52,12 @@
 
     // 添加
     $(".btn-primary").click(function(){
-        window.location.href = "${rc.contextPath}/executeOrder/toAdd";
+        window.location.href = "${rc.contextPath}/saleFrame/toAdd";
     })
     // 修改
     $(".btn-info").click(function(){
         var id = $(this).parent().children(":first").val();
-        window.location.href = "${rc.contextPath}/executeOrder/toUpdate?id=" + id;
+        window.location.href = "${rc.contextPath}/saleFrame/toUpdate?id=" + id;
     })
     // 删除
     $(".btn-danger").click(function(){

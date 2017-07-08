@@ -51,16 +51,34 @@ public class SaleFrameController {
         return "demand/saleFrame/list";
     }
 
-//    /**
-//     * 新增需求单
-//     *
-//     * @return
-//     */
-//    @ResponseBody
-//    @RequestMapping(value ="/add", method = RequestMethod.POST)
-//    public ResultJson<Integer> addRegion(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
-//        return executeOrderService.add(baseExecuteOrder);
-//    }
+    /**
+     * 跳转新增需求单页面
+     *
+     * @return
+     */
+    @RequestMapping("/toAdd")
+    public String toAdd(Model resultModel){
+
+        List<BaseArea> areaList = areaService.findAll().getData();
+        resultModel.addAttribute("areaList", areaList);
+        resultModel.addAttribute("areaListJson", JSONArray.toJSON(areaList));
+
+        List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
+        resultModel.addAttribute("monitorRequestList", baseMonitorRequestList);
+
+        return "demand/saleFrame/add";
+    }
+
+    /**
+     * 新增需求单
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/add", method = RequestMethod.POST)
+    public ResultJson<Integer> add(BaseExecuteOrderFrame baseExecuteOrderFrame, HttpServletRequest request){
+        return saleFrameService.add(baseExecuteOrderFrame);
+    }
 //
 //    /**
 //     * 更新需求单
@@ -73,25 +91,7 @@ public class SaleFrameController {
 //        return executeOrderService.update(baseExecuteOrder);
 //    }
 //
-//    /**
-//     * 跳转新增需求单页面
-//     *
-//     * @return
-//     */
-//    @RequestMapping("/toAdd")
-//    public String toAdd(Model resultModel){
-//        List<BaseExecuteOrder> executeOrderList = executeOrderService.findAll().getData();
-//        resultModel.addAttribute("executeOrderList", executeOrderList);
-//
-//        List<BaseArea> areaList = areaService.findAll().getData();
-//        resultModel.addAttribute("areaList", areaList);
-//        resultModel.addAttribute("areaListJson", JSONArray.toJSON(areaList));
-//
-//        List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
-//        resultModel.addAttribute("monitorRequestList", baseMonitorRequestList);
-//
-//        return "demand/executeOrder/add";
-//    }
+
 //
 //
 //    /**

@@ -240,7 +240,7 @@
         var accountPeriod = $("#account_period").val();
 
         $.ajax({
-            url:"/buyOrder/add.json",
+            url:"/buyFrame/add.json",
             type:"post",
             data:{
                 name:name,
@@ -262,7 +262,7 @@
                     layer.msg('添加成功!');
 
                     setTimeout(function(){
-                        window.location.href = "/buyOrder/index";
+                        window.location.href = "/buyFrame/index";
                         }, 1000
                     );
                 } else{

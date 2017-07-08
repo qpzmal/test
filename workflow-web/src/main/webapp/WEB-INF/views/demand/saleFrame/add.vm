@@ -504,7 +504,7 @@
         var cpmJsonStr = JSON.stringify(cpmTable.bootstrapTable('getData'));
 
         $.ajax({
-            url:"/executeOrder/add.json",
+            url:"/saleFrame/add.json",
             type:"post",
             data:{
                 name:name,
@@ -535,7 +535,7 @@
                 console.log(returnData);
                 if(returnData.code == 1){
                     layer.msg('添加成功!');
-                    window.location.href = "/executeOrder/index";
+                    window.location.href = "/saleFrame/index";
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }

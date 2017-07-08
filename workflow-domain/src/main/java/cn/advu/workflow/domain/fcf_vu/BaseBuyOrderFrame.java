@@ -1,11 +1,12 @@
 package cn.advu.workflow.domain.fcf_vu;
 
 import cn.advu.workflow.domain.base.AbstractEntity;
+import cn.advu.workflow.domain.base.OrderEntity;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class BaseBuyOrderFrame extends AbstractEntity {
+public class BaseBuyOrderFrame extends OrderEntity {
 
     private String processInstanceId;
 
