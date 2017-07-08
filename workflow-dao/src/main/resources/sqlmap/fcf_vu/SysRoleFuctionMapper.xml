@@ -27,7 +27,7 @@
     delete from sys_role_fuction
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.SysRoleFuction">
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.SysRoleFuction" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into sys_role_fuction (id, name, item_status, 
       creator_id, updater_id, create_time, 
       update_time, role_id, function_id, 
@@ -37,7 +37,7 @@
       #{updateTime,jdbcType=TIMESTAMP}, #{roleId,jdbcType=INTEGER}, #{functionId,jdbcType=INTEGER}, 
       #{delFlag,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.SysRoleFuction">
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.SysRoleFuction" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into sys_role_fuction
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -150,4 +150,23 @@
       del_flag = #{delFlag,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <!-- 以上为自动生成SQL，以下为自定义SQL -->
+  <select id="queryByRole" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_role_fuction
+    where role_id = #{roleId,jdbcType=INTEGER}
+    and del_flag = 0
+  </select>
+
+  <delete id="deleteByIds">
+    delete from sys_role_fuction
+    where id in
+    <foreach item="id" collection="ids" open="(" close=")" separator="," >
+    #{id,jdbcType=INTEGER}
+    </foreach>
+  </delete>
+
 </mapper>

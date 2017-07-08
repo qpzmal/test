@@ -1,9 +1,14 @@
 package cn.advu.workflow.web.controller.system;
 
 import cn.advu.workflow.domain.fcf_vu.SysRole;
+import cn.advu.workflow.domain.fcf_vu.SysRoleFuction;
+import cn.advu.workflow.repo.fcf_vu.SysRoleFunctionRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.dto.system.RoleAuthDTO;
 import cn.advu.workflow.web.service.system.SysRoleService;
+import com.alibaba.fastjson.JSONArray;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -26,6 +32,7 @@ public class RoleController {
     
     @Autowired
     private SysRoleService sysRoleService;
+
 
     /**
      * 跳转角色业务首页-角色列表页
@@ -78,8 +85,9 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/toAuth")
-    public String toAuth(Model resultModel){
-
+    public String toAuth(Integer roleId, Model resultModel){
+        resultModel.addAttribute("roleId", roleId);
+        resultModel.addAttribute("roleFunctionList", sysRoleService.findRoleFuntionList(roleId).getData());
         return "system/role/auth";
     }
 
@@ -102,22 +110,37 @@ public class RoleController {
     /**
      * 跳转修改页
      *
-     * @param functionListJsonStr
-     * @param roleId
+     * @param roleAuthDTO
      * @return
      */
     @ResponseBody
     @RequestMapping(value ="/auth", method = RequestMethod.POST)
-    public ResultJson<Void> toUpdate(String functionListJsonStr, Integer roleId){
+    public ResultJson<Void> auth(RoleAuthDTO roleAuthDTO){
 
         ResultJson result = new ResultJson(WebConstants.OPERATION_SUCCESS);
 
-        // 逻辑删除角色下的功能列表
+        String functionListJsonStr = roleAuthDTO.getFunctionListJsonStr();
+        Integer roleId = roleAuthDTO.getRoleId();
 
-        // 新增角色功能列表
+        if (StringUtils.isEmpty(functionListJsonStr)) {
+            result.setCode(WebConstants.OPERATION_FAILURE);
+            result.setInfo("参数格式不正确！");
+            return result;
+        }
 
+        JSONArray functionListArr = JSONArray.parseArray(functionListJsonStr);
+        if (functionListArr == null || functionListArr.isEmpty()) {
+            result.setCode(WebConstants.OPERATION_FAILURE);
+            result.setInfo("没给角色设置权限！");
+            return result;
+        }
+
+        List<Integer> functionList = new LinkedList<>();
+        for (Object functionId : functionListArr) {
+            functionList.add(Integer.valueOf(String.valueOf(functionId)));
+        }
+        sysRoleService.auth(functionList, roleId);
         return result;
-
     }
 
 }

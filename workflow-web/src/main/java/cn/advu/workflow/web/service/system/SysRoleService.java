@@ -83,4 +83,12 @@ public interface SysRoleService {
      */
     ResultJson<Void> auth(List<Integer> functionIds, Integer roleId);
 
+    /**
+     * 返回角色的权限ID列表
+     *
+     * @param roleId
+     * @return
+     */
+    ResultJson<List<Integer>> findRoleFuntionList(Integer roleId);
+
 }

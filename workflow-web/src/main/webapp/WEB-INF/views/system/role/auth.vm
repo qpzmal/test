@@ -4,6 +4,7 @@
 
 
 <form class="form-horizontal m-t" id="commentForm">
+    <input type="hidden" id="role_id" name="role_id" value="$roleId">
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="ibox float-e-margins">
@@ -873,7 +874,7 @@
 
         ## 保存
         $(".btn-primary").click(function(){
-            add();
+            auth();
         })
         ## 项目基本信息的全选
 //        $("#moduleAllCheck").click(function(){
@@ -1091,18 +1092,17 @@
             };
 
         })
-        function add(){
+        function auth(){
 
             var selectedFunctionJsonStr = getSelectedFunctionJsonStr();
+            var roleId = $("#role_id").val();
 
             $.ajax({
-                url:"/role/add.json",
+                url:"/role/auth.json",
                 type:"post",
                 data:{
-                    activitiName:activitiName,
-                    name:name,
-                    description:description,
-                    isSystem:is_system
+                    functionListJsonStr:selectedFunctionJsonStr,
+                    roleId:roleId
                 },
                 success: function(returnData){
                     console.log(returnData);
@@ -1132,6 +1132,15 @@
             var selectedFunctionJsonStr = JSON.stringify(selectedFunctionIds);
             return selectedFunctionJsonStr;
         }
+        $().ready(
+                function(){
+                    var roleFunctionList = ${roleFunctionList};
+
+                    for (var i = 0; i < roleFunctionList.length; i++) {
+                        $("#" + roleFunctionList[i])[0].checked = true;
+                    }
+                }
+        );
     </script>
 #end
 
