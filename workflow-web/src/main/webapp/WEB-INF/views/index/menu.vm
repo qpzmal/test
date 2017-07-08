@@ -32,9 +32,9 @@
                     <li>
                         <a class="J_menuItem" href="${rc.contextPath}/xxxxxx/index">综合计价</a>
                         <a class="J_menuItem" href="${rc.contextPath}/executeOrder/index">添制需求单</a> ## base_execute_order
-##                        <a class="J_menuItem" href="${rc.contextPath}/xxxxxx/index">管理需求</a>
+                        <a class="J_menuItem" href="${rc.contextPath}/saleFrame/index">框架需求合同</a> ## base_execute_order_frame
                         <a class="J_menuItem" href="${rc.contextPath}/buyOrder/index">添制采购单</a> ## base_buy_order
-##                        <a class="J_menuItem" href="${rc.contextPath}/xxxxxx/index">管理采购</a>
+                        <a class="J_menuItem" href="${rc.contextPath}/buyFrame/index">框架采购合同</a> ## base_buy_order_frame
                         <a class="J_menuItem" href="${rc.contextPath}/workflow/task/todo">待处理流程</a>
                         <a class="J_menuItem" href="${rc.contextPath}/workflow/task/running">运行中流程</a>
                         <a class="J_menuItem" href="${rc.contextPath}/workflow/task/finished">已结束流程</a>

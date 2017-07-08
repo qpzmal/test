@@ -1,17 +1,15 @@
 package cn.advu.workflow.dao.fcf_vu;
 
+import cn.advu.workflow.dao.base.BaseDAO;
+import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame;
+import org.apache.ibatis.annotations.Param;
 
-public interface BaseExecuteOrderFrameMapper {
-    int deleteByPrimaryKey(Integer id);
+import java.util.List;
 
-    int insert(BaseExecuteOrderFrame record);
+public interface BaseExecuteOrderFrameMapper extends BaseDAO<BaseExecuteOrderFrame>{
 
-    int insertSelective(BaseExecuteOrderFrame record);
+    // 以下为自定义SQL
+    List<BaseExecuteOrderFrame> queryAll(@Param("status") Integer status);
 
-    BaseExecuteOrderFrame selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(BaseExecuteOrderFrame record);
-
-    int updateByPrimaryKey(BaseExecuteOrderFrame record);
 }

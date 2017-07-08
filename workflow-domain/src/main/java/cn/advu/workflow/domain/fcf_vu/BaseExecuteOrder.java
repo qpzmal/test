@@ -66,6 +66,10 @@ public class BaseExecuteOrder extends AbstractEntity {
 
     private Integer frameId;
 
+    private List<BaseOrderCpm> baseOrderCpmList;
+
+    private String cpmJsonStr;
+
     public String getProcessInstanceId() {
         return processInstanceId;
     }
@@ -73,10 +77,6 @@ public class BaseExecuteOrder extends AbstractEntity {
     public void setProcessInstanceId(String processInstanceId) {
         this.processInstanceId = processInstanceId;
     }
-
-    private List<BaseOrderCpm> baseOrderCpmList;
-
-    private String cpmJsonStr;
 
     public List<BaseOrderCpm> getBaseOrderCpmList() {
         return baseOrderCpmList;
