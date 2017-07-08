@@ -21,6 +21,35 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
+-- 导出表 sys_fuction
+CREATE TABLE `sys_fuction` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` varchar(255) NOT NULL COMMENT '名称',
+  `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',
+  `creator_id` int(11) unsigned NOT NULL COMMENT '创建者ID',
+  `updater_id` int(11) unsigned NOT NULL COMMENT '更新者ID',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `resource_id` int(11) DEFAULT NULL COMMENT '资源ID',
+  `operate_type_id` int(11) DEFAULT NULL COMMENT '操作类型ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100006 DEFAULT CHARSET=utf8 COMMENT='功能列表';
+
+-- 导出表 sys_role_fuction
+CREATE TABLE `sys_role_fuction` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` varchar(255) NOT NULL COMMENT '名称',
+  `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',
+  `creator_id` int(11) unsigned NOT NULL COMMENT '创建者ID',
+  `updater_id` int(11) unsigned NOT NULL COMMENT '更新者ID',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `role_id` int(11) DEFAULT NULL COMMENT '角色id',
+  `function_id` int(11) DEFAULT NULL COMMENT '功能id',
+  `delete_flag` tinyint(11) DEFAULT '0' COMMENT '逻辑删除标志',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='角色功能列表';
+
 -- 导出 fcf_vu 的数据库结构
 CREATE DATABASE IF NOT EXISTS `fcf_vu` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `fcf_vu`;

@@ -14,8 +14,8 @@
                         </div>
                         <div class="col-md-3">
                             <div class="checkbox checkbox-success">
-                                <input id="module" type="checkbox" class="module function">
-                                <label for="module">
+                                <input id="moduleAllCheck" type="checkbox" class="moduleAllCheck function">
+                                <label for="moduleAllCheck">
                                     <b>全选</b>
                                 </label>
                             </div>
@@ -33,8 +33,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                                <input id="adTypeAllCheck" type="checkbox" class="moduleCheck function">
+                                                <label for="adTypeAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -43,25 +43,25 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="adType_add" type="checkbox" class="function">
+                                        <input id="adType_add" type="checkbox" class="moduleCheck adTypeCheck function">
                                         <label for="adType_add">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="adType_update" type="checkbox" class="function">
+                                        <input id="adType_update" type="checkbox" class="moduleCheck adTypeCheck function">
                                         <label for="adType_update">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="adType_del" type="checkbox" class="function">
+                                        <input id="adType_del" type="checkbox" class="moduleCheck adTypeCheck function">
                                         <label for="adType_del">
                                             删除
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="adType_query" type="checkbox" class="function">
+                                        <input id="adType_query" type="checkbox" class="moduleCheck adTypeCheck function">
                                         <label for="adType_query">
                                             查询
                                         </label>
@@ -79,8 +79,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                                <input id="industryAllCheck" type="checkbox" class="moduleCheck function">
+                                                <label for="industryAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -90,25 +90,25 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="custom_industry_add" type="checkbox" class="function">
+                                        <input id="custom_industry_add" type="checkbox" class="moduleCheck industryCheck function">
                                         <label for="custom_industry_add">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="custom_industry_update" type="checkbox" class="function">
+                                        <input id="custom_industry_update" type="checkbox" class="moduleCheck industryCheck function">
                                         <label for="custom_update">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="custom_industry_del" type="checkbox" class="function">
+                                        <input id="custom_industry_del" type="checkbox" class="moduleCheck industryCheck function">
                                         <label for="custom_industry_del">
                                             删除
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="custom_industry_query" type="checkbox" class="function">
+                                        <input id="custom_industry_query" type="checkbox" class="moduleCheck industryCheck function">
                                         <label for="custom_industry_query">
                                             查询
                                         </label>
@@ -125,8 +125,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                                <input id="monitorAllCheck" type="checkbox" class="moduleCheck function">
+                                                <label for="monitorAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -135,25 +135,25 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="monitor_add" type="checkbox" class="function">
+                                        <input id="monitor_add" type="checkbox" class="moduleCheck monitorCheck function">
                                         <label for="monitor_add">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="monitor_update" type="checkbox" class="function">
+                                        <input id="monitor_update" type="checkbox" class="moduleCheck monitorCheck function">
                                         <label for="monitor_update">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="monitor_del" type="checkbox" class="function">
+                                        <input id="monitor_del" type="checkbox" class="moduleCheck monitorCheck function">
                                         <label for="monitor_del">
                                             删除
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="monitor_query" type="checkbox" class="function">
+                                        <input id="monitor_query" type="checkbox" class="moduleCheck monitorCheck function">
                                         <label for="monitor_query">
                                             查询
                                         </label>
@@ -170,8 +170,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                                <input id="regionAllCheck" type="checkbox" class="moduleCheck function">
+                                                <label for="regionAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -180,25 +180,25 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="region_add" type="checkbox" class="function">
+                                        <input id="region_add" type="checkbox" class="moduleCheck regionCheck function">
                                         <label for="region_add">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="region_update" type="checkbox" class="function">
+                                        <input id="region_update" type="checkbox" class="moduleCheck regionCheck function">
                                         <label for="region_update">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="region_del" type="checkbox" class="function">
+                                        <input id="region_del" type="checkbox" class="moduleCheck regionCheck function">
                                         <label for="region_del">
                                             删除
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="region_query" type="checkbox" class="function">
+                                        <input id="region_query" type="checkbox" class="moduleCheck regionCheck function">
                                         <label for="region_query">
                                             查询
                                         </label>
@@ -215,7 +215,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
+                                                <input id="module" type="checkbox" class="moduleCheck function">
                                                 <label for="module">
                                                     <b>全选</b>
                                                 </label>
@@ -225,25 +225,25 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="person_add" type="checkbox" class="function">
+                                        <input id="person_add" type="checkbox" class="moduleCheck function">
                                         <label for="person_add">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="person_update" type="checkbox" class="function">
+                                        <input id="person_update" type="checkbox" class="moduleCheck function">
                                         <label for="person_update">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="person_del" type="checkbox" class="function">
+                                        <input id="person_del" type="checkbox" class="moduleCheck function">
                                         <label for="person_del">
                                             删除
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="person_query" type="checkbox" class="function">
+                                        <input id="person_query" type="checkbox" class="moduleCheck function">
                                         <label for="person_query">
                                             查询
                                         </label>
@@ -260,8 +260,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                                <input id="customAllCheck" type="checkbox" class="moduleCheck function">
+                                                <label for="customAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -270,25 +270,25 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="custom_add" type="checkbox" class="function">
+                                        <input id="custom_add" type="checkbox" class="moduleCheck customCheck function">
                                         <label for="custom_add">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="custom_update" type="checkbox" class="function">
+                                        <input id="custom_update" type="checkbox" class="moduleCheck customCheck function">
                                         <label for="custom_update">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="custom_del" type="checkbox" class="function">
+                                        <input id="custom_del" type="checkbox" class="moduleCheck customCheck function">
                                         <label for="custom_del">
                                             删除
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="custom_query" type="checkbox" class="function">
+                                        <input id="custom_query" type="checkbox" class="moduleCheck customCheck function">
                                         <label for="custom_query">
                                             查询
                                         </label>
@@ -307,8 +307,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                                <input id="areaAllCheck" type="checkbox" class="moduleCheck function">
+                                                <label for="areaAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -317,25 +317,25 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="area_add" type="checkbox" class="function">
+                                        <input id="area_add" type="checkbox" class="moduleCheck areaCheck function">
                                         <label for="area_add">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="area_update" type="checkbox" class="function">
+                                        <input id="area_update" type="checkbox" class="moduleCheck areaCheck function">
                                         <label for="area_update">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="area_del" type="checkbox" class="function">
+                                        <input id="area_del" type="checkbox" class="moduleCheck areaCheck function">
                                         <label for="area_del">
                                             删除
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="area_query" type="checkbox" class="function">
+                                        <input id="area_query" type="checkbox" class="moduleCheck areaCheck function">
                                         <label for="area_query">
                                             查询
                                         </label>
@@ -353,8 +353,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                                <input id="financialAllCheck" type="checkbox" class="moduleCheck function">
+                                                <label for="financialAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -363,25 +363,25 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="financial_add" type="checkbox" class="function">
+                                        <input id="financial_add" type="checkbox" class="moduleCheck financialCheck function">
                                         <label for="financial_add">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="financial_update" type="checkbox" class="function">
+                                        <input id="financial_update" type="checkbox" class="moduleCheck financialCheck function">
                                         <label for="financial_update">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="financial_del" type="checkbox" class="function">
+                                        <input id="financial_del" type="checkbox" class="moduleCheck financialCheck function">
                                         <label for="financial_del">
                                             删除
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="financial_query" type="checkbox" class="function">
+                                        <input id="financial_query" type="checkbox" class="moduleCheck financialCheck function">
                                         <label for="financial_query">
                                             查询
                                         </label>
@@ -398,8 +398,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                                <input id="mediaAllCheck" type="checkbox" class="moduleCheck function">
+                                                <label for="mediaAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -408,25 +408,25 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="media_add" type="checkbox" class="function">
+                                        <input id="media_add" type="checkbox" class="moduleCheck mediaCheck function">
                                         <label for="media_add">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="media_update" type="checkbox" class="function">
+                                        <input id="media_update" type="checkbox" class="moduleCheck mediaCheck function">
                                         <label for="media_update">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="media_del" type="checkbox" class="function">
+                                        <input id="media_del" type="checkbox" class="moduleCheck mediaCheck function">
                                         <label for="media_del">
                                             删除
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="media_query" type="checkbox" class="function">
+                                        <input id="media_query" type="checkbox" class="moduleCheck mediaCheck function">
                                         <label for="media_query">
                                             查询
                                         </label>
@@ -443,8 +443,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                                <input id="mediaTypeAllCheck" type="checkbox" class="moduleCheck function">
+                                                <label for="mediaTypeAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -453,25 +453,25 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="media_type_add" type="checkbox" class="function">
+                                        <input id="media_type_add" type="checkbox" class="moduleCheck mediaTypeCheck function">
                                         <label for="media_type_add">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="media_type_update" type="checkbox" class="function">
+                                        <input id="media_type_update" type="checkbox" class="moduleCheck mediaTypeCheck function">
                                         <label for="media_type_update">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="media_type_del" type="checkbox" class="function">
+                                        <input id="media_type_del" type="checkbox" class="moduleCheck mediaTypeCheck function">
                                         <label for="media_type_del">
                                             删除
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="media_type_query" type="checkbox" class="function">
+                                        <input id="media_type_query" type="checkbox" class="moduleCheck mediaTypeCheck function">
                                         <label for="media_type_query">
                                             查询
                                         </label>
@@ -488,8 +488,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                                <input id="deptAllCheck" type="checkbox" class="moduleCheck function">
+                                                <label for="deptAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -498,25 +498,25 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="dept_add" type="checkbox" class="function">
+                                        <input id="dept_add" type="checkbox" class="moduleCheck deptCheck function">
                                         <label for="dept_add">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="dept_update" type="checkbox" class="function">
+                                        <input id="dept_update" type="checkbox" class="moduleCheck deptCheck function">
                                         <label for="dept_update">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="dept_del" type="checkbox" class="function">
+                                        <input id="dept_del" type="checkbox" class="moduleCheck deptCheck function">
                                         <label for="dept_del">
                                             删除
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="dept_query" type="checkbox" class="function">
+                                        <input id="dept_query" type="checkbox" class="moduleCheck deptCheck function">
                                         <label for="dept_query">
                                             查询
                                         </label>
@@ -936,8 +936,208 @@
 #define($jsblock)
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/iCheck/icheck.min.js?$!application.getAttribute('/static/js/plugins/iCheck/icheck.min.js')"></script>
     <script>
+
+        ## 保存
         $(".btn-primary").click(function(){
             add();
+        })
+        ## 项目基本信息的全选
+        $("#moduleAllCheck").click(function(){
+            this.blur();
+            this.focus();
+        })
+        $("#moduleAllCheck").change(function(){
+            var moduleCheck = $(".moduleCheck");
+            if (this.checked) {
+                for (var i = 0; i < moduleCheck.length; i++) {
+                    moduleCheck[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < moduleCheck.length; i++) {
+                    moduleCheck[i].checked = false;
+                };
+            };
+
+        })
+        ## 广告类型的全选
+        $("#adTypeAllCheck").click(function(){
+            this.blur();
+            this.focus();
+        })
+        $("#adTypeAllCheck").change(function(){
+            var checkArr = $(".adTypeCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 客户行业的全选
+        $("#industryAllCheck").click(function(){
+            this.blur();
+            this.focus();
+        })
+        $("#industryAllCheck").change(function(){
+            var checkArr = $(".industryCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 监测机构的全选
+        $("#monitorAllCheck").click(function(){
+            this.blur();
+            this.focus();
+        })
+        $("#monitorAllCheck").change(function(){
+            var checkArr = $(".monitorCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 省市地域的全选
+        $("#regionAllCheck").click(function(){
+            this.blur();
+            this.focus();
+        })
+        $("#regionAllCheck").change(function(){
+            var checkArr = $(".regionCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 客户管理的全选
+        $("#customAllCheck").click(function(){
+            this.blur();
+            this.focus();
+        })
+        $("#customAllCheck").change(function(){
+            var checkArr = $(".customCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 区域的全选
+        $("#areaAllCheck").click(function(){
+            this.blur();
+            this.focus();
+        })
+        $("#areaAllCheck").change(function(){
+            var checkArr = $(".areaCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 财务指标的全选
+        $("#financialAllCheck").click(function(){
+            this.blur();
+            this.focus();
+        })
+        $("#financialAllCheck").change(function(){
+            var checkArr = $(".financialCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 媒体的全选
+        $("#mediaAllCheck").click(function(){
+            this.blur();
+            this.focus();
+        })
+        $("#mediaAllCheck").change(function(){
+            var checkArr = $(".mediaCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 媒体类型的全选
+        $("#mediaTypeAllCheck").click(function(){
+            this.blur();
+            this.focus();
+        })
+        $("#mediaTypeAllCheck").change(function(){
+            var checkArr = $(".mediaTypeCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 部门的全选
+        $("#deptAllCheck").click(function(){
+            this.blur();
+            this.focus();
+        })
+        $("#deptAllCheck").change(function(){
+            var checkArr = $(".deptCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
         })
         function add(){
             var functionArr = $(".function");
