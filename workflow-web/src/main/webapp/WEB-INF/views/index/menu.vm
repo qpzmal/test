@@ -25,7 +25,7 @@
             <li>
                 <a href="#">
                     <i class="fa fa-credit-card"></i>
-                    <span class="nav-label">需求管理</span>
+                    <span class="nav-label">流程申请</span>
                     <span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level">
@@ -35,12 +35,27 @@
                         <a class="J_menuItem" href="${rc.contextPath}/saleFrame/index">框架需求合同</a> ## base_execute_order_frame
                         <a class="J_menuItem" href="${rc.contextPath}/buyOrder/index">添制采购单</a> ## base_buy_order
                         <a class="J_menuItem" href="${rc.contextPath}/buyFrame/index">框架采购合同</a> ## base_buy_order_frame
+                    </li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="#">
+                    <i class="fa fa-credit-card"></i>
+                    <span class="nav-label">流程审批</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
                         <a class="J_menuItem" href="${rc.contextPath}/workflow/task/todo">待处理流程</a>
                         <a class="J_menuItem" href="${rc.contextPath}/workflow/task/running">运行中流程</a>
                         <a class="J_menuItem" href="${rc.contextPath}/workflow/task/finished">已结束流程</a>
                     </li>
                 </ul>
             </li>
+
+
             <li>
                 <a href="#">
                     <i class="fa fa-line-chart"></i>

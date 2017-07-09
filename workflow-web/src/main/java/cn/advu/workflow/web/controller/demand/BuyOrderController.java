@@ -107,4 +107,19 @@ public class BuyOrderController {
     }
 
 
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/refer")
+    public String refer(Integer id, Model model){
+
+        BaseBuyOrder baseBuyOrder = buyOrderService.findById(id).getData();
+
+        model.addAttribute("baseBuyOrder", baseBuyOrder);
+
+        return "demand/buyOrder/refer";
+    }
 }

@@ -46,7 +46,7 @@ CREATE TABLE `sys_role_fuction` (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `role_id` int(11) DEFAULT NULL COMMENT '角色id',
   `function_id` int(11) DEFAULT NULL COMMENT '功能id',
-  `delete_flag` tinyint(11) DEFAULT '0' COMMENT '逻辑删除标志',
+  `del_flag` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '删除标记 ，0正常，1删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='角色功能列表';
 

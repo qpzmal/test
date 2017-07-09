@@ -263,7 +263,7 @@
 
                     setTimeout(function(){
                         window.location.href = "/buyOrder/index";
-                        }, 1000
+                        }, 300
                     );
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');

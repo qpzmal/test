@@ -17,9 +17,26 @@ public class WebConstants {
     public static final int ITEM_STATUS_DEL = 9;// 状态 ，0正常；1停用；9删除
 
 
-    public static final String WORKFLOW_BUY = "buy"; // 年度采购框架合同模型
-    public static final String WORKFLOW_BUY_FRAME = "buy_frame";// 合同审批模型
-    public static final String WORKFLOW_SALE = "sale"; // 排期执行审批模型
-    public static final String WORKFLOW_SALE_FRAME = "sale_frame";// CPM采购成本单模型
-    public static final String WORKFLOW_EXECUTE = "execute";// 年度需求单审批模型
+    public static final String WORKFLOW_BUY = "buyOrder"; // 单独采购审批
+    public static final String WORKFLOW_BUY_FRAME = "buyFrame";// 框架采购审批模型
+    public static final String WORKFLOW_EXECUTE_ORDER = "executeOrder";// 单独销售审批模型/排期执行审批模型
+    public static final String WORKFLOW_EXECUTE_FRAME = "executeOrderFrame";// 框架销售审批模型
+//    public static final String WORKFLOW_SALE = "sale"; // 排期执行审批模型
+
+    public static class Audit {
+        public static final String MEDIA = "mediaAudit"; // 媒介主管审核
+        public static final String SALER_DM = "salerDMAudit"; // 销售主管审核
+        public static final String SALER_GM = "salerGMAudit"; // 销售总经理审核
+        public static final String FINANCIAL_GM = "financialGMAudit"; // 财务主管审核
+        public static final String LEGAL_GM = "legalGMAudit"; // 法务主管审核
+        public static final String MODIFY_APPLY = "modifyApply"; // 申请人调整申请
+    }
+    public static class AuditPass {
+        public static final String MEDIA = "mediaGMPass"; // 媒介主管审核
+        public static final String SALER_DM = "salerDMPass"; // 销售主管审核
+        public static final String SALER_GM = "salerGMPass"; // 销售总经理审核
+        public static final String FINANCIAL_GM = "financialGMPass"; // 财务主管审核
+        public static final String LEGAL_GM = "legalGMPass"; // 法务主管审核
+        public static final String MODIFY_APPLY = "reApply"; // 申请人调整申请
+    }
 }

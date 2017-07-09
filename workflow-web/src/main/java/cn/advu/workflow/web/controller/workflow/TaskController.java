@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.controller.workflow;
 
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
+import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.service.base.BuyOrderService;
@@ -156,31 +157,84 @@ public class TaskController {
      * 签收任务
      */
     @RequestMapping(value = "claim/{id}")
-    public String claim(@PathVariable("id") String taskId, HttpSession session) {
+    public String claim(@PathVariable("id") String taskId) {
         String userName = UserThreadLocalContext.getCurrentUser().getUserName();
         taskService.claim(taskId, userName);
         return "redirect:/workflow/task/todo";
     }
 
+//    /**
+//     * 打开办理任务页面
+//     *
+//     * @param pkey
+//     * @param tkey
+//     * @param taskId
+//     * @return
+//     */
+//    @RequestMapping(value = "toAudit")
+//    public String toAudit(String pkey, String tkey, String taskId, Model model) {
+//        model.addAttribute("pkey", pkey);
+//        model.addAttribute("tkey", tkey);
+//        model.addAttribute("taskId", taskId);
+//        return "/workflow/task_audit";
+//    }
+
     /**
      * 完成任务
      *
-     * @param taskId
+     * @param pkey   流程key，例:buyOrder
+     * @param tkey   审核任务key，例:mediaAudit
+     * @param taskId 任务ID
+     * @param result 审核结果true 通过/false 驳回
+     * @param reason 驳回原因
      * @return
      */
     @RequestMapping(value = "complete")
     @ResponseBody
-    public String complete(String taskId, String mediaGMPass) {
-        Map paramMap = new HashMap<>();
-        paramMap.put("mediaGMPass", mediaGMPass);
+    public ResultJson complete(String pkey, String tkey, String taskId, String result, String reason) {
+        ResultJson<Object> rj = new ResultJson<>();
+        Boolean resultBoolean = Boolean.valueOf(result);
+
+        Map<String, Object> paramMap = new HashMap<>();
+
+        if ("true".equals(result)) {
+        } else if ("false".equals(result))  {
+            paramMap.put("reason", reason);
+        } else {
+            LOGGER.warn("错误的参数。result is :{}", result);
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "错误的参数!");
+        }
+
+        switch (tkey) {
+            case WebConstants.Audit.MEDIA:
+                paramMap.put(WebConstants.AuditPass.MEDIA, resultBoolean);
+                break;
+            case WebConstants.Audit.SALER_DM:
+                paramMap.put(WebConstants.AuditPass.SALER_DM, resultBoolean);
+                break;
+            case WebConstants.Audit.SALER_GM:
+                paramMap.put(WebConstants.AuditPass.SALER_GM, resultBoolean);
+                break;
+            case WebConstants.Audit.FINANCIAL_GM:
+                paramMap.put(WebConstants.AuditPass.FINANCIAL_GM, resultBoolean);
+                break;
+            case WebConstants.Audit.LEGAL_GM:
+                paramMap.put(WebConstants.AuditPass.LEGAL_GM, resultBoolean);
+                break;
+            case WebConstants.Audit.MODIFY_APPLY:
+                paramMap.put(WebConstants.AuditPass.MODIFY_APPLY, resultBoolean);
+                break;
+            default:
+                LOGGER.warn("错误的参数。tkey is :{},result is :{}", tkey, resultBoolean);
+                return new ResultJson<>(WebConstants.OPERATION_FAILURE, "错误的参数!");
+        }
 
         try {
             taskService.complete(taskId, paramMap);
-            return "success";
+            return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         } catch (Exception e) {
             LOGGER.error("", e);
-//            LOGGER.error("error on complete task {}, variables={}", new Object[]{taskId, var.getVariableMap(), e});
-            return "error";
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "系统错误!");
         }
     }
 
