@@ -1,0 +1,143 @@
+
+#define($cssblock)
+##树状展示
+<link href="#springUrl("")/static/css/plugins/treeview/bootstrap-treeview.css?$!application.getAttribute('/static/css/plugins/treeview/bootstrap-treeview.css')" rel="stylesheet">
+
+#end
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">选择公司</label>
+                        <div id="parent_content"  class="col-sm-8">
+                            <input id="parent_id" hidden>
+                            <input id="parent_name" name="parent_name" type="text" class="form-control"
+                                #if(!${parentTreeJson})
+                                   disabled
+                                #end
+                                   onclick="showDeptList(); return false;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+
+                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>开始日期</th>
+                            <th>结束日期</th>
+                            <th>状态</th>
+                            <th>管理</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #foreach($data in $dataList)
+                            <tr class="gradeX">
+                                <td>$!{data.name}</td>
+                                <td>$!{data.startDate}</td>
+                                <td>$!{data.endDate}</td>
+                                <td>$!{data.itemStatus}</td>
+                                <td class="right">
+                                    <input type="hidden" value="$!{data.id}">
+                                    <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>
+                                    <a href="javascript:;" class="btn btn-danger btn-sm button_view_pd"><i class="fa fa-trash "></i> 删除 </a>
+                                </td>
+                            </tr>
+                        #end
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="parent_tree_content" class="col-sm-8 ibox-content" style="display:none; position: absolute;">
+    <div id="parent_tree" class="test" ></div>
+</div>
+
+#define($jsblock)
+
+## 树状展示
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
+
+
+<script>
+## 上级公司展示
+    function onBodyDown(event) {
+        if (!(event.target.id == "parent_id" || event.target.id == "parent_tree_content" || $(event.target).parents("#parent_tree_content").length>0)) {
+            hideMenu();
+        }
+    }
+    function hideMenu() {
+        $("#parent_tree_content").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+    ##显示部门列表（上级部门）
+    function showDeptList() {
+        var parent_name = $("#parent_name");
+        var parent_content_offSet = $("#parent_content").offset();
+        var parent_name_offSet = parent_name.offset();
+        $("#parent_tree_content").css({left:parent_name_offSet.left + "px", top:parent_content_offSet.top + parent_name.outerHeight() + "px"}).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    };
+## 上级公司展示
+    $().ready(
+            function(){
+                var treeData = '${parentTreeJson}';
+            ## 生成部门树（上级部门）
+                $("#parent_tree").treeview({
+                    showBorder: !1,
+                    levels:1,
+                    data: treeData,
+                    onNodeSelected: function (e, o) {
+                        $("#parent_id").attr("value", o.value);
+                        $("#parent_name").attr("value", o.text);
+                        $("#parent_tree_content").fadeOut("fast");
+                    }
+                })
+            }
+    );
+
+    // 添加
+    $(".btn-primary").click(function(){
+        window.location.href = "${rc.contextPath}/area/toAdd";
+    })
+    // 修改
+    $(".btn-info").click(function(){
+        var id = $(this).parent().children(":first").val();
+        window.location.href = "${rc.contextPath}/area/toUpdate?id=" + id;
+    })
+    // 删除
+    $(".btn-danger").click(function(){
+        var id = $(this).parent().children(":first").val();
+
+        layer.confirm('确认删除？', {
+            btn: ['确认','取消'] //按钮
+            }, function(){
+//                layer.msg('的确很重要', {icon: 1});
+            }, function(){
+//                layer.msg('也可以这样', {
+//                    time: 20000, //20s后自动关闭
+//                    btn: ['明白了', '知道了']
+//                });
+        });
+
+    })
+
+</script>
+#end

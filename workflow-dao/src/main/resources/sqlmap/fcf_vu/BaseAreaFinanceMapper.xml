@@ -291,4 +291,17 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <!-- 以上为自动生成SQL，以下为自定义SQL -->
+  <select id="queryByArea" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_area_finance
+      where item_status = 0
+      <if test="areaId != null">
+        and area_id = #{areaId,jdbcType=INTEGER}
+      </if>
+  </select>
+
 </mapper>
