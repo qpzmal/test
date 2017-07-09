@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.advu.workflow.dao.fcf_vu.BaseCustomFinanceMapper">
+  <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseCustomFinance">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="custom_id" jdbcType="INTEGER" property="customId" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="room_pay" jdbcType="DECIMAL" property="roomPay" />
+    <result column="person_pay" jdbcType="DECIMAL" property="personPay" />
+    <result column="other_pay" jdbcType="DECIMAL" property="otherPay" />
+    <result column="cost_buy" jdbcType="DECIMAL" property="costBuy" />
+    <result column="income" jdbcType="DECIMAL" property="income" />
+    <result column="tax" jdbcType="DECIMAL" property="tax" />
+    <result column="sales_commission" jdbcType="DECIMAL" property="salesCommission" />
+    <result column="pay1" jdbcType="DECIMAL" property="pay1" />
+    <result column="pay3" jdbcType="DECIMAL" property="pay3" />
+    <result column="pay2" jdbcType="DECIMAL" property="pay2" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, custom_id, start_date, end_date, room_pay, person_pay, other_pay, cost_buy, 
+    income, tax, sales_commission, pay1, pay3, pay2, del_flag, item_status, creator_id, 
+    updater_id, create_time, update_time, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_custom_finance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from base_custom_finance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustomFinance"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
+    insert into base_custom_finance (id, name, custom_id, 
+      start_date, end_date, room_pay, 
+      person_pay, other_pay, cost_buy, 
+      income, tax, sales_commission, 
+      pay1, pay3, pay2, del_flag, 
+      item_status, creator_id, updater_id, 
+      create_time, update_time, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{customId,jdbcType=INTEGER}, 
+      #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{roomPay,jdbcType=DECIMAL}, 
+      #{personPay,jdbcType=DECIMAL}, #{otherPay,jdbcType=DECIMAL}, #{costBuy,jdbcType=DECIMAL}, 
+      #{income,jdbcType=DECIMAL}, #{tax,jdbcType=DECIMAL}, #{salesCommission,jdbcType=DECIMAL}, 
+      #{pay1,jdbcType=DECIMAL}, #{pay3,jdbcType=DECIMAL}, #{pay2,jdbcType=DECIMAL}, #{delFlag,jdbcType=BIT}, 
+      #{itemStatus,jdbcType=BIT}, #{creatorId,jdbcType=INTEGER}, #{updaterId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustomFinance"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
+    insert into base_custom_finance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="customId != null">
+        custom_id,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="roomPay != null">
+        room_pay,
+      </if>
+      <if test="personPay != null">
+        person_pay,
+      </if>
+      <if test="otherPay != null">
+        other_pay,
+      </if>
+      <if test="costBuy != null">
+        cost_buy,
+      </if>
+      <if test="income != null">
+        income,
+      </if>
+      <if test="tax != null">
+        tax,
+      </if>
+      <if test="salesCommission != null">
+        sales_commission,
+      </if>
+      <if test="pay1 != null">
+        pay1,
+      </if>
+      <if test="pay3 != null">
+        pay3,
+      </if>
+      <if test="pay2 != null">
+        pay2,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="itemStatus != null">
+        item_status,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="updaterId != null">
+        updater_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="customId != null">
+        #{customId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomPay != null">
+        #{roomPay,jdbcType=DECIMAL},
+      </if>
+      <if test="personPay != null">
+        #{personPay,jdbcType=DECIMAL},
+      </if>
+      <if test="otherPay != null">
+        #{otherPay,jdbcType=DECIMAL},
+      </if>
+      <if test="costBuy != null">
+        #{costBuy,jdbcType=DECIMAL},
+      </if>
+      <if test="income != null">
+        #{income,jdbcType=DECIMAL},
+      </if>
+      <if test="tax != null">
+        #{tax,jdbcType=DECIMAL},
+      </if>
+      <if test="salesCommission != null">
+        #{salesCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="pay1 != null">
+        #{pay1,jdbcType=DECIMAL},
+      </if>
+      <if test="pay3 != null">
+        #{pay3,jdbcType=DECIMAL},
+      </if>
+      <if test="pay2 != null">
+        #{pay2,jdbcType=DECIMAL},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="itemStatus != null">
+        #{itemStatus,jdbcType=BIT},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustomFinance">
+    update base_custom_finance
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="customId != null">
+        custom_id = #{customId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomPay != null">
+        room_pay = #{roomPay,jdbcType=DECIMAL},
+      </if>
+      <if test="personPay != null">
+        person_pay = #{personPay,jdbcType=DECIMAL},
+      </if>
+      <if test="otherPay != null">
+        other_pay = #{otherPay,jdbcType=DECIMAL},
+      </if>
+      <if test="costBuy != null">
+        cost_buy = #{costBuy,jdbcType=DECIMAL},
+      </if>
+      <if test="income != null">
+        income = #{income,jdbcType=DECIMAL},
+      </if>
+      <if test="tax != null">
+        tax = #{tax,jdbcType=DECIMAL},
+      </if>
+      <if test="salesCommission != null">
+        sales_commission = #{salesCommission,jdbcType=DECIMAL},
+      </if>
+      <if test="pay1 != null">
+        pay1 = #{pay1,jdbcType=DECIMAL},
+      </if>
+      <if test="pay3 != null">
+        pay3 = #{pay3,jdbcType=DECIMAL},
+      </if>
+      <if test="pay2 != null">
+        pay2 = #{pay2,jdbcType=DECIMAL},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="itemStatus != null">
+        item_status = #{itemStatus,jdbcType=BIT},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="updaterId != null">
+        updater_id = #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustomFinance">
+    update base_custom_finance
+    set name = #{name,jdbcType=VARCHAR},
+      custom_id = #{customId,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      room_pay = #{roomPay,jdbcType=DECIMAL},
+      person_pay = #{personPay,jdbcType=DECIMAL},
+      other_pay = #{otherPay,jdbcType=DECIMAL},
+      cost_buy = #{costBuy,jdbcType=DECIMAL},
+      income = #{income,jdbcType=DECIMAL},
+      tax = #{tax,jdbcType=DECIMAL},
+      sales_commission = #{salesCommission,jdbcType=DECIMAL},
+      pay1 = #{pay1,jdbcType=DECIMAL},
+      pay3 = #{pay3,jdbcType=DECIMAL},
+      pay2 = #{pay2,jdbcType=DECIMAL},
+      del_flag = #{delFlag,jdbcType=BIT},
+      item_status = #{itemStatus,jdbcType=BIT},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      updater_id = #{updaterId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

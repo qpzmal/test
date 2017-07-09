@@ -6,23 +6,18 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="room_pay" jdbcType="DECIMAL" property="roomPay" />
     <result column="del_flag" jdbcType="BIT" property="delFlag" />
     <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="room_pay" jdbcType="DECIMAL" property="roomPay" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="person_pay" jdbcType="DECIMAL" property="personPay" />
-    <result column="other_pay" jdbcType="DECIMAL" property="otherPay" />
-    <result column="tax_amount" jdbcType="DECIMAL" property="taxAmount" />
-    <result column="tax_free_amount" jdbcType="DECIMAL" property="taxFreeAmount" />
-    <result column="pay2" jdbcType="DECIMAL" property="pay2" />
-    <result column="pay3" jdbcType="DECIMAL" property="pay3" />
-    <result column="pay4" jdbcType="DECIMAL" property="pay4" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, parent_id, code, del_flag, item_status, create_time, update_time, room_pay, 
-    remark, person_pay, other_pay, tax_amount, tax_free_amount, pay2, pay3, pay4
+    id, name, parent_id, code, room_pay, del_flag, item_status, creator_id, updater_id, 
+    create_time, update_time, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -36,17 +31,15 @@
   </delete>
   <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseArea"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_area (id, name, parent_id, 
-      code, del_flag, item_status, 
-      create_time, update_time, room_pay, 
-      remark, person_pay, other_pay, 
-      tax_amount, tax_free_amount, pay2, 
-      pay3, pay4)
+      code, room_pay, del_flag, 
+      item_status, creator_id, updater_id, 
+      create_time, update_time, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
-      #{code,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{roomPay,jdbcType=DECIMAL}, 
-      #{remark,jdbcType=VARCHAR}, #{personPay,jdbcType=DECIMAL}, #{otherPay,jdbcType=DECIMAL}, 
-      #{taxAmount,jdbcType=DECIMAL}, #{taxFreeAmount,jdbcType=DECIMAL}, #{pay2,jdbcType=DECIMAL}, 
-      #{pay3,jdbcType=DECIMAL}, #{pay4,jdbcType=DECIMAL})
+      #{code,jdbcType=VARCHAR}, #{roomPay,jdbcType=DECIMAL}, #{delFlag,jdbcType=BIT}, 
+      #{itemStatus,jdbcType=BIT}, #{creatorId,jdbcType=INTEGER}, #{updaterId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseArea"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_area
@@ -63,11 +56,20 @@
       <if test="code != null">
         code,
       </if>
+      <if test="roomPay != null">
+        room_pay,
+      </if>
       <if test="delFlag != null">
         del_flag,
       </if>
       <if test="itemStatus != null">
         item_status,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="updaterId != null">
+        updater_id,
       </if>
       <if test="createTime != null">
         create_time,
@@ -75,32 +77,8 @@
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="roomPay != null">
-        room_pay,
-      </if>
       <if test="remark != null">
         remark,
-      </if>
-      <if test="personPay != null">
-        person_pay,
-      </if>
-      <if test="otherPay != null">
-        other_pay,
-      </if>
-      <if test="taxAmount != null">
-        tax_amount,
-      </if>
-      <if test="taxFreeAmount != null">
-        tax_free_amount,
-      </if>
-      <if test="pay2 != null">
-        pay2,
-      </if>
-      <if test="pay3 != null">
-        pay3,
-      </if>
-      <if test="pay4 != null">
-        pay4,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -116,11 +94,20 @@
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
       </if>
+      <if test="roomPay != null">
+        #{roomPay,jdbcType=DECIMAL},
+      </if>
       <if test="delFlag != null">
         #{delFlag,jdbcType=BIT},
       </if>
       <if test="itemStatus != null">
         #{itemStatus,jdbcType=BIT},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -128,32 +115,8 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="roomPay != null">
-        #{roomPay,jdbcType=DECIMAL},
-      </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="personPay != null">
-        #{personPay,jdbcType=DECIMAL},
-      </if>
-      <if test="otherPay != null">
-        #{otherPay,jdbcType=DECIMAL},
-      </if>
-      <if test="taxAmount != null">
-        #{taxAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="taxFreeAmount != null">
-        #{taxFreeAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="pay2 != null">
-        #{pay2,jdbcType=DECIMAL},
-      </if>
-      <if test="pay3 != null">
-        #{pay3,jdbcType=DECIMAL},
-      </if>
-      <if test="pay4 != null">
-        #{pay4,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -169,11 +132,20 @@
       <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
       </if>
+      <if test="roomPay != null">
+        room_pay = #{roomPay,jdbcType=DECIMAL},
+      </if>
       <if test="delFlag != null">
         del_flag = #{delFlag,jdbcType=BIT},
       </if>
       <if test="itemStatus != null">
         item_status = #{itemStatus,jdbcType=BIT},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="updaterId != null">
+        updater_id = #{updaterId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -181,32 +153,8 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="roomPay != null">
-        room_pay = #{roomPay,jdbcType=DECIMAL},
-      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="personPay != null">
-        person_pay = #{personPay,jdbcType=DECIMAL},
-      </if>
-      <if test="otherPay != null">
-        other_pay = #{otherPay,jdbcType=DECIMAL},
-      </if>
-      <if test="taxAmount != null">
-        tax_amount = #{taxAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="taxFreeAmount != null">
-        tax_free_amount = #{taxFreeAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="pay2 != null">
-        pay2 = #{pay2,jdbcType=DECIMAL},
-      </if>
-      <if test="pay3 != null">
-        pay3 = #{pay3,jdbcType=DECIMAL},
-      </if>
-      <if test="pay4 != null">
-        pay4 = #{pay4,jdbcType=DECIMAL},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -216,19 +164,14 @@
     set name = #{name,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
       code = #{code,jdbcType=VARCHAR},
+      room_pay = #{roomPay,jdbcType=DECIMAL},
       del_flag = #{delFlag,jdbcType=BIT},
       item_status = #{itemStatus,jdbcType=BIT},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      updater_id = #{updaterId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      room_pay = #{roomPay,jdbcType=DECIMAL},
-      remark = #{remark,jdbcType=VARCHAR},
-      person_pay = #{personPay,jdbcType=DECIMAL},
-      other_pay = #{otherPay,jdbcType=DECIMAL},
-      tax_amount = #{taxAmount,jdbcType=DECIMAL},
-      tax_free_amount = #{taxFreeAmount,jdbcType=DECIMAL},
-      pay2 = #{pay2,jdbcType=DECIMAL},
-      pay3 = #{pay3,jdbcType=DECIMAL},
-      pay4 = #{pay4,jdbcType=DECIMAL}
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
