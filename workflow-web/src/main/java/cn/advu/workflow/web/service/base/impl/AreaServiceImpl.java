@@ -1,17 +1,18 @@
 package cn.advu.workflow.web.service.base.impl;
 
-import cn.advu.workflow.dao.fcf_vu.BaseAreaMapper;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
-import cn.advu.workflow.domain.fcf_vu.BaseRegion;
 import cn.advu.workflow.repo.fcf_vu.BaseAreaRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.dto.TreeNode;
+import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.AreaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,6 +25,10 @@ public class AreaServiceImpl implements AreaService {
     @Autowired
     private BaseAreaRepo baseAreaRepo;
 
+
+    @Autowired
+    private TreeMananger treeMananger;
+
     @Override
     public ResultJson<List<BaseArea>> findAll() {
         ResultJson<List<BaseArea>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
@@ -35,7 +40,7 @@ public class AreaServiceImpl implements AreaService {
     public ResultJson<Integer> addArea(BaseArea baseArea) {
         Integer insertCount = baseAreaRepo.addSelective(baseArea);
         if(insertCount != 1){
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建区域失败!");
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建公司失败!");
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
@@ -47,7 +52,7 @@ public class AreaServiceImpl implements AreaService {
         }
         Integer insertCount = baseAreaRepo.updateSelective(baseArea);
         if(insertCount != 1){
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新区域失败!");
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新公司失败!");
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
@@ -56,6 +61,27 @@ public class AreaServiceImpl implements AreaService {
     public ResultJson<BaseArea> findById(Integer id) {
         ResultJson<BaseArea> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         result.setData(baseAreaRepo.findOne(id));
+        return result;
+    }
+
+    @Override
+    public ResultJson<Collection<TreeNode>> findAreaNodeList(Integer areaId) {
+
+        ResultJson<Collection<TreeNode>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+
+        List<BaseArea> areaList = baseAreaRepo.findByParent(areaId);
+        Collection<TreeNode> treeNodes = treeMananger.buildDeptTreeNodeList(areaList);
+        result.setData(treeNodes);
+
+        return result;
+    }
+
+    @Override
+    public ResultJson<List<BaseArea>> findByParent(Integer parentId) {
+
+        ResultJson<List<BaseArea>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        List<BaseArea> areaList = baseAreaRepo.findByParent(parentId);
+        result.setData(areaList);
         return result;
     }
 }

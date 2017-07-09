@@ -12,4 +12,5 @@ import java.util.List;
 public interface BaseAreaRepo extends IRepo<BaseArea> {
 
     List<BaseArea> findAll();
+    List<BaseArea> findByParent(Integer parentId);
 }

@@ -5,10 +5,8 @@ import cn.advu.workflow.repo.fcf_vu.BaseDeptRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.dto.TreeNode;
-import cn.advu.workflow.web.service.DeptLevelComparetor;
+import cn.advu.workflow.web.manager.LevelComparetor;
 import cn.advu.workflow.web.service.base.DeptService;
-import cn.advu.workflow.web.service.base.IndustryService;
-import net.sf.ehcache.search.parser.MCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,7 +160,7 @@ public class DeptServiceImpl implements DeptService {
 
         List<Integer> sortLevelList = new LinkedList<>();
         sortLevelList.addAll(sortDeptByLevel.keySet());
-        Collections.sort(sortLevelList, new DeptLevelComparetor());
+        Collections.sort(sortLevelList, new LevelComparetor());
 
         for (Integer levelTemp : sortLevelList) {
 

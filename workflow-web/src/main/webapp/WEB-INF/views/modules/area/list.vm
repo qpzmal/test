@@ -1,8 +1,30 @@
 
 #define($cssblock)
+##树状展示
+<link href="#springUrl("")/static/css/plugins/treeview/bootstrap-treeview.css?$!application.getAttribute('/static/css/plugins/treeview/bootstrap-treeview.css')" rel="stylesheet">
+
 #end
 
 <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">上级公司</label>
+                        <div id="parent_content"  class="col-sm-8">
+                            <input id="parent_id" hidden>
+                            <input id="parent_name" name="parent_name" type="text" class="form-control"
+                                #if(!${parentTreeJson})
+                                   disabled
+                                #end
+                                   onclick="showDeptList(); return false;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
     <div class="row">
         <div class="col-sm-12">
@@ -40,11 +62,52 @@
     </div>
 </div>
 
+<div id="parent_tree_content" class="col-sm-8 ibox-content" style="display:none; position: absolute;">
+    <div id="parent_tree" class="test" ></div>
+</div>
 
 #define($jsblock)
+
+## 树状展示
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
+
+
 <script>
-    $(function(){
-    });
+## 上级公司展示
+    function onBodyDown(event) {
+        if (!(event.target.id == "parent_id" || event.target.id == "parent_tree_content" || $(event.target).parents("#parent_tree_content").length>0)) {
+            hideMenu();
+        }
+    }
+    function hideMenu() {
+        $("#parent_tree_content").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+    ##显示部门列表（上级部门）
+    function showDeptList() {
+        var parent_name = $("#parent_name");
+        var parent_content_offSet = $("#parent_content").offset();
+        var parent_name_offSet = parent_name.offset();
+        $("#parent_tree_content").css({left:parent_name_offSet.left + "px", top:parent_content_offSet.top + parent_name.outerHeight() + "px"}).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    };
+## 上级公司展示
+    $().ready(
+            function(){
+                var treeData = '${parentTreeJson}';
+            ## 生成部门树（上级部门）
+                $("#parent_tree").treeview({
+                    showBorder: !1,
+                    levels:1,
+                    data: treeData,
+                    onNodeSelected: function (e, o) {
+                        $("#parent_id").attr("value", o.value);
+                        $("#parent_name").attr("value", o.text);
+                        $("#parent_tree_content").fadeOut("fast");
+                    }
+                })
+            }
+    );
 
     // 添加
     $(".btn-primary").click(function(){

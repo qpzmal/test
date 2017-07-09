@@ -10,4 +10,6 @@ public interface BaseAreaMapper extends BaseDAO<BaseArea> {
 
     // 以下为自定义SQL
     List<BaseArea> queryAll(@Param("status") Integer status);
+
+    List<BaseArea> queryByParent(@Param("parentId") Integer parentId);
 }

@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class OrderEntity extends AbstractEntity {
+public abstract class AbstractOrderEntity extends AbstractEntity {
 
 
     private List<BaseOrderCpm> baseOrderCpmList;

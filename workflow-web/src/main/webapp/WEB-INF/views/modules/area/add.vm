@@ -1,14 +1,40 @@
 ## 引入css
 #define($cssblock)
 <link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
+##树状展示
+<link href="#springUrl("")/static/css/plugins/treeview/bootstrap-treeview.css?$!application.getAttribute('/static/css/plugins/treeview/bootstrap-treeview.css')" rel="stylesheet">
+
 #end
 
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
         <div class="form-group">
-            <label class="col-sm-3 control-label">区域名称:</label>
+            <label class="col-sm-3 control-label">上级公司</label>
+            <div id="parent_content"  class="col-sm-8">
+                <input id="parent_id" hidden value="$!{parentId}">
+                <input value="$!{parentAreaName}" id="parent_name" name="parent_name" type="text" class="form-control"
+                    #if(!${parentTreeJson})
+                       disabled
+                    #end
+                       onclick="showDeptList(); return false;">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">公司名称</label>
             <div class="col-sm-8">
                 <input id="area_name" name="area_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">公司编号</label>
+            <div class="col-sm-8">
+                <input id="code" name="code" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">备注</label>
+            <div class="col-sm-8">
+                <input id="remark" name="remark" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
@@ -28,7 +54,9 @@
     </form>
 </div>
 
-
+<div id="parentTreeContent" class="col-sm-8 ibox-content" style="display:none; position: absolute;">
+    <div id="parentTreeView" class="test" ></div>
+</div>
 
 
 ## 引入js
@@ -37,7 +65,30 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
 
+##树状展示
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
+
 <script>
+
+    ##显示公司树状列表（上级部门）start
+    function onBodyDown(event) {
+        if (!(event.target.id == "parent_id" || event.target.id == "parentTreeContent" || $(event.target).parents("#parentTreeContent").length>0)) {
+            hideMenu();
+        }
+    }
+    function hideMenu() {
+        $("#parentTreeContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+    function showDeptList() {
+        var parent_name = $("#parent_name");
+        var parent_content_offSet = $("#parent_content").offset();
+        var parent_name_offSet = parent_name.offset();
+        $("#parentTreeContent").css({left:parent_name_offSet.left + "px", top:parent_content_offSet.top + parent_name.outerHeight() + "px"}).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    };
+    ##显示公司树状列表（上级部门）end
+
     $.validator.setDefaults(
             {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
                 success:function(e){
@@ -63,19 +114,23 @@
 
     function add(){
         var name = $("#area_name").val();
+        var code = $("#code").val();
+        var parentId = $("#parent_id").val();
         var item_status = $(".js-switch")[0].checked;
         $.ajax({
             url:"/area/add.json",
             type:"post",
             data:{
                 name:name,
+                code:code,
+                parentId:parentId,
                 itemStatus:item_status
             },
             success: function(returnData){
                 console.log(returnData);
                 if(returnData.code == 1){
                     layer.msg('添加成功!');
-                    window.location.href = "/industry/index";
+                    window.location.href = "/area/index";
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }

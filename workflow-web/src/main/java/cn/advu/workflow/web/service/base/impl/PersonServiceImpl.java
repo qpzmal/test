@@ -2,6 +2,10 @@ package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.dao.fcf_vu.BasePersonMapper;
 import cn.advu.workflow.domain.fcf_vu.BasePerson;
+import cn.advu.workflow.domain.fcf_vu.BasePersonExtend;
+import cn.advu.workflow.repo.fcf_vu.BasePersonRepo;
+import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.base.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,33 +19,14 @@ import java.util.List;
  */
 @Service
 public class PersonServiceImpl implements PersonService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PersonServiceImpl.class);
 
     @Autowired
-    private BasePersonMapper basePersonMapper;
+    BasePersonRepo basePersonRepo;
 
     @Override
-    public int insert(BasePerson obj) {
-        return 0;
-    }
-
-    @Override
-    public int delete(String id) {
-        return 0;
-    }
-
-    @Override
-    public int update(String id) {
-        return 0;
-    }
-
-    @Override
-    public List<BasePerson> queryAll() {
-        return null;
-    }
-
-    @Override
-    public List<BasePerson> queryByCondition(BasePerson obj) {
-        return null;
+    public ResultJson<List<BasePersonExtend>> findPersonByDept(Integer areaId, Integer deptId) {
+        ResultJson<List<BasePersonExtend>> resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        resultJson.setData(basePersonRepo.findDeptPerson(areaId, deptId));
+        return resultJson;
     }
 }

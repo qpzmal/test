@@ -6,6 +6,7 @@ import cn.advu.workflow.dao.fcf_vu.BaseRegionMapper;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseRegion;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
+import cn.advu.workflow.repo.base.impl.AbstractTreeRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseAreaRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseRegionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.List;
  *
  */
 @Repository
-public class BaseAreaRepoImpl extends AbstractRepo<BaseArea> implements BaseAreaRepo {
+public class BaseAreaRepoImpl extends AbstractTreeRepo<BaseArea> implements BaseAreaRepo {
 
     @Autowired
     BaseAreaMapper baseAreaMapper;
@@ -32,4 +33,10 @@ public class BaseAreaRepoImpl extends AbstractRepo<BaseArea> implements BaseArea
     public List<BaseArea> findAll() {
         return baseAreaMapper.queryAll(null);
     }
+
+    @Override
+    public List<BaseArea> findByParent(Integer parentId) {
+        return baseAreaMapper.queryByParent(parentId);
+    }
+
 }

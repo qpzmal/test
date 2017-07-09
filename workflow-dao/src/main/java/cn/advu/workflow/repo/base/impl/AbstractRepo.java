@@ -3,7 +3,6 @@ package cn.advu.workflow.repo.base.impl;
 
 import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.domain.base.IEntity;
-import cn.advu.workflow.domain.base.OrderEntity;
 import cn.advu.workflow.repo.base.IRepo;
 
 /**

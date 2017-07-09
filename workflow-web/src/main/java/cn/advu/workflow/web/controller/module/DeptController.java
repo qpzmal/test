@@ -107,9 +107,6 @@ public class DeptController {
     @RequestMapping("/toAdd")
     public String toAdd(Integer areaId, Integer parentId, Model model) {
 
-        // TODO 测试数据
-//        areaId = 1;
-
         List<BaseArea> areaList = areaService.findAll().getData();
 
         List<TreeNode> deptNodes = new LinkedList<>();

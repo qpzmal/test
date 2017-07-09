@@ -2,10 +2,8 @@ package cn.advu.workflow.repo.base.impl;
 
 
 import cn.advu.workflow.dao.fcf_vu.BaseOrderCpmMapper;
-import cn.advu.workflow.domain.base.OrderEntity;
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame;
+import cn.advu.workflow.domain.base.AbstractOrderEntity;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
-import cn.advu.workflow.repo.base.IRepo;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public abstract class AbstractOrderRepo<T extends OrderEntity> extends AbstractRepo<T> {
+public abstract class AbstractOrderRepo<T extends AbstractOrderEntity> extends AbstractRepo<T> {
 
     @Autowired
     BaseOrderCpmMapper baseOrderCpmMapper;

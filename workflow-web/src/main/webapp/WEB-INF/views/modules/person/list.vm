@@ -2,116 +2,191 @@
 #define($cssblock)
 ##树状展示
 <link href="#springUrl("")/static/css/plugins/treeview/bootstrap-treeview.css?$!application.getAttribute('/static/css/plugins/treeview/bootstrap-treeview.css')" rel="stylesheet">
+##下拉列表
+<link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
+
 #end
 
-
-<div class="wrapper wrapper-content">
+<div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
-        ##部门列表
-        <div class="col-sm-3">
-            <div class="ibox-title">
-                <h5>部门</h5>
-            </div>
-            <div class="ibox-content">
-                <div id="treeview7"></div>
-            </div>
-        </div>
-        ##部门下的员工列表
-        <div class="col-sm-9">
-            <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
-            <div class="row">
-                <div class="col-sm-9">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-content">
-                            <table class="table table-striped table-bordered table-hover dataTables-example">
-                                <thead>
-                                <tr>
-                                    <th>签约公司名称</th>
-                                    <th>广告主名</th>
-                                    <th>状态</th>
-                                    <th>管理</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                                <tfoot>
-                                </tfoot>
-                            </table>
-
+        <div class="col-sm-5">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">公司</label>
+                        <div id="area_id_content"  class="col-sm-3">
+                            <select id="area_id" data-placeholder="请选择公司" style="width:350px;" class="chosen-select" tabindex="2">
+                                <option value="">请选择公司</option>
+                                #foreach($data in $areaList)
+                                    <option value ="$data.id"
+                                        #if($!{areaId} == $data)
+                                            selected
+                                        #end
+                                    >$data.name</option>
+                                #end
+                            </select>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">所属部门</label>
+                        <div id="parent_content"  class="col-sm-8">
+                            <input id="parent_id" hidden>
+                            <input id="parent_name" name="parent_name" type="text" class="form-control" onclick="showDeptList(); return false;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+
+                    <table id="dept_list" class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>所属公司</th>
+                            <th>所属部门</th>
+                            <th>上级领导</th>
+                            <th>状态</th>
+                            <th>管理</th>
+                        </tr>
+                        </thead>
+                        <tbody id="dept_list_tbody">
+                            #foreach($data in $dataList)
+                            <tr class="gradeX">
+                                <td>$!{data.name}</td>
+                                <td>$!{data.areaName}</td>
+                                <td>$!{data.deptName}</td>
+                                #if(!${data.parentName})
+                                    -
+                                #else
+                                    <td>${data.parentName}</td>
+                                #end
+                                <td>$!{data.itemStatus}</td>
+                                <td class="right">
+                                    <input type="hidden" value="$!{data.id}">
+                                    <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>
+                                    <a href="javascript:;" class="btn btn-danger btn-sm button_view_pd"><i class="fa fa-trash "></i> 删除 </a>
+                                </td>
+                            </tr>
+                            #end
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+
+<div id="parent_tree_content" class="col-sm-8 ibox-content" style="display:none; position: absolute;">
+    <div id="parent_tree" class="test" ></div>
+</div>
+
 ## 引入js
 #define($jsblock)
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
+##下拉列表
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
 
 <script>
-    $(function () {
-        var e = [{
-                    text: "父节点 1",
-                    value:10001,
-                    href: "#parent1",
-                    tags: ["4"],
-                    nodes: [{
-                        text: "子节点 1",
-                        href: "#child1",
-                        tags: ["2"] ,
-                        nodes: [{text: "孙子节点 1", href: "#grandchild1", tags: ["0"]}, {
-                            text: "孙子节点 2",
-                            href: "#grandchild2",
-                            tags: ["0"]
-                        }]
-                    }, {text: "子节点 2", href: "#child2", tags: ["0"]}]
-                }, {text: "父节点 2", href: "#parent2", tags: ["0"]}, {text: "父节点 3", href: "#parent3", tags: ["0"]}, {
-                    text: "父节点 4",
-                    href: "#parent4",
-                    tags: ["0"]
-                }, {text: "父节点 5", href: "#parent5", tags: ["0"]}], o = [{
-                    text: "父节点 1",
-                    tags: ["2"],
-                    nodes: [{
-                        text: "子节点 1",
-                        tags: ["3"],
-                        nodes: [{text: "孙子节点 1", tags: ["6"]}, {text: "孙子节点 2", tags: ["3"]}]
-                    }, {text: "子节点 2", tags: ["3"]}]
-                }, {text: "父节点 2", tags: ["7"]}, {
-                    text: "父节点 3",
-                    icon: "glyphicon glyphicon-earphone",
-                    href: "#demo",
-                    tags: ["11"]
-                }, {
-                    text: "父节点 4",
-                    icon: "glyphicon glyphicon-cloud-download",
-                    href: "/demo.html",
-                    tags: ["19"],
-                    selected: !0
-                }, {
-                    text: "父节点 5",
-                    icon: "glyphicon glyphicon-certificate",
-                    color: "pink",
-                    backColor: "red",
-                    href: "http://www.tesco.com",
-                    tags: ["available", "0"]
-                }],
-                t = '[{"text": "父节点 1","nodes": [{"text": "子节点 1","nodes": [{"text": "孙子节点 1"},{"text": "孙子节点 2"}]},{"text": "子节点 2"}]},{"text": "父节点 2"},{"text": "父节点 3"},{"text": "父节点 4"},{"text": "父节点 5"}]';
-        $("#treeview7").treeview({
-            color: "#428bca",
-            showBorder: !1,
-            levels:1,
-            data: e,
-            onNodeSelected: function (e, o) {
-                alert(o.value);
-//                o.inner
-//                $("#event_output").prepend("<p>您单击了 " + o.text + "</p>")
+
+    function onBodyDown(event) {
+        if (!(event.target.id == "parent_id" || event.target.id == "parent_tree_content" || $(event.target).parents("#parent_tree_content").length>0)) {
+            hideMenu();
+        }
+    }
+    function hideMenu() {
+        $("#parent_tree_content").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+    ##显示部门列表（上级部门）
+    function showDeptList() {
+        var parent_name = $("#parent_name");
+        var parent_content_offSet = $("#parent_content").offset();
+        var parent_name_offSet = parent_name.offset();
+        $("#parent_tree_content").css({left:parent_name_offSet.left + "px", top:parent_content_offSet.top + parent_name.outerHeight() + "px"}).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    };
+
+    var config = {
+        ".chosen-select": {},
+        ".chosen-select-deselect": {allow_single_deselect: !0},
+        ".chosen-select-no-single": {disable_search_threshold: 10},
+        ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
+        ".chosen-select-width": {width: "95%"}
+    };
+    for (var selector in config)
+        $(selector).chosen(config[selector]);
+    ##所属公司变更
+    $("#area_id").change(
+            function(){
+            ##清空上级部门
+                $("#parent_id").attr("value", "");
+                $("#parent_name").attr("value", "");
+
+            ##联动查询上级部门
+                $.ajax({
+                    url:"/dept/deptTreeList.json?areaId=" + $("#area_id").val(),
+                    type:"get",
+                    success: function(returnData){
+                        console.log(returnData);
+                        if(returnData.resultJson.code == 1){
+                            $("#parent_tree").treeview({
+                                color: "#428bca",
+                                showBorder: !1,
+                                levels:1,
+                                data: returnData.resultJson.data,
+                                onNodeSelected: function (e, o) {
+                                    $("#parent_id").attr("value", o.value);
+                                    $("#parent_name").attr("value", o.text);
+                                    $("#parent_tree_content").fadeOut("fast");
+                                    findDeptBody($("#area_id").val(), $("#parent_id").val());
+                                }
+                            });
+                        } else{
+                            layer.msg('初始化部门列表失败，请联系技术人员!');
+                        }
+                    }
+                });
+                findDeptBody($("#area_id").val(), -1);
+            }
+    )
+
+    function findDeptBody(area_id, parent_id) {
+        $.ajax({
+            url:"/dept/deptList.json?areaId=" + area_id + "&parentId=" + parent_id,
+            type:"get",
+            success: function(returnData){
+                console.log(returnData);
+                $("#dept_list_tbody").html(returnData);
             }
         })
-    });
+    }
+
     // 添加
     $(".btn-primary").click(function(){
-        window.location.href = "${rc.contextPath}/person/toAdd";
-    })
+        window.location.href = "${rc.contextPath}/person/toAdd?areaId=" + $("#area_id").val() + "&parentId=" + $("#parent_id").val();
+    });
+    //
+    $("#area_select").change(
+            function(){
+                alert("sdfsdf");
+            }
+    );
+
 </script>
 #end

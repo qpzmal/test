@@ -1,6 +1,8 @@
 package cn.advu.workflow.web.service.base;
 
 import cn.advu.workflow.domain.fcf_vu.BasePerson;
+import cn.advu.workflow.domain.fcf_vu.BasePersonExtend;
+import cn.advu.workflow.web.common.ResultJson;
 
 import java.util.List;
 
@@ -10,10 +12,5 @@ import java.util.List;
  */
 public interface PersonService {
 
-    int insert(BasePerson obj);
-    int delete(String id);
-    int update(String id);
-    List<BasePerson> queryAll();
-
-    List<BasePerson> queryByCondition(BasePerson obj);
+    ResultJson<List<BasePersonExtend>> findPersonByDept(Integer areaId, Integer deptId);
 }

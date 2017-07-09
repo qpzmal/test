@@ -19,10 +19,20 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
+
+  <!-- 扩展用 -->
+  <resultMap id="ExtendResultMap" extends="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BasePersonExtend">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="parent_name" jdbcType="VARCHAR" property="parentName" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, name, area_id, mobile, address, email, dept_id, state, parent_id, del_flag, item_status, 
     pay2, person_pay, create_time, update_time, remark
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -231,6 +241,27 @@
     from base_person
     <if test="status != null">
       where item_status = #{status,jdbcType=BIT}
+    </if>
+  </select>
+
+  <select id="queryByDept" resultMap="ExtendResultMap">
+    select
+    base_area.name as area_name,
+    base_dept.name as dept_name,
+    base_person_parent.name as parent_name,
+    <include refid="Base_Column_List" />
+    from base_person inner join base_area on base_person.area_id = base_area.id
+    inner join base_dept on base_person.dept_id = base_dept.id
+    inner join base_person base_person_parent on base_person.parent_id = base_person_parent.id
+    <if test="status != null">
+      where base_person.item_status = 0
+      <if test="areaId != null">
+        and base_person.area_id = #{areaId,jdbcType=BIT}
+      </if>
+      <if test="deptId != null">
+        and base_person.dept_id = #{deptId,jdbcType=BIT}
+      </if>
+
     </if>
   </select>
 </mapper>

@@ -4,7 +4,9 @@ import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseMedia;
 import cn.advu.workflow.domain.fcf_vu.BaseRegion;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.dto.TreeNode;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,7 +14,6 @@ import java.util.List;
  * Created by weiqz on 2017/6/25.
  */
 public interface AreaService {
-
 
     /**
      * 返回全部区域
@@ -44,4 +45,20 @@ public interface AreaService {
      * @return
      */
     ResultJson<BaseArea> findById(Integer id);
+
+    /**
+     * 返回公司的树状列表
+     *
+     * @param areaId
+     * @return
+     */
+    ResultJson<Collection<TreeNode>> findAreaNodeList(Integer areaId);
+
+    /**
+     * 返回下级公司列表
+     *
+     * @param parentId
+     * @return
+     */
+    ResultJson<List<BaseArea>> findByParent(Integer parentId);
 }
