@@ -130,13 +130,13 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group">
-                <div class="col-sm-3 col-sm-offset-1">
-                    <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 返回</button>
-                </div>
-            </div>
-        </div>
+##        <div class="row">
+##            <div class="form-group">
+##                <div class="col-sm-3 col-sm-offset-1">
+##                    <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 返回</button>
+##                </div>
+##            </div>
+##        </div>
 
     </div>
 </form>
@@ -183,10 +183,10 @@
             }
 
     );
-
-    // 返回
-    $(".btn-default").click(function(){
-        history.go(-1);
-    })
+//
+//    // 返回
+//    $(".btn-default").click(function(){
+//        history.go(-1);
+//    })
 </script>
 #end

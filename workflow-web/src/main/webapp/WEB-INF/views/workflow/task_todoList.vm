@@ -4,6 +4,7 @@
 <link href="#springUrl("")/static/css/plugins/jquery-qtip/jquery.qtip.min.css?$!application.getAttribute('/static/css/plugins/jquery-qtip/jquery.qtip.min.css')" rel="stylesheet">
 <link href="#springUrl("")/static/css/plugins/jquery-ui/jquery-ui.min.css?$!application.getAttribute('/static/css/plugins/jquery-ui/jquery-ui.min.css')" rel="stylesheet">
 #end
+
 <div class="wrapper wrapper-content">
 ##    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
     #foreach($mapKey in ${resultMap.keySet()})
@@ -142,7 +143,7 @@
         var taskId = $(this).parents('tr').attr('id'); // 取申请ID
         var pkey = $(this).parents('tr').attr('pkey');
         var url = "${rc.contextPath}/"+ pkey+"/refer?id="+taskId;
-        openPopIframePage(taskId, url);
+        openPopIframePage(url);
     })
 
     ## 查看（示例：弹出Iframe窗口）
@@ -171,14 +172,6 @@
         });
     }
 
-//    function doHandle(taskId) {
-//        var mediaGMPass = true;
-//        window.location.href = "/workflow/task/complete?taskId="+taskId+ "&mediaGMPass=true";
-//    }
-
-
-
-
     ## 同意
     $(".btn-primary").click(function(){
         complete(true);
@@ -196,9 +189,6 @@
 
     // 添加
     function complete(result){
-##        var pkey = '$!{pkey}';
-##        var tkey = '$!{tkey}';
-##        var taskId = '$!{taskId}';
         var url = '/workflow/task/complete.json';
         $.ajax({
             url:url,

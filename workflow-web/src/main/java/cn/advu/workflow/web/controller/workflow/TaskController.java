@@ -7,6 +7,8 @@ import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.service.base.BuyOrderService;
 import cn.advu.workflow.web.vo.BaseBuyOrderVO;
 import org.activiti.engine.*;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
@@ -151,6 +153,49 @@ public class TaskController {
         LOGGER.debug("results.size:{}", results.size());
         model.addAttribute("resultList", results);
         return "workflow/task_runningList";
+    }
+
+
+
+    /**
+     * 读取已结束中的流程
+     *
+     * @return
+     */
+    @RequestMapping(value = "finished")
+    public String finished(HttpServletRequest request, Model model) {
+        List<BaseBuyOrderVO> results = new ArrayList<BaseBuyOrderVO>();
+
+
+        HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_BUY).finished().orderByProcessInstanceEndTime().desc();
+//        List<HistoricProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
+
+        List<HistoricProcessInstance> list = query.list();
+
+
+        // 关联业务实体
+        for (HistoricProcessInstance historicProcessInstance : list) {
+            BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
+
+            String businessKey = historicProcessInstance.getBusinessKey();
+            if (StringUtils.isEmpty(businessKey)) {
+                continue;
+            }
+
+            BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
+            baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
+            baseBuyOrderVO.setHistoricProcessInstance(historicProcessInstance);
+            baseBuyOrderVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
+
+            // 设置当前任务信息
+            List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
+            baseBuyOrderVO.setTask(tasks.get(0));
+
+            results.add(baseBuyOrderVO);
+        }
+        LOGGER.debug("results.size:{}", results.size());
+        model.addAttribute("resultList", results);
+        return "workflow/task_finished";
     }
 
     /**
