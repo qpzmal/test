@@ -54,23 +54,27 @@
 
 <script>
     $.validator.setDefaults(
-            {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
-                success:function(e){
-                    e.closest(".form-group").removeClass("has-error").addClass("has-success")
-                },
-                errorElement:"span",
-                errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
-                errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+        {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+            success:function(e){
+                e.closest(".form-group").removeClass("has-error").addClass("has-success")
+            },
+            errorElement:"span",
+            errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+            errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
     ),
-            $().ready(
-                    function(){
-                        var e="<i class='fa fa-times-circle'></i> ";
-                        $("#commentForm").validate();
-                        {var i=document.querySelector(".js-switch"),
-                                t=(new Switchery(i,{color:"#1AB394"}));
-                        };
-                    }
-            );
+    $().ready(
+        function(){
+            var e="<i class='fa fa-times-circle'></i> ";
+            $("#commentForm").validate({
+                submitHandler:function(form){
+                    addRegion();
+                }
+            });
+            {var i=document.querySelector(".js-switch"),
+                    t=(new Switchery(i,{color:"#1AB394"}));
+            };
+        }
+    );
 //            $.validator.setDefaults(
 //                    {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
 //                        success:function(e){
@@ -100,11 +104,11 @@
 ##        });
 ##    }
 
-    $(".btn-primary").click(function(){
-        addRole();
-    })
+//    $(".btn-primary").click(function(){
+//        addRole();
+//    })
 
-    function addRole(){
+    function addRegion(){
         var activitiName = $("#activiti_name").val();
         var name = $("#role_name").val();
         var description = $("#description").val();
@@ -112,6 +116,7 @@
         $.ajax({
             url:"/role/add.json",
             type:"post",
+            async: false,
             data:{
                 activitiName:activitiName,
                 name:name,
@@ -119,9 +124,8 @@
                 isSystem:is_system
             },
             success: function(returnData){
-                console.log(returnData);
                 if(returnData.code == 1){
-                    window.location.href = "/role/index";
+                    popMsg('添加成功!', "/role/index");
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }

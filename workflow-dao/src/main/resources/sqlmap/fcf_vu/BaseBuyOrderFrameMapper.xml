@@ -298,8 +298,9 @@
     select
     <include refid="Base_Column_List" />
     from base_buy_order_frame
+    where del_flag = '0'
     <if test="status != null">
-      where item_status = #{status,jdbcType=BIT}
+      and item_status = #{status,jdbcType=BIT}
     </if>
   </select>
 

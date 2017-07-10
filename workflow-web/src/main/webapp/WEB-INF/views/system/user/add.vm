@@ -89,7 +89,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-4 col-sm-offset-3">
-                <button class="btn btn-primary" type="button"><i class="fa fa-check"></i> 保存</button>
+                <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
             </div>
             <div class="col-sm-3 col-sm-offset-1">
                 <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
@@ -130,29 +130,30 @@
     $().ready(
         function(){
             var e="<i class='fa fa-times-circle'></i> ";
-            $("#commentForm").validate(
-                {
-                    rules:{
-                        repassword:{
-                            equalTo:"#password"
-                        }
-                    },
-                    messages:{
-                        repassword:{
-                            equalTo:e+"两次输入的密码不一致"
-                        }
+            $("#commentForm").validate({
+                rules:{
+                    repassword:{
+                        equalTo:"#password"
                     }
+                },
+                messages:{
+                    repassword:{
+                        equalTo:e+"两次输入的密码不一致"
+                    }
+                },
+                submitHandler:function(form){
+                    addRegion();
                 }
-            );
+            });
         }
     );
 
-    $(".btn-primary").click(function(){
-        addUser();
-    })
+//    $(".btn-primary").click(function(){
+//        addUser();
+//    })
 
 
-    function addUser(){
+    function addRegion(){
         var login_name = $("#login_name").val();
         var user_name = $("#user_name").val();
         var password = $("#password").val();
@@ -172,6 +173,7 @@
         $.ajax({
             url:"/user/add.json",
             type:"post",
+            async: false,
             data:{
                 "loginName":login_name,
                 "userName":user_name,
@@ -186,10 +188,8 @@
                 "userRoleList":userRoleList
             },
             success: function(returnData){
-                console.log(returnData);
                 if(returnData.code == 1){
-                    layer.msg('添加成功!');
-                    window.location.href = "/user/toList";
+                    popMsg('添加成功!', "/user/toList");
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }

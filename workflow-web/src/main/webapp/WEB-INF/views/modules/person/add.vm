@@ -108,90 +108,94 @@
         $(selector).chosen(config[selector]);
 
     $.validator.setDefaults(
-            {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
-                success:function(e){
-                    e.closest(".form-group").removeClass("has-error").addClass("has-success")
-                },
-                errorElement:"span",
-                errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
-                errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+        {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+            success:function(e){
+                e.closest(".form-group").removeClass("has-error").addClass("has-success")
+            },
+            errorElement:"span",
+            errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+            errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
     ),
-            $().ready(
-                    function(){
-                        var e="<i class='fa fa-times-circle'></i> ";
-                        $("#commentForm").validate();
-                        {var i=document.querySelector(".js-switch"),
-                                t=(new Switchery(i,{color:"#1AB394"}));
-                        };
+    $().ready(
+            function(){
+                var e="<i class='fa fa-times-circle'></i> ";
+                $("#commentForm").validate({
+                    submitHandler:function(form){
+                        addRegion();
+                    }
+                });
+                {var i=document.querySelector(".js-switch"),
+                        t=(new Switchery(i,{color:"#1AB394"}));
+                };
 
-                        var e = [{
-                                    text: "父节点 1",
-                                    value:10001,
-                                    href: "#parent1",
-                                    tags: ["4"],
-                                    nodes: [{
-                                        text: "子节点 1",
-                                        href: "#child1",
-                                        tags: ["2"] ,
-                                        nodes: [{text: "孙子节点 1", href: "#grandchild1", tags: ["0"]}, {
-                                            text: "孙子节点 2",
-                                            href: "#grandchild2",
-                                            tags: ["0"]
-                                        }]
-                                    }, {text: "子节点 2", href: "#child2", tags: ["0"]}]
-                                }, {text: "父节点 2", href: "#parent2", tags: ["0"]}, {text: "父节点 3", href: "#parent3", tags: ["0"]}, {
-                                    text: "父节点 4",
-                                    href: "#parent4",
+                var e = [{
+                            text: "父节点 1",
+                            value:10001,
+                            href: "#parent1",
+                            tags: ["4"],
+                            nodes: [{
+                                text: "子节点 1",
+                                href: "#child1",
+                                tags: ["2"] ,
+                                nodes: [{text: "孙子节点 1", href: "#grandchild1", tags: ["0"]}, {
+                                    text: "孙子节点 2",
+                                    href: "#grandchild2",
                                     tags: ["0"]
-                                }, {text: "父节点 5", href: "#parent5", tags: ["0"]}], o = [{
-                                    text: "父节点 1",
-                                    tags: ["2"],
-                                    nodes: [{
-                                        text: "子节点 1",
-                                        tags: ["3"],
-                                        nodes: [{text: "孙子节点 1", tags: ["6"]}, {text: "孙子节点 2", tags: ["3"]}]
-                                    }, {text: "子节点 2", tags: ["3"]}]
-                                }, {text: "父节点 2", tags: ["7"]}, {
-                                    text: "父节点 3",
-                                    icon: "glyphicon glyphicon-earphone",
-                                    href: "#demo",
-                                    tags: ["11"]
-                                }, {
-                                    text: "父节点 4",
-                                    icon: "glyphicon glyphicon-cloud-download",
-                                    href: "/demo.html",
-                                    tags: ["19"],
-                                    selected: !0
-                                }, {
-                                    text: "父节点 5",
-                                    icon: "glyphicon glyphicon-certificate",
-                                    color: "pink",
-                                    backColor: "red",
-                                    href: "http://www.tesco.com",
-                                    tags: ["available", "0"]
-                                }],
-                                t = '[{"text": "父节点 1","nodes": [{"text": "子节点 1","nodes": [{"text": "孙子节点 1"},{"text": "孙子节点 2"}]},{"text": "子节点 2"}]},{"text": "父节点 2"},{"text": "父节点 3"},{"text": "父节点 4"},{"text": "父节点 5"}]';
-                        $("#treeview7").treeview({
-                            color: "#428bca",
-                            showBorder: !1,
-                            levels:1,
-                            data: e,
-                            onNodeSelected: function (e, o) {
-                                var dept_id = $("#dept_id");
-                                dept_id.attr("value", o.value);
-                                $("#treeview7Content").fadeOut("fast");
+                                }]
+                            }, {text: "子节点 2", href: "#child2", tags: ["0"]}]
+                        }, {text: "父节点 2", href: "#parent2", tags: ["0"]}, {text: "父节点 3", href: "#parent3", tags: ["0"]}, {
+                            text: "父节点 4",
+                            href: "#parent4",
+                            tags: ["0"]
+                        }, {text: "父节点 5", href: "#parent5", tags: ["0"]}], o = [{
+                            text: "父节点 1",
+                            tags: ["2"],
+                            nodes: [{
+                                text: "子节点 1",
+                                tags: ["3"],
+                                nodes: [{text: "孙子节点 1", tags: ["6"]}, {text: "孙子节点 2", tags: ["3"]}]
+                            }, {text: "子节点 2", tags: ["3"]}]
+                        }, {text: "父节点 2", tags: ["7"]}, {
+                            text: "父节点 3",
+                            icon: "glyphicon glyphicon-earphone",
+                            href: "#demo",
+                            tags: ["11"]
+                        }, {
+                            text: "父节点 4",
+                            icon: "glyphicon glyphicon-cloud-download",
+                            href: "/demo.html",
+                            tags: ["19"],
+                            selected: !0
+                        }, {
+                            text: "父节点 5",
+                            icon: "glyphicon glyphicon-certificate",
+                            color: "pink",
+                            backColor: "red",
+                            href: "http://www.tesco.com",
+                            tags: ["available", "0"]
+                        }],
+                        t = '[{"text": "父节点 1","nodes": [{"text": "子节点 1","nodes": [{"text": "孙子节点 1"},{"text": "孙子节点 2"}]},{"text": "子节点 2"}]},{"text": "父节点 2"},{"text": "父节点 3"},{"text": "父节点 4"},{"text": "父节点 5"}]';
+                $("#treeview7").treeview({
+                    color: "#428bca",
+                    showBorder: !1,
+                    levels:1,
+                    data: e,
+                    onNodeSelected: function (e, o) {
+                        var dept_id = $("#dept_id");
+                        dept_id.attr("value", o.value);
+                        $("#treeview7Content").fadeOut("fast");
 //                o.inner
 //                $("#event_output").prepend("<p>您单击了 " + o.text + "</p>")
-                            }
-                        })
                     }
-            );
+                })
+            }
+    );
 
-    $(".btn-primary").click(function(){
-        add();
-    })
+//    $(".btn-primary").click(function(){
+//        add();
+//    })
 
-    function add(){
+    function addRegion(){
         var name = $("#p_name").val();
         var customName = $("#custom_name").val();
         var contacts = $("#contacts").val();
@@ -205,6 +209,7 @@
         $.ajax({
             url:"/custom/add.json",
             type:"post",
+            async: false,
             data:{
                 name:name,
                 customName:customName,
@@ -218,10 +223,8 @@
                 itemStatus:item_status
             },
             success: function(returnData){
-                console.log(returnData);
                 if(returnData.code == 1){
-                    layer.msg('添加成功!');
-                    window.location.href = "/custom/index";
+                    popMsg('添加成功!', "/custom/index");
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }

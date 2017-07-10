@@ -40,11 +40,11 @@ public interface IEntity extends IDomain {
     String getUpdaterId();
     void setUpdaterId(String updaterId);
 
-    Boolean getDelFlag();
-    void setDelFlag(Boolean delFlag);
+    String getDelFlag();
+    void setDelFlag(String delFlag);
 
-    Boolean getItemStatus();
-    void setItemStatus(Boolean itemStatus);
+    String getItemStatus();
+    void setItemStatus(String itemStatus);
 
     String getRemark();
     void setRemark(String remark);

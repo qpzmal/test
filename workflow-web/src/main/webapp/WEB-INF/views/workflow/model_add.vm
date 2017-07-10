@@ -1,6 +1,6 @@
 
 <div class="ibox-content">
-    <form class="form-horizontal m-t" id="commentForm" action="">
+    <form class="form-horizontal m-t" id="commentForm">
         <div class="form-group">
             <label class="col-sm-3 control-label">
                 *模型KEY:
@@ -61,20 +61,22 @@
     });
 
     $(function () {
-        $("#commentForm").validate();
+        $("#commentForm").validate({
+            submitHandler:function(form){
+                addRegion();
+            }
+        });
     })
 
     // 添加
-    function add(){
+    function addRegion(){
         var options = {
-            url : "/workflow/model/add",
+            url : "/workflow/model/add.json",
             type : 'post',
-            dataType:'json',
-
+            dataType:'json'
             success : function(returnData) {
                 if (returnData.code == 1) {
-                    layer.msg('添加成功!');
-                    window.location.href = "/workflow/model/index";
+                    popMsg('添加成功!', "/workflow/model/index");
                 } else {
                     layer.msg('添加失败, 请联系技术人员!');
                 };
@@ -90,7 +92,6 @@
 
     // 返回
     $(".btn-default").click(function(){
-//        window.location.href = "/workflow/model/index";
         history.go(-1);
     })
 

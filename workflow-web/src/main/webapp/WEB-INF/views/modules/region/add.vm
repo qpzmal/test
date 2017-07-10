@@ -47,20 +47,24 @@
 
 <script>
     $.validator.setDefaults(
-            {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
-                success:function(e){
-                    e.closest(".form-group").removeClass("has-error").addClass("has-success")
-                },
-                errorElement:"span",
-                errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
-                errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+        {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+            success:function(e){
+                e.closest(".form-group").removeClass("has-error").addClass("has-success")
+            },
+            errorElement:"span",
+            errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+            errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
     ),
-            $().ready(
-                    function(){
-                        var e="<i class='fa fa-times-circle'></i> ";
-                        $("#commentForm").validate();
-                    }
-            );
+    $().ready(
+        function(){
+            var e="<i class='fa fa-times-circle'></i> ";
+            $("#commentForm").validate({
+                submitHandler:function(form){
+                    addRegion();
+                }
+            });
+        }
+    );
     var config = {
         ".chosen-select": {},
         ".chosen-select-deselect": {allow_single_deselect: !0},
@@ -71,9 +75,9 @@
     for (var selector in config)
         $(selector).chosen(config[selector]);
 
-    $(".btn-primary").click(function(){
-        addRegion();
-    })
+//    $(".btn-primary").click(function(){
+//        addRegion();
+//    })
 
     function addRegion(){
         var name = $("#region_name").val();
@@ -82,16 +86,15 @@
         $.ajax({
             url:"/region/add.json",
             type:"post",
+            async: false,
             data:{
                 name:name
 //                description:description,
 //                isSystem:is_system
             },
             success: function(returnData){
-                console.log(returnData);
                 if(returnData.code == 1){
-                    layer.msg('添加成功!');
-                    window.location.href = "/region/index";
+                    popMsg('添加成功!', "/region/index");
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }

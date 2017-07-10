@@ -14,8 +14,8 @@ public class AbstractEntity implements IEntity {
     private Date updateTime; // 更新时间
     private String creatorId; // 建立者ID
     private String updaterId; // 更新者ID
-    private Boolean delFlag; // 删除标记 ，0正常，1删除
-    private Boolean itemStatus; // 状态 ，0正常；1停用
+    private String delFlag; // 删除标记 ，0正常，1删除
+    private String itemStatus; // 状态 ，0正常；1停用。由于前端选中为true，不选中为false，与DB设计相反，所以取反
     private String remark; // 备注
 
     @Override
@@ -69,23 +69,23 @@ public class AbstractEntity implements IEntity {
     }
 
     @Override
-    public Boolean getDelFlag() {
+    public String getDelFlag() {
         return delFlag;
     }
 
     @Override
-    public void setDelFlag(Boolean delFlag) {
-        this.delFlag = delFlag;
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag == null ? EMPTY : delFlag.trim();
     }
 
     @Override
-    public Boolean getItemStatus() {
+    public String getItemStatus() {
         return itemStatus;
     }
 
     @Override
-    public void setItemStatus(Boolean itemStatus) {
-        this.itemStatus = itemStatus == null ? false : itemStatus;
+    public void setItemStatus(String itemStatus) {
+        this.itemStatus = itemStatus == null ? EMPTY : itemStatus;
     }
 
     @Override

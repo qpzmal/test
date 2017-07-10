@@ -203,7 +203,7 @@
     select
     <include refid="Base_Column_List" />
     from base_area
-    where item_status = 0
+    where del_flag = '0' AND item_status = 0
     <if test="parentId != null">
       and parent_id = #{parentId,jdbcType=BIT}
     </if>

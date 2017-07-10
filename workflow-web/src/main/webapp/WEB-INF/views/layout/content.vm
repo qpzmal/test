@@ -27,6 +27,7 @@
 <script type="text/javascript" src="#springUrl("")/static/js/jquery.min.js?$!application.getAttribute('/static/js/jquery.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/bootstrap.min.js?$!application.getAttribute('/static/js/bootstrap.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/layer/layer-v3.0.3/layer/layer.js?$!application.getAttribute('/static/js/plugins/layer/layer-v3.0.3/layer/layer.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/modules/common.js?$!application.getAttribute('/static/js/modules/common.js')"></script>
 
 <script type="text/javascript">
     var ctx = '${rc.contextPath}';

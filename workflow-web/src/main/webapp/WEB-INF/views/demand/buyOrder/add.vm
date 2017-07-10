@@ -137,7 +137,7 @@
         <div class="row">
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-3">
-                <button class="btn btn-primary" type="button"><i class="fa fa-check"></i> 保存</button>
+                <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
             </div>
                 <div class="col-sm-3 col-sm-offset-1">
                     <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
@@ -195,31 +195,34 @@
 
 
     $.validator.setDefaults(
-            {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
-                success:function(e){
-                    e.closest(".form-group").removeClass("has-error").addClass("has-success")
-                },
-                errorElement:"span",
-                errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
-                errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+        {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+            success:function(e){
+                e.closest(".form-group").removeClass("has-error").addClass("has-success")
+            },
+            errorElement:"span",
+            errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+            errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
     ),
     $().ready(
-            function(){
-                var e="<i class='fa fa-times-circle'></i> ";
-                $("#commentForm").validate();
-                {var i=document.querySelector(".js-switch"),
-                        t=(new Switchery(i,{color:"#1AB394"}));
-                };
-                $("#pay_percent").knob();
-            }
-
+        function(){
+            var e="<i class='fa fa-times-circle'></i> ";
+            $("#commentForm").validate({
+                submitHandler:function(form){
+                    addRegion();
+                }
+            });
+            {var i=document.querySelector(".js-switch"),
+                    t=(new Switchery(i,{color:"#1AB394"}));
+            };
+            $("#pay_percent").knob();
+        }
     );
 
-    $(".btn-primary").click(function(){
-        add();
-    })
+//    $(".btn-primary").click(function(){
+//        add();
+//    })
 
-    function add(){
+    function addRegion(){
         var name = $("#p_name").val();
         var orderNum = $("#order_num").val();
         var secOrderNum = $("#sec_order_num").val();
@@ -242,6 +245,7 @@
         $.ajax({
             url:"/buyOrder/add.json",
             type:"post",
+            async: false,
             data:{
                 name:name,
                 orderNum:orderNum,
@@ -257,14 +261,8 @@
                 accountPeriod:accountPeriod
             },
             success: function(returnData){
-                console.log(returnData);
                 if(returnData.code == 1){
-                    layer.msg('添加成功!');
-
-                    setTimeout(function(){
-                        window.location.href = "/buyOrder/index";
-                        }, 300
-                    );
+                    popMsg('添加成功!', "/buyOrder/index");
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }

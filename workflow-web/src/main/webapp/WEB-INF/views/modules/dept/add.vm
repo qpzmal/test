@@ -80,35 +80,35 @@
 
     ##所属公司变更
     $("#area_id").change(
-            function(){
-                ##清空上级部门
-                $("#parent_id").attr("value", "");
-                $("#parent_name").attr("value", "");
+        function(){
+            ##清空上级部门
+            $("#parent_id").attr("value", "");
+            $("#parent_name").attr("value", "");
 
-                ##联动查询上级部门
-                $.ajax({
-                    url:"/dept/deptTreeList.json?areaId=" + $("#area_id").val(),
-                    type:"get",
-                    success: function(returnData){
-                        console.log(returnData);
-                        if(returnData.resultJson.code == 1){
-                            $("#treeview7").treeview({
-                                color: "#428bca",
-                                showBorder: !1,
-                                levels:1,
-                                data: returnData.resultJson.data,
-                                onNodeSelected: function (e, o) {
-                                    $("#parent_id").attr("value", o.value);
-                                    $("#parent_name").attr("value", o.text);
-                                    $("#treeview7Content").fadeOut("fast");
-                                }
-                            });
-                        } else{
-                            layer.msg('添加失败, 请联系技术人员!');
-                        }
+            ##联动查询上级部门
+            $.ajax({
+                url:"/dept/deptTreeList.json?areaId=" + $("#area_id").val(),
+                type:"get",
+                success: function(returnData){
+                    console.log(returnData);
+                    if(returnData.resultJson.code == 1){
+                        $("#treeview7").treeview({
+                            color: "#428bca",
+                            showBorder: !1,
+                            levels:1,
+                            data: returnData.resultJson.data,
+                            onNodeSelected: function (e, o) {
+                                $("#parent_id").attr("value", o.value);
+                                $("#parent_name").attr("value", o.text);
+                                $("#treeview7Content").fadeOut("fast");
+                            }
+                        });
+                    } else{
+                        layer.msg('添加失败, 请联系技术人员!');
                     }
-                });
-            }
+                }
+            });
+        }
     )
     function onBodyDown(event) {
         if (!(event.target.id == "parent_id" || event.target.id == "treeview7Content" || $(event.target).parents("#treeview7Content").length>0)) {
@@ -138,42 +138,46 @@
     ##初始化下拉框
 
     $.validator.setDefaults(
-            {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
-                success:function(e){
-                    e.closest(".form-group").removeClass("has-error").addClass("has-success")
-                },
-                errorElement:"span",
-                errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
-                errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+        {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+            success:function(e){
+                e.closest(".form-group").removeClass("has-error").addClass("has-success")
+            },
+            errorElement:"span",
+            errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+            errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
     ),
-            $().ready(
-                    function(){
-                        var e="<i class='fa fa-times-circle'></i> ";
-                        $("#commentForm").validate();
-                        {var i=document.querySelector(".js-switch"),
-                                t=(new Switchery(i,{color:"#1AB394"}));
-                        };
-                        var treeData = '${deptTreeJson}';
-                        ## 生成部门树（上级部门）
-                        $("#treeview7").treeview({
-                            color: "#428bca",
-                            showBorder: !1,
-                            levels:1,
-                            data: treeData,
-                            onNodeSelected: function (e, o) {
-                                $("#parent_id").attr("value", o.value);
-                                $("#parent_name").attr("value", o.text);
-                                $("#treeview7Content").fadeOut("fast");
-                            }
-                        })
-                    }
-            );
+    $().ready(
+        function(){
+            var e="<i class='fa fa-times-circle'></i> ";
+            $("#commentForm").validate({
+                submitHandler:function(form){
+                    addRegion();
+                }
+            });
+            {var i=document.querySelector(".js-switch"),
+                t=(new Switchery(i,{color:"#1AB394"}));
+            };
+            var treeData = '${deptTreeJson}';
+            ## 生成部门树（上级部门）
+            $("#treeview7").treeview({
+                color: "#428bca",
+                showBorder: !1,
+                levels:1,
+                data: treeData,
+                onNodeSelected: function (e, o) {
+                    $("#parent_id").attr("value", o.value);
+                    $("#parent_name").attr("value", o.text);
+                    $("#treeview7Content").fadeOut("fast");
+                }
+            })
+        }
+    );
 
-    $(".btn-primary").click(function(){
-        add();
-    })
+//    $(".btn-primary").click(function(){
+//        add();
+//    })
 
-    function add(){
+    function addRegion(){
         var area_id = $("#area_id").val();
         var parent_id = $("#parent_id").val();
         var p_name = $("#p_name").val();
@@ -182,6 +186,7 @@
         $.ajax({
             url:"/dept/add.json",
             type:"post",
+            async: false,
             data:{
                 name:p_name,
                 parentId:parent_id,
@@ -190,10 +195,8 @@
                 itemStatus:item_status
             },
             success: function(returnData){
-                console.log(returnData);
                 if(returnData.code == 1){
-                    layer.msg('添加成功!');
-                    window.location.href = "/dept/index";
+                    popMsg('添加成功!', "/dept/index");
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }
@@ -203,10 +206,8 @@
     }
 
     // 返回
-    $(".btn-default").click(
-        function(){
+    $(".btn-default").click(function(){
         history.go(-1);
-    }
-    );
+    })
 </script>
 #end
