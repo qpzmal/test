@@ -36,4 +36,12 @@ public class AreaFinanceServiceImpl implements AreaFinanceService {
         result.setData(areaFinanceList);
         return result;
     }
+
+    @Override
+    public ResultJson<Integer> add(BaseAreaFinance baseAreaFinance) {
+        ResultJson<Integer> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        baseAreaFinanceRepo.addSelective(baseAreaFinance);
+        result.setData(baseAreaFinance.getId());
+        return result;
+    }
 }

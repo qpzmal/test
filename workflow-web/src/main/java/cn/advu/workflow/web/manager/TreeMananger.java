@@ -3,6 +3,7 @@ package cn.advu.workflow.web.manager;
 import cn.advu.workflow.domain.base.AbstractTreeEntity;
 import cn.advu.workflow.domain.fcf_vu.BaseDept;
 import cn.advu.workflow.web.dto.TreeNode;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -94,5 +95,14 @@ public class TreeMananger {
             entityMap.put(treeEntity.getId(), treeEntity);
         }
         return LevelMap;
+    }
+
+
+    public String converToTreeJsonStr(Collection<TreeNode> parentNodes) {
+        String parentTreeJson = null;
+        if (parentNodes != null && !parentNodes.isEmpty()) {
+            parentTreeJson = JSONObject.toJSONString(parentNodes);
+        }
+        return parentTreeJson;
     }
 }
