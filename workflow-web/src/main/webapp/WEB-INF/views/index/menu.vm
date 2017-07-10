@@ -80,18 +80,18 @@
                 <ul class="nav nav-second-level">
                     <li>
                         <a class="J_menuItem" href="${rc.contextPath}/adtype/index">广告类型管理</a> ## base_adtype
-                        <a class="J_menuItem" href="${rc.contextPath}/industry/index">客户行业管理</a> ## base_industry
-                        <a class="J_menuItem" href="${rc.contextPath}/monitor/index">监测机构管理</a> ## base_monitor_request
-                        <a class="J_menuItem" href="${rc.contextPath}/region/index">省市地域管理</a> ## base_region
-                        <a class="J_menuItem" href="${rc.contextPath}/dept/index">部门管理</a> ## base_dept
-                        <a class="J_menuItem" href="${rc.contextPath}/person/index">通讯录</a> ## sys_user --> base_person
                         <a class="J_menuItem" href="${rc.contextPath}/area/index">区域管理</a> ## base_area
                         <a class="J_menuItem" href="${rc.contextPath}/areaFinance/index">区域财务结算</a> ## base_area_finance
                         <a class="J_menuItem" href="${rc.contextPath}/custom/index">客户管理</a> ## base_custom
                         <a class="J_menuItem" href="${rc.contextPath}/customFinance/index">客户财务结算</a> ## base_custom_finance
+                        <a class="J_menuItem" href="${rc.contextPath}/dept/index">部门管理</a> ## base_dept
                         <a class="J_menuItem" href="${rc.contextPath}/financial/index">财务指标管理</a> ## base_financialindex
+                        <a class="J_menuItem" href="${rc.contextPath}/industry/index">客户行业管理</a> ## base_industry
                         <a class="J_menuItem" href="${rc.contextPath}/media/index">媒体管理</a> ## base_media
                         <a class="J_menuItem" href="${rc.contextPath}/mediaType/index">媒体类型管理</a> ## base_media_type
+                        <a class="J_menuItem" href="${rc.contextPath}/monitor/index">监测机构管理</a> ## base_monitor_request
+                        <a class="J_menuItem" href="${rc.contextPath}/person/index">通讯录</a> ## sys_user --> base_person
+                        <a class="J_menuItem" href="${rc.contextPath}/region/index">省市地域管理</a> ## base_region
                     </li>
                 </ul>
             </li>

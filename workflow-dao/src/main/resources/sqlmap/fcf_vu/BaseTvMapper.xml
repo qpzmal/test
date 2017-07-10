@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseTv">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -26,7 +26,7 @@
     insert into base_tv (id, name, item_status, 
       create_time, update_time, remark
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{itemStatus,jdbcType=BIT}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{itemStatus,jdbcType=TINYINT},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
@@ -60,7 +60,7 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="itemStatus != null">
-        #{itemStatus,jdbcType=BIT},
+        #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -80,7 +80,7 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="itemStatus != null">
-        item_status = #{itemStatus,jdbcType=BIT},
+        item_status = #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -97,7 +97,7 @@
   <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseTv">
     update base_tv
     set name = #{name,jdbcType=VARCHAR},
-      item_status = #{itemStatus,jdbcType=BIT},
+      item_status = #{itemStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
@@ -114,7 +114,7 @@
     from base_tv
     where del_flag = '0'
     <if test="status != null">
-      and item_status = #{status,jdbcType=BIT}
+      and item_status = #{status,jdbcType=TINYINT}
     </if>
   </select>
 </mapper>

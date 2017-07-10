@@ -67,7 +67,7 @@
 
     function addRegion(){
         var name = $("#media_type_name").val();
-        var item_status = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/mediaType/add.json",
             type:"post",

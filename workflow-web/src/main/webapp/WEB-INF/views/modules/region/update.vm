@@ -84,7 +84,7 @@
         var id = $("#id").val();
         var name = $("#region_name").val();
 //        var description = $("#description").val();
-//        var is_system = $(".js-switch")[0].checked;
+//        var is_system = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/region/update.json",
             type:"post",

@@ -67,7 +67,7 @@
 
     function addRegion(){
         var name = $("#industry_name").val();
-        var item_status = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/industry/add.json",
             type:"post",

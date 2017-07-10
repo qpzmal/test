@@ -5,8 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="link" jdbcType="VARCHAR" property="link" />
-    <result column="del_flag" jdbcType="BIT" property="delFlag" />
-    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -29,7 +29,7 @@
       del_flag, item_status, create_time, 
       update_time, remark)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{link,jdbcType=VARCHAR}, 
-      #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseMonitor">
@@ -71,10 +71,10 @@
         #{link,jdbcType=VARCHAR},
       </if>
       <if test="delFlag != null">
-        #{delFlag,jdbcType=BIT},
+        #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        #{itemStatus,jdbcType=BIT},
+        #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -97,10 +97,10 @@
         link = #{link,jdbcType=VARCHAR},
       </if>
       <if test="delFlag != null">
-        del_flag = #{delFlag,jdbcType=BIT},
+        del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        item_status = #{itemStatus,jdbcType=BIT},
+        item_status = #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -118,8 +118,8 @@
     update base_monitor
     set name = #{name,jdbcType=VARCHAR},
       link = #{link,jdbcType=VARCHAR},
-      del_flag = #{delFlag,jdbcType=BIT},
-      item_status = #{itemStatus,jdbcType=BIT},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      item_status = #{itemStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
@@ -136,7 +136,7 @@
     from base_monitor
     where del_flag = '0'
     <if test="status != null">
-      and item_status = #{status,jdbcType=BIT}
+      and item_status = #{status,jdbcType=TINYINT}
     </if>
   </select>
 </mapper>

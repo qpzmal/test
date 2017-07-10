@@ -88,7 +88,7 @@
         var name = $("#fianancial_name").val();
         var value = $("#value").val();
         var remark = $("#remark").val();
-        var item_status = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/financial/add.json",
             type:"post",

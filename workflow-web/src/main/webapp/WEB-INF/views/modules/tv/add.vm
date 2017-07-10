@@ -68,7 +68,7 @@
 
     function addRegion(){
         var name = $("#tv_name").val();
-        var item_status = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/tv/add.json",
             type:"post",

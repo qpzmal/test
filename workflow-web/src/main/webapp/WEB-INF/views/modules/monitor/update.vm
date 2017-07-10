@@ -22,7 +22,7 @@
             <label class="col-sm-3 control-label">启用:</label>
             <div class="col-sm-8">
                 <input id="item_status" name="item_status" type="checkbox" class="js-switch"
-                       #if($!{baseMonitorRequest.itemStatus} == true)
+                       #if($!{baseMonitorRequest.itemStatus} == "0")
                        checked
                        #end
                 />
@@ -81,7 +81,7 @@
         var id = $("#id").val();
         var name = $("#monitor_request_name").val();
         var link = $("#link").val();
-        var item_status = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/monitor/update.json",
             type:"post",

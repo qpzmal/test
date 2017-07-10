@@ -69,7 +69,7 @@
 
     function updateRegion(){
         var name = $("#tv_name").val();
-        var item_status = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/tv/update.json",
             type:"post",

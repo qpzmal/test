@@ -120,7 +120,7 @@
         var name = $("#area_name").val();
         var code = $("#code").val();
         var parentId = $("#parent_id").val();
-        var item_status = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/area/add.json",
             type:"post",
