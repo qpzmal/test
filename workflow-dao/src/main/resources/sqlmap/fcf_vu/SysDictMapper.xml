@@ -7,8 +7,8 @@
     <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="sort" jdbcType="DECIMAL" property="sort" />
-    <result column="del_flag" jdbcType="BIT" property="delFlag" />
-    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -33,8 +33,8 @@
       item_status, create_time, update_time, 
       remark)
     values (#{id,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{sort,jdbcType=DECIMAL}, #{delFlag,jdbcType=BIT}, 
-      #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{description,jdbcType=VARCHAR}, #{sort,jdbcType=DECIMAL}, #{delFlag,jdbcType=TINYINT},
+      #{itemStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.SysDict"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
@@ -88,10 +88,10 @@
         #{sort,jdbcType=DECIMAL},
       </if>
       <if test="delFlag != null">
-        #{delFlag,jdbcType=BIT},
+        #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        #{itemStatus,jdbcType=BIT},
+        #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -120,10 +120,10 @@
         sort = #{sort,jdbcType=DECIMAL},
       </if>
       <if test="delFlag != null">
-        del_flag = #{delFlag,jdbcType=BIT},
+        del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        item_status = #{itemStatus,jdbcType=BIT},
+        item_status = #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -143,8 +143,8 @@
       label = #{label,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=DECIMAL},
-      del_flag = #{delFlag,jdbcType=BIT},
-      item_status = #{itemStatus,jdbcType=BIT},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      item_status = #{itemStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
@@ -161,7 +161,7 @@
     from sys_dict
     where del_flag = '0'
     <if test="status != null">
-      and item_status = #{status,jdbcType=BIT}
+      and item_status = #{status,jdbcType=TINYINT}
     </if>
   </select>
 </mapper>

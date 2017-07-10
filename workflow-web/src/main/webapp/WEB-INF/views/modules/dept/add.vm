@@ -182,7 +182,7 @@
         var parent_id = $("#parent_id").val();
         var p_name = $("#p_name").val();
         var description = $("#description").val();
-        var item_status = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/dept/add.json",
             type:"post",

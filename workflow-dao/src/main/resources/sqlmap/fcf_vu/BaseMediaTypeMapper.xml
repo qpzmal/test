@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BaseMediaType">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="del_flag" jdbcType="BIT" property="delFlag" />
-    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
     <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -31,8 +31,8 @@
       item_status, creator_id, updater_id, 
       create_time, update_time, remark
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, 
-      #{itemStatus,jdbcType=BIT}, #{creatorId,jdbcType=INTEGER}, #{updaterId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{delFlag,jdbcType=TINYINT},
+      #{itemStatus,jdbcType=TINYINT}, #{creatorId,jdbcType=INTEGER}, #{updaterId,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
@@ -75,10 +75,10 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="delFlag != null">
-        #{delFlag,jdbcType=BIT},
+        #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        #{itemStatus,jdbcType=BIT},
+        #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="creatorId != null">
         #{creatorId,jdbcType=INTEGER},
@@ -104,10 +104,10 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="delFlag != null">
-        del_flag = #{delFlag,jdbcType=BIT},
+        del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        item_status = #{itemStatus,jdbcType=BIT},
+        item_status = #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="creatorId != null">
         creator_id = #{creatorId,jdbcType=INTEGER},
@@ -130,8 +130,8 @@
   <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseMediaType">
     update base_media_type
     set name = #{name,jdbcType=VARCHAR},
-      del_flag = #{delFlag,jdbcType=BIT},
-      item_status = #{itemStatus,jdbcType=BIT},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      item_status = #{itemStatus,jdbcType=TINYINT},
       creator_id = #{creatorId,jdbcType=INTEGER},
       updater_id = #{updaterId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -147,7 +147,7 @@
     from base_media_type
     where del_flag = '0'
     <if test="status != null">
-      and item_status = #{status,jdbcType=BIT}
+      and item_status = #{status,jdbcType=TINYINT}
     </if>
   </select>
 </mapper>

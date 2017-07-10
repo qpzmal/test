@@ -88,7 +88,7 @@
             <label class="col-sm-3 control-label">启用/停用</label>
             <div class="col-sm-8">
                 <input id="item_status" name="item_status" type="checkbox" class="js-switch"
-                    #if($!{baseCustom.itemStatus} == true)
+                    #if($!{baseCustom.itemStatus} == "0")
                        checked
                     #end
                 />
@@ -165,7 +165,7 @@
         var remark = $("#remark").val();
         var customIndustryId = $(".chosen-select").val();
         var custom_type = $("#custom_type").val();
-        var item_status = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/custom/update.json",
             type:"post",

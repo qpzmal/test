@@ -16,8 +16,8 @@
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="dept_id" jdbcType="INTEGER" property="deptId" />
     <result column="last_login_time" jdbcType="BIGINT" property="lastLoginTime" />
-    <result column="del_flag" jdbcType="BIT" property="delFlag" />
-    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -48,8 +48,8 @@
       #{password,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{dept,jdbcType=VARCHAR}, 
       #{lockeddate,jdbcType=TIMESTAMP}, #{loginFailCount,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
-      #{deptId,jdbcType=INTEGER}, #{lastLoginTime,jdbcType=BIGINT}, #{delFlag,jdbcType=BIT}, 
-      #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      #{deptId,jdbcType=INTEGER}, #{lastLoginTime,jdbcType=BIGINT}, #{delFlag,jdbcType=TINYINT},
+      #{itemStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.SysUser"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
@@ -154,10 +154,10 @@
         #{lastLoginTime,jdbcType=BIGINT},
       </if>
       <if test="delFlag != null">
-        #{delFlag,jdbcType=BIT},
+        #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        #{itemStatus,jdbcType=BIT},
+        #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -210,10 +210,10 @@
         last_login_time = #{lastLoginTime,jdbcType=BIGINT},
       </if>
       <if test="delFlag != null">
-        del_flag = #{delFlag,jdbcType=BIT},
+        del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        item_status = #{itemStatus,jdbcType=BIT},
+        item_status = #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -239,8 +239,8 @@
       sort = #{sort,jdbcType=INTEGER},
       dept_id = #{deptId,jdbcType=INTEGER},
       last_login_time = #{lastLoginTime,jdbcType=BIGINT},
-      del_flag = #{delFlag,jdbcType=BIT},
-      item_status = #{itemStatus,jdbcType=BIT},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      item_status = #{itemStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
@@ -256,7 +256,7 @@
     from sys_user
     where del_flag = '0'
     <if test="item_status != null">
-      and item_status = #{status,jdbcType=BIT}
+      and item_status = #{status,jdbcType=TINYINT}
     </if>
   </select>
   <select id="queryUserByNameAndId" resultMap="BaseResultMap">

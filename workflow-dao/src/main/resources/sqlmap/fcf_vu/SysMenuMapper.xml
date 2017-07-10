@@ -159,7 +159,7 @@
     <include refid="Base_Column_List" />
     from sys_menu
     <if test="status != null">
-      where status = #{status,jdbcType=BIT}
+      where status = #{status,jdbcType=TINYINT}
     </if>
   </select>
 </mapper>

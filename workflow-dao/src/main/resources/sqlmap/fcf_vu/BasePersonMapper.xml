@@ -11,8 +11,8 @@
     <result column="dept_id" jdbcType="INTEGER" property="deptId" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
-    <result column="del_flag" jdbcType="BIT" property="delFlag" />
-    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="pay2" jdbcType="DECIMAL" property="pay2" />
     <result column="person_pay" jdbcType="DECIMAL" property="personPay" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -53,7 +53,7 @@
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, 
       #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{deptId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
-      #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, #{pay2,jdbcType=DECIMAL}, 
+      #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT}, #{pay2,jdbcType=DECIMAL},
       #{personPay,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
@@ -138,10 +138,10 @@
         #{parentId,jdbcType=INTEGER},
       </if>
       <if test="delFlag != null">
-        #{delFlag,jdbcType=BIT},
+        #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        #{itemStatus,jdbcType=BIT},
+        #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="pay2 != null">
         #{pay2,jdbcType=DECIMAL},
@@ -188,10 +188,10 @@
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
       <if test="delFlag != null">
-        del_flag = #{delFlag,jdbcType=BIT},
+        del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        item_status = #{itemStatus,jdbcType=BIT},
+        item_status = #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="pay2 != null">
         pay2 = #{pay2,jdbcType=DECIMAL},
@@ -221,8 +221,8 @@
       dept_id = #{deptId,jdbcType=INTEGER},
       state = #{state,jdbcType=INTEGER},
       parent_id = #{parentId,jdbcType=INTEGER},
-      del_flag = #{delFlag,jdbcType=BIT},
-      item_status = #{itemStatus,jdbcType=BIT},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      item_status = #{itemStatus,jdbcType=TINYINT},
       pay2 = #{pay2,jdbcType=DECIMAL},
       person_pay = #{personPay,jdbcType=DECIMAL},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -241,7 +241,7 @@
     from base_person
     where del_flag = '0'
     <if test="status != null">
-      and item_status = #{status,jdbcType=BIT}
+      and item_status = #{status,jdbcType=TINYINT}
     </if>
   </select>
 
@@ -257,10 +257,10 @@
     <if test="status != null">
       where base_person.item_status = 0
       <if test="areaId != null">
-        and base_person.area_id = #{areaId,jdbcType=BIT}
+        and base_person.area_id = #{areaId,jdbcType=TINYINT}
       </if>
       <if test="deptId != null">
-        and base_person.dept_id = #{deptId,jdbcType=BIT}
+        and base_person.dept_id = #{deptId,jdbcType=TINYINT}
       </if>
 
     </if>

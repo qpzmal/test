@@ -30,8 +30,8 @@
     <result column="pay_percent" jdbcType="DECIMAL" property="payPercent" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="account_period" jdbcType="INTEGER" property="accountPeriod" />
-    <result column="del_flag" jdbcType="BIT" property="delFlag" />
-    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -76,7 +76,7 @@
       #{personLeaderId,jdbcType=INTEGER}, #{ourMonitorName,jdbcType=VARCHAR}, #{reportTypeId,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{signingIntention,jdbcType=VARCHAR}, #{personPayeeId,jdbcType=INTEGER}, 
       #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, #{accountPeriod,jdbcType=INTEGER}, 
-      #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{frameId,jdbcType=INTEGER}
       )
   </insert>
@@ -272,10 +272,10 @@
         #{accountPeriod,jdbcType=INTEGER},
       </if>
       <if test="delFlag != null">
-        #{delFlag,jdbcType=BIT},
+        #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        #{itemStatus,jdbcType=BIT},
+        #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -376,10 +376,10 @@
         account_period = #{accountPeriod,jdbcType=INTEGER},
       </if>
       <if test="delFlag != null">
-        del_flag = #{delFlag,jdbcType=BIT},
+        del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        item_status = #{itemStatus,jdbcType=BIT},
+        item_status = #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -426,8 +426,8 @@
       pay_percent = #{payPercent,jdbcType=DECIMAL},
       user_id = #{userId,jdbcType=INTEGER},
       account_period = #{accountPeriod,jdbcType=INTEGER},
-      del_flag = #{delFlag,jdbcType=BIT},
-      item_status = #{itemStatus,jdbcType=BIT},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      item_status = #{itemStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
@@ -442,7 +442,7 @@
     from base_execute_order_frame
     where del_flag = '0'
     <if test="status != null">
-      and item_status = #{status,jdbcType=BIT}
+      and item_status = #{status,jdbcType=TINYINT}
     </if>
   </select>
 

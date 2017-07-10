@@ -75,7 +75,7 @@
     function addRegion(){
         var name = $("#monitor_request_name").val();
         var link = $("#link").val();
-        var item_status = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/monitor/add.json",
             type:"post",

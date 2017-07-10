@@ -7,7 +7,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
     <result column="sec_order_num" jdbcType="VARCHAR" property="secOrderNum" />
-    <result column="type" jdbcType="BIT" property="type" />
+    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
     <result column="delivery_area_ids" jdbcType="VARCHAR" property="deliveryAreaIds" />
     <result column="delivery_area_names" jdbcType="VARCHAR" property="deliveryAreaNames" />
@@ -31,8 +31,8 @@
     <result column="pay_percent" jdbcType="DECIMAL" property="payPercent" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="account_period" jdbcType="INTEGER" property="accountPeriod" />
-    <result column="del_flag" jdbcType="BIT" property="delFlag" />
-    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -69,7 +69,7 @@
       create_time, update_time, remark, 
       frame_id)
     values (#{id,jdbcType=INTEGER},  #{processInstanceId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR},
-      #{secOrderNum,jdbcType=VARCHAR}, #{type,jdbcType=BIT}, #{orderDate,jdbcType=TIMESTAMP}, 
+      #{secOrderNum,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{orderDate,jdbcType=TIMESTAMP},
       #{deliveryAreaIds,jdbcType=VARCHAR}, #{deliveryAreaNames,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, 
       #{personSalesId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, #{publicRebate,jdbcType=DECIMAL}, 
       #{privateRebate,jdbcType=DECIMAL}, #{taxAmount,jdbcType=DECIMAL}, #{taxFreeAmount,jdbcType=DECIMAL}, 
@@ -77,7 +77,7 @@
       #{endDate,jdbcType=TIMESTAMP}, #{personLeaderId,jdbcType=INTEGER}, #{ourMonitorName,jdbcType=VARCHAR}, 
       #{reportTypeId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{signingIntention,jdbcType=VARCHAR}, 
       #{personPayeeId,jdbcType=INTEGER}, #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, 
-      #{accountPeriod,jdbcType=INTEGER}, #{delFlag,jdbcType=BIT}, #{itemStatus,jdbcType=BIT}, 
+      #{accountPeriod,jdbcType=INTEGER}, #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
       #{frameId,jdbcType=INTEGER})
   </insert>
@@ -207,7 +207,7 @@
         #{secOrderNum,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        #{type,jdbcType=BIT},
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="orderDate != null">
         #{orderDate,jdbcType=TIMESTAMP},
@@ -279,10 +279,10 @@
         #{accountPeriod,jdbcType=INTEGER},
       </if>
       <if test="delFlag != null">
-        #{delFlag,jdbcType=BIT},
+        #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        #{itemStatus,jdbcType=BIT},
+        #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -314,7 +314,7 @@
         sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=BIT},
+        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="orderDate != null">
         order_date = #{orderDate,jdbcType=TIMESTAMP},
@@ -386,10 +386,10 @@
         account_period = #{accountPeriod,jdbcType=INTEGER},
       </if>
       <if test="delFlag != null">
-        del_flag = #{delFlag,jdbcType=BIT},
+        del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
       <if test="itemStatus != null">
-        item_status = #{itemStatus,jdbcType=BIT},
+        item_status = #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -413,7 +413,7 @@
       name = #{name,jdbcType=VARCHAR},
       order_num = #{orderNum,jdbcType=VARCHAR},
       sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
-      type = #{type,jdbcType=BIT},
+      type = #{type,jdbcType=TINYINT},
       order_date = #{orderDate,jdbcType=TIMESTAMP},
       delivery_area_ids = #{deliveryAreaIds,jdbcType=VARCHAR},
       delivery_area_names = #{deliveryAreaNames,jdbcType=VARCHAR},
@@ -437,8 +437,8 @@
       pay_percent = #{payPercent,jdbcType=DECIMAL},
       user_id = #{userId,jdbcType=INTEGER},
       account_period = #{accountPeriod,jdbcType=INTEGER},
-      del_flag = #{delFlag,jdbcType=BIT},
-      item_status = #{itemStatus,jdbcType=BIT},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      item_status = #{itemStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
@@ -458,7 +458,7 @@
     from base_execute_order
     where del_flag = '0'
     <if test="status != null">
-      and item_status = #{status,jdbcType=BIT}
+      and item_status = #{status,jdbcType=TINYINT}
     </if>
   </select>
 </mapper>

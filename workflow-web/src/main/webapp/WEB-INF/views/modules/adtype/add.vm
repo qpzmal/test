@@ -6,7 +6,7 @@
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
         <div class="form-group">
-            <label class="col-sm-3 control-label">媒体名称:</label>
+            <label class="col-sm-3 control-label">广告类型名称:</label>
             <div class="col-sm-8">
                 <input id="adtype_name" name="adtype_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
@@ -68,7 +68,7 @@
 
     function addRegion(){
         var name = $("#adtype_name").val();
-        var item_status = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/adtype/add.json",
             type:"post",

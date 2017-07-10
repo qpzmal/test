@@ -16,7 +16,7 @@
             <label class="col-sm-3 control-label">启用:</label>
             <div class="col-sm-8">
                 <input id="item_status" name="item_status" type="checkbox" class="js-switch"
-                    #if($!{baseMedia.itemStatus} == true)
+                    #if($!{baseMedia.itemStatus} == "0")
                        checked
                     #end
                 />
@@ -74,7 +74,7 @@
     function updateRegion(){
         var id = $("#id").val();
         var name = $("#media_name").val();
-        var item_status = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/media/update.json",
             type:"post",

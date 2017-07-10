@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.SysFuction">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="item_status" jdbcType="BIT" property="itemStatus" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
     <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -31,7 +31,7 @@
       creator_id, updater_id, create_time, 
       update_time, resource_id, operate_type_id
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{itemStatus,jdbcType=BIT}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{itemStatus,jdbcType=TINYINT},
       #{creatorId,jdbcType=INTEGER}, #{updaterId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{resourceId,jdbcType=INTEGER}, #{operateTypeId,jdbcType=INTEGER}
       )
@@ -75,7 +75,7 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="itemStatus != null">
-        #{itemStatus,jdbcType=BIT},
+        #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="creatorId != null">
         #{creatorId,jdbcType=INTEGER},
@@ -104,7 +104,7 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="itemStatus != null">
-        item_status = #{itemStatus,jdbcType=BIT},
+        item_status = #{itemStatus,jdbcType=TINYINT},
       </if>
       <if test="creatorId != null">
         creator_id = #{creatorId,jdbcType=INTEGER},
@@ -130,7 +130,7 @@
   <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.SysFuction">
     update sys_fuction
     set name = #{name,jdbcType=VARCHAR},
-      item_status = #{itemStatus,jdbcType=BIT},
+      item_status = #{itemStatus,jdbcType=TINYINT},
       creator_id = #{creatorId,jdbcType=INTEGER},
       updater_id = #{updaterId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
