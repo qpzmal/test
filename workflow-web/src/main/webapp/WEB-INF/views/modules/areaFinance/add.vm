@@ -1,0 +1,233 @@
+## 引入css
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
+##树状展示
+<link href="#springUrl("")/static/css/plugins/treeview/bootstrap-treeview.css?$!application.getAttribute('/static/css/plugins/treeview/bootstrap-treeview.css')" rel="stylesheet">
+
+#end
+
+<div class="ibox-content">
+    <form class="form-horizontal m-t" id="commentForm">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">所属公司</label>
+            <div id="parent_content"  class="col-sm-8">
+                <input id="parent_id" hidden value="$!{areaId}">
+                <input value="$!{areaName}" id="parent_name" name="parent_name" type="text" class="form-control"
+                    #if(!${parentTreeJson})
+                       disabled
+                    #end
+                       onclick="showDeptList(); return false;">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">名称</label>
+            <div class="col-sm-8">
+                <input id="area_finance_name" name="area_finance_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">财务结算日期</label>
+            <div class="col-sm-9">
+                <input id="start_date" placeholder="开始日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                <label class="control-label">-</label>
+                <input id="end_date" placeholder="结束日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">房租成本</label>
+            <div class="col-sm-8">
+                <input id="room_pay" name="room_pay" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">人员成本</label>
+            <div class="col-sm-8">
+                <input id="person_pay" name="person_pay" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">其他综合分摊费用</label>
+            <div class="col-sm-8">
+                <input id="other_pay" name="other_pay" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">成本</label>
+            <div class="col-sm-8">
+                <input id="cost_buy" name="cost_buy" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">净收入（订单额减去返点）</label>
+            <div class="col-sm-8">
+                <input id="income" name="income" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">税费</label>
+            <div class="col-sm-8">
+                <input id="tax" name="tax" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">销售提成</label>
+            <div class="col-sm-8">
+                <input id="sales_commission" name="sales_commission" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">备注</label>
+            <div class="col-sm-8">
+                <input id="remark" name="remark" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">启用:</label>
+            <div class="col-sm-8">
+                <input id="item_status" name="item_status" type="checkbox" class="js-switch" checked />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-3">
+                <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="parentTreeContent" class="col-sm-8 ibox-content" style="display:none; position: absolute;">
+    <div id="parentTreeView" class="test" ></div>
+</div>
+
+
+## 引入js
+#define($jsblock)
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
+
+##树状展示
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
+##日期控件
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')"></script>
+
+<script>
+
+    var start = {
+        elem: "#start_date",
+        format: "YYYY/MM/DD",
+        min: laydate.now(),
+        max: "2099-06-16",
+        istime: false,
+        istoday: false,
+        choose: function (datas) {
+            end.min = datas;
+            end.start = datas
+        }
+    };
+    var end={
+        elem:"#end_date",
+        format: "YYYY/MM/DD",
+        min: laydate.now(),
+        max: "2099-06-16",
+        istime: false,
+        istoday: false,
+        choose: function (datas) {
+            start.max = datas
+        }};
+    laydate(start);
+    laydate(end);
+
+    ##显示公司树状列表（上级部门）start
+    function onBodyDown(event) {
+        if (!(event.target.id == "parent_id" || event.target.id == "parentTreeContent" || $(event.target).parents("#parentTreeContent").length>0)) {
+            hideMenu();
+        }
+    }
+    function hideMenu() {
+        $("#parentTreeContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+    function showDeptList() {
+        var parent_name = $("#parent_name");
+        var parent_content_offSet = $("#parent_content").offset();
+        var parent_name_offSet = parent_name.offset();
+        $("#parentTreeContent").css({left:parent_name_offSet.left + "px", top:parent_content_offSet.top + parent_name.outerHeight() + "px"}).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    };
+    ##显示公司树状列表（上级部门）end
+
+    $.validator.setDefaults(
+        {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+            success:function(e){
+                e.closest(".form-group").removeClass("has-error").addClass("has-success")
+            },
+            errorElement:"span",
+            errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+            errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+    ),
+
+    $().ready(
+        function(){
+            var e="<i class='fa fa-times-circle'></i> ";
+            $("#commentForm").validate({
+                submitHandler:function(form){
+                    add();
+                }
+            });
+            {var i=document.querySelector(".js-switch"),
+                t=(new Switchery(i,{color:"#1AB394"}));
+            };
+        }
+    );
+
+    function add(){
+        var parent_id = $("#parent_id").val();
+        var area_finance_name = $("#area_finance_name").val();
+        var start_date = $("#start_date").val();
+        var end_date = $("#end_date").val();
+        var room_pay = $("#room_pay").val();
+        var person_pay = $("#person_pay").val();
+        var other_pay = $("#other_pay").val();
+        var cost_buy = $("#cost_buy").val();
+        var income = $("#income").val();
+        var tax = $("#tax").val();
+        var sales_commission = $("#sales_commission").val();
+        var item_status = $(".js-switch")[0].checked;
+        $.ajax({
+            url:"/areaFinance/add.json",
+            type:"post",
+            async: false,
+            data:{
+                areaId:parent_id,
+                name:area_finance_name,
+                startDate:start_date,
+                endDate:end_date,
+                roomPay:room_pay,
+                personPay:person_pay,
+                otherPay:other_pay,
+                costBuy:cost_buy,
+                income:income,
+                tax:tax,
+                salesCommission:sales_commission,
+                itemStatus:item_status
+            },
+            success: function(returnData){
+                if(returnData.code == 1){
+                    popMsg('添加成功!', "/areaFinance/index");
+                } else{
+                    layer.msg('添加失败, 请联系技术人员!');
+                }
+            }
+        });
+    }
+
+    // 返回
+    $(".btn-default").click(function(){
+        history.go(-1);
+    })
+</script>
+#end

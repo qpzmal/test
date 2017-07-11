@@ -4,6 +4,7 @@ import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseAreaFinance;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.dto.TreeNode;
+import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.AreaFinanceService;
 import cn.advu.workflow.web.service.base.AreaService;
 import com.alibaba.fastjson.JSONArray;
@@ -34,6 +35,9 @@ public class AreaFinanceController {
     @Autowired
     private AreaFinanceService areaFinanceService;
 
+    @Autowired
+    private TreeMananger treeMananger;
+
     /**
      * 跳转区域业务首页-区域列表页
      *
@@ -57,22 +61,20 @@ public class AreaFinanceController {
 
 
 //        List<BaseAreaFinance> dataList = areaFinanceService.findByArea(areaId).getData();
-
-
 //        resultModel.addAttribute("dataList", dataList);
         resultModel.addAttribute("parentTreeJson", parentTreeJson);
         return "modules/areaFinance/list";
     }
 
     /**
-     * 新增地域
+     * 新增地域结算
      *
      * @return
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addRegion(BaseArea baseArea, HttpServletRequest request){
-        return areaService.addArea(baseArea);
+    public ResultJson<Integer> add(BaseAreaFinance baseAreaFinance, HttpServletRequest request){
+        return areaFinanceService.add(baseAreaFinance);
     }
 
     /**
@@ -92,28 +94,25 @@ public class AreaFinanceController {
      * @return
      */
     @RequestMapping("/toAdd")
-    public String toAdd(Integer parentId, Model model){
+    public String toAdd(Integer areaId, Model model){
 
         // 所属公司的树状结构
-        List<TreeNode> parentNodes = new LinkedList<>();
-        parentNodes.addAll(areaService.findAreaNodeList(null).getData());
-        String parentTreeJson = null;
-        if (parentNodes != null && !parentNodes.isEmpty()) {
-            parentTreeJson = JSONObject.toJSONString(parentNodes);
+        String parentTreeJson = treeMananger.converToTreeJsonStr(
+                areaService.findAreaNodeList(null).getData()
+        );
+
+        // 设置所属公司名称
+        String areaName = "";
+        if (areaId != null) {
+            BaseArea parentArea = areaService.findById(areaId).getData();
+            areaName = parentArea.getName();
         }
 
-        // 设置上级公司名称
-        String parentAreaName = "";
-        if (parentId != null) {
-            BaseArea parentArea = areaService.findById(parentId).getData();
-            parentAreaName = parentArea.getName();
-        }
-
-        model.addAttribute("parentId", parentId);
-        model.addAttribute("parentAreaName", parentAreaName);
+        model.addAttribute("areaId", areaId);
+        model.addAttribute("areaName", areaName);
         model.addAttribute("parentTreeJson", parentTreeJson);
 
-        return "modules/area/add";
+        return "modules/areaFinance/add";
     }
 
 

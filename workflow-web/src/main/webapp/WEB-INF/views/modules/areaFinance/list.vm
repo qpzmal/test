@@ -119,12 +119,12 @@
 
     // 添加
     $(".btn-primary").click(function(){
-        window.location.href = "${rc.contextPath}/area/toAdd";
+        window.location.href = "${rc.contextPath}/areaFinance/toAdd?areaId=" + $("#parent_id").val();
     })
     // 修改
     $(".btn-info").click(function(){
         var id = $(this).parent().children(":first").val();
-        window.location.href = "${rc.contextPath}/area/toUpdate?id=" + id;
+        window.location.href = "${rc.contextPath}/areaFinance/toUpdate?id=" + id;
     })
     // 删除
     $(".btn-danger").click(function(){
