@@ -44,4 +44,11 @@ public class AreaFinanceServiceImpl implements AreaFinanceService {
         result.setData(baseAreaFinance.getId());
         return result;
     }
+
+    @Override
+    public ResultJson<BaseAreaFinance> findById(Integer id) {
+        ResultJson<BaseAreaFinance> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseAreaFinanceRepo.findOne(id));
+        return result;
+    }
 }
