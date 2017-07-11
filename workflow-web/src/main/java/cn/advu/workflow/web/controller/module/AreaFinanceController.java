@@ -45,23 +45,16 @@ public class AreaFinanceController {
      * @return
      */
     @RequestMapping("/index")
-    public String toIndex(String areaIdJsonStr, Model resultModel){
+    public String toIndex(Integer areaId, Model resultModel){
 
         // 所属公司的树状结构
-        List<TreeNode> parentNodes = new LinkedList<>();
-        parentNodes.addAll(areaService.findAreaNodeList(null).getData());
-        String parentTreeJson = null;
-        if (parentNodes != null && !parentNodes.isEmpty()) {
-            parentTreeJson = JSONObject.toJSONString(parentNodes);
-        }
-
-        JSONArray areaIdArr = JSONArray.parseArray(areaIdJsonStr);
-        List<Integer> areaIdList = new LinkedList<>();
+        String parentTreeJson = treeMananger.converToTreeJsonStr(
+                areaService.findAreaNodeList(null).getData()
+        );
 
 
-
-//        List<BaseAreaFinance> dataList = areaFinanceService.findByArea(areaId).getData();
-//        resultModel.addAttribute("dataList", dataList);
+        List<BaseAreaFinance> dataList = areaFinanceService.findByArea(areaId).getData();
+        resultModel.addAttribute("dataList", dataList);
         resultModel.addAttribute("parentTreeJson", parentTreeJson);
         return "modules/areaFinance/list";
     }
@@ -125,11 +118,20 @@ public class AreaFinanceController {
     @RequestMapping("/toUpdate")
     public String toUpdate(Integer id, Model model){
 
-        BaseArea baseArea = areaService.findById(id).getData();
+        BaseAreaFinance baseAreaFinance = areaFinanceService.findById(id).getData();
 
-        model.addAttribute("baseArea", baseArea);
+        // 设置所属公司名称
+        String areaName = "";
+        Integer areaId = baseAreaFinance.getAreaId();
+        if (areaId != null) {
+            BaseArea parentArea = areaService.findById(areaId).getData();
+            areaName = parentArea.getName();
+        }
 
-        return "modules/area/update";
+        model.addAttribute("areaName", areaName);
+        model.addAttribute("baseAreaFinance", baseAreaFinance);
+
+        return "modules/areaFinance/update";
     }
 
 

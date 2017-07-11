@@ -14,4 +14,6 @@ public interface AreaFinanceService {
    ResultJson<List<BaseAreaFinance>> findByArea(Integer areaId);
 
    ResultJson<Integer> add(BaseAreaFinance baseAreaFinance);
+
+   ResultJson<BaseAreaFinance> findById(Integer id);
 }
