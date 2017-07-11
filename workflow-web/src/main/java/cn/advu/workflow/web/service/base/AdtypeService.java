@@ -42,4 +42,12 @@ public interface AdtypeService {
      */
     ResultJson<Integer> udpateAdtype(BaseAdtype baseAdtype);
 
+    /**
+     * 删除广告类型
+     *
+     * @param id
+     * @return
+     */
+    ResultJson<Void> remove(Integer id);
+
 }

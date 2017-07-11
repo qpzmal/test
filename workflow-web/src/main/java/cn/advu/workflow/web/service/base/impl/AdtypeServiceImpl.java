@@ -57,4 +57,14 @@ public class AdtypeServiceImpl implements AdtypeService {
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
+
+    @Override
+    public ResultJson<Void> remove(Integer id) {
+        BaseAdtype baseAdtype = baseAdtypeRepo.findOne(id);
+        if (baseAdtype != null) {
+            baseAdtype.setDelFlag("1");
+            baseAdtypeRepo.update(baseAdtype);
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
 }

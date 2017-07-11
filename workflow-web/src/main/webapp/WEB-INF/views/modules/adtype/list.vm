@@ -62,15 +62,12 @@
     // 删除
     $(".btn-danger").click(function(){
         var id = $(this).parent().children(":first").val();
-        delItem(function(){
+        delItem(
+            function(){
             $.ajax({
-                url:"/adtype/update.json",
-                type:"post",
-                data:{
-                    "id":id,
-                    "delFlag":1
-                },
-                success: function(returnData){
+                url:"/adtype/"+ id +".json",
+                type:"delete",
+                success:function(returnData){
                     if(returnData.code == 1){
                         popMsg('删除成功!', "/adtype/index");
                     } else{

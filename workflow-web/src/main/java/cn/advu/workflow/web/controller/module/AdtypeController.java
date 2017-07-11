@@ -6,6 +6,7 @@ import cn.advu.workflow.web.service.base.AdtypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -58,6 +59,17 @@ public class AdtypeController {
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     public ResultJson<Integer> updateAdtype(BaseAdtype baseAdtype, HttpServletRequest request){
         return adtypeService.udpateAdtype(baseAdtype);
+    }
+
+    /**
+     * 更新广告类型
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/{id}", method = RequestMethod.DELETE)
+    public ResultJson<Void> remove(@PathVariable(value="id") Integer id, HttpServletRequest request){
+        return adtypeService.remove(id);
     }
 
     /**
