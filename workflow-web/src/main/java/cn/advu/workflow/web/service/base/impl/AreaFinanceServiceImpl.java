@@ -46,6 +46,13 @@ public class AreaFinanceServiceImpl implements AreaFinanceService {
     }
 
     @Override
+    public ResultJson<Void> update(BaseAreaFinance baseAreaFinance) {
+        ResultJson<Void> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        baseAreaFinanceRepo.updateSelective(baseAreaFinance);
+        return result;
+    }
+
+    @Override
     public ResultJson<BaseAreaFinance> findById(Integer id) {
         ResultJson<BaseAreaFinance> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
         result.setData(baseAreaFinanceRepo.findOne(id));

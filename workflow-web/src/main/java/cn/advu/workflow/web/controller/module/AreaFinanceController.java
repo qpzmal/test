@@ -53,8 +53,17 @@ public class AreaFinanceController {
         );
 
 
+        // 设置所属公司名称
+        String areaName = "";
+        if (areaId != null) {
+            BaseArea parentArea = areaService.findById(areaId).getData();
+            areaName = parentArea.getName();
+        }
+
         List<BaseAreaFinance> dataList = areaFinanceService.findByArea(areaId).getData();
         resultModel.addAttribute("dataList", dataList);
+        resultModel.addAttribute("areaId", areaId);
+        resultModel.addAttribute("areaName", areaName);
         resultModel.addAttribute("parentTreeJson", parentTreeJson);
         return "modules/areaFinance/list";
     }
@@ -77,8 +86,8 @@ public class AreaFinanceController {
      */
     @ResponseBody
     @RequestMapping(value ="/update", method = RequestMethod.POST)
-    public ResultJson<Integer> updateArea(BaseArea baseArea, HttpServletRequest request){
-        return areaService.updateArea(baseArea);
+    public ResultJson<Void> updateArea(BaseAreaFinance baseAreaFinance, HttpServletRequest request){
+        return areaFinanceService.update(baseAreaFinance);
     }
 
     /**
@@ -120,6 +129,11 @@ public class AreaFinanceController {
 
         BaseAreaFinance baseAreaFinance = areaFinanceService.findById(id).getData();
 
+        // 所属公司的树状结构
+        String parentTreeJson = treeMananger.converToTreeJsonStr(
+                areaService.findAreaNodeList(null).getData()
+        );
+
         // 设置所属公司名称
         String areaName = "";
         Integer areaId = baseAreaFinance.getAreaId();
@@ -130,6 +144,7 @@ public class AreaFinanceController {
 
         model.addAttribute("areaName", areaName);
         model.addAttribute("baseAreaFinance", baseAreaFinance);
+        model.addAttribute("parentTreeJson", parentTreeJson);
 
         return "modules/areaFinance/update";
     }

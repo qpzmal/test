@@ -8,12 +8,11 @@
 
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
-        <input type="hidden" id="id" name="id" value="$baseAreaFinance.id">
         <div class="form-group">
             <label class="col-sm-3 control-label">所属公司</label>
             <div id="parent_content"  class="col-sm-8">
-                <input id="parent_id" hidden value="$!{areaId}">
-                <input value="$!{areaName}" id="parent_name" name="parent_name" type="text" class="form-control"
+                <input id="parent_id" hidden value="$!{customId}">
+                <input value="$!{customName}" id="parent_name" name="parent_name" type="text" class="form-control"
                     #if(!${parentTreeJson})
                        disabled
                     #end
@@ -23,73 +22,69 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">名称</label>
             <div class="col-sm-8">
-                <input value="$!{baseAreaFinance.name}" id="area_finance_name" name="area_finance_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="area_finance_name" name="area_finance_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">财务结算日期</label>
             <div class="col-sm-9">
-                <input value="$!{baseAreaFinance.startDate}" id="start_date" placeholder="开始日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                <input id="start_date" placeholder="开始日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
                 <label class="control-label">-</label>
-                <input value="$!{baseAreaFinance.endDate}" id="end_date" placeholder="结束日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                <input id="end_date" placeholder="结束日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">房租成本</label>
             <div class="col-sm-8">
-                <input value="$!{baseAreaFinance.roomPay}" id="room_pay" name="room_pay" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="room_pay" name="room_pay" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">人员成本</label>
             <div class="col-sm-8">
-                <input value="$!{baseAreaFinance.personPay}" id="person_pay" name="person_pay" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="person_pay" name="person_pay" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">其他综合分摊费用</label>
             <div class="col-sm-8">
-                <input value="$!{baseAreaFinance.otherPay}" id="other_pay" name="other_pay" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="other_pay" name="other_pay" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">成本</label>
             <div class="col-sm-8">
-                <input value="$!{baseAreaFinance.costBuy}" id="cost_buy" name="cost_buy" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="cost_buy" name="cost_buy" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">净收入（订单额减去返点）</label>
             <div class="col-sm-8">
-                <input value="$!{baseAreaFinance.income}" id="income" name="income" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="income" name="income" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">税费</label>
             <div class="col-sm-8">
-                <input value="$!{baseAreaFinance.tax}" id="tax" name="tax" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="tax" name="tax" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">销售提成</label>
             <div class="col-sm-8">
-                <input value="$!{baseAreaFinance.salesCommission}" id="sales_commission" name="sales_commission" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="sales_commission" name="sales_commission" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">备注</label>
             <div class="col-sm-8">
-                <input value="$!{baseAreaFinance.remark}" id="remark" name="remark" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="remark" name="remark" maxlength="50" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">启用:</label>
             <div class="col-sm-8">
-                <input id="item_status" name="item_status" type="checkbox" class="js-switch"
-                    #if($!{baseAreaFinance.itemStatus} == "0")
-                       checked
-                    #end
-                />
+                <input id="item_status" name="item_status" type="checkbox" class="js-switch" checked />
             </div>
         </div>
         <div class="form-group">
@@ -180,7 +175,7 @@
             var e="<i class='fa fa-times-circle'></i> ";
             $("#commentForm").validate({
                 submitHandler:function(form){
-                    commit();
+                    add();
                 }
             });
             {var i=document.querySelector(".js-switch"),
@@ -188,7 +183,6 @@
             };
         }
     );
-
     /**
      * 字符串转时间（yyyy-MM-dd HH:mm:ss）
      * result （分钟）
@@ -197,8 +191,7 @@
         var fullDate = fDate.split("-");
         return new Date(fullDate[0], fullDate[1]-1, fullDate[2], 0, 0, 0);
     }
-
-    function commit(){
+    function add(){
         var start_date = stringToDate($("#start_date").val());
         var end_date = stringToDate($("#end_date").val());
         var parent_id = $("#parent_id").val();
@@ -212,11 +205,11 @@
         var sales_commission = $("#sales_commission").val();
         var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
-            url:"/areaFinance/update.json",
+            url:"/customFinance/add.json",
             type:"post",
             async: false,
             data:{
-                areaId:parent_id,
+                customId:parent_id,
                 name:area_finance_name,
                 startDate:start_date,
                 endDate:end_date,
@@ -231,7 +224,7 @@
             },
             success: function(returnData){
                 if(returnData.code == 1){
-                    popMsg('添加成功!', "/areaFinance/index?areaId=" + parent_id);
+                    popMsg('添加成功!', "/customFinance/index?customId=" + parent_id);
                 } else{
                     layer.msg('添加失败, 请联系技术人员!');
                 }

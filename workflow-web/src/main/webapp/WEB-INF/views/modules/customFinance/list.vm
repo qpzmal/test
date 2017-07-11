@@ -11,10 +11,10 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">选择公司</label>
+                        <label class="col-sm-2 control-label">选择客户</label>
                         <div id="parent_content"  class="col-sm-8">
-                            <input id="parent_id" hidden value="$!{areaId}">
-                            <input value="$!{areaName}" id="parent_name" name="parent_name" type="text" class="form-control"
+                            <input id="parent_id" hidden value="$!{customId}">
+                            <input value="$!{customName}" id="parent_name" name="parent_name" type="text" class="form-control"
                                 #if(!${parentTreeJson})
                                    disabled
                                 #end
@@ -119,12 +119,12 @@
 
     // 添加
     $(".btn-primary").click(function(){
-        window.location.href = "${rc.contextPath}/areaFinance/toAdd?areaId=" + $("#parent_id").val();
+        window.location.href = "${rc.contextPath}/customFinance/toAdd?customId=" + $("#parent_id").val();
     })
     // 修改
     $(".btn-info").click(function(){
         var id = $(this).parent().children(":first").val();
-        window.location.href = "${rc.contextPath}/areaFinance/toUpdate?id=" + id;
+        window.location.href = "${rc.contextPath}/customFinance/toUpdate?id=" + id;
     })
     // 删除
     $(".btn-danger").click(function(){
