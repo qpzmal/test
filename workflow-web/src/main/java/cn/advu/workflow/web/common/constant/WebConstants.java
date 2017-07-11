@@ -31,6 +31,7 @@ public class WebConstants {
         public static final String LEGAL_GM = "legalGMAudit"; // 法务主管审核
         public static final String MODIFY_APPLY = "modifyApply"; // 申请人调整申请
     }
+
     public static class AuditPass {
         public static final String MEDIA = "mediaGMPass"; // 媒介主管审核
         public static final String SALER_DM = "salerDMPass"; // 销售主管审核
@@ -39,4 +40,11 @@ public class WebConstants {
         public static final String LEGAL_GM = "legalGMPass"; // 法务主管审核
         public static final String MODIFY_APPLY = "reApply"; // 申请人调整申请
     }
+
+    public static class WorkFlow {
+        public static final String SAVE = "save"; // 保存草稿
+        public static final String START = "start"; // 发起流程
+
+    }
+
 }

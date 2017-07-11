@@ -3,11 +3,11 @@
 <link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
 <link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
 <link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
-
-
 #end
 
 <form class="form-horizontal m-t" id="commentForm">
+    <input type="hidden" id="flowType" name="flowType" value="save">
+
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="ibox float-e-margins">
@@ -136,15 +136,17 @@
         </div>
         <div class="row">
             <div class="form-group">
-                <div class="col-sm-4 col-sm-offset-3">
-                <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
-            </div>
-                <div class="col-sm-3 col-sm-offset-1">
+                <div class="col-sm-2 col-sm-offset-2">
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
+                </div>
+                <div class="col-sm-2 col-sm-offset-2">
+                    <button class="btn btn-info" type="button"><i class="fa fa-play"></i> 发起流程</button>
+                </div>
+                <div class="col-sm-2 col-sm-offset-2">
                     <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
                 </div>
             </div>
         </div>
-
     </div>
 </form>
 
@@ -212,7 +214,7 @@
                 }
             });
             {var i=document.querySelector(".js-switch"),
-                    t=(new Switchery(i,{color:"#1AB394"}));
+                t=(new Switchery(i,{color:"#1AB394"}));
             };
             $("#pay_percent").knob();
         }
@@ -222,7 +224,9 @@
 //        add();
 //    })
 
+
     function addRegion(){
+        var flowType = $("#flowType").val();
         var name = $("#p_name").val();
         var orderNum = $("#order_num").val();
         var secOrderNum = $("#sec_order_num").val();
@@ -247,6 +251,7 @@
             type:"post",
             async: false,
             data:{
+                flowType:flowType,
                 name:name,
                 orderNum:orderNum,
                 secOrderNum:secOrderNum,
@@ -270,6 +275,22 @@
 
         });
     }
+
+    // 发起流程
+    $(".btn-info").click(function(){
+        layer.confirm('发起流程后，在审批结束前申请内容不可修改，是否确认发起流程？', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            ## （示例：关闭确认框）
+            layer.closeAll('dialog');
+            if ($("#commentForm").valid()) {
+                $("#flowType").val("start");
+                addRegion();
+            }
+        }, function(){
+        });
+    })
+
 
     // 返回
     $(".btn-default").click(function(){

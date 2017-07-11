@@ -54,31 +54,33 @@ public class BuyOrderServiceImpl implements BuyOrderService {
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建采购单失败!");
         }
 
-        String userName = UserThreadLocalContext.getCurrentUser().getUserName();
-        String processKey = WebConstants.WORKFLOW_BUY; // TODO 测试用
-        LOGGER.debug("userName:{}, processKey:{}", userName, processKey);
+        if (WebConstants.WorkFlow.START.equals(baseBuyOrder.getFlowType())) {
+            String userName = UserThreadLocalContext.getCurrentUser().getUserName();
+            String processKey = WebConstants.WORKFLOW_BUY; // TODO 测试用
+            LOGGER.debug("userName:{}, processKey:{}", userName, processKey);
 
-        try {
-            // 用来设置启动流程的人员ID，引擎会自动把用户ID保存到activiti:initiator中
-            identityService.setAuthenticatedUserId(userName);
+            try {
+                // 用来设置启动流程的人员ID，引擎会自动把用户ID保存到activiti:initiator中
+                identityService.setAuthenticatedUserId(userName);
 
-            ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, baseBuyOrder.getId() + "", new HashMap<String, Object>());
-            LOGGER.info(" processInstanceId:{}", processInstance.getId());
+                ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, baseBuyOrder.getId() + "", new HashMap<String, Object>());
+                LOGGER.info(" processInstanceId:{}", processInstance.getId());
 
-            baseBuyOrder.setProcessInstanceId(processInstance.getId());
-            baseBuyOrderRepo.updateSelective(baseBuyOrder);
+                baseBuyOrder.setProcessInstanceId(processInstance.getId());
+                baseBuyOrderRepo.updateSelective(baseBuyOrder);
 
-        } catch (ActivitiException e) {
-            if (e.getMessage().indexOf("no processes deployed with key") != -1) {
-                LOGGER.warn("没有部署[ " + processKey + " ]流程!", e);
-                return new ResultJson<>(WebConstants.OPERATION_FAILURE, "没有部署流程，请在[工作流]->[流程管理]页面点击<重新部署流程>");
-            } else {
+            } catch (ActivitiException e) {
+                if (e.getMessage().indexOf("no processes deployed with key") != -1) {
+                    LOGGER.warn("没有部署[ " + processKey + " ]流程!", e);
+                    return new ResultJson<>(WebConstants.OPERATION_FAILURE, "没有部署流程，请在[工作流]->[流程管理]页面点击<重新部署流程>");
+                } else {
+                    LOGGER.error("启动[ " + processKey + " ]流程失败：", e);
+                    return new ResultJson<>(WebConstants.OPERATION_FAILURE, "系统内部错误！");
+                }
+            } catch (Exception e) {
                 LOGGER.error("启动[ " + processKey + " ]流程失败：", e);
                 return new ResultJson<>(WebConstants.OPERATION_FAILURE, "系统内部错误！");
             }
-        } catch (Exception e) {
-            LOGGER.error("启动[ " + processKey + " ]流程失败：", e);
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "系统内部错误！");
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }

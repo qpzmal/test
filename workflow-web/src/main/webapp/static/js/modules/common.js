@@ -1,6 +1,6 @@
 
 function popMsg(msg, url){
-    layer.msg(msg);
+    layer.msg(msg, {icon: 1});
     setTimeout(function(){
             window.location.href = url;
         }, 500

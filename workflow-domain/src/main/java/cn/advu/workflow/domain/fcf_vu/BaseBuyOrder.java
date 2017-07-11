@@ -43,6 +43,8 @@ public class BaseBuyOrder extends AbstractEntity {
 
     private Integer frameId;
 
+    private String flowType; // 页面自定义属性：save保存草稿，start开始流程
+
     public String getProcessInstanceId() {
         return processInstanceId;
     }
@@ -185,5 +187,13 @@ public class BaseBuyOrder extends AbstractEntity {
 
     public void setFrameId(Integer frameId) {
         this.frameId = frameId;
+    }
+
+    public String getFlowType() {
+        return flowType;
+    }
+
+    public void setFlowType(String flowType) {
+        this.flowType = flowType;
     }
 }
