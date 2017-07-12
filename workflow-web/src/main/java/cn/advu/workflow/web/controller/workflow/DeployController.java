@@ -2,8 +2,11 @@ package cn.advu.workflow.web.controller.workflow;
 
 import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.facade.workflow.vo.WorkflowVO;
+import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.zip.ZipInputStream;
 
 /**
  * Created by weiqz on 2017/6/4.
@@ -31,6 +35,9 @@ public class DeployController {
 
     @Autowired
     private ActivitiFacade activitiFacade;
+
+    @Autowired
+    private RepositoryService repositoryService;
 
     /**
      * 部署管理首页显示
@@ -51,7 +58,7 @@ public class DeployController {
     }
 
     /**
-     * 发布新流程
+     * 发布新流程（保存带有bpmn.xml和png压缩包的处理）
      * @return
      */
     @RequestMapping("/save")
@@ -72,6 +79,42 @@ public class DeployController {
         // TODO 改为ajax请求
         return "workflow/deploy_index";
     }
+
+
+
+    @RequestMapping(value = "/deployByXml")
+    public String deployByXml(@RequestParam("file") CommonsMultipartFile uploadFile) {
+        String fileName = uploadFile.getOriginalFilename();
+        LOGGER.info("fileName:{}", fileName);
+        LOGGER.info("fileName-first_word:{}", fileName.substring(0, fileName.indexOf(".")));
+        LOGGER.info("fileName:{}", fileName);
+
+        try {
+            InputStream fileInputStream = uploadFile.getInputStream();
+            Deployment deployment = null;
+
+            if (StringUtils.endsWithIgnoreCase(fileName, "zip")) {
+                ZipInputStream zip = new ZipInputStream(fileInputStream);
+                deployment = repositoryService.createDeployment().addZipInputStream(zip).deploy();
+            } else {
+                String deployName = fileName.substring(0, fileName.indexOf("."));
+//                deployment = repositoryService.createDeployment().name(deployName).addInputStream(deployName, fileInputStream).deploy();
+
+                deployment = repositoryService.createDeployment().name(deployName).addString(fileName, IOUtils.toString(fileInputStream, "UTF-8")).deploy();
+            }
+
+//            List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).list();
+//            for (ProcessDefinition processDefinition : list) {
+//                WorkflowUtils.exportDiagramToFile(repositoryService, processDefinition, exportDir);
+//            }
+
+        } catch (Exception e) {
+            LOGGER.error("error on deploy process, because of file input stream", e);
+        }
+
+        return "redirect:/workflow/model/index";
+    }
+
 
     /**
      * 删除部署信息

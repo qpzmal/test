@@ -31,6 +31,8 @@
 >     `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
 
 2. 按钮颜色以及对应图案
+>       <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>
+>       <a href="javascript:;" class="btn btn-danger btn-sm button_view_pd"><i class="fa fa-trash "></i> 删除 </a>
 * 新增 btn-primary --> fa-plus
 * 修改 btn-info --> fa-pencil
 * 删除 btn-danger --> fa-trash

@@ -49,7 +49,7 @@
 <script>
     $.validator.setDefaults({
         submitHandler: function() {
-            add();
+            addRegion();
         },
         highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
         success:function(e){
@@ -73,7 +73,7 @@
         var options = {
             url : "/workflow/model/add.json",
             type : 'post',
-            dataType:'json'
+            dataType:'json',
             success : function(returnData) {
                 if (returnData.code == 1) {
                     popMsg('添加成功!', "/workflow/model/index");

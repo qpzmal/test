@@ -2,10 +2,16 @@ package cn.advu.workflow.web.controller.workflow;
 
 import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.service.workflow.WorkflowTraceService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.editor.constants.ModelDataJsonConstants;
+import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.*;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.engine.impl.context.Context;
+import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.image.ProcessDiagramGenerator;
@@ -20,7 +26,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -130,4 +141,38 @@ public class ProcessController {
         }
     }
 
+
+    @RequestMapping(value = "/convert-to-model/{processDefinitionId}")
+    public String convertToModel(@PathVariable("processDefinitionId") String processDefinitionId)
+            throws UnsupportedEncodingException, XMLStreamException {
+//        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
+//                .processDefinitionId(processDefinitionId).singleResult();
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
+                .processDefinitionId(processDefinitionId).singleResult();
+        InputStream bpmnStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),
+                processDefinition.getResourceName());
+        XMLInputFactory xif = XMLInputFactory.newInstance();
+        InputStreamReader in = new InputStreamReader(bpmnStream, "UTF-8");
+        XMLStreamReader xtr = xif.createXMLStreamReader(in);
+        BpmnModel bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
+
+        BpmnJsonConverter converter = new BpmnJsonConverter();
+        com.fasterxml.jackson.databind.node.ObjectNode modelNode = converter.convertToJson(bpmnModel);
+        Model modelData = repositoryService.newModel();
+        modelData.setKey(processDefinition.getKey());
+        modelData.setName(processDefinition.getResourceName());
+        modelData.setCategory(processDefinition.getDeploymentId());
+
+        ObjectNode modelObjectNode = new ObjectMapper().createObjectNode();
+        modelObjectNode.put(ModelDataJsonConstants.MODEL_NAME, processDefinition.getName());
+        modelObjectNode.put(ModelDataJsonConstants.MODEL_REVISION, 1);
+        modelObjectNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION, processDefinition.getDescription());
+        modelData.setMetaInfo(modelObjectNode.toString());
+
+        repositoryService.saveModel(modelData);
+
+        repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes("utf-8"));
+
+        return "redirect:/workflow/model/index";
+    }
 }

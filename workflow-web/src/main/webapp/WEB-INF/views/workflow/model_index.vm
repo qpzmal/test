@@ -1,12 +1,29 @@
 
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/webuploader/webuploader.css?$!application.getAttribute('/static/css/plugins/webuploader/webuploader.css')" rel="stylesheet" type="text/css"/>
+#end
+
 
 <div class="wrapper wrapper-content">
-    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
+
+
+    <div class="row">
+        <button type="button" class="btn btn-sm btn-primary btn-add"><i class="fa fa-plus "></i> 添加</button>
+##        <button type="button" class="btn btn-w-m btn-info"><i class="fa fa-upload "></i> 导入</button>
+        <div id="uploader" class="wu-example">
+            <!--用来存放文件信息-->
+            <div id="thelist" class="uploader-list"></div>
+            <div class="btns">
+                <div id="upload_file" class="btn btn-sm"><i class="fa fa-folder-open "></i> 选择文件</div>
+                <div id="ctlBtn" class="btn btn-sm btn-primary"><i class="fa fa-upload "></i> 开始上传</div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>部署</h5>
+                    <h5>模型（act_re_model）</h5>
                 </div>
                 <div class="ibox-content">
                     <table class="table table-bordered table-striped">
@@ -36,10 +53,11 @@
 ##                                    <input type="hidden" value="$!{data.id}">
 ##                                    <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>
 ##                                    <a href="javascript:;" class="btn btn-danger btn-sm button_view_pd"><i class="fa fa-trash "></i> 删除 </a>
-                                    <a href="/modeler.html?modelId=${data.id}" target="_blank">编辑</a>
-                                    <a href="/workflow/model/deploy/${data.id}">部署</a>
-                                    导出(<a href="/workflow/model/export/${data.id}/bpmn" target="_blank">BPMN</a>
-                                    |&nbsp;<a href="/workflow/model/export/${data.id}/json" target="_blank">JSON</a>
+##                                    <a href="/modeler.html?modelId=${data.id}" target="_blank">编辑</a>
+                                    <a href="/modeler.html?modelId=${data.id}" class="btn btn-info btn-sm " target="_blank" ><i class="fa fa-pencil "></i> 修改 </a>
+                                    <a href="/workflow/model/deploy/${data.id}" class="btn btn-danger btn-sm "><i class="fa fa-rocket "></i> 部署</a>
+                                    导出(<a href="/workflow/model/export/${data.id}/bpmn"  class="btn btn-default btn-sm " target="_blank"><i class="fa fa-download "></i>BPMN</a>
+##                                    |&nbsp;<a href="/workflow/model/export/${data.id}/json" target="_blank">JSON</a>
 ##                                    |&nbsp;<a href="javascript:;" onclick='showSvgTip()'>SVG</a>
                                      )
                                     <a href="/workflow/model/delete/${data.id}">删除</a>
@@ -53,24 +71,166 @@
             </div>
         </div>
     </div>
+
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>部署对象信息（act_re_deployment）</h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>流程名称</th>
+                            <th>发布时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            #foreach($!{deployment} in $!{depList})
+                            <tr>
+                                <td>$!{deployment.id}</td>
+                                <td>$!{deployment.name}</td>
+                                <td>$!date.format('yyyy-MM-dd HH:mm:ss ',$!{deployment.deploymentTime})</td>
+                                <td>
+##                                    <a href='/workflow/process/convert-to-model/${deployment.id}'>转换为Model</a>
+                                </td>
+                            </tr>
+                            #end
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>流程定义的信息（act_re_procdef）</h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>名称</th>
+                            <th>流程KEY</th>
+                            <th>流程版本</th>
+                            <th>流程定义的规则文件名</th>
+                            <th>流程定义的规则图片名</th>
+                            <th>部署ID</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            #foreach($!{pd} in $!{pdList})
+                            <tr>
+                                <td>$!{pd.id}</td>
+                                <td>$!{pd.name}</td>
+                                <td>$!{pd.key}</td>
+                                <td>$!{pd.version}</td>
+                                <td>$!{pd.resourceName}</td>
+                                <td class="val_diagramResourceName">$!{pd.diagramResourceName}</td>
+                                <td class="val_deploymentId">$!{pd.deploymentId}</td>
+                                <td>
+                                    <a href="javascript:;" class="btn btn-default btn-sm button_view_pd"><i class="fa fa-photo "></i> 查看图片 </a>
+                                    <a href='/workflow/process/convert-to-model/${pd.id}' class="btn btn-default btn-sm "><i class="fa fa-refresh "></i> 转换为Model</a>
+
+                                ## <a href="javascript:;" class="btn btn-info btn-sm button_to_start"><i class="fa fa-play "></i> 发起流程 </a>
+                                </td>
+                            </tr>
+                            #end
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 
 
 #define($jsblock)
+<script src="#springUrl("")/static/js/plugins/webuploader/webuploader.min.js?$!application.getAttribute('/static/js/plugins/webuploader/webuploader.min.js')" type="text/javascript" language="javascript"></script>
+
+
 <script>
     $(function(){
     });
 
+
+
+    var upload_btn =$("#ctlBtn");   //开始上传
+
+    ## WebUploader初始化
+    var uploader = WebUploader.create({
+        // swf文件路径
+        swf: #springUrl("") + '/static/js/Uploader.swf',
+
+        // 文件接收服务端。
+        server: '/workflow/deploy/deployByXml',
+
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#upload_file',
+
+    ##      // 初始化的时候直接添加自定义参数
+    ##        formData: {
+    ##            uid: xxxx
+    ##        }
+
+        // 只允许选择图片文件。
+        accept: {
+//            title: 'Images',
+//            extensions: 'gif,jpg,jpeg,bmp,png',
+//            mimeTypes: 'image/*'
+            title: 'xml',
+            extensions: 'xml',
+            mimeTypes: 'xml/*'
+        },
+
+        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+        resize: false
+    });
+//    // WebUploader初始化以后添加自定义参数
+//    uploader.options.formData.flowName = "workflow";
+
+
+    uploader.on( 'uploadSuccess', function( file ) {
+        $( '#'+file.id ).find('p.state').text('已上传');
+    });
+
+    uploader.on( 'uploadError', function( file ) {
+        $( '#'+file.id ).find('p.state').text('上传出错');
+    });
+
+    uploader.on( 'uploadComplete', function( file ) {
+        $( '#'+file.id ).find('.progress').fadeOut();
+    });
+    upload_btn.on('click', function(){
+        console.log("上传...");
+        uploader.upload();
+        console.log("上传成功");
+    });
+
     // 添加
-    $(".btn-primary").click(function(){
+    $(".btn-add").click(function(){
         window.location.href = "${rc.contextPath}/workflow/model/toAdd";
     })
-    // 修改
-    $(".btn-info").click(function(){
-        var id = $(this).parent().children(":first").val();
-        window.location.href = "${rc.contextPath}/monitor/toUpdate?id=" + id;
-    })
+##    // 修改
+##    $(".btn-info").click(function(){
+##        var id = $(this).parent().children(":first").val();
+##        window.location.href = "${rc.contextPath}/monitor/toUpdate?id=" + id;
+##    })
     // 删除
     $(".btn-danger").click(function(){
         var id = $(this).parent().children(":first").val();
@@ -86,8 +246,23 @@
 //                    btn: ['明白了', '知道了']
 //                });
         });
-
     })
 
+    // 查看图片
+    $(".button_view_pd").click(function(){
+        var deploymentId = $(this).parent().siblings("td.val_deploymentId").text();
+        var imageName = $(this).parent().siblings("td.val_diagramResourceName").text();
+        var url="/workflow/deploy/viewImage?deploymentId="+deploymentId+"&imageName="+imageName;
+        //iframe层-多媒体
+        layer.open({
+            type: 2,
+            title: false,
+            area: ['1024px', '768px'],
+            shade: 0.8,
+            closeBtn: 0,
+            shadeClose: true,
+            content: url
+        });
+    })
 </script>
 #end

@@ -2,6 +2,7 @@ package cn.advu.workflow.web.controller.workflow;
 
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -11,6 +12,7 @@ import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -27,8 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-//import org.activiti.engine.repository.Model;
-
 /**
  * Created by weiqz on 2017/6/4.
  */
@@ -39,6 +39,9 @@ public class ModelController {
     private static Logger LOGGER = LoggerFactory.getLogger(ModelController.class);
 
     @Autowired
+    private ActivitiFacade activitiFacade;
+
+    @Autowired
     RepositoryService repositoryService;
 
     /**
@@ -46,7 +49,16 @@ public class ModelController {
      */
     @RequestMapping(value = "index")
     public String index(Model model) {
+        // 1:查询部署对象信息，对应表（act_re_deployment）
+        List<Deployment> depList = activitiFacade.findDeploymentList();
+
+        // 2:查询流程定义的信息，对应表（act_re_procdef）
+        List<ProcessDefinition> pdList = activitiFacade.findProcessDefinitionList();
+
         List<org.activiti.engine.repository.Model> list = repositoryService.createModelQuery().list();
+
+        model.addAttribute("depList", depList);
+        model.addAttribute("pdList", pdList);
         model.addAttribute("modelList", list);
         return "workflow/model_index";
     }
