@@ -10,4 +10,5 @@ public interface IRepo<T extends IEntity> {
     int updateSelective(T entity);
     int remove(Integer id);
     T findOne(Integer id);
+    int logicRemove(T entity);
 }

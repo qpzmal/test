@@ -50,7 +50,7 @@ public class CustomController {
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addRegion(BaseCustom baseCustom, HttpServletRequest request){
+    public ResultJson<Integer> add(BaseCustom baseCustom, HttpServletRequest request){
         return customService.add(baseCustom);
     }
 
@@ -66,14 +66,30 @@ public class CustomController {
     }
 
     /**
+     * 删除客户
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/remove", method = RequestMethod.POST)
+    public ResultJson<Void> updateArea(Integer id, HttpServletRequest request){
+        return customService.remove(id);
+    }
+
+    /**
      * 跳转新增客户页面
      *
      * @return
      */
     @RequestMapping("/toAdd")
     public String toAdd(Model resultModel){
-        List<BaseIndustry> industryList = industryService.findAll().getData();
-        resultModel.addAttribute("industryList", industryList);
+
+//        List<BaseIndustry> industryList = industryService.findAll().getData();
+//        resultModel.addAttribute("industryList", industryList);
+
+        List<BaseCustom> directCustom = customService.findParentCustom().getData();
+        resultModel.addAttribute("customList", directCustom);
+
         return "modules/custom/add";
     }
 

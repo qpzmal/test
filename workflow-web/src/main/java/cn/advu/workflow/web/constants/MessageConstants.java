@@ -1,0 +1,13 @@
+package cn.advu.workflow.web.constants;
+
+/**
+ * Created by wangry on 17/7/13.
+ */
+public interface MessageConstants {
+     String NAME_IS_DUPLICATED = "名称重复";
+     String PARAM_IS_ILLEGAL = "参数不合法";
+    String IS_NULL_OR_EMPTY = "为空";
+    String CUSTOM_IS_NOT_EXISTS="客户不存在";
+    String FA_CUSTOM_HAS_CHILD="客户下面有广告主，不能改变客户的类型";
+    String FA_CUSTOM_HAS_CHILD_FOR_REMOVE="客户下面有广告主，请先删除客户下的广告主";
+}

@@ -9,66 +9,72 @@
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
         <div class="form-group">
-            <label class="col-sm-3 control-label">客户名称(签约公司名称)</label>
+            <label class="col-sm-3 control-label">客户名称</label>
             <div class="col-sm-8">
                 <input id="p_name" name="p_name" maxlength="100" type="text" class="form-control" aria-required="true" >
             </div>
         </div>
+##        <div class="form-group">
+##            <label class="col-sm-3 control-label">客户行业</label>
+##            <div class="col-sm-8">
+##                <select data-placeholder="请选择行业" class="chosen-select" style="width:350px;" tabindex="2">
+##                    <option value="">请选择行业</option>
+##                    #foreach($data in $industryList)
+##                        <option value ="$data.id">$data.name</option>
+##                    #end
+##                </select>
+##            </div>
+##        </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">客户名称(产品所有者，广告主名)</label>
+            <label class="col-sm-3 control-label">类型</label>
             <div class="col-sm-8">
-                <input id="custom_name" name="custom_name" maxlength="100" type="text" class="form-control" aria-required="true">
+                <select id="custom_type" data-placeholder="请选择客户类型" class="chosen-select" style="width:350px;" tabindex="2" onchange="customeTypeChange(this)">
+                    <option value="">请选择客户类型</option>
+                    <option value="1" >4A公司</option>
+                    <option value="2" >直客</option>
+                    <option value="0" >代理客户</option>
+                </select>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">客户行业</label>
-            <div class="col-sm-8">
-                <select data-placeholder="请选择行业" class="chosen-select" style="width:350px;" tabindex="2">
-                    <option value="">请选择行业</option>
-                    #foreach($data in $industryList)
+            <label class="col-sm-3 control-label">隶属代理</label>
+            <div id="area_id_content"  class="col-sm-8">
+                <select id="parent_id" data-placeholder="请选择代理" style="width:350px;" class="chosen-select" tabindex="2">
+                    <option value="">请选择代理</option>
+                    #foreach($data in $customList)
                         <option value ="$data.id">$data.name</option>
                     #end
                 </select>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">类型</label>
-            <div class="col-sm-8">
-                <select id="custom_type" data-placeholder="请选择客户类型" class="chosen-select" style="width:350px;" tabindex="2">
-                    <option value="">请选择客户类型</option>
-                    <option value="1" hassubinfo="true">4A公司</option>
-                    <option value="2" hassubinfo="true">直客</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="col-sm-3 control-label">联系人</label>
             <div class="col-sm-8">
-                <input id="contacts" name="contacts" maxlength="30" type="text" class="form-control" aria-required="true">
+                <input id="contacts" name="contacts" maxlength="30" type="text" class="form-control">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">手机</label>
             <div class="col-sm-8">
-                <input id="mobile" name="mobile" maxlength="30" type="text" class="form-control" aria-required="true">
+                <input id="mobile" name="mobile" maxlength="30" type="text" class="form-control">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">地址</label>
             <div class="col-sm-8">
-                <input id="address" name="address" maxlength="255" type="text" class="form-control"  aria-required="true">
+                <input id="address" name="address" maxlength="255" type="text" class="form-control">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">邮箱地址</label>
             <div class="col-sm-8">
-                <input id="email" name="email" maxlength="60" type="text" class="form-control" aria-required="true">
+                <input id="email" name="email" maxlength="60" type="text" class="form-control">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">备注</label>
             <div class="col-sm-8">
-                <input id="remark" name="remark" maxlength="500" type="text" class="form-control" aria-required="true">
+                <input id="remark" name="remark" maxlength="500" type="text" class="form-control">
             </div>
         </div>
         <div class="form-group">
@@ -99,15 +105,15 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
 
 <script>
-    var config = {
-        ".chosen-select": {},
-        ".chosen-select-deselect": {allow_single_deselect: !0},
-        ".chosen-select-no-single": {disable_search_threshold: 10},
-        ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
-        ".chosen-select-width": {width: "95%"}
+
+    function customeTypeChange(obj) {
+        if (obj.value != 0) {
+            $("#parent_id")[0].disabled = true;
+        } else {
+            $("#parent_id")[0].disabled = false;
+        }
+        $("#parent_id").trigger("chosen:updated")
     };
-    for (var selector in config)
-        $(selector).chosen(config[selector]);
 
     $.validator.setDefaults(
         {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
@@ -129,16 +135,25 @@
             {var i=document.querySelector(".js-switch"),
                 t=(new Switchery(i,{color:"#1AB394"}));
             };
+            var config = {
+                ".chosen-select": {},
+                ".chosen-select-deselect": {allow_single_deselect: !0},
+                ".chosen-select-no-single": {disable_search_threshold: 10},
+                ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
+                ".chosen-select-width": {width: "95%"}
+            };
+            for (var selector in config)
+                $(selector).chosen(config[selector]);
+
         }
     );
 
-//    $(".btn-primary").click(function(){
-//        add();
-//    })
-
     function addRegion(){
         var name = $("#p_name").val();
-        var customName = $("#custom_name").val();
+        var parentId = $("#parent_id").val();
+        if (parentId == '') {
+            parentId = 0;
+        }
         var contacts = $("#contacts").val();
         var mobile = $("#mobile").val();
         var address = $("#address").val();
@@ -153,7 +168,7 @@
             async: false,
             data:{
                 name:name,
-                customName:customName,
+                parentId:parentId,
                 contacts:contacts,
                 customIndustryId:customIndustryId,
                 mobile:mobile,
@@ -167,7 +182,7 @@
                 if(returnData.code == 1){
                     popMsg('添加成功!', "/custom/index");
                 } else{
-                    layer.msg('添加失败, 请联系技术人员!');
+                    layer.msg(returnData.info);
                 }
             }
 
@@ -178,5 +193,6 @@
     $(".btn-default").click(function(){
         history.go(-1);
     })
+
 </script>
 #end

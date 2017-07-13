@@ -37,9 +37,23 @@ public interface CustomService {
     ResultJson<Integer> update(BaseCustom baseCustom);
 
     /**
+     * 删除客户
+     * @param id
+     * @return
+     */
+    ResultJson<Void> remove(Integer id);
+
+    /**
      * 返回当前客户
      * @param id
      * @return
      */
     ResultJson<BaseCustom> findById(Integer id);
+
+    /**
+     * 返回所有直接客户
+     *
+     * @return
+     */
+    ResultJson<List<BaseCustom>> findParentCustom();
 }

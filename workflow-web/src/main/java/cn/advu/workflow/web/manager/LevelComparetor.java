@@ -1,5 +1,7 @@
 package cn.advu.workflow.web.manager;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Comparator;
 
 /**

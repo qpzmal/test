@@ -12,4 +12,12 @@ import java.util.List;
 public interface BaseCustomRepo extends IRepo<BaseCustom> {
 
     List<BaseCustom> findAll();
+
+    List<BaseCustom> findParentCustom();
+
+    BaseCustom findByIdAndName(Integer id, String name);
+
+    List<BaseCustom> find4AChildCustom(Integer id);
+
+    List<BaseCustom> findAllChildCustom(Integer id);
 }

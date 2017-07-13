@@ -8,7 +8,7 @@ import cn.advu.workflow.web.common.constant.WebConstants;
  *
  */
 public class ResultJson<T> {
-    private int code = WebConstants.OPERATION_FAILURE;
+    private int code = WebConstants.OPERATION_SUCCESS;
     private String info = "请联系技术人员!";
     private T data;
     
