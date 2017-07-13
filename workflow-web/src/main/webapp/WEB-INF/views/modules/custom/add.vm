@@ -151,9 +151,6 @@
     function addRegion(){
         var name = $("#p_name").val();
         var parentId = $("#parent_id").val();
-        if (parentId == '') {
-            parentId = 0;
-        }
         var contacts = $("#contacts").val();
         var mobile = $("#mobile").val();
         var address = $("#address").val();

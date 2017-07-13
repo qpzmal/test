@@ -2,6 +2,7 @@ package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.domain.enums.CustomTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
+import cn.advu.workflow.domain.utils.ValueEnumUtils;
 import cn.advu.workflow.repo.fcf_vu.BaseCustomRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
@@ -50,6 +51,15 @@ public class CustomServiceImpl implements CustomService {
             throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
 
+        // DA，代理公司必须设置
+        String customerType = baseCustom.getCustomType();
+        AssertUtil.assertNotNull(customerType, MessageConstants.CUSTOM_TYPE_IS_NULL);
+        CustomTypeEnum customTypeEnum = ValueEnumUtils.getEnum(CustomTypeEnum.class, customerType);
+        AssertUtil.assertNotNull(customTypeEnum);
+        if (CustomTypeEnum.MA == customTypeEnum) {
+            AssertUtil.assertNotNull(baseCustom.getParentId(), MessageConstants.CUSTOM_PARENT_IS_NULL);
+        }
+
         // 新增客户
         Integer insertCount = baseCustomRepo.add(baseCustom);
         if(insertCount != 1){
@@ -86,6 +96,15 @@ public class CustomServiceImpl implements CustomService {
             if (faChildCustomList != null && faChildCustomList.size() > 0) {
                 throw new ServiceException(MessageConstants.FA_CUSTOM_HAS_CHILD);
             }
+        }
+
+        // DA，代理公司必须设置
+        String customerType = baseCustom.getCustomType();
+        AssertUtil.assertNotNull(customerType, MessageConstants.CUSTOM_TYPE_IS_NULL);
+        CustomTypeEnum customTypeEnum = ValueEnumUtils.getEnum(CustomTypeEnum.class, customerType);
+        AssertUtil.assertNotNull(customTypeEnum);
+        if (CustomTypeEnum.MA == customTypeEnum) {
+            AssertUtil.assertNotNull(baseCustom.getParentId(), MessageConstants.CUSTOM_PARENT_IS_NULL);
         }
 
         // 更新客户

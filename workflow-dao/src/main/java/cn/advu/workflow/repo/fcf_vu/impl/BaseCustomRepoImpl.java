@@ -34,7 +34,7 @@ public class BaseCustomRepoImpl extends AbstractRepo<BaseCustom> implements Base
 
     @Override
     public List<BaseCustom> findParentCustom() {
-        return null;
+        return baseCustomMapper.queryParentCustom();
     }
 
     @Override

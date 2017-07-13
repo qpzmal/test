@@ -104,11 +104,13 @@ public class CustomController {
     public String toUpdate(Integer id, Model model){
 
         BaseCustom baseCustom = customService.findById(id).getData();
-
         model.addAttribute("baseCustom", baseCustom);
 
-        List<BaseIndustry> industryList = industryService.findAll().getData();
-        model.addAttribute("industryList", industryList);
+        List<BaseCustom> directCustom = customService.findParentCustom().getData();
+        model.addAttribute("customList", directCustom);
+
+//        List<BaseIndustry> industryList = industryService.findAll().getData();
+//        model.addAttribute("industryList", industryList);
 
         return "modules/custom/update";
     }
