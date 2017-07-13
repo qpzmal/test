@@ -37,14 +37,12 @@
     insert into base_custom (id, name, parent_id, 
       custom_industry_id, custom_type, contacts, 
       mobile, address, email, 
-      del_flag, item_status, creator_id, 
-      updater_id, create_time, update_time, 
+      item_status,
       remark)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
       #{customIndustryId,jdbcType=TINYINT}, #{customType,jdbcType=TINYINT}, #{contacts,jdbcType=VARCHAR},
       #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT}, #{creatorId,jdbcType=INTEGER},
-      #{updaterId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{itemStatus,jdbcType=TINYINT},
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustom" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
@@ -211,12 +209,7 @@
       mobile = #{mobile,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      del_flag = #{delFlag,jdbcType=TINYINT},
       item_status = #{itemStatus,jdbcType=TINYINT},
-      creator_id = #{creatorId,jdbcType=INTEGER},
-      updater_id = #{updaterId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -232,4 +225,46 @@
       and item_status = #{status,jdbcType=TINYINT}
     </if>
   </select>
+
+  <select id="queryParentCustom" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_custom
+    where del_flag = 0 and item_status = 0
+      and custom_type = 1;
+  </select>
+
+  <!-- 查询名称不同的记录 -->
+  <select id="queryByIdAndName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_custom
+    where del_flag = 0
+    <if test="id != null">
+    <![CDATA[ and base_custom.id <> #{id, jdbcType=INTEGER}]]>
+    </if>
+    <![CDATA[ and base_custom.name = #{name, jdbcType=VARCHAR}]]>
+    limit 1
+  </select>
+
+
+  <!-- 查找当前4A客户的广告主子节点 -->
+  <select id="query4AChildCustom" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_custom
+    where del_flag = 0
+    and custom_type = 0
+    and parent_id = #{id, jdbcType=INTEGER}
+  </select>
+
+  <!-- 查找当前客户的广告主子节点 -->
+  <select id="queryAllChildCustom" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_custom
+    where del_flag = 0
+    and parent_id = #{id, jdbcType=INTEGER}
+  </select>
+
 </mapper>

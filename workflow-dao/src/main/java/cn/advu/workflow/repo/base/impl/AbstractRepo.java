@@ -70,4 +70,14 @@ public abstract class AbstractRepo<T extends IEntity> implements IRepo<T> {
         return entity;
     }
 
+    @Override
+    public int logicRemove(T entity) {
+        int count = 0;
+        if (entity != null) {
+            entity.setDelFlag("1");
+            count = getSqlMapper().updateByPrimaryKeySelective(entity);
+        }
+        return count;
+    }
+
 }

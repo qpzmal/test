@@ -9,36 +9,30 @@
     <form class="form-horizontal m-t" id="commentForm">
         <input type="hidden" id="id" name="id" value="$baseCustom.id">
         <div class="form-group">
-            <label class="col-sm-3 control-label">客户名称(签约公司名称)</label>
+            <label class="col-sm-3 control-label">客户名称</label>
             <div class="col-sm-8">
                 <input value="$!{baseCustom.name}" id="p_name" name="p_name" maxlength="100" type="text" class="form-control">
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label">客户名称(产品所有者，广告主名)</label>
-            <div class="col-sm-8">
-                <input value="$!{baseCustom.customName}" id="custom_name" name="custom_name" maxlength="50" type="text" class="form-control" >
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label">客户行业</label>
-            <div class="col-sm-8">
-                <select data-placeholder="请选择行业" class="chosen-select" style="width:350px;" tabindex="2">
-                    <option value="">请选择行业</option>
-                    #foreach($data in $industryList)
-                        <option value ="$data.id"
-                            #if($!{baseCustom.customIndustryId} == $data.id)
-                                selected
-                            #end
-                        >$data.name</option>
-                    #end
-                </select>
-            </div>
-        </div>
+##        <div class="form-group">
+##            <label class="col-sm-3 control-label">客户行业</label>
+##            <div class="col-sm-8">
+##                <select data-placeholder="请选择行业" class="chosen-select" style="width:350px;" tabindex="2">
+##                    <option value="">请选择行业</option>
+##                    #foreach($data in $industryList)
+##                        <option value ="$data.id"
+##                            #if($!{baseCustom.customIndustryId} == $data.id)
+##                                selected
+##                            #end
+##                        >$data.name</option>
+##                    #end
+##                </select>
+##            </div>
+##        </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">类型</label>
             <div class="col-sm-8">
-                <select id="custom_type" data-placeholder="请选择客户类型" class="chosen-select" style="width:350px;" tabindex="2">
+                <select id="custom_type" data-placeholder="请选择客户类型" class="chosen-select" style="width:350px;" tabindex="2" onchange="customeTypeChange(this)">
                     <option value="">请选择客户类型</option>
                     <option value="1" hassubinfo="true"
                         #if($!{baseCustom.customType} == 1)
@@ -50,8 +44,27 @@
                             selected
                         #end
                         >直客</option>
+                    <option value="0" hassubinfo="true"
+                        #if($!{baseCustom.customType} == 0)
+                            selected
+                        #end
+                    >代理客户</option>
                 </select>
 ##                <input value="$!{baseCustom.customType}" id="custom_type" name="custom_type" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">隶属代理</label>
+            <div id="area_id_content"  class="col-sm-8">
+                <select id="parent_id" data-placeholder="请选择代理" style="width:350px;" class="chosen-select" tabindex="2">
+                    <option value="">请选择代理</option>
+                    #foreach($data in $customList)
+                        <option value ="$data.id"
+                            #if($!{baseCustom.parentId} == $data.id)
+                                selected
+                            #end>$data.name</option>
+                    #end
+                </select>
             </div>
         </div>
         <div class="form-group">
@@ -117,6 +130,16 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
 
 <script>
+
+    function customeTypeChange(obj) {
+        if (obj.value != 0) {
+            $("#parent_id")[0].disabled = true;
+        } else {
+            $("#parent_id")[0].disabled = false;
+        }
+        $("#parent_id").trigger("chosen:updated")
+    };
+
     var config = {
         ".chosen-select": {},
         ".chosen-select-deselect": {allow_single_deselect: !0},
@@ -157,7 +180,6 @@
     function updateRegion(){
         var id = $("#id").val();
         var name = $("#p_name").val();
-        var customName = $("#custom_name").val();
         var contacts = $("#contacts").val();
         var mobile = $("#mobile").val();
         var address = $("#address").val();
@@ -172,7 +194,6 @@
             data:{
                 id:id,
                 name:name,
-                customName:customName,
                 contacts:contacts,
                 customIndustryId:customIndustryId,
                 mobile:mobile,
@@ -186,7 +207,7 @@
                 if(returnData.code == 1){
                     popMsg('更新成功!', "/custom/index");
                 } else{
-                    layer.msg('更新失败, 请联系技术人员!');
+                    layer.msg(returnData.info);
                 }
             }
 
