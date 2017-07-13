@@ -320,6 +320,11 @@
             <artifactId>activiti-modeler</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.abel533</groupId>
+            <artifactId>ECharts</artifactId>
+        </dependency>
+
     </dependencies>
 
 

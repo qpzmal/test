@@ -18,9 +18,9 @@
         <!-- 是否启动jobExecutor -->
         <!-- <property name="jobExecutorActivate"value="false" /> -->
 
-        <!--&lt;!&ndash; 发布流程生成图片是正常显示中文 &ndash;&gt;-->
-        <!--<property name="activityFontName" value="微软雅黑"/>-->
-        <!--<property name="labelFontName" value="微软雅黑"/>-->
+        <!-- 发布流程生成图片是正常显示中文 -->
+        <property name="activityFontName" value="微软雅黑"/>
+        <property name="labelFontName" value="微软雅黑"/>
 
         <!--<property name="customSessionFactories">-->
             <!--<list>-->
