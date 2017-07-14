@@ -250,7 +250,7 @@
     update base_area
     set level = #{level,jdbcType=INTEGER}
     where parent_id = #{parentId,jdbcType=INTEGER}
-    and del_flg = 0
+    and del_flag = 0
   </update>
 
 </mapper>
