@@ -1,5 +1,6 @@
 package cn.advu.workflow.web.service.base;
 
+import cn.advu.workflow.domain.fcf_vu.AreaVO;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseMedia;
 import cn.advu.workflow.domain.fcf_vu.BaseRegion;
@@ -60,5 +61,5 @@ public interface AreaService {
      * @param parentId
      * @return
      */
-    ResultJson<List<BaseArea>> findByParent(Integer parentId);
+    ResultJson<List<AreaVO>> findByParent(Integer parentId);
 }

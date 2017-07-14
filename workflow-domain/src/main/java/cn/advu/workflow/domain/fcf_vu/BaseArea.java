@@ -1,6 +1,5 @@
 package cn.advu.workflow.domain.fcf_vu;
 
-import cn.advu.workflow.domain.base.AbstractEntity;
 import cn.advu.workflow.domain.base.AbstractTreeEntity;
 
 import java.math.BigDecimal;

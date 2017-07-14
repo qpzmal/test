@@ -1,8 +1,9 @@
 ## 引入css
 #define($cssblock)
 <link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
-##树状展示
-<link href="#springUrl("")/static/css/plugins/treeview/bootstrap-treeview.css?$!application.getAttribute('/static/css/plugins/treeview/bootstrap-treeview.css')" rel="stylesheet">
+## 下拉
+<link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
 
 #end
 
@@ -10,14 +11,18 @@
     <form class="form-horizontal m-t" id="commentForm">
         <input type="hidden" id="id" name="id" value="$baseCustomFinance.id">
         <div class="form-group">
-            <label class="col-sm-3 control-label">所属公司</label>
-            <div id="parent_content"  class="col-sm-8">
-                <input id="parent_id" hidden value="$!{customId}">
-                <input value="$!{customName}" id="parent_name" name="parent_name" type="text" class="form-control"
-                    #if(!${parentTreeJson})
-                       disabled
+            <label class="col-sm-3 control-label">客户名称</label>
+            <div id="custom_content"  class="col-sm-9">
+                <select id="custom_id" data-placeholder="请选择客户" style="width:350px;" class="chosen-select" tabindex="2">
+                    <option value="">请选择客户</option>
+                    #foreach($data in $customList)
+                        <option value ="$data.id"
+                            #if(${baseCustomFinance.customId} == $data.id)
+                                selected
+                            #end
+                        >$data.name</option>
                     #end
-                       onclick="showDeptList(); return false;">
+                </select>
             </div>
         </div>
         <div class="form-group">
@@ -37,49 +42,49 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">房租成本</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustomFinance.roomPay}" id="room_pay" name="room_pay" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustomFinance.roomPay}" id="room_pay" name="room_pay" maxlength="50" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">人员成本</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustomFinance.personPay}" id="person_pay" name="person_pay" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustomFinance.personPay}" id="person_pay" name="person_pay" maxlength="50" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">其他综合分摊费用</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustomFinance.otherPay}" id="other_pay" name="other_pay" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustomFinance.otherPay}" id="other_pay" name="other_pay" maxlength="50" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">成本</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustomFinance.costBuy}" id="cost_buy" name="cost_buy" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustomFinance.costBuy}" id="cost_buy" name="cost_buy" maxlength="50" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">净收入（订单额减去返点）</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustomFinance.income}" id="income" name="income" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustomFinance.income}" id="income" name="income" maxlength="50" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">税费</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustomFinance.tax}" id="tax" name="tax" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustomFinance.tax}" id="tax" name="tax" maxlength="50" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">销售提成</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustomFinance.salesCommission}" id="sales_commission" name="sales_commission" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustomFinance.salesCommission}" id="sales_commission" name="sales_commission" maxlength="50" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">备注</label>
             <div class="col-sm-8">
-                <input value="$!{baseCustomFinance.remark}" id="remark" name="remark" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input value="$!{baseCustomFinance.remark}" id="remark" name="remark" maxlength="50" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
@@ -114,10 +119,12 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
 
-##树状展示
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
+####树状展示
+##<script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
 ##日期控件
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')"></script>
+## 下拉框
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
 
 <script>
 
@@ -146,25 +153,6 @@
     laydate(start);
     laydate(end);
 
-    ##显示公司树状列表（上级部门）start
-    function onBodyDown(event) {
-        if (!(event.target.id == "parent_id" || event.target.id == "parentTreeContent" || $(event.target).parents("#parentTreeContent").length>0)) {
-            hideMenu();
-        }
-    }
-    function hideMenu() {
-        $("#parentTreeContent").fadeOut("fast");
-        $("body").unbind("mousedown", onBodyDown);
-    }
-    function showDeptList() {
-        var parent_name = $("#parent_name");
-        var parent_content_offSet = $("#parent_content").offset();
-        var parent_name_offSet = parent_name.offset();
-        $("#parentTreeContent").css({left:parent_name_offSet.left + "px", top:parent_content_offSet.top + parent_name.outerHeight() + "px"}).slideDown("fast");
-        $("body").bind("mousedown", onBodyDown);
-    };
-    ##显示公司树状列表（上级部门）end
-
     $.validator.setDefaults(
         {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
             success:function(e){
@@ -186,6 +174,15 @@
             {var i=document.querySelector(".js-switch"),
                 t=(new Switchery(i,{color:"#1AB394"}));
             };
+            var config = {
+                ".chosen-select": {},
+                ".chosen-select-deselect": {allow_single_deselect: !0},
+                ".chosen-select-no-single": {disable_search_threshold: 10},
+                ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
+                ".chosen-select-width": {width: "95%"}
+            };
+            for (var selector in config)
+                $(selector).chosen(config[selector]);
         }
     );
 
@@ -201,7 +198,7 @@
     function commit(){
         var start_date = stringToDate($("#start_date").val());
         var end_date = stringToDate($("#end_date").val());
-        var parent_id = $("#parent_id").val();
+        var custom_id = $("#custom_id").val();
         var area_finance_name = $("#area_finance_name").val();
         var room_pay = $("#room_pay").val();
         var person_pay = $("#person_pay").val();
@@ -216,7 +213,7 @@
             type:"post",
             async: false,
             data:{
-                areaId:parent_id,
+                customId:custom_id,
                 name:area_finance_name,
                 startDate:start_date,
                 endDate:end_date,
@@ -231,9 +228,9 @@
             },
             success: function(returnData){
                 if(returnData.code == 1){
-                    popMsg('添加成功!', "/areaFinance/index?areaId=" + parent_id);
+                    popMsg('添加成功!', "/customFinance/index?customId=" + custom_id);
                 } else{
-                    layer.msg('添加失败, 请联系技术人员!');
+                    layer.msg(returnData.info);
                 }
             }
         });

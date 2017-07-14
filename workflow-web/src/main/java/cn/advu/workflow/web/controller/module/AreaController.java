@@ -1,5 +1,6 @@
 package cn.advu.workflow.web.controller.module;
 
+import cn.advu.workflow.domain.fcf_vu.AreaVO;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseDept;
 import cn.advu.workflow.domain.fcf_vu.BaseRegion;
@@ -43,14 +44,8 @@ public class AreaController {
         areaId = (areaId == null)? 0 : areaId;
 
         // 所属公司的树状结构
-        List<TreeNode> parentNodes = new LinkedList<>();
-        parentNodes.addAll(areaService.findAreaNodeList(null).getData());
-        String parentTreeJson = null;
-        if (parentNodes != null && !parentNodes.isEmpty()) {
-            parentTreeJson = JSONObject.toJSONString(parentNodes);
-        }
-
-        ResultJson<List<BaseArea>> result = areaService.findByParent(areaId);
+        String parentTreeJson = findAreaTreeStr();
+        ResultJson<List<AreaVO>> result = areaService.findByParent(areaId);
 
         resultModel.addAttribute("dataList",result.getData());
         resultModel.addAttribute("parentTreeJson", parentTreeJson);
@@ -64,7 +59,7 @@ public class AreaController {
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addRegion(BaseArea baseArea, HttpServletRequest request){
+    public ResultJson<Integer> add(BaseArea baseArea){
         return areaService.addArea(baseArea);
     }
 
@@ -85,22 +80,10 @@ public class AreaController {
      * @return
      */
     @RequestMapping("/toAdd")
-    public String toAdd(Integer parentId, Model model){
+    public String toAdd(Integer parentId, Model model) {
 
-        // 所属公司的树状结构
-        List<TreeNode> parentNodes = new LinkedList<>();
-        parentNodes.addAll(areaService.findAreaNodeList(null).getData());
-        String parentTreeJson = null;
-        if (parentNodes != null && !parentNodes.isEmpty()) {
-            parentTreeJson = JSONObject.toJSONString(parentNodes);
-        }
-
-        // 设置上级公司名称
-        String parentAreaName = "";
-        if (parentId != null) {
-            BaseArea parentArea = areaService.findById(parentId).getData();
-            parentAreaName = parentArea.getName();
-        }
+        String parentTreeJson = findAreaTreeStr();
+        String parentAreaName = findParentName(parentId);
 
         model.addAttribute("parentId", parentId);
         model.addAttribute("parentAreaName", parentAreaName);
@@ -108,7 +91,6 @@ public class AreaController {
 
         return "modules/area/add";
     }
-
 
     /**
      * 跳转修改页
@@ -119,12 +101,46 @@ public class AreaController {
     @RequestMapping("/toUpdate")
     public String toUpdate(Integer id, Model model){
 
+        String parentTreeJson = findAreaTreeStr();
         BaseArea baseArea = areaService.findById(id).getData();
+        String parentName = findParentName(baseArea.getParentId());
 
         model.addAttribute("baseArea", baseArea);
+        model.addAttribute("parentAreaName", parentName);
+        model.addAttribute("parentTreeJson", parentTreeJson);
 
         return "modules/area/update";
     }
 
+    /**
+     * 所属区域的树结构
+     *
+     * @return
+     */
+    private String findAreaTreeStr() {
+        // 所属公司的树状结构
+        List<TreeNode> parentNodes = new LinkedList<>();
+        parentNodes.addAll(areaService.findAreaNodeList(null).getData());
+        String parentTreeJson = null;
+        if (parentNodes != null && !parentNodes.isEmpty()) {
+            parentTreeJson = JSONObject.toJSONString(parentNodes);
+        }
+        return parentTreeJson;
+    }
 
+    /**
+     * 返回上级区域的名称
+     *
+     * @param parentId
+     * @return
+     */
+    private String findParentName(Integer parentId) {
+        // 设置上级公司名称
+        String parentAreaName = "";
+        if (parentId != null && parentId.intValue() != 0) {
+            BaseArea parentArea = areaService.findById(parentId).getData();
+            parentAreaName = parentArea.getName();
+        }
+        return parentAreaName;
+    }
 }

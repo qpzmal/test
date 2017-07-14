@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -38,6 +39,25 @@ public class CustomFinanceController {
     @Autowired
     private CustomService customService;
 
+    static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+
+    /**
+     * 跳转区域业务首页-区域列表页
+     *
+     * @param resultModel
+     * @return
+     */
+    @RequestMapping("/list")
+    public String toList(Integer customId, Model resultModel){
+
+        List<BaseCustomFinance> dataList = customFinanceService.findByCustom(customId).getData();
+        resultModel.addAttribute("dataList", dataList);
+        resultModel.addAttribute("format", format);
+
+        return "modules/customFinance/customFinanceList";
+    }
+
     /**
      * 跳转区域业务首页-区域列表页
      *
@@ -47,23 +67,14 @@ public class CustomFinanceController {
     @RequestMapping("/index")
     public String toIndex(Integer customId, Model resultModel){
 
-//        // 所属公司的树状结构
-//        String parentTreeJson = treeMananger.converToTreeJsonStr(
-//                areaService.findAreaNodeList(null).getData()
-//        );
-
-        // 设置所属公司名称
-        String customName = "";
-        if (customId != null) {
-            BaseCustom custom = customService.findById(customId).getData();
-            customName = custom.getName();
-        }
-
         List<BaseCustomFinance> dataList = customFinanceService.findByCustom(customId).getData();
+        List<BaseCustom> customList = customService.findAll().getData();
+
         resultModel.addAttribute("dataList", dataList);
+        resultModel.addAttribute("customList", customList);
         resultModel.addAttribute("customId", customId);
-        resultModel.addAttribute("customName", customName);
-//        resultModel.addAttribute("parentTreeJson", parentTreeJson);
+        resultModel.addAttribute("format", format);
+
         return "modules/customFinance/list";
     }
 
@@ -85,8 +96,19 @@ public class CustomFinanceController {
      */
     @ResponseBody
     @RequestMapping(value ="/update", method = RequestMethod.POST)
-    public ResultJson<Void> updateArea(BaseCustomFinance baseCustomFinance, HttpServletRequest request){
+    public ResultJson<Void> update(BaseCustomFinance baseCustomFinance, HttpServletRequest request){
         return customFinanceService.update(baseCustomFinance);
+    }
+
+    /**
+     * 更新地域
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/remove", method = RequestMethod.POST)
+    public ResultJson<Void> update(Integer id, HttpServletRequest request){
+        return customFinanceService.remove(id);
     }
 
     /**
@@ -97,21 +119,10 @@ public class CustomFinanceController {
     @RequestMapping("/toAdd")
     public String toAdd(Integer customId, Model model){
 
-//        // 所属公司的树状结构
-//        String parentTreeJson = treeMananger.converToTreeJsonStr(
-//                areaService.findAreaNodeList(null).getData()
-//        );
-
-        // 设置所属公司名称
-        String customName = "";
-        if (customId != null) {
-            BaseCustom custom = customService.findById(customId).getData();
-            customName = custom.getName();
-        }
+        List<BaseCustom> customList = customService.findAll().getData();
 
         model.addAttribute("customId", customId);
-        model.addAttribute("customName", customName);
-//        model.addAttribute("parentTreeJson", parentTreeJson);
+        model.addAttribute("customList", customList);
 
         return "modules/customFinance/add";
     }
@@ -127,23 +138,10 @@ public class CustomFinanceController {
     public String toUpdate(Integer id, Model model){
 
         BaseCustomFinance baseCustomFinance = customFinanceService.findById(id).getData();
+        List<BaseCustom> customList = customService.findAll().getData();
 
-//        // 所属公司的树状结构
-//        String parentTreeJson = treeMananger.converToTreeJsonStr(
-//                areaService.findAreaNodeList(null).getData()
-//        );
-
-        // 设置所属公司名称
-        Integer customId = baseCustomFinance.getCustomId();
-        String customName = "";
-        if (customId != null) {
-            BaseCustom custom = customService.findById(customId).getData();
-            customName = custom.getName();
-        }
-
-        model.addAttribute("customName", customName);
         model.addAttribute("baseCustomFinance", baseCustomFinance);
-//        model.addAttribute("parentTreeJson", parentTreeJson);
+        model.addAttribute("customList", customList);
 
         return "modules/customFinance/update";
     }

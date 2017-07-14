@@ -1,10 +1,12 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.fcf_vu.AreaVO;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.repo.fcf_vu.BaseAreaRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.dto.TreeNode;
+import cn.advu.workflow.web.manager.AreaManager;
 import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.AreaService;
 import org.slf4j.Logger;
@@ -25,6 +27,8 @@ public class AreaServiceImpl implements AreaService {
     @Autowired
     private BaseAreaRepo baseAreaRepo;
 
+    @Autowired
+    private AreaManager areaManager;
 
     @Autowired
     private TreeMananger treeMananger;
@@ -38,6 +42,8 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public ResultJson<Integer> addArea(BaseArea baseArea) {
+        // TODO 区域编号是否重复，是否必填，名称是否重复
+        areaManager.resetLevel(baseArea);
         Integer insertCount = baseAreaRepo.addSelective(baseArea);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建公司失败!");
@@ -47,9 +53,12 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public ResultJson<Integer> updateArea(BaseArea baseArea) {
+
         if (baseArea.getId() == null) {
         return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
         }
+        // TODO 区域编号是否重复，是否必填，名称是否重复
+        areaManager.resetLevel(baseArea);
         Integer insertCount = baseAreaRepo.updateSelective(baseArea);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新公司失败!");
@@ -77,11 +86,11 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
-    public ResultJson<List<BaseArea>> findByParent(Integer parentId) {
+    public ResultJson<List<AreaVO>> findByParent(Integer parentId) {
 
-        ResultJson<List<BaseArea>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        List<BaseArea> areaList = baseAreaRepo.findByParent(parentId);
-        result.setData(areaList);
+        ResultJson<List<AreaVO>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        List<AreaVO> areaVOList = baseAreaRepo.findByParentAreaVO(parentId);
+        result.setData(areaVOList);
         return result;
     }
 }

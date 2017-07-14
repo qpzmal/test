@@ -27,9 +27,9 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, name, custom_id, start_date, end_date, room_pay, person_pay, other_pay, cost_buy, 
-    income, tax, sales_commission, pay1, pay3, pay2, del_flag, item_status, creator_id, 
-    updater_id, create_time, update_time, remark
+    income, tax, sales_commission, pay1, pay3, pay2, item_status, remark
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -45,17 +45,15 @@
       start_date, end_date, room_pay, 
       person_pay, other_pay, cost_buy, 
       income, tax, sales_commission, 
-      pay1, pay3, pay2, del_flag, 
-      item_status, creator_id, updater_id, 
-      create_time, update_time, remark
+      pay1, pay3, pay2,
+      item_status,  remark
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{customId,jdbcType=INTEGER}, 
       #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{roomPay,jdbcType=DECIMAL}, 
       #{personPay,jdbcType=DECIMAL}, #{otherPay,jdbcType=DECIMAL}, #{costBuy,jdbcType=DECIMAL}, 
       #{income,jdbcType=DECIMAL}, #{tax,jdbcType=DECIMAL}, #{salesCommission,jdbcType=DECIMAL}, 
-      #{pay1,jdbcType=DECIMAL}, #{pay3,jdbcType=DECIMAL}, #{pay2,jdbcType=DECIMAL}, #{delFlag,jdbcType=TINYINT},
-      #{itemStatus,jdbcType=TINYINT}, #{creatorId,jdbcType=INTEGER}, #{updaterId,jdbcType=INTEGER},
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      #{pay1,jdbcType=DECIMAL}, #{pay3,jdbcType=DECIMAL}, #{pay2,jdbcType=DECIMAL},
+      #{itemStatus,jdbcType=TINYINT},  #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseCustomFinance"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
@@ -312,6 +310,17 @@
     <if test="customId != null">
       and custom_id = #{customId,jdbcType=INTEGER}
     </if>
+  </select>
+
+  <select id="queryByCustomAndDate" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_custom_finance
+    where del_flag = '0'
+    and custom_id = #{customId,jdbcType=INTEGER}
+    and start_date = #{startDate,jdbcType=TIMESTAMP},
+    and end_date = #{endDate,jdbcType=TIMESTAMP}
+    limit 1
   </select>
 
 </mapper>

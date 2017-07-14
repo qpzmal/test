@@ -11,6 +11,7 @@ import cn.advu.workflow.repo.fcf_vu.BaseCustomFinanceRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,5 +33,10 @@ public class BaseCustomFinanceRepoImpl extends AbstractRepo<BaseCustomFinance> i
     @Override
     public List<BaseCustomFinance> findByCustom(Integer customId) {
         return baseCustomFinanceMapper.queryByCustom(customId);
+    }
+
+    @Override
+    public BaseCustomFinance findByCustomAndDate(Integer customId, Date startDate, Date endDate) {
+        return baseCustomFinanceMapper.queryByCustomAndDate(customId, startDate, endDate);
     }
 }
