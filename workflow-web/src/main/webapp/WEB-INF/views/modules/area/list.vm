@@ -18,7 +18,7 @@
                                 #if(!${parentTreeJson})
                                    disabled
                                 #end
-                                   onclick="showDeptList(); return false;" onfocus=this.blur()>
+                                   onclick="showDeptList(); return false;" onfocus=this.blur() >
                         </div>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                             <th>管理</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="list_tbody">
                         #foreach($data in $dataList)
                             <tr class="gradeX">
                                 <td>$!{data.name}</td>
@@ -84,6 +84,22 @@
 
 
 <script>
+
+    function parentChange(parent_id) {
+        if (parent_id == "") {
+            return;
+        }
+        $.ajax({
+            url:"/area/list.json?parentId=" + parent_id,
+            type:"get",
+            async: false,
+            success: function(returnData){
+                console.log(returnData);
+                $("#list_tbody").html(returnData);
+            }
+        });
+    };
+
 ## 上级公司展示
     function onBodyDown(event) {
         if (!(event.target.id == "parent_id" || event.target.id == "parent_tree_content" || $(event.target).parents("#parent_tree_content").length>0)) {
@@ -115,41 +131,47 @@
                         $("#parent_id").attr("value", o.value);
                         $("#parent_name").attr("value", o.text);
                         $("#parent_tree_content").fadeOut("fast");
+                        parentChange($("#parent_id").val());
                     }
+                });
+                // 添加
+                $(".btn-primary").click(function(){
+                    window.location.href = "${rc.contextPath}/area/toAdd?parentId=" + $("#parent_id").val();
                 })
+                // 修改
+                $(".btn-info").on("click",
+                        function(){
+                            var id = $(this).parent().children(":first").val();
+                            window.location.href = "${rc.contextPath}/area/toUpdate?id=" + id;
+                        }
+                );
+                // 删除
+                $(".btn-danger").on("click",
+                        function(){
+                            var id = $(this).parent().children(":first").val();
+                            delItem(function(){
+                                $.ajax({
+                                    url:"/area/remove.json",
+                                    type:"post",
+                                    data:{
+                                        "id":id
+                                    },
+                                    success: function(returnData){
+                                        if(returnData.code == 1){
+                                            popMsg('删除成功!', "/area/index");
+                                        } else{
+                                            layer.msg(returnData.info);
+                                        }
+                                    }
+
+                                });
+                            });
+                        }
+                );
             }
     );
 
-    // 添加
-    $(".btn-primary").click(function(){
-        window.location.href = "${rc.contextPath}/area/toAdd?parentId=" + $("#parent_id").val();
-    })
-    // 修改
-    $(".btn-info").click(function(){
-        var id = $(this).parent().children(":first").val();
-        window.location.href = "${rc.contextPath}/area/toUpdate?id=" + id;
-    })
-    // 删除
-    $(".btn-danger").click(function(){
-        var id = $(this).parent().children(":first").val();
-        delItem(function(){
-            $.ajax({
-                url:"/area/remove.json",
-                type:"post",
-                data:{
-                    "id":id
-                },
-                success: function(returnData){
-                    if(returnData.code == 1){
-                        popMsg('删除成功!', "/area/index");
-                    } else{
-                        layer.msg(returnData.info);
-                    }
-                }
 
-            });
-        });
-    })
 
 </script>
 #end

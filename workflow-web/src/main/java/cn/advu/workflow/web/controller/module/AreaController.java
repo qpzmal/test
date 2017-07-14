@@ -1,9 +1,6 @@
 package cn.advu.workflow.web.controller.module;
 
-import cn.advu.workflow.domain.fcf_vu.AreaVO;
-import cn.advu.workflow.domain.fcf_vu.BaseArea;
-import cn.advu.workflow.domain.fcf_vu.BaseDept;
-import cn.advu.workflow.domain.fcf_vu.BaseRegion;
+import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.dto.TreeNode;
 import cn.advu.workflow.web.service.base.AreaService;
@@ -31,6 +28,15 @@ public class AreaController {
     
     @Autowired
     private AreaService areaService;
+
+    @RequestMapping("/list")
+    public String toList(Integer parentId, Model resultModel){
+
+        ResultJson<List<AreaVO>> result = areaService.findByParent(parentId);
+        resultModel.addAttribute("dataList",result.getData());
+
+        return "modules/area/areaList";
+    }
 
     /**
      * 跳转区域业务首页-区域列表页

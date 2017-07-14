@@ -10,7 +10,7 @@
     <form class="form-horizontal m-t" id="commentForm">
         <input type="hidden" id="id" name="id" value="$baseArea.id">
         <div class="form-group">
-            <label class="col-sm-3 control-label">上级公司</label>
+            <label class="col-sm-3 control-label">上级区域</label>
             <div id="parent_content"  class="col-sm-8">
                 <input id="parent_id" hidden value="$!{baseArea.parentId}">
                 <input value="$!{parentAreaName}" id="parent_name" name="parent_name" type="text" class="form-control"
@@ -60,7 +60,9 @@
     </form>
 </div>
 
-
+<div id="parent_tree_content" class="col-sm-8 ibox-content" style="display:none; position: absolute;">
+    <div id="parent_tree" class="test" ></div>
+</div>
 
 
 ## 引入js
@@ -76,19 +78,19 @@
 
     ##显示公司树状列表（上级部门）start
     function onBodyDown(event) {
-        if (!(event.target.id == "parent_id" || event.target.id == "parentTreeContent" || $(event.target).parents("#parentTreeContent").length>0)) {
+        if (!(event.target.id == "parent_id" || event.target.id == "parent_tree_content" || $(event.target).parents("#parent_tree_content").length>0)) {
             hideMenu();
         }
     }
     function hideMenu() {
-        $("#parentTreeContent").fadeOut("fast");
+        $("#parent_tree_content").fadeOut("fast");
         $("body").unbind("mousedown", onBodyDown);
     }
     function showDeptList() {
         var parent_name = $("#parent_name");
         var parent_content_offSet = $("#parent_content").offset();
         var parent_name_offSet = parent_name.offset();
-        $("#parentTreeContent").css({left:parent_name_offSet.left + "px", top:parent_content_offSet.top + parent_name.outerHeight() + "px"}).slideDown("fast");
+        $("#parent_tree_content").css({left:parent_name_offSet.left + "px", top:parent_content_offSet.top + parent_name.outerHeight() + "px"}).slideDown("fast");
         $("body").bind("mousedown", onBodyDown);
     };
     ##显示公司树状列表（上级部门）end
@@ -113,6 +115,18 @@
             {var i=document.querySelector(".js-switch"),
                 t=(new Switchery(i,{color:"#1AB394"}));
             };
+            var treeData = '${parentTreeJson}';
+            ## 生成部门树（上级部门）
+            $("#parent_tree").treeview({
+                showBorder: !1,
+                levels:1,
+                data: treeData,
+                onNodeSelected: function (e, o) {
+                    $("#parent_id").attr("value", o.value);
+                    $("#parent_name").attr("value", o.text);
+                    $("#parent_tree_content").fadeOut("fast");
+                }
+            })
         }
     );
 
