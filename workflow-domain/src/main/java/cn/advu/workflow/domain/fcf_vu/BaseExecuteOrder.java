@@ -16,7 +16,7 @@ public class BaseExecuteOrder extends AbstractEntity {
 
     private String secOrderNum;
 
-    private Boolean type;
+    private String type;
 
     private Date orderDate;
 
@@ -118,11 +118,11 @@ public class BaseExecuteOrder extends AbstractEntity {
         this.secOrderNum = secOrderNum == null ? null : secOrderNum.trim();
     }
 
-    public Boolean getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Boolean type) {
+    public void setType(String type) {
         this.type = type;
     }
 
