@@ -1,11 +1,14 @@
 package cn.advu.workflow.repo.fcf_vu.impl;
 
 import cn.advu.workflow.dao.base.BaseDAO;
+import cn.advu.workflow.dao.base.BaseTreeDAO;
 import cn.advu.workflow.dao.fcf_vu.BaseAreaMapper;
 import cn.advu.workflow.dao.fcf_vu.BaseDeptMapper;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseDept;
+import cn.advu.workflow.domain.fcf_vu.DeptVO;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
+import cn.advu.workflow.repo.base.impl.AbstractTreeRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseAreaRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseDeptRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +21,16 @@ import java.util.List;
  *
  */
 @Repository
-public class BaseDeptRepoImpl extends AbstractRepo<BaseDept> implements BaseDeptRepo {
+public class BaseDeptRepoImpl extends AbstractTreeRepo<BaseDept> implements BaseDeptRepo {
 
     @Autowired
     BaseDeptMapper baseDeptMapper;
 
     @Override
-    protected BaseDAO<BaseDept> getSqlMapper() {
+    protected BaseTreeDAO<BaseDept> getTreeSqlMapper() {
         return baseDeptMapper;
     }
+
 
     @Override
     public List<BaseDept> findAll() {
@@ -42,5 +46,10 @@ public class BaseDeptRepoImpl extends AbstractRepo<BaseDept> implements BaseDept
     @Override
     public List<BaseDept> findChildDept(Integer areaId, Integer parentId) {
         return baseDeptMapper.queryChildDept(areaId, parentId);
+    }
+
+    @Override
+    public List<DeptVO> findChildDeptWithAreaNameAndParentName(Integer areaId, Integer parentId) {
+        return baseDeptMapper.queryByAreaAndDept(areaId, parentId);
     }
 }

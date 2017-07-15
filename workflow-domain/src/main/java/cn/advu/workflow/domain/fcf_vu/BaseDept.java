@@ -1,12 +1,10 @@
 package cn.advu.workflow.domain.fcf_vu;
 
-import cn.advu.workflow.domain.base.AbstractEntity;
+import cn.advu.workflow.domain.base.AbstractTreeEntity;
 
-public class BaseDept extends AbstractEntity {
+public class BaseDept extends AbstractTreeEntity {
 
     private String name;
-
-    private Integer parentId;
 
     private Integer sort;
 
@@ -14,15 +12,7 @@ public class BaseDept extends AbstractEntity {
 
     private Integer areaId;
 
-    private Integer level;
 
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
 
     public String getName() {
         return name;
@@ -32,13 +22,6 @@ public class BaseDept extends AbstractEntity {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
 
     public Integer getSort() {
         return sort;

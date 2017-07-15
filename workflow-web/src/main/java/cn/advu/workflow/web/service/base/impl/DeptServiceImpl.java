@@ -1,12 +1,18 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.base.AbstractTreeEntity;
 import cn.advu.workflow.domain.fcf_vu.BaseDept;
+import cn.advu.workflow.domain.fcf_vu.DeptVO;
+import cn.advu.workflow.repo.base.IRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseDeptRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.dto.TreeNode;
 import cn.advu.workflow.web.manager.LevelComparetor;
+import cn.advu.workflow.web.service.AbstractTreeService;
 import cn.advu.workflow.web.service.base.DeptService;
+import cn.advu.workflow.web.util.AssertUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +24,16 @@ import java.util.*;
  * Created by weiqz on 2017/6/25.
  */
 @Service
-public class DeptServiceImpl implements DeptService {
+public class DeptServiceImpl extends AbstractTreeService implements DeptService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeptServiceImpl.class);
 
     @Autowired
     private BaseDeptRepo baseDeptRepo;
 
+    @Override
+    protected IRepo<? extends AbstractTreeEntity> getRepo() {
+        return baseDeptRepo;
+    }
 
     @Override
     public ResultJson<List<BaseDept>> findAll() {
@@ -57,34 +67,22 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
+    public ResultJson<List<DeptVO>> findChildDeptWithName(Integer areaId, Integer parentId) {
+        ResultJson resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        resultJson.setData(baseDeptRepo.findChildDeptWithAreaNameAndParentName(areaId, parentId));
+        return resultJson;
+    }
+
+    @Override
     public ResultJson<Integer> add(BaseDept baseDept) {
 
-        ResultJson resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
-        if (baseDept.getAreaId() == null) {
-            resultJson.setCode(WebConstants.OPERATION_FAILURE);
-            resultJson.setInfo("所属公司不能为空！");
-            return resultJson;
-        }
-        if (baseDept.getParentId() == null) {
-            resultJson.setCode(WebConstants.OPERATION_FAILURE);
-            resultJson.setInfo("所属公司不能为空！");
-            return resultJson;
-        }
+        AssertUtil.assertNotNull(baseDept);
+        AssertUtil.assertNotNull(baseDept.getAreaId(), MessageConstants.ASSIGN_AREA_IS_NULL);
 
-        Integer parentId = baseDept.getParentId();
-        if (parentId == null) {
-            baseDept.setParentId(-1);
-            baseDept.setLevel(1);
-        } else {
-            BaseDept parentDept = baseDeptRepo.findOne(parentId);
-            if (parentDept == null) {
-                resultJson.setCode(WebConstants.OPERATION_FAILURE);
-                return resultJson;
-            }
-            Integer parentLevel = parentDept.getLevel();
-            baseDept.setLevel(parentLevel +1);
-        }
+        // 设置level
+        this.resetLevel(baseDept);
 
+        ResultJson<Integer> resultJson = new ResultJson();
         Integer deptId = baseDeptRepo.addSelective(baseDept);
         resultJson.setData(deptId);
 

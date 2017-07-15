@@ -14,10 +14,34 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+
+  <resultMap id="DeptVO" type="cn.advu.workflow.domain.fcf_vu.DeptVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+    <result column="parent_name" jdbcType="VARCHAR" property="parentName" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, name, parent_id, sort, description, area_id, level, del_flag, item_status, create_time,
     update_time
   </sql>
+
+  <sql id="DeptVO_Column_List">
+    base_dept.id, base_dept.name, base_dept.parent_id, base_dept.sort, base_dept.description, base_dept.area_id, base_dept.level, base_dept.del_flag, base_dept.item_status, base_dept.create_time,
+    base_dept.update_time, base_area.name as area_name, base_dept_parent.name as parent_name
+  </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -192,5 +216,26 @@
       and parent_id = #{parentId,jdbcType=INTEGER}
   </select>
 
+  <select id="queryByAreaAndDept" resultMap="DeptVO">
+    select
+    <include refid="DeptVO_Column_List" />
+    from base_dept left join base_area on base_dept.area_id = base_area.id
+    left join base_dept as base_dept_parent on base_dept.parent_id = base_dept_parent.id
+    where base_dept.del_flag = 0
+    <if test="areaId != null">
+      and base_dept.area_id = #{areaId,jdbcType=INTEGER}
+    </if>
+    <if test="parentId != null">
+      and base_dept.parent_id = #{parentId,jdbcType=INTEGER}
+    </if>
+  </select>
+
+
+  <update id="updateChildLevel" >
+    update base_dept
+    set level = #{level,jdbcType=INTEGER}
+    where parent_id = #{parentId,jdbcType=INTEGER}
+    and del_flag = 0
+  </update>
 
 </mapper>

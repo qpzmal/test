@@ -2,7 +2,7 @@
 
 #foreach($data in $dataList)
 <tr class="gradeX">
-    <td>$!{data.baseDept.name}</td>
+    <td>$!{data.name}</td>
     <td>$!{data.areaName}</td>
     #if(!${data.parentName})
     <td>-</td>
@@ -10,7 +10,7 @@
         <td>${data.parentName}</td>
     #end
     <td>
-        #if($!{data.baseDept.itemStatus} == "0") 启用
+        #if($!{data.itemStatus} == "0") 启用
         #else 停用
         #end
     </td>

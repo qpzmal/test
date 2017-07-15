@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.service.base;
 
 import cn.advu.workflow.domain.fcf_vu.BaseDept;
+import cn.advu.workflow.domain.fcf_vu.DeptVO;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.dto.TreeNode;
 
@@ -18,6 +19,8 @@ public interface DeptService {
     ResultJson<List<BaseDept>> findAreaDept(Integer areaId);
 
     ResultJson<List<BaseDept>> findChildDept(Integer areaId, Integer parentId);
+
+    ResultJson<List<DeptVO>> findChildDeptWithName(Integer areaId, Integer parentId);
 
     ResultJson<Integer> add(BaseDept baseDept);
 
