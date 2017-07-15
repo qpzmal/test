@@ -1,0 +1,154 @@
+
+## css文件引入和css代码块
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/iCheck/custom.css?$!application.getAttribute('/static/css/plugins/iCheck/custom.css')" rel="stylesheet">
+#end
+
+
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+
+            ## 查询条件
+            ## 示例（查询条件）
+            <div class="ibox float-e-margins">
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 已排期</a>
+                        </li>
+                        <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">无排期</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+                            <div class="panel-body">
+                                <form class="form-horizontal m-t">
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date" id="startDate">
+                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date" id="endDate">
+                                        </div>
+
+                                        <div class="col-sm-4 m-b-xs text-right">
+                                            <div class="checkbox i-checks">
+                                                <label>
+                                                    <input type="checkbox" value="" checked=""> <i></i> 按地域</label>
+                                                <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="tab-2" class="tab-pane">
+                            <div class="panel-body">
+                                <form class="form-horizontal m-t">
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date" id="startDate">
+                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date" id="endDate">
+                                        </div>
+
+                                        <div class="col-sm-4 m-b-xs text-right">
+                                            <div class="checkbox i-checks">
+                                                <label>
+                                                    <input type="checkbox" value="" checked=""> <i></i> 按地域</label>
+                                                <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            ## 查询结果
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div id="echart-container" style="height:400px;" ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+## js文件引入和js代码块
+#define($jsblock)
+<script src="#springUrl("")/static/js/plugins/echarts/echarts-3.6.2.min.js?$!application.getAttribute('/static/js/plugins/echarts/echarts-3.6.2.min.js')" type="text/javascript" language="javascript"></script>
+<script src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" type="text/javascript" language="javascript"></script>
+<script src="#springUrl("")/static/js/plugins/icheck/icheck.min.js?$!application.getAttribute('/static/js/plugins/icheck/icheck.min.js')" type="text/javascript" language="javascript"></script>
+<script>
+    $(function() {
+        initLaydate();
+        initIcheck();
+    })
+
+    ## 示例（开始日期、结束日期）
+    function initLaydate(){
+        var start = {
+            elem: "#startDate",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: true,
+            choose: function(datas) {
+                end.min = datas;
+                end.start = datas }
+        };
+        var end = {
+            elem: "#endDate",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: false,
+            choose: function(datas) {
+                start.max = datas }
+        };
+        laydate(start);
+        laydate(end);
+    }
+
+    function initIcheck(){
+        $(".i-checks").iCheck({
+            checkboxClass:"icheckbox_square-green",
+            radioClass:"iradio_square-green",
+        })
+    }
+
+    // 基于准备好的dom，初始化echarts实例
+    var chart = echarts.init(document.getElementById('echart-container'));
+
+    //查询
+    function initChart() {
+        chart.clear();
+        chart.showLoading({text: '正在努力的读取数据中...'});
+//        $.getJSON('analysis/removecauses.json', function (data) {
+//            if (data.success) {
+//                chart.setOption(data.data, true);
+//                chart.hideLoading();
+//            } else {
+//                layer.msg(data.msg);
+//            }
+//        });
+    }
+
+    //载入图表
+    initChart();
+
+</script>
+#end

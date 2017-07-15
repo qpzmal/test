@@ -7,71 +7,95 @@
 
 <div class="wrapper wrapper-content">
 ##    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
-    #foreach($mapKey in ${resultMap.keySet()})
-    #set($mapValue = ${resultMap.get($mapKey)})
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        #foreach($!{data} in $!{mapValue})
-                            ## 第2行时跳出循环（示例：跳出循环）
-                            #if($!{velocityCount} == 2) #break #end
-                            <h5>$!{data.processInstance.processDefinitionName}</h5>
-                        #end
-                    </div>
-                    <div class="ibox-content">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th>审批流程名称</th>
-                                <th>申请人</th>
-##                                <th>申请时间</th>
-##                                <th>开始时间</th>
-##                                <th>结束时间</th>
-                                <th>当前节点</th>
-                                <th>任务创建时间</th>
-                                <th>流程状态</th>
-                                <th>操作</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                #foreach($!{data} in $!{mapValue})
-                                <tr id="$!{data.baseBuyOrder.id}" tid="$!{data.task.id}" pkey="$!data.processInstance.ProcessDefinitionKey">
-                                    <td>$!{data.baseBuyOrder.name}</td>
-                                    <td>$!{data.baseBuyOrder.userId}</td>
-##                                    <td>$!{data.baseBuyOrder.applyTime}</td>
-##                                    <td>$!{data.baseBuyOrder.startTime}</td>
-##                                    <td>$!{data.baseBuyOrder.endTime}</td>
-                                    <td>
-                                        <a class="trace" href='javascript:;' pid="$!{data.processInstance.id}" pdid="${data.processInstance.processDefinitionId}" title="点击查看流程图">$!{data.task.name}</a>
-                                    </td>
-                                ##                                <td><a target="_blank" href='${ctx}/workflow/resource/process-instance?pid=${data.processInstance.id}&type=xml'>${data.task.name}</a></td>
-                                    <td>$!date.format('yyyy-MM-dd HH:mm:ss ',${data.task.createTime})</td>
-                                    <td>
-                                    ##                                    ${pi.suspended ? "已挂起" : "正常" }；
-                                        <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
-                                    </td>
-                                    <td>
-                                        #if(!${data.task.assignee})
-                                            <a href="javascript:;" class="btn btn-info btn-sm button_to_start btn_claim"><i class="fa fa-play "></i> 签收 </a>
-                                        #end
-                                        #if(${data.task.assignee})
-                                            ##  此处用tkey记录当前节点的名称
-                                            <a href="javascript:;" class="btn btn-info btn-sm button_to_start btn_handle" tkey='$!{data.task.taskDefinitionKey}' tname='$!{data.task.name}'><i class="fa fa-play "></i> 办理</a>
-                                        #end
+    <div class="row">
+        <div class="col-sm-12">
 
-                                        <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
-                                    </td>
-                                </tr>
-                                #end
-                            </tbody>
-                        </table>
-
-                    </div>
+            ## 查询条件
+            ## 示例（查询条件）
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t">
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <input placeholder="开始日期" class="laydate-icon form-control layer-date" id="startDate">
+                                <input placeholder="结束日期" class="laydate-icon form-control layer-date" id="endDate">
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
+
+            ## 查询结果
+            #foreach($mapKey in ${resultMap.keySet()})
+            #set($mapValue = ${resultMap.get($mapKey)})
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                #foreach($!{data} in $!{mapValue})
+                                    ## 第2行时跳出循环（示例：跳出循环）
+                                    #if($!{velocityCount} == 2) #break #end
+                                    <h5>$!{data.processInstance.processDefinitionName}</h5>
+                                #end
+                            </div>
+                            <div class="ibox-content">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>审批流程名称</th>
+                                        <th>申请人</th>
+        ##                                <th>申请时间</th>
+        ##                                <th>开始时间</th>
+        ##                                <th>结束时间</th>
+                                        <th>当前节点</th>
+                                        <th>任务创建时间</th>
+                                        <th>流程状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach($!{data} in $!{mapValue})
+                                        <tr id="$!{data.baseBuyOrder.id}" tid="$!{data.task.id}" pkey="$!data.processInstance.ProcessDefinitionKey">
+                                            <td>$!{data.baseBuyOrder.name}</td>
+                                            <td>$!{data.baseBuyOrder.userId}</td>
+        ##                                    <td>$!{data.baseBuyOrder.applyTime}</td>
+        ##                                    <td>$!{data.baseBuyOrder.startTime}</td>
+        ##                                    <td>$!{data.baseBuyOrder.endTime}</td>
+                                            <td>
+                                                <a class="trace" href='javascript:;' pid="$!{data.processInstance.id}" pdid="${data.processInstance.processDefinitionId}" title="点击查看流程图">$!{data.task.name}</a>
+                                            </td>
+                                        ##                                <td><a target="_blank" href='${ctx}/workflow/resource/process-instance?pid=${data.processInstance.id}&type=xml'>${data.task.name}</a></td>
+                                            <td>$!date.format('yyyy-MM-dd HH:mm:ss ',${data.task.createTime})</td>
+                                            <td>
+                                            ##                                    ${pi.suspended ? "已挂起" : "正常" }；
+                                                <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
+                                            </td>
+                                            <td>
+                                                #if(!${data.task.assignee})
+                                                    <a href="javascript:;" class="btn btn-info btn-sm button_to_start btn_claim"><i class="fa fa-play "></i> 签收 </a>
+                                                #end
+                                                #if(${data.task.assignee})
+                                                    ##  此处用tkey记录当前节点的名称
+                                                    <a href="javascript:;" class="btn btn-info btn-sm button_to_start btn_handle" tkey='$!{data.task.taskDefinitionKey}' tname='$!{data.task.name}'><i class="fa fa-play "></i> 办理</a>
+                                                #end
+
+                                                <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
+                                            </td>
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            #end
         </div>
-    #end
+    </div>
 </div>
 
 
@@ -104,14 +128,46 @@
 <script type="text/javascript" src="#springUrl("")/static/js/modules/activiti/workflow.js?$!application.getAttribute('/static/js/modules/activiti/workflow.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/jquery-qtip/jquery.qtip.min.js?$!application.getAttribute('/static/js/plugins/jquery-qtip/jquery.qtip.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/jquery-outerhtml/jquery.outerhtml.js?$!application.getAttribute('/static/js/plugins/jquery-outerhtml/jquery.outerhtml.js')"></script>
+<script src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" type="text/javascript" language="javascript"></script>
 
 <script>
     var taskId;
     var pkey;
     var tkey;
     $(function(){
-
+        init();
     });
+
+
+    ## 示例（开始日期、结束日期）
+    function init(){
+        var start = {
+            elem: "#startDate",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: true,
+            choose: function(datas) {
+                end.min = datas;
+                end.start = datas }
+        };
+        var end = {
+            elem: "#endDate",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: false,
+            choose: function(datas) {
+                start.max = datas }
+        };
+        laydate(start);
+        laydate(end);
+    }
+
 
     // 跟踪
     $('.trace').click(graphTrace);
