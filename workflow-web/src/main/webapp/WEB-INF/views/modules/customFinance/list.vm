@@ -1,7 +1,8 @@
 
 #define($cssblock)
-##树状展示
-<link href="#springUrl("")/static/css/plugins/treeview/bootstrap-treeview.css?$!application.getAttribute('/static/css/plugins/treeview/bootstrap-treeview.css')" rel="stylesheet">
+## 下拉
+<link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
 
 #end
 
@@ -12,13 +13,17 @@
                 <div class="ibox-content">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">选择客户</label>
-                        <div id="parent_content"  class="col-sm-8">
-                            <input id="parent_id" hidden value="$!{customId}">
-                            <input value="$!{customName}" id="parent_name" name="parent_name" type="text" class="form-control"
-                                #if(!${parentTreeJson})
-                                   disabled
+                        <div id="custom_content"  class="col-sm-8">
+                            <select id="custom_id" data-placeholder="请选择客户" style="width:350px;" class="chosen-select" tabindex="2" onchange="customeChange(this)">
+                                <option value="">请选择客户</option>
+                                #foreach($data in $customList)
+                                    <option value ="$data.id"
+                                        #if(${customId} == $data.id)
+                                            selected
+                                        #end
+                                    >$data.name</option>
                                 #end
-                                   onclick="showDeptList(); return false;">
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -35,18 +40,17 @@
                         <thead>
                         <tr>
                             <th>名称</th>
-                            <th>开始日期</th>
-                            <th>结束日期</th>
+                            <th>客户名称</th>
+                            <th>结算周期</th>
                             <th>状态</th>
                             <th>管理</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="list_tbody">
                         #foreach($data in $dataList)
                             <tr class="gradeX">
                                 <td>$!{data.name}</td>
-                                <td>$!{data.startDate}</td>
-                                <td>$!{data.endDate}</td>
+                                <td>$!{format.format($!{data.startDate})} - $!{format.format($!{data.endDate})}</td>
                                 <td>
                                     #if($!{data.itemStatus} == "0") 启用
                                     #else 停用
@@ -76,50 +80,46 @@
 
 #define($jsblock)
 
-## 树状展示
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
+#### 树状展示
+##<script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
 
+## 下拉框
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
 
 <script>
-## 上级公司展示
-    function onBodyDown(event) {
-        if (!(event.target.id == "parent_id" || event.target.id == "parent_tree_content" || $(event.target).parents("#parent_tree_content").length>0)) {
-            hideMenu();
-        }
-    }
-    function hideMenu() {
-        $("#parent_tree_content").fadeOut("fast");
-        $("body").unbind("mousedown", onBodyDown);
-    }
-    ##显示部门列表（上级部门）
-    function showDeptList() {
-        var parent_name = $("#parent_name");
-        var parent_content_offSet = $("#parent_content").offset();
-        var parent_name_offSet = parent_name.offset();
-        $("#parent_tree_content").css({left:parent_name_offSet.left + "px", top:parent_content_offSet.top + parent_name.outerHeight() + "px"}).slideDown("fast");
-        $("body").bind("mousedown", onBodyDown);
-    };
-## 上级公司展示
+
     $().ready(
             function(){
-                var treeData = '${parentTreeJson}';
-            ## 生成部门树（上级部门）
-                $("#parent_tree").treeview({
-                    showBorder: !1,
-                    levels:1,
-                    data: treeData,
-                    onNodeSelected: function (e, o) {
-                        $("#parent_id").attr("value", o.value);
-                        $("#parent_name").attr("value", o.text);
-                        $("#parent_tree_content").fadeOut("fast");
-                    }
-                })
+                var config = {
+                    ".chosen-select": {},
+                    ".chosen-select-deselect": {allow_single_deselect: !0},
+                    ".chosen-select-no-single": {disable_search_threshold: 10},
+                    ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
+                    ".chosen-select-width": {width: "95%"}
+                };
+                for (var selector in config)
+                    $(selector).chosen(config[selector]);
             }
     );
 
+    function customeChange(obj) {
+        if (obj.value == "") {
+            return;
+        }
+        $.ajax({
+            url:"/customFinance/list.json?customId=" + obj.value,
+            type:"get",
+            async: false,
+            success: function(returnData){
+                console.log(returnData);
+                $("#list_tbody").html(returnData);
+            }
+        });
+    };
+
     // 添加
     $(".btn-primary").click(function(){
-        window.location.href = "${rc.contextPath}/customFinance/toAdd?customId=" + $("#parent_id").val();
+        window.location.href = "${rc.contextPath}/customFinance/toAdd?customId=" + $("#custom_id").val();
     })
     // 修改
     $(".btn-info").click(function(){
@@ -129,16 +129,22 @@
     // 删除
     $(".btn-danger").click(function(){
         var id = $(this).parent().children(":first").val();
+        delItem(function(){
+            $.ajax({
+                url:"/customFinance/remove.json",
+                type:"post",
+                data:{
+                    "id":id
+                },
+                success: function(returnData){
+                    if(returnData.code == 1){
+                        popMsg('删除成功!', "/customFinance/index");
+                    } else{
+                        layer.msg(returnData.info);
+                    }
+                }
 
-        layer.confirm('确认删除？', {
-            btn: ['确认','取消'] //按钮
-            }, function(){
-//                layer.msg('的确很重要', {icon: 1});
-            }, function(){
-//                layer.msg('也可以这样', {
-//                    time: 20000, //20s后自动关闭
-//                    btn: ['明白了', '知道了']
-//                });
+            });
         });
 
     })

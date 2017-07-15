@@ -20,4 +20,6 @@ public interface CustomFinanceService {
    ResultJson<Void> update(BaseCustomFinance baseCustomFinance);
 
    ResultJson<BaseCustomFinance> findById(Integer id);
+
+   ResultJson<Void> remove(Integer id);
 }

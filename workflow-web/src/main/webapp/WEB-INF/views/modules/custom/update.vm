@@ -187,6 +187,7 @@
         var remark = $("#remark").val();
         var customIndustryId = $(".chosen-select").val();
         var custom_type = $("#custom_type").val();
+        var parent_id = $("#parent_id").val();
         var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/custom/update.json",
@@ -194,6 +195,7 @@
             data:{
                 id:id,
                 name:name,
+                parentId:parent_id,
                 contacts:contacts,
                 customIndustryId:customIndustryId,
                 mobile:mobile,

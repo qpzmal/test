@@ -16,10 +16,37 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
+  <!-- 前端展示用 -->
+  <resultMap id="AreaVO" type="cn.advu.workflow.domain.fcf_vu.AreaVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="room_pay" jdbcType="DECIMAL" property="roomPay" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <!-- 所属区域名称 -->
+    <result column="parent_name" jdbcType="VARCHAR" property="parentName" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, name, parent_id, code, room_pay, del_flag, item_status, creator_id, updater_id, 
     create_time, update_time, remark, level
   </sql>
+  <!-- -->
+  <sql id="Base_Column_AreaVO">
+    base_area.id, base_area.name, base_area.parent_id, base_area.code, base_area.room_pay, base_area.del_flag,
+    base_area.item_status, base_area.creator_id, base_area.updater_id,
+    base_area.create_time, base_area.update_time, base_area.remark, base_area.level,
+    base_area_parent.name as parent_name
+  </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -208,4 +235,22 @@
       and parent_id = #{parentId,jdbcType=TINYINT}
     </if>
   </select>
+
+  <select id="queryByParentAreaVO" resultMap="AreaVO">
+    select
+    <include refid="Base_Column_AreaVO" />
+    from base_area left join base_area base_area_parent on base_area.parent_id = base_area_parent.id
+    where base_area.del_flag = '0'
+    <if test="parentId != null">
+      and base_area.parent_id = #{parentId,jdbcType=TINYINT}
+    </if>
+  </select>
+
+  <update id="updateChildLevel" >
+    update base_area
+    set level = #{level,jdbcType=INTEGER}
+    where parent_id = #{parentId,jdbcType=INTEGER}
+    and del_flag = 0
+  </update>
+
 </mapper>
