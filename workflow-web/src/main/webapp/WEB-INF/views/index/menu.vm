@@ -67,11 +67,11 @@
                         <a class="J_menuItem" href="${rc.contextPath}/echartsDemo/index">demo</a>
                     </li>
                     <li>
-                        <a href="#">销售报表 <span class="fa arrow"></span></a>
+                        <a href="#">分公司财务分析 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem" href="${rc.contextPath}/report/sale/history">历史订单</a>
+                            <li><a class="J_menuItem" href="${rc.contextPath}/report/area/balance">损益分析</a>
                             </li>
-                            <li><a class="J_menuItem" href="${rc.contextPath}/report/sale/feature">未来订单</a>
+                            <li><a class="J_menuItem" href="${rc.contextPath}/report/area/budget">预算完成度分析</a>
                             </li>
                         </ul>
                     </li>
@@ -85,20 +85,20 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#">分公司财务分析 <span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem" href="${rc.contextPath}/report/area/balance">损益分析</a>
-                            </li>
-                            <li><a class="J_menuItem" href="${rc.contextPath}/report/area/budget">预算完成度分析</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
                         <a href="#">客户分析报表 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
                             <li><a class="J_menuItem" href="${rc.contextPath}/report/customer/profit">毛利/净利贡献率</a>
                             </li>
                             <li><a class="J_menuItem" href="${rc.contextPath}/report/customer/pay">回款汇总</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">销售报表 <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level">
+                            <li><a class="J_menuItem" href="${rc.contextPath}/report/sale/history">历史订单</a>
+                            </li>
+                            <li><a class="J_menuItem" href="${rc.contextPath}/report/sale/feature">未来订单</a>
                             </li>
                         </ul>
                     </li>
