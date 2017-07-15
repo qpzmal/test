@@ -15,6 +15,8 @@ public interface MessageConstants {
     String CUSTOM_IS_NULL = "签约公司没有设置";
     String START_DATE_IS_NULL = "开始日期没有设置";
     String END_DATE_IS_NULL = "开始日期没有设置";
+    String START_DATE_AFTER_END_DATE = "开始日期晚于结束日期";
     String NAME_IS_NULL = "名称为空";
-    String CUSTOM_DATE_IS_DUPLICATED = "客户结算日期重复";
+    String DATE_IS_DUPLICATED = "客户结算日期重复";
+    String AREA_IS_NOT_EXISTS="区域不存在";
 }

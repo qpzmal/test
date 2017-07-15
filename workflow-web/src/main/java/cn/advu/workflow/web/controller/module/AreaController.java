@@ -76,8 +76,19 @@ public class AreaController {
      */
     @ResponseBody
     @RequestMapping(value ="/update", method = RequestMethod.POST)
-    public ResultJson<Integer> updateArea(BaseArea baseArea, HttpServletRequest request){
+    public ResultJson<Integer> update(BaseArea baseArea, HttpServletRequest request){
         return areaService.updateArea(baseArea);
+    }
+
+    /**
+     * 删除客户
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/remove", method = RequestMethod.POST)
+    public ResultJson<Void> remove(Integer id, HttpServletRequest request){
+        return areaService.remove(id);
     }
 
     /**

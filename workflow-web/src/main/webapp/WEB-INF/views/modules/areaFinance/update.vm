@@ -12,12 +12,12 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">所属公司</label>
             <div id="parent_content"  class="col-sm-8">
-                <input id="parent_id" hidden value="$!{areaId}">
+                <input id="parent_id" hidden value="$!{baseAreaFinance.areaId}">
                 <input value="$!{areaName}" id="parent_name" name="parent_name" type="text" class="form-control"
                     #if(!${parentTreeJson})
                        disabled
                     #end
-                       onclick="showDeptList(); return false;">
+                       onclick="showDeptList(); return false;" onfocus=this.blur()>
             </div>
         </div>
         <div class="form-group">
@@ -29,9 +29,9 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">财务结算日期</label>
             <div class="col-sm-9">
-                <input value="$!{baseAreaFinance.startDate}" id="start_date" placeholder="开始日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                <input value="$!{format.format($!{baseAreaFinance.startDate})}" id="start_date" placeholder="开始日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
                 <label class="control-label">-</label>
-                <input value="$!{baseAreaFinance.endDate}" id="end_date" placeholder="结束日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                <input value="$!{format.format($!{baseAreaFinance.endDate})}" id="end_date" placeholder="结束日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
             </div>
         </div>
         <div class="form-group">
@@ -103,7 +103,7 @@
     </form>
 </div>
 
-<div id="parentTreeContent" class="col-sm-8 ibox-content" style="display:none; position: absolute;">
+<div id="parent_tree_content" class="col-sm-8 ibox-content" style="display:none; position: absolute;">
     <div id="parentTreeView" class="test" ></div>
 </div>
 
@@ -148,7 +148,7 @@
 
     ##显示公司树状列表（上级部门）start
     function onBodyDown(event) {
-        if (!(event.target.id == "parent_id" || event.target.id == "parentTreeContent" || $(event.target).parents("#parentTreeContent").length>0)) {
+        if (!(event.target.id == "parent_id" || event.target.id == "parent_tree_content" || $(event.target).parents("#parent_tree_content").length>0)) {
             hideMenu();
         }
     }
@@ -160,7 +160,7 @@
         var parent_name = $("#parent_name");
         var parent_content_offSet = $("#parent_content").offset();
         var parent_name_offSet = parent_name.offset();
-        $("#parentTreeContent").css({left:parent_name_offSet.left + "px", top:parent_content_offSet.top + parent_name.outerHeight() + "px"}).slideDown("fast");
+        $("#parent_tree_content").css({left:parent_name_offSet.left + "px", top:parent_content_offSet.top + parent_name.outerHeight() + "px"}).slideDown("fast");
         $("body").bind("mousedown", onBodyDown);
     };
     ##显示公司树状列表（上级部门）end
@@ -186,6 +186,19 @@
             {var i=document.querySelector(".js-switch"),
                 t=(new Switchery(i,{color:"#1AB394"}));
             };
+
+            var treeData = '${parentTreeJson}';
+            ## 生成部门树（上级部门）
+            $("#parentTreeView").treeview({
+                showBorder: !1,
+                levels:1,
+                data: treeData,
+                onNodeSelected: function (e, o) {
+                    $("#parent_id").attr("value", o.value);
+                    $("#parent_name").attr("value", o.text);
+                    $("#parent_tree_content").fadeOut("fast");
+                }
+            })
         }
     );
 
@@ -199,6 +212,7 @@
     }
 
     function commit(){
+        var id = $("#id").val();
         var start_date = stringToDate($("#start_date").val());
         var end_date = stringToDate($("#end_date").val());
         var parent_id = $("#parent_id").val();
@@ -216,6 +230,7 @@
             type:"post",
             async: false,
             data:{
+                id:id,
                 areaId:parent_id,
                 name:area_finance_name,
                 startDate:start_date,
@@ -233,7 +248,7 @@
                 if(returnData.code == 1){
                     popMsg('添加成功!', "/areaFinance/index?areaId=" + parent_id);
                 } else{
-                    layer.msg('添加失败, 请联系技术人员!');
+                    layer.msg(returnData.info);
                 }
             }
         });

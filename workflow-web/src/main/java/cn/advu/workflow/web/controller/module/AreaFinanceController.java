@@ -2,6 +2,7 @@ package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseAreaFinance;
+import cn.advu.workflow.domain.fcf_vu.BaseCustomFinance;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.dto.TreeNode;
 import cn.advu.workflow.web.manager.TreeMananger;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,6 +39,24 @@ public class AreaFinanceController {
 
     @Autowired
     private TreeMananger treeMananger;
+
+    static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+    /**
+     * 跳转区域业务首页-区域列表页
+     *
+     * @param resultModel
+     * @return
+     */
+    @RequestMapping("/list")
+    public String toList(Integer areaId, Model resultModel){
+
+        List<BaseAreaFinance> dataList = areaFinanceService.findByArea(areaId).getData();
+        resultModel.addAttribute("dataList", dataList);
+        resultModel.addAttribute("format", format);
+
+        return "modules/areaFinance/areaFinanceList";
+    }
 
     /**
      * 跳转区域业务首页-区域列表页
@@ -65,6 +85,8 @@ public class AreaFinanceController {
         resultModel.addAttribute("areaId", areaId);
         resultModel.addAttribute("areaName", areaName);
         resultModel.addAttribute("parentTreeJson", parentTreeJson);
+        resultModel.addAttribute("format", format);
+
         return "modules/areaFinance/list";
     }
 
@@ -88,6 +110,17 @@ public class AreaFinanceController {
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     public ResultJson<Void> updateArea(BaseAreaFinance baseAreaFinance, HttpServletRequest request){
         return areaFinanceService.update(baseAreaFinance);
+    }
+
+    /**
+     * 删除客户
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/remove", method = RequestMethod.POST)
+    public ResultJson<Void> logicRemove(Integer id, HttpServletRequest request){
+        return areaFinanceService.remove(id);
     }
 
     /**
@@ -145,6 +178,7 @@ public class AreaFinanceController {
         model.addAttribute("areaName", areaName);
         model.addAttribute("baseAreaFinance", baseAreaFinance);
         model.addAttribute("parentTreeJson", parentTreeJson);
+        model.addAttribute("format", format);
 
         return "modules/areaFinance/update";
     }

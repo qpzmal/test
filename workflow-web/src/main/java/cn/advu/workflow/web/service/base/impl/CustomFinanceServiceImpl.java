@@ -54,10 +54,10 @@ public class CustomFinanceServiceImpl implements CustomFinanceService {
         AssertUtil.assertNotNull(startDate, MessageConstants.START_DATE_IS_NULL);
         AssertUtil.assertNotNull(endDate, MessageConstants.END_DATE_IS_NULL);
         if (startDate.after(endDate)) {
-            throw new ServiceException(MessageConstants.CUSTOM_DATE_IS_DUPLICATED);
+            throw new ServiceException(MessageConstants.START_DATE_AFTER_END_DATE);
         }
         if (customFinanceMananger.isDuplicated(baseCustomFinance.getCustomId(), startDate, endDate)) {
-            throw new ServiceException(MessageConstants.CUSTOM_DATE_IS_DUPLICATED);
+            throw new ServiceException(MessageConstants.DATE_IS_DUPLICATED);
         }
 
         ResultJson<Integer> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
@@ -76,10 +76,10 @@ public class CustomFinanceServiceImpl implements CustomFinanceService {
         AssertUtil.assertNotNull(startDate, MessageConstants.START_DATE_IS_NULL);
         AssertUtil.assertNotNull(endDate, MessageConstants.END_DATE_IS_NULL);
         if (startDate.after(endDate)) {
-            throw new ServiceException(MessageConstants.CUSTOM_DATE_IS_DUPLICATED);
+            throw new ServiceException(MessageConstants.START_DATE_AFTER_END_DATE);
         }
         if (customFinanceMananger.isDuplicated(baseCustomFinance.getCustomId(), startDate, endDate)) {
-            throw new ServiceException(MessageConstants.CUSTOM_DATE_IS_DUPLICATED);
+            throw new ServiceException(MessageConstants.DATE_IS_DUPLICATED);
         }
 
         ResultJson<Void> result = new ResultJson(WebConstants.OPERATION_SUCCESS);

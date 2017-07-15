@@ -304,4 +304,18 @@
       </if>
   </select>
 
+  <select id="queryByAreaAndDate" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_area_finance
+    where del_flag = '0'
+    <if test="id != null">
+      and id != #{id,jdbcType=INTEGER}
+    </if>
+    and area_id = #{areaId,jdbcType=INTEGER}
+    and start_date = #{startDate,jdbcType=TIMESTAMP}
+    and end_date = #{endDate,jdbcType=TIMESTAMP}
+    limit 1
+  </select>
+
 </mapper>

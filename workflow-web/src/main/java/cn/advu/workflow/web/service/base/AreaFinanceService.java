@@ -18,4 +18,6 @@ public interface AreaFinanceService {
    ResultJson<Void> update(BaseAreaFinance baseAreaFinance);
 
    ResultJson<BaseAreaFinance> findById(Integer id);
+
+   ResultJson<Void> remove(Integer id);
 }

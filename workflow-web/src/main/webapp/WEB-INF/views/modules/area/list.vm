@@ -142,7 +142,6 @@
         window.location.href = "${rc.contextPath}/area/toAdd?parentId=" + $("#parent_id").val();
     })
     // 修改
-
     $("#list_tbody").on("click",".btn-info",
             function(){
                 var id = $(this).parent().children(":first").val();

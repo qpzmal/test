@@ -62,4 +62,10 @@ public interface AreaService {
      * @return
      */
     ResultJson<List<AreaVO>> findByParent(Integer parentId);
+    /**
+     * 删除区域
+     * @param id
+     * @return
+     */
+    ResultJson<Void> remove(Integer id);
 }
