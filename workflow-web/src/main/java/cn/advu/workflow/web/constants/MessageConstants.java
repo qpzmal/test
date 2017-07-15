@@ -21,4 +21,5 @@ public interface MessageConstants {
     String AREA_IS_NOT_EXISTS="区域不存在";
     // 部门
     String ASSIGN_AREA_IS_NULL = "所属区域没有设置";
+    String DEPT_IS_NOT_EXISTS = "部门不存在";
 }

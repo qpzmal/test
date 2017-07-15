@@ -10,39 +10,46 @@
 
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
+        <input type="hidden" id="id" name="id" value="$baseDept.id">
         <div class="form-group">
             <label class="col-sm-3 control-label">所属公司</label>
-            <div class="col-sm-8">
-                <select id="area_id" ata-placeholder="请选择所属公司" class="chosen-select" style="width:350px;" tabindex="2">
-                    <option value="">请选择所属公司</option>
-                    #foreach($data in $areaList)
-                        <option value ="$data.id">$data.name</option>
+            <div id="area_content" class="col-sm-9">
+                <input id="area_id" hidden value="$!{baseDept.areaId}">
+                <input value="$!{areaName}" id="area_name" name="area_name" type="text" class="form-control"
+                    #if(!${areaTreeJson})
+                       disabled
                     #end
-                </select>
+                       onclick="showAreaList(); return false;" onfocus=this.blur()>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">上级部门</label>
+            <div id="parent_content"  class="col-sm-8">
+                <input id="parent_id" hidden value="$!{baseDept.parentId}">
+                <input value="$!{parentName}" id="parent_name" name="parent_name" type="text" class="form-control"
+                    #if(!${parentTreeJson})
+                       disabled
+                    #end
+                       onclick="showParentList(); return false;" onfocus=this.blur()>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">部门名称</label>
             <div class="col-sm-8">
-                <input id="p_name" name="p_name" maxlength="10" type="text" class="form-control" >
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label">上级部门</label>
-            <div id="parent_id_content"  class="col-sm-8">
-                <input id="parent_id" name="parent_id" type="text" class="form-control" onclick="showMenu(); return false;">
+                <input value="$!{baseDept.name}" id="p_name" name="p_name" maxlength="10" type="text" class="form-control" required aria-required="true"  >
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">描述</label>
             <div class="col-sm-8">
-                <input id="description" name="description" maxlength="10" type="text" class="form-control" >
+                <input value="$!{baseDept.description}"  id="description" name="description" maxlength="10" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">启用/停用</label>
             <div class="col-sm-8">
-                <input id="item_status" name="item_status" type="checkbox" class="js-switch" checked />
+                <input value="$!{baseDept.itemStatus}" id="item_status" name="item_status" type="checkbox" class="js-switch" checked />
             </div>
         </div>
         <div class="form-group">
@@ -57,8 +64,12 @@
 </div>
 
 
-<div id="treeview7Content" class="col-sm-8 ibox-content" style="display:none; position: absolute;">
-    <div id="treeview7" class="test" ></div>
+<div id="parent_tree_content"  class="col-sm-6 ibox-content" style="display:none; position: absolute;">
+    <div id="parent_tree" class="test" ></div>
+</div>
+
+<div id="area_tree_content" class="col-sm-6 ibox-content" style="display:none; position: absolute;">
+    <div id="area_tree" class="test" ></div>
 </div>
 
 
@@ -71,142 +82,161 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
 
 <script>
-    function showMenu() {
-        var cityObj = $("#parent_id");
-        var cityOffset = $("#parent_id_content").offset();
-        var cityObjOffset = $("#parent_id").offset();
-        $("#treeview7Content").css({left:cityOffset.left + "px", top:cityObjOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
-//        $("body").bind("mousedown", onBodyDown);
+
+    ##所属公司变更
+    function areaChange(){
+    ##清空上级部门
+        $("#parent_id").attr("value", "");
+        $("#parent_name").attr("value", "");
+
+    ##联动查询上级部门
+        $.ajax({
+            url:"/dept/deptTreeList.json?areaId=" + $("#area_id").val(),
+            type:"get",
+            success: function(returnData){
+                console.log(returnData);
+                if(returnData.resultJson.code == 1){
+                    var parentTreeData = returnData.resultJson.data;
+                    if (parentTreeData == '' || parentTreeData == null) {
+                        $("#parent_name")[0].disabled = true;
+                        parentTreeData = "{}";
+                    } else {
+                        $("#parent_name")[0].disabled = "";
+                    }
+                ## 生成部门树
+                    $("#parent_tree").treeview({
+                        showBorder: !1,
+                        levels:1,
+                        data: parentTreeData,
+                        onNodeSelected: function (e, o) {
+                            $("#parent_id").attr("value", o.value);
+                            $("#parent_name").attr("value", o.text);
+                            $("#parent_tree_content").fadeOut("fast");
+                        }
+                    });
+                } else{
+                    layer.msg('初始化部门列表失败，请联系技术人员!');
+                }
+            }
+        });
+    }
+
+    function onBodyDown(event) {
+        if (!(event.target.id == "parent_id" || event.target.id == "parent_tree_content" || $(event.target).parents("#parent_tree_content").length>0)) {
+            hideMenu();
+        }
+    }
+    function hideMenu() {
+        $("#parent_tree_content").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+
+    ##显示部门列表（上级部门）
+    function showParentList() {
+        var parent_name = $("#parent_name");
+        var parent_content_offSet = $("#parent_content").offset();
+        var parent_name_offSet = parent_name.offset();
+        $("#parent_tree_content").css({left:parent_name_offSet.left + "px", top:parent_content_offSet.top + parent_name.outerHeight() + "px"}).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
     };
+
+    ##显示公司列表
+    function showAreaList() {
+        var area_name = $("#area_name");
+        var area_content_offSet = $("#area_content").offset();
+        var area_name_offSet = area_name.offset();
+        $("#area_tree_content").css({left:area_name_offSet.left + "px", top:area_content_offSet.top + area_name.outerHeight() + "px"}).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    };
+
+    ##初始化下拉框
     var config = {
         ".chosen-select": {},
-        ".chosen-select-deselect": {allow_single_deselect: !0},
-        ".chosen-select-no-single": {disable_search_threshold: 10},
-        ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
-        ".chosen-select-width": {width: "95%"}
     };
     for (var selector in config)
         $(selector).chosen(config[selector]);
+    ##初始化下拉框
 
     $.validator.setDefaults(
-        {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
-            success:function(e){
-                e.closest(".form-group").removeClass("has-error").addClass("has-success")
-            },
-            errorElement:"span",
-            errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
-            errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+            {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+                success:function(e){
+                    e.closest(".form-group").removeClass("has-error").addClass("has-success")
+                },
+                errorElement:"span",
+                errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+                errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
     ),
-    $().ready(
-        function(){
-            var e="<i class='fa fa-times-circle'></i> ";
-            $("#commentForm").validate({
-                submitHandler:function(form){
-                    updateRegion();
-                }
-            });
-            {var i=document.querySelector(".js-switch"),
-                    t=(new Switchery(i,{color:"#1AB394"}));
-            };
+            $().ready(
+                    function(){
+                        var e="<i class='fa fa-times-circle'></i> ";
+                        $("#commentForm").validate({
+                            submitHandler:function(form){
+                                update();
+                            }
+                        });
+                        {var i=document.querySelector(".js-switch"),
+                                t=(new Switchery(i,{color:"#1AB394"}));
+                        };
 
-            var e = [{
-                        text: "父节点 1",
-                        value:10001,
-                        href: "#parent1",
-                        tags: ["4"],
-                        nodes: [{
-                            text: "子节点 1",
-                            href: "#child1",
-                            tags: ["2"] ,
-                            nodes: [{text: "孙子节点 1", href: "#grandchild1", tags: ["0"]}, {
-                                text: "孙子节点 2",
-                                href: "#grandchild2",
-                                tags: ["0"]
-                            }]
-                        }, {text: "子节点 2", href: "#child2", tags: ["0"]}]
-                    }, {text: "父节点 2", href: "#parent2", tags: ["0"]}, {text: "父节点 3", href: "#parent3", tags: ["0"]}, {
-                        text: "父节点 4",
-                        href: "#parent4",
-                        tags: ["0"]
-                    }, {text: "父节点 5", href: "#parent5", tags: ["0"]}], o = [{
-                        text: "父节点 1",
-                        tags: ["2"],
-                        nodes: [{
-                            text: "子节点 1",
-                            tags: ["3"],
-                            nodes: [{text: "孙子节点 1", tags: ["6"]}, {text: "孙子节点 2", tags: ["3"]}]
-                        }, {text: "子节点 2", tags: ["3"]}]
-                    }, {text: "父节点 2", tags: ["7"]}, {
-                        text: "父节点 3",
-                        icon: "glyphicon glyphicon-earphone",
-                        href: "#demo",
-                        tags: ["11"]
-                    }, {
-                        text: "父节点 4",
-                        icon: "glyphicon glyphicon-cloud-download",
-                        href: "/demo.html",
-                        tags: ["19"],
-                        selected: !0
-                    }, {
-                        text: "父节点 5",
-                        icon: "glyphicon glyphicon-certificate",
-                        color: "pink",
-                        backColor: "red",
-                        href: "http://www.tesco.com",
-                        tags: ["available", "0"]
-                    }],
-                    t = '[{"text": "父节点 1","nodes": [{"text": "子节点 1","nodes": [{"text": "孙子节点 1"},{"text": "孙子节点 2"}]},{"text": "子节点 2"}]},{"text": "父节点 2"},{"text": "父节点 3"},{"text": "父节点 4"},{"text": "父节点 5"}]';
-            $("#treeview7").treeview({
-                color: "#428bca",
-                showBorder: !1,
-                levels:1,
-                data: e,
-                onNodeSelected: function (e, o) {
-                    var dept_id = $("#parent_id");
-                    dept_id.attr("value", o.value);
-                    $("#treeview7Content").fadeOut("fast");
-//                o.inner
-//                $("#event_output").prepend("<p>您单击了 " + o.text + "</p>")
-                }
-            })
-        }
-    );
+                        var parentTreeData = '$!{parentTreeJson}';
+                        if (parentTreeData == '') {
+                            parentTreeData = "{}";
+                        }
+                    ## 生成部门树
+                        $("#parent_tree").treeview({
+                            showBorder: !1,
+                            levels:1,
+                            data: parentTreeData,
+                            onNodeSelected: function (e, o) {
+                                $("#parent_id").attr("value", o.value);
+                                $("#parent_name").attr("value", o.text);
+                                $("#parent_tree_content").fadeOut("fast");
+                            }
+                        });
 
-//    $(".btn-primary").click(function(){
-//        add();
-//    })
+                        var areaTreeData = '$!{areaTreeJson}';
+                        if (areaTreeData == '') {
+                            areaTreeData = "{}";
+                        }
+                    ## 生成区域树
+                        $("#area_tree").treeview({
+                            showBorder: !1,
+                            levels:1,
+                            data: areaTreeData,
+                            onNodeSelected: function (e, o) {
+                                $("#area_id").attr("value", o.value);
+                                $("#area_name").attr("value", o.text);
+                                $("#area_tree_content").fadeOut("fast");
+                                areaChange();
+                            }
+                        });
+                    }
+            );
 
-    function updateRegion(){
-        var name = $("#p_name").val();
-        var customName = $("#custom_name").val();
-        var contacts = $("#contacts").val();
-        var mobile = $("#mobile").val();
-        var address = $("#address").val();
-        var email = $("#email").val();
-        var remark = $("#remark").val();
-        var customIndustryId = $(".chosen-select").val();
-        var customType = $("#custom_type").val();
+    function update(){
+        var id = $("#id").val();
+        var area_id = $("#area_id").val();
+        var parent_id = $("#parent_id").val();
+        var p_name = $("#p_name").val();
+        var description = $("#description").val();
         var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
-            url:"/custom/add.json",
+            url:"/dept/update.json",
             type:"post",
+            async: false,
             data:{
-                name:name,
-                customName:customName,
-                contacts:contacts,
-                customIndustryId:customIndustryId,
-                mobile:mobile,
-                address:address,
-                email:email,
-                remark:remark,
-                customType:customType,
+                id:id,
+                name:p_name,
+                parentId:parent_id,
+                areaId:area_id,
+                description:description,
                 itemStatus:item_status
             },
             success: function(returnData){
                 if(returnData.code == 1){
-                    popMsg('更新成功!', "/custom/index");
+                    popMsg('添加成功!', "/dept/index");
                 } else{
-                    layer.msg('更新失败, 请联系技术人员!');
+                    layer.msg(returnData.info);
                 }
             }
 

@@ -230,12 +230,18 @@
     </if>
   </select>
 
-
   <update id="updateChildLevel" >
     update base_dept
     set level = #{level,jdbcType=INTEGER}
     where parent_id = #{parentId,jdbcType=INTEGER}
     and del_flag = 0
   </update>
+
+  <select id="queryChildList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_dept
+    where parent_id = #{parentId,jdbcType=INTEGER}
+  </select>
 
 </mapper>

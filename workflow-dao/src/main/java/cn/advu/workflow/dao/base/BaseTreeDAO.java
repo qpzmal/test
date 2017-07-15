@@ -13,6 +13,8 @@ import java.util.List;
 public interface BaseTreeDAO<T extends IEntity> extends BaseDAO {
 
     void updateChildLevel(@Param("level") Integer level, @Param("parentId") Integer parentId);
+
+    List<T> queryChildList(@Param("parentId") Integer parentId);
 }
 
 

@@ -125,6 +125,7 @@
                         $("#parent_id").attr("value", o.value);
                         $("#parent_name").attr("value", o.text);
                         $("#parent_tree_content").fadeOut("fast");
+                        findDeptBody($("#area_id").val(), $("#parent_id").val());
                     }
                 });
 
@@ -141,6 +142,8 @@
                         $("#area_id").attr("value", o.value);
                         $("#area_name").attr("value", o.text);
                         $("#area_tree_content").fadeOut("fast");
+                        areaChange();
+                        findDeptBody($("#area_id").val(), $("#parent_id").val());
                     }
                 });
             }
@@ -180,42 +183,48 @@
         ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
         ".chosen-select-width": {width: "95%"}
     };
-    for (var selector in config)
-        $(selector).chosen(config[selector]);
-    ##所属公司变更
-    $("#area_id").change(
-            function(){
-            ##清空上级部门
-                $("#parent_id").attr("value", "");
-                $("#parent_name").attr("value", "");
+    for (var selector in config) {
+        $(selector).chosen(config[selector])
+    };
 
-            ##联动查询上级部门
-                $.ajax({
-                    url:"/dept/deptTreeList.json?areaId=" + $("#area_id").val(),
-                    type:"get",
-                    success: function(returnData){
-                        console.log(returnData);
-                        if(returnData.resultJson.code == 1){
-                            $("#parent_tree").treeview({
-                                color: "#428bca",
-                                showBorder: !1,
-                                levels:1,
-                                data: returnData.resultJson.data,
-                                onNodeSelected: function (e, o) {
-                                    $("#parent_id").attr("value", o.value);
-                                    $("#parent_name").attr("value", o.text);
-                                    $("#parent_tree_content").fadeOut("fast");
-                                    findDeptBody($("#area_id").val(), $("#parent_id").val());
-                                }
-                            });
-                        } else{
-                            layer.msg('初始化部门列表失败，请联系技术人员!');
-                        }
+    ##所属公司变更
+    function areaChange(){
+        ##清空上级部门
+        $("#parent_id").attr("value", "");
+        $("#parent_name").attr("value", "");
+
+        ##联动查询上级部门
+        $.ajax({
+            url:"/dept/deptTreeList.json?areaId=" + $("#area_id").val(),
+            type:"get",
+            success: function(returnData){
+                console.log(returnData);
+                if(returnData.resultJson.code == 1){
+                    var parentTreeData = returnData.resultJson.data;
+                    if (parentTreeData == '' || parentTreeData == null) {
+                        $("#parent_name")[0].disabled = true;
+                        parentTreeData = "{}";
+                    } else {
+                        $("#parent_name")[0].disabled = "";
                     }
-                });
-                findDeptBody($("#area_id").val(), -1);
+                    ## 生成部门树
+                    $("#parent_tree").treeview({
+                        showBorder: !1,
+                        levels:1,
+                        data: parentTreeData,
+                        onNodeSelected: function (e, o) {
+                            $("#parent_id").attr("value", o.value);
+                            $("#parent_name").attr("value", o.text);
+                            $("#parent_tree_content").fadeOut("fast");
+                            findDeptBody($("#area_id").val(), $("#parent_id").val());
+                        }
+                    });
+                } else{
+                    layer.msg('初始化部门列表失败，请联系技术人员!');
+                }
             }
-    )
+        });
+    }
 
     function findDeptBody(area_id, parent_id) {
         $.ajax({
@@ -232,12 +241,34 @@
     $(".btn-primary").click(function(){
         window.location.href = "${rc.contextPath}/dept/toAdd?areaId=" + $("#area_id").val() + "&parentId=" + $("#parent_id").val();
     });
-    //
-    $("#area_select").change(
-            function(){
-                alert("sdfsdf");
-            }
-    );
+
+    // 修改
+    $("#dept_list_tbody").on("click",".btn-info",function(){
+        var id = $(this).parent().children(":first").val();
+        window.location.href = "${rc.contextPath}/dept/toUpdate?id=" + id;
+    })
+
+    // 删除
+    $("#dept_list_tbody").on("click",".btn-danger", function(){
+        var id = $(this).parent().children(":first").val();
+        delItem(function(){
+            $.ajax({
+                url:"/dept/remove.json",
+                type:"post",
+                data:{
+                    "id":id
+                },
+                success: function(returnData){
+                    if(returnData.code == 1){
+                        popMsg('删除成功!', "/dept/index");
+                    } else{
+                        layer.msg(returnData.info);
+                    }
+                }
+
+            });
+        });
+    })
 
 </script>
 #end
