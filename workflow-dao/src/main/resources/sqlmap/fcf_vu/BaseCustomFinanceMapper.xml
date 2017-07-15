@@ -318,7 +318,7 @@
     from base_custom_finance
     where del_flag = '0'
     and custom_id = #{customId,jdbcType=INTEGER}
-    and start_date = #{startDate,jdbcType=TIMESTAMP},
+    and start_date = #{startDate,jdbcType=TIMESTAMP}
     and end_date = #{endDate,jdbcType=TIMESTAMP}
     limit 1
   </select>

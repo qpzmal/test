@@ -40,7 +40,7 @@
                         <thead>
                         <tr>
                             <th>名称</th>
-                            <th>客户名称</th>
+##                            <th>客户名称</th>
                             <th>结算周期</th>
                             <th>状态</th>
                             <th>管理</th>

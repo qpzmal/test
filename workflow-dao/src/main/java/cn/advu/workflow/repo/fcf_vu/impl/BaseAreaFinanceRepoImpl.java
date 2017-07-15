@@ -12,6 +12,7 @@ import cn.advu.workflow.repo.fcf_vu.BaseAreaRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,5 +34,10 @@ public class BaseAreaFinanceRepoImpl extends AbstractRepo<BaseAreaFinance> imple
     @Override
     public List<BaseAreaFinance> findByArea(Integer areaId) {
         return baseAreaFinanceMapper.queryByArea(areaId);
+    }
+
+    @Override
+    public BaseAreaFinance findByAreaAndDate(Integer id, Integer areaId, Date startDate, Date endDate) {
+        return baseAreaFinanceMapper.queryByAreaAndDate(id, areaId, startDate, endDate);
     }
 }
