@@ -1,13 +1,20 @@
 package cn.advu.workflow.web.controller.system;
 
+import cn.advu.workflow.domain.fcf_vu.SysFuction;
 import cn.advu.workflow.domain.fcf_vu.SysRole;
 import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.domain.fcf_vu.SysUserRole;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.common.loginContext.LoginAccount;
+import cn.advu.workflow.web.common.loginContext.LoginUser;
+import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.dto.system.UserRole;
+import cn.advu.workflow.web.service.system.LoginService;
 import cn.advu.workflow.web.service.system.SysRoleService;
 import cn.advu.workflow.web.service.system.SysUserService;
+import cn.advu.workflow.web.vo.MenuVO;
+import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +40,82 @@ public class UserController {
 
     @Autowired
     SysRoleService sysRoleService;
+
+    @Autowired
+    private LoginService loginService;
+
+
+    /**
+     * 获取用户可用菜单信息
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getMenus")
+    public MenuVO getMenus(HttpServletRequest request){
+//        String loginCookie = RequestUtil.getCookieValue(request, Constants.Login.LOGIN_COOKIE_KEY);
+//
+//        if (StringUtils.isBlank(loginCookie)) {
+//            LOGGER.warn("cookie is null");
+//            return null;
+//        }
+//
+//        LoginUser loginUser = LoginTools.parseLoginUser(loginCookie);
+
+        LoginAccount account = new LoginAccount();
+        LoginUser loginUser = UserThreadLocalContext.getCurrentUser();
+        if(loginUser != null ){
+            account.setUser(loginUser);
+            // 获取用户菜单信息
+            loginService.queryUserFunction(account);
+        } else {
+            LOGGER.warn("loginuser is null.");
+        }
+
+        MenuVO menu = new MenuVO();
+        menu.setWorkflowStart(new ArrayList<String>());
+        menu.setWorkflowAudit(new ArrayList<String>());
+        menu.setReportInfo(new ArrayList<String>());
+        menu.setBaseInfo(new ArrayList<String>());
+        menu.setSystemInfo(new ArrayList<String>());
+        for (SysFuction sysfunction : account.getUserFunction()) {
+            String strId = sysfunction.getId()  + "";
+            strId = strId.substring(0, strId.length() - 1) + "0"; // 将ID末位变为0
+            LOGGER.debug("sysfunction-id:{},strId:{}", sysfunction.getId(), strId);
+            String firstChar = strId.substring(0,1);
+
+            switch (firstChar) {
+                case "1": // 基本信息
+                    menu.getBaseInfo().add(strId);
+                    break;
+                case "2": // 发起工作流
+                    menu.getWorkflowStart().add(strId);
+                    break;
+                case "3": // 审核工作流
+                    menu.getWorkflowAudit().add(strId);
+                    break;
+                case "4": // 报表
+                    menu.getReportInfo().add(strId);
+                    break;
+                case "5": // 系统
+                    menu.getSystemInfo().add(strId);
+                    break;
+                default:
+                    LOGGER.warn("菜单信息错误，function-id:{}", strId);
+                    break;
+            }
+        }
+        if ("admin".equals(loginUser.getUserName())) {
+            menu.setUserLevel(-1);
+        }
+
+        Gson gson = new Gson();
+        String strMenu = gson.toJson(menu);
+        LOGGER.info("strMenu:{}", strMenu);
+
+        return menu;
+    }
+
 
     /**
      * 跳转用户业务首页-用户列表页

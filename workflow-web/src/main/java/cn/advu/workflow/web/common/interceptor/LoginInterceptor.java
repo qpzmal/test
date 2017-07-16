@@ -51,6 +51,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		String loginCookie = RequestUtil.getCookieValue(request, Constants.Login.LOGIN_COOKIE_KEY);
 
 		if (StringUtils.isBlank(loginCookie)) {
+			LOGGER.warn("loginCookie is null.");
 
 			response.sendRedirect(Constants.Login.LOGIN_URL);
 
@@ -64,16 +65,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			loginService.validLoginUser(loginUser);
 
 			UserThreadLocalContext.addCurrentUser(loginUser);
+			LOGGER.info("request:{}, loginUser:{}", request.getRequestURI(), loginUser);
 
 			request.setAttribute(Constants.Login.LOGIN_USER_ATTR_KEY,loginUser);
-
-			LOGGER.debug("", loginUser);
 
 			return true;
 
 
 		} catch (LoginException e) {
-			LOGGER.error("", e);
+			LOGGER.error("LoginInterceptor--error", e);
 
 			response.sendRedirect(Constants.Login.LOGIN_URL);
 

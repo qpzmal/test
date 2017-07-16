@@ -26,7 +26,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        LOGGER.debug("preHandle start...............");
+        LOGGER.debug("AuthInterceptor--preHandle start...............");
         Boolean flag = false;
 
         String loginCookie = RequestUtil.getCookieValue(request, Constants.Login.LOGIN_COOKIE_KEY);
@@ -50,7 +50,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 //                    }
 //                }
 //            }
-            flag = false;
+            flag = true;
 
         } catch (Exception e) {
             flag = false;
@@ -64,6 +64,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     }
 
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        LOGGER.debug("afterCompletion start...............");
+        LOGGER.debug("AuthInterceptor--afterCompletion start...............");
     }
 }

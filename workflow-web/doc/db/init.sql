@@ -124,23 +124,23 @@ INSERT INTO `act_id_group` (`ID_`, `REV_`, `NAME_`, `TYPE_`) VALUES
 	('media', 1, '媒介员工', '');
 
 INSERT INTO `sys_user` (`login_name`, `user_name`, `password`) VALUES
-   ('u1', 'u1', '24a1db89d3bdaa23189e78887fb8b8fa'),
-	('u2', 'u2', '24a1db89d3bdaa23189e78887fb8b8fa'),
-	('u3', 'u3', '24a1db89d3bdaa23189e78887fb8b8fa'),
-	('u4', 'u4', '24a1db89d3bdaa23189e78887fb8b8fa'),
-	('u5', 'u5', '24a1db89d3bdaa23189e78887fb8b8fa'),
-	('u6', 'u6', '24a1db89d3bdaa23189e78887fb8b8fa'),
-	('u7', 'u7', '24a1db89d3bdaa23189e78887fb8b8fa'),
-	('u8', 'u8', '24a1db89d3bdaa23189e78887fb8b8fa');
+   ('u1', 'u1', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
+	('u2', 'u2', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
+	('u3', 'u3', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
+	('u4', 'u4', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
+	('u5', 'u5', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
+	('u6', 'u6', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
+	('u7', 'u7', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
+	('u8', 'u8', 'f7ad7cc1c8ee8431b0a8c3abb872a33c');
 INSERT INTO `act_id_user` (`ID_`, `REV_`, `FIRST_`, `LAST_`, `EMAIL_`, `PWD_`, `PICTURE_ID_`) VALUES
-	('u1', 1, 'u', '1', '', '24a1db89d3bdaa23189e78887fb8b8fa', NULL),
-	('u2', 1, 'u', '2', '', '24a1db89d3bdaa23189e78887fb8b8fa', NULL),
-	('u3', 1, 'u', '3', '', '24a1db89d3bdaa23189e78887fb8b8fa', NULL),
-	('u4', 1, 'u', '4', '', '24a1db89d3bdaa23189e78887fb8b8fa', NULL),
-	('u5', 1, 'u', '5', '', '24a1db89d3bdaa23189e78887fb8b8fa', NULL),
-	('u6', 1, 'u', '6', '', '24a1db89d3bdaa23189e78887fb8b8fa', NULL),
-	('u7', 1, 'u', '7', '', '24a1db89d3bdaa23189e78887fb8b8fa', NULL),
-	('u8', 1, 'u', '8', '', '24a1db89d3bdaa23189e78887fb8b8fa', NULL);
+	('u1', 1, 'u', '1', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+	('u2', 1, 'u', '2', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+	('u3', 1, 'u', '3', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+	('u4', 1, 'u', '4', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+	('u5', 1, 'u', '5', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+	('u6', 1, 'u', '6', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+	('u7', 1, 'u', '7', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+	('u8', 1, 'u', '8', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL);
 
 insert into act_id_membership VALUES ('u1', 'mediaGM'); -- 媒介管理
 insert into act_id_membership VALUES ('u2', 'saler'); -- 销售普通

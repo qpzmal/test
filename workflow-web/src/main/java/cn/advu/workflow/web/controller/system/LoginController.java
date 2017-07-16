@@ -87,9 +87,6 @@ public class LoginController {
     }
 
 
-
-
-
     @RequestMapping("/login/dologin")
     @ResponseBody
     public AjaxJson doLogin(
@@ -108,6 +105,8 @@ public class LoginController {
                 account.setUser(loginUser);
                 // 获取用户菜单信息
                 loginService.queryUserFunction(account);
+            } else {
+                LOGGER.warn("loginuser is null. loginname is :{}, pw:{}", uname, passwd);
             }
 
             String cookieStr = LoginTools.toCookieStr(loginUser);
@@ -138,8 +137,6 @@ public class LoginController {
 
         }
         LOGGER.debug("login info：{}", ajaxJson);
-
-
         return ajaxJson;
     }
 

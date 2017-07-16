@@ -83,6 +83,7 @@
             <!--<mvc:exclude-mapping path="/service/**"/>-->
 
             <mvc:exclude-mapping path="/login/*"/>
+            <mvc:exclude-mapping path="/user/getMenus"/>
             <ref bean="authInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

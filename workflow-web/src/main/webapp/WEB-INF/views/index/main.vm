@@ -148,8 +148,81 @@
 ##    <script src="${rc.contextPath}/static/js/hAdmin.js?v=4.1.0"></script>
 ##    <script type="text/javascript" src="${rc.contextPath}/static/js/index.js?v=0.1"></script>
     #if($jsblock)$jsblock#end
-<!-- end js -->
+
 <script type="text/javascript">
+    var items = $(".J_menuItem");
+    var menus = new Array();
+    for(var i=0;i<items.length;i++){
+        menus.push(items[i].getAttribute("functionid"));
+    }
+    showMenu();
+    function showMenu(){
+        console.log("showMenu");
+        $.ajax({
+            url:"${rc.contextPath}/user/getMenus.json",
+            success:function(json){
+                console.log(json);
+                if (json.workflowStart != null) {
+                    $.each(json.workflowStart, function(i, item){
+                        $(".workflowStart").css("display", "");
+                        var index = $.inArray(item, menus);
+                        if(index != -1){
+                            $(items[index]).css("display", "block");
+                        }
+                    });
+                }
+                if (json.workflowAudit != null) {
+                    $.each(json.workflowAudit, function(i, item){
+                        $(".workflowAudit").css("display", "");
+                        var index = $.inArray(item, menus);
+                        if(index != -1){
+                            $(items[index]).css("display", "block");
+                        }
+                    });
+                }
+                if (json.reportInfo != null) {
+                    $.each(json.reportInfo, function(i, item){
+                        $(".reportInfo").css("display", "");
+                        var index = $.inArray(item, menus);
+                        if(index != -1){
+                            $(items[index]).css("display", "block");
+                        }
+                    });
+                }
+                if (json.baseInfo != null) {
+                    $.each(json.baseInfo, function(i, item){
+                        $(".baseInfo").css("display", "");
+                        var index = $.inArray(item, menus);
+                        if(index != -1){
+                            $(items[index]).css("display", "block");
+                        }
+                    });
+                }
+                if (json.systemInfo != null) {
+                    $.each(json.systemInfo, function(i, item){
+                        $(".systemInfo").css("display", "");
+                        var index = $.inArray(item, menus);
+                        if(index != -1){
+                            $(items[index]).css("display", "block");
+                        }
+                    });
+                }
+
+                ## 管理员专用菜单
+                if (json.userLevel == -1) {
+                    $(".admin-item").css("display", "");
+                }
+##                $.each(returnData.data, function(i, item){
+##                    var index = $.inArray("${rc.contextPath}" + item.menuUri, menus);
+##                    if(index != -1){
+##                        $(items[index]).css("display", "block");
+##                    }
+##                });
+            }
+        });
+    }
+
+
 //	var items = $(".J_menuItem");
 //	var menus = new Array();
 //	for(var i=0;i<items.length;i++){
@@ -174,4 +247,5 @@
 ##		});
 ##	}
 </script>
+<!-- end js -->
 </html>
