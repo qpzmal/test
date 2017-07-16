@@ -29,4 +29,9 @@ public class SysUserRepoImpl extends AbstractRepo<SysUser> implements SysUserRep
     public List<SysUser> findAll() {
         return sysUserMapper.queryAll(null);
     }
+
+    @Override
+    public SysUser findByIdAndName(Integer id, String name) {
+        return sysUserMapper.queryIdAndName(id, name);
+    }
 }

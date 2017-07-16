@@ -5,8 +5,12 @@ import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.repo.fcf_vu.SysUserRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.constants.MessageConstants;
+import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
+import cn.advu.workflow.web.manager.UserMananger;
 import cn.advu.workflow.web.service.system.SysUserService;
+import cn.advu.workflow.web.util.AssertUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,42 +28,59 @@ public class SysUserServiceImpl implements SysUserService{
 
     @Autowired
     ActivitiFacade activitiFacade;
-    
+
+    @Autowired
+    UserMananger userMananger;
+
     @Override
     @Transactional
-    public ResultJson<Object> add(SysUser user) {
-        ResultJson<Object> rj = new ResultJson<>();
+    public ResultJson<Integer> add(SysUser user) {
+
+        // loginName不重复
+        if (userMananger.isNameDuplicated(user.getId(), user.getLoginName())) {
+            throw new ServiceException(MessageConstants.USER_NAME_IS_DUPLICATED);
+        }
         //密码加密
         user.setPassword(StrMD5.getInstance().encrypt(user.getPassword(), WebConstants.MD5_SALT));
 
-        int result = sysUserRepo.add(user);
+        int result = sysUserRepo.addSelective(user);
+        if(result == 0){
+            throw new ServiceException("创建用户失败！");
+        }
         activitiFacade.createUser(user);
 
-        if(result == 0){
-            rj.setCode(WebConstants.OPERATION_FAILURE);
-            return rj;
-        }
-        rj.setCode(WebConstants.OPERATION_SUCCESS);
+        ResultJson<Integer> rj = new ResultJson<>();
+        rj.setData(user.getId());
         return rj;
     }
 
 
     @Override
     @Transactional
-    public ResultJson<Object> update(SysUser user) {
+    public ResultJson<Void> update(SysUser user) {
 
-        ResultJson<Object> rj = new ResultJson<>();
-        //密码加密
-        user.setPassword(StrMD5.getInstance().encrypt(user.getPassword(), WebConstants.MD5_SALT));
+        Integer id = user.getId();
+        AssertUtil.assertNotNull(id);
+
+        // loginName不重复
+        if (userMananger.isNameDuplicated(user.getId(), user.getLoginName())) {
+            throw new ServiceException(MessageConstants.USER_NAME_IS_DUPLICATED);
+        }
+
+        SysUser oldSysUser = sysUserRepo.findOne(id);
+        String oldPassword = oldSysUser.getPassword();
+        String currentPassword = user.getPassword();
+        if (!oldPassword.equals(currentPassword)) {
+            //密码加密
+            user.setPassword(StrMD5.getInstance().encrypt(user.getPassword(), WebConstants.MD5_SALT));
+        }
 
         int result = sysUserRepo.updateSelective(user);
-
         if(result == 0){
-            rj.setCode(WebConstants.OPERATION_FAILURE);
-            return rj;
+            throw new ServiceException("更新用户失败！");
         }
-        rj.setCode(WebConstants.OPERATION_SUCCESS);
-        return rj;
+
+        return new ResultJson<>();
     }
 
     @Override

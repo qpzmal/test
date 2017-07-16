@@ -1,5 +1,6 @@
 package cn.advu.workflow.web.controller.system;
 
+import cn.advu.workflow.common.utils.md5.StrMD5;
 import cn.advu.workflow.domain.fcf_vu.SysRole;
 import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.domain.fcf_vu.SysUserRole;
@@ -58,11 +59,17 @@ public class UserController {
     @ResponseBody
     public ResultJson<SysUser> add(SysUser sysUser, String userRoleList, HttpServletRequest request){
 
-        ResultJson<SysUser> resultJson = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        ResultJson<SysUser> resultJson = new ResultJson<>();
 
         // 新增用户
-        sysUserService.add(sysUser);
+        ResultJson<Integer> addUserResult = sysUserService.add(sysUser);
+        if (WebConstants.OPERATION_FAILURE == addUserResult.getCode()) {
+            resultJson.setCode(WebConstants.OPERATION_FAILURE);
+            resultJson.setInfo(addUserResult.getInfo());
+            return resultJson;
+        }
 
+        // 增加角色
         String[] userRoleStrList = userRoleList.split(",");
         List<Integer> userRoleIdList = new ArrayList<>();
         for (String userRole : userRoleStrList) {
@@ -70,13 +77,17 @@ public class UserController {
                 userRoleIdList.add(Integer.valueOf(userRole));
             }
         }
-
-        userRoleIdList = sysRoleService.addUserRole(
+        ResultJson<List<Integer>> userRoleIdListResult = sysRoleService.addUserRole(
                 sysUser.getId(),
                 userRoleIdList
-        ).getData();
+        );
+        if (WebConstants.OPERATION_FAILURE == userRoleIdListResult.getCode()) {
+            resultJson.setCode(WebConstants.OPERATION_FAILURE);
+            resultJson.setInfo(userRoleIdListResult.getInfo());
+            return resultJson;
+        }
 
-        sysUser.setUserRoleList(userRoleIdList);
+        sysUser.setUserRoleList(userRoleIdListResult.getData());
         resultJson.setData(sysUser);
 
         return resultJson;
@@ -93,15 +104,15 @@ public class UserController {
     @ResponseBody
     public ResultJson<SysUser> update(SysUser sysUser, String userRoleList, HttpServletRequest request){
 
-        ResultJson<SysUser> resultJson = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-
-        Integer id = sysUser.getId();
-        if (id == null) {
-            resultJson.setCode(WebConstants.OPERATION_FAILURE);
-        }
+        ResultJson<SysUser> resultJson = new ResultJson<>();
 
         // 更新用户
-        sysUserService.update(sysUser);
+        ResultJson<Void> updateUserResult = sysUserService.update(sysUser);
+        if (WebConstants.OPERATION_FAILURE == updateUserResult.getCode()) {
+            resultJson.setCode(WebConstants.OPERATION_FAILURE);
+            resultJson.setInfo(updateUserResult.getInfo());
+            return resultJson;
+        }
 
         String[] userRoleStrList = userRoleList.split(",");
         List<Integer> userRoleIdList = new ArrayList<>();
@@ -110,11 +121,15 @@ public class UserController {
                 userRoleIdList.add(Integer.valueOf(userRole));
             }
         }
-
-        sysRoleService.updateUserRole(
+        ResultJson<Void> updateUserRoleResult = sysRoleService.updateUserRole(
                 sysUser.getId(),
                 userRoleIdList
         );
+        if (WebConstants.OPERATION_FAILURE == updateUserRoleResult.getCode()) {
+            resultJson.setCode(WebConstants.OPERATION_FAILURE);
+            resultJson.setInfo(updateUserRoleResult.getInfo());
+            return resultJson;
+        }
 
         sysUser.setUserRoleList(userRoleIdList);
         resultJson.setData(sysUser);

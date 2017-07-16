@@ -11,4 +11,6 @@ import java.util.List;
 public interface SysUserRepo extends IRepo<SysUser> {
 
     List<SysUser> findAll();
+
+    SysUser findByIdAndName(Integer id, String name);
 }

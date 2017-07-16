@@ -196,9 +196,16 @@ public class SysRoleServiceImpl implements SysRoleService {
         if (sysUserRoleList != null && !sysUserRoleList.isEmpty()) {
             throw new ServiceException(MessageConstants.ROLE_IS_USING);
         }
-        // TODO 删除角色，则，角色下的function也要删除。
 
-        return null;
+        // 删除角色，则，角色下的function也要删除。
+        sysRoleFunctionRepo.removeByRole(id);
+
+        SysRole sysRole = sysRoleRepo.findOne(id);
+        int updateCount = sysRoleRepo.logicRemove(sysRole);
+        if(updateCount != 1) {
+            throw new ServiceException(MessageConstants.ROLE_IS_NOT_EXISTS);
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
     @Override

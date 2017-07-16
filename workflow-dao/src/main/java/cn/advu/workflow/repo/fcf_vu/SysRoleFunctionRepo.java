@@ -14,4 +14,6 @@ public interface SysRoleFunctionRepo extends IRepo<SysRoleFuction> {
     List<SysRoleFuction> findByRole(Integer roleId);
 
     void removeByIds(List<Integer> ids);
+
+    void removeByRole(Integer roleId);
 }

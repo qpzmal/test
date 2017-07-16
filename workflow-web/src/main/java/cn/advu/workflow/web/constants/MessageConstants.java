@@ -27,4 +27,7 @@ public interface MessageConstants {
     String ROLE_NAME_IS_NULL = "角色名称没有设置";
     String ROLE_NAME_IS_DUPLICATED = "角色名称重复";
     String ROLE_IS_USING = "有用户正在使用该角色，请先删除用户下的角色";
+    String ROLE_IS_NOT_EXISTS = "角色不存在";
+    // 用户
+    String USER_NAME_IS_DUPLICATED = "用户登录名称重复";
 }

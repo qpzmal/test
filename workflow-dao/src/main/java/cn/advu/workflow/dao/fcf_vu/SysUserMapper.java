@@ -19,5 +19,6 @@ public interface SysUserMapper extends BaseDAO<SysUser> {
     SysUser queryUserByNameAndPassword(@Param("username") String userName, @Param("password") String password);
 
 
+    SysUser queryIdAndName(@Param("id") Integer id, @Param("name") String name);
 
 }
