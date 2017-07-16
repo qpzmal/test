@@ -32,40 +32,41 @@ VALUES
 
 
 -- 功能权限表
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('1', '添加广告类型', '0', '0', '0', '1');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('2', '更新广告类型', '0', '0', '0', '1');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('3', '删除广告类型', '0', '0', '0', '1');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('4', '添加客户行业', '0', '0', '0', '2');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('5', '更新客户行业', '0', '0', '0', '2');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('6', '删除客户行业', '0', '0', '0', '2');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('7', '添加监测机构', '0', '0', '0', '3');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('8', '更新监测机构', '0', '0', '0', '3');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('9', '删除监测机构', '0', '0', '0', '3');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('10', '添加省市地域', '0', '0', '0', '4');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('11', '更新省市地域', '0', '0', '0', '4');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('12', '删除省市地域', '0', '0', '0', '4');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('13', '添加通讯录', '0', '0', '0', '5');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('14', '更新通讯录', '0', '0', '0', '5');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('15', '删除通讯录', '0', '0', '0', '5');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('16', '添加客户', '0', '0', '0', '6');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('17', '更新客户', '0', '0', '0', '6');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('18', '删除客户', '0', '0', '0', '6');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('19', '添加区域', '0', '0', '0', '7');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('20', '更新区域', '0', '0', '0', '7');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('21', '删除区域', '0', '0', '0', '7');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('22', '添加财物指标', '0', '0', '0', '8');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('23', '更新财物指标', '0', '0', '0', '8');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('24', '删除财物指标', '0', '0', '0', '8');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('25', '添加媒体', '0', '0', '0', '9');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('26', '更新媒体', '0', '0', '0', '9');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('27', '删除媒体', '0', '0', '0', '9');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('28', '添加媒体类型', '0', '0', '0', '10');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('29', '更新媒体类型', '0', '0', '0', '10');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('30', '删除媒体类型', '0', '0', '0', '10');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('31', '添加部门', '0', '0', '0', '11');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('32', '更新部门', '0', '0', '0', '11');
-INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`,   `resource_id`) VALUES ('33', '删除部门', '0', '0', '0', '11');
-
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `resource_id`, `operate_type_id`)
+VALUES
+	(10101, '添加广告类型', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:12', 101, NULL),
+	(10102, '更新广告类型', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:12', 101, NULL),
+	(10103, '删除广告类型', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:13', 101, NULL),
+	(10201, '添加客户行业', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:15', 102, NULL),
+	(10202, '更新客户行业', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:18', 102, NULL),
+	(10203, '删除客户行业', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:19', 102, NULL),
+	(10301, '添加监测机构', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:23', 103, NULL),
+	(10302, '更新监测机构', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:25', 103, NULL),
+	(10303, '删除监测机构', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:28', 103, NULL),
+	(10401, '添加省市地域', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:31', 104, NULL),
+	(10402, '更新省市地域', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:32', 104, NULL),
+	(10403, '删除省市地域', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:35', 104, NULL),
+	(10501, '添加通讯录', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:37', 105, NULL),
+	(10502, '更新通讯录', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:47', 105, NULL),
+	(10503, '删除通讯录', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:48', 105, NULL),
+	(10601, '添加客户', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:51', 106, NULL),
+	(10602, '更新客户', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:51', 106, NULL),
+	(10603, '删除客户', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:52', 106, NULL),
+	(10701, '添加区域', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:55', 107, NULL),
+	(10702, '更新区域', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:56', 107, NULL),
+	(10703, '删除区域', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:57', 107, NULL),
+	(10801, '添加财务指标', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:36:59', 108, NULL),
+	(10802, '更新财务指标', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:37:01', 108, NULL),
+	(10803, '删除财务指标', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:37:02', 108, NULL),
+	(10901, '添加媒体', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:37:06', 109, NULL),
+	(10902, '更新媒体', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:37:07', 109, NULL),
+	(10903, '删除媒体', 0, 0, 0, '2017-07-08 11:51:37', '2017-07-16 11:37:08', 109, NULL),
+	(11001, '添加媒体类型', 0, 0, 0, '2017-07-08 11:51:38', '2017-07-16 11:37:14', 110, NULL),
+	(11002, '更新媒体类型', 0, 0, 0, '2017-07-08 11:51:38', '2017-07-16 11:37:14', 110, NULL),
+	(11003, '删除媒体类型', 0, 0, 0, '2017-07-08 11:51:38', '2017-07-16 11:37:15', 110, NULL),
+	(11101, '添加部门', 0, 0, 0, '2017-07-08 11:51:38', '2017-07-16 11:37:18', 111, NULL),
+	(11102, '更新部门', 0, 0, 0, '2017-07-08 11:51:38', '2017-07-16 11:37:19', 111, NULL),
+	(11103, '删除部门', 0, 0, 0, '2017-07-08 11:51:38', '2017-07-16 11:37:19', 111, NULL);
 
 
 -- 初始化数据
