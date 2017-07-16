@@ -46,17 +46,19 @@
         <!--<error-code>404</error-code>-->
         <!--<location>/WEB-INF/views/error/404.vm</location>-->
     <!--</error-page>-->
+
+
     <error-page>
         <error-code>404</error-code>
-        <location>/resourceNotFound</location>
+        <location>/exception/resourceNotFound</location>
     </error-page>
     <error-page>
         <error-code>405</error-code>
-        <location>/uncaughtException</location>
+        <location>/exception/uncaughtException</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/uncaughtException</location>
+        <location>/exception/uncaughtException</location>
     </error-page>
 
     <welcome-file-list>

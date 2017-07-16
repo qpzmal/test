@@ -12,18 +12,20 @@ import javax.servlet.http.HttpServletResponse;
  * Created by weiqz on 2017/6/27.
  */
 public class LogMappingExceptionResolver extends SimpleMappingExceptionResolver {
-    private final static Logger log = LoggerFactory.getLogger(LogMappingExceptionResolver.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(LogMappingExceptionResolver.class);
 
     @Override
     protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response,
-                                              Object handler, Exception ex) {
+                                              Object handler, Exception exception) {
 //        Map<String, Exception> model = new HashMap<>();
 //        model.put("ex", ex);
 //        ModelAndView modelAndView = new ModelAndView("../../exception/errorPage",model);
 
 		/*错误日志输出到控制台*/
-        log.error(ex.getMessage());
+        LOGGER.debug( "" + request.getRequestURI());
+        LOGGER.error( "ExceptionResolver: " + exception.getMessage());
+        LOGGER.error( "ExceptionResolver: ", exception);
 
-        return null;
+        return super.doResolveException(request, response, handler, exception);
     }
 }

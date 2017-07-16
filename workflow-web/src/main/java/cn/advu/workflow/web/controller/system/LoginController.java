@@ -50,7 +50,6 @@ public class LoginController {
 
     @RequestMapping("/index")
     public String toIndex(HttpServletRequest request, HttpSession session){
-
         return "index";
     }
 

@@ -32,7 +32,7 @@ public class SysUserServiceImpl implements SysUserService{
         //密码加密
         user.setPassword(StrMD5.getInstance().encrypt(user.getPassword(), WebConstants.MD5_SALT));
 
-        int result = sysUserRepo.add(user);
+        int result = sysUserRepo.addSelective(user);
         activitiFacade.createUser(user);
 
         if(result == 0){

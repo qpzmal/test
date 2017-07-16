@@ -46,38 +46,27 @@
     </bean>
 
 
-    <!--&lt;!&ndash;配置登录拦截器&ndash;&gt;-->
-    <!--<bean id="loginInterceptor" class="cn.advu.workflow.web.common.interceptor.LoginInterceptor"/>-->
-    <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--<mvc:exclude-mapping path="/common/**"/>-->
-            <!--<mvc:exclude-mapping path="/diagram-viewer/**"/>-->
-            <!--<mvc:exclude-mapping path="/editor-app/**"/>-->
-            <!--<mvc:exclude-mapping path="/service/**"/>-->
-            <!--<mvc:exclude-mapping path="/static/**"/>-->
-            <!--<mvc:exclude-mapping path="/*.ico"/>-->
+    <!--配置登录拦截器-->
+    <bean id="loginInterceptor" class="cn.advu.workflow.web.common.interceptor.LoginInterceptor"/>
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/common/**"/>
+            <mvc:exclude-mapping path="/diagram-viewer/**"/>
+            <mvc:exclude-mapping path="/editor-app/**"/>
+            <mvc:exclude-mapping path="/service/**"/>
+            <mvc:exclude-mapping path="/static/**"/>
+            <mvc:exclude-mapping path="/*.ico"/>
+            <mvc:exclude-mapping path="/exception/**"/>
 
-            <!--<mvc:exclude-mapping path="/login/*"/>-->
-            <!--<ref bean="loginInterceptor"/>-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+            <mvc:exclude-mapping path="/login/*"/>
+            <ref bean="loginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 
-    <!--&lt;!&ndash;url拦截器&ndash;&gt;-->
-    <!--<bean id="urlInterceptor" class="cn.advu.workflow.web.common.interceptor.UrlInterceptor"/>-->
-    <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/user/toList"/>-->
-            <!--<mvc:mapping path="/user/toAdd"/>-->
-            <!--<mvc:mapping path="/role/manage"/>-->
-            <!--<mvc:mapping path="/role/toAdd"/>-->
-            <!--<ref bean="urlInterceptor"/>-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
-
-    <!--url拦截器-->
-    <bean id="testInterceptor" class="cn.advu.workflow.web.common.interceptor.TestInterceptor"/>
+    <!--配置鉴权拦截器-->
+    <bean id="authInterceptor" class="cn.advu.workflow.web.common.interceptor.AuthInterceptor"/>
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
@@ -85,11 +74,29 @@
             <mvc:exclude-mapping path="/diagram-viewer/**"/>
             <mvc:exclude-mapping path="/editor-app/**"/>
             <mvc:exclude-mapping path="/static/**"/>
-            <mvc:exclude-mapping path="/service/**"/>
-            <mvc:exclude-mapping path="/*.ico"/>
-            <ref bean="testInterceptor"/>
+            <mvc:exclude-mapping path="/exception/**"/>
+            <mvc:exclude-mapping path="*.ico"/>
+            <mvc:exclude-mapping path="*.html"/>
+            <ref bean="authInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+
+
+    <!--&lt;!&ndash;urlTest拦截器&ndash;&gt;-->
+    <!--<bean id="testInterceptor" class="cn.advu.workflow.web.common.interceptor.TestInterceptor"/>-->
+    <!--<mvc:interceptors>-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/**"/>-->
+            <!--<mvc:exclude-mapping path="/common/**"/>-->
+            <!--<mvc:exclude-mapping path="/diagram-viewer/**"/>-->
+            <!--<mvc:exclude-mapping path="/editor-app/**"/>-->
+            <!--<mvc:exclude-mapping path="/static/**"/>-->
+            <!--<mvc:exclude-mapping path="/service/**"/>-->
+            <!--<mvc:exclude-mapping path="/error/**"/>-->
+            <!--<mvc:exclude-mapping path="/*.ico"/>-->
+            <!--<ref bean="testInterceptor"/>-->
+        <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
 
     <!--文件上传-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -141,23 +148,28 @@
     <mvc:view-controller path="/" view-name="index" />
 
     <!-- 异常处理页面 -->
-    <mvc:view-controller path="/resourceNotFound" view-name="error/404"/>
-    <mvc:view-controller path="/uncaughtException" view-name="error/500"/>
-    <mvc:view-controller path="/dataAccessFailure" view-name="error/500"/>
-    <mvc:view-controller path="/accessDenied" view-name="error/500"/>
-    <mvc:view-controller path="/RequestMethodNotSupported" view-name="error/500"/>
     <bean class="cn.advu.workflow.web.common.exception.LogMappingExceptionResolver">
         <!-- 定义默认的异常处理页面 -->
-        <property name="defaultErrorView" value="error/500"/>
+        <property name="defaultErrorView" value="/error/500"/>
         <!-- 定义异常处理页面用来获取异常信息的变量名，如果不添加exceptionAttribute属性，则默认为exception -->
         <property name="exceptionAttribute" value="exception"/>
         <!-- 定义需要特殊处理的异常，用类名或完全路径名作为key，异常页面名作为值 -->
         <property name="exceptionMappings">
             <props>
+                <prop key="cn.advu.workflow.web.common.exception.AuthException">/error/403</prop>
+                <prop key="java.lang.Exception">error/500</prop>
                 <!--<prop key="IOException">error/io.jsp</prop>-->
                 <!--<prop key="cn.advu.common.exception.NoCookieException">error/cookie_time_out</prop>-->
             </props>
         </property>
     </bean>
+
+
+    <!-- web.xml异常处理页面 -->
+    <mvc:view-controller path="/exception/dataAccessFailure" view-name="error/403"/>
+    <mvc:view-controller path="/exception/resourceNotFound" view-name="error/404"/>
+    <mvc:view-controller path="/exception/uncaughtException" view-name="error/500"/>
+    <mvc:view-controller path="/exception/accessDenied" view-name="error/500"/>
+    <mvc:view-controller path="/exception/RequestMethodNotSupported" view-name="error/500"/>
 
 </beans>

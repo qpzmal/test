@@ -30,24 +30,33 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public void validLoginUser(LoginUser loginUser) throws LoginException {
 
-        //校验用户名和密码、可以设置缓存
-        SysUser sysUser = sysUserMapper.queryUserByNameAndId(loginUser.getUserName(), loginUser.getUserId());
-
-        if (sysUser == null) {
-            throw new LoginException("用户名和id验证错误");
-        }
-        if (loginUser.getLoginTime() == null || sysUser.getLastLoginTime() == null) {
+        if (loginUser.getLoginTime() == null) {
+            LOGGER.warn("登录时间验证错误，loginUser.logintime is null.");
             throw new LoginException("登录时间验证错误");
         }
-        if (loginUser.getLoginTime().longValue() != sysUser.getLastLoginTime().longValue()) {
+
+        //校验用户名和密码、可以设置缓存
+        SysUser dbUser = sysUserMapper.queryUserByNameAndId(loginUser.getUserName(), loginUser.getUserId());
+
+        if (dbUser == null) {
+            LOGGER.warn("登录时间验证错误，dbUser is null.");
+            throw new LoginException("用户名和id验证错误");
+        }
+        if (dbUser.getLastLoginTime() == null) {
+            LOGGER.warn("登录时间验证错误，dbUser.lastLoginTime is null.");
+            throw new LoginException("登录时间验证错误");
+        }
+        if (loginUser.getLoginTime().longValue() != dbUser.getLastLoginTime().longValue()) {
+            LOGGER.warn("登录时间验证错误，dbUser.lastLoginTime != loginUser.logintime.");
             throw new LoginException("登录时间验证错误");
         }
 
         //超过30天
         if (loginUser.getLoginTime().longValue() + GlobalConstant.CacheExpire.MONTH < System.currentTimeMillis()) {
+            LOGGER.warn("登录时间验证错误，cookie timeout.");
             throw new LoginException("登录时间验证错误");
         }
-        loginUser.setRealName(sysUser.getUserName());
+        loginUser.setRealName(dbUser.getUserName());
     }
 
     @Override

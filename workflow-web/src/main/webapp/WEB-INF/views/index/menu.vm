@@ -64,9 +64,6 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/echartsDemo/index">demo</a>
-                    </li>
-                    <li>
                         <a href="#">分公司财务分析 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
                             <li><a class="J_menuItem" href="${rc.contextPath}/report/area/balance">损益分析</a>
@@ -163,6 +160,18 @@
             </li>
 
 
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">测试</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="${rc.contextPath}/echartsDemo/index">报表</a>
+                    </li>
+                </ul>
+            </li>
 
 ##            <li>
 ##                <a href="#">
