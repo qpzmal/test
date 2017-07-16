@@ -9,7 +9,10 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.dto.TreeNode;
+import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.manager.LevelComparetor;
+import cn.advu.workflow.web.manager.PersonMananger;
+import cn.advu.workflow.web.manager.UserMananger;
 import cn.advu.workflow.web.service.AbstractTreeService;
 import cn.advu.workflow.web.service.base.DeptService;
 import cn.advu.workflow.web.util.AssertUtil;
@@ -29,7 +32,10 @@ public class DeptServiceImpl extends AbstractTreeService implements DeptService 
 
     @Autowired
     private BaseDeptRepo baseDeptRepo;
-
+    @Autowired
+    private UserMananger userMananger;
+    @Autowired
+    private PersonMananger personMananger;
     @Override
     protected IRepo<? extends AbstractTreeEntity> getRepo() {
         return baseDeptRepo;
@@ -101,6 +107,27 @@ public class DeptServiceImpl extends AbstractTreeService implements DeptService 
         baseDeptRepo.updateSelective(baseDept);
 
         return resultJson;
+    }
+
+    @Override
+    public ResultJson<Void> remove(Integer id) {
+
+        List<BaseDept> childDeptList =  baseDeptRepo.findChildDept(null, id);
+        if (childDeptList != null && !childDeptList.isEmpty()) {
+            throw new ServiceException(MessageConstants.DEPT_IS_USING);
+        }
+        if (userMananger.hasUserUnderDept(id)) {
+            throw new ServiceException(MessageConstants.DEPT_IS_USING);
+        }
+        if (personMananger.hasPersonUnderDept(id)) {
+            throw new ServiceException(MessageConstants.DEPT_IS_USING);
+        }
+
+        BaseDept baseDept = baseDeptRepo.findOne(id);
+        AssertUtil.assertNotNull(baseDept, MessageConstants.DEPT_IS_NOT_EXISTS);
+        baseDeptRepo.logicRemove(baseDept);
+
+        return new ResultJson<>();
     }
 
     @Override

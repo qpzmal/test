@@ -21,4 +21,6 @@ public interface SysUserMapper extends BaseDAO<SysUser> {
 
     SysUser queryIdAndName(@Param("id") Integer id, @Param("name") String name);
 
+    List<SysUser> queryByDept(@Param("deptId") Integer deptId);
+
 }

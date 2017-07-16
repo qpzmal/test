@@ -22,6 +22,7 @@ public interface MessageConstants {
     // 部门
     String ASSIGN_AREA_IS_NULL = "所属区域没有设置";
     String DEPT_IS_NOT_EXISTS = "部门不存在";
+    String DEPT_IS_USING = "部门下面有子部门，用户或者通讯录";
 
     // 角色
     String ROLE_NAME_IS_NULL = "角色名称没有设置";
@@ -30,4 +31,5 @@ public interface MessageConstants {
     String ROLE_IS_NOT_EXISTS = "角色不存在";
     // 用户
     String USER_NAME_IS_DUPLICATED = "用户登录名称重复";
+
 }

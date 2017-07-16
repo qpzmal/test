@@ -12,4 +12,6 @@ public interface BasePersonMapper extends BaseDAO<BasePerson> {
     List<BasePerson> queryAll(@Param("status") Integer status);
     // 以下为自定义SQL
     List<BasePersonExtend> queryByDept(@Param("areaId") Integer areaId, @Param("deptId") Integer deptId);
+
+    List<BasePerson> queryChildListByDept(@Param("deptId") Integer deptId);
 }

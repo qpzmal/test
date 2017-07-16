@@ -7,6 +7,8 @@ import cn.advu.workflow.repo.fcf_vu.SysUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by wangry on 17/7/13.
  */
@@ -30,5 +32,30 @@ public class UserMananger {
             isNameDuplicated = true;
         }
         return isNameDuplicated;
+    }
+
+    /**
+     * 返回部门下的User列表
+     *
+     * @param deptId
+     * @return
+     */
+    public List<SysUser> findUserByDept(Integer deptId) {
+       return  sysUserRepo.findByDept(deptId);
+    }
+
+    /**
+     * 返回是否有下属用户
+     *
+     * @param deptId
+     * @return
+     */
+    public Boolean hasUserUnderDept(Integer deptId) {
+        Boolean hasUser = false;
+        List<SysUser> sysUserList = findUserByDept(deptId);
+        if (sysUserList != null && !sysUserList.isEmpty()) {
+            hasUser = true;
+        }
+        return hasUser;
     }
 }

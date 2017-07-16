@@ -257,12 +257,21 @@
     <if test="status != null">
       where base_person.item_status = 0
       <if test="areaId != null">
-        and base_person.area_id = #{areaId,jdbcType=TINYINT}
+        and base_person.area_id = #{areaId,jdbcType=INTEGER}
       </if>
       <if test="deptId != null">
-        and base_person.dept_id = #{deptId,jdbcType=TINYINT}
+        and base_person.dept_id = #{deptId,jdbcType=INTEGER}
       </if>
 
     </if>
   </select>
+
+  <select id="queryChildListByDept" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_person
+    where del_flag = '0'
+      and base_person.dept_id = #{deptId,jdbcType=INTEGER}
+  </select>
+
 </mapper>

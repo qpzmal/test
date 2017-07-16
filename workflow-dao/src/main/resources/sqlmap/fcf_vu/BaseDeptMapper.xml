@@ -212,8 +212,11 @@
     select
     <include refid="Base_Column_List" />
     from base_dept
-      where area_id = #{areaId,jdbcType=INTEGER}
+    where del_flag = 0
       and parent_id = #{parentId,jdbcType=INTEGER}
+    <if test="areaId != null">
+      and area_id = #{areaId,jdbcType=INTEGER}
+    </if>
   </select>
 
   <select id="queryByAreaAndDept" resultMap="DeptVO">

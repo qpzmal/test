@@ -284,4 +284,11 @@
     limit 1
   </select>
 
+  <select id="queryByDept" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_user
+    where dept_id = #{deptId,jdbcType=INTEGER} AND del_flag = 0
+  </select>
+
 </mapper>
