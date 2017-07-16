@@ -1,0 +1,23 @@
+#set($layout = '/layout/empty.vm')
+<select id="parent_id" ata-placeholder="请选择上级领导" class="chosen-select" style="width:350px;" tabindex="2"
+    #if(!$parentList || $parentList.isEmpty())
+        disabled
+    #end
+>
+    <option value="">请选择上级领导</option>
+    #foreach($data in $parentList)
+        <option value ="$data.id">$data.name</option>
+    #end
+</select>
+<script>
+
+    var config = {
+        ".chosen-select": {},
+        ".chosen-select-deselect": {allow_single_deselect: !0},
+        ".chosen-select-no-single": {disable_search_threshold: 10},
+        ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
+        ".chosen-select-width": {width: "95%"}
+    };
+    for (var selector in config)
+        $(selector).chosen(config[selector]);
+</script>

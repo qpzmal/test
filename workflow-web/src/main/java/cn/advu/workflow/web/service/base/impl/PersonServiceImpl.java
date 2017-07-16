@@ -29,4 +29,11 @@ public class PersonServiceImpl implements PersonService {
         resultJson.setData(basePersonRepo.findDeptPerson(areaId, deptId));
         return resultJson;
     }
+
+    @Override
+    public ResultJson<Integer> add(BasePerson basePerson) {
+        ResultJson<Integer> resultJson = new ResultJson();
+        resultJson.setData(basePersonRepo.addSelective(basePerson));
+        return resultJson;
+    }
 }

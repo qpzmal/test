@@ -43,7 +43,6 @@ public class DeptController {
 
     @RequestMapping("/deptTreeList")
     public ResultJson<String> deptTreeList(Integer areaId) {
-
         // 部门树
         String parentTreeJson = null;
         if (areaId != null) {

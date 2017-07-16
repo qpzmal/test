@@ -29,8 +29,9 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, name, area_id, mobile, address, email, dept_id, state, parent_id, del_flag, item_status, 
-    pay2, person_pay, create_time, update_time, remark
+    base_person.id, base_person.name, base_person.area_id, base_person.mobile, base_person.address, base_person.email,
+    base_person.dept_id, base_person.state, base_person.parent_id, base_person.del_flag, base_person.item_status,
+    base_person.pay2, base_person.person_pay, base_person.create_time, base_person.update_time, base_person.remark
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -253,16 +254,13 @@
     <include refid="Base_Column_List" />
     from base_person inner join base_area on base_person.area_id = base_area.id
     inner join base_dept on base_person.dept_id = base_dept.id
-    inner join base_person base_person_parent on base_person.parent_id = base_person_parent.id
-    <if test="status != null">
-      where base_person.item_status = 0
-      <if test="areaId != null">
-        and base_person.area_id = #{areaId,jdbcType=INTEGER}
-      </if>
-      <if test="deptId != null">
-        and base_person.dept_id = #{deptId,jdbcType=INTEGER}
-      </if>
-
+    left join base_person base_person_parent on base_person.parent_id = base_person_parent.id
+    where base_person.del_flag = 0
+    <if test="areaId != null">
+      and base_person.area_id = #{areaId,jdbcType=INTEGER}
+    </if>
+    <if test="deptId != null">
+      and base_person.dept_id = #{deptId,jdbcType=INTEGER}
     </if>
   </select>
 
