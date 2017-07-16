@@ -4,10 +4,13 @@ import cn.advu.workflow.common.cache.CacheCaller;
 import cn.advu.workflow.common.cache.EhcacheHelper;
 import cn.advu.workflow.common.constant.GlobalConstant;
 import cn.advu.workflow.common.utils.md5.StrMD5;
+import cn.advu.workflow.dao.fcf_vu.SysFuctionMapper;
 import cn.advu.workflow.dao.fcf_vu.SysUserMapper;
+import cn.advu.workflow.domain.fcf_vu.SysFuction;
 import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.exception.LoginException;
+import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.constants.cache.EhcacheConstants;
 import cn.advu.workflow.web.service.system.LoginService;
@@ -17,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -27,6 +31,10 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
+
+
+    @Autowired
+    private SysFuctionMapper sysFuctionMapper;
 
 
 
@@ -104,15 +112,17 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public String queryUserFunction(String userid) throws LoginException {
+    public void queryUserFunction(LoginAccount account) throws LoginException {
+        final String userid = account.getUser().getUserId();
 
-        String bookAuthor = EhcacheHelper.getCacheAndSet(EhcacheConstants.USER_FUNCTION, userid, new CacheCaller<String>() {
+        List<SysFuction> userFunList = EhcacheHelper.getCacheAndSet(EhcacheConstants.USER_FUNCTION, userid, new CacheCaller<List<SysFuction>>() {
             @Override
-            public  String getData() {
-                return mapper.getAuthorByName(name);
+            public  List<SysFuction> getData() {
+                return sysFuctionMapper.queryFunctionByUserId(userid);
             }
         });
-        return null;
+        LOGGER.info("用户id:{},的菜单件数:{}", userid, userFunList.size());
+        account.setUserFunction(userFunList);
     }
 
 }

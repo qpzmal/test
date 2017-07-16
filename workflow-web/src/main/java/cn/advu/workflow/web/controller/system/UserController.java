@@ -168,9 +168,9 @@ public class UserController {
         sysUserService.remove(userId);
     }
 
-    @RequestMapping("/index_content")
+    @RequestMapping("/home")
     public String toIndexContent(){
-        return "index_content";
+        return "system/user/home";
     }
     
     @RequestMapping("/toList")

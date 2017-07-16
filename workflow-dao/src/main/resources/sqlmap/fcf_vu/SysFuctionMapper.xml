@@ -139,4 +139,18 @@
       operate_type_id = #{operateTypeId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+
+
+
+  <!-- 以上为自动生成SQL，以下为自定义SQL -->
+  <select id="queryFunctionByUserId" resultMap="BaseResultMap">
+    select distinct function_id AS id from (
+    select distinct rf.function_id from sys_user suser
+    left join sys_user_role ur on suser.id = ur.admins
+    left join sys_role_fuction rf on ur.roles = rf.role_id
+    where suser.id = #{id,jdbcType=INTEGER}
+    ) t where function_id is not null
+  </select>
 </mapper>

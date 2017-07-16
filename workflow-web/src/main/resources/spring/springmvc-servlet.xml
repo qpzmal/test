@@ -52,12 +52,13 @@
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/common/**"/>
-            <mvc:exclude-mapping path="/diagram-viewer/**"/>
-            <mvc:exclude-mapping path="/editor-app/**"/>
-            <mvc:exclude-mapping path="/service/**"/>
             <mvc:exclude-mapping path="/static/**"/>
             <mvc:exclude-mapping path="/*.ico"/>
+            <mvc:exclude-mapping path="/diagram-viewer/**"/>
+            <mvc:exclude-mapping path="/editor-app/**"/>
+            <mvc:exclude-mapping path="*.html"/>
             <mvc:exclude-mapping path="/exception/**"/>
+            <!--<mvc:exclude-mapping path="/service/**"/>-->
 
             <mvc:exclude-mapping path="/login/*"/>
             <ref bean="loginInterceptor"/>
@@ -71,12 +72,17 @@
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/common/**"/>
+            <mvc:exclude-mapping path="/static/**"/>
+            <mvc:exclude-mapping path="*.ico"/>
             <mvc:exclude-mapping path="/diagram-viewer/**"/>
             <mvc:exclude-mapping path="/editor-app/**"/>
-            <mvc:exclude-mapping path="/static/**"/>
-            <mvc:exclude-mapping path="/exception/**"/>
-            <mvc:exclude-mapping path="*.ico"/>
             <mvc:exclude-mapping path="*.html"/>
+            <mvc:exclude-mapping path="/exception/**"/>
+            <mvc:exclude-mapping path="/user/home"/> <!-- 用户登录欢迎页 -->
+            <mvc:exclude-mapping path="/index"/> <!-- 主页 -->
+            <!--<mvc:exclude-mapping path="/service/**"/>-->
+
+            <mvc:exclude-mapping path="/login/*"/>
             <ref bean="authInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

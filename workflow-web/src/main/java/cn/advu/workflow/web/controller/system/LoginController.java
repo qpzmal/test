@@ -97,7 +97,7 @@ public class LoginController {
             HttpServletRequest request, HttpServletResponse response) {
 
         AjaxJson ajaxJson = new AjaxJson();
-        LoginAccount account = null;
+        LoginAccount account = new LoginAccount();
         try {
             LOGGER.info("name:{}, pw:{}", uname, passwd);
 
@@ -105,7 +105,9 @@ public class LoginController {
             LoginUser loginUser = loginService.login(uname, passwd, vcode, request);
 
             if(loginUser != null ){
-//                account = loginService.getAccount(loginUser);
+                account.setUser(loginUser);
+                // 获取用户菜单信息
+                loginService.queryUserFunction(account);
             }
 
             String cookieStr = LoginTools.toCookieStr(loginUser);
@@ -129,7 +131,8 @@ public class LoginController {
             ajaxJson.setMsg("登录成功");
         } catch (Exception ex) {
 
-            LOGGER.info("登录失败: uname=" + uname + ex.getMessage());
+
+            LOGGER.info("登录失败: uname=" + uname, ex);
             ajaxJson.setSuccess(false);
             ajaxJson.setMsg(ex.getMessage());
 

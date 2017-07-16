@@ -263,12 +263,12 @@
     select
     <include refid="Base_Column_List" />
     from sys_user
-    where id = #{userid,jdbcType=INTEGER}, login_name = #{username,jdbcType=VARCHAR} AND item_status = 0
+    where id = #{userid,jdbcType=INTEGER} AND login_name = #{username,jdbcType=VARCHAR} AND item_status = 0
   </select>
   <select id="queryUserByNameAndPassword" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from sys_user
-    where login_name = #{username,jdbcType=VARCHAR}, password = #{password,jdbcType=VARCHAR} AND item_status = 0 AND del_flag = 0
+    where login_name = #{username,jdbcType=VARCHAR} AND password = #{password,jdbcType=VARCHAR} AND item_status = 0 AND del_flag = 0
   </select>
 </mapper>
