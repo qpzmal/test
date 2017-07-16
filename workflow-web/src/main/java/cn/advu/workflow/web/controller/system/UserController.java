@@ -175,12 +175,13 @@ public class UserController {
     /**
      * 删除用户
      *
-     * @param userId
+     * @param id
      */
     @RequestMapping("/remove")
-    public void remove(Integer userId){
-        sysRoleService.removeUserRole(userId);
-        sysUserService.remove(userId);
+    public ResultJson<Void> remove(Integer id){
+        sysRoleService.removeUserRole(id);
+        sysUserService.remove(id);
+        return new ResultJson<>();
     }
 
     @RequestMapping("/index_content")
