@@ -1,5 +1,7 @@
 package cn.advu.workflow.web.service.system.impl;
 
+import cn.advu.workflow.common.cache.CacheCaller;
+import cn.advu.workflow.common.cache.EhcacheHelper;
 import cn.advu.workflow.common.constant.GlobalConstant;
 import cn.advu.workflow.common.utils.md5.StrMD5;
 import cn.advu.workflow.dao.fcf_vu.SysUserMapper;
@@ -7,6 +9,7 @@ import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.exception.LoginException;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
+import cn.advu.workflow.web.constants.cache.EhcacheConstants;
 import cn.advu.workflow.web.service.system.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,6 +101,18 @@ public class LoginServiceImpl implements LoginService {
             LOGGER.error("", e);
         }
         return loginUser;
+    }
+
+    @Override
+    public String queryUserFunction(String userid) throws LoginException {
+
+        String bookAuthor = EhcacheHelper.getCacheAndSet(EhcacheConstants.USER_FUNCTION, userid, new CacheCaller<String>() {
+            @Override
+            public  String getData() {
+                return mapper.getAuthorByName(name);
+            }
+        });
+        return null;
     }
 
 }

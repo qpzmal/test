@@ -22,7 +22,7 @@
             </li>
 
 
-            <li>
+            <li likey="activiti-start" style="display:none">
                 <a href="#">
                     <i class="fa fa-credit-card"></i>
                     <span class="nav-label">流程申请</span>
@@ -30,17 +30,17 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/xxxxxx/index">综合计价</a>
-                        <a class="J_menuItem" href="${rc.contextPath}/executeOrder/index">添制需求单</a> ## base_execute_order
-                        <a class="J_menuItem" href="${rc.contextPath}/saleFrame/index">框架需求合同</a> ## base_execute_order_frame
-                        <a class="J_menuItem" href="${rc.contextPath}/buyOrder/index">添制采购单</a> ## base_buy_order
-                        <a class="J_menuItem" href="${rc.contextPath}/buyFrame/index">框架采购合同</a> ## base_buy_order_frame
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/xxxxxx/index">综合计价</a>
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/executeOrder/index">添制需求单</a> ## base_execute_order
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/saleFrame/index">框架需求合同</a> ## base_execute_order_frame
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/buyOrder/index">添制采购单</a> ## base_buy_order
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/buyFrame/index">框架采购合同</a> ## base_buy_order_frame
                     </li>
                 </ul>
             </li>
 
 
-            <li>
+            <li likey="activiti-audit" style="display:none">
                 <a href="#">
                     <i class="fa fa-credit-card"></i>
                     <span class="nav-label">流程审批</span>
@@ -48,15 +48,15 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/workflow/task/todo">待处理流程</a>
-                        <a class="J_menuItem" href="${rc.contextPath}/workflow/task/running">运行中流程</a>
-                        <a class="J_menuItem" href="${rc.contextPath}/workflow/task/finished">已结束流程</a>
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/workflow/task/todo">待处理流程</a>
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/workflow/task/running">运行中流程</a>
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/workflow/task/finished">已结束流程</a>
                     </li>
                 </ul>
             </li>
 
 
-            <li>
+            <li likey="report" style="display:none">
                 <a href="#">
                     <i class="fa fa-line-chart"></i>
                     <span class="nav-label">报表中心</span>
@@ -66,42 +66,42 @@
                     <li>
                         <a href="#">分公司财务分析 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem" href="${rc.contextPath}/report/area/balance">损益分析</a>
+                            <li><a class="J_menuItem" style="display:none" href="${rc.contextPath}/report/area/balance">损益分析</a>
                             </li>
-                            <li><a class="J_menuItem" href="${rc.contextPath}/report/area/budget">预算完成度分析</a>
+                            <li><a class="J_menuItem" style="display:none" href="${rc.contextPath}/report/area/budget">预算完成度分析</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="#">采购报表 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem" href="${rc.contextPath}/report/buy/resource">资源类别</a>
+                            <li><a class="J_menuItem" style="display:none" href="${rc.contextPath}/report/buy/resource">资源类别</a>
                             </li>
-                            <li><a class="J_menuItem" href="${rc.contextPath}/report/buy/area">厂商</a>
+                            <li><a class="J_menuItem" style="display:none" href="${rc.contextPath}/report/buy/area">厂商</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="#">客户分析报表 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem" href="${rc.contextPath}/report/customer/profit">毛利/净利贡献率</a>
+                            <li><a class="J_menuItem" style="display:none" href="${rc.contextPath}/report/customer/profit">毛利/净利贡献率</a>
                             </li>
-                            <li><a class="J_menuItem" href="${rc.contextPath}/report/customer/pay">回款汇总</a>
+                            <li><a class="J_menuItem" style="display:none" href="${rc.contextPath}/report/customer/pay">回款汇总</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="#">销售报表 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem" href="${rc.contextPath}/report/sale/history">历史订单</a>
+                            <li><a class="J_menuItem" style="display:none" href="${rc.contextPath}/report/sale/history">历史订单</a>
                             </li>
-                            <li><a class="J_menuItem" href="${rc.contextPath}/report/sale/feature">未来订单</a>
+                            <li><a class="J_menuItem" style="display:none" href="${rc.contextPath}/report/sale/feature">未来订单</a>
                             </li>
                         </ul>
                     </li>
                 </ul>
             </li>
-            <li>
+            <li likey="base" style="display:none">
                 <a href="#">
                     <i class="fa fa-users"></i>
                     <span class="nav-label">基础信息</span>
@@ -109,40 +109,25 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/adtype/index">广告类型管理</a> ## base_adtype
-                        <a class="J_menuItem" href="${rc.contextPath}/area/index">区域管理</a> ## base_area
-                        <a class="J_menuItem" href="${rc.contextPath}/areaFinance/index">区域财务结算</a> ## base_area_finance
-                        <a class="J_menuItem" href="${rc.contextPath}/custom/index">客户管理</a> ## base_custom
-                        <a class="J_menuItem" href="${rc.contextPath}/customFinance/index">客户财务结算</a> ## base_custom_finance
-                        <a class="J_menuItem" href="${rc.contextPath}/dept/index">部门管理</a> ## base_dept
-                        <a class="J_menuItem" href="${rc.contextPath}/financial/index">财务指标管理</a> ## base_financialindex
-                        <a class="J_menuItem" href="${rc.contextPath}/industry/index">客户行业管理</a> ## base_industry
-                        <a class="J_menuItem" href="${rc.contextPath}/media/index">媒体管理</a> ## base_media
-                        <a class="J_menuItem" href="${rc.contextPath}/mediaType/index">媒体类型管理</a> ## base_media_type
-                        <a class="J_menuItem" href="${rc.contextPath}/monitor/index">监测机构管理</a> ## base_monitor_request
-                        <a class="J_menuItem" href="${rc.contextPath}/person/index">通讯录</a> ## sys_user --> base_person
-                        <a class="J_menuItem" href="${rc.contextPath}/region/index">省市地域管理</a> ## base_region
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-users"></i>
-                    <span class="nav-label">还没做的</span>
-                    <span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/notify/index">通知内容管理</a> ## oa_notify
-                        <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知内容管理</a> ## oa_notify_record
-                        <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知发送记录</a> ## oa_notify_record
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/adtype/index">广告类型管理</a> ## base_adtype
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/area/index">区域管理</a> ## base_area
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/areaFinance/index">区域财务结算</a> ## base_area_finance
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/custom/index">客户管理</a> ## base_custom
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/customFinance/index">客户财务结算</a> ## base_custom_finance
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/dept/index">部门管理</a> ## base_dept
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/financial/index">财务指标管理</a> ## base_financialindex
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/industry/index">客户行业管理</a> ## base_industry
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/media/index">媒体管理</a> ## base_media
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/mediaType/index">媒体类型管理</a> ## base_media_type
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/monitor/index">监测机构管理</a> ## base_monitor_request
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/person/index">通讯录</a> ## sys_user --> base_person
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/region/index">省市地域管理</a> ## base_region
                     </li>
                 </ul>
             </li>
 
 
-
-            <li>
+            <li likey="system" style="display:none">
                 <a href="#">
                     <i class="fa fa-home"></i>
                     <span class="nav-label">系统管理</span>
@@ -150,17 +135,35 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/user/index">用户管理</a>
-                        <a class="J_menuItem" href="${rc.contextPath}/role/index">权限管理</a>
-                        <a class="J_menuItem" href="${rc.contextPath}/system/index">系统管理</a>
-##                        <a class="J_menuItem" href="${rc.contextPath}/workflow/deploy/index">流程部署</a>
-                        <a class="J_menuItem" href="${rc.contextPath}/workflow/model/index">流程模型</a>
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/user/index">用户管理</a>
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/role/index">权限管理</a>
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/system/index">系统管理</a>
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/workflow/model/index">流程模型</a>
+##                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/workflow/deploy/index">流程部署</a>
                     </li>
                 </ul>
             </li>
 
 
-            <li>
+
+            <li likey="todo" style="display:none">
+                <a href="#">
+                    <i class="fa fa-users"></i>
+                    <span class="nav-label">还没做的</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/notify/index">通知内容管理</a> ## oa_notify
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/notifyRecord/index">通知内容管理</a> ## oa_notify_record
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/notifyRecord/index">通知发送记录</a> ## oa_notify_record
+                    </li>
+                </ul>
+            </li>
+
+
+
+            <li likey="test" style="display:none">
                 <a href="#">
                     <i class="fa fa-home"></i>
                     <span class="nav-label">测试</span>
@@ -168,7 +171,7 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/echartsDemo/index">报表</a>
+                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/echartsDemo/index">报表</a>
                     </li>
                 </ul>
             </li>

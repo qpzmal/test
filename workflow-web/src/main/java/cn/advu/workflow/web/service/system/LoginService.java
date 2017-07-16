@@ -30,4 +30,12 @@ public interface LoginService {
      */
     LoginUser login(String uname, String passwd, String vcode, HttpServletRequest request) throws LoginException;
 
+    /**
+     * 获取用户资源信息
+     * @param userid
+     * @return
+     * @throws LoginException
+     */
+    String queryUserFunction(String userid) throws LoginException;
+
 }

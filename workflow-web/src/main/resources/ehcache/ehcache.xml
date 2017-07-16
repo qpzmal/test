@@ -8,12 +8,12 @@
                   diskPersistent="false" diskExpiryThreadIntervalSeconds="120"
                   memoryStoreEvictionPolicy="LRU"/>
 
-    <cache name="single_cache" maxElementsInMemory="5000"
+    <cache name="user_function" maxElementsInMemory="5000"
            eternal="false" overflowToDisk="false" timeToIdleSeconds="300"
            timeToLiveSeconds="60" memoryStoreEvictionPolicy="LFU"/>
 
-    <cache name="category_cache" maxElementsInMemory="5000"
-           eternal="false" overflowToDisk="false" timeToIdleSeconds="36000"
-           timeToLiveSeconds="36000" memoryStoreEvictionPolicy="LFU"/>
+    <cache name="single_cache" maxElementsInMemory="5000"
+           eternal="false" overflowToDisk="false" timeToIdleSeconds="300"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LFU"/>
 
 </ehcache>
