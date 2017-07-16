@@ -11,7 +11,7 @@
                 <div class="ibox-title">
                     <div class="row">
                         <div class="col-md-2">
-                            <h5>项目基本信息</h5>
+                            <h5>基础信息</h5>
                         </div>
                         <div class="col-md-3">
                             <div class="checkbox checkbox-warning">
@@ -44,20 +44,20 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="1" type="checkbox" class="moduleCheck adTypeCheck function">
-                                        <label for="1">
+                                        <input id="10101" type="checkbox" class="moduleCheck adTypeCheck function">
+                                        <label for="10101">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="2" type="checkbox" class="moduleCheck adTypeCheck function">
-                                        <label for="2">
+                                        <input id="10102" type="checkbox" class="moduleCheck adTypeCheck function">
+                                        <label for="10102">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="3" type="checkbox" class="moduleCheck adTypeCheck function">
-                                        <label for="3">
+                                        <input id="10103" type="checkbox" class="moduleCheck adTypeCheck function">
+                                        <label for="10103">
                                             删除
                                         </label>
                                     </div>
@@ -85,20 +85,20 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="4" type="checkbox" class="moduleCheck industryCheck function">
-                                        <label for="4">
+                                        <input id="10201" type="checkbox" class="moduleCheck industryCheck function">
+                                        <label for="10201">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="5" type="checkbox" class="moduleCheck industryCheck function">
-                                        <label for="5">
+                                        <input id="10202" type="checkbox" class="moduleCheck industryCheck function">
+                                        <label for="10202">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="6" type="checkbox" class="moduleCheck industryCheck function">
-                                        <label for="6">
+                                        <input id="10203" type="checkbox" class="moduleCheck industryCheck function">
+                                        <label for="10203">
                                             删除
                                         </label>
                                     </div>
@@ -124,20 +124,20 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="7" type="checkbox" class="moduleCheck monitorCheck function">
-                                        <label for="7">
+                                        <input id="10301" type="checkbox" class="moduleCheck monitorCheck function">
+                                        <label for="10301">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="8" type="checkbox" class="moduleCheck monitorCheck function">
-                                        <label for="8">
+                                        <input id="10302" type="checkbox" class="moduleCheck monitorCheck function">
+                                        <label for="10302">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="9" type="checkbox" class="moduleCheck monitorCheck function">
-                                        <label for="9">
+                                        <input id="10303" type="checkbox" class="moduleCheck monitorCheck function">
+                                        <label for="10303">
                                             删除
                                         </label>
                                     </div>
@@ -163,20 +163,20 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="10" type="checkbox" class="moduleCheck regionCheck function">
-                                        <label for="10">
+                                        <input id="10401" type="checkbox" class="moduleCheck regionCheck function">
+                                        <label for="10401">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="11" type="checkbox" class="moduleCheck regionCheck function">
-                                        <label for="11">
+                                        <input id="10402" type="checkbox" class="moduleCheck regionCheck function">
+                                        <label for="10402">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="12" type="checkbox" class="moduleCheck regionCheck function">
-                                        <label for="12">
+                                        <input id="10403" type="checkbox" class="moduleCheck regionCheck function">
+                                        <label for="10403">
                                             删除
                                         </label>
                                     </div>
@@ -202,20 +202,20 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="13" type="checkbox" class="moduleCheck personCheck function">
-                                        <label for="13">
+                                        <input id="10501" type="checkbox" class="moduleCheck personCheck function">
+                                        <label for="10501">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="14" type="checkbox" class="moduleCheck  personCheck function">
-                                        <label for="14">
+                                        <input id="10502" type="checkbox" class="moduleCheck  personCheck function">
+                                        <label for="10502">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="15" type="checkbox" class="moduleCheck  personCheck function">
-                                        <label for="15">
+                                        <input id="10503" type="checkbox" class="moduleCheck  personCheck function">
+                                        <label for="10503">
                                             删除
                                         </label>
                                     </div>
@@ -241,20 +241,20 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="16" type="checkbox" class="moduleCheck customCheck function">
-                                        <label for="16">
+                                        <input id="10601" type="checkbox" class="moduleCheck customCheck function">
+                                        <label for="10601">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="17" type="checkbox" class="moduleCheck customCheck function">
-                                        <label for="17">
+                                        <input id="10602" type="checkbox" class="moduleCheck customCheck function">
+                                        <label for="10602">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="18" type="checkbox" class="moduleCheck customCheck function">
-                                        <label for="18">
+                                        <input id="10603" type="checkbox" class="moduleCheck customCheck function">
+                                        <label for="10603">
                                             删除
                                         </label>
                                     </div>
@@ -282,20 +282,20 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="19" type="checkbox" class="moduleCheck areaCheck function">
-                                        <label for="19">
+                                        <input id="10701" type="checkbox" class="moduleCheck areaCheck function">
+                                        <label for="10701">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20" type="checkbox" class="moduleCheck areaCheck function">
-                                        <label for="20">
+                                        <input id="10702" type="checkbox" class="moduleCheck areaCheck function">
+                                        <label for="10702">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="21" type="checkbox" class="moduleCheck areaCheck function">
-                                        <label for="21">
+                                        <input id="10703" type="checkbox" class="moduleCheck areaCheck function">
+                                        <label for="10703">
                                             删除
                                         </label>
                                     </div>
@@ -322,20 +322,20 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="22" type="checkbox" class="moduleCheck financialCheck function">
-                                        <label for="22">
+                                        <input id="10801" type="checkbox" class="moduleCheck financialCheck function">
+                                        <label for="10801">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="23" type="checkbox" class="moduleCheck financialCheck function">
-                                        <label for="23">
+                                        <input id="10802" type="checkbox" class="moduleCheck financialCheck function">
+                                        <label for="10802">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="24" type="checkbox" class="moduleCheck financialCheck function">
-                                        <label for="24">
+                                        <input id="10803" type="checkbox" class="moduleCheck financialCheck function">
+                                        <label for="10803">
                                             删除
                                         </label>
                                     </div>
@@ -361,20 +361,20 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="25" type="checkbox" class="moduleCheck mediaCheck function">
-                                        <label for="25">
+                                        <input id="10901" type="checkbox" class="moduleCheck mediaCheck function">
+                                        <label for="10901">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="26" type="checkbox" class="moduleCheck mediaCheck function">
-                                        <label for="26">
+                                        <input id="10902" type="checkbox" class="moduleCheck mediaCheck function">
+                                        <label for="10902">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="27" type="checkbox" class="moduleCheck mediaCheck function">
-                                        <label for="27">
+                                        <input id="10903" type="checkbox" class="moduleCheck mediaCheck function">
+                                        <label for="10903">
                                             删除
                                         </label>
                                     </div>
@@ -400,20 +400,20 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="28" type="checkbox" class="moduleCheck mediaTypeCheck function">
-                                        <label for="28">
+                                        <input id="11001" type="checkbox" class="moduleCheck mediaTypeCheck function">
+                                        <label for="11001">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="29" type="checkbox" class="moduleCheck mediaTypeCheck function">
-                                        <label for="29">
+                                        <input id="11002" type="checkbox" class="moduleCheck mediaTypeCheck function">
+                                        <label for="11002">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="30" type="checkbox" class="moduleCheck mediaTypeCheck function">
-                                        <label for="30">
+                                        <input id="11003" type="checkbox" class="moduleCheck mediaTypeCheck function">
+                                        <label for="11003">
                                             删除
                                         </label>
                                     </div>
@@ -439,20 +439,59 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="31" type="checkbox" class="moduleCheck deptCheck function">
-                                        <label for="31">
+                                        <input id="11101" type="checkbox" class="moduleCheck deptCheck function">
+                                        <label for="11101">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="32" type="checkbox" class="moduleCheck deptCheck function">
-                                        <label for="32">
+                                        <input id="11102" type="checkbox" class="moduleCheck deptCheck function">
+                                        <label for="11102">
                                             更新
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="33" type="checkbox" class="moduleCheck deptCheck function">
-                                        <label for="33">
+                                        <input id="11103" type="checkbox" class="moduleCheck deptCheck function">
+                                        <label for="11103">
+                                            删除
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            客户核算
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="customPayAllCheck" type="checkbox" class="moduleCheck">
+                                                <label for="customPayAllCheck">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="11201" type="checkbox" class="moduleCheck customPayCheck function">
+                                        <label for="11201">
+                                            新增
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="11202" type="checkbox" class="moduleCheck customPayCheck function">
+                                        <label for="11202">
+                                            更新
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="11203" type="checkbox" class="moduleCheck customPayCheck function">
+                                        <label for="11203">
                                             删除
                                         </label>
                                     </div>
@@ -460,21 +499,61 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        区域核算
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="checkbox checkbox-warning">
+                                            <input id="areaPayAllCheck" type="checkbox" class="moduleCheck">
+                                            <label for="areaPayAllCheck">
+                                                <b>全选</b>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="checkbox checkbox-success checkbox-inline ">
+                                    <input id="11301" type="checkbox" class="moduleCheck areaPayCheck function">
+                                    <label for="11301">
+                                        新增
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-success checkbox-inline ">
+                                    <input id="11302" type="checkbox" class="moduleCheck areaPayCheck function">
+                                    <label for="11302">
+                                        更新
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-success checkbox-inline ">
+                                    <input id="11303" type="checkbox" class="moduleCheck areaPayCheck function">
+                                    <label for="11303">
+                                        删除
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <div class="row">
                         <div class="col-md-2">
-                            <h5>需求管理</h5>
+                            <h5>流程申请</h5>
                         </div>
                         <div class="col-md-3">
-                            <div class="checkbox checkbox-success">
-                                <input id="adType_add" type="checkbox" class="function">
-                                <label for="adType_add">
+                            <div class="checkbox checkbox-warning">
+                                <input id="flowApplyAllCheck" type="checkbox" class="flowApplyCheck">
+                                <label for="flowApplyAllCheck">
                                     <b>全选</b>
                                 </label>
                             </div>
@@ -491,9 +570,9 @@
                                             综合计价
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="totalPricingAllCheck" type="checkbox" class="flowApplyCheck">
+                                                <label for="totalPricingAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -502,31 +581,12 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="pricing_add" type="checkbox" class="function">
-                                        <label for="pricing_add">
-                                            新增
-                                        </label>
-                                    </div>
-                                    <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="pricing_update" type="checkbox" class="function">
-                                        <label for="pricing_update">
-                                            更新
-                                        </label>
-                                    </div>
-                                    <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="pricing_del" type="checkbox" class="function">
-                                        <label for="pricing_del">
-                                            删除
-                                        </label>
-                                    </div>
-                                    <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="pricing_query" type="checkbox" class="function">
-                                        <label for="pricing_query">
-                                            查询
+                                        <input id="20101" type="checkbox" class="totalPricingCheck flowApplyCheck">
+                                        <label for="20101">
+                                            综合计价
                                         </label>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -537,9 +597,9 @@
                                             需求单
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="executeOrderAllCheck" type="checkbox" class="module flowApplyCheck">
+                                                <label for="executeOrderAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -547,6 +607,63 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20201" type="checkbox" class="executeOrderCheck flowApplyCheck">
+                                        <label for="20201">
+                                            新增
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20202" type="checkbox" class="executeOrderCheck flowApplyCheck">
+                                        <label for="20202">
+                                            修改
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20203" type="checkbox" class="executeOrderCheck flowApplyCheck">
+                                        <label for="20203">
+                                            删除
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            框架需求
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="executeOrderFrameAllCheck" type="checkbox" class="flowApplyCheck">
+                                                <label for="executeOrderFrameAllCheck">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20301" type="checkbox" class="executeOrderFrameCheck flowApplyCheck">
+                                        <label for="20301">
+                                            新增
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20302" type="checkbox" class="executeOrderFrameCheck flowApplyCheck">
+                                        <label for="20302">
+                                            修改
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20303" type="checkbox" class="executeOrderFrameCheck flowApplyCheck">
+                                        <label for="20303">
+                                            删除
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -558,9 +675,9 @@
                                             采购单
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="buyOrderAllCheck" type="checkbox" class="flowApplyCheck">
+                                                <label for="buyOrderAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -568,10 +685,90 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20401" type="checkbox" class="buyOrderCheck flowApplyCheck">
+                                        <label for="20401">
+                                            新增
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20402" type="checkbox" class="buyOrderCheck flowApplyCheck">
+                                        <label for="20402">
+                                            修改
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20403" type="checkbox" class="buyOrderCheck flowApplyCheck">
+                                        <label for="20403">
+                                            删除
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            框架采购
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="buyOrderFrameAllCheck" type="checkbox" class="flowApplyCheck">
+                                                <label for="buyOrderFrameAllCheck">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20501" type="checkbox" class="buyOrderFrameCheck flowApplyCheck">
+                                        <label for="20501">
+                                            新增
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20502" type="checkbox" class="buyOrderFrameCheck flowApplyCheck">
+                                        <label for="20502">
+                                            修改
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20503" type="checkbox" class="buyOrderFrameCheck flowApplyCheck">
+                                        <label for="20503">
+                                            删除
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h5>流程审批</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="checkbox checkbox-warning">
+                                <input id="flowAuditAllCheck" type="checkbox" class="flowAuditCheck">
+                                <label for="flowAuditAllCheck">
+                                    <b>全选</b>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-4">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
                                     <div class="row">
@@ -579,9 +776,9 @@
                                             待处理流程
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="undoAllCheck" type="checkbox" class="flowAuditCheck">
+                                                <label for="undoAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -589,10 +786,16 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="30101" type="checkbox" class="undoCheck flowAuditCheck">
+                                        <label for="30101">
+                                            办理
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
                                     <div class="row">
@@ -600,9 +803,9 @@
                                             运行中流程
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="doingAllCheck" type="checkbox" class="flowAuditCheck">
+                                                <label for="doingAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -610,10 +813,16 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="30201" type="checkbox" class="doingCheck flowAuditCheck">
+                                        <label for="30201">
+                                            查看
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
                                     <div class="row">
@@ -621,9 +830,9 @@
                                             已结束流程
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="doneAllCheck" type="checkbox" class="flowAuditCheck">
+                                                <label for="doneAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -631,6 +840,12 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="30301" type="checkbox" class="doneCheck flowAuditCheck">
+                                        <label for="30301">
+                                            查看
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -646,9 +861,9 @@
                             <h5>报表中心</h5>
                         </div>
                         <div class="col-md-3">
-                            <div class="checkbox checkbox-success">
-                                <input id="adType_add" type="checkbox" class="function">
-                                <label for="adType_add">
+                            <div class="checkbox checkbox-warning">
+                                <input id="reportAllCheck" type="checkbox" class="reportCheck">
+                                <label for="reportAllCheck">
                                     <b>全选</b>
                                 </label>
                             </div>
@@ -657,17 +872,17 @@
                 </div>
                 <div class="ibox-content">
                     <div class="row">
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            投放报告
+                                            分公司财务分析
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="branchAllCheck" type="checkbox" class="reportCheck">
+                                                <label for="branchAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -675,21 +890,27 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="40101" type="checkbox" class="branchCheck reportCheck">
+                                        <label for="40101">
+                                            查看
+                                        </label>
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            财务报告
+                                            采购报表
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="buyAllCheck" type="checkbox" class="reportCheck">
+                                                <label for="buyAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -697,20 +918,26 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="40201" type="checkbox" class="buyCheck reportCheck">
+                                        <label for="40201">
+                                            查看
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            管理报告
+                                            客户分析报表
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="customAnalyseAllCheck" type="checkbox" class="reportCheck">
+                                                <label for="customAnalyseAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -718,20 +945,26 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="40301" type="checkbox" class="customAnalyseCheck reportCheck">
+                                        <label for="40301">
+                                            查看
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            定制报告
+                                            销售报表
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="saleALLCheck" type="checkbox" class="reportCheck">
+                                                <label for="saleALLCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -739,6 +972,12 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="40401" type="checkbox" class="saleCheck reportCheck">
+                                        <label for="40401">
+                                            查看
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -754,9 +993,9 @@
                             <h5>系统管理</h5>
                         </div>
                         <div class="col-md-3">
-                            <div class="checkbox checkbox-success">
-                                <input id="adType_add" type="checkbox" class="function">
-                                <label for="adType_add">
+                            <div class="checkbox checkbox-warning">
+                                <input id="systemAllCheck" type="checkbox" class="systemCheck">
+                                <label for="systemAllCheck">
                                     <b>全选</b>
                                 </label>
                             </div>
@@ -773,9 +1012,9 @@
                                             用户管理
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="userAllCheck" type="checkbox" class="systemCheck">
+                                                <label for="userAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -783,6 +1022,24 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="50101" type="checkbox" class="userCheck systemCheck">
+                                        <label for="50101">
+                                            新增
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="50102" type="checkbox" class="userCheck systemCheck">
+                                        <label for="50102">
+                                            修改
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="50103" type="checkbox" class="userCheck systemCheck">
+                                        <label for="50103">
+                                            删除
+                                        </label>
+                                    </div>
                                 </div>
 
                             </div>
@@ -792,12 +1049,12 @@
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            权限管理
+                                            角色管理
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="authAllCheck" type="checkbox" class="systemCheck">
+                                                <label for="authAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -805,48 +1062,30 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="panel panel-warning">
-                                <div class="panel-heading">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            流程部署
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
-                                                    <b>全选</b>
-                                                </label>
-                                            </div>
-                                        </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="50201" type="checkbox" class="authCheck systemCheck">
+                                        <label for="50201">
+                                            新增
+                                        </label>
                                     </div>
-                                </div>
-                                <div class="panel-body">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="panel panel-warning">
-                                <div class="panel-heading">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            流程模型
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="module" type="checkbox" class="module function">
-                                                <label for="module">
-                                                    <b>全选</b>
-                                                </label>
-                                            </div>
-                                        </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="50202" type="checkbox" class="authCheck systemCheck">
+                                        <label for="50202">
+                                            修改
+                                        </label>
                                     </div>
-                                </div>
-                                <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="50203" type="checkbox" class="authCheck systemCheck">
+                                        <label for="50203">
+                                            删除
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="50204" type="checkbox" class="authCheck systemCheck">
+                                        <label for="50204">
+                                            授权
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -877,10 +1116,6 @@
             auth();
         })
         ## 项目基本信息的全选
-//        $("#moduleAllCheck").click(function(){
-//            this.blur();
-//            this.focus();
-//        })
         $("#moduleAllCheck").change(function(){
             var moduleCheck = $(".moduleCheck");
             if (this.checked) {
@@ -894,11 +1129,63 @@
             };
 
         })
+        ## 流程审批的全选
+        $("#flowAuditAllCheck").change(function(){
+            var moduleCheck = $(".flowAuditCheck");
+            if (this.checked) {
+                for (var i = 0; i < moduleCheck.length; i++) {
+                    moduleCheck[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < moduleCheck.length; i++) {
+                    moduleCheck[i].checked = false;
+                };
+            };
+
+        })
+        ## 流程申请的全选
+        $("#flowApplyAllCheck").change(function(){
+            var moduleCheck = $(".flowApplyCheck");
+            if (this.checked) {
+                for (var i = 0; i < moduleCheck.length; i++) {
+                    moduleCheck[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < moduleCheck.length; i++) {
+                    moduleCheck[i].checked = false;
+                };
+            };
+
+        })
+        ## 报表中心的全选
+        $("#reportAllCheck").change(function(){
+            var moduleCheck = $(".reportCheck");
+            if (this.checked) {
+                for (var i = 0; i < moduleCheck.length; i++) {
+                    moduleCheck[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < moduleCheck.length; i++) {
+                    moduleCheck[i].checked = false;
+                };
+            };
+
+        })
+        ## 报表中心的全选
+        $("#systemAllCheck").change(function(){
+            var moduleCheck = $(".systemCheck");
+            if (this.checked) {
+                for (var i = 0; i < moduleCheck.length; i++) {
+                    moduleCheck[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < moduleCheck.length; i++) {
+                    moduleCheck[i].checked = false;
+                };
+            };
+
+        })
         ## 广告类型的全选
-//        $("#adTypeAllCheck").click(function(){
-//            this.blur();
-//            this.focus();
-//        })
         $("#adTypeAllCheck").change(function(){
             var checkArr = $(".adTypeCheck");
             if (this.checked) {
@@ -913,10 +1200,6 @@
 
         })
         ## 客户行业的全选
-//        $("#industryAllCheck").click(function(){
-//            this.blur();
-//            this.focus();
-//        })
         $("#industryAllCheck").change(function(){
             var checkArr = $(".industryCheck");
             if (this.checked) {
@@ -931,10 +1214,6 @@
 
         })
         ## 监测机构的全选
-//        $("#monitorAllCheck").click(function(){
-//            this.blur();
-//            this.focus();
-//        })
         $("#monitorAllCheck").change(function(){
             var checkArr = $(".monitorCheck");
             if (this.checked) {
@@ -949,10 +1228,6 @@
 
         })
         ## 省市地域的全选
-//        $("#regionAllCheck").click(function(){
-//            this.blur();
-//            this.focus();
-//        })
         $("#regionAllCheck").change(function(){
             var checkArr = $(".regionCheck");
             if (this.checked) {
@@ -967,10 +1242,6 @@
 
         })
         ## 通讯录的全选
-//        $("#personAllCheck").click(function(){
-//            this.blur();
-//            this.focus();
-//        })
         $("#personAllCheck").change(function(){
             var checkArr = $(".personCheck");
             if (this.checked) {
@@ -985,10 +1256,6 @@
 
         })
         ## 客户管理的全选
-//        $("#customAllCheck").click(function(){
-//            this.blur();
-//            this.focus();
-//        })
         $("#customAllCheck").change(function(){
             var checkArr = $(".customCheck");
             if (this.checked) {
@@ -1003,10 +1270,6 @@
 
         })
         ## 区域的全选
-//        $("#areaAllCheck").click(function(){
-//            this.blur();
-//            this.focus();
-//        })
         $("#areaAllCheck").change(function(){
             var checkArr = $(".areaCheck");
             if (this.checked) {
@@ -1021,10 +1284,6 @@
 
         })
         ## 财务指标的全选
-//        $("#financialAllCheck").click(function(){
-//            this.blur();
-//            this.focus();
-//        })
         $("#financialAllCheck").change(function(){
             var checkArr = $(".financialCheck");
             if (this.checked) {
@@ -1039,10 +1298,6 @@
 
         })
         ## 媒体的全选
-//        $("#mediaAllCheck").click(function(){
-//            this.blur();
-//            this.focus();
-//        })
         $("#mediaAllCheck").change(function(){
             var checkArr = $(".mediaCheck");
             if (this.checked) {
@@ -1057,10 +1312,6 @@
 
         })
         ## 媒体类型的全选
-//        $("#mediaTypeAllCheck").click(function(){
-//            this.blur();
-//            this.focus();
-//        })
         $("#mediaTypeAllCheck").change(function(){
             var checkArr = $(".mediaTypeCheck");
             if (this.checked) {
@@ -1075,12 +1326,221 @@
 
         })
         ## 部门的全选
-//        $("#deptAllCheck").click(function(){
-//            this.blur();
-//            this.focus();
-//        })
         $("#deptAllCheck").change(function(){
             var checkArr = $(".deptCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 客户结算的全选
+        $("#customPayAllCheck").change(function(){
+            var checkArr = $(".customPayCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 区域结算的全选
+        $("#areaPayAllCheck").change(function(){
+            var checkArr = $(".areaPayCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 综合计价的全选
+        $("#totalPricingAllCheck").change(function(){
+            var checkArr = $(".totalPricingCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 需求单的全选
+        $("#executeOrderAllCheck").change(function(){
+            var checkArr = $(".executeOrderCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        ## 需求框架单的全选
+        $("#executeOrderFrameAllCheck").change(function(){
+            var checkArr = $(".executeOrderFrameCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        $("#buyOrderAllCheck").change(function(){
+            var checkArr = $(".buyOrderCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        $("#buyOrderFrameAllCheck").change(function(){
+            var checkArr = $(".buyOrderFrameCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        $("#undoAllCheck").change(function(){
+            var checkArr = $(".undoCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        $("#doingAllCheck").change(function(){
+            var checkArr = $(".doingCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        $("#doneAllCheck").change(function(){
+            var checkArr = $(".doneCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        $("#branchAllCheck").change(function(){
+            var checkArr = $(".branchCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        $("#saleALLCheck").change(function(){
+            var checkArr = $(".saleCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        $("#customAnalyseAllCheck").change(function(){
+            var checkArr = $(".customAnalyseCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        $("#buyAllCheck").change(function(){
+            var checkArr = $(".buyCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        $("#userAllCheck").change(function(){
+            var checkArr = $(".userCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+        $("#authAllCheck").change(function(){
+            var checkArr = $(".authCheck");
             if (this.checked) {
                 for (var i = 0; i < checkArr.length; i++) {
                     checkArr[i].checked = true;

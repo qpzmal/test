@@ -31,5 +31,10 @@ public class SysRoleRepoImpl extends AbstractRepo<SysRole> implements SysRoleRep
         return sysRoleMapper.queryAll();
     }
 
+    @Override
+    public SysRole findByIdAndName(Integer roleId, String name) {
+        return sysRoleMapper.queryByIdAndName(roleId, name);
+    }
+
 
 }

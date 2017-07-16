@@ -25,6 +25,14 @@ public interface SysRoleService {
     ResultJson<Object> updateRole(SysRole sysRole);
 
     /**
+     * 删除角色
+     *
+     * @param id
+     * @return
+     */
+    ResultJson<Void> removeRole(Integer id);
+
+    /**
      * 返回全部角色
      *
      * @return

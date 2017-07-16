@@ -71,7 +71,7 @@ public abstract class AbstractTreeService {
 
         Integer level = null;
 
-        AbstractTreeEntity oldBaseArea = getRepo().findOne(parentId);
+        AbstractTreeEntity oldBaseArea = getRepo().findOne(id);
         AssertUtil.assertNotNull(oldBaseArea);
         Integer oldParentId = oldBaseArea.getParentId();
 
@@ -90,11 +90,12 @@ public abstract class AbstractTreeService {
                 AssertUtil.assertNotNull(currentParentArea);
                 Integer currentLevel = currentParentArea.getLevel();
                 AssertUtil.assertNotNull(currentLevel);
+                currentLevel = currentLevel + 1;
 
                 Integer oldLevel = oldBaseArea.getLevel();
                 // 当前area的层级变化
                 if (!oldLevel.equals(currentLevel)) {
-                    level = currentLevel + 1;
+                    level = currentLevel;
                 }
             }
 

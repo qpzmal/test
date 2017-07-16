@@ -12,4 +12,6 @@ public interface SysRoleRepo extends IRepo<SysRole> {
 
     List<SysRole> findAll();
 
+    SysRole findByIdAndName(Integer roleId, String name);
+
 }

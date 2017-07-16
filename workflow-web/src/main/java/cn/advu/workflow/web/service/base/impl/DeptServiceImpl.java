@@ -90,6 +90,20 @@ public class DeptServiceImpl extends AbstractTreeService implements DeptService 
     }
 
     @Override
+    public ResultJson<Void> update(BaseDept baseDept) {
+        AssertUtil.assertNotNull(baseDept);
+        AssertUtil.assertNotNull(baseDept.getId());
+
+        // 设置level
+        this.resetLevel(baseDept);
+
+        ResultJson<Void> resultJson = new ResultJson();
+        baseDeptRepo.updateSelective(baseDept);
+
+        return resultJson;
+    }
+
+    @Override
     public ResultJson<BaseDept> findById(Integer id) {
         ResultJson<BaseDept> resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
         resultJson.setData(baseDeptRepo.findOne(id));

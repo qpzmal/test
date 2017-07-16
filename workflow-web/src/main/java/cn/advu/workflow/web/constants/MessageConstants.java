@@ -21,4 +21,10 @@ public interface MessageConstants {
     String AREA_IS_NOT_EXISTS="区域不存在";
     // 部门
     String ASSIGN_AREA_IS_NULL = "所属区域没有设置";
+    String DEPT_IS_NOT_EXISTS = "部门不存在";
+
+    // 角色
+    String ROLE_NAME_IS_NULL = "角色名称没有设置";
+    String ROLE_NAME_IS_DUPLICATED = "角色名称重复";
+    String ROLE_IS_USING = "有用户正在使用该角色，请先删除用户下的角色";
 }

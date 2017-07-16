@@ -4,11 +4,13 @@ import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseDept;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.dto.TreeNode;
 import cn.advu.workflow.domain.fcf_vu.DeptVO;
 import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.DeptService;
+import cn.advu.workflow.web.util.AssertUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,35 +43,23 @@ public class DeptController {
 
     @RequestMapping("/deptTreeList")
     public ResultJson<String> deptTreeList(Integer areaId) {
-        ResultJson resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
-        List<TreeNode> deptNodes = new LinkedList<>();
-        deptNodes.addAll(deptService.findAreaDeptNodeList(areaId).getData());
-        String deptTreeJson = JSONObject.toJSONString(deptNodes);
-        resultJson.setData(deptTreeJson);
+
+        // 部门树
+        String parentTreeJson = null;
+        if (areaId != null) {
+            parentTreeJson = treeMananger.converToTreeJsonStr(deptService.findAreaDeptNodeList(areaId).getData());
+        }
+
+        ResultJson<String>  resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        resultJson.setData(parentTreeJson);
         return resultJson;
     }
 
 
     @RequestMapping("/deptList")
     public String deptList(Integer areaId, Integer parentId, Model model){
-
-        // 区域树
-
-        // 部门树
-
         // 列表展示
-        List<DeptVO> deptVOList = null;
-
-        if (parentId != null) {
-
-            List<BaseDept> deptList = deptService.findChildDept(areaId, parentId).getData();
-
-            BaseArea baseArea = areaService.findById(areaId).getData();
-
-//            deptVOList = buildDeptVOList(deptList, baseArea);
-
-        }
-
+        List<DeptVO> deptVOList = deptService.findChildDeptWithName(areaId, parentId).getData();
         model.addAttribute("dataList", deptVOList);
 
         return "modules/dept/deptList";
@@ -136,6 +126,46 @@ public class DeptController {
     }
 
     /**
+     * 跳转更新部门页面
+     *
+     * @return
+     */
+    @RequestMapping("/toUpdate")
+    public String toUpdate(Integer id, Model model) {
+
+        // 区域树
+        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
+        BaseDept baseDept = deptService.findById(id).getData();
+        AssertUtil.assertNotNull(baseDept, MessageConstants.DEPT_IS_NOT_EXISTS);
+
+        Integer areaId = baseDept.getAreaId();
+        AssertUtil.assertNotNull(areaId);
+
+        // 部门树
+        String parentTreeJson = treeMananger.converToTreeJsonStr(deptService.findAreaDeptNodeList(areaId).getData());
+
+        // 区域名称
+        BaseArea baseArea = areaService.findById(areaId).getData();
+        String areaName = baseArea.getName();
+
+        Integer parentId = baseDept.getParentId();
+
+        String parentDeptName = "";
+        if (parentId != null && parentId.intValue() != 0) {
+            BaseDept parentDept = deptService.findById(parentId).getData();
+            parentDeptName = parentDept.getName();
+        }
+
+        model.addAttribute("parentName", parentDeptName);
+        model.addAttribute("areaName", areaName);
+        model.addAttribute("areaTreeJson", areaTreeJson);
+        model.addAttribute("parentTreeJson", parentTreeJson);
+        model.addAttribute("baseDept", baseDept);
+
+        return "modules/dept/update";
+    }
+
+    /**
      * 新增部门
      *
      * @return
@@ -143,31 +173,20 @@ public class DeptController {
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     public ResultJson<Integer> add(BaseDept baseDept, HttpServletRequest request){
+
         return deptService.add(baseDept);
     }
 
 
-//    private List<DeptVO> buildDeptVOList(List<BaseDept> deptList, BaseArea baseArea) {
-//
-//        List<DeptVO> deptVOList = new LinkedList<>();
-//
-//        for (BaseDept baseDept : deptList) {
-//
-//            DeptVO deptVO = new DeptVO();
-//            deptVO.setBaseDept(baseDept);
-//
-//            // 设置公司名称、上级部门名称
-//            Integer parentId = baseDept.getParentId();
-//            if (parentId != null && parentId != -1) {
-//                BaseDept parentDept = deptService.findById(parentId).getData();
-//                deptVO.setParentName(parentDept.getName());
-//            }
-//            deptVO.setAreaName(baseArea.getName());
-//
-//            deptVOList.add(deptVO);
-//        }
-//        return deptVOList;
-//    }
-
+    /**
+     * 新增部门
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/update", method = RequestMethod.POST)
+    public ResultJson<Void> update(BaseDept baseDept, HttpServletRequest request){
+        return deptService.update(baseDept);
+    }
 
 }
