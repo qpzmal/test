@@ -105,14 +105,14 @@ VALUES
 -- 初始化数据
 
 INSERT INTO `sys_role` (`activiti_name`, `name`, `description`, `is_system`, `sort`) VALUES
-	('customer4A', '4A', '4A客户', b'0', NULL),
-	('mediaGM', '媒介主管', '媒介主管', b'0', NULL),
-	('saler', '销售员工', '销售普通', b'0', NULL),
-	('salerDM', '销售主管', '销售主管', b'0', NULL),
-	('salerGM', '销售总经理', '销售总经理', b'0', NULL),
-	('financialGM', '财务主管', '财务主管', b'0', NULL),
-	('legalGM', '法务主管', '法务主管', b'0', NULL),
-	('media', '媒介员工', '媒介员工', b'0', NULL);
+	('customer4A', '4A', '4A客户', b'1', NULL),
+	('mediaGM', '媒介主管', '媒介主管', b'1', NULL),
+	('saler', '销售员工', '销售普通', b'1', NULL),
+	('salerDM', '销售主管', '销售主管', b'1', NULL),
+	('salerGM', '销售总经理', '销售总经理', b'1', NULL),
+	('financialGM', '财务主管', '财务主管', b'1', NULL),
+	('legalGM', '法务主管', '法务主管', b'1', NULL),
+	('media', '媒介员工', '媒介员工', b'1', NULL);
 INSERT INTO `act_id_group` (`ID_`, `REV_`, `NAME_`, `TYPE_`) VALUES
 	('legalGM', 1, '法务主管', ''),
 	('customer4A', 1, '4A', ''),
