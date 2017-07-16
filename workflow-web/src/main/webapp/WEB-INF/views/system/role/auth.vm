@@ -581,7 +581,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20101" type="checkbox" class="totalPricingCheck flowApplyCheck">
+                                        <input id="20101" type="checkbox" class="totalPricingCheck flowApplyCheck function">
                                         <label for="20101">
                                             综合计价
                                         </label>
@@ -608,19 +608,19 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20201" type="checkbox" class="executeOrderCheck flowApplyCheck">
+                                        <input id="20201" type="checkbox" class="executeOrderCheck flowApplyCheck function">
                                         <label for="20201">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20202" type="checkbox" class="executeOrderCheck flowApplyCheck">
+                                        <input id="20202" type="checkbox" class="executeOrderCheck flowApplyCheck function">
                                         <label for="20202">
                                             修改
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20203" type="checkbox" class="executeOrderCheck flowApplyCheck">
+                                        <input id="20203" type="checkbox" class="executeOrderCheck flowApplyCheck function">
                                         <label for="20203">
                                             删除
                                         </label>
@@ -647,19 +647,19 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20301" type="checkbox" class="executeOrderFrameCheck flowApplyCheck">
+                                        <input id="20301" type="checkbox" class="executeOrderFrameCheck flowApplyCheck function">
                                         <label for="20301">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20302" type="checkbox" class="executeOrderFrameCheck flowApplyCheck">
+                                        <input id="20302" type="checkbox" class="executeOrderFrameCheck flowApplyCheck function">
                                         <label for="20302">
                                             修改
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20303" type="checkbox" class="executeOrderFrameCheck flowApplyCheck">
+                                        <input id="20303" type="checkbox" class="executeOrderFrameCheck flowApplyCheck function">
                                         <label for="20303">
                                             删除
                                         </label>
@@ -686,19 +686,19 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20401" type="checkbox" class="buyOrderCheck flowApplyCheck">
+                                        <input id="20401" type="checkbox" class="buyOrderCheck flowApplyCheck function">
                                         <label for="20401">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20402" type="checkbox" class="buyOrderCheck flowApplyCheck">
+                                        <input id="20402" type="checkbox" class="buyOrderCheck flowApplyCheck function">
                                         <label for="20402">
                                             修改
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20403" type="checkbox" class="buyOrderCheck flowApplyCheck">
+                                        <input id="20403" type="checkbox" class="buyOrderCheck flowApplyCheck function">
                                         <label for="20403">
                                             删除
                                         </label>
@@ -725,19 +725,19 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20501" type="checkbox" class="buyOrderFrameCheck flowApplyCheck">
+                                        <input id="20501" type="checkbox" class="buyOrderFrameCheck flowApplyCheck function">
                                         <label for="20501">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20502" type="checkbox" class="buyOrderFrameCheck flowApplyCheck">
+                                        <input id="20502" type="checkbox" class="buyOrderFrameCheck flowApplyCheck function">
                                         <label for="20502">
                                             修改
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20503" type="checkbox" class="buyOrderFrameCheck flowApplyCheck">
+                                        <input id="20503" type="checkbox" class="buyOrderFrameCheck flowApplyCheck function">
                                         <label for="20503">
                                             删除
                                         </label>
@@ -787,7 +787,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="30101" type="checkbox" class="undoCheck flowAuditCheck">
+                                        <input id="30101" type="checkbox" class="undoCheck flowAuditCheck function">
                                         <label for="30101">
                                             办理
                                         </label>
@@ -814,7 +814,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="30201" type="checkbox" class="doingCheck flowAuditCheck">
+                                        <input id="30201" type="checkbox" class="doingCheck flowAuditCheck function">
                                         <label for="30201">
                                             查看
                                         </label>
@@ -841,7 +841,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="30301" type="checkbox" class="doneCheck flowAuditCheck">
+                                        <input id="30301" type="checkbox" class="doneCheck flowAuditCheck function">
                                         <label for="30301">
                                             查看
                                         </label>
@@ -891,7 +891,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="40101" type="checkbox" class="branchCheck reportCheck">
+                                        <input id="40101" type="checkbox" class="branchCheck reportCheck function">
                                         <label for="40101">
                                             查看
                                         </label>
@@ -919,7 +919,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="40201" type="checkbox" class="buyCheck reportCheck">
+                                        <input id="40201" type="checkbox" class="buyCheck reportCheck function">
                                         <label for="40201">
                                             查看
                                         </label>
@@ -946,7 +946,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="40301" type="checkbox" class="customAnalyseCheck reportCheck">
+                                        <input id="40301" type="checkbox" class="customAnalyseCheck reportCheck function">
                                         <label for="40301">
                                             查看
                                         </label>
@@ -973,7 +973,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="40401" type="checkbox" class="saleCheck reportCheck">
+                                        <input id="40401" type="checkbox" class="saleCheck reportCheck function">
                                         <label for="40401">
                                             查看
                                         </label>
@@ -1023,19 +1023,19 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="50101" type="checkbox" class="userCheck systemCheck">
+                                        <input id="50101" type="checkbox" class="userCheck systemCheck function">
                                         <label for="50101">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="50102" type="checkbox" class="userCheck systemCheck">
+                                        <input id="50102" type="checkbox" class="userCheck systemCheck function">
                                         <label for="50102">
                                             修改
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="50103" type="checkbox" class="userCheck systemCheck">
+                                        <input id="50103" type="checkbox" class="userCheck systemCheck function">
                                         <label for="50103">
                                             删除
                                         </label>
@@ -1063,25 +1063,25 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="50201" type="checkbox" class="authCheck systemCheck">
+                                        <input id="50201" type="checkbox" class="authCheck systemCheck function">
                                         <label for="50201">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="50202" type="checkbox" class="authCheck systemCheck">
+                                        <input id="50202" type="checkbox" class="authCheck systemCheck function">
                                         <label for="50202">
                                             修改
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="50203" type="checkbox" class="authCheck systemCheck">
+                                        <input id="50203" type="checkbox" class="authCheck systemCheck function">
                                         <label for="50203">
                                             删除
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="50204" type="checkbox" class="authCheck systemCheck">
+                                        <input id="50204" type="checkbox" class="authCheck systemCheck function">
                                         <label for="50204">
                                             授权
                                         </label>
@@ -1114,6 +1114,10 @@
         ## 保存
         $(".btn-primary").click(function(){
             auth();
+        })
+        // 返回
+        $(".btn-default").click(function(){
+            history.go(-1);
         })
         ## 项目基本信息的全选
         $("#moduleAllCheck").change(function(){
@@ -1592,6 +1596,7 @@
             var selectedFunctionJsonStr = JSON.stringify(selectedFunctionIds);
             return selectedFunctionJsonStr;
         }
+
         $().ready(
                 function(){
                     var roleFunctionList = ${roleFunctionList};
