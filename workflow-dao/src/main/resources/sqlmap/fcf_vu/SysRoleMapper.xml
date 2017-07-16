@@ -115,13 +115,24 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-
-
-
   <!-- 以上为自动生成SQL，以下为自定义SQL -->
   <select id="queryAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from sys_role
   </select>
+
+  <!-- 查询名称不同的记录 -->
+  <select id="queryByIdAndName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_role
+    where del_flag = 0
+    <if test="id != null">
+      <![CDATA[ and sys_role.id <> #{id, jdbcType=INTEGER}]]>
+    </if>
+    <![CDATA[ and sys_role.name = #{name, jdbcType=VARCHAR}]]>
+    limit 1
+  </select>
+
 </mapper>

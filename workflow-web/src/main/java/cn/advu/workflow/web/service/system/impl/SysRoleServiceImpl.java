@@ -8,9 +8,13 @@ import cn.advu.workflow.repo.fcf_vu.SysRoleRepo;
 import cn.advu.workflow.repo.fcf_vu.SysUserRoleRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.constants.MessageConstants;
+import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.manager.BizLogManager;
+import cn.advu.workflow.web.manager.RoleManager;
 import cn.advu.workflow.web.service.system.SysRoleService;
+import cn.advu.workflow.web.util.AssertUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.rowset.serial.SerialException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,8 +36,12 @@ public class SysRoleServiceImpl implements SysRoleService {
     private SysRoleRepo sysRoleRepo;
     @Autowired
     private SysUserRoleRepo sysUserRoleRepo;
+
     @Autowired
-    ActivitiFacade activitiFacade;
+    RoleManager roleManager;
+
+//    @Autowired
+//    ActivitiFacade activitiFacade;
 
     @Autowired
     BizLogManager bizLogManager;
@@ -139,31 +148,57 @@ public class SysRoleServiceImpl implements SysRoleService {
         return rj;
     }
 
-
     @Override
     @Transactional
     public ResultJson<Object> addRole(SysRole sysRole) {
+
+        // 角色名称不能重复
+        String roleName = sysRole.getName();
+        AssertUtil.assertNotNull(roleName, MessageConstants.ROLE_NAME_IS_NULL);
+        if (roleManager.isNameDuplicated(sysRole.getId(), roleName)) {
+            throw new ServiceException(MessageConstants.ROLE_NAME_IS_DUPLICATED);
+        }
+
         int result = sysRoleRepo.addSelective(sysRole);//添加角色
-        activitiFacade.createGroup(sysRole);
+//        activitiFacade.createGroup(sysRole);
         if(result != 1){
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建角色失败!");
+            throw new ServiceException("创建角色失败!");
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
     @Override
     public ResultJson<Object> updateRole(SysRole sysRole) {
-        ResultJson<Object> rj = new ResultJson<>();
+
         Integer id = sysRole.getId();
-        if (id == null) {
-            rj.setCode(WebConstants.OPERATION_FAILURE);
-            return rj;
+        AssertUtil.assertNotNull(id);
+
+        // 角色名称不能为空，不能重复
+        String roleName = sysRole.getName();
+        AssertUtil.assertNotNullOrEmpty(roleName, MessageConstants.ROLE_NAME_IS_NULL);
+        if (roleManager.isNameDuplicated(sysRole.getId(), roleName)) {
+            throw new ServiceException(MessageConstants.ROLE_NAME_IS_DUPLICATED);
         }
+
         int result = sysRoleRepo.updateSelective(sysRole);
         if(result != 1){
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建角色失败!");
+            throw new ServiceException("修改角色失败!");
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
+    @Override
+    public ResultJson<Void> removeRole(Integer id) {
+        AssertUtil.assertNotNull(id);
+
+        // ROLE 下有没有User,如果有则不能删除。
+        List<SysUserRole> sysUserRoleList = sysUserRoleRepo.findRoleUser(id);
+        if (sysUserRoleList != null && !sysUserRoleList.isEmpty()) {
+            throw new ServiceException(MessageConstants.ROLE_IS_USING);
+        }
+        // TODO 删除角色，则，角色下的function也要删除。
+
+        return null;
     }
 
     @Override
