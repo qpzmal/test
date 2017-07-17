@@ -102,7 +102,90 @@ VALUES
 	(50204, '角色授权', 0, 0, 0, 502, NULL);
 
 
+-- 管理员初始化
+-- 93d6f2648c6f590a7bc8cd0be9243149--123456
+-- f7ad7cc1c8ee8431b0a8c3abb872a33c--111111
+INSERT INTO `sys_user` ( `id`,`login_name`, `user_name`, `password`, `mobile`, `phone`, `address`, `email`, `dept`, `lockedDate`, `login_fail_count`, `sort`, `dept_id`, `last_login_time`, `del_flag`, `item_status`)
+VALUES (1, 'admin', 'admin', '93d6f2648c6f590a7bc8cd0be9243149', '', '', '', '', '', NULL, NULL, NULL, NULL, 1500290298281, 0, 0, );
+
+
+INSERT INTO `sys_role` (`id`, `activiti_name`, `name`, `description`, `is_system`, `sort`, `del_flag`) VALUES (1, '', 'admin', 'admin', b'1', NULL, 0, );
+
+
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1 10101, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1 10102, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1 10103, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1 10201, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1 10202, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1 10203, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1 10301, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1 10302, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1 10303, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10401, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10402, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10403, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10501, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10502, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10503, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10601, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10602, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10603, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10701, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10702, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10703, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10801, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10802, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10803, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10901, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10902, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10903, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 11001, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 11002, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 11003, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 11101, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 11102, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 11103, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 11201, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 11202, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 11203, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 11301, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 11302, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 11303, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20101, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20201, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20202, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20203, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20301, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20302, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20303, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20401, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20402, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20403, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20501, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20502, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20503, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30101, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30201, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30301, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 40101, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 40201, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 40301, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 40401, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 50101, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 50102, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 50103, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 50201, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 50202, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 50203, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 50204, '', 0, NULL, NULL, 0);
+
+
 -- 初始化数据
+
+
+
+
+
 
 INSERT INTO `sys_role` (`activiti_name`, `name`, `description`, `is_system`, `sort`) VALUES
 	('customer4A', '4A', '4A客户', b'1', NULL),
@@ -162,7 +245,7 @@ INSERT INTO `sys_role` (`activiti_name`, `name`, `description`, `is_system`, `so
 VALUES
 	('', 'test1', 'test1', b'1', NULL), -- id=9 全部权限
 	('', 'test2', 'test2', b'1', NULL) -- id=10 基本权限
-	('', 'test3', 'test3', b'1', NULL) -- id=11 报表权限
+	('', 'test3', 'test3', b'1', NULL); -- id=11 报表权限
 INSERT INTO `sys_user_role` (`admins`, `roles`)
 VALUES
    (9, 9), -- id=2
@@ -171,4 +254,4 @@ INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`,
 (11, 40101, '', 0, NULL, NULL, 0),
 (11, 40201, '', 0, NULL, NULL, 0),
 (11, 40301, '', 0, NULL, NULL, 0),
-(11, 40401, '', 0, NULL, NULL, 0)
+(11, 40401, '', 0, NULL, NULL, 0);
