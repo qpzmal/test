@@ -256,4 +256,12 @@
     and parent_id = #{id, jdbcType=INTEGER}
   </select>
 
+  <select id="queryCustomListByCustomType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_custom
+    where del_flag = 0 and item_status = 0
+    and custom_type = #{customType, jdbcType=TINYINT}
+  </select>
+
 </mapper>

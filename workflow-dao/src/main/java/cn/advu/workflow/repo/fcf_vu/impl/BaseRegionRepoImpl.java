@@ -2,6 +2,7 @@ package cn.advu.workflow.repo.fcf_vu.impl;
 
 import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.dao.fcf_vu.BaseRegionMapper;
+import cn.advu.workflow.domain.enums.ItemStatusEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseRegion;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseRegionRepo;
@@ -27,6 +28,11 @@ public class BaseRegionRepoImpl extends AbstractRepo<BaseRegion> implements Base
 
     @Override
     public List<BaseRegion> findAll() {
+        return baseRegionMapper.queryAll();
+    }
+
+    @Override
+    public List<BaseRegion> findAllActiveRegion() {
         return baseRegionMapper.queryAll();
     }
 }

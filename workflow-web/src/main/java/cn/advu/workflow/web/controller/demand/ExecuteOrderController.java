@@ -2,9 +2,11 @@ package cn.advu.workflow.web.controller.demand;
 
 import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.manager.*;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
+import cn.advu.workflow.web.service.base.PersonService;
 import com.alibaba.fastjson.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +35,41 @@ public class ExecuteOrderController {
 
     @Autowired
     MonitorRequestService monitorRequestService;
+
+    @Autowired
+    TreeMananger treeMananger;
+
+    @Autowired
+    PersonMananger personMananger;
+
+    @Autowired
+    CustomMananger customMananger;
+
+    @Autowired
+    IndustryManager industryManager;
+
+    @Autowired
+    RegionManager regionManager;
+
+    @RequestMapping("/signCompanySelect")
+    public String signCompanySelect(Integer signType, Model model){
+        List<BaseCustom> signCompanyList = null;
+        if (signType != null) {
+            signCompanyList = customMananger.findCustomListByCustomType(signType);
+        }
+        model.addAttribute("signCompanyList", signCompanyList);
+        return "demand/executeOrder/signCompanySelect";
+    }
+
+    @RequestMapping("/customSelect")
+    public String customSelect(Integer signCustomId, Model model){
+        List<BaseCustom> customList = null;
+        if (signCustomId != null) {
+            customList = customMananger.findChildCustom(signCustomId);
+        }
+        model.addAttribute("customList", customList);
+        return "demand/executeOrder/customSelect";
+    }
 
     /**
      * 跳转需求单首页-需求单列表页
@@ -76,15 +113,24 @@ public class ExecuteOrderController {
      */
     @RequestMapping("/toAdd")
     public String toAdd(Model resultModel){
-        List<BaseExecuteOrder> executeOrderList = executeOrderService.findAll().getData();
-        resultModel.addAttribute("executeOrderList", executeOrderList);
 
-        List<BaseArea> areaList = areaService.findAll().getData();
-        resultModel.addAttribute("areaList", areaList);
-        resultModel.addAttribute("areaListJson", JSONArray.toJSON(areaList));
+        Integer areaId = 6;
 
+        // 区域树
+        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
+        resultModel.addAttribute("areaTreeJson", areaTreeJson);
+        // 项目负责人ID
+        List<BasePerson> leaderList = personMananger.findPersonListByArea(areaId);
+        // 监测机构
         List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
+        List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
+
+        List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
+
         resultModel.addAttribute("monitorRequestList", baseMonitorRequestList);
+        resultModel.addAttribute("leaderList", leaderList);
+        resultModel.addAttribute("industryList", industryList);
+        resultModel.addAttribute("regionList", regionList);
 
         return "demand/executeOrder/add";
     }

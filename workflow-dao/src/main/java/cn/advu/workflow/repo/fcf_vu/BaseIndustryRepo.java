@@ -11,4 +11,6 @@ import java.util.List;
 public interface BaseIndustryRepo extends IRepo<BaseIndustry> {
 
     List<BaseIndustry> findAll();
+
+    List<BaseIndustry> findEnabledAll();
 }

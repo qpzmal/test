@@ -42,4 +42,14 @@ public class PersonMananger {
         }
         return hasPerson;
     }
+
+    /**
+     * 返回区域下的所有通讯录
+     *
+     * @param areaId
+     * @return
+     */
+    public List<BasePerson> findPersonListByArea(Integer areaId) {
+        return basePersonRepo.findPersonListByArea(areaId);
+    }
 }

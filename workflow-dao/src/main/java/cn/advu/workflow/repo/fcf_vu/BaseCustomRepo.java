@@ -20,4 +20,6 @@ public interface BaseCustomRepo extends IRepo<BaseCustom> {
     List<BaseCustom> find4AChildCustom(Integer id);
 
     List<BaseCustom> findAllChildCustom(Integer id);
+
+    List<BaseCustom> findCustomListByCustomType(Integer customType);
 }

@@ -53,6 +53,11 @@ public class BaseCustomRepoImpl extends AbstractRepo<BaseCustom> implements Base
     }
 
     @Override
+    public List<BaseCustom> findCustomListByCustomType(Integer customType) {
+        return baseCustomMapper.queryCustomListByCustomType(customType);
+    }
+
+    @Override
     public int add(BaseCustom entity) {
         int count = 0;
         if (entity != null) {

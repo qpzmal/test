@@ -19,5 +19,7 @@ public interface BaseCustomMapper extends BaseDAO<BaseCustom>{
 
     List<BaseCustom> queryAllChildCustom(@Param("id") Integer id);
 
+    List<BaseCustom> queryCustomListByCustomType(@Param("customType") Integer customType);
+
 
 }
