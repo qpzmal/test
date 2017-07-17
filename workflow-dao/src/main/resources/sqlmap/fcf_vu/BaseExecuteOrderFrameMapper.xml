@@ -11,6 +11,9 @@
     <result column="delivery_area_ids" jdbcType="VARCHAR" property="deliveryAreaIds" />
     <result column="delivery_area_names" jdbcType="VARCHAR" property="deliveryAreaNames" />
     <result column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="custom_sign_id" jdbcType="INTEGER" property="customSignId" />
+    <result column="custom_adverser_id" jdbcType="INTEGER" property="customAdverserId" />
+    <result column="industry_id" jdbcType="INTEGER" property="industryId" />
     <result column="person_sales_id" jdbcType="INTEGER" property="personSalesId" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
     <result column="public_rebate" jdbcType="DECIMAL" property="publicRebate" />
@@ -39,9 +42,9 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, process_instance_id, name, order_num, sec_order_num, order_date, delivery_area_ids, delivery_area_names,
-    area_id, person_sales_id, amount, public_rebate, private_rebate, tax_amount, tax_free_amount, 
-    monitor_ids, monitor_names, start_date, end_date, person_leader_id, our_monitor_name, 
-    report_type_id, status, "signing intention", person_payee_id, pay_percent, user_id, 
+    area_id, person_sales_id, amount, public_rebate, private_rebate, tax_amount, tax_free_amount,
+    monitor_ids, monitor_names, start_date, end_date, person_leader_id, our_monitor_name,
+    report_type_id, status, "signing intention", person_payee_id, pay_percent, user_id,
     account_period, del_flag, item_status, create_time, update_time, remark, frame_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -55,30 +58,32 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
-    insert into base_execute_order_frame (id, process_instance_id, name, order_num,
-      sec_order_num, order_date, delivery_area_ids, 
-      delivery_area_names, area_id, person_sales_id, 
-      amount, public_rebate, private_rebate, 
-      tax_amount, tax_free_amount, monitor_ids, 
-      monitor_names, start_date, end_date, 
-      person_leader_id, our_monitor_name, report_type_id, 
-      status, "signing intention", person_payee_id, 
-      pay_percent, user_id, account_period, 
-      del_flag, item_status, create_time, 
-      update_time, remark, frame_id
-      )
-    values (#{id,jdbcType=INTEGER}, #{processInstanceId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR},
-      #{secOrderNum,jdbcType=VARCHAR}, #{orderDate,jdbcType=TIMESTAMP}, #{deliveryAreaIds,jdbcType=VARCHAR}, 
-      #{deliveryAreaNames,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, #{personSalesId,jdbcType=INTEGER}, 
-      #{amount,jdbcType=DECIMAL}, #{publicRebate,jdbcType=DECIMAL}, #{privateRebate,jdbcType=DECIMAL}, 
-      #{taxAmount,jdbcType=DECIMAL}, #{taxFreeAmount,jdbcType=DECIMAL}, #{monitorIds,jdbcType=VARCHAR}, 
-      #{monitorNames,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
-      #{personLeaderId,jdbcType=INTEGER}, #{ourMonitorName,jdbcType=VARCHAR}, #{reportTypeId,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{signingIntention,jdbcType=VARCHAR}, #{personPayeeId,jdbcType=INTEGER}, 
-      #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, #{accountPeriod,jdbcType=INTEGER}, 
-      #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP},
-      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{frameId,jdbcType=INTEGER}
-      )
+    insert into base_execute_order_frame (id, process_instance_id, name,
+      order_num, sec_order_num, order_date,
+      delivery_area_ids, delivery_area_names, area_id,
+      custom_sign_id, custom_adverser_id, industry_id,
+      person_sales_id, amount, public_rebate,
+      private_rebate, tax_amount, tax_free_amount,
+      monitor_ids, monitor_names, start_date,
+      end_date, person_leader_id, our_monitor_name,
+      report_type_id, status, "signing intention",
+      person_payee_id, pay_percent, user_id,
+      account_period, del_flag, item_status,
+      create_time, update_time, remark,
+      frame_id)
+    values (#{id,jdbcType=INTEGER}, #{processInstanceId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{orderNum,jdbcType=VARCHAR}, #{secOrderNum,jdbcType=VARCHAR}, #{orderDate,jdbcType=TIMESTAMP},
+      #{deliveryAreaIds,jdbcType=VARCHAR}, #{deliveryAreaNames,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER},
+      #{customSignId,jdbcType=INTEGER}, #{customAdverserId,jdbcType=INTEGER}, #{industryId,jdbcType=INTEGER},
+      #{personSalesId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, #{publicRebate,jdbcType=DECIMAL},
+      #{privateRebate,jdbcType=DECIMAL}, #{taxAmount,jdbcType=DECIMAL}, #{taxFreeAmount,jdbcType=DECIMAL},
+      #{monitorIds,jdbcType=VARCHAR}, #{monitorNames,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP},
+      #{endDate,jdbcType=TIMESTAMP}, #{personLeaderId,jdbcType=INTEGER}, #{ourMonitorName,jdbcType=VARCHAR},
+      #{reportTypeId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{signingIntention,jdbcType=VARCHAR},
+      #{personPayeeId,jdbcType=INTEGER}, #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER},
+      #{accountPeriod,jdbcType=INTEGER}, #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR},
+      #{frameId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_execute_order_frame
@@ -109,6 +114,15 @@
       </if>
       <if test="areaId != null">
         area_id,
+      </if>
+      <if test="customSignId != null">
+        custom_sign_id,
+      </if>
+      <if test="customAdverserId != null">
+        custom_adverser_id,
+      </if>
+      <if test="industryId != null">
+        industry_id,
       </if>
       <if test="personSalesId != null">
         person_sales_id,
@@ -214,6 +228,15 @@
       <if test="areaId != null">
         #{areaId,jdbcType=INTEGER},
       </if>
+      <if test="customSignId != null">
+        #{customSignId,jdbcType=INTEGER},
+      </if>
+      <if test="customAdverserId != null">
+        #{customAdverserId,jdbcType=INTEGER},
+      </if>
+      <if test="industryId != null">
+        #{industryId,jdbcType=INTEGER},
+      </if>
       <if test="personSalesId != null">
         #{personSalesId,jdbcType=INTEGER},
       </if>
@@ -318,6 +341,15 @@
       <if test="areaId != null">
         area_id = #{areaId,jdbcType=INTEGER},
       </if>
+      <if test="customSignId != null">
+        custom_sign_id = #{customSignId,jdbcType=INTEGER},
+      </if>
+      <if test="customAdverserId != null">
+        custom_adverser_id = #{customAdverserId,jdbcType=INTEGER},
+      </if>
+      <if test="industryId != null">
+        industry_id = #{industryId,jdbcType=INTEGER},
+      </if>
       <if test="personSalesId != null">
         person_sales_id = #{personSalesId,jdbcType=INTEGER},
       </if>
@@ -398,8 +430,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame">
     update base_execute_order_frame
-    set
-      process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+    set process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       order_num = #{orderNum,jdbcType=VARCHAR},
       sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
@@ -407,6 +438,9 @@
       delivery_area_ids = #{deliveryAreaIds,jdbcType=VARCHAR},
       delivery_area_names = #{deliveryAreaNames,jdbcType=VARCHAR},
       area_id = #{areaId,jdbcType=INTEGER},
+      custom_sign_id = #{customSignId,jdbcType=INTEGER},
+      custom_adverser_id = #{customAdverserId,jdbcType=INTEGER},
+      industry_id = #{industryId,jdbcType=INTEGER},
       person_sales_id = #{personSalesId,jdbcType=INTEGER},
       amount = #{amount,jdbcType=DECIMAL},
       public_rebate = #{publicRebate,jdbcType=DECIMAL},

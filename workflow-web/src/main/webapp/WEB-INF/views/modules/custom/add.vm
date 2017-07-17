@@ -156,7 +156,6 @@
         var address = $("#address").val();
         var email = $("#email").val();
         var remark = $("#remark").val();
-        var customIndustryId = $(".chosen-select").val();
         var customType = $("#custom_type").val();
         var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
@@ -167,7 +166,6 @@
                 name:name,
                 parentId:parentId,
                 contacts:contacts,
-                customIndustryId:customIndustryId,
                 mobile:mobile,
                 address:address,
                 email:email,

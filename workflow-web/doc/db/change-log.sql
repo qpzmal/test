@@ -6,6 +6,19 @@
 -- 1.20170620 兆华建立
 
 
+ALTER TABLE `base_execute_order`
+	ADD COLUMN `custom_sign_id` int(11) NOT NULL DEFAULT 0 COMMENT '签约公司id，关联客户表' AFTER `area_id`;
+ALTER TABLE `base_execute_order`
+	ADD COLUMN `custom_adverser_id` int(11) NOT NULL DEFAULT 0 COMMENT '广告主id，关联custom表' AFTER `custom_sign_id`;
+ALTER TABLE `base_execute_order`
+	ADD COLUMN `industry_id` int(11) NOT NULL DEFAULT 0 COMMENT '行业id，关连行业表' AFTER `custom_adverser_id`;
+
+ALTER TABLE `base_execute_order_frame`
+	ADD COLUMN `custom_sign_id` int(11) NOT NULL DEFAULT 0 COMMENT '签约公司id，关联客户表' AFTER `area_id`;
+ALTER TABLE `base_execute_order_frame`
+	ADD COLUMN `custom_adverser_id` int(11) NOT NULL DEFAULT 0 COMMENT '广告主id，关联custom表' AFTER `custom_sign_id`;
+ALTER TABLE `base_execute_order_frame`
+	ADD COLUMN `industry_id` int(11) NOT NULL DEFAULT 0 COMMENT '行业id，关连行业表' AFTER `custom_adverser_id`;
 
 
 

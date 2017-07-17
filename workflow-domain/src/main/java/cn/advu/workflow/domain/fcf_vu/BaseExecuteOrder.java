@@ -26,6 +26,12 @@ public class BaseExecuteOrder extends AbstractEntity {
 
     private Integer areaId;
 
+    private Integer customSignId;
+
+    private Integer customAdverserId;
+
+    private Integer industryId;
+
     private Integer personSalesId;
 
     private BigDecimal amount;
@@ -75,7 +81,7 @@ public class BaseExecuteOrder extends AbstractEntity {
     }
 
     public void setProcessInstanceId(String processInstanceId) {
-        this.processInstanceId = processInstanceId;
+        this.processInstanceId = processInstanceId == null ? null : processInstanceId.trim();
     }
 
     public List<BaseOrderCpm> getBaseOrderCpmList() {
@@ -156,6 +162,30 @@ public class BaseExecuteOrder extends AbstractEntity {
 
     public void setAreaId(Integer areaId) {
         this.areaId = areaId;
+    }
+
+    public Integer getCustomSignId() {
+        return customSignId;
+    }
+
+    public void setCustomSignId(Integer customSignId) {
+        this.customSignId = customSignId;
+    }
+
+    public Integer getCustomAdverserId() {
+        return customAdverserId;
+    }
+
+    public void setCustomAdverserId(Integer customAdverserId) {
+        this.customAdverserId = customAdverserId;
+    }
+
+    public Integer getIndustryId() {
+        return industryId;
+    }
+
+    public void setIndustryId(Integer industryId) {
+        this.industryId = industryId;
     }
 
     public Integer getPersonSalesId() {
