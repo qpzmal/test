@@ -66,36 +66,36 @@
                     <li>
                         <a href="#">分公司财务分析 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem" style="display:none" functionid="40100" href="${rc.contextPath}/report/area/balance">损益分析</a>
+                            <li><a class="J_menuItem J_menuItem_40100" style="display:none" functionid="40100" href="${rc.contextPath}/report/area/balance">损益分析</a>
                             </li>
-                            <li><a class="J_menuItem" style="display:none" functionid="40100" href="${rc.contextPath}/report/area/budget">预算完成度分析</a>
+                            <li><a class="J_menuItem J_menuItem_40100" style="display:none" functionid="40100" href="${rc.contextPath}/report/area/budget">预算完成度分析</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="#">采购报表 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem" style="display:none" functionid="40200" href="${rc.contextPath}/report/buy/resource">资源类别</a>
+                            <li><a class="J_menuItem J_menuItem_40200" style="display:none" functionid="40200" href="${rc.contextPath}/report/buy/resource">资源类别</a>
                             </li>
-                            <li><a class="J_menuItem" style="display:none" functionid="40200" href="${rc.contextPath}/report/buy/area">厂商</a>
+                            <li><a class="J_menuItem J_menuItem_40200" style="display:none" functionid="40200" href="${rc.contextPath}/report/buy/area">厂商</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="#">客户分析报表 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem" style="display:none" functionid="40300" href="${rc.contextPath}/report/customer/profit">毛利/净利贡献率</a>
+                            <li><a class="J_menuItem J_menuItem_40300" style="display:none" functionid="40300" href="${rc.contextPath}/report/customer/profit">毛利/净利贡献率</a>
                             </li>
-                            <li><a class="J_menuItem" style="display:none" functionid="40300" href="${rc.contextPath}/report/customer/pay">回款汇总</a>
+                            <li><a class="J_menuItem J_menuItem_40300" style="display:none" functionid="40300" href="${rc.contextPath}/report/customer/pay">回款汇总</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="#">销售报表 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem" style="display:none" functionid="40400" href="${rc.contextPath}/report/sale/history">历史订单</a>
+                            <li><a class="J_menuItem J_menuItem_40400" style="display:none" functionid="40400" href="${rc.contextPath}/report/sale/history">历史订单</a>
                             </li>
-                            <li><a class="J_menuItem" style="display:none" functionid="40400" href="${rc.contextPath}/report/sale/feature">未来订单</a>
+                            <li><a class="J_menuItem J_menuItem_40400" style="display:none" functionid="40400" href="${rc.contextPath}/report/sale/feature">未来订单</a>
                             </li>
                         </ul>
                     </li>
@@ -137,7 +137,7 @@
                         <a class="J_menuItem" style="display:none" functionid="50100" href="${rc.contextPath}/user/index">用户管理</a>
                         <a class="J_menuItem" style="display:none" functionid="50200" href="${rc.contextPath}/role/index">权限管理</a>
                         <a class="J_menuItem admin-item" style="display:none" href="${rc.contextPath}/workflow/model/index">流程模型</a>
-                        <a class="J_menuItem admin-item" style="display:none" href="${rc.contextPath}/system/index">系统管理</a>
+##                        <a class="J_menuItem admin-item" style="display:none" href="${rc.contextPath}/system/index">系统管理</a>
 ##                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/workflow/deploy/index">流程部署</a>
                     </li>
                 </ul>

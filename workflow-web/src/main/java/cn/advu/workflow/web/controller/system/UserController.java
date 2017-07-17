@@ -1,6 +1,5 @@
 package cn.advu.workflow.web.controller.system;
 
-import cn.advu.workflow.common.utils.md5.StrMD5;
 import cn.advu.workflow.domain.fcf_vu.SysFuction;
 import cn.advu.workflow.domain.fcf_vu.SysRole;
 import cn.advu.workflow.domain.fcf_vu.SysUser;
