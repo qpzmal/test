@@ -43,7 +43,6 @@ public class DeptController {
 
     @RequestMapping("/deptTreeList")
     public ResultJson<String> deptTreeList(Integer areaId) {
-
         // 部门树
         String parentTreeJson = null;
         if (areaId != null) {
@@ -189,4 +188,14 @@ public class DeptController {
         return deptService.update(baseDept);
     }
 
+    /**
+     * 新增部门
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/remove", method = RequestMethod.POST)
+    public ResultJson<Void> remove(Integer id, HttpServletRequest request){
+        return deptService.remove(id);
+    }
 }

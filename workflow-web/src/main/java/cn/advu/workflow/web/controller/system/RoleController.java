@@ -70,6 +70,17 @@ public class RoleController {
     }
 
     /**
+     * 删除角色
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/remove", method = RequestMethod.POST)
+    public ResultJson<Void> updateRole(Integer id, HttpServletRequest request){
+        return sysRoleService.removeRole(id);
+    }
+
+    /**
      * 跳转至新增角色页
      *
      * @return

@@ -13,7 +13,7 @@ public interface SysUserService {
      * @param user
      * @return
      */
-    ResultJson<Object> add(SysUser user);
+    ResultJson<Integer> add(SysUser user);
 
     /**
      * 返回所有用户
@@ -44,6 +44,6 @@ public interface SysUserService {
      * @param user
      * @return
      */
-    ResultJson<Object> update(SysUser user);
+    ResultJson<Void> update(SysUser user);
 
 }

@@ -15,4 +15,6 @@ public interface BasePersonRepo extends IRepo<BasePerson> {
     List<BasePerson> findAll();
 
     List<BasePersonExtend> findDeptPerson(Integer areaId, Integer deptId);
+
+    List<BasePerson> findChildListByDept(Integer deptId);
 }

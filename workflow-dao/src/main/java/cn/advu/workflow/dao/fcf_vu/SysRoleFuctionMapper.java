@@ -12,4 +12,6 @@ public interface SysRoleFuctionMapper  extends BaseDAO<SysRoleFuction> {
 
     void deleteByIds(@Param("ids") List<Integer> ids);
 
+    void deleteByRole(@Param("roleId") Integer roleId);
+
 }

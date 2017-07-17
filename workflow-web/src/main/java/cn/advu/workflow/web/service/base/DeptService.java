@@ -26,6 +26,8 @@ public interface DeptService {
 
     ResultJson<Void> update(BaseDept baseDept);
 
+    ResultJson<Void> remove(Integer id);
+
     ResultJson<BaseDept> findById(Integer id);
 
     ResultJson<Collection<TreeNode>> findAreaDeptNodeList(Integer areaId);

@@ -76,9 +76,9 @@
             },
             success: function(returnData){
                 if(returnData.code == 1){
-                    popMsg('更新成功!', "/role/toList");
+                    popMsg('更新成功!', "/role/index");
                 } else{
-                    layer.msg('更新失败, 请联系技术人员!');
+                    layer.msg(returnData.info);
                 }
             }
 

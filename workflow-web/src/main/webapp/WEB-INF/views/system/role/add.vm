@@ -68,7 +68,7 @@
                 if(returnData.code == 1){
                     popMsg('添加成功!', "/role/index");
                 } else{
-                    layer.msg('添加失败, 请联系技术人员!');
+                    layer.msg(returnData.info);
                 }
             }
 

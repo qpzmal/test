@@ -169,4 +169,9 @@
     </foreach>
   </delete>
 
+  <delete id="deleteByRole">
+    delete from sys_role_fuction
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+
 </mapper>

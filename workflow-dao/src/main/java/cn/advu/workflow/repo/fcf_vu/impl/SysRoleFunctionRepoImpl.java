@@ -37,4 +37,9 @@ public class SysRoleFunctionRepoImpl extends AbstractRepo<SysRoleFuction> implem
     public void removeByIds(List<Integer> ids) {
         sysRoleFuctionMapper.deleteByIds(ids);
     }
+
+    @Override
+    public void removeByRole(Integer roleId) {
+        sysRoleFuctionMapper.deleteByRole(roleId);
+    }
 }

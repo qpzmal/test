@@ -37,4 +37,9 @@ public class BasePersonRepoImpl extends AbstractRepo<BasePerson> implements Base
 
         return basePersonMapper.queryByDept(areaId, deptId);
     }
+
+    @Override
+    public List<BasePerson> findChildListByDept(Integer deptId) {
+        return basePersonMapper.queryChildListByDept(deptId);
+    }
 }
