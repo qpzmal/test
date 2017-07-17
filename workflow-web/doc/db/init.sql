@@ -106,10 +106,11 @@ VALUES
 -- 93d6f2648c6f590a7bc8cd0be9243149--123456
 -- f7ad7cc1c8ee8431b0a8c3abb872a33c--111111
 INSERT INTO `sys_user` ( `id`,`login_name`, `user_name`, `password`, `mobile`, `phone`, `address`, `email`, `dept`, `lockedDate`, `login_fail_count`, `sort`, `dept_id`, `last_login_time`, `del_flag`, `item_status`)
-VALUES (1, 'admin', 'admin', '93d6f2648c6f590a7bc8cd0be9243149', '', '', '', '', '', NULL, NULL, NULL, NULL, 1500290298281, 0, 0, );
+VALUES (1, 'admin', 'admin', '93d6f2648c6f590a7bc8cd0be9243149', '', '', '', '', '', NULL, NULL, NULL, NULL, 1500290298281, 0, 0);
 
+INSERT INTO `sys_user_role` (`id`, `admins`, `roles`) VALUES (1, 1, 1);
 
-INSERT INTO `sys_role` (`id`, `activiti_name`, `name`, `description`, `is_system`, `sort`, `del_flag`) VALUES (1, '', 'admin', 'admin', b'1', NULL, 0, );
+INSERT INTO `sys_role` (`id`, `activiti_name`, `name`, `description`, `is_system`, `sort`, `del_flag`) VALUES (1, '', 'admin', 'admin', b'1', NULL, 0);
 
 
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10101, '', 0, NULL, NULL, 0);
