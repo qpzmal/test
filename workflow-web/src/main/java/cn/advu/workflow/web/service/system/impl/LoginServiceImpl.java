@@ -63,7 +63,9 @@ public class LoginServiceImpl implements LoginService {
         }
 
         //超过30天
-        if (loginUser.getLoginTime().longValue() + GlobalConstant.CacheExpire.MONTH < System.currentTimeMillis()) {
+        if (loginUser.getLoginTime().longValue() + GlobalConstant.CacheExpire.MONTH_MSEC < System.currentTimeMillis()) {
+            LOGGER.warn("cookie-time:{}, expire:{}", loginUser.getLoginTime().longValue(), GlobalConstant.CacheExpire.MONTH_MSEC);
+            LOGGER.warn("system-time:{}", System.currentTimeMillis());
             LOGGER.warn("登录时间验证错误，cookie timeout.");
             throw new LoginException("登录时间验证错误");
         }

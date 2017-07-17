@@ -105,7 +105,7 @@
                         </li>
                     </ul>
                 </div>
-                <a href="login.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+                <a href="javascript:;" class="roll-nav roll-right J_tabExit button-logout"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main">
                 <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/user/home" frameborder="0" data-id="index_content.html" seamless></iframe>
@@ -156,7 +156,17 @@
         menus.push(items[i].getAttribute("functionid"));
     }
 
+    ## 加载左侧菜单
     showMenu();
+
+    ## 退出
+    $(".button-logout").click(function () {
+        out();
+    })
+
+
+
+
     function showMenu(){
         console.log("showMenu");
         $.ajax({
@@ -232,6 +242,20 @@
         }
     }
 
+    function out(){
+        $.ajax({
+            url: "${rc.contextPath}/login/dologout",
+            type: "POST",
+            dataType:"json",
+            success: function(data){
+                if(data.success){
+                    top.document.location.reload();//top指的就是最顶级窗口，也就是第一个打开的窗口。
+                } else{
+                    alert(data.msg);
+                }
+            }
+        });
+    }
 
 //	var items = $(".J_menuItem");
 //	var menus = new Array();

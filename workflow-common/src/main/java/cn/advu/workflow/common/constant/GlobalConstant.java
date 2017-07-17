@@ -20,6 +20,7 @@ public class GlobalConstant {
         public static final int DAY_TWO = 172800;//2天 60*60*24*2
         public static final int WEEK = 604800;//1周 60*60*24*7
         public static final int MONTH = 2592000;//1月 60*60*24*30
+        public static final long MONTH_MSEC = 2592000000l;//1月 60*60*24*30*1000
         public static final int YEAR = 31536000;//1年 60*60*24*365
     }
 

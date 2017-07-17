@@ -25,7 +25,7 @@ public class ExceptionInterceptor {
         return retVal;
     }
 
-    private ResultJson<?> printTrace(ProceedingJoinPoint joinPoint, Exception e) {
+    private ResultJson<?> printTrace(ProceedingJoinPoint joinPoint, Exception e) throws Throwable{
         if (joinPoint.getArgs() != null) {
             logger.error("arguments:{}", joinPoint.getArgs());
         }
@@ -36,6 +36,7 @@ public class ExceptionInterceptor {
             info = se.getInfo();
         } else {
             logger.error("系统异常:", e);
+            throw e;
         }
 
         ResultJson<?> result = new ResultJson<>();

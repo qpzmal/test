@@ -9,7 +9,7 @@ import cn.advu.workflow.web.common.loginContext.LoginTools;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.service.system.LoginService;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.patchca.color.ColorFactory;
 import org.patchca.filter.predefined.*;
 import org.patchca.service.ConfigurableCaptchaService;
@@ -73,9 +73,10 @@ public class LoginController {
 
                 //验证不通过会抛出异常
                 loginService.validLoginUser(loginUser);
+
+                LOGGER.debug("通过cookie校验。");
                 //登录状态校验通过，跳转首页
-                response.sendRedirect(returnURL);
-                return null;
+                return "redirect:"+returnURL;
             }
 
         } catch (LoginException e) {
@@ -128,9 +129,8 @@ public class LoginController {
 //            }
             ajaxJson.setSuccess(true);
             ajaxJson.setMsg("登录成功");
+
         } catch (Exception ex) {
-
-
             LOGGER.info("登录失败: uname=" + uname, ex);
             ajaxJson.setSuccess(false);
             ajaxJson.setMsg(ex.getMessage());
@@ -140,6 +140,31 @@ public class LoginController {
         return ajaxJson;
     }
 
+    @ResponseBody
+    @RequestMapping("/login/dologout")
+    public AjaxJson dologout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //删除cookie
+        //重定向到登录页面
+        //记录登出日志
+
+        AjaxJson ajaxJson = new AjaxJson();
+
+        try {
+            String loginCookie = RequestUtil.getCookieValue(request, Constants.Login.LOGIN_COOKIE_KEY);
+            if (StringUtils.isNotBlank(loginCookie)) {
+                LoginUser loginUser = LoginTools.parseLoginUser(loginCookie);
+                RequestUtil.deleteCookie(response, request, Constants.Login.LOGIN_COOKIE_KEY);
+
+                LOGGER.info("用户登出:" + loginUser);
+                ajaxJson.setSuccess(true);
+                ajaxJson.setMsg("用户登出");
+            }
+        } catch (LoginException e) {
+            ajaxJson.setSuccess(false);
+            ajaxJson.setMsg(e.getMessage());
+        }
+        return ajaxJson;
+    }
 
     /**
      * 生成验证码图片io流
