@@ -272,4 +272,12 @@
       and base_person.dept_id = #{deptId,jdbcType=INTEGER}
   </select>
 
+  <select id="queryPersonListByArea" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_person
+    where del_flag = '0'
+    and base_person.area_id = #{areaId,jdbcType=INTEGER}
+  </select>
+
 </mapper>

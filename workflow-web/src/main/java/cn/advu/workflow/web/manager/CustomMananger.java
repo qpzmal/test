@@ -6,6 +6,8 @@ import cn.advu.workflow.web.service.base.CustomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by wangry on 17/7/13.
  */
@@ -29,5 +31,25 @@ public class CustomMananger {
             isNameDuplicated = true;
         }
         return isNameDuplicated;
+    }
+
+    /**
+     * 返回某种类型的CUSTOM
+     *
+     * @param customType
+     * @return
+     */
+    public List<BaseCustom> findCustomListByCustomType(Integer customType) {
+        return baseCustomRepo.findCustomListByCustomType(customType);
+    }
+
+    /**
+     * 返回客户的所有广告主
+     *
+     * @param customId
+     * @return
+     */
+    public List<BaseCustom> findChildCustom(Integer customId) {
+        return baseCustomRepo.findAllChildCustom(customId);
     }
 }

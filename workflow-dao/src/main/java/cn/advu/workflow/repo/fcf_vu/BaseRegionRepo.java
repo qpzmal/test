@@ -11,4 +11,6 @@ import java.util.List;
 public interface BaseRegionRepo extends IRepo<BaseRegion> {
 
     List<BaseRegion> findAll();
+
+    List<BaseRegion> findAllActiveRegion();
 }

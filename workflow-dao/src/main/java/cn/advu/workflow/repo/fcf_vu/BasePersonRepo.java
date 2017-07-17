@@ -1,7 +1,6 @@
 package cn.advu.workflow.repo.fcf_vu;
 
 
-import cn.advu.workflow.domain.fcf_vu.BaseDept;
 import cn.advu.workflow.domain.fcf_vu.BasePerson;
 import cn.advu.workflow.domain.fcf_vu.BasePersonExtend;
 import cn.advu.workflow.repo.base.IRepo;
@@ -17,4 +16,6 @@ public interface BasePersonRepo extends IRepo<BasePerson> {
     List<BasePersonExtend> findDeptPerson(Integer areaId, Integer deptId);
 
     List<BasePerson> findChildListByDept(Integer deptId);
+
+    List<BasePerson> findPersonListByArea(Integer areaId);
 }

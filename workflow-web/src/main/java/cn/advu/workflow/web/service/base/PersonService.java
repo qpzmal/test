@@ -15,4 +15,5 @@ public interface PersonService {
     ResultJson<List<BasePersonExtend>> findPersonByDept(Integer areaId, Integer deptId);
 
     ResultJson<Integer> add(BasePerson basePerson);
+
 }
