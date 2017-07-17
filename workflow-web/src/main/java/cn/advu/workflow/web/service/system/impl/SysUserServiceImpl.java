@@ -44,6 +44,8 @@ public class SysUserServiceImpl implements SysUserService{
         user.setPassword(StrMD5.getInstance().encrypt(user.getPassword(), WebConstants.MD5_SALT));
 
         int result = sysUserRepo.addSelective(user);
+//        activitiFacade.createUser(user);
+
         if(result == 0){
             throw new ServiceException("创建用户失败！");
         }

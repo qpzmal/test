@@ -76,7 +76,7 @@ public class EhcacheHelper {
         cm.getCache(cacheName).removeAll();
     }
 
-    static public <T> T getCacheObject(String cacheName, String key,
+    static public <T> T getCacheAndSet(String cacheName, String key,
                                        CacheCaller<T> caller) {
 
         // 返回空值
@@ -141,7 +141,7 @@ public class EhcacheHelper {
     /**
      * ehcache 缓存key
      */
-    static  final class     CacheKeyConstant {
+    static  final class CacheKeyConstant {
 
         public static final String EHCACHE_JOB_LIST = "_ehcache_job_list";
     }

@@ -105,10 +105,10 @@
                         </li>
                     </ul>
                 </div>
-                <a href="login.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+                <a href="javascript:;" class="roll-nav roll-right J_tabExit button-logout"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main">
-                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/user/index_content" frameborder="0" data-id="index_content.html" seamless></iframe>
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/user/home" frameborder="0" data-id="index_content.html" seamless></iframe>
             </div>
 
 ##            <div class="footer">
@@ -148,8 +148,115 @@
 ##    <script src="${rc.contextPath}/static/js/hAdmin.js?v=4.1.0"></script>
 ##    <script type="text/javascript" src="${rc.contextPath}/static/js/index.js?v=0.1"></script>
     #if($jsblock)$jsblock#end
-<!-- end js -->
+
 <script type="text/javascript">
+    var items = $(".J_menuItem");
+    var menus = new Array();
+    for(var i=0;i<items.length;i++){
+        menus.push(items[i].getAttribute("functionid"));
+    }
+
+    ## 加载左侧菜单
+    showMenu();
+
+    ## 退出
+    $(".button-logout").click(function () {
+        out();
+    })
+
+
+
+
+    function showMenu(){
+        console.log("showMenu");
+        $.ajax({
+            url:"${rc.contextPath}/user/getMenus.json",
+            success:function(json){
+                console.log(json);
+                ## 发起工作流
+                if (json.workflowStart != null) {
+                    $.each(json.workflowStart, function(i, item){
+                        resetJmenuItem("workflowStart", item, menus);
+                    });
+                }
+                ## 审核工作流
+                if (json.workflowAudit != null) {
+                    $.each(json.workflowAudit, function(i, item){
+                        resetJmenuItem("workflowAudit", item, menus);
+                    });
+                }
+                ## 报表
+                if (json.reportInfo != null) {
+                    $.each(json.reportInfo, function(i, item){
+                        $(".reportInfo").css("display", "");
+                        var index = $.inArray("40100", menus);
+                        if(index != -1){
+                            $(".J_menuItem_40100").css("display", "block");
+                        }
+                        index = $.inArray("40200", menus);
+                        if(index != -1){
+                            $(".J_menuItem_40200").css("display", "block");
+                        }
+                        index = $.inArray("40300", menus);
+                        if(index != -1){
+                            $(".J_menuItem_40300").css("display", "block");
+                        }
+                        index = $.inArray("40400", menus);
+                        if(index != -1){
+                            $(".J_menuItem_40400").css("display", "block");
+                        }
+                    });
+                }
+                ## 基础信息
+                if (json.baseInfo != null) {
+                    $.each(json.baseInfo, function(i, item){
+                        resetJmenuItem("baseInfo", item, menus);
+                    });
+                }
+                ## 系统信息
+                if (json.systemInfo != null) {
+                    $.each(json.systemInfo, function(i, item){
+                        resetJmenuItem("systemInfo", item, menus);
+                    });
+                }
+
+                ## 超级管理员专用菜单--工作流、等
+                if (json.userLevel == -1) {
+                    $(".admin-item").css("display", "");
+                }
+##                $.each(returnData.data, function(i, item){
+##                    var index = $.inArray("${rc.contextPath}" + item.menuUri, menus);
+##                    if(index != -1){
+##                        $(items[index]).css("display", "block");
+##                    }
+##                });
+            }
+        });
+    }
+
+    function resetJmenuItem(classname, item, menus){
+        $("."+ classname).css("display", "");
+        var index = $.inArray(item, menus);
+        if(index != -1){
+            $(items[index]).css("display", "block");
+        }
+    }
+
+    function out(){
+        $.ajax({
+            url: "${rc.contextPath}/login/dologout",
+            type: "POST",
+            dataType:"json",
+            success: function(data){
+                if(data.success){
+                    top.document.location.reload();//top指的就是最顶级窗口，也就是第一个打开的窗口。
+                } else{
+                    alert(data.msg);
+                }
+            }
+        });
+    }
+
 //	var items = $(".J_menuItem");
 //	var menus = new Array();
 //	for(var i=0;i<items.length;i++){
@@ -174,4 +281,5 @@
 ##		});
 ##	}
 </script>
+<!-- end js -->
 </html>

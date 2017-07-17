@@ -45,35 +45,7 @@
 
 
 ####问题记录
-1. 数据库--菜单对应如下
-
-| 表名 | 表名注释（对应菜单名） | 备注 |
-| -----|:----| ----:|
-| base_adtype    | 广告类型管理（已做，广告类型管理）    |  无   |
-| base_area    | 区域管理（未做，区域管理）   |  无   |
-| base_buy_order    | 需求订单（未做，工作流、添制采购单）    |  无   |
-| base_custom    | 客户管理（未做，客户管理）    |  无   |
-| base_dept    | 部门管理（未做）    |  无   |
-| base_execute_order    | 执行订单（未做，工作流、添制需求单）    |  无   |
-| base_financialindex    | 财务指标管理（未做）    |  无   |
-| base_industry    | 客户行业管理（已做）    |  无   |
-| base_media    | 媒体管理（未做）    |  无   |
-| base_media_type    | 媒体类型管理（未做）    |  无   |
-| base_monitor_request    | 监测机构管理（已做）    |  无   |
-| base_order_cpm    | CPM明细表（未做）    |  无   |
-| base_person    | 公司内部用户通信录表 （未做，通讯录）   |  无   |
-| base_region    | 省市地域管理表（已做，省市地域管理）    |  无   |
-| base_report    | 报表管理表（未做，报表相关）    |  无   |
-| base_reporttype    | 报表类型管理表（未做，报表相关）    |  无   |
-| oa_notify    | 通知内容管理（未做）    |  无   |
-| oa_notify_record    | 通知发送记录（未做，只读）    |  无   |
-| sys_dict    | 系统字典（不做页面）   |  无   |
-| sys_log    | 系统日志（暂时不做）   |  无   |
-| sys_menu    | 系统资源   |  无   |
-| sys_role    | 系统角色   |  无   |
-| sys_role_menu    | 角色资源   |  无   |
-| sys_user    | 系统用户   |  无   |
-| sys_user_role    | 用户角色中间   |  无   |
+1. asdfa
 
 #### 流程相关定义
 * 采购定价单（buy_frame）--》年度采购框架合同模型，三方（媒介、销售总经理、财务）顺序审批--》年度采购框架合同
@@ -106,3 +78,6 @@
 
 #### mybatis相关mapper配置
 *  keyColumn="id" keyProperty="id"  useGeneratedKeys="true"
+
+#### 测试环境
+1. 部署地址：/data/web/tomcat-8.5.16-8091-8092/webapps/ROOT

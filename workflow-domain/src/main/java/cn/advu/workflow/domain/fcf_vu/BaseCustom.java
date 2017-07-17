@@ -8,8 +8,6 @@ public class BaseCustom extends AbstractEntity {
 
     private Integer parentId;
 
-    private Byte customIndustryId;
-
     private String customType;
 
     private String contacts;
@@ -34,14 +32,6 @@ public class BaseCustom extends AbstractEntity {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
-    }
-
-    public Byte getCustomIndustryId() {
-        return customIndustryId;
-    }
-
-    public void setCustomIndustryId(Byte customIndustryId) {
-        this.customIndustryId = customIndustryId;
     }
 
     public String getCustomType() {

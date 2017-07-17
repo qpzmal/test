@@ -49,17 +49,20 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		//用户数据存进loginContext
 
 		String loginCookie = RequestUtil.getCookieValue(request, Constants.Login.LOGIN_COOKIE_KEY);
+		LOGGER.info("request:{}", request.getRequestURI());
 
 		if (StringUtils.isBlank(loginCookie)) {
+			LOGGER.warn("loginCookie is null.");
 
 			response.sendRedirect(Constants.Login.LOGIN_URL);
 
 			return false;
-
 		}
+
 		try {
 
 			LoginUser loginUser = LoginTools.parseLoginUser(loginCookie);
+			LOGGER.info("request:{}, loginUser:{}", request.getRequestURI(), loginUser);
 
 			loginService.validLoginUser(loginUser);
 
@@ -67,13 +70,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 			request.setAttribute(Constants.Login.LOGIN_USER_ATTR_KEY,loginUser);
 
-			LOGGER.debug("", loginUser);
-
 			return true;
 
 
 		} catch (LoginException e) {
-			LOGGER.error("", e);
+			LOGGER.error("LoginInterceptor--error", e);
 
 			response.sendRedirect(Constants.Login.LOGIN_URL);
 

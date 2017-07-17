@@ -36,4 +36,14 @@ public class AjaxJson {
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
+
+	@Override
+	public String toString() {
+		return "AjaxJson{" +
+				"success=" + success +
+				", msg='" + msg + '\'' +
+				", obj=" + obj +
+				", attributes=" + attributes +
+				'}';
+	}
 }

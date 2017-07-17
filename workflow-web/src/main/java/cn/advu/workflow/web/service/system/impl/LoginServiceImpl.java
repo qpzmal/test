@@ -1,12 +1,18 @@
 package cn.advu.workflow.web.service.system.impl;
 
+import cn.advu.workflow.common.cache.CacheCaller;
+import cn.advu.workflow.common.cache.EhcacheHelper;
 import cn.advu.workflow.common.constant.GlobalConstant;
 import cn.advu.workflow.common.utils.md5.StrMD5;
+import cn.advu.workflow.dao.fcf_vu.SysFuctionMapper;
 import cn.advu.workflow.dao.fcf_vu.SysUserMapper;
+import cn.advu.workflow.domain.fcf_vu.SysFuction;
 import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.exception.LoginException;
+import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
+import cn.advu.workflow.web.constants.cache.EhcacheConstants;
 import cn.advu.workflow.web.service.system.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -26,28 +33,43 @@ public class LoginServiceImpl implements LoginService {
     private SysUserMapper sysUserMapper;
 
 
+    @Autowired
+    private SysFuctionMapper sysFuctionMapper;
+
+
 
     @Override
     public void validLoginUser(LoginUser loginUser) throws LoginException {
 
-        //校验用户名和密码、可以设置缓存
-        SysUser sysUser = sysUserMapper.queryUserByNameAndId(loginUser.getUserName(), loginUser.getUserId());
-
-        if (sysUser == null) {
-            throw new LoginException("用户名和id验证错误");
-        }
-        if (loginUser.getLoginTime() == null || sysUser.getLastLoginTime() == null) {
+        if (loginUser.getLoginTime() == null) {
+            LOGGER.warn("登录时间验证错误，loginUser.logintime is null.");
             throw new LoginException("登录时间验证错误");
         }
-        if (loginUser.getLoginTime().longValue() != sysUser.getLastLoginTime().longValue()) {
+
+        //校验用户名和密码、可以设置缓存
+        SysUser dbUser = sysUserMapper.queryUserByNameAndId(loginUser.getUserName(), loginUser.getUserId());
+
+        if (dbUser == null) {
+            LOGGER.warn("登录时间验证错误，dbUser is null.");
+            throw new LoginException("用户名和id验证错误");
+        }
+        if (dbUser.getLastLoginTime() == null) {
+            LOGGER.warn("登录时间验证错误，dbUser.lastLoginTime is null.");
+            throw new LoginException("登录时间验证错误");
+        }
+        if (loginUser.getLoginTime().longValue() != dbUser.getLastLoginTime().longValue()) {
+            LOGGER.warn("登录时间验证错误，dbUser.lastLoginTime != loginUser.logintime.");
             throw new LoginException("登录时间验证错误");
         }
 
         //超过30天
-        if (loginUser.getLoginTime().longValue() + GlobalConstant.CacheExpire.MONTH < System.currentTimeMillis()) {
+        if (loginUser.getLoginTime().longValue() + GlobalConstant.CacheExpire.MONTH_MSEC < System.currentTimeMillis()) {
+            LOGGER.warn("cookie-time:{}, expire:{}", loginUser.getLoginTime().longValue(), GlobalConstant.CacheExpire.MONTH_MSEC);
+            LOGGER.warn("system-time:{}", System.currentTimeMillis());
+            LOGGER.warn("登录时间验证错误，cookie timeout.");
             throw new LoginException("登录时间验证错误");
         }
-        loginUser.setRealName(sysUser.getUserName());
+        loginUser.setRealName(dbUser.getUserName());
     }
 
     @Override
@@ -89,6 +111,20 @@ public class LoginServiceImpl implements LoginService {
             LOGGER.error("", e);
         }
         return loginUser;
+    }
+
+    @Override
+    public void queryUserFunction(LoginAccount account) throws LoginException {
+        final String userid = account.getUser().getUserId();
+
+        List<SysFuction> userFunList = EhcacheHelper.getCacheAndSet(EhcacheConstants.USER_FUNCTION, userid, new CacheCaller<List<SysFuction>>() {
+            @Override
+            public  List<SysFuction> getData() {
+                return sysFuctionMapper.queryFunctionByUserId(userid);
+            }
+        });
+        LOGGER.info("用户id:{},的菜单件数:{}", userid, userFunList.size());
+        account.setUserFunction(userFunList);
     }
 
 }

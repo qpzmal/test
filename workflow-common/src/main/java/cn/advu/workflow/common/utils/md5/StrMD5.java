@@ -140,6 +140,7 @@ public class StrMD5 {
 
     public static void main(String[] args) {
         String md5Pass = StrMD5.getInstance().encrypt("111111", "advu"); // 111111-advu:f7ad7cc1c8ee8431b0a8c3abb872a33c
+        md5Pass = StrMD5.getInstance().encrypt("123456", "advu"); // 123456-advu:93d6f2648c6f590a7bc8cd0be9243149
 
         System.out.println(md5Pass);
     }
