@@ -25,6 +25,8 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
 
     private Integer areaId;
 
+    private String signType;
+
     private Integer customSignId;
 
     private Integer customAdverserId;
@@ -70,6 +72,14 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
     private Integer accountPeriod;
 
     private Integer frameId;
+
+    public String getSignType() {
+        return signType;
+    }
+
+    public void setSignType(String signType) {
+        this.signType = signType;
+    }
 
     public String getProcessInstanceId() {
         return processInstanceId;

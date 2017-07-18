@@ -50,4 +50,26 @@ public class BaseExecuteOrderRepoImpl extends AbstractRepo<BaseExecuteOrder> imp
 
         return count;
     }
+
+
+    @Override
+    public int update(BaseExecuteOrder entity) {
+        int count = 0;
+        if (entity != null) {
+            count = getSqlMapper().updateByPrimaryKey(entity);
+
+            baseOrderCpmMapper.deleteByOrderAndType(entity.getId(), 1);
+
+            List<BaseOrderCpm> baseOrderCpmList = entity.getBaseOrderCpmList();
+            if (baseOrderCpmList != null && !baseOrderCpmList.isEmpty()) {
+                for (BaseOrderCpm baseOrderCpm : baseOrderCpmList) {
+                    baseOrderCpm.setId(null);
+                    baseOrderCpm.setOrderId(entity.getId());
+                    baseOrderCpmMapper.insertSelective(baseOrderCpm);
+                }
+            }
+        }
+
+        return count;
+    }
 }

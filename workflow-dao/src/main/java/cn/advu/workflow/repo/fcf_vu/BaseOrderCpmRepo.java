@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface BaseOrderCpmRepo extends IRepo<BaseOrderCpm> {
 
+    List<BaseOrderCpm> findByCustomOrderCpm(Integer orderId);
+
 }

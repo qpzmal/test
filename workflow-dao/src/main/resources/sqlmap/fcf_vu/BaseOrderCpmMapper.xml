@@ -207,4 +207,20 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!-- 以下为 非自动生成的SQL-->
+  <select id="selectByOrderAndType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_order_cpm
+    where order_id = #{orderId,jdbcType=INTEGER}
+    and order_cpm_type = #{orderCpmType,jdbcType=TINYINT}
+  </select>
+
+  <delete id="deleteByOrderAndType">
+    delete from base_order_cpm
+    where order_id = #{orderId,jdbcType=INTEGER}
+    and order_cpm_type = #{orderCpmType,jdbcType=TINYINT}
+  </delete>
+
 </mapper>

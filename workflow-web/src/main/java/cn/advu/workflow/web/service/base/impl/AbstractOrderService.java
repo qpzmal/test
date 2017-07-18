@@ -42,6 +42,7 @@ public class AbstractOrderService {
                 baseOrderCpm.setAdTypeId(cpmJsonObject.getInteger("adTypeId"));
                 baseOrderCpm.setCpm(cpmJsonObject.getInteger("cpm"));
                 baseOrderCpm.setRemark(cpmJsonObject.getString("remark"));
+                baseOrderCpm.setId(cpmJsonObject.getInteger("id"));
                 baseOrderCpmList.add(baseOrderCpm);
             }
             orderEntity.setBaseOrderCpmList(baseOrderCpmList);

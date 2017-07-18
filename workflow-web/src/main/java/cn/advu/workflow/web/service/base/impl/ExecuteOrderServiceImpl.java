@@ -13,6 +13,7 @@ import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.manager.AreaManager;
+import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import com.alibaba.fastjson.JSONArray;
@@ -42,6 +43,9 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
 
     @Autowired
     AreaManager areaManager;
+
+    @Autowired
+    CpmManager cpmManager;
 
     @Override
     public ResultJson<List<BaseExecuteOrder>> findAll() {
@@ -92,6 +96,10 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
 
     @Override
     public ResultJson<Integer> update(BaseExecuteOrder baseExecuteOrder) {
+
+        // CPM
+        buildCpm(baseExecuteOrder);
+
         if (baseExecuteOrder.getId() == null) {
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
         }
@@ -105,7 +113,12 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     @Override
     public ResultJson<BaseExecuteOrder> findById(Integer id) {
         ResultJson<BaseExecuteOrder> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        result.setData(baseExecuteOrderRepo.findOne(id));
+        BaseExecuteOrder baseExecuteOrder = baseExecuteOrderRepo.findOne(id);
+        result.setData(baseExecuteOrder);
+
+        List<BaseOrderCpm> cpmList = cpmManager.findOrderCustomCpm(id);
+        baseExecuteOrder.setBaseOrderCpmList(cpmList);
+
         return result;
     }
 }

@@ -10,7 +10,10 @@ import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import cn.advu.workflow.web.service.base.PersonService;
 import cn.advu.workflow.web.util.AssertUtil;
+import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -61,6 +67,7 @@ public class ExecuteOrderController {
 
     @Autowired
     AdtypeMananger adtypeMananger;
+    static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     @RequestMapping("/signCompanySelect")
     public String signCompanySelect(Integer signType, Model model){
@@ -164,11 +171,69 @@ public class ExecuteOrderController {
     public String toUpdate(Integer id, Model model){
 
         BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(id).getData();
+        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
+        BaseArea baseArea = areaService.findById(baseExecuteOrder.getAreaId()).getData();
+        List<BasePerson> leaderList = personMananger.findPersonListByArea(baseExecuteOrder.getAreaId());
+        List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
+        List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
+        List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
+        List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
+        List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
 
+        List<BaseCustom> signCompanyList = null;
+        String signType = baseExecuteOrder.getSignType();
+        if (signType != null) {
+            signCompanyList = customMananger.findCustomListByCustomType(Integer.valueOf(signType));
+        }
+
+        List<BaseCustom> customList = null;
+        Integer signCustomId = baseExecuteOrder.getCustomSignId();
+        if (signCustomId != null) {
+            customList = customMananger.findChildCustom(signCustomId);
+        }
+        model.addAttribute("customList", customList);
+
+        List<BaseOrderCpm> cpmList = baseExecuteOrder.getBaseOrderCpmList();
+        int index = 1;
+        JSONArray cpmArrList = new JSONArray();
+        for (BaseOrderCpm cpmTemp : cpmList) {
+            JSONObject cpmVo = new JSONObject();
+            cpmVo.put("state", false);
+            cpmVo.put("num", index++);
+            cpmVo.put("id", cpmTemp.getId());
+            cpmVo.put("mediaId", cpmTemp.getMediaId());
+            cpmVo.put("mediaPrice", cpmTemp.getMediaPrice());
+            cpmVo.put("firstPrice", cpmTemp.getFirstPrice());
+            cpmVo.put("adTypeId", cpmTemp.getAdTypeId());
+            cpmVo.put("cpm", cpmTemp.getCpm());
+            cpmVo.put("remark", cpmTemp.getRemark());
+            cpmArrList.add(cpmVo);
+        }
+        baseExecuteOrder.setCpmJsonStr(cpmArrList.toJSONString());
+
+
+        model.addAttribute("selectedReginList", StringListUtil.toList(baseExecuteOrder.getDeliveryAreaIds()));
+        model.addAttribute("selectMonitorList", StringListUtil.toList(baseExecuteOrder.getMonitorIds()));
+        model.addAttribute("selectOurMonitorNameList", StringListUtil.toList(baseExecuteOrder.getOurMonitorName()));
+        model.addAttribute("selectReportList", StringListUtil.toList(baseExecuteOrder.getReportTypeId()));
+
+        model.addAttribute("customList", customList);
+        model.addAttribute("signCompanyList", signCompanyList);
+        model.addAttribute("monitorRequestList", baseMonitorRequestList);
+        model.addAttribute("regionList", regionList);
+        model.addAttribute("industryList", industryList);
+        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("leaderList", leaderList);
+        model.addAttribute("areaTreeJson", areaTreeJson);
         model.addAttribute("baseExecuteOrder", baseExecuteOrder);
+        model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
+        model.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
+        model.addAttribute("format", format);
 
         return "demand/executeOrder/update";
     }
+
+
 
 
 }

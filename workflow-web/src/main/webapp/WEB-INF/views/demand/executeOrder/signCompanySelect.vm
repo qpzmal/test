@@ -6,7 +6,11 @@
 onchange="signCompanyChange()">
     <option value="">请选择签约公司</option>
     #foreach($data in $signCompanyList)
-        <option value ="$data.id">$data.name</option>
+        <option value ="$data.id"
+        #if(${baseExecuteOrder.customSignId} == $data.id)
+            selected
+        #end
+        >$data.name</option>
     #end
 </select>
 
