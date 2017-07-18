@@ -1,13 +1,23 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.CustomTypeEnum;
+import cn.advu.workflow.domain.enums.IValueEnum;
+import cn.advu.workflow.domain.fcf_vu.BaseArea;
+import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
+import cn.advu.workflow.domain.utils.ValueEnumUtils;
 import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.AreaManager;
+import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.SerializationException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +31,17 @@ import java.util.List;
  * Created by weiqz on 2017/6/25.
  */
 @Service
-public class ExecuteOrderServiceImpl implements ExecuteOrderService {
+public class ExecuteOrderServiceImpl extends  AbstractOrderService implements ExecuteOrderService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteOrderServiceImpl.class);
 
     @Autowired
     private BaseExecuteOrderRepo baseExecuteOrderRepo;
+
+    @Autowired
+    CustomMananger customMananger;
+
+    @Autowired
+    AreaManager areaManager;
 
     @Override
     public ResultJson<List<BaseExecuteOrder>> findAll() {
@@ -34,35 +50,42 @@ public class ExecuteOrderServiceImpl implements ExecuteOrderService {
         return result;
     }
 
+    private String findCustomType(String customType) {
+        CustomTypeEnum signCustomType = ValueEnumUtils.getEnum(CustomTypeEnum.class, customType);
+        switch (signCustomType) {
+            case FA:
+                return "D";
+            case DA:
+                return "Z";
+            default:
+                return "";
+        }
+    }
     @Override
     public ResultJson<Integer> add(BaseExecuteOrder baseExecuteOrder) {
 
-        String cpmJsonStr = baseExecuteOrder.getCpmJsonStr();
-        if (StringUtils.isNotEmpty(cpmJsonStr)) {
-            JSONArray cpmJsonArr = JSONArray.parseArray(cpmJsonStr);
-            List<BaseOrderCpm> baseOrderCpmList = new ArrayList<>();
-            for (Object cpmObject : cpmJsonArr) {
-                JSONObject cpmJsonObject = (JSONObject)cpmObject;
-                BaseOrderCpm baseOrderCpm = new BaseOrderCpm();
-                baseOrderCpm.setOrderCpmType("1");// 类型：1，客户需求CPM 2,执行排期CPM 3，第三方检测CPM
-                baseOrderCpm.setMediaId(cpmJsonObject.getInteger("mediaId"));
-                baseOrderCpm.setMediaPrice(cpmJsonObject.getBigDecimal("mediaPrice"));
-                baseOrderCpm.setFirstPrice(cpmJsonObject.getBigDecimal("firstPrice"));
-                baseOrderCpm.setAdTypeId(cpmJsonObject.getInteger("adTypeId"));
-                baseOrderCpm.setCpm(cpmJsonObject.getInteger("cpm"));
-                baseOrderCpm.setRemark(cpmJsonObject.getString("remark"));
-                baseOrderCpmList.add(baseOrderCpm);
-            }
-            baseExecuteOrder.setBaseOrderCpmList(baseOrderCpmList);
+        // 编码
+        String orderNumSeqStr = this.buildOrderNumSeqStr();
+        Integer signCustomId = baseExecuteOrder.getCustomSignId();
+        BaseCustom signCustom = customMananger.findById(signCustomId);
+        BaseArea baseArea = areaManager.findById(baseExecuteOrder.getAreaId());
+        String areaCode = baseArea.getCode();
+        String orderNum = "S" + findCustomType(signCustom.getCustomType()) + areaCode + orderNumSeqStr;
+        baseExecuteOrder.setOrderNum(orderNum);
+        // 补充编码
+        if (StringUtils.isEmpty(baseExecuteOrder.getSecOrderNum())) {
+            baseExecuteOrder.setSecOrderNum(orderNum);
         }
+        String userId = UserThreadLocalContext.getCurrentUser().getUserId();
+        baseExecuteOrder.setUserId(Integer.valueOf(userId));
+
+        // CPM
+        buildCpm(baseExecuteOrder);
 
         Integer insertCount = baseExecuteOrderRepo.addSelective(baseExecuteOrder);
         if(insertCount != 1){
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建需求单失败!");
+            throw new ServiceException("创建需求单失败!");
         }
-
-
-
 
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }

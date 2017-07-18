@@ -58,4 +58,8 @@ public class UserMananger {
         }
         return hasUser;
     }
+
+    public SysUser findById(Integer id) {
+        return sysUserRepo.findOne(id);
+    }
 }

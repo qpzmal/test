@@ -52,4 +52,14 @@ public class CustomMananger {
     public List<BaseCustom> findChildCustom(Integer customId) {
         return baseCustomRepo.findAllChildCustom(customId);
     }
+
+    /**
+     * 返回当前客户
+     *
+     * @param id
+     * @return
+     */
+    public BaseCustom findById(Integer id) {
+        return baseCustomRepo.findOne(id);
+    }
 }

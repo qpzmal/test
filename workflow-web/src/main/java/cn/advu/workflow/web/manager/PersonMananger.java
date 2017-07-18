@@ -52,4 +52,14 @@ public class PersonMananger {
     public List<BasePerson> findPersonListByArea(Integer areaId) {
         return basePersonRepo.findPersonListByArea(areaId);
     }
+
+    /**
+     * 按照名字返回通讯录
+     *
+     * @param name
+     * @return
+     */
+    public BasePerson findPersonByName(String name) {
+        return basePersonRepo.findPersonByName(name);
+    }
 }

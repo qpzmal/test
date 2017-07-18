@@ -2,11 +2,14 @@ package cn.advu.workflow.web.controller.demand;
 
 import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.manager.*;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import cn.advu.workflow.web.service.base.PersonService;
+import cn.advu.workflow.web.util.AssertUtil;
 import com.alibaba.fastjson.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,12 +47,20 @@ public class ExecuteOrderController {
 
     @Autowired
     CustomMananger customMananger;
+    @Autowired
+    UserMananger userMananger;
 
     @Autowired
     IndustryManager industryManager;
 
     @Autowired
     RegionManager regionManager;
+
+    @Autowired
+    MediaMananger mediaMananger;
+
+    @Autowired
+    AdtypeMananger adtypeMananger;
 
     @RequestMapping("/signCompanySelect")
     public String signCompanySelect(Integer signType, Model model){
@@ -91,7 +102,7 @@ public class ExecuteOrderController {
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addRegion(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
+    public ResultJson<Integer> add(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
         return executeOrderService.add(baseExecuteOrder);
     }
 
@@ -102,7 +113,7 @@ public class ExecuteOrderController {
      */
     @ResponseBody
     @RequestMapping(value ="/update", method = RequestMethod.POST)
-    public ResultJson<Integer> updateArea(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
+    public ResultJson<Integer> update(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
         return executeOrderService.update(baseExecuteOrder);
     }
 
@@ -114,23 +125,30 @@ public class ExecuteOrderController {
     @RequestMapping("/toAdd")
     public String toAdd(Model resultModel){
 
-        Integer areaId = 6;
+        Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+        SysUser sysUser = userMananger.findById(userId);
+        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+        AssertUtil.assertNotNull(basePerson, MessageConstants.PERSON_IS_NOT_EXISTS);
 
-        // 区域树
+        Integer areaId = basePerson.getAreaId();
+
         String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
-        resultModel.addAttribute("areaTreeJson", areaTreeJson);
-        // 项目负责人ID
         List<BasePerson> leaderList = personMananger.findPersonListByArea(areaId);
-        // 监测机构
         List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
         List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
-
         List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
+        List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
+        List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
 
+        resultModel.addAttribute("areaTreeJson", areaTreeJson);
         resultModel.addAttribute("monitorRequestList", baseMonitorRequestList);
         resultModel.addAttribute("leaderList", leaderList);
         resultModel.addAttribute("industryList", industryList);
         resultModel.addAttribute("regionList", regionList);
+        resultModel.addAttribute("salePersonId", basePerson.getId());
+        resultModel.addAttribute("salePersonName", basePerson.getName());
+        resultModel.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
+        resultModel.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
 
         return "demand/executeOrder/add";
     }

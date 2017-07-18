@@ -29,11 +29,6 @@ public class BuyOrderServiceImpl implements BuyOrderService {
     @Autowired
     private BaseBuyOrderRepo baseBuyOrderRepo;
 
-
-
-
-    @Autowired
-    private ActivitiFacade activitiFacade;
     @Autowired
     private RuntimeService runtimeService;
     @Autowired

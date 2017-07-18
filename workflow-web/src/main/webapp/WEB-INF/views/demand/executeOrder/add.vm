@@ -173,7 +173,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">监测公司（我方指定）</label>
                         <div class="col-sm-8">
-                            <select id="our_monitor_id" data-placeholder="请选择监测公司" class="chosen-select" style="width:350px;" tabindex="2">
+                            <select id="our_monitor_ids" data-placeholder="请选择监测公司" class="chosen-select" multiple style="width:350px;" tabindex="2">
                                 <option value="">请选择监测公司</option>
                                 #foreach($data in $monitorRequestList)
                                     <option value ="$data.id">$data.name</option>
@@ -206,7 +206,8 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">销售负责人</label>
                         <div class="col-sm-8">
-                            <input id="person_sales_id" name="person_sales_id" maxlength="100" type="text" class="form-control" aria-required="true">
+                            <input value="$!{salePersonId}" id="person_sales_id" hidden>
+                            <input value="$!{salePersonName}" id="person_sales_name" name="person_sales_name" maxlength="100" type="text" class="form-control" aria-required="true" disabled>
                         </div>
                     </div>
                     <div class="form-group">
@@ -448,21 +449,19 @@
                     },
                     {
                         field: "mediaId",
-                        title: "媒体"
-//                        ,
-##                        editable: {
-##                            type: "select",
-##                            title: "媒体"
-##//                            ,
-####                            source: function () {
-####                                var result = [];
-####                                $.each($.parseJSON('$areaListJson'), function (key, value) {
-####                                    result.push({ value: value.id, text: value.name });
-####                                }
-####                                );
-####                                return result;
-####                            }
-##                        }
+                        title: "媒体",
+                        editable: {
+                            type: "select",
+                            title: "媒体",
+                            source: function () {
+                                var result = [];
+                                $.each($.parseJSON('$mediaListJson'), function (key, value) {
+                                    result.push({ value: value.id, text: value.name });
+                                }
+                                );
+                                return result;
+                            }
+                        }
                     },
                     {
                     field: "mediaPrice",
@@ -474,21 +473,19 @@
                     },
                     {
                         field: "adTypeId",
-                        title: "广告形式"
-//                        ,
-##                        editable: {
-##                            type: "select",
-##                            title: "广告形式"
-##//                            ,
-####                            source: function () {
-####                                var result = [];
-####                                $.each($.parseJSON('$areaListJson'), function (key, value) {
-####                                            result.push({ value: value.id, text: value.name });
-####                                        }
-####                                );
-####                                return result;
-####                            }
-##                        }
+                        title: "广告形式",
+                        editable: {
+                            type: "select",
+                            title: "广告形式",
+                            source: function () {
+                                var result = [];
+                                $.each($.parseJSON('$adtypeListJson'), function (key, value) {
+                                            result.push({ value: value.id, text: value.name });
+                                        }
+                                );
+                                return result;
+                            }
+                        }
                     },
                     {
                         field: "cpm",
@@ -591,41 +588,83 @@
         }
     );
 
-//    $(".btn-primary").click(function(){
-//        add();
-//    })
+    /**
+     * 字符串转时间（yyyy-MM-dd HH:mm:ss）
+     * result （分钟）
+     */
+    function stringToDate (fDate){
+        var fullDate = fDate.split("-");
+        return new Date(fullDate[0], fullDate[1]-1, fullDate[2], 0, 0, 0);
+    }
 
+    function findSelecedStr(selectId) {
+
+        var selectName = "#" + selectId + " option:selected";
+        var selecteds = $(selectName);
+        var deliveryAreaNames = "";
+        if (selecteds != null) {
+            for (var i = 0; i < selecteds.length; i++) {
+                var areaSelected = selecteds[i];
+                if (deliveryAreaNames == "") {
+                    deliveryAreaNames = areaSelected.text;
+                } else {
+                    deliveryAreaNames = deliveryAreaNames + "," + areaSelected.text;
+                }
+            };
+        }
+        return deliveryAreaNames;
+    }
+
+    function findSelecedValueStr(selectId) {
+
+        var selectName = "#" + selectId + " option:selected";
+        var selecteds = $(selectName);
+        var deliveryAreaNames = "";
+        if (selecteds != null) {
+            for (var i = 0; i < selecteds.length; i++) {
+                var areaSelected = selecteds[i];
+                if (deliveryAreaNames == "") {
+                    deliveryAreaNames = areaSelected.value;
+                } else {
+                    deliveryAreaNames = deliveryAreaNames + "," + areaSelected.text;
+                }
+            };
+        }
+        return deliveryAreaNames;
+    }
     function addRegion(){
         var name = $("#p_name").val();
-        var orderNum = $("#order_num").val();
         var secOrderNum = $("#sec_order_num").val();
         var type = $("#type").val();
-        var orderDate = $("#order_date").val();
+        var orderDate = stringToDate($("#order_date").val());
         var personLeaderId = $("#person_leader_id").val();
-        var deliveryAreaIds = $("#delivery_area_ids").val();
-
-        var startDate = $("#start_date").val();
-        var endDate = $("#end_date").val();
         var areaId = $("#area_id").val();
+        var signType = $("#sign_type").val();
+        var signCompanyId = $("#sign_company_id").val();
+        var customIndustryId = $("#custom_industry_id").val();
+        var customId = $("#custom_id").val();
+        var deliveryAreaIds = findSelecedValueStr("delivery_area_ids");
+        var deliveryAreaNames = findSelecedStr("delivery_area_ids");
 
-        var areaId = $("#area_id").val();
-        var monitorIds = $("#monitor_ids").val();
-        var ourMonitorId = $("#our_monitor_id").val();
-        var reportTypeId = $("#report_type_id").val();
-        var personSalesId = $("#person_sales_id").val();
+        var startDate = stringToDate($("#start_date").val());
+        var endDate = stringToDate($("#end_date").val());
+        var monitorIds = findSelecedValueStr("monitor_ids");
+        var monitorNames = findSelecedStr("monitor_ids");
 
-
+        var ourMonitorIds = findSelecedValueStr("our_monitor_ids");
+        var ourMonitorNames = findSelecedStr("our_monitor_ids");
+        var reportTypeId = findSelecedValueStr("report_type_id");
+        var reportTypeNames = findSelecedStr("report_type_id");
         var personSalesId = $("#person_sales_id").val();
         var amount = $("#amount").val();
         var publicRebate = $("#public_rebate").val();
         var privateRebate = $("#private_rebate").val();
         var taxAmount = $("#tax_amount").val();
         var taxFreeAmount = $("#tax_free_amount").val();
-
-
         var personPayeeId = $("#person_payee_id").val();
         var payPercent = $("#pay_percent").val();
         var accountPeriod = $("#account_period").val();
+
         var cpmJsonStr = JSON.stringify(cpmTable.bootstrapTable('getData'));
 
         $.ajax({
@@ -634,26 +673,35 @@
             async: false,
             data:{
                 name:name,
-                orderNum:orderNum,
                 secOrderNum:secOrderNum,
                 type:type,
-//                orderDate:orderDate,
-//                deliveryAreaIds:deliveryAreaIds,
+                orderDate:orderDate,
+                deliveryAreaIds:deliveryAreaIds,
+                deliveryAreaNames:deliveryAreaNames,
                 areaId:areaId,
+                customSignId:signCompanyId,
+                customAdverserId:customId,
+                customIndustryId:customIndustryId,
+
                 personSalesId:personSalesId,
                 amount:amount,
                 publicRebate:publicRebate,
                 privateRebate:privateRebate,
                 taxAmount:taxAmount,
                 taxFreeAmount:taxFreeAmount,
+
                 monitorIds:monitorIds,
-//                startDate:startDate,
-//                endDate:endDate,
+                monitorNames:monitorIds,
+
+                ourMonitorName:ourMonitorNames,
+                reportTypeId:reportTypeNames,
+
+                startDate:startDate,
+                endDate:endDate,
                 personLeaderId:personLeaderId,
-                ourMonitorName:ourMonitorId, ## 注意修改
-                reportTypeId:reportTypeId,
                 personPayeeId:personPayeeId,
-//                payPercent:payPercent,
+
+                payPercent:payPercent,
                 accountPeriod:accountPeriod,
                 cpmJsonStr:cpmJsonStr
             },
@@ -661,7 +709,7 @@
                 if(returnData.code == 1){
                     popMsg('添加成功!', "/executeOrder/index");
                 } else{
-                    layer.msg('添加失败, 请联系技术人员!');
+                    layer.msg(returnData.info);
                 }
             }
 

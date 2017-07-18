@@ -18,4 +18,6 @@ public interface BasePersonRepo extends IRepo<BasePerson> {
     List<BasePerson> findChildListByDept(Integer deptId);
 
     List<BasePerson> findPersonListByArea(Integer areaId);
+
+    BasePerson findPersonByName(String name);
 }
