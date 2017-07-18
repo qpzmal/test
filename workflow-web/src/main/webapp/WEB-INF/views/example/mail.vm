@@ -98,7 +98,7 @@
             type:"post",
             async: false,
             data:{
-                smsAddr:$(".sms-addr").val(),
+                smsAddr:$(".sms-mobile").val(),
                 smsContent:$(".sms-content").val()
             },
             success: function(returnData){

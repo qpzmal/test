@@ -33,7 +33,7 @@
         </aop:aspect>
     </aop:config>
 
-    <import resource="classpath*:spring/application-ehcache.xml"/>
+    <!--<import resource="classpath*:spring/application-ehcache.xml"/>-->
 
     <import resource="classpath*:spring/application-db.xml"/>
 

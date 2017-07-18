@@ -4,6 +4,8 @@ import cn.advu.workflow.common.utils.mail.MailBean;
 import cn.advu.workflow.common.utils.mail.MailUtilVelocity;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.example.mail.sms163.SendTemplate;
+import net.sf.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.mail.MessagingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,6 +76,18 @@ public class MailController {
 
         LOGGER.info("sendSms input:{}, {}", smsAddr, smsContent);
 
+        List<String> mobileList = new ArrayList<>();
+        List<String> paramsList = new ArrayList<>();
+
+        mobileList.add(smsAddr);
+        paramsList.add(smsContent);
+        paramsList.add("【"+ smsContent +"】");
+
+        try {
+            SendTemplate.send(JSONArray.fromObject(mobileList.toArray()).toString(), JSONArray.fromObject(paramsList.toArray()).toString());
+        } catch (Exception e) {
+            LOGGER.error("短信发送出错：", e);
+        }
         result.setCode(WebConstants.OPERATION_SUCCESS);
         result.setInfo("发送成功");
         return result;

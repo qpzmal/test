@@ -175,10 +175,6 @@
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.googlecode.ehcache-spring-annotations</groupId>
-            <artifactId>ehcache-spring-annotations</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

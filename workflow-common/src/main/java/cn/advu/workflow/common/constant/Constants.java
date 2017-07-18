@@ -10,7 +10,7 @@ public class Constants {
 
     public static class Login {
 
-        public static final String LOGIN_COOKIE_KEY = "/index";
+        public static final String LOGIN_COOKIE_KEY = "advuindex";
 
         public static final String LOGIN_URL = "/login/in";
 
