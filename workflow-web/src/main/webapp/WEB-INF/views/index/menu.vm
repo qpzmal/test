@@ -168,6 +168,7 @@
                 <ul class="nav nav-second-level">
                     <li>
                         <a class="J_menuItem" href="${rc.contextPath}/echartsDemo/index">报表</a>
+                        <a class="J_menuItem" href="${rc.contextPath}/example/mail/index">邮件短信</a>
                     </li>
                 </ul>
             </li>

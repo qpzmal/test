@@ -17,7 +17,7 @@ import java.util.List;
  * 示例
  */
 @Controller
-@RequestMapping("/example")
+@RequestMapping("/example/velocity")
 public class ExampleController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleController.class);
 

@@ -74,16 +74,4 @@ public class TestController {
         chart.setSeries(series);
         return chart;
     }
-
-    @RequestMapping("insert")
-    @ResponseBody
-    public void insertData(){
-        String[] permissions = new String[]{
-                //"个人资料", "系统设置"
-                "数据总览实时监控", "渠道详细", "数据总览", "赚取积分","消耗积分", "广告数据"
-         };
-        for(String p:permissions){
-
-        }
-    }
 }

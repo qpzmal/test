@@ -32,6 +32,7 @@ public class ExceptionInterceptor {
 
         String info = null;
         if (e instanceof ServiceException){
+            logger.warn("业务异常:", e);
             ServiceException se = (ServiceException) e;
             info = se.getInfo();
         } else {

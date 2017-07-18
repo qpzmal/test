@@ -1,0 +1,115 @@
+###set($layout = '/layout/content.vm')
+
+## css文件引入和css代码块
+#define($cssblock)
+#end
+
+
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+
+            ## 查询条件
+            <div class="ibox float-e-margins">
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 邮件</a>
+                        </li>
+                        <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">短信</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+                            <div class="panel-body">
+                                <form class="form-horizontal m-t">
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <input class="form-control email-addr"  placeholder="邮箱地址" >
+                                            <input class="form-control email-subject"  placeholder="邮件内容" >
+                                        </div>
+
+                                        <div class="col-sm-4 m-b-xs text-right">
+                                            <div class="checkbox i-checks">
+                                                <a href="javascript:;" class="btn btn-success send-mail"><i class="fa fa-search "></i> 发送 </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="tab-2" class="tab-pane">
+                            <div class="panel-body">
+                                <form class="form-horizontal m-t">
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <input class="form-control sms-mobile"  placeholder="手机号" >
+                                            <input class="form-control sms-content"  placeholder="短信内容" >
+                                        </div>
+
+                                        <div class="col-sm-4 m-b-xs text-right">
+                                            <div class="checkbox i-checks">
+                                                <a href="javascript:;" class="btn btn-success send-sms"><i class="fa fa-search "></i> 查询 </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+## js文件引入和js代码块
+#define($jsblock)
+<script>
+
+    $('.send-mail').click(function () {
+        $.ajax({
+            url:"/example/mail/sendMail.json",
+            type:"post",
+            async: false,
+            data:{
+                emailAddr:$(".email-addr").val(),
+                emailSubject:$(".email-subject").val()
+            },
+            success: function(returnData){
+                console.log(returnData);
+                if(returnData.code == 1){
+                    layer.msg(returnData.info, {icon: 1});
+                } else{
+                    layer.msg('添加失败, 请联系技术人员!');
+                }
+            }
+        });
+    })
+    $('.send-sms').click(function () {
+        $.ajax({
+            url:"/example/mail/sendSms.json",
+            type:"post",
+            async: false,
+            data:{
+                smsAddr:$(".sms-addr").val(),
+                smsContent:$(".sms-content").val()
+            },
+            success: function(returnData){
+                console.log(returnData);
+                if(returnData.code == 1){
+                    layer.msg(returnData.info, {icon: 1});
+                } else{
+                    layer.msg('添加失败, 请联系技术人员!');
+                }
+            }
+        });
+    })
+</script>
+#end

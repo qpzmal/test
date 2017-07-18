@@ -3,12 +3,14 @@ package cn.advu.workflow.common.utils.mail;
 /**
  * Created by zhanglei on 2016/12/29.
  */
+
 import org.apache.log4j.Logger;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.VelocityException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -20,7 +22,7 @@ import java.io.UnsupportedEncodingException;
  * spring发送mail工具
  */
 public class MailUtilVelocity {
-    private static Logger log = Logger.getLogger(MailUtilVelocity.class);
+    private static Logger LOGGER = Logger.getLogger(MailUtilVelocity.class);
 
     private MailUtilVelocity(){}
 
@@ -33,8 +35,8 @@ public class MailUtilVelocity {
         return InstanceHolder.instance;
     }
 
-    private  JavaMailSender javaMailSender;
-    private  VelocityEngine velocityEngine;          //模板解析
+    private JavaMailSender javaMailSender;
+    private VelocityEngine velocityEngine; //模板解析
 
 
     /**
@@ -54,9 +56,19 @@ public class MailUtilVelocity {
     }
 
     private  void sendMail(MimeMessage msg, MailBean mailBean){
-        javaMailSender.send(msg);
-        log.info("$$$ Send mail Subject:" +  mailBean.getSubject()
-                + ", TO:" + arrayToStr(mailBean.getToEmails()) );
+        String result = null;
+        try {
+            result = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, mailBean.getTemplate(), "UTF-8",mailBean.getData());
+            msg.setText(result);
+            javaMailSender.send(msg);
+        } catch (Exception e) {
+            LOGGER.error("邮件异常：", e);
+        }
+
+        // 非模版发送
+//        javaMailSender.send(msg);
+//        LOGGER.info("$$$ Send mail Subject:" +  mailBean.getSubject()
+//                + ", TO:" + arrayToStr(mailBean.getToEmails()) );
 
     }
 
@@ -84,7 +96,7 @@ public class MailUtilVelocity {
         }
         String text = getMessage(mailBean);
         if(text == null){
-            log.warn("@@@ warn mail text is null (Thread name="
+            LOGGER.warn("@@@ warn mail text is null (Thread name="
                     + Thread.currentThread().getName() + ") @@@ " +  mailBean.getSubject());
             return null;
         }
@@ -94,7 +106,7 @@ public class MailUtilVelocity {
         try {
             messageHelper.setFrom(mailBean.getFrom(), mailBean.getFromName());
         } catch (UnsupportedEncodingException e) {
-            log.error(e);
+            LOGGER.error(e);
 
         }
         if(mailBean.getCc() != null){
@@ -125,13 +137,13 @@ public class MailUtilVelocity {
 
             return writer.toString();
         } catch (VelocityException e) {
-            log.error(" VelocityException : " + mailBean.getSubject() + "\n" + e);
+            LOGGER.error(" VelocityException : " + mailBean.getSubject() + "\n" + e);
         } finally {
             if (writer != null) {
                 try {
                     writer.close();
                 } catch (IOException e) {
-                    log.error("###StringWriter close error ... ");
+                    LOGGER.error("###StringWriter close error ... ");
                 }
             }
         }
@@ -141,26 +153,21 @@ public class MailUtilVelocity {
     /*
      * check 邮件
      */
-    private  boolean checkMailBean(MailBean mailBean)
-    {
+    private  boolean checkMailBean(MailBean mailBean) {
         if (mailBean == null) {
-            log.warn("@@@ warn mailBean is null (Thread name="
-                    + Thread.currentThread().getName() + ") ");
+            LOGGER.warn("@@@ warn mailBean is null (Thread name=" + Thread.currentThread().getName() + ") ");
             return false;
         }
         if (mailBean.getSubject() == null) {
-            log.warn("@@@ warn mailBean.getSubject() is null (Thread name="
-                    + Thread.currentThread().getName() + ") ");
+            LOGGER.warn("@@@ warn mailBean.getSubject() is null (Thread name=" + Thread.currentThread().getName() + ") ");
             return false;
         }
         if (mailBean.getToEmails() == null) {
-            log.warn("@@@ warn mailBean.getToEmails() is null (Thread name="
-                    + Thread.currentThread().getName() + ") ");
+            LOGGER.warn("@@@ warn mailBean.getToEmails() is null (Thread name=" + Thread.currentThread().getName() + ") ");
             return false;
         }
         if (mailBean.getTemplate() == null) {
-            log.warn("@@@ warn mailBean.getTemplate() is null (Thread name="
-                    + Thread.currentThread().getName() + ") ");
+            LOGGER.warn("@@@ warn mailBean.getTemplate() is null (Thread name=" + Thread.currentThread().getName() + ") ");
             return false;
         }
         return true;
