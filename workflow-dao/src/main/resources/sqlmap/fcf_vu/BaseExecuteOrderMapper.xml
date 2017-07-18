@@ -61,7 +61,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
-    insert into base_execute_order (id, process_instance_id, name, 
+    insert into base_execute_order (id, process_instance_id, name,
       order_num, sec_order_num, type, 
       order_date, delivery_area_ids, delivery_area_names, 
       area_id, custom_sign_id, custom_adverser_id, 
@@ -451,9 +451,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
     update base_execute_order
-    set process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+    set
       name = #{name,jdbcType=VARCHAR},
-      order_num = #{orderNum,jdbcType=VARCHAR},
       sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
       type = #{type,jdbcType=TINYINT},
       order_date = #{orderDate,jdbcType=TIMESTAMP},
@@ -480,15 +479,11 @@
       signing_intention = #{signingIntention,jdbcType=VARCHAR},
       person_payee_id = #{personPayeeId,jdbcType=INTEGER},
       pay_percent = #{payPercent,jdbcType=DECIMAL},
-      user_id = #{userId,jdbcType=INTEGER},
       account_period = #{accountPeriod,jdbcType=INTEGER},
-      del_flag = #{delFlag,jdbcType=TINYINT},
-      item_status = #{itemStatus,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      item_status = 0,
       remark = #{remark,jdbcType=VARCHAR},
       frame_id = #{frameId,jdbcType=INTEGER},
-      signType = #{signType,jdbcType=TINYINT}
+      sign_type = #{signType,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

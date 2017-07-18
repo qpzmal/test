@@ -683,21 +683,17 @@
                 signType:signType,
                 customSignId:signCompanyId,
                 customAdverserId:customId,
-                customIndustryId:customIndustryId,
-
+                industryId:customIndustryId,
                 personSalesId:personSalesId,
                 amount:amount,
                 publicRebate:publicRebate,
                 privateRebate:privateRebate,
                 taxAmount:taxAmount,
                 taxFreeAmount:taxFreeAmount,
-
                 monitorIds:monitorIds,
                 monitorNames:ourMonitorNames,
-
                 ourMonitorName:ourMonitorNames,
                 reportTypeId:reportTypeId,
-
                 startDate:startDate,
                 endDate:endDate,
                 personLeaderId:personLeaderId,

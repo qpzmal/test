@@ -170,6 +170,10 @@ public class ExecuteOrderController {
     @RequestMapping("/toUpdate")
     public String toUpdate(Integer id, Model model){
 
+        Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+        SysUser sysUser = userMananger.findById(userId);
+        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+
         BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(id).getData();
         String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
         BaseArea baseArea = areaService.findById(baseExecuteOrder.getAreaId()).getData();
@@ -229,6 +233,8 @@ public class ExecuteOrderController {
         model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
         model.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
         model.addAttribute("format", format);
+        model.addAttribute("salePersonId", basePerson.getId());
+        model.addAttribute("salePersonName", basePerson.getName());
 
         return "demand/executeOrder/update";
     }

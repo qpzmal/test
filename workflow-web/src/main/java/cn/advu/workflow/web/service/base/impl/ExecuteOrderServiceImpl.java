@@ -103,7 +103,7 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         if (baseExecuteOrder.getId() == null) {
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
         }
-        Integer insertCount = baseExecuteOrderRepo.updateSelective(baseExecuteOrder);
+        Integer insertCount = baseExecuteOrderRepo.update(baseExecuteOrder);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新需求单失败!");
         }

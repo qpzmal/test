@@ -648,7 +648,7 @@
             var e="<i class='fa fa-times-circle'></i> ";
             $("#commentForm").validate({
                 submitHandler:function(form){
-                    addRegion();
+                    update();
                 }
             });
             {var i=document.querySelector(".js-switch"),
@@ -769,7 +769,7 @@
                 signType:signType,
                 customSignId:signCompanyId,
                 customAdverserId:customId,
-                customIndustryId:customIndustryId,
+                industryId:customIndustryId,
 
                 personSalesId:personSalesId,
                 amount:amount,
