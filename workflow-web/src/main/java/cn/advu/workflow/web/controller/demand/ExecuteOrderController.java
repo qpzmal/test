@@ -67,6 +67,7 @@ public class ExecuteOrderController {
 
     @Autowired
     AdtypeMananger adtypeMananger;
+
     static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     @RequestMapping("/signCompanySelect")

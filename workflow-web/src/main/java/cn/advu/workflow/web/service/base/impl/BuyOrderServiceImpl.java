@@ -1,6 +1,8 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
+import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.repo.fcf_vu.BaseBuyOrderRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
@@ -11,11 +13,13 @@ import org.activiti.engine.ActivitiException;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,7 +27,7 @@ import java.util.List;
  * Created by weiqz on 2017/6/25.
  */
 @Service
-public class BuyOrderServiceImpl implements BuyOrderService {
+public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrderService {
     private static final Logger LOGGER = LoggerFactory.getLogger(BuyOrderServiceImpl.class);
 
     @Autowired
@@ -43,6 +47,21 @@ public class BuyOrderServiceImpl implements BuyOrderService {
 
     @Override
     public ResultJson<Integer> add(BaseBuyOrder baseBuyOrder) {
+
+        // 编码
+        String orderNumSeqStr = this.buildOrderNumSeqStr();
+
+        String orderNum = "P" + orderNumSeqStr;
+        baseBuyOrder.setOrderNum(orderNum);
+        // 补充编码
+        if (StringUtils.isEmpty(baseBuyOrder.getSecOrderNum())) {
+            baseBuyOrder.setSecOrderNum(orderNum);
+        }
+        String userId = UserThreadLocalContext.getCurrentUser().getUserId();
+        baseBuyOrder.setUserId(Integer.valueOf(userId));
+
+        // CPM
+        buildBuyOrderCpm(baseBuyOrder);
 
         Integer insertCount = baseBuyOrderRepo.addSelective(baseBuyOrder);
         if(insertCount != 1){

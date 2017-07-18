@@ -84,7 +84,7 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         baseExecuteOrder.setUserId(Integer.valueOf(userId));
 
         // CPM
-        buildCpm(baseExecuteOrder);
+        buildExecuteCpm(baseExecuteOrder);
 
         Integer insertCount = baseExecuteOrderRepo.addSelective(baseExecuteOrder);
         if(insertCount != 1){
@@ -98,7 +98,7 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     public ResultJson<Integer> update(BaseExecuteOrder baseExecuteOrder) {
 
         // CPM
-        buildCpm(baseExecuteOrder);
+        buildExecuteCpm(baseExecuteOrder);
 
         if (baseExecuteOrder.getId() == null) {
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");

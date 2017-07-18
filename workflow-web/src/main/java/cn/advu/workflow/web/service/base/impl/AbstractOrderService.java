@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -24,10 +25,19 @@ public class AbstractOrderService {
 
     protected String buildOrderNumSeqStr() {
         Integer orderNumSeq = sequenceMapper.nextVal();
-        return String.format("%04d", orderNumSeq);
+        String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+        return year.substring(2) + String.format("%04d", orderNumSeq);
     }
 
-    protected <T extends AbstractOrderEntity> void buildCpm(T orderEntity) {
+    protected <T extends AbstractOrderEntity> void buildBuyOrderCpm(T orderEntity) {
+        buildCpm(orderEntity, "6");
+    }
+    protected <T extends AbstractOrderEntity> void buildExecuteCpm(T orderEntity) {
+        buildCpm(orderEntity, "1");
+
+    }
+
+    protected <T extends AbstractOrderEntity> void buildCpm(T orderEntity, String type) {
         String cpmJsonStr = orderEntity.getCpmJsonStr();
         if (StringUtils.isNotEmpty(cpmJsonStr)) {
             JSONArray cpmJsonArr = JSONArray.parseArray(cpmJsonStr);
@@ -35,7 +45,7 @@ public class AbstractOrderService {
             for (Object cpmObject : cpmJsonArr) {
                 JSONObject cpmJsonObject = (JSONObject)cpmObject;
                 BaseOrderCpm baseOrderCpm = new BaseOrderCpm();
-                baseOrderCpm.setOrderCpmType("1");// 类型：1，客户需求CPM 2,执行排期CPM 3，第三方检测CPM
+                baseOrderCpm.setOrderCpmType(type);// 类型：1，客户需求CPM 2,执行排期CPM 3，第三方检测CPM
                 baseOrderCpm.setMediaId(cpmJsonObject.getInteger("mediaId"));
                 baseOrderCpm.setMediaPrice(cpmJsonObject.getBigDecimal("mediaPrice"));
                 baseOrderCpm.setFirstPrice(cpmJsonObject.getBigDecimal("firstPrice"));
