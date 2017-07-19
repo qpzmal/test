@@ -13,6 +13,9 @@ public interface BaseOrderCpmMapper extends BaseDAO<BaseOrderCpm> {
             @Param("orderId")Integer orderId,
             @Param("orderCpmType")Integer orderCpmType);
 
+    List<BaseOrderCpm> selectExecuteOrderCpm(@Param("orderId")Integer orderId);
+
+
     void deleteByOrderAndType(
             @Param("orderId")Integer orderId,
             @Param("orderCpmType")Integer orderCpmType);

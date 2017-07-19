@@ -25,6 +25,9 @@ public class BaseExecuteOrderFrameRepoImpl extends AbstractOrderRepo<BaseExecute
 
     @Autowired
     BaseExecuteOrderFrameMapper baseExecuteOrderFrameMapper;
+    @Autowired
+    BaseOrderCpmMapper baseOrderCpmMapper;
+
 
     @Override
     protected BaseDAO<BaseExecuteOrderFrame> getSqlMapper() {
@@ -34,6 +37,45 @@ public class BaseExecuteOrderFrameRepoImpl extends AbstractOrderRepo<BaseExecute
     @Override
     public List<BaseExecuteOrderFrame> findAll() {
         return baseExecuteOrderFrameMapper.queryAll(null);
+    }
+
+    @Override
+    public int addSelective(BaseExecuteOrderFrame entity) {
+        int count = 0;
+        if (entity != null) {
+            count = getSqlMapper().insertSelective(entity);
+            List<BaseOrderCpm> baseOrderCpmList = entity.getBaseOrderCpmList();
+            if (baseOrderCpmList != null && !baseOrderCpmList.isEmpty()) {
+                for (BaseOrderCpm baseOrderCpm : baseOrderCpmList) {
+                    baseOrderCpm.setOrderId(entity.getId());
+                    baseOrderCpmMapper.insertSelective(baseOrderCpm);
+                }
+            }
+        }
+
+        return count;
+    }
+
+
+    @Override
+    public int update(BaseExecuteOrderFrame entity) {
+        int count = 0;
+        if (entity != null) {
+            count = getSqlMapper().updateByPrimaryKey(entity);
+
+            baseOrderCpmMapper.deleteByOrderAndType(entity.getId(), 1);
+
+            List<BaseOrderCpm> baseOrderCpmList = entity.getBaseOrderCpmList();
+            if (baseOrderCpmList != null && !baseOrderCpmList.isEmpty()) {
+                for (BaseOrderCpm baseOrderCpm : baseOrderCpmList) {
+                    baseOrderCpm.setId(null);
+                    baseOrderCpm.setOrderId(entity.getId());
+                    baseOrderCpmMapper.insertSelective(baseOrderCpm);
+                }
+            }
+        }
+
+        return count;
     }
 
 }

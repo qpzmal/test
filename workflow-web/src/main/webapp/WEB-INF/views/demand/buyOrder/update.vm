@@ -2,7 +2,7 @@
 #define($cssblock)
 <link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
 <link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
-<link href="#springUrl("")/static/css/style.min.css?v=4.1.0?$!application.getAttribute('/static/css/style.min.css?v=4.1.0')" rel="stylesheet">
+<link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
 ##table
 <link href="#springUrl("")/static/css/plugins/bootstrap-table/bootstrap-table.min.css?$!application.getAttribute('/static/css/plugins/bootstrap-table/bootstrap-table.min.css')" rel="stylesheet">
 <link href="#springUrl("")/static/css/plugins/bootstrap-table/bootstrap-editable.css?$!application.getAttribute('/static/css/plugins/bootstrap-table/bootstrap-editable.css')" rel="stylesheet">
@@ -12,9 +12,8 @@
 #end
 
 <form class="form-horizontal m-t" id="commentForm">
-    <input type="hidden" id="flowType" name="flowType" value="save">
-
     <div class="wrapper wrapper-content animated fadeInRight">
+        <input type="hidden" id="id" name="id" value="$baseBuyOrder.id">
         <div class="row">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
@@ -24,19 +23,19 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目编号</label>
                         <div class="col-sm-8">
-                            <input value="自动生成" id="order_num" name="order_num" maxlength="15" type="text" class="form-control" disabled >
+                            <input value="$!{baseBuyOrder.orderNum}" id="order_num" name="order_num" maxlength="15" type="text" class="form-control" disabled >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目补充编号</label>
                         <div class="col-sm-8">
-                            <input id="sec_order_num" name="sec_order_num" maxlength="15" type="text" class="form-control" required aria-required="true">
+                            <input value="$!{baseBuyOrder.secOrderNum}" id="sec_order_num" name="sec_order_num" maxlength="15" type="text" class="form-control" required aria-required="true">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目名称</label>
                         <div class="col-sm-8">
-                            <input id="p_name" name="p_name" maxlength="50" type="text" class="form-control" >
+                            <input value="$!{baseBuyOrder.name}" id="p_name" name="p_name" maxlength="50" type="text" class="form-control" >
                         </div>
                     </div>
                     <div class="form-group">
@@ -44,22 +43,30 @@
                         <div class="col-sm-8">
                             <select id="type" data-placeholder="选择项目类型..." class="chosen-select" style="width:350px;"  tabindex="2">
                                 <option value="">请选择项目类型</option>
-                                <option value="1" hassubinfo="true">框架</option>
-                                <option value="2" hassubinfo="true">单采</option>
+                                <option value="1" hassubinfo="true"
+                                        #if($!{baseBuyOrder.type} == 1)
+                                            selected
+                                        #end
+                                >框架</option>
+                                <option value="2" hassubinfo="true"
+                                    #if($!{baseBuyOrder.type} == 2)
+                                        selected
+                                    #end
+                                >单采</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目日期</label>
                         <div class="col-sm-8">
-                            <input id="order_date" name="order_date" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                            <input value="$!{format.format($!{baseBuyOrder.orderDate})}" id="order_date" name="order_date" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">区域</label>
                         <div id="area_content" class="col-sm-9">
-                            <input id="area_id" hidden >
-                            <input id="area_name" name="area_name" type="text" class="form-control"
+                            <input value="$!{baseBuyOrder.areaId}" id="area_id" hidden >
+                            <input value="$!{areaName}" id="area_name" name="area_name" type="text" class="form-control"
                                 #if(!${areaTreeJson})
                                    disabled
                                 #end
@@ -69,10 +76,14 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目负责人ID</label>
                         <div class="col-sm-8">
-                            <select id="person_id" ata-placeholder="请选择项目负责人" class="chosen-select" style="width:350px;" tabindex="2">
+                            <select id="person_leader_id" ata-placeholder="请选择项目负责人" class="chosen-select" style="width:350px;" tabindex="2">
                                 <option value="">请选择项目负责人</option>
                                 #foreach($data in $leaderList)
-                                    <option value ="$data.id">$data.name</option>
+                                    <option value ="$data.id"
+                                            #if(${baseBuyOrder.personId} == $data.id)
+                                            selected
+                                            #end
+                                            >$data.name</option>
                                 #end
                             </select>
                         </div>
@@ -92,7 +103,11 @@
                             <select id="delivery_area_ids" data-placeholder="选择投放地区" class="chosen-select" multiple style="width:350px;" tabindex="4">
                                 <option value="">请选择投放地区</option>
                                 #foreach($data in $regionList)
-                                    <option value ="$data.id">$data.name</option>
+                                    <option value ="$data.id"
+                                    #if($selectedReginList.contains("$data.id"))
+                                        selected
+                                    #end
+                                    >$data.name</option>
                                 #end
                             </select>
                         </div>
@@ -100,10 +115,10 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">投放开始日期</label>
                         <div class="col-sm-4">
-                            <input id="start_date" placeholder="开始日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                            <input value="$!{format.format($!{baseBuyOrder.startDate})}" id="start_date" placeholder="开始日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
                         </div>
                         <div class="col-sm-4">
-                            <input id="end_date" placeholder="结束日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                            <input value="$!{format.format($!{baseBuyOrder.endDate})}" id="end_date" placeholder="结束日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
                         </div>
                     </div>
                 </div>
@@ -118,7 +133,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目总金额</label>
                         <div class="col-sm-8">
-                            <input id="amount" name="amount" type="text" class="form-control" aria-required="true">
+                            <input value="$!{baseBuyOrder.amount}" id="amount" name="amount" type="text" class="form-control" aria-required="true">
                         </div>
                     </div>
                 </div>
@@ -133,19 +148,18 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">回款比例</label>
                         <div class="col-sm-8 ">
-                            <input id="pay_percent" name="pay_percent" type="text" class="form-control" >
+                            <input value="$!{baseBuyOrder.payPercent}" id="pay_percent" name="pay_percent" type="text" class="form-control" >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">账期</label>
                         <div class="col-sm-8">
-                            <input id="account_period" name="account_period" maxlength="5" type="text" class="form-control">
+                            <input value="$!{baseBuyOrder.accountPeriod}" id="account_period" name="account_period" maxlength="5" type="text" class="form-control">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
@@ -164,13 +178,14 @@
                         <thead>
                         <tr>
                             <th data-field="state" data-checkbox="true"></th>
-                            <th data-field="id" data-editable="true">行号</th>
+                            <th data-field="num" data-editable="true">行号</th>
                             <th data-field="mediaId" data-editable="true">媒体Id</th>
                             <th data-field="mediaPrice" data-editable="true" >媒体单价</th>
                             <th data-field="firstPrice" data-editable="true" >媒体采购成本单价</th>
                             <th data-field="adTypeId" data-editable="true" >广告形式Id</th>
                             <th data-field="cpm" data-editable="true" >CPM数</th>
                             <th data-field="remark" data-editable="true" >备注</th>
+                            <th data-field="id" data-editable="true">id</th>
                         </tr>
                         </thead>
                     </table>
@@ -179,17 +194,15 @@
         </div>
         <div class="row">
             <div class="form-group">
-                <div class="col-sm-2 col-sm-offset-2">
-                    <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
-                </div>
-                <div class="col-sm-2 col-sm-offset-2">
-                    <button class="btn btn-info" type="button"><i class="fa fa-play"></i> 发起流程</button>
-                </div>
-                <div class="col-sm-2 col-sm-offset-2">
+                <div class="col-sm-4 col-sm-offset-3">
+                <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
+            </div>
+                <div class="col-sm-3 col-sm-offset-1">
                     <button id="btn_cancel" class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
                 </div>
             </div>
         </div>
+
     </div>
 </form>
 
@@ -215,25 +228,46 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-table-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-table-editable.js')"></script>
 
 <script>
+
+    ##显示公司列表
+    function onBodyDown(event) {
+        if (!(event.target.id == "area_id" || event.target.id == "area_tree_content" || $(event.target).parents("#area_tree_content").length>0)) {
+            hideMenu();
+        }
+    }
+    function hideMenu() {
+        $("#area_tree_content").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+    function showAreaList() {
+        var area_name = $("#area_name");
+        var area_content_offSet = $("#area_content").offset();
+        var area_name_offSet = area_name.offset();
+        $("#area_tree_content").css({left:area_name_offSet.left + "px", top:area_content_offSet.top + area_name.outerHeight() + "px"}).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    };
+    ##显示公司列表
+
     var cpmTable =$("#exampleTableEvents");
     $("#btn_plus").click(
-            function () {
-                var index = cpmTable.bootstrapTable('getData').length;
-                cpmTable.bootstrapTable('insertRow', {index: index,row: {
-                    id: index+1,
-                    mediaId:'',
-                    mediaPrice:'',
-                    firstPrice:'',
-                    adTypeId:'',
-                    cpm:'',
-                    remark:''
-                }
-                });
-                return false;
+        function () {
+            var index = cpmTable.bootstrapTable('getData').length;
+            cpmTable.bootstrapTable('insertRow', {index: index,row: {
+                num: index+1,
+                mediaId:'',
+                mediaPrice:'',
+                firstPrice:'',
+                adTypeId:'',
+                cpm:'',
+                remark:'',
+                id:''
+            }
             });
+            return false;
+    });
     $("#btn_trash").click(function () {
-        var ids = $.map(cpmTable.bootstrapTable('getSelections'), function (row) {return row.id;});
-        if (ids.length < 1 ) {return;}
+    var ids = $.map(cpmTable.bootstrapTable('getSelections'), function (row) {return row.id;});
+    if (ids.length < 1 ) {return;}
         cpmTable.bootstrapTable('remove', {field: 'id',values: ids});
     });
     function cellStyle(e, t, o) {
@@ -270,17 +304,22 @@
             icons: {columns: "glyphicon-list"}
         })
     }
+
     !function (e, t, o) {
         !function () {
-            console.log()
             o("#exampleTableEvents").bootstrapTable({
+                data: $.parseJSON('$!{baseBuyOrder.cpmJsonStr}'),
                 columns: [
                     {
                         checkbox: true
                     },
                     {
-                        field: "id",
+                        field: "num",
                         title: "行号"
+                    },
+                    {
+                        field: "id",
+                        title: "id"
                     },
                     {
                         field: "mediaId",
@@ -291,16 +330,16 @@
                             source: function () {
                                 var result = [];
                                 $.each($.parseJSON('$mediaListJson'), function (key, value) {
-                                            result.push({ value: value.id, text: value.name });
-                                        }
+                                    result.push({ value: value.id, text: value.name });
+                                }
                                 );
                                 return result;
                             }
                         }
                     },
                     {
-                        field: "mediaPrice",
-                        title: "媒体单价"
+                    field: "mediaPrice",
+                    title: "媒体单价"
                     },
                     {
                         field: "firstPrice",
@@ -332,6 +371,7 @@
                     }
                 ]
             });
+            $('#exampleTableEvents').bootstrapTable('hideColumn', 'id');
             var e = o("#examplebtTableEventsResult");
             o("#exampleTableEvents")
                     .on("all.bs.table", function (e, t, o) {console.log("Event:", t, ", data:", o)})
@@ -349,26 +389,6 @@
                     .on("search.bs.table", function () {e.text("Event: search.bs.table")})
         }()
     }(document, window, jQuery);
-
-    ##显示公司列表
-    function onBodyDown(event) {
-        if (!(event.target.id == "area_id" || event.target.id == "area_tree_content" || $(event.target).parents("#area_tree_content").length>0)) {
-            hideMenu();
-        }
-    }
-    function hideMenu() {
-        $("#area_tree_content").fadeOut("fast");
-        $("body").unbind("mousedown", onBodyDown);
-    }
-    function showAreaList() {
-        var area_name = $("#area_name");
-        var area_content_offSet = $("#area_content").offset();
-        var area_name_offSet = area_name.offset();
-        $("#area_tree_content").css({left:area_name_offSet.left + "px", top:area_content_offSet.top + area_name.outerHeight() + "px"}).slideDown("fast");
-        $("body").bind("mousedown", onBodyDown);
-    };
-    ##显示公司列表
-
     var start = {
         elem: "#start_date",
         format: "YYYY/MM/DD",
@@ -419,13 +439,12 @@
             var e="<i class='fa fa-times-circle'></i> ";
             $("#commentForm").validate({
                 submitHandler:function(form){
-                    add();
+                    update();
                 }
             });
             {var i=document.querySelector(".js-switch"),
-                t=(new Switchery(i,{color:"#1AB394"}));
+                    t=(new Switchery(i,{color:"#1AB394"}));
             };
-
             var areaTreeData = '$!{areaTreeJson}';
             if (areaTreeData == '') {
                 areaTreeData = "{}";
@@ -482,56 +501,60 @@
                 if (deliveryAreaNames == "") {
                     deliveryAreaNames = areaSelected.value;
                 } else {
-                    deliveryAreaNames = deliveryAreaNames + "," + areaSelected.value;
+                    deliveryAreaNames = deliveryAreaNames + "," + areaSelected.text;
                 }
             };
         }
         return deliveryAreaNames;
     }
+    function update(){
 
-
-    function add(){
-        var flowType = $("#flowType").val();
-
+        var id =  $("#id").val();
         var name = $("#p_name").val();
         var secOrderNum = $("#sec_order_num").val();
         var type = $("#type").val();
         var orderDate = stringToDate($("#order_date").val());
-        var personId = $("#person_id").val();
+        var personLeaderId = $("#person_leader_id").val();
         var areaId = $("#area_id").val();
+
         var deliveryAreaIds = findSelecedValueStr("delivery_area_ids");
         var deliveryAreaNames = findSelecedStr("delivery_area_ids");
+
         var startDate = stringToDate($("#start_date").val());
         var endDate = stringToDate($("#end_date").val());
-        var personSalesId = $("#person_sales_id").val();
+
+
         var amount = $("#amount").val();
+
         var payPercent = $("#pay_percent").val();
         var accountPeriod = $("#account_period").val();
+
         var cpmJsonStr = JSON.stringify(cpmTable.bootstrapTable('getData'));
 
-
         $.ajax({
-            url:"/buyOrder/add.json",
+            url:"/buyOrder/update.json",
             type:"post",
             async: false,
             data:{
-                flowType:flowType,
+                id:id,
                 name:name,
                 secOrderNum:secOrderNum,
                 type:type,
                 orderDate:orderDate,
+                deliveryAreaIds:deliveryAreaIds,
+                deliveryAreaNames:deliveryAreaNames,
                 areaId:areaId,
                 amount:amount,
                 startDate:startDate,
                 endDate:endDate,
-                personId:personId,
+                personId:personLeaderId,
                 payPercent:payPercent,
                 accountPeriod:accountPeriod,
                 cpmJsonStr:cpmJsonStr
             },
             success: function(returnData){
                 if(returnData.code == 1){
-                    popMsg('添加成功!', "/buyOrder/index");
+                    popMsg('更新成功!', "/buyOrder/index");
                 } else{
                     layer.msg(returnData.info);
                 }
@@ -539,22 +562,6 @@
 
         });
     }
-
-    // 发起流程
-    $(".btn-info").click(function(){
-        layer.confirm('发起流程后，在审批结束前申请内容不可修改，是否确认发起流程？', {
-            btn: ['确认','取消'] //按钮
-        }, function(){
-            ## （示例：关闭确认框）
-            layer.closeAll('dialog');
-            if ($("#commentForm").valid()) {
-                $("#flowType").val("start");
-                add();
-            }
-        }, function(){
-        });
-    })
-
 
     // 返回
     $("#btn_cancel").click(function(){

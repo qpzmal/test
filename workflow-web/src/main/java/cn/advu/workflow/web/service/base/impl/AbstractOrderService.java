@@ -2,8 +2,11 @@ package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.dao.fcf_vu.SequenceMapper;
 import cn.advu.workflow.domain.base.AbstractOrderEntity;
+import cn.advu.workflow.domain.enums.CpmTypeEnum;
+import cn.advu.workflow.domain.enums.CustomTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
+import cn.advu.workflow.domain.utils.ValueEnumUtils;
 import cn.advu.workflow.web.common.ResultJson;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -22,6 +25,17 @@ public class AbstractOrderService {
     @Autowired
     SequenceMapper sequenceMapper;
 
+    protected String findCustomType(String customType) {
+        CustomTypeEnum signCustomType = ValueEnumUtils.getEnum(CustomTypeEnum.class, customType);
+        switch (signCustomType) {
+            case FA:
+                return "D";
+            case DA:
+                return "Z";
+            default:
+                return "";
+        }
+    }
 
     protected String buildOrderNumSeqStr() {
         Integer orderNumSeq = sequenceMapper.nextVal();
@@ -30,10 +44,15 @@ public class AbstractOrderService {
     }
 
     protected <T extends AbstractOrderEntity> void buildBuyOrderCpm(T orderEntity) {
-        buildCpm(orderEntity, "6");
+
+        buildCpm(orderEntity, CpmTypeEnum.BUY.getValue());
     }
     protected <T extends AbstractOrderEntity> void buildExecuteCpm(T orderEntity) {
-        buildCpm(orderEntity, "1");
+            buildCpm(orderEntity, CpmTypeEnum.CUSTOM.getValue());
+
+    }
+    protected <T extends AbstractOrderEntity> void buildExecuteFrameCpm(T orderEntity) {
+        buildCpm(orderEntity, CpmTypeEnum.EXECUTE_FRAME.getValue());
 
     }
 
@@ -52,7 +71,7 @@ public class AbstractOrderService {
                 baseOrderCpm.setAdTypeId(cpmJsonObject.getInteger("adTypeId"));
                 baseOrderCpm.setCpm(cpmJsonObject.getInteger("cpm"));
                 baseOrderCpm.setRemark(cpmJsonObject.getString("remark"));
-                baseOrderCpm.setId(cpmJsonObject.getInteger("id"));
+//                baseOrderCpm.setId(cpmJsonObject.getInteger("id"));
                 baseOrderCpmList.add(baseOrderCpm);
             }
             orderEntity.setBaseOrderCpmList(baseOrderCpmList);

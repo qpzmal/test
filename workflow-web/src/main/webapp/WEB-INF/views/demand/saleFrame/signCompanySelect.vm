@@ -1,12 +1,16 @@
 #set($layout = '/layout/empty.vm')
-<select id="custom_id" ata-placeholder="请选择客户" class="chosen-select" style="width:350px;" tabindex="2"
-    #if(!$customList || $customList.isEmpty())
+<select id="sign_company_id" ata-placeholder="请选择签约公司" class="chosen-select" style="width:350px;" tabindex="2"
+    #if(!$signCompanyList || $signCompanyList.isEmpty())
         disabled
     #end
->
-    <option value="">请选择客户</option>
-    #foreach($data in $customList)
-        <option value ="$data.id">$data.name</option>
+onchange="signCompanyChange()">
+    <option value="">请选择签约公司</option>
+    #foreach($data in $signCompanyList)
+        <option value ="$data.id"
+        #if(${baseExecuteOrder.customSignId} == $data.id)
+            selected
+        #end
+        >$data.name</option>
     #end
 </select>
 

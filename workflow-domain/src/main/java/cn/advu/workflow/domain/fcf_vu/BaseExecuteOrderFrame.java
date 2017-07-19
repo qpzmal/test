@@ -31,6 +31,8 @@ public class BaseExecuteOrderFrame extends AbstractOrderEntity {
 
     private Integer personSalesId;
 
+    private String signType;
+
     private BigDecimal amount;
 
     private BigDecimal publicRebate;
@@ -68,6 +70,14 @@ public class BaseExecuteOrderFrame extends AbstractOrderEntity {
     private Integer accountPeriod;
 
     private Integer frameId;
+
+    public String getSignType() {
+        return signType;
+    }
+
+    public void setSignType(String signType) {
+        this.signType = signType;
+    }
 
     public String getProcessInstanceId() {
         return processInstanceId;

@@ -7,6 +7,9 @@ public enum CpmTypeEnum implements IValueEnum {
 
     CUSTOM("1"),
     EXECUTE("2"),
+    BUY_FRAME("4"),
+    EXECUTE_FRAME("5"),
+    BUY("6"),
     MONITOR("3");
 
     private String value;

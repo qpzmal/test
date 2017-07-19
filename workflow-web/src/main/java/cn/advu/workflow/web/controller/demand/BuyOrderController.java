@@ -9,7 +9,9 @@ import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.BuyOrderService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import cn.advu.workflow.web.util.AssertUtil;
+import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -84,7 +86,7 @@ public class BuyOrderController {
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addRegion(BaseBuyOrder baseBuyOrder, HttpServletRequest request){
+    public ResultJson<Integer> add(BaseBuyOrder baseBuyOrder, HttpServletRequest request){
         return buyOrderService.add(baseBuyOrder);
     }
 
@@ -95,7 +97,7 @@ public class BuyOrderController {
      */
     @ResponseBody
     @RequestMapping(value ="/update", method = RequestMethod.POST)
-    public ResultJson<Integer> updateArea(BaseBuyOrder baseBuyOrder, HttpServletRequest request){
+    public ResultJson<Integer> update(BaseBuyOrder baseBuyOrder, HttpServletRequest request){
         return buyOrderService.update(baseBuyOrder);
     }
 
@@ -143,7 +145,49 @@ public class BuyOrderController {
     @RequestMapping("/toUpdate")
     public String toUpdate(Integer id, Model model){
 
+        Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+        SysUser sysUser = userMananger.findById(userId);
+        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+
         BaseBuyOrder baseBuyOrder = buyOrderService.findById(id).getData();
+        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
+        BaseArea baseArea = areaService.findById(baseBuyOrder.getAreaId()).getData();
+        List<BasePerson> leaderList = personMananger.findPersonListByArea(baseBuyOrder.getAreaId());
+        List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
+        List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
+        List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
+        List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
+        List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
+
+        List<BaseOrderCpm> cpmList = baseBuyOrder.getBaseOrderCpmList();
+        int index = 1;
+        JSONArray cpmArrList = new JSONArray();
+        for (BaseOrderCpm cpmTemp : cpmList) {
+            JSONObject cpmVo = new JSONObject();
+            cpmVo.put("state", false);
+            cpmVo.put("num", index++);
+            cpmVo.put("id", cpmTemp.getId());
+            cpmVo.put("mediaId", cpmTemp.getMediaId());
+            cpmVo.put("mediaPrice", cpmTemp.getMediaPrice());
+            cpmVo.put("firstPrice", cpmTemp.getFirstPrice());
+            cpmVo.put("adTypeId", cpmTemp.getAdTypeId());
+            cpmVo.put("cpm", cpmTemp.getCpm());
+            cpmVo.put("remark", cpmTemp.getRemark());
+            cpmArrList.add(cpmVo);
+        }
+        baseBuyOrder.setCpmJsonStr(cpmArrList.toJSONString());
+
+
+        model.addAttribute("selectedReginList", StringListUtil.toList(baseBuyOrder.getDeliveryAreaIds()));
+        model.addAttribute("monitorRequestList", baseMonitorRequestList);
+        model.addAttribute("regionList", regionList);
+        model.addAttribute("industryList", industryList);
+        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("leaderList", leaderList);
+        model.addAttribute("areaTreeJson", areaTreeJson);
+        model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
+        model.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
+        model.addAttribute("format", format);
 
         model.addAttribute("baseBuyOrder", baseBuyOrder);
 

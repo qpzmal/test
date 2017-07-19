@@ -103,12 +103,12 @@
                             <select id="sign_type" data-placeholder="选择签约类型..." class="chosen-select" style="width:350px;"  tabindex="2" onchange="signTypeChange()">
                                 <option value="">请选择签约类型</option>
                                 <option value="1" hassubinfo="true"
-                                    #if(${baseExecuteOrder.customSignId} == 1)
+                                    #if(${baseExecuteOrder.signType} == 1)
                                         selected
                                     #end
                                 >代理</option>
                                 <option value="2" hassubinfo="true"
-                                    #if(${baseExecuteOrder.customSignId} == 2)
+                                    #if(${baseExecuteOrder.signType} == 2)
                                         selected
                                     #end
                                 >直客</option>
@@ -126,7 +126,7 @@
                                 <option value="">请选择签约公司</option>
                                 #foreach($data in $signCompanyList)
                                     <option value ="$data.id"
-                                        #if(${baseExecuteOrder.customSignId} == $data.id)
+                                        #if(${baseExecuteOrder.customSignId} == "$data.id")
                                             selected
                                         #end
                                     >$data.name</option>
