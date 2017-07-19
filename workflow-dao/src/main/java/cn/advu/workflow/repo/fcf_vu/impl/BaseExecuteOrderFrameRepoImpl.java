@@ -78,4 +78,23 @@ public class BaseExecuteOrderFrameRepoImpl extends AbstractOrderRepo<BaseExecute
         return count;
     }
 
+    @Override
+    public int logicRemove(BaseExecuteOrderFrame entity) {
+        int count = 0;
+        if (entity != null) {
+            entity.setDelFlag("1");
+            count = getSqlMapper().updateByPrimaryKeySelective(entity);
+
+            List<BaseOrderCpm> baseOrderCpmList = entity.getBaseOrderCpmList();
+            if (baseOrderCpmList != null && !baseOrderCpmList.isEmpty()) {
+                for (BaseOrderCpm baseOrderCpm : baseOrderCpmList) {
+                    baseOrderCpm.setDelFlag("1");
+                    baseOrderCpmMapper.updateByPrimaryKeySelective(baseOrderCpm);
+                }
+            }
+
+        }
+        return count;
+    }
+
 }

@@ -37,6 +37,13 @@ public interface ExecuteOrderService {
     ResultJson<Integer> update(BaseExecuteOrder baseExecuteOrder);
 
     /**
+     * 删除需求单
+     * @param id
+     * @return
+     */
+    ResultJson<Void> remove(Integer id);
+
+    /**
      * 返回当前需求单
      * @param id
      * @return

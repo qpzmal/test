@@ -1,13 +1,11 @@
 package cn.advu.workflow.web.service.base.impl;
 
-import cn.advu.workflow.domain.fcf_vu.BaseArea;
-import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
-import cn.advu.workflow.domain.fcf_vu.BaseCustom;
-import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
+import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.repo.fcf_vu.BaseBuyOrderRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.service.base.BuyOrderService;
@@ -129,5 +127,19 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
         baseBuyOrder.setBaseOrderCpmList(cpmList);
 
         return result;
+    }
+
+    @Override
+    public ResultJson<Void> remove(Integer id) {
+
+        BaseBuyOrder baseBuyOrder = baseBuyOrderRepo.findOne(id);
+        List<BaseOrderCpm> cpmList = cpmManager.findOrderCustomCpm(id);
+        baseBuyOrder.setBaseOrderCpmList(cpmList);
+
+        Integer count = baseBuyOrderRepo.logicRemove(baseBuyOrder);
+        if (count == 0) {
+            throw new ServiceException("需求单不存在！");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 }

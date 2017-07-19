@@ -100,6 +100,20 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     }
 
     @Override
+    public ResultJson<Void> remove(Integer id) {
+
+        BaseExecuteOrder baseExecuteOrder = baseExecuteOrderRepo.findOne(id);
+        List<BaseOrderCpm> cpmList = cpmManager.findOrderCustomCpm(id);
+        baseExecuteOrder.setBaseOrderCpmList(cpmList);
+
+        Integer count = baseExecuteOrderRepo.logicRemove(baseExecuteOrder);
+        if (count == 0) {
+            throw new ServiceException("需求单不存在！");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
+    @Override
     public ResultJson<BaseExecuteOrder> findById(Integer id) {
         ResultJson<BaseExecuteOrder> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         BaseExecuteOrder baseExecuteOrder = baseExecuteOrderRepo.findOne(id);

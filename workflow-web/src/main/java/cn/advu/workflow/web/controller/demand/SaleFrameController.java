@@ -139,6 +139,12 @@ public class SaleFrameController {
         return saleFrameService.update(baseExecuteOrderFrame);
     }
 
+    @ResponseBody
+    @RequestMapping(value ="/remove", method = RequestMethod.POST)
+    public ResultJson<Void> remove(Integer id, HttpServletRequest request){
+        return saleFrameService.remove(id);
+    }
+
     /**
      * 跳转修改页
      *
