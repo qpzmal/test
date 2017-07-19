@@ -29,7 +29,7 @@
     <result column="our_monitor_name" jdbcType="VARCHAR" property="ourMonitorName" />
     <result column="report_type_id" jdbcType="VARCHAR" property="reportTypeId" />
     <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="signing intention" jdbcType="VARCHAR" property="signingIntention" />
+    <result column="signing_intention" jdbcType="VARCHAR" property="signingIntention" />
     <result column="person_payee_id" jdbcType="INTEGER" property="personPayeeId" />
     <result column="pay_percent" jdbcType="DECIMAL" property="payPercent" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
@@ -45,7 +45,7 @@
     id, process_instance_id, name, order_num, sec_order_num, order_date, delivery_area_ids, delivery_area_names,
     area_id, custom_sign_id, custom_adverser_id, industry_id,person_sales_id, amount, public_rebate, private_rebate, tax_amount, tax_free_amount,
     monitor_ids, monitor_names, start_date, end_date, person_leader_id, our_monitor_name,
-    report_type_id, status, "signing intention", person_payee_id, pay_percent, user_id,
+    report_type_id, status, signing_intention, person_payee_id, pay_percent, user_id,
     account_period, del_flag, item_status, create_time, update_time, remark, frame_id,sign_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -67,7 +67,7 @@
       private_rebate, tax_amount, tax_free_amount,
       monitor_ids, monitor_names, start_date,
       end_date, person_leader_id, our_monitor_name,
-      report_type_id, status, "signing intention",
+      report_type_id, status, signing_intention,
       person_payee_id, pay_percent, user_id,
       account_period, del_flag, item_status,
       create_time, update_time, remark,
@@ -171,7 +171,7 @@
         status,
       </if>
       <if test="signingIntention != null">
-        "signing intention",
+        signing_intention,
       </if>
       <if test="personPayeeId != null">
         person_payee_id,
@@ -403,7 +403,7 @@
         status = #{status,jdbcType=TINYINT},
       </if>
       <if test="signingIntention != null">
-        "signing intention" = #{signingIntention,jdbcType=VARCHAR},
+        signing_intention = #{signingIntention,jdbcType=VARCHAR},
       </if>
       <if test="personPayeeId != null">
         person_payee_id = #{personPayeeId,jdbcType=INTEGER},
