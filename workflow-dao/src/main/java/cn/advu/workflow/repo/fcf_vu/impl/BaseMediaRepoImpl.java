@@ -3,6 +3,7 @@ package cn.advu.workflow.repo.fcf_vu.impl;
 import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.dao.fcf_vu.BaseAreaMapper;
 import cn.advu.workflow.dao.fcf_vu.BaseMediaMapper;
+import cn.advu.workflow.domain.enums.ItemStatusEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseMedia;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
@@ -31,5 +32,10 @@ public class BaseMediaRepoImpl extends AbstractRepo<BaseMedia> implements BaseMe
     @Override
     public List<BaseMedia> findAll() {
         return baseMediaMapper.queryAll(null);
+    }
+
+    @Override
+    public List<BaseMedia> findAllActive() {
+        return baseMediaMapper.queryAll(Integer.valueOf(ItemStatusEnum.ACTIVE.getValue()));
     }
 }

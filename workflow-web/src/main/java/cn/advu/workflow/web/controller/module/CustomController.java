@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -29,6 +30,7 @@ public class CustomController {
 
     @Autowired
     private IndustryService industryService;
+
 
     /**
      * 跳转客户首页-客户列表页

@@ -61,7 +61,7 @@ public class CustomServiceImpl implements CustomService {
         }
 
         // 新增客户
-        Integer insertCount = baseCustomRepo.add(baseCustom);
+        Integer insertCount = baseCustomRepo.addSelective(baseCustom);
         if(insertCount != 1){
             throw new ServiceException("创建客户失败!");
         }

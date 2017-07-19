@@ -12,6 +12,7 @@
     <result column="delivery_area_ids" jdbcType="VARCHAR" property="deliveryAreaIds" />
     <result column="delivery_area_names" jdbcType="VARCHAR" property="deliveryAreaNames" />
     <result column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="sign_type" jdbcType="TINYINT" property="signType" />
     <result column="custom_sign_id" jdbcType="INTEGER" property="customSignId" />
     <result column="custom_adverser_id" jdbcType="INTEGER" property="customAdverserId" />
     <result column="industry_id" jdbcType="INTEGER" property="industryId" />
@@ -47,7 +48,7 @@
     amount, public_rebate, private_rebate, tax_amount, tax_free_amount, monitor_ids, 
     monitor_names, start_date, end_date, person_leader_id, our_monitor_name, report_type_id, 
     status, signing_intention, person_payee_id, pay_percent, user_id, account_period, 
-    del_flag, item_status, create_time, update_time, remark, frame_id
+    del_flag, item_status, create_time, update_time, remark, frame_id,sign_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -60,7 +61,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
-    insert into base_execute_order (id, process_instance_id, name, 
+    insert into base_execute_order (id, process_instance_id, name,
       order_num, sec_order_num, type, 
       order_date, delivery_area_ids, delivery_area_names, 
       area_id, custom_sign_id, custom_adverser_id, 
@@ -72,7 +73,7 @@
       signing_intention, person_payee_id, pay_percent, 
       user_id, account_period, del_flag, 
       item_status, create_time, update_time, 
-      remark, frame_id)
+      remark, frame_id,sign_type)
     values (#{id,jdbcType=INTEGER}, #{processInstanceId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{orderNum,jdbcType=VARCHAR}, #{secOrderNum,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
       #{orderDate,jdbcType=TIMESTAMP}, #{deliveryAreaIds,jdbcType=VARCHAR}, #{deliveryAreaNames,jdbcType=VARCHAR}, 
@@ -85,7 +86,7 @@
       #{signingIntention,jdbcType=VARCHAR}, #{personPayeeId,jdbcType=INTEGER}, #{payPercent,jdbcType=DECIMAL}, 
       #{userId,jdbcType=INTEGER}, #{accountPeriod,jdbcType=INTEGER}, #{delFlag,jdbcType=TINYINT}, 
       #{itemStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{remark,jdbcType=VARCHAR}, #{frameId,jdbcType=INTEGER})
+      #{remark,jdbcType=VARCHAR}, #{frameId,jdbcType=INTEGER}, #{signType,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_execute_order
@@ -119,6 +120,9 @@
       </if>
       <if test="areaId != null">
         area_id,
+      </if>
+      <if test="signType != null">
+        sign_type,
       </if>
       <if test="customSignId != null">
         custom_sign_id,
@@ -236,6 +240,9 @@
       <if test="areaId != null">
         #{areaId,jdbcType=INTEGER},
       </if>
+      <if test="signType != null">
+        #{signType,jdbcType=TINYINT},
+      </if>
       <if test="customSignId != null">
         #{customSignId,jdbcType=INTEGER},
       </if>
@@ -352,6 +359,9 @@
       <if test="areaId != null">
         area_id = #{areaId,jdbcType=INTEGER},
       </if>
+      <if test="signType != null">
+        sign_type = #{signType,jdbcType=TINYINT},
+      </if>
       <if test="customSignId != null">
         custom_sign_id = #{customSignId,jdbcType=INTEGER},
       </if>
@@ -441,9 +451,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder">
     update base_execute_order
-    set process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+    set
       name = #{name,jdbcType=VARCHAR},
-      order_num = #{orderNum,jdbcType=VARCHAR},
       sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
       type = #{type,jdbcType=TINYINT},
       order_date = #{orderDate,jdbcType=TIMESTAMP},
@@ -470,14 +479,11 @@
       signing_intention = #{signingIntention,jdbcType=VARCHAR},
       person_payee_id = #{personPayeeId,jdbcType=INTEGER},
       pay_percent = #{payPercent,jdbcType=DECIMAL},
-      user_id = #{userId,jdbcType=INTEGER},
       account_period = #{accountPeriod,jdbcType=INTEGER},
-      del_flag = #{delFlag,jdbcType=TINYINT},
-      item_status = #{itemStatus,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      item_status = 0,
       remark = #{remark,jdbcType=VARCHAR},
-      frame_id = #{frameId,jdbcType=INTEGER}
+      frame_id = #{frameId,jdbcType=INTEGER},
+      sign_type = #{signType,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

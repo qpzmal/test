@@ -142,6 +142,7 @@ public class CustomFinanceController {
 
         model.addAttribute("baseCustomFinance", baseCustomFinance);
         model.addAttribute("customList", customList);
+        model.addAttribute("format", format);
 
         return "modules/customFinance/update";
     }

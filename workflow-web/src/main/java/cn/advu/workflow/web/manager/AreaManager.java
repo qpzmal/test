@@ -106,4 +106,8 @@ public class AreaManager {
 
     }
 
+    public BaseArea findById(Integer id) {
+        return baseAreaRepo.findOne(id);
+    }
+
 }

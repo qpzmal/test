@@ -8,10 +8,19 @@ import java.util.List;
 
 public abstract class AbstractOrderEntity extends AbstractEntity {
 
+    private String orderNum;
 
     private List<BaseOrderCpm> baseOrderCpmList;
 
     private String cpmJsonStr;
+
+    public String getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(String orderNum) {
+        this.orderNum = orderNum == null ? null : orderNum.trim();
+    }
 
     public List<BaseOrderCpm> getBaseOrderCpmList() {
         return baseOrderCpmList;

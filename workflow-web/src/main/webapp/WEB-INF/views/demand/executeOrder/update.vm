@@ -13,6 +13,7 @@
 
 <form class="form-horizontal m-t" id="commentForm">
     <div class="wrapper wrapper-content animated fadeInRight">
+        <input type="hidden" id="id" name="id" value="$baseExecuteOrder.id">
         <div class="row">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
@@ -22,19 +23,19 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目编号</label>
                         <div class="col-sm-8">
-                            <input value="自动生成" id="order_num" name="order_num" maxlength="15" type="text" class="form-control" disabled >
+                            <input value="$!{baseExecuteOrder.orderNum}" id="order_num" name="order_num" maxlength="15" type="text" class="form-control" disabled >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目补充编号</label>
                         <div class="col-sm-8">
-                            <input id="sec_order_num" name="sec_order_num" maxlength="15" type="text" class="form-control" required aria-required="true">
+                            <input value="$!{baseExecuteOrder.secOrderNum}" id="sec_order_num" name="sec_order_num" maxlength="15" type="text" class="form-control" required aria-required="true">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目名称</label>
                         <div class="col-sm-8">
-                            <input id="p_name" name="p_name" maxlength="50" type="text" class="form-control" >
+                            <input value="$!{baseExecuteOrder.name}" id="p_name" name="p_name" maxlength="50" type="text" class="form-control" >
                         </div>
                     </div>
                     <div class="form-group">
@@ -42,22 +43,30 @@
                         <div class="col-sm-8">
                             <select id="type" data-placeholder="选择项目类型..." class="chosen-select" style="width:350px;"  tabindex="2">
                                 <option value="">请选择项目类型</option>
-                                <option value="1" hassubinfo="true">框架</option>
-                                <option value="2" hassubinfo="true">单采</option>
+                                <option value="1" hassubinfo="true"
+                                        #if($!{baseExecuteOrder.type} == 1)
+                                            selected
+                                        #end
+                                >框架</option>
+                                <option value="2" hassubinfo="true"
+                                    #if($!{baseExecuteOrder.type} == 2)
+                                        selected
+                                    #end
+                                >单采</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目日期</label>
                         <div class="col-sm-8">
-                            <input id="order_date" name="order_date" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                            <input value="$!{format.format($!{baseExecuteOrder.orderDate})}" id="order_date" name="order_date" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">区域</label>
                         <div id="area_content" class="col-sm-9">
-                            <input id="area_id" hidden >
-                            <input id="area_name" name="area_name" type="text" class="form-control"
+                            <input value="$!{baseExecuteOrder.areaId}" id="area_id" hidden >
+                            <input value="$!{areaName}" id="area_name" name="area_name" type="text" class="form-control"
                                 #if(!${areaTreeJson})
                                    disabled
                                 #end
@@ -70,7 +79,11 @@
                             <select id="person_leader_id" ata-placeholder="请选择项目负责人" class="chosen-select" style="width:350px;" tabindex="2">
                                 <option value="">请选择项目负责人</option>
                                 #foreach($data in $leaderList)
-                                    <option value ="$data.id">$data.name</option>
+                                    <option value ="$data.id"
+                                            #if(${baseExecuteOrder.personLeaderId} == $data.id)
+                                            selected
+                                            #end
+                                            >$data.name</option>
                                 #end
                             </select>
                         </div>
@@ -89,16 +102,35 @@
                         <div class="col-sm-8">
                             <select id="sign_type" data-placeholder="选择签约类型..." class="chosen-select" style="width:350px;"  tabindex="2" onchange="signTypeChange()">
                                 <option value="">请选择签约类型</option>
-                                <option value="1" hassubinfo="true">代理</option>
-                                <option value="2" hassubinfo="true">直客</option>
+                                <option value="1" hassubinfo="true"
+                                    #if(${baseExecuteOrder.customSignId} == 1)
+                                        selected
+                                    #end
+                                >代理</option>
+                                <option value="2" hassubinfo="true"
+                                    #if(${baseExecuteOrder.customSignId} == 2)
+                                        selected
+                                    #end
+                                >直客</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">签约公司</label>
                         <div id="sign_company_content" class="col-sm-8">
-                            <select id="sign_company_id" ata-placeholder="请选择签约公司" class="chosen-select" style="width:350px;" tabindex="2" disabled>
+                            <select id="sign_company_id" ata-placeholder="请选择签约公司" class="chosen-select" style="width:350px;" tabindex="2"
+                                #if(!$signCompanyList || $signCompanyList.isEmpty())
+                                    disabled
+                                #end
+                                    onchange="signCompanyChange()">
                                 <option value="">请选择签约公司</option>
+                                #foreach($data in $signCompanyList)
+                                    <option value ="$data.id"
+                                        #if(${baseExecuteOrder.customSignId} == $data.id)
+                                            selected
+                                        #end
+                                    >$data.name</option>
+                                #end
                             </select>
                         </div>
                     </div>
@@ -108,7 +140,11 @@
                             <select id="custom_industry_id" ata-placeholder="请选择客户行业" class="chosen-select" style="width:350px;" tabindex="2">
                                 <option value="">请选择客户行业</option>
                                 #foreach($data in $industryList)
-                                    <option value ="$data.id">$data.name</option>
+                                    <option value ="$data.id"
+                                            #if("$data.id" == $!{baseExecuteOrder.industryId})
+                                            selected
+                                            #end
+                                    >$data.name</option>
                                 #end
                             </select>
                         </div>
@@ -116,8 +152,19 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">客户</label>
                         <div id="custom_content" class="col-sm-8">
-                            <select id="custom_id" ata-placeholder="请选择客户" class="chosen-select" style="width:350px;" tabindex="2" disabled>
+                            <select id="custom_id" ata-placeholder="请选择客户" class="chosen-select" style="width:350px;" tabindex="2"
+                                #if(!$customList || $customList.isEmpty())
+                                    disabled
+                                #end
+                            >
                                 <option value="">请选择客户</option>
+                                #foreach($data in $customList)
+                                    <option value ="$data.id"
+                                        #if("$data.id" == $!{baseExecuteOrder.customAdverserId})
+                                            selected
+                                        #end
+                                    >$data.name</option>
+                                #end
                             </select>
                         </div>
                     </div>
@@ -136,7 +183,11 @@
                             <select id="delivery_area_ids" data-placeholder="选择投放地区" class="chosen-select" multiple style="width:350px;" tabindex="4">
                                 <option value="">请选择投放地区</option>
                                 #foreach($data in $regionList)
-                                    <option value ="$data.id">$data.name</option>
+                                    <option value ="$data.id"
+                                    #if($selectedReginList.contains("$data.id"))
+                                        selected
+                                    #end
+                                    >$data.name</option>
                                 #end
                             </select>
                         </div>
@@ -144,10 +195,10 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">投放开始日期</label>
                         <div class="col-sm-4">
-                            <input id="start_date" placeholder="开始日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                            <input value="$!{format.format($!{baseExecuteOrder.startDate})}" id="start_date" placeholder="开始日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
                         </div>
                         <div class="col-sm-4">
-                            <input id="end_date" placeholder="结束日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                            <input value="$!{format.format($!{baseExecuteOrder.endDate})}" id="end_date" placeholder="结束日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
                         </div>
                     </div>
                 </div>
@@ -165,7 +216,11 @@
                             <select id="monitor_ids" data-placeholder="请选择监测公司" class="chosen-select" multiple style="width:350px;" tabindex="2">
                                 <option value="">请选择监测公司</option>
                                 #foreach($data in $monitorRequestList)
-                                    <option value ="$data.id">$data.name</option>
+                                    <option value ="$data.id"
+                                        #if($selectMonitorList.contains("$data.id"))
+                                            selected
+                                        #end
+                                    >$data.name</option>
                                 #end
                             </select>
                         </div>
@@ -176,7 +231,11 @@
                             <select id="our_monitor_ids" data-placeholder="请选择监测公司" class="chosen-select" multiple style="width:350px;" tabindex="2">
                                 <option value="">请选择监测公司</option>
                                 #foreach($data in $monitorRequestList)
-                                    <option value ="$data.id">$data.name</option>
+                                    <option value ="$data.id"
+                                        #if($selectOurMonitorNameList.contains($data.name))
+                                            selected
+                                        #end
+                                    >$data.name</option>
                                 #end
                             </select>
                         </div>
@@ -186,11 +245,27 @@
                         <div class="col-sm-8">
                             <select id="report_type_id" data-placeholder="选择报告类型..." class="chosen-select" multiple style="width:350px;"  tabindex="2">
                                 <option value="">请选择报告类型</option>
-                                <option value="1" hassubinfo="true">日报</option>
-                                <option value="2" hassubinfo="true">周报</option>
-                                <option value="3" hassubinfo="true">月报</option>
-                                <option value="4" hassubinfo="true">年报</option>
-                                <option value="5" hassubinfo="true">结案报告</option>
+                                <option value="1" hassubinfo="true"
+                                    #if($selectReportList.contains("1"))
+                                        selected
+                                    #end
+                                >日报</option>
+                                <option value="2" hassubinfo="true"
+                                    #if($selectReportList.contains("2"))
+                                        selected
+                                    #end>周报</option>
+                                <option value="3" hassubinfo="true"
+                                    #if($selectReportList.contains("3"))
+                                        selected
+                                    #end>月报</option>
+                                <option value="4" hassubinfo="true"
+                                    #if($selectReportList.contains("4"))
+                                        selected
+                                    #end>年报</option>
+                                <option value="5" hassubinfo="true"
+                                    #if($selectReportList.contains("5"))
+                                        selected
+                                    #end>结案报告</option>
                             </select>
                         </div>
                     </div>
@@ -213,31 +288,31 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目总金额</label>
                         <div class="col-sm-8">
-                            <input id="amount" name="amount" type="text" class="form-control" aria-required="true">
+                            <input value="$!{baseExecuteOrder.amount}" id="amount" name="amount" type="text" class="form-control" aria-required="true">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">对公返点</label>
                         <div class="col-sm-8">
-                            <input id="public_rebate" name="public_rebate" type="text" class="form-control">
+                            <input value="$!{baseExecuteOrder.publicRebate}" id="public_rebate" name="public_rebate" type="text" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">对私返点</label>
                         <div class="col-sm-8">
-                            <input id="private_rebate" name="private_rebate" type="text" class="form-control" >
+                            <input value="$!{baseExecuteOrder.privateRebate}" id="private_rebate" name="private_rebate" type="text" class="form-control" >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">含税金额</label>
                         <div class="col-sm-8">
-                            <input id="tax_amount" name="tax_amount" type="text" class="form-control" >
+                            <input value="$!{baseExecuteOrder.taxAmount}" id="tax_amount" name="tax_amount" type="text" class="form-control" >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">不含税金额</label>
                         <div class="col-sm-8">
-                            <input id="tax_free_amount" name="tax_free_amount" type="text" class="form-control" >
+                            <input value="$!{baseExecuteOrder.taxFreeAmount}" id="tax_free_amount" name="tax_free_amount" type="text" class="form-control" >
                         </div>
                     </div>
                 </div>
@@ -252,19 +327,19 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">收款负责人</label>
                         <div class="col-sm-8">
-                            <input id="person_payee_id" name="person_payee_id" type="text" class="form-control" >
+                            <input value="$!{baseExecuteOrder.personPayeeId}" id="person_payee_id" name="person_payee_id" type="text" class="form-control" >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">回款比例</label>
                         <div class="col-sm-8 ">
-                            <input id="pay_percent" name="pay_percent" type="text" class="form-control" >
+                            <input value="$!{baseExecuteOrder.payPercent}" id="pay_percent" name="pay_percent" type="text" class="form-control" >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">账期</label>
                         <div class="col-sm-8">
-                            <input id="account_period" name="account_period" maxlength="5" type="text" class="form-control">
+                            <input value="$!{baseExecuteOrder.accountPeriod}" id="account_period" name="account_period" maxlength="5" type="text" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -288,13 +363,14 @@
                         <thead>
                         <tr>
                             <th data-field="state" data-checkbox="true"></th>
-                            <th data-field="id" data-editable="true">行号</th>
+                            <th data-field="num" data-editable="true">行号</th>
                             <th data-field="mediaId" data-editable="true">媒体Id</th>
                             <th data-field="mediaPrice" data-editable="true" >媒体单价</th>
                             <th data-field="firstPrice" data-editable="true" >媒体采购成本单价</th>
                             <th data-field="adTypeId" data-editable="true" >广告形式Id</th>
                             <th data-field="cpm" data-editable="true" >CPM数</th>
                             <th data-field="remark" data-editable="true" >备注</th>
+                            <th data-field="id" data-editable="true">id</th>
                         </tr>
                         </thead>
                     </table>
@@ -386,13 +462,14 @@
         function () {
             var index = cpmTable.bootstrapTable('getData').length;
             cpmTable.bootstrapTable('insertRow', {index: index,row: {
-                id: index+1,
+                num: index+1,
                 mediaId:'',
                 mediaPrice:'',
                 firstPrice:'',
                 adTypeId:'',
                 cpm:'',
-                remark:''
+                remark:'',
+                id:''
             }
             });
             return false;
@@ -436,17 +513,22 @@
             icons: {columns: "glyphicon-list"}
         })
     }
+
     !function (e, t, o) {
         !function () {
-            console.log()
             o("#exampleTableEvents").bootstrapTable({
+                data: $.parseJSON('$!{baseExecuteOrder.cpmJsonStr}'),
                 columns: [
                     {
                         checkbox: true
                     },
                     {
-                        field: "id",
+                        field: "num",
                         title: "行号"
+                    },
+                    {
+                        field: "id",
+                        title: "id"
                     },
                     {
                         field: "mediaId",
@@ -498,6 +580,7 @@
                     }
                 ]
             });
+            $('#exampleTableEvents').bootstrapTable('hideColumn', 'id');
             var e = o("#examplebtTableEventsResult");
             o("#exampleTableEvents")
                     .on("all.bs.table", function (e, t, o) {console.log("Event:", t, ", data:", o)})
@@ -565,7 +648,7 @@
             var e="<i class='fa fa-times-circle'></i> ";
             $("#commentForm").validate({
                 submitHandler:function(form){
-                    addRegion();
+                    update();
                 }
             });
             {var i=document.querySelector(".js-switch"),
@@ -627,13 +710,15 @@
                 if (deliveryAreaNames == "") {
                     deliveryAreaNames = areaSelected.value;
                 } else {
-                    deliveryAreaNames = deliveryAreaNames + "," + areaSelected.value;
+                    deliveryAreaNames = deliveryAreaNames + "," + areaSelected.text;
                 }
             };
         }
         return deliveryAreaNames;
     }
-    function addRegion(){
+    function update(){
+
+        var id =  $("#id").val();
         var name = $("#p_name").val();
         var secOrderNum = $("#sec_order_num").val();
         var type = $("#type").val();
@@ -669,10 +754,11 @@
         var cpmJsonStr = JSON.stringify(cpmTable.bootstrapTable('getData'));
 
         $.ajax({
-            url:"/executeOrder/add.json",
+            url:"/executeOrder/update.json",
             type:"post",
             async: false,
             data:{
+                id:id,
                 name:name,
                 secOrderNum:secOrderNum,
                 type:type,
@@ -684,16 +770,20 @@
                 customSignId:signCompanyId,
                 customAdverserId:customId,
                 industryId:customIndustryId,
+
                 personSalesId:personSalesId,
                 amount:amount,
                 publicRebate:publicRebate,
                 privateRebate:privateRebate,
                 taxAmount:taxAmount,
                 taxFreeAmount:taxFreeAmount,
+
                 monitorIds:monitorIds,
                 monitorNames:ourMonitorNames,
+
                 ourMonitorName:ourMonitorNames,
                 reportTypeId:reportTypeId,
+
                 startDate:startDate,
                 endDate:endDate,
                 personLeaderId:personLeaderId,
@@ -705,7 +795,7 @@
             },
             success: function(returnData){
                 if(returnData.code == 1){
-                    popMsg('添加成功!', "/executeOrder/index");
+                    popMsg('更新成功!', "/executeOrder/index");
                 } else{
                     layer.msg(returnData.info);
                 }

@@ -1,18 +1,17 @@
 package cn.advu.workflow.domain.fcf_vu;
 
 import cn.advu.workflow.domain.base.AbstractEntity;
+import cn.advu.workflow.domain.base.AbstractOrderEntity;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class BaseExecuteOrder extends AbstractEntity {
+public class BaseExecuteOrder extends AbstractOrderEntity {
 
     private String processInstanceId;
 
     private String name;
-
-    private String orderNum;
 
     private String secOrderNum;
 
@@ -25,6 +24,8 @@ public class BaseExecuteOrder extends AbstractEntity {
     private String deliveryAreaNames;
 
     private Integer areaId;
+
+    private String signType;
 
     private Integer customSignId;
 
@@ -72,9 +73,13 @@ public class BaseExecuteOrder extends AbstractEntity {
 
     private Integer frameId;
 
-    private List<BaseOrderCpm> baseOrderCpmList;
+    public String getSignType() {
+        return signType;
+    }
 
-    private String cpmJsonStr;
+    public void setSignType(String signType) {
+        this.signType = signType;
+    }
 
     public String getProcessInstanceId() {
         return processInstanceId;
@@ -84,36 +89,12 @@ public class BaseExecuteOrder extends AbstractEntity {
         this.processInstanceId = processInstanceId == null ? null : processInstanceId.trim();
     }
 
-    public List<BaseOrderCpm> getBaseOrderCpmList() {
-        return baseOrderCpmList;
-    }
-
-    public void setBaseOrderCpmList(List<BaseOrderCpm> baseOrderCpmList) {
-        this.baseOrderCpmList = baseOrderCpmList;
-    }
-
-    public String getCpmJsonStr() {
-        return cpmJsonStr;
-    }
-
-    public void setCpmJsonStr(String cpmJsonStr) {
-        this.cpmJsonStr = cpmJsonStr;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public String getOrderNum() {
-        return orderNum;
-    }
-
-    public void setOrderNum(String orderNum) {
-        this.orderNum = orderNum == null ? null : orderNum.trim();
     }
 
     public String getSecOrderNum() {

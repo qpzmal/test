@@ -2,12 +2,18 @@ package cn.advu.workflow.web.controller.demand;
 
 import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.manager.*;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import cn.advu.workflow.web.service.base.PersonService;
+import cn.advu.workflow.web.util.AssertUtil;
+import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -44,12 +53,22 @@ public class ExecuteOrderController {
 
     @Autowired
     CustomMananger customMananger;
+    @Autowired
+    UserMananger userMananger;
 
     @Autowired
     IndustryManager industryManager;
 
     @Autowired
     RegionManager regionManager;
+
+    @Autowired
+    MediaMananger mediaMananger;
+
+    @Autowired
+    AdtypeMananger adtypeMananger;
+
+    static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     @RequestMapping("/signCompanySelect")
     public String signCompanySelect(Integer signType, Model model){
@@ -91,7 +110,7 @@ public class ExecuteOrderController {
      */
     @ResponseBody
     @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> addRegion(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
+    public ResultJson<Integer> add(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
         return executeOrderService.add(baseExecuteOrder);
     }
 
@@ -102,7 +121,7 @@ public class ExecuteOrderController {
      */
     @ResponseBody
     @RequestMapping(value ="/update", method = RequestMethod.POST)
-    public ResultJson<Integer> updateArea(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
+    public ResultJson<Integer> update(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
         return executeOrderService.update(baseExecuteOrder);
     }
 
@@ -114,23 +133,30 @@ public class ExecuteOrderController {
     @RequestMapping("/toAdd")
     public String toAdd(Model resultModel){
 
-        Integer areaId = 6;
+        Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+        SysUser sysUser = userMananger.findById(userId);
+        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+        AssertUtil.assertNotNull(basePerson, MessageConstants.PERSON_IS_NOT_EXISTS);
 
-        // 区域树
+        Integer areaId = basePerson.getAreaId();
+
         String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
-        resultModel.addAttribute("areaTreeJson", areaTreeJson);
-        // 项目负责人ID
         List<BasePerson> leaderList = personMananger.findPersonListByArea(areaId);
-        // 监测机构
         List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
         List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
-
         List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
+        List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
+        List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
 
+        resultModel.addAttribute("areaTreeJson", areaTreeJson);
         resultModel.addAttribute("monitorRequestList", baseMonitorRequestList);
         resultModel.addAttribute("leaderList", leaderList);
         resultModel.addAttribute("industryList", industryList);
         resultModel.addAttribute("regionList", regionList);
+        resultModel.addAttribute("salePersonId", basePerson.getId());
+        resultModel.addAttribute("salePersonName", basePerson.getName());
+        resultModel.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
+        resultModel.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
 
         return "demand/executeOrder/add";
     }
@@ -145,12 +171,76 @@ public class ExecuteOrderController {
     @RequestMapping("/toUpdate")
     public String toUpdate(Integer id, Model model){
 
-        BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(id).getData();
+        Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+        SysUser sysUser = userMananger.findById(userId);
+        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
 
+        BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(id).getData();
+        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
+        BaseArea baseArea = areaService.findById(baseExecuteOrder.getAreaId()).getData();
+        List<BasePerson> leaderList = personMananger.findPersonListByArea(baseExecuteOrder.getAreaId());
+        List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
+        List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
+        List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
+        List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
+        List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
+
+        List<BaseCustom> signCompanyList = null;
+        String signType = baseExecuteOrder.getSignType();
+        if (signType != null) {
+            signCompanyList = customMananger.findCustomListByCustomType(Integer.valueOf(signType));
+        }
+
+        List<BaseCustom> customList = null;
+        Integer signCustomId = baseExecuteOrder.getCustomSignId();
+        if (signCustomId != null) {
+            customList = customMananger.findChildCustom(signCustomId);
+        }
+        model.addAttribute("customList", customList);
+
+        List<BaseOrderCpm> cpmList = baseExecuteOrder.getBaseOrderCpmList();
+        int index = 1;
+        JSONArray cpmArrList = new JSONArray();
+        for (BaseOrderCpm cpmTemp : cpmList) {
+            JSONObject cpmVo = new JSONObject();
+            cpmVo.put("state", false);
+            cpmVo.put("num", index++);
+            cpmVo.put("id", cpmTemp.getId());
+            cpmVo.put("mediaId", cpmTemp.getMediaId());
+            cpmVo.put("mediaPrice", cpmTemp.getMediaPrice());
+            cpmVo.put("firstPrice", cpmTemp.getFirstPrice());
+            cpmVo.put("adTypeId", cpmTemp.getAdTypeId());
+            cpmVo.put("cpm", cpmTemp.getCpm());
+            cpmVo.put("remark", cpmTemp.getRemark());
+            cpmArrList.add(cpmVo);
+        }
+        baseExecuteOrder.setCpmJsonStr(cpmArrList.toJSONString());
+
+
+        model.addAttribute("selectedReginList", StringListUtil.toList(baseExecuteOrder.getDeliveryAreaIds()));
+        model.addAttribute("selectMonitorList", StringListUtil.toList(baseExecuteOrder.getMonitorIds()));
+        model.addAttribute("selectOurMonitorNameList", StringListUtil.toList(baseExecuteOrder.getOurMonitorName()));
+        model.addAttribute("selectReportList", StringListUtil.toList(baseExecuteOrder.getReportTypeId()));
+
+        model.addAttribute("customList", customList);
+        model.addAttribute("signCompanyList", signCompanyList);
+        model.addAttribute("monitorRequestList", baseMonitorRequestList);
+        model.addAttribute("regionList", regionList);
+        model.addAttribute("industryList", industryList);
+        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("leaderList", leaderList);
+        model.addAttribute("areaTreeJson", areaTreeJson);
         model.addAttribute("baseExecuteOrder", baseExecuteOrder);
+        model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
+        model.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
+        model.addAttribute("format", format);
+        model.addAttribute("salePersonId", basePerson.getId());
+        model.addAttribute("salePersonName", basePerson.getName());
 
         return "demand/executeOrder/update";
     }
+
+
 
 
 }

@@ -3,6 +3,7 @@ package cn.advu.workflow.repo.fcf_vu.impl;
 import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.dao.fcf_vu.BaseExecuteOrderMapper;
 import cn.advu.workflow.dao.fcf_vu.BaseOrderCpmMapper;
+import cn.advu.workflow.domain.enums.CpmTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
@@ -28,4 +29,8 @@ public class BaseOrderCpmRepoImpl extends AbstractRepo<BaseOrderCpm> implements 
         return baseOrderCpmMapper;
     }
 
+    @Override
+    public List<BaseOrderCpm> findByCustomOrderCpm(Integer orderId) {
+        return baseOrderCpmMapper.selectByOrderAndType(orderId, Integer.valueOf(CpmTypeEnum.CUSTOM.getValue()));
+    }
 }

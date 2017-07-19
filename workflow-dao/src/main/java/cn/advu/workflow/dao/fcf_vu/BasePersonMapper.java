@@ -16,4 +16,6 @@ public interface BasePersonMapper extends BaseDAO<BasePerson> {
     List<BasePerson> queryChildListByDept(@Param("deptId") Integer deptId);
 
     List<BasePerson> queryPersonListByArea(@Param("areaId") Integer areaId);
+
+    BasePerson queryPersonByName(@Param("name")String name);
 }

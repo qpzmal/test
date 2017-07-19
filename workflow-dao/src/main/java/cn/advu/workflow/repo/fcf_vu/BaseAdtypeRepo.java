@@ -11,4 +11,6 @@ import java.util.List;
 public interface BaseAdtypeRepo extends IRepo<BaseAdtype> {
 
     List<BaseAdtype> findAll();
+
+    List<BaseAdtype> findAllActive();
 }
