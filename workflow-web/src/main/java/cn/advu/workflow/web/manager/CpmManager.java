@@ -21,4 +21,8 @@ public class CpmManager {
     public List<BaseOrderCpm> findOrderBuyCpm(Integer orderId) {
         return  baseOrderCpmRepo.findByBuyOrderCpm(orderId);
     }
+
+    public List<BaseOrderCpm> findExecuteOrderFrameCpm(Integer orderId) {
+        return  baseOrderCpmRepo.findByExecuteOrderFrameCpm(orderId);
+    }
 }

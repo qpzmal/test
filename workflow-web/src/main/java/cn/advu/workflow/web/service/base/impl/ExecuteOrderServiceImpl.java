@@ -54,17 +54,6 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         return result;
     }
 
-    private String findCustomType(String customType) {
-        CustomTypeEnum signCustomType = ValueEnumUtils.getEnum(CustomTypeEnum.class, customType);
-        switch (signCustomType) {
-            case FA:
-                return "D";
-            case DA:
-                return "Z";
-            default:
-                return "";
-        }
-    }
     @Override
     public ResultJson<Integer> add(BaseExecuteOrder baseExecuteOrder) {
 
