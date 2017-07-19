@@ -2,6 +2,7 @@ package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.dao.fcf_vu.SequenceMapper;
 import cn.advu.workflow.domain.base.AbstractOrderEntity;
+import cn.advu.workflow.domain.enums.CpmTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
 import cn.advu.workflow.web.common.ResultJson;
@@ -30,10 +31,11 @@ public class AbstractOrderService {
     }
 
     protected <T extends AbstractOrderEntity> void buildBuyOrderCpm(T orderEntity) {
-        buildCpm(orderEntity, "6");
+
+        buildCpm(orderEntity, CpmTypeEnum.BUY.getValue());
     }
     protected <T extends AbstractOrderEntity> void buildExecuteCpm(T orderEntity) {
-        buildCpm(orderEntity, "1");
+        buildCpm(orderEntity, CpmTypeEnum.CUSTOM.getValue());
 
     }
 

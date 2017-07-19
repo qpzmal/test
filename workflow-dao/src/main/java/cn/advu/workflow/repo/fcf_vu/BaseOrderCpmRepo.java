@@ -13,4 +13,6 @@ public interface BaseOrderCpmRepo extends IRepo<BaseOrderCpm> {
 
     List<BaseOrderCpm> findByCustomOrderCpm(Integer orderId);
 
+    List<BaseOrderCpm> findByBuyOrderCpm(Integer orderId);
+
 }

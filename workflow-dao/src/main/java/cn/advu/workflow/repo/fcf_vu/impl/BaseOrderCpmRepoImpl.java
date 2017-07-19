@@ -33,4 +33,9 @@ public class BaseOrderCpmRepoImpl extends AbstractRepo<BaseOrderCpm> implements 
     public List<BaseOrderCpm> findByCustomOrderCpm(Integer orderId) {
         return baseOrderCpmMapper.selectByOrderAndType(orderId, Integer.valueOf(CpmTypeEnum.CUSTOM.getValue()));
     }
+
+    @Override
+    public List<BaseOrderCpm> findByBuyOrderCpm(Integer orderId) {
+        return baseOrderCpmMapper.selectByOrderAndType(orderId, Integer.valueOf(CpmTypeEnum.BUY.getValue()));
+    }
 }
