@@ -6,6 +6,63 @@
 -- 1.20170620 兆华建立
 
 
+--20170718 燕燕
+ALTER TABLE `base_execute_order` ADD `sign_type` TINYINT(1)  NOT NULL  COMMENT '签约类型：1：代理2：直客'  AFTER `frame_id`;
+
+CREATE TABLE `sequence` (
+  `name` varchar(50) NOT NULL,
+  `current_value` int(11) NOT NULL,
+  `increment` int(11) NOT NULL DEFAULT '1',
+  `dates` int(4) NOT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP FUNCTION IF EXISTS currval;
+DELIMITER $
+CREATE FUNCTION currval (seq_name VARCHAR(50))
+     RETURNS INTEGER
+     LANGUAGE SQL
+     DETERMINISTIC
+     CONTAINS SQL
+     SQL SECURITY DEFINER
+     COMMENT ''
+BEGIN
+     DECLARE value INTEGER;
+     SET value = 0;
+     SELECT current_value INTO value
+          FROM sequence
+          WHERE name = seq_name and dates=(SELECT DATE_FORMAT(NOW(), '%Y') FROM DUAL);
+     IF value = 0 THEN
+          UPDATE sequence SET dates=(SELECT DATE_FORMAT(NOW(), '%Y') FROM DUAL)
+          WHERE name = seq_name;
+     END IF;
+     RETURN value;
+END
+$
+DELIMITER ;
+
+DROP FUNCTION IF EXISTS nextval;
+DELIMITER $
+CREATE FUNCTION nextval (seq_name VARCHAR(50))
+     RETURNS INTEGER
+     LANGUAGE SQL
+     DETERMINISTIC
+     CONTAINS SQL
+     SQL SECURITY DEFINER
+     COMMENT ''
+BEGIN
+     DECLARE value INTEGER;
+    SET value = currval(seq_name);
+     UPDATE sequence
+          SET current_value = current_value + increment
+          WHERE name = seq_name;
+     RETURN currval(seq_name);
+END
+$
+DELIMITER ;
+
+-- 20170717
 ALTER TABLE `base_execute_order`
 	ADD COLUMN `custom_sign_id` int(11) NOT NULL DEFAULT 0 COMMENT '签约公司id，关联客户表' AFTER `area_id`;
 ALTER TABLE `base_execute_order`
