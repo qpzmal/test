@@ -16,7 +16,7 @@ public class CpmManager {
     BaseOrderCpmRepo baseOrderCpmRepo;
 
     public List<BaseOrderCpm> findOrderCustomCpm(Integer orderId) {
-        return  baseOrderCpmRepo.findByCustomOrderCpm(orderId);
+        return  baseOrderCpmRepo.findExecuteOrderCpm(orderId);
     }
     public List<BaseOrderCpm> findOrderBuyCpm(Integer orderId) {
         return  baseOrderCpmRepo.findByBuyOrderCpm(orderId);

@@ -42,4 +42,9 @@ public class BaseOrderCpmRepoImpl extends AbstractRepo<BaseOrderCpm> implements 
     public List<BaseOrderCpm> findByExecuteOrderFrameCpm(Integer orderId) {
         return baseOrderCpmMapper.selectByOrderAndType(orderId, Integer.valueOf(CpmTypeEnum.EXECUTE_FRAME.getValue()));
     }
+
+    @Override
+    public List<BaseOrderCpm> findExecuteOrderCpm(Integer orderId) {
+        return baseOrderCpmMapper.selectExecuteOrderCpm(orderId);
+    }
 }

@@ -16,4 +16,6 @@ public interface BaseOrderCpmRepo extends IRepo<BaseOrderCpm> {
 
     List<BaseOrderCpm> findByExecuteOrderFrameCpm(Integer orderId);
 
+    List<BaseOrderCpm> findExecuteOrderCpm(Integer orderId);
+
 }

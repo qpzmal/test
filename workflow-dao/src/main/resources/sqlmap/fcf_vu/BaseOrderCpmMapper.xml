@@ -216,6 +216,14 @@
     where order_id = #{orderId,jdbcType=INTEGER}
     and order_cpm_type = #{orderCpmType,jdbcType=TINYINT}
   </select>
+  <!-- 以下为 非自动生成的SQL-->
+  <select id="selectExecuteOrderCpm" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_order_cpm
+    where order_id = #{orderId,jdbcType=INTEGER}
+    and order_cpm_type in (1, 2, 3)
+  </select>
 
   <delete id="deleteByOrderAndType">
     delete from base_order_cpm
