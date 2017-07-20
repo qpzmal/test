@@ -48,7 +48,7 @@
       name, type, order_date, 
       amount, account_period, start_date, 
       end_date, person_id, status, 
-      pay_percent, user_id, area_id, wf_step,
+      pay_percent, user_id, area_id,
       del_flag, item_status, create_time, 
       update_time, remark, delivery_area_ids, 
       delivery_area_names, frame_id)
