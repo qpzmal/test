@@ -8,7 +8,7 @@ public class BaseOrderCpm extends AbstractEntity {
 
     private Integer orderId;
 
-    private String orderCpmType;
+    private String orderCpmType; // 1，客户需求CPM 2,执行排期CPM 3，第三方检测CPM 4，采购框架CPM 5，需求框架合同  6，表示单采CPM
 
     private Integer mediaId;
 

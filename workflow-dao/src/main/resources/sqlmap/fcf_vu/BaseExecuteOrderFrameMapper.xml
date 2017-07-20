@@ -463,6 +463,7 @@
       person_leader_id = #{personLeaderId,jdbcType=INTEGER},
       our_monitor_name = #{ourMonitorName,jdbcType=VARCHAR},
       report_type_id = #{reportTypeId,jdbcType=VARCHAR},
+--       status = #{status,jdbcType=TINYINT},
       signing_intention = #{signingIntention,jdbcType=VARCHAR},
       person_payee_id = #{personPayeeId,jdbcType=INTEGER},
       pay_percent = #{payPercent,jdbcType=DECIMAL},

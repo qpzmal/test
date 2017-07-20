@@ -288,14 +288,14 @@
                         <thead>
                         <tr>
                             <th data-field="state" data-checkbox="true"></th>
-                            <th data-field="num" data-editable="true">行号</th>
+                            <th data-field="id" data-editable="true">行号</th>
                             <th data-field="mediaId" data-editable="true">媒体Id</th>
                             <th data-field="mediaPrice" data-editable="true" >媒体单价</th>
                             <th data-field="firstPrice" data-editable="true" >媒体采购成本单价</th>
                             <th data-field="adTypeId" data-editable="true" >广告形式Id</th>
                             <th data-field="cpm" data-editable="true" >CPM数</th>
                             <th data-field="remark" data-editable="true" >备注</th>
-                            <th data-field="id" data-editable="true" >id</th>
+##                            <th data-field="id" data-editable="true" >id</th>
                         </tr>
                         </thead>
                     </table>
@@ -384,21 +384,20 @@
 
     var cpmTable =$("#exampleTableEvents");
     $("#btn_plus").click(
-            function () {
-                var index = cpmTable.bootstrapTable('getData').length;
-                cpmTable.bootstrapTable('insertRow', {index: index,row: {
-                    num: index+1,
-                    mediaId:'',
-                    mediaPrice:'',
-                    firstPrice:'',
-                    adTypeId:'',
-                    cpm:'',
-                    remark:'',
-                    id:""
-                }
-                });
-                return false;
+        function () {
+            var index = cpmTable.bootstrapTable('getData').length;
+            cpmTable.bootstrapTable('insertRow', {index: index,row: {
+                id: index+1,
+                mediaId:'',
+                mediaPrice:'',
+                firstPrice:'',
+                adTypeId:'',
+                cpm:'',
+                remark:''
+            }
             });
+            return false;
+    });
     $("#btn_trash").click(function () {
         var ids = $.map(cpmTable.bootstrapTable('getSelections'), function (row) {return row.id;});
         if (ids.length < 1 ) {return;}
@@ -447,12 +446,8 @@
                         checkbox: true
                     },
                     {
-                        field: "num",
-                        title: "行号"
-                    },
-                    {
                         field: "id",
-                        title: "id"
+                        title: "行号"
                     },
                     {
                         field: "mediaId",
@@ -558,42 +553,42 @@
 
 
     $.validator.setDefaults(
-            {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
-                success:function(e){
-                    e.closest(".form-group").removeClass("has-error").addClass("has-success")
-                },
-                errorElement:"span",
-                errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
-                errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+        {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+            success:function(e){
+                e.closest(".form-group").removeClass("has-error").addClass("has-success")
+            },
+            errorElement:"span",
+            errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+            errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
     ),
-            $().ready(
-                    function(){
-                        var e="<i class='fa fa-times-circle'></i> ";
-                        $("#commentForm").validate({
-                            submitHandler:function(form){
-                                add();
-                            }
-                        });
-                        {var i=document.querySelector(".js-switch"),
-                                t=(new Switchery(i,{color:"#1AB394"}));
-                        };
-                        var areaTreeData = '$!{areaTreeJson}';
-                        if (areaTreeData == '') {
-                            areaTreeData = "{}";
-                        }
-                    ## 生成区域树
-                        $("#area_tree").treeview({
-                            showBorder: !1,
-                            levels:1,
-                            data: areaTreeData,
-                            onNodeSelected: function (e, o) {
-                                $("#area_id").attr("value", o.value);
-                                $("#area_name").attr("value", o.text);
-                                $("#area_tree_content").fadeOut("fast");
-                            }
-                        });
-                    }
-            );
+    $().ready(
+        function(){
+            var e="<i class='fa fa-times-circle'></i> ";
+            $("#commentForm").validate({
+                submitHandler:function(form){
+                    addRegion();
+                }
+            });
+            {var i=document.querySelector(".js-switch"),
+                    t=(new Switchery(i,{color:"#1AB394"}));
+            };
+            var areaTreeData = '$!{areaTreeJson}';
+            if (areaTreeData == '') {
+                areaTreeData = "{}";
+            }
+            ## 生成区域树
+            $("#area_tree").treeview({
+                showBorder: !1,
+                levels:1,
+                data: areaTreeData,
+                onNodeSelected: function (e, o) {
+                    $("#area_id").attr("value", o.value);
+                    $("#area_name").attr("value", o.text);
+                    $("#area_tree_content").fadeOut("fast");
+                }
+            });
+        }
+    );
 
     /**
      * 字符串转时间（yyyy-MM-dd HH:mm:ss）
@@ -639,7 +634,7 @@
         }
         return deliveryAreaNames;
     }
-    function add(){
+    function addRegion(){
         var name = $("#p_name").val();
         var secOrderNum = $("#sec_order_num").val();
         var type = $("#type").val();

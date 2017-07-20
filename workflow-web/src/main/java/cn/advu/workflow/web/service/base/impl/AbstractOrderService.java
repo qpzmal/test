@@ -4,11 +4,8 @@ import cn.advu.workflow.dao.fcf_vu.SequenceMapper;
 import cn.advu.workflow.domain.base.AbstractOrderEntity;
 import cn.advu.workflow.domain.enums.CpmTypeEnum;
 import cn.advu.workflow.domain.enums.CustomTypeEnum;
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
-import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import cn.advu.workflow.domain.utils.ValueEnumUtils;
-import cn.advu.workflow.web.common.ResultJson;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -70,14 +67,14 @@ public class AbstractOrderService {
             for (Object cpmObject : cpmJsonArr) {
                 JSONObject cpmJsonObject = (JSONObject)cpmObject;
                 BaseOrderCpmVO baseOrderCpm = new BaseOrderCpmVO();
-                baseOrderCpm.setOrderCpmType(type);// 类型：1，客户需求CPM 2,执行排期CPM 3，第三方检测CPM
+                baseOrderCpm.setOrderCpmType(type);// 类型：1，客户需求CPM 2,执行排期CPM 3，第三方检测CPM 4，采购框架CPM 5，需求框架合同  6，表示单采CPM
                 baseOrderCpm.setMediaId(cpmJsonObject.getInteger("mediaId"));
                 baseOrderCpm.setMediaPrice(cpmJsonObject.getBigDecimal("mediaPrice"));
                 baseOrderCpm.setFirstPrice(cpmJsonObject.getBigDecimal("firstPrice"));
                 baseOrderCpm.setAdTypeId(cpmJsonObject.getInteger("adTypeId"));
                 baseOrderCpm.setCpm(cpmJsonObject.getInteger("cpm"));
                 baseOrderCpm.setRemark(cpmJsonObject.getString("remark"));
-                baseOrderCpm.setId(cpmJsonObject.getInteger("id"));
+//                baseOrderCpm.setId(cpmJsonObject.getInteger("id"));
                 baseOrderCpmList.add(baseOrderCpm);
             }
             orderEntity.setBaseOrderCpmList(baseOrderCpmList);

@@ -304,8 +304,8 @@
         <div class="row">
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-3">
-                <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
-            </div>
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
+                </div>
                 <div class="col-sm-3 col-sm-offset-1">
                     <button id="btn_cancel" class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
                 </div>
@@ -398,8 +398,8 @@
             return false;
     });
     $("#btn_trash").click(function () {
-    var ids = $.map(cpmTable.bootstrapTable('getSelections'), function (row) {return row.id;});
-    if (ids.length < 1 ) {return;}
+        var ids = $.map(cpmTable.bootstrapTable('getSelections'), function (row) {return row.id;});
+        if (ids.length < 1 ) {return;}
         cpmTable.bootstrapTable('remove', {field: 'id',values: ids});
     });
     function cellStyle(e, t, o) {
@@ -465,8 +465,8 @@
                         }
                     },
                     {
-                    field: "mediaPrice",
-                    title: "媒体单价"
+                        field: "mediaPrice",
+                        title: "媒体单价"
                     },
                     {
                         field: "firstPrice",

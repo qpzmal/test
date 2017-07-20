@@ -6,6 +6,8 @@
 -- 1.20170620 兆华建立
 
 -- 20170720 weiqz
+ALTER TABLE `base_order_cpm`
+	CHANGE COLUMN `order_cpm_type` `order_cpm_type` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '类型：1，客户需求CPM 2,执行排期CPM 3，第三方检测CPM 4，采购框架CPM 5，需求框架合同  6，表示单采CPM' AFTER `order_id`;
 ALTER TABLE `base_region`
 	ADD COLUMN `del_flag` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '删除标记 ，0正常，1删除' AFTER `parent_id`;
 ALTER TABLE `base_region`
@@ -28,6 +30,8 @@ ALTER TABLE `base_execute_order_frame`
 
 --20170718 燕燕
 ALTER TABLE `base_execute_order` ADD `sign_type` TINYINT(1)  NOT NULL  COMMENT '签约类型：1：代理2：直客'  AFTER `frame_id`;
+ALTER TABLE `base_execute_order_frame` ADD `sign_type` TINYINT(1)  NOT NULL  COMMENT '签约类型：1：代理2：直客'  AFTER `frame_id`;
+
 
 CREATE TABLE `sequence` (
   `name` varchar(50) NOT NULL,
