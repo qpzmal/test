@@ -42,7 +42,9 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
     @Override
     public ResultJson<List<BaseExecuteOrderFrame>> findAll() {
         ResultJson<List<BaseExecuteOrderFrame>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        result.setData(baseExecuteOrderFrameRepo.findAll());
+        BaseExecuteOrderFrame param = new BaseExecuteOrderFrame();
+        param.setStatus((byte) 0);
+        result.setData(baseExecuteOrderFrameRepo.findAll(param));
         return result;
     }
 

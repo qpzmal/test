@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface BaseExecuteOrderFrameRepo extends IRepo<BaseExecuteOrderFrame> {
 
-    List<BaseExecuteOrderFrame> findAll();
+    List<BaseExecuteOrderFrame> findAll(BaseExecuteOrderFrame baseExecuteOrderFrame);
 }
