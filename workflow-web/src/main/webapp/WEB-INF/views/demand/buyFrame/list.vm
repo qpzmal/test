@@ -62,18 +62,23 @@
     // 删除
     $(".btn-danger").click(function(){
         var id = $(this).parent().children(":first").val();
+        delItem(function(){
+            $.ajax({
+                url:"/buyFrame/remove.json",
+                type:"post",
+                data:{
+                    "id":id
+                },
+                success: function(returnData){
+                    if(returnData.code == 1){
+                        popMsg('删除成功!', "/buyFrame/index");
+                    } else{
+                        layer.msg(returnData.info);
+                    }
+                }
 
-        layer.confirm('确认删除？', {
-            btn: ['确认','取消'] //按钮
-            }, function(){
-//                layer.msg('的确很重要', {icon: 1});
-            }, function(){
-//                layer.msg('也可以这样', {
-//                    time: 20000, //20s后自动关闭
-//                    btn: ['明白了', '知道了']
-//                });
+            });
         });
-
     })
 
 </script>

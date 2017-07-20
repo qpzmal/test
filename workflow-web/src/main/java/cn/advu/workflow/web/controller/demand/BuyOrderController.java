@@ -101,6 +101,12 @@ public class BuyOrderController {
         return buyOrderService.update(baseBuyOrder);
     }
 
+    @ResponseBody
+    @RequestMapping(value ="/remove", method = RequestMethod.POST)
+    public ResultJson<Void> remove(Integer id, HttpServletRequest request){
+        return buyOrderService.remove(id);
+    }
+
     /**
      * 跳转新增需求单页面
      *

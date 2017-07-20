@@ -42,4 +42,13 @@ public interface BuyOrderService {
      * @return
      */
     ResultJson<BaseBuyOrder> findById(Integer id);
+
+    /**
+     * 删除需求单
+     * @param id
+     * @return
+     */
+    ResultJson<Void> remove(Integer id);
+
+
 }

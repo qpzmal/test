@@ -126,6 +126,19 @@ public class ExecuteOrderController {
     }
 
     /**
+     * 删除需求单
+     *
+     * @param id
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/remove", method = RequestMethod.POST)
+    public ResultJson<Void> remove(Integer id, HttpServletRequest request){
+        return executeOrderService.remove(id);
+    }
+
+    /**
      * 跳转新增需求单页面
      *
      * @return
