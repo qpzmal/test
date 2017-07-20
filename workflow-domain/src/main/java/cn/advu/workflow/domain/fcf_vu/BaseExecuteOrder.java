@@ -1,11 +1,9 @@
 package cn.advu.workflow.domain.fcf_vu;
 
-import cn.advu.workflow.domain.base.AbstractEntity;
 import cn.advu.workflow.domain.base.AbstractOrderEntity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 public class BaseExecuteOrder extends AbstractOrderEntity {
 
@@ -72,6 +70,10 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
     private Integer accountPeriod;
 
     private Integer frameId;
+
+    private String wfStep; // 工作流步骤
+
+    private String flowType; // 页面自定义属性：save保存草稿，start开始流程
 
     public String getSignType() {
         return signType;
@@ -327,5 +329,21 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
 
     public void setFrameId(Integer frameId) {
         this.frameId = frameId;
+    }
+
+    public String getWfStep() {
+        return wfStep;
+    }
+
+    public void setWfStep(String wfStep) {
+        this.wfStep = wfStep;
+    }
+
+    public String getFlowType() {
+        return flowType;
+    }
+
+    public void setFlowType(String flowType) {
+        this.flowType = flowType;
     }
 }

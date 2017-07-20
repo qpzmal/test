@@ -18,6 +18,7 @@
     <result column="pay_percent" jdbcType="DECIMAL" property="payPercent" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="wf_step" jdbcType="TINYINT" property="wfStep" />
     <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
     <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -29,7 +30,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, process_instance_id, order_num, sec_order_num, name, type, order_date, amount, account_period, start_date,
-    end_date, person_id, status, pay_percent, user_id, area_id, del_flag, item_status, 
+    end_date, person_id, status, pay_percent, user_id, area_id, wf_step, del_flag, item_status,
     create_time, update_time, remark, delivery_area_ids, delivery_area_names, frame_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -47,7 +48,7 @@
       name, type, order_date, 
       amount, account_period, start_date, 
       end_date, person_id, status, 
-      pay_percent, user_id, area_id, 
+      pay_percent, user_id, area_id,
       del_flag, item_status, create_time, 
       update_time, remark, delivery_area_ids, 
       delivery_area_names, frame_id)
@@ -55,7 +56,7 @@
       #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{orderDate,jdbcType=TIMESTAMP}, 
       #{amount,jdbcType=DECIMAL}, #{accountPeriod,jdbcType=INTEGER}, #{startDate,jdbcType=TIMESTAMP}, 
       #{endDate,jdbcType=TIMESTAMP}, #{personId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
-      #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}, 
+      #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT},
       #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{deliveryAreaIds,jdbcType=VARCHAR}, 
       #{deliveryAreaNames,jdbcType=VARCHAR}, #{frameId,jdbcType=INTEGER})
@@ -110,6 +111,9 @@
       </if>
       <if test="areaId != null">
         area_id,
+      </if>
+      <if test="wfStep != null">
+        wf_step,
       </if>
       <if test="delFlag != null">
         del_flag,
@@ -185,6 +189,9 @@
       <if test="areaId != null">
         #{areaId,jdbcType=INTEGER},
       </if>
+      <if test="wfStep != null">
+        #{wfStep,jdbcType=TINYINT},
+      </if>
       <if test="delFlag != null">
         #{delFlag,jdbcType=TINYINT},
       </if>
@@ -259,6 +266,9 @@
       <if test="areaId != null">
         area_id = #{areaId,jdbcType=INTEGER},
       </if>
+      <if test="wfStep != null">
+        wf_step = #{wfStep,jdbcType=TINYINT},
+      </if>
       <if test="delFlag != null">
         del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
@@ -298,7 +308,7 @@
       start_date = #{startDate,jdbcType=TIMESTAMP},
       end_date = #{endDate,jdbcType=TIMESTAMP},
       person_id = #{personId,jdbcType=INTEGER},
-      status = #{status,jdbcType=TINYINT},
+--       status = #{status,jdbcType=TINYINT},
       pay_percent = #{payPercent,jdbcType=DECIMAL},
       area_id = #{areaId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
@@ -317,8 +327,11 @@
     <include refid="Base_Column_List" />
     from base_buy_order
     where del_flag = '0'
+    <if test="itemStatus != null">
+      and item_status = #{itemStatus,jdbcType=TINYINT}
+    </if>
     <if test="status != null">
-      and item_status = #{status,jdbcType=TINYINT}
+      and status = #{status,jdbcType=TINYINT}
     </if>
   </select>
 </mapper>

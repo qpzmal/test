@@ -44,7 +44,9 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
     @Override
     public ResultJson<List<BaseBuyOrder>> findAll() {
         ResultJson<List<BaseBuyOrder>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        result.setData(baseBuyOrderRepo.findAll());
+        BaseBuyOrder param = new BaseBuyOrder();
+        param.setStatus((byte) 0);
+        result.setData(baseBuyOrderRepo.findAll(param));
         return result;
     }
 
@@ -71,6 +73,41 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建采购单失败!");
         }
 
+        // 发起工作流
+        return this.startWorkFlow(baseBuyOrder);
+    }
+
+    @Override
+    public ResultJson<Integer> update(BaseBuyOrder baseBuyOrder) {
+
+        // CPM
+        buildBuyOrderCpm(baseBuyOrder);
+        if (baseBuyOrder.getId() == null) {
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
+        }
+        Integer insertCount = baseBuyOrderRepo.update(baseBuyOrder);
+        if(insertCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新采购单失败!");
+        }
+
+        // 发起工作流
+        return this.startWorkFlow(baseBuyOrder);
+    }
+
+    @Override
+    public ResultJson<BaseBuyOrder> findById(Integer id) {
+        ResultJson<BaseBuyOrder> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        BaseBuyOrder baseBuyOrder = baseBuyOrderRepo.findOne(id);
+        result.setData(baseBuyOrder);
+
+        List<BaseOrderCpm> cpmList = cpmManager.findOrderBuyCpm(id);
+        baseBuyOrder.setBaseOrderCpmList(cpmList);
+
+        return result;
+    }
+
+    private ResultJson<Integer> startWorkFlow(BaseBuyOrder baseBuyOrder) {
+        LOGGER.info("startWorkFlow-flowType:{}", baseBuyOrder.getFlowType());
         if (WebConstants.WorkFlow.START.equals(baseBuyOrder.getFlowType())) {
             String userName = UserThreadLocalContext.getCurrentUser().getUserName();
             String processKey = WebConstants.WORKFLOW_BUY; // TODO 测试用
@@ -100,33 +137,6 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
             }
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-    }
-
-    @Override
-    public ResultJson<Integer> update(BaseBuyOrder baseBuyOrder) {
-
-        // CPM
-        buildBuyOrderCpm(baseBuyOrder);
-        if (baseBuyOrder.getId() == null) {
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
-        }
-        Integer insertCount = baseBuyOrderRepo.update(baseBuyOrder);
-        if(insertCount != 1){
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新采购单失败!");
-        }
-        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-    }
-
-    @Override
-    public ResultJson<BaseBuyOrder> findById(Integer id) {
-        ResultJson<BaseBuyOrder> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        BaseBuyOrder baseBuyOrder = baseBuyOrderRepo.findOne(id);
-        result.setData(baseBuyOrder);
-
-        List<BaseOrderCpmVO> cpmList = cpmManager.findOrderBuyCpm(id);
-        baseBuyOrder.setBaseOrderCpmList(cpmList);
-
-        return result;
     }
 
     @Override

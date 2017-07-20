@@ -31,8 +31,8 @@ public class BaseExecuteOrderRepoImpl extends AbstractRepo<BaseExecuteOrder> imp
     }
 
     @Override
-    public List<BaseExecuteOrder> findAll() {
-        return baseExecuteOrderMapper.queryAll(null);
+    public List<BaseExecuteOrder> findAll(BaseExecuteOrder baseExecuteOrder) {
+        return baseExecuteOrderMapper.queryAll(baseExecuteOrder);
     }
 
     @Override

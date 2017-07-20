@@ -5,6 +5,20 @@
 -- 2.20170628 燕燕修改
 -- 1.20170620 兆华建立
 
+-- 20170720 weiqz
+ALTER TABLE `base_buy_order`
+	ADD COLUMN `wf_step` TINYINT UNSIGNED NOT NULL DEFAULT '0' COMMENT '工作流步骤数' AFTER `area_id`;
+
+ALTER TABLE `base_buy_order`
+	CHANGE COLUMN `status` `status` TINYINT(3) NULL DEFAULT '0' COMMENT '执行状态：0，未生效；1，未开始； 2，进行中；3，已结束' AFTER `person_id`;
+ALTER TABLE `base_buy_order_frame`
+	CHANGE COLUMN `status` `status` TINYINT(3) NULL DEFAULT '0' COMMENT '执行状态：0，未生效；1，未开始； 2，进行中；3，已结束' AFTER `person_id`;
+ALTER TABLE `base_execute_order`
+	CHANGE COLUMN `status` `status` TINYINT(3) NULL DEFAULT '0' COMMENT '执行状态：0，未生效；1，未开始； 2，进行中；3，已结束' AFTER `person_sales_id`;
+ALTER TABLE `base_execute_order_frame`
+	CHANGE COLUMN `status` `status` TINYINT(3) NULL DEFAULT '0' COMMENT '执行状态：0，未生效；1，未开始； 2，进行中；3，已结束' AFTER `person_sales_id`;
+
+
 
 --20170718 燕燕
 ALTER TABLE `base_execute_order` ADD `sign_type` TINYINT(1)  NOT NULL  COMMENT '签约类型：1：代理2：直客'  AFTER `frame_id`;

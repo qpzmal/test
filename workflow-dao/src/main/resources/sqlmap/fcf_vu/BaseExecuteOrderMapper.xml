@@ -475,7 +475,7 @@
       person_leader_id = #{personLeaderId,jdbcType=INTEGER},
       our_monitor_name = #{ourMonitorName,jdbcType=VARCHAR},
       report_type_id = #{reportTypeId,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
+--       status = #{status,jdbcType=TINYINT},
       signing_intention = #{signingIntention,jdbcType=VARCHAR},
       person_payee_id = #{personPayeeId,jdbcType=INTEGER},
       pay_percent = #{payPercent,jdbcType=DECIMAL},
@@ -498,8 +498,11 @@
     <include refid="Base_Column_List" />
     from base_execute_order
     where del_flag = '0'
+    <if test="item_status != null">
+      and item_status = #{itemStatus,jdbcType=TINYINT}
+    </if>
     <if test="status != null">
-      and item_status = #{status,jdbcType=TINYINT}
+      and status = #{status,jdbcType=TINYINT}
     </if>
   </select>
 </mapper>
