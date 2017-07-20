@@ -498,7 +498,7 @@
     <include refid="Base_Column_List" />
     from base_execute_order
     where del_flag = '0'
-    <if test="item_status != null">
+    <if test="itemStatus != null">
       and item_status = #{itemStatus,jdbcType=TINYINT}
     </if>
     <if test="status != null">

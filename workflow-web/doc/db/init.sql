@@ -182,12 +182,6 @@ INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`,
 
 
 -- 初始化数据
-
-
-
-
-
-
 INSERT INTO `sys_role` (`activiti_name`, `name`, `description`, `is_system`, `sort`) VALUES
 	('customer4A', '4A', '4A客户', b'1', NULL),
 	('mediaGM', '媒介主管', '媒介主管', b'1', NULL),
@@ -235,24 +229,3 @@ insert into act_id_membership VALUES ('u6', 'legalGM'); -- 法务管理
 insert into act_id_membership VALUES ('u7', 'customer4A'); -- 4A
 insert into act_id_membership VALUES ('u8', 'media'); -- 媒介普通
 
-
-
-------- 测试用数据--wqz
-
-INSERT INTO `sys_user` (`login_name`, `user_name`, `password`) VALUES
-   ('testuser1', 'testuser1', '24a1db89d3bdaa23189e78887fb8b8fa'),-- id=10
-   ('testuser2', 'testuser2', '24a1db89d3bdaa23189e78887fb8b8fa');-- id=11
-INSERT INTO `sys_role` (`activiti_name`, `name`, `description`, `is_system`, `sort`)
-VALUES
-	('', 'test1', 'test1', b'1', NULL), -- id=9 全部权限
-	('', 'test2', 'test2', b'1', NULL) -- id=10 基本权限
-	('', 'test3', 'test3', b'1', NULL); -- id=11 报表权限
-INSERT INTO `sys_user_role` (`admins`, `roles`)
-VALUES
-   (9, 9), -- id=2
-   (9, 10); -- id=3
-INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES
-(11, 40101, '', 0, NULL, NULL, 0),
-(11, 40201, '', 0, NULL, NULL, 0),
-(11, 40301, '', 0, NULL, NULL, 0),
-(11, 40401, '', 0, NULL, NULL, 0);
