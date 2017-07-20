@@ -1,17 +1,23 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame;
+import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import cn.advu.workflow.repo.fcf_vu.BaseBuyOrderFrameRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderFrameRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.service.base.BuyFrameService;
 import cn.advu.workflow.web.service.base.SaleFrameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -19,7 +25,7 @@ import java.util.List;
  * Created by weiqz on 2017/6/25.
  */
 @Service
-public class BuyFrameServiceImpl implements BuyFrameService {
+public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFrameService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BuyFrameServiceImpl.class);
 
@@ -84,5 +90,18 @@ public class BuyFrameServiceImpl implements BuyFrameService {
         ResultJson<BaseBuyOrderFrame> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         result.setData(baseBuyOrderFrameRepo.findOne(id));
         return result;
+    }
+
+    @Override
+    public ResultJson<Void> remove(Integer id) {
+        BaseBuyOrderFrame baseBuyOrderFrame = baseBuyOrderFrameRepo.findOne(id);
+        List<BaseOrderCpmVO> cpmList = cpmManager.findOrderBuyCpm(id);
+        baseBuyOrderFrame.setBaseOrderCpmList(cpmList);
+
+        Integer count = baseBuyOrderFrameRepo.logicRemove(baseBuyOrderFrame);
+        if (count == 0) {
+            throw new ServiceException("需求单不存在！");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 }

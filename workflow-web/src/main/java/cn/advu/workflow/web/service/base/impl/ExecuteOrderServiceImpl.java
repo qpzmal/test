@@ -2,10 +2,7 @@ package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.domain.enums.CustomTypeEnum;
 import cn.advu.workflow.domain.enums.IValueEnum;
-import cn.advu.workflow.domain.fcf_vu.BaseArea;
-import cn.advu.workflow.domain.fcf_vu.BaseCustom;
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
-import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
+import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.domain.utils.ValueEnumUtils;
 import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderRepo;
 import cn.advu.workflow.web.common.ResultJson;

@@ -42,4 +42,12 @@ public interface RegionService {
      */
     ResultJson<BaseRegion> findById(Integer id);
 
+    /**
+     * 删除地域
+     *
+     * @param id
+     * @return
+     */
+    ResultJson<Void> remove(Integer id);
+
 }

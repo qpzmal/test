@@ -100,7 +100,7 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
         BaseBuyOrder baseBuyOrder = baseBuyOrderRepo.findOne(id);
         result.setData(baseBuyOrder);
 
-        List<BaseOrderCpm> cpmList = cpmManager.findOrderBuyCpm(id);
+        List<BaseOrderCpmVO> cpmList = cpmManager.findOrderBuyCpm(id);
         baseBuyOrder.setBaseOrderCpmList(cpmList);
 
         return result;

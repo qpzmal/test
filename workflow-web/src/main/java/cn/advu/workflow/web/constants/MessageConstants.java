@@ -33,5 +33,7 @@ public interface MessageConstants {
     String USER_NAME_IS_DUPLICATED = "用户登录名称重复";
     // 需求单
     String PERSON_IS_NOT_EXISTS="当前用户的通讯录不存在";
+    // 地域
+    String REGION_IS_NOT_EXISTS="地域不存在";
 
 }

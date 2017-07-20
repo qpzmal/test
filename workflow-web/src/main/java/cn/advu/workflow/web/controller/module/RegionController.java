@@ -95,9 +95,7 @@ public class RegionController {
     @ResponseBody
     @RequestMapping(value ="/remove", method = RequestMethod.POST)
     public ResultJson<Void> remove(Integer id, HttpServletRequest request){
-
-        return null;
-//        return regionService.remove(id);
+        return regionService.remove(id);
     }
 
 }

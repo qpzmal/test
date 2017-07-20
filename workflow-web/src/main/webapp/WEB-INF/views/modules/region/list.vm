@@ -23,13 +23,9 @@
                                 <td>$!{data.name}</td>
                                 <td>
                                     #if($!{data.type} == 1)
-                                    省
+                                        省
                                     #elseif($!{data.type} == 2)
-                                            市
-                                    #elseif($!{data.type} == 3)
-                                        自治州
-                                    #elseif($!{data.type} == 4)
-                                        区
+                                        市
                                     #end
                                     </td>
                                 <td class="right">
@@ -70,17 +66,16 @@
         var id = $(this).parent().children(":first").val();
         delItem(function(){
             $.ajax({
-                url:"/region/update.json",
+                url:"/region/remove.json",
                 type:"post",
                 data:{
-                    "id":id,
-                    "delFlag":1
+                    "id":id
                 },
                 success: function(returnData){
                     if(returnData.code == 1){
                         popMsg('删除成功!', "/region/index");
                     } else{
-                        layer.msg('删除失败, 请联系技术人员!');
+                        layer.msg(returnData.info);
                     }
                 }
             });

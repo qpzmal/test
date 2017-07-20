@@ -27,14 +27,6 @@
                         #if($baseRegion.type == 2)
                             selected
                         #end>市</option>
-                    <option value="3" hassubinfo="true"
-                        #if($baseRegion.type == 3)
-                            selected
-                        #end>自治州</option>
-                    <option value="4" hassubinfo="true"
-                        #if($baseRegion.type == 4)
-                            selected
-                        #end>区</option>
                 </select>
             </div>
         </div>
@@ -113,7 +105,7 @@
                 if(returnData.code == 1){
                     popMsg('更新成功!', "/region/index");
                 } else{
-                    layer.msg('更新失败, 请联系技术人员!');
+                    layer.msg(returnData.info);
                 }
             }
         });
