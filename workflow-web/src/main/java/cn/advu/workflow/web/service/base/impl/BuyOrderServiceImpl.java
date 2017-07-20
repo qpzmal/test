@@ -7,7 +7,6 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.exception.ServiceException;
-import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.service.base.BuyOrderService;
 import org.activiti.engine.ActivitiException;
@@ -137,33 +136,6 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
             }
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-    }
-
-    @Override
-    public ResultJson<Integer> update(BaseBuyOrder baseBuyOrder) {
-
-        // CPM
-        buildBuyOrderCpm(baseBuyOrder);
-        if (baseBuyOrder.getId() == null) {
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
-        }
-        Integer insertCount = baseBuyOrderRepo.update(baseBuyOrder);
-        if(insertCount != 1){
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新采购单失败!");
-        }
-        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-    }
-
-    @Override
-    public ResultJson<BaseBuyOrder> findById(Integer id) {
-        ResultJson<BaseBuyOrder> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        BaseBuyOrder baseBuyOrder = baseBuyOrderRepo.findOne(id);
-        result.setData(baseBuyOrder);
-
-        List<BaseOrderCpm> cpmList = cpmManager.findOrderBuyCpm(id);
-        baseBuyOrder.setBaseOrderCpmList(cpmList);
-
-        return result;
     }
 
     @Override
