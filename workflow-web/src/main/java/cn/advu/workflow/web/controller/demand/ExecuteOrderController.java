@@ -211,7 +211,7 @@ public class ExecuteOrderController {
         }
         model.addAttribute("customList", customList);
 
-        List<BaseOrderCpm> cpmList = baseExecuteOrder.getBaseOrderCpmList();
+        List<BaseOrderCpmVO> cpmList = baseExecuteOrder.getBaseOrderCpmList();
         int index = 1;
         JSONArray cpmArrList = new JSONArray();
         for (BaseOrderCpm cpmTemp : cpmList) {
@@ -255,5 +255,82 @@ public class ExecuteOrderController {
 
 
 
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/refer")
+    public String toRefer(Integer id, Model model){
+
+        Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+        SysUser sysUser = userMananger.findById(userId);
+        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+
+        BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(id).getData();
+        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
+        BaseArea baseArea = areaService.findById(baseExecuteOrder.getAreaId()).getData();
+        List<BasePerson> leaderList = personMananger.findPersonListByArea(baseExecuteOrder.getAreaId());
+        List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
+        List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
+        List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
+        List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
+        List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
+
+        List<BaseCustom> signCompanyList = null;
+        String signType = baseExecuteOrder.getSignType();
+        if (signType != null) {
+            signCompanyList = customMananger.findCustomListByCustomType(Integer.valueOf(signType));
+        }
+
+        List<BaseCustom> customList = null;
+        Integer signCustomId = baseExecuteOrder.getCustomSignId();
+        if (signCustomId != null) {
+            customList = customMananger.findChildCustom(signCustomId);
+        }
+        model.addAttribute("customList", customList);
+
+        List<BaseOrderCpmVO> cpmList = baseExecuteOrder.getBaseOrderCpmList();
+        int index = 1;
+        JSONArray cpmArrList = new JSONArray();
+        for (BaseOrderCpmVO cpmTemp : cpmList) {
+            JSONObject cpmVo = new JSONObject();
+            cpmVo.put("state", false);
+            cpmVo.put("num", index++);
+            cpmVo.put("id", cpmTemp.getId());
+            cpmVo.put("mediaName", cpmTemp.getMediaName());
+            cpmVo.put("mediaPrice", cpmTemp.getMediaPrice());
+            cpmVo.put("firstPrice", cpmTemp.getFirstPrice());
+            cpmVo.put("adTypeName", cpmTemp.getAdTypeName());
+            cpmVo.put("cpm", cpmTemp.getCpm());
+            cpmVo.put("remark", cpmTemp.getRemark());
+            cpmArrList.add(cpmVo);
+        }
+        baseExecuteOrder.setCpmJsonStr(cpmArrList.toJSONString());
+
+
+        model.addAttribute("selectedReginList", StringListUtil.toList(baseExecuteOrder.getDeliveryAreaIds()));
+        model.addAttribute("selectMonitorList", StringListUtil.toList(baseExecuteOrder.getMonitorIds()));
+        model.addAttribute("selectOurMonitorNameList", StringListUtil.toList(baseExecuteOrder.getOurMonitorName()));
+        model.addAttribute("selectReportList", StringListUtil.toList(baseExecuteOrder.getReportTypeId()));
+
+        model.addAttribute("customList", customList);
+        model.addAttribute("signCompanyList", signCompanyList);
+        model.addAttribute("monitorRequestList", baseMonitorRequestList);
+        model.addAttribute("regionList", regionList);
+        model.addAttribute("industryList", industryList);
+        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("leaderList", leaderList);
+        model.addAttribute("areaTreeJson", areaTreeJson);
+        model.addAttribute("baseExecuteOrder", baseExecuteOrder);
+        model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
+        model.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
+        model.addAttribute("format", format);
+        model.addAttribute("salePersonId", basePerson.getId());
+        model.addAttribute("salePersonName", basePerson.getName());
+
+        return "demand/executeOrder/refer";
+    }
 
 }

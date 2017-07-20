@@ -2,10 +2,7 @@ package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.domain.enums.CustomTypeEnum;
 import cn.advu.workflow.domain.enums.IValueEnum;
-import cn.advu.workflow.domain.fcf_vu.BaseArea;
-import cn.advu.workflow.domain.fcf_vu.BaseCustom;
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
-import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
+import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.domain.utils.ValueEnumUtils;
 import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderRepo;
 import cn.advu.workflow.web.common.ResultJson;
@@ -103,7 +100,7 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     public ResultJson<Void> remove(Integer id) {
 
         BaseExecuteOrder baseExecuteOrder = baseExecuteOrderRepo.findOne(id);
-        List<BaseOrderCpm> cpmList = cpmManager.findOrderCustomCpm(id);
+        List<BaseOrderCpmVO> cpmList = cpmManager.findExecuteOrderFrameCpm(id);
         baseExecuteOrder.setBaseOrderCpmList(cpmList);
 
         Integer count = baseExecuteOrderRepo.logicRemove(baseExecuteOrder);
@@ -119,7 +116,7 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         BaseExecuteOrder baseExecuteOrder = baseExecuteOrderRepo.findOne(id);
         result.setData(baseExecuteOrder);
 
-        List<BaseOrderCpm> cpmList = cpmManager.findOrderCustomCpm(id);
+        List<BaseOrderCpmVO> cpmList = cpmManager.findOrderCustomCpm(id);
         baseExecuteOrder.setBaseOrderCpmList(cpmList);
 
         return result;

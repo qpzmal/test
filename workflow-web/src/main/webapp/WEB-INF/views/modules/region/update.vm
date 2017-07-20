@@ -16,12 +16,25 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">区域类型:</label>
             <div class="col-sm-8">
-                <select data-placeholder="选择区域类型..." class="chosen-select" style="width:350px;" tabindex="2">
+                <select id="type" data-placeholder="选择区域类型..." class="chosen-select" style="width:350px;" tabindex="2">
                     <option value="">请选择区域类型</option>
-                    <option value="1" hassubinfo="true">省</option>
-                    <option value="2" hassubinfo="true">市</option>
-                    <option value="3" hassubinfo="true">自治州</option>
-                    <option value="4" hassubinfo="true">区</option>
+                    <option value="1" hassubinfo="true"
+                    #if($baseRegion.type == 1)
+                        selected
+                    #end
+                    >省</option>
+                    <option value="2" hassubinfo="true"
+                        #if($baseRegion.type == 2)
+                            selected
+                        #end>市</option>
+                    <option value="3" hassubinfo="true"
+                        #if($baseRegion.type == 3)
+                            selected
+                        #end>自治州</option>
+                    <option value="4" hassubinfo="true"
+                        #if($baseRegion.type == 4)
+                            selected
+                        #end>区</option>
                 </select>
             </div>
         </div>
@@ -83,6 +96,7 @@
     function updateRegion(){
         var id = $("#id").val();
         var name = $("#region_name").val();
+        var type = $("#type").val();
 //        var description = $("#description").val();
 //        var is_system = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
@@ -90,7 +104,8 @@
             type:"post",
             data:{
                 id:id,
-                name:name
+                name:name,
+                type:type
 //                description:description,
 //                isSystem:is_system
             },

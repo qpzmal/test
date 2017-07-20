@@ -18,10 +18,36 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
+  <resultMap id="BaseOrderCpmVO" type="cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_cpm_type" jdbcType="TINYINT" property="orderCpmType" />
+    <result column="media_id" jdbcType="INTEGER" property="mediaId" />
+    <result column="media_price" jdbcType="DECIMAL" property="mediaPrice" />
+    <result column="first_price" jdbcType="DECIMAL" property="firstPrice" />
+    <result column="ad_type_id" jdbcType="TINYINT" property="adTypeId" />
+    <result column="cpm" jdbcType="INTEGER" property="cpm" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="media_name" jdbcType="VARCHAR" property="mediaName" />
+    <result column="adtype_name" jdbcType="VARCHAR" property="adTypeName" />
+  </resultMap>
   <sql id="Base_Column_List">
     id, order_id, order_cpm_type, media_id, media_price, first_price, ad_type_id, cpm, 
     del_flag, item_status, creator_id, updater_id, create_time, update_time, remark
   </sql>
+  <sql id="Base_Column_List_BaseOrderCpmVO">
+    base_order_cpm.id, base_order_cpm.order_id, base_order_cpm.order_cpm_type, base_order_cpm.media_id, base_order_cpm.media_price,
+    base_order_cpm.first_price, base_order_cpm.ad_type_id, cpm,
+    base_order_cpm.del_flag, base_order_cpm.item_status, base_order_cpm.creator_id, base_order_cpm.updater_id, base_order_cpm.create_time,
+     base_order_cpm.update_time, base_order_cpm.remark, base_media.name as media_name, base_adtype.name as adtype_name
+  </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -209,18 +235,20 @@
   </update>
 
   <!-- 以下为 非自动生成的SQL-->
-  <select id="selectByOrderAndType" resultMap="BaseResultMap">
+  <select id="selectByOrderAndType" resultMap="BaseOrderCpmVO">
     select
-    <include refid="Base_Column_List" />
-    from base_order_cpm
+    <include refid="Base_Column_List_BaseOrderCpmVO" />
+    from base_order_cpm LEFT JOIN base_media on base_order_cpm.media_id = base_media.id
+    LEFT JOIN base_adtype on base_order_cpm.ad_type_id = base_adtype.name
     where order_id = #{orderId,jdbcType=INTEGER}
     and order_cpm_type = #{orderCpmType,jdbcType=TINYINT}
   </select>
   <!-- 以下为 非自动生成的SQL-->
-  <select id="selectExecuteOrderCpm" resultMap="BaseResultMap">
+  <select id="selectExecuteOrderCpm" resultMap="BaseOrderCpmVO">
     select
-    <include refid="Base_Column_List" />
-    from base_order_cpm
+    <include refid="Base_Column_List_BaseOrderCpmVO" />
+    from base_order_cpm LEFT JOIN base_media on base_order_cpm.media_id = base_media.id
+    LEFT JOIN base_adtype on base_order_cpm.ad_type_id = base_adtype.name
     where order_id = #{orderId,jdbcType=INTEGER}
     and order_cpm_type in (1, 2, 3)
   </select>
@@ -230,5 +258,6 @@
     where order_id = #{orderId,jdbcType=INTEGER}
     and order_cpm_type = #{orderCpmType,jdbcType=TINYINT}
   </delete>
+
 
 </mapper>

@@ -123,7 +123,7 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
         BaseBuyOrder baseBuyOrder = baseBuyOrderRepo.findOne(id);
         result.setData(baseBuyOrder);
 
-        List<BaseOrderCpm> cpmList = cpmManager.findOrderBuyCpm(id);
+        List<BaseOrderCpmVO> cpmList = cpmManager.findOrderBuyCpm(id);
         baseBuyOrder.setBaseOrderCpmList(cpmList);
 
         return result;
@@ -133,7 +133,7 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
     public ResultJson<Void> remove(Integer id) {
 
         BaseBuyOrder baseBuyOrder = baseBuyOrderRepo.findOne(id);
-        List<BaseOrderCpm> cpmList = cpmManager.findOrderCustomCpm(id);
+        List<BaseOrderCpmVO> cpmList = cpmManager.findOrderBuyCpm(id);
         baseBuyOrder.setBaseOrderCpmList(cpmList);
 
         Integer count = baseBuyOrderRepo.logicRemove(baseBuyOrder);
