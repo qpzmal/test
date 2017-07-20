@@ -31,7 +31,7 @@
                 <ul class="nav nav-second-level">
                     <li>
                         <a class="J_menuItem" style="display:none" functionid="20100" href="${rc.contextPath}/xxxxxx/index">综合计价</a>
-                        <a class="J_menuItem" style="display:none" functionid="20200" href="${rc.contextPath}/executeOrder/index">添制需求单</a> ## base_execute_order
+                        <a class="J_menuItem" style="display:none" functionid="20200" href="${rc.contextPath}/saleOrder/index">添制需求单</a> ## base_execute_order
                         <a class="J_menuItem" style="display:none" functionid="20300" href="${rc.contextPath}/saleFrame/index">框架需求合同</a> ## base_execute_order_frame
                         <a class="J_menuItem" style="display:none" functionid="20400" href="${rc.contextPath}/buyOrder/index">添制采购单</a> ## base_buy_order
                         <a class="J_menuItem" style="display:none" functionid="20500" href="${rc.contextPath}/buyFrame/index">框架采购合同</a> ## base_buy_order_frame

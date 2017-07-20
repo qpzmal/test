@@ -419,7 +419,7 @@
             var e="<i class='fa fa-times-circle'></i> ";
             $("#commentForm").validate({
                 submitHandler:function(form){
-                    add();
+                    addRegion();
                 }
             });
             {var i=document.querySelector(".js-switch"),
@@ -490,7 +490,7 @@
     }
 
 
-    function add(){
+    function addRegion(){
         var flowType = $("#flowType").val();
 
         var name = $("#p_name").val();
@@ -549,7 +549,7 @@
             layer.closeAll('dialog');
             if ($("#commentForm").valid()) {
                 $("#flowType").val("start");
-                add();
+                addRegion();
             }
         }, function(){
         });

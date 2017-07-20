@@ -52,26 +52,26 @@
 
     // 添加
     $(".btn-primary").click(function(){
-        window.location.href = "${rc.contextPath}/executeOrder/toAdd";
+        window.location.href = "${rc.contextPath}/saleOrder/toAdd";
     })
     // 修改
     $(".btn-info").click(function(){
         var id = $(this).parent().children(":first").val();
-        window.location.href = "${rc.contextPath}/executeOrder/toUpdate?id=" + id;
+        window.location.href = "${rc.contextPath}/saleOrder/toUpdate?id=" + id;
     })
     // 删除
     $(".btn-danger").click(function(){
         var id = $(this).parent().children(":first").val();
         delItem(function(){
             $.ajax({
-                url:"/executeOrder/remove.json",
+                url:"/saleOrder/remove.json",
                 type:"post",
                 data:{
                     "id":id
                 },
                 success: function(returnData){
                     if(returnData.code == 1){
-                        popMsg('删除成功!', "/executeOrder/index");
+                        popMsg('删除成功!', "/saleOrder/index");
                     } else{
                         layer.msg(returnData.info);
                     }

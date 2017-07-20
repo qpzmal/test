@@ -171,6 +171,7 @@ public class TaskController {
 //        List<HistoricProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
 
         List<HistoricProcessInstance> list = query.list();
+        LOGGER.info("WORKFLOW_BUY:size{}", list.size());
 
 
         // 关联业务实体

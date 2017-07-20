@@ -1,12 +1,12 @@
 package cn.advu.workflow.web.service.base.impl;
 
-import cn.advu.workflow.domain.fcf_vu.*;
+import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
+import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import cn.advu.workflow.repo.fcf_vu.BaseBuyOrderRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.exception.ServiceException;
-import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.service.base.BuyOrderService;
 import org.activiti.engine.ActivitiException;
@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,10 +33,11 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
     private BaseBuyOrderRepo baseBuyOrderRepo;
 
     @Autowired
-    private RuntimeService runtimeService;
+    CpmManager cpmManager;
 
     @Autowired
-    CpmManager cpmManager;
+    private RuntimeService runtimeService;
+
     @Autowired
     private IdentityService identityService;
 
@@ -106,6 +106,20 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
         return result;
     }
 
+    @Override
+    public ResultJson<Void> remove(Integer id) {
+
+        BaseBuyOrder baseBuyOrder = baseBuyOrderRepo.findOne(id);
+        List<BaseOrderCpmVO> cpmList = cpmManager.findOrderBuyCpm(id);
+        baseBuyOrder.setBaseOrderCpmList(cpmList);
+
+        Integer count = baseBuyOrderRepo.logicRemove(baseBuyOrder);
+        if (count == 0) {
+            throw new ServiceException("需求单不存在！");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
     private ResultJson<Integer> startWorkFlow(BaseBuyOrder baseBuyOrder) {
         LOGGER.info("startWorkFlow-flowType:{}", baseBuyOrder.getFlowType());
         if (WebConstants.WorkFlow.START.equals(baseBuyOrder.getFlowType())) {
@@ -121,6 +135,7 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
                 LOGGER.info(" processInstanceId:{}", processInstance.getId());
 
                 baseBuyOrder.setProcessInstanceId(processInstance.getId());
+                baseBuyOrder.setStatus(WebConstants.WorkFlow.STATUS_1);
                 baseBuyOrderRepo.updateSelective(baseBuyOrder);
 
             } catch (ActivitiException e) {
@@ -135,20 +150,6 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
                 LOGGER.error("启动[ " + processKey + " ]流程失败：", e);
                 return new ResultJson<>(WebConstants.OPERATION_FAILURE, "系统内部错误！");
             }
-        }
-        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-    }
-
-    @Override
-    public ResultJson<Void> remove(Integer id) {
-
-        BaseBuyOrder baseBuyOrder = baseBuyOrderRepo.findOne(id);
-        List<BaseOrderCpmVO> cpmList = cpmManager.findOrderBuyCpm(id);
-        baseBuyOrder.setBaseOrderCpmList(cpmList);
-
-        Integer count = baseBuyOrderRepo.logicRemove(baseBuyOrder);
-        if (count == 0) {
-            throw new ServiceException("需求单不存在！");
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }

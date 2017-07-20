@@ -8,12 +8,10 @@ import cn.advu.workflow.web.manager.*;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
-import cn.advu.workflow.web.service.base.PersonService;
 import cn.advu.workflow.web.util.AssertUtil;
 import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -33,7 +29,7 @@ import java.util.List;
  *
  */
 @Controller
-@RequestMapping("/executeOrder")
+@RequestMapping("/saleOrder")
 public class ExecuteOrderController {
 
     @Autowired
@@ -77,7 +73,7 @@ public class ExecuteOrderController {
             signCompanyList = customMananger.findCustomListByCustomType(signType);
         }
         model.addAttribute("signCompanyList", signCompanyList);
-        return "demand/executeOrder/signCompanySelect";
+        return "demand/saleOrder/signCompanySelect";
     }
 
     @RequestMapping("/customSelect")
@@ -87,7 +83,7 @@ public class ExecuteOrderController {
             customList = customMananger.findChildCustom(signCustomId);
         }
         model.addAttribute("customList", customList);
-        return "demand/executeOrder/customSelect";
+        return "demand/saleOrder/customSelect";
     }
 
     /**
@@ -100,7 +96,7 @@ public class ExecuteOrderController {
     public String toIndex(Model resultModel){
         ResultJson<List<BaseExecuteOrder>> result = executeOrderService.findAll();
         resultModel.addAttribute("dataList",result.getData());
-        return "demand/executeOrder/list";
+        return "demand/saleOrder/list";
     }
 
     /**
@@ -171,7 +167,7 @@ public class ExecuteOrderController {
         resultModel.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
         resultModel.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
 
-        return "demand/executeOrder/add";
+        return "demand/saleOrder/add";
     }
 
 
@@ -250,7 +246,7 @@ public class ExecuteOrderController {
         model.addAttribute("salePersonId", basePerson.getId());
         model.addAttribute("salePersonName", basePerson.getName());
 
-        return "demand/executeOrder/update";
+        return "demand/saleOrder/update";
     }
 
 
@@ -330,7 +326,7 @@ public class ExecuteOrderController {
         model.addAttribute("salePersonId", basePerson.getId());
         model.addAttribute("salePersonName", basePerson.getName());
 
-        return "demand/executeOrder/refer";
+        return "demand/saleOrder/refer";
     }
 
 }

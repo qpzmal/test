@@ -12,6 +12,8 @@
 #end
 
 <form class="form-horizontal m-t" id="commentForm">
+    <input type="hidden" id="flowType" name="flowType" value="save">
+
     <div class="wrapper wrapper-content animated fadeInRight">
         <input type="hidden" id="id" name="id" value="$baseExecuteOrder.id">
         <div class="row">
@@ -379,14 +381,18 @@
         </div>
         <div class="row">
             <div class="form-group">
-                <div class="col-sm-4 col-sm-offset-3">
-                <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
-            </div>
-                <div class="col-sm-3 col-sm-offset-1">
+                <div class="col-sm-2 col-sm-offset-2">
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
+                </div>
+                <div class="col-sm-2 col-sm-offset-2">
+                    <button class="btn btn-info" type="button"><i class="fa fa-play"></i> 发起流程</button>
+                </div>
+                <div class="col-sm-2 col-sm-offset-2">
                     <button id="btn_cancel" class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
                 </div>
             </div>
         </div>
+
 
     </div>
 </form>
@@ -417,7 +423,7 @@
     ##签约类型变更
     function signTypeChange(){
         $.ajax({
-            url:"/executeOrder/signCompanySelect.json?signType=" + $("#sign_type").val(),
+            url:"/saleOrder/signCompanySelect.json?signType=" + $("#sign_type").val(),
             type:"get",
             success: function(returnData){
                 console.log(returnData);
@@ -429,7 +435,7 @@
     ##签约公司变更
     function signCompanyChange(){
         $.ajax({
-            url:"/executeOrder/customSelect.json?signCustomId=" + $("#sign_company_id").val(),
+            url:"/saleOrder/customSelect.json?signCustomId=" + $("#sign_company_id").val(),
             type:"get",
             success: function(returnData){
                 console.log(returnData);
@@ -717,6 +723,7 @@
         return deliveryAreaNames;
     }
     function update(){
+        var flowType = $("#flowType").val();
 
         var id =  $("#id").val();
         var name = $("#p_name").val();
@@ -758,6 +765,7 @@
             type:"post",
             async: false,
             data:{
+                flowType:flowType,
                 id:id,
                 name:name,
                 secOrderNum:secOrderNum,
@@ -803,6 +811,23 @@
 
         });
     }
+
+
+
+    // 发起流程
+    $(".btn-info").click(function(){
+        layer.confirm('发起流程后，在审批结束前申请内容不可修改，是否确认发起流程？', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+        ## （示例：关闭确认框）
+            layer.closeAll('dialog');
+            if ($("#commentForm").valid()) {
+                $("#flowType").val("start");
+                update();
+            }
+        }, function(){
+        });
+    })
 
     // 返回
     $("#btn_cancel").click(function(){

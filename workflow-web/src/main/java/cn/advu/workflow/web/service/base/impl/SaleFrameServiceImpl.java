@@ -1,6 +1,9 @@
 package cn.advu.workflow.web.service.base.impl;
 
-import cn.advu.workflow.domain.fcf_vu.*;
+import cn.advu.workflow.domain.fcf_vu.BaseArea;
+import cn.advu.workflow.domain.fcf_vu.BaseCustom;
+import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame;
+import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderFrameRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
@@ -10,13 +13,17 @@ import cn.advu.workflow.web.manager.AreaManager;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.SaleFrameService;
-
+import org.activiti.engine.ActivitiException;
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -38,6 +45,13 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
 
     @Autowired
     CpmManager cpmManager;
+
+    @Autowired
+    private RuntimeService runtimeService;
+
+    @Autowired
+    private IdentityService identityService;
+
 
     @Override
     public ResultJson<List<BaseExecuteOrderFrame>> findAll() {
@@ -73,7 +87,9 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建需求单失败!");
         }
-        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+
+        // 发起工作流
+        return this.startWorkFlow(baseExecuteOrderFrame);
     }
 
 
@@ -90,7 +106,9 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新需求单失败!");
         }
-        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+
+        // 发起工作流
+        return this.startWorkFlow(baseExecuteOrderFrame);
     }
 
     @Override
@@ -118,5 +136,39 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
 
+    }
+
+    private ResultJson<Integer> startWorkFlow(BaseExecuteOrderFrame baseExecuteOrderFrame) {
+        LOGGER.info("startWorkFlow-flowType:{}", baseExecuteOrderFrame.getFlowType());
+        if (WebConstants.WorkFlow.START.equals(baseExecuteOrderFrame.getFlowType())) {
+            String userName = UserThreadLocalContext.getCurrentUser().getUserName();
+            String processKey = WebConstants.WORKFLOW_SALE_FRAME;
+            LOGGER.debug("userName:{}, processKey:{}", userName, processKey);
+
+            try {
+                // 用来设置启动流程的人员ID，引擎会自动把用户ID保存到activiti:initiator中
+                identityService.setAuthenticatedUserId(userName);
+
+                ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, baseExecuteOrderFrame.getId() + "", new HashMap<String, Object>());
+                LOGGER.info(" processInstanceId:{}", processInstance.getId());
+
+                baseExecuteOrderFrame.setProcessInstanceId(processInstance.getId());
+                baseExecuteOrderFrame.setStatus(WebConstants.WorkFlow.STATUS_1);
+                baseExecuteOrderFrameRepo.updateSelective(baseExecuteOrderFrame);
+
+            } catch (ActivitiException e) {
+                if (e.getMessage().indexOf("no processes deployed with key") != -1) {
+                    LOGGER.warn("没有部署[ " + processKey + " ]流程!", e);
+                    return new ResultJson<>(WebConstants.OPERATION_FAILURE, "没有部署流程，请在[工作流]->[流程管理]页面点击<重新部署流程>");
+                } else {
+                    LOGGER.error("启动[ " + processKey + " ]流程失败：", e);
+                    return new ResultJson<>(WebConstants.OPERATION_FAILURE, "系统内部错误！");
+                }
+            } catch (Exception e) {
+                LOGGER.error("启动[ " + processKey + " ]流程失败：", e);
+                return new ResultJson<>(WebConstants.OPERATION_FAILURE, "系统内部错误！");
+            }
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 }

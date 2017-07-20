@@ -19,8 +19,8 @@ public class WebConstants {
 
     public static final String WORKFLOW_BUY = "buyOrder"; // 单独采购审批
     public static final String WORKFLOW_BUY_FRAME = "buyFrame";// 框架采购审批模型
-    public static final String WORKFLOW_EXECUTE_ORDER = "executeOrder";// 单独销售审批模型/排期执行审批模型
-    public static final String WORKFLOW_EXECUTE_FRAME = "executeOrderFrame";// 框架销售审批模型
+    public static final String WORKFLOW_SALE_ORDER = "saleOrder";// 单独销售审批模型/排期执行审批模型
+    public static final String WORKFLOW_SALE_FRAME = "saleFrame";// 框架销售审批模型
 //    public static final String WORKFLOW_SALE = "sale"; // 排期执行审批模型
 
     public static class Audit {
@@ -44,7 +44,10 @@ public class WebConstants {
     public static class WorkFlow {
         public static final String SAVE = "save"; // 保存草稿
         public static final String START = "start"; // 发起流程
+        public static final Byte STATUS_0 = 0; // 0，未生效；
+        public static final Byte STATUS_1 = 1; // 1，未开始；
+        public static final Byte STATUS_2 = 2; // 2，进行中；
+        public static final Byte STATUS_3 = 3; // 3，已结束
 
     }
-
 }
