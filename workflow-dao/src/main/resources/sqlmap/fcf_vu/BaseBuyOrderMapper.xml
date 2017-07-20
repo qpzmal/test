@@ -308,7 +308,6 @@
       start_date = #{startDate,jdbcType=TIMESTAMP},
       end_date = #{endDate,jdbcType=TIMESTAMP},
       person_id = #{personId,jdbcType=INTEGER},
---       status = #{status,jdbcType=TINYINT},
       pay_percent = #{payPercent,jdbcType=DECIMAL},
       area_id = #{areaId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},

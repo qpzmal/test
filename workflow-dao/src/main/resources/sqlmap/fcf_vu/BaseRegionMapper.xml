@@ -6,11 +6,13 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, type, parent_id, create_time, update_time
+    id, name, type, parent_id, del_flag, item_status, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -24,10 +26,10 @@
   </delete>
   <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseRegion"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_region (id, name, type, 
-      parent_id, create_time, update_time
+      parent_id, del_flag, item_status, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{parentId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      #{parentId,jdbcType=INTEGER}, #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseRegion"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
@@ -44,6 +46,12 @@
       </if>
       <if test="parentId != null">
         parent_id,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="itemStatus != null">
+        item_status,
       </if>
       <if test="createTime != null">
         create_time,
@@ -65,6 +73,12 @@
       <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
       </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="itemStatus != null">
+        #{itemStatus,jdbcType=TINYINT},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -85,6 +99,12 @@
       <if test="parentId != null">
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="itemStatus != null">
+        item_status = #{itemStatus,jdbcType=TINYINT},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -99,6 +119,8 @@
     set name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       parent_id = #{parentId,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      item_status = #{itemStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
@@ -112,5 +134,9 @@
     select
     <include refid="Base_Column_List" />
     from base_region
+    where del_flag = '0'
+    <if test="status != null">
+      and item_status = #{status,jdbcType=TINYINT}
+    </if>
   </select>
 </mapper>

@@ -277,7 +277,6 @@
       start_date = #{startDate,jdbcType=TIMESTAMP},
       end_date = #{endDate,jdbcType=TIMESTAMP},
       person_id = #{personId,jdbcType=INTEGER},
---       status = #{status,jdbcType=TINYINT},
       delivery_area_ids = #{deliveryAreaIds,jdbcType=VARCHAR},
       delivery_area_names = #{deliveryAreaNames,jdbcType=VARCHAR},
       pay_percent = #{payPercent,jdbcType=DECIMAL},
