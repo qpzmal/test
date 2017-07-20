@@ -2,15 +2,12 @@ package cn.advu.workflow.repo.fcf_vu.impl;
 
 import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.dao.fcf_vu.BaseBuyOrderMapper;
-import cn.advu.workflow.dao.fcf_vu.BaseExecuteOrderMapper;
 import cn.advu.workflow.dao.fcf_vu.BaseOrderCpmMapper;
 import cn.advu.workflow.domain.enums.CpmTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseBuyOrderRepo;
-import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -34,8 +31,8 @@ public class BaseBuyOrderRepoImpl extends AbstractRepo<BaseBuyOrder> implements 
     }
 
     @Override
-    public List<BaseBuyOrder> findAll() {
-        return baseBuyOrderMapper.queryAll(null);
+    public List<BaseBuyOrder> findAll(BaseBuyOrder baseBuyOrder) {
+        return baseBuyOrderMapper.queryAll(baseBuyOrder);
     }
 
     @Override

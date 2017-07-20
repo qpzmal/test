@@ -43,6 +43,8 @@ public class BaseBuyOrder extends AbstractOrderEntity {
 
     private Integer frameId;
 
+    private String wfStep; // 工作流步骤
+
     private String flowType; // 页面自定义属性：save保存草稿，start开始流程
 
     public String getProcessInstanceId() {
@@ -187,6 +189,14 @@ public class BaseBuyOrder extends AbstractOrderEntity {
 
     public void setFrameId(Integer frameId) {
         this.frameId = frameId;
+    }
+
+    public String getWfStep() {
+        return wfStep;
+    }
+
+    public void setWfStep(String wfStep) {
+        this.wfStep = wfStep;
     }
 
     public String getFlowType() {

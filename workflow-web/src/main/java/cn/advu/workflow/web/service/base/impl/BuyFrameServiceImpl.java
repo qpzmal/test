@@ -1,13 +1,10 @@
 package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame;
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame;
 import cn.advu.workflow.repo.fcf_vu.BaseBuyOrderFrameRepo;
-import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderFrameRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.base.BuyFrameService;
-import cn.advu.workflow.web.service.base.SaleFrameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +26,9 @@ public class BuyFrameServiceImpl implements BuyFrameService {
     @Override
     public ResultJson<List<BaseBuyOrderFrame>> findAll() {
         ResultJson<List<BaseBuyOrderFrame>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        result.setData(baseBuyOrderFrameRepo.findAll());
+        BaseBuyOrderFrame param = new BaseBuyOrderFrame();
+        param.setStatus((byte) 0);
+        result.setData(baseBuyOrderFrameRepo.findAll(param));
         return result;
     }
 

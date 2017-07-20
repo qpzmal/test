@@ -9,5 +9,5 @@ import java.util.List;
 public interface BaseExecuteOrderMapper extends BaseDAO<BaseExecuteOrder> {
 
     // 以下为自定义SQL
-    List<BaseExecuteOrder> queryAll(@Param("status") Integer status);
+    List<BaseExecuteOrder> queryAll(BaseExecuteOrder baseExecuteOrder);
 }
