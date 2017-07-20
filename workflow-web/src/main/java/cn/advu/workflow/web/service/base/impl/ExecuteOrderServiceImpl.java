@@ -1,9 +1,12 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.CustomTypeEnum;
+import cn.advu.workflow.domain.enums.IValueEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
+import cn.advu.workflow.domain.utils.ValueEnumUtils;
 import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
@@ -13,12 +16,16 @@ import cn.advu.workflow.web.manager.AreaManager;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.SerializationException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,7 +105,7 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     public ResultJson<Void> remove(Integer id) {
 
         BaseExecuteOrder baseExecuteOrder = baseExecuteOrderRepo.findOne(id);
-        List<BaseOrderCpm> cpmList = cpmManager.findOrderCustomCpm(id);
+        List<BaseOrderCpmVO> cpmList = cpmManager.findExecuteOrderFrameCpm(id);
         baseExecuteOrder.setBaseOrderCpmList(cpmList);
 
         Integer count = baseExecuteOrderRepo.logicRemove(baseExecuteOrder);
@@ -114,7 +121,7 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         BaseExecuteOrder baseExecuteOrder = baseExecuteOrderRepo.findOne(id);
         result.setData(baseExecuteOrder);
 
-        List<BaseOrderCpm> cpmList = cpmManager.findOrderCustomCpm(id);
+        List<BaseOrderCpmVO> cpmList = cpmManager.findOrderCustomCpm(id);
         baseExecuteOrder.setBaseOrderCpmList(cpmList);
 
         return result;

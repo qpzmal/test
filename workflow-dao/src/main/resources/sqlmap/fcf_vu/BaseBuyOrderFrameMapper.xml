@@ -269,8 +269,6 @@
   <update id="updateByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame">
     update base_buy_order_frame
     set
-      process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
-      order_num = #{orderNum,jdbcType=VARCHAR},
       sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       order_date = #{orderDate,jdbcType=TIMESTAMP},
@@ -283,12 +281,7 @@
       delivery_area_ids = #{deliveryAreaIds,jdbcType=VARCHAR},
       delivery_area_names = #{deliveryAreaNames,jdbcType=VARCHAR},
       pay_percent = #{payPercent,jdbcType=DECIMAL},
-      user_id = #{userId,jdbcType=INTEGER},
       area_id = #{areaId,jdbcType=INTEGER},
-      del_flag = #{delFlag,jdbcType=TINYINT},
-      item_status = #{itemStatus,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

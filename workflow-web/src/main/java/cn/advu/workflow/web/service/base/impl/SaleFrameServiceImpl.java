@@ -97,7 +97,7 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
         BaseExecuteOrderFrame baseExecuteOrderFrame = baseExecuteOrderFrameRepo.findOne(id);
         result.setData(baseExecuteOrderFrame);
 
-        List<BaseOrderCpm> cpmList = cpmManager.findExecuteOrderFrameCpm(baseExecuteOrderFrame.getId());
+        List<BaseOrderCpmVO> cpmList = cpmManager.findExecuteOrderFrameCpm(baseExecuteOrderFrame.getId());
         baseExecuteOrderFrame.setBaseOrderCpmList(cpmList);
 
         return result;
@@ -107,7 +107,7 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
     public ResultJson<Void> remove(Integer id) {
 
         BaseExecuteOrderFrame baseExecuteOrderFrame = baseExecuteOrderFrameRepo.findOne(id);
-        List<BaseOrderCpm> cpmList = cpmManager.findOrderCustomCpm(id);
+        List<BaseOrderCpmVO> cpmList = cpmManager.findOrderCustomCpm(id);
         baseExecuteOrderFrame.setBaseOrderCpmList(cpmList);
 
         Integer count = baseExecuteOrderFrameRepo.logicRemove(baseExecuteOrderFrame);

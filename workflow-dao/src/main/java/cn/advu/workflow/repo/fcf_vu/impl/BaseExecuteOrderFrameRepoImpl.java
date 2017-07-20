@@ -7,6 +7,7 @@ import cn.advu.workflow.dao.fcf_vu.BaseOrderCpmMapper;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
+import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import cn.advu.workflow.repo.base.impl.AbstractOrderRepo;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderFrameRepo;
@@ -44,7 +45,7 @@ public class BaseExecuteOrderFrameRepoImpl extends AbstractOrderRepo<BaseExecute
         int count = 0;
         if (entity != null) {
             count = getSqlMapper().insertSelective(entity);
-            List<BaseOrderCpm> baseOrderCpmList = entity.getBaseOrderCpmList();
+            List<BaseOrderCpmVO> baseOrderCpmList = entity.getBaseOrderCpmList();
             if (baseOrderCpmList != null && !baseOrderCpmList.isEmpty()) {
                 for (BaseOrderCpm baseOrderCpm : baseOrderCpmList) {
                     baseOrderCpm.setOrderId(entity.getId());
@@ -65,7 +66,7 @@ public class BaseExecuteOrderFrameRepoImpl extends AbstractOrderRepo<BaseExecute
 
             baseOrderCpmMapper.deleteByOrderAndType(entity.getId(), 1);
 
-            List<BaseOrderCpm> baseOrderCpmList = entity.getBaseOrderCpmList();
+            List<BaseOrderCpmVO> baseOrderCpmList = entity.getBaseOrderCpmList();
             if (baseOrderCpmList != null && !baseOrderCpmList.isEmpty()) {
                 for (BaseOrderCpm baseOrderCpm : baseOrderCpmList) {
                     baseOrderCpm.setId(null);
@@ -85,7 +86,7 @@ public class BaseExecuteOrderFrameRepoImpl extends AbstractOrderRepo<BaseExecute
             entity.setDelFlag("1");
             count = getSqlMapper().updateByPrimaryKeySelective(entity);
 
-            List<BaseOrderCpm> baseOrderCpmList = entity.getBaseOrderCpmList();
+            List<BaseOrderCpmVO> baseOrderCpmList = entity.getBaseOrderCpmList();
             if (baseOrderCpmList != null && !baseOrderCpmList.isEmpty()) {
                 for (BaseOrderCpm baseOrderCpm : baseOrderCpmList) {
                     baseOrderCpm.setDelFlag("1");

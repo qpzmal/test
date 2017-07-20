@@ -87,4 +87,17 @@ public class RegionController {
         return "modules/region/update";
     }
 
+    /**
+     * 删除客户
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/remove", method = RequestMethod.POST)
+    public ResultJson<Void> remove(Integer id, HttpServletRequest request){
+
+        return null;
+//        return regionService.remove(id);
+    }
+
 }

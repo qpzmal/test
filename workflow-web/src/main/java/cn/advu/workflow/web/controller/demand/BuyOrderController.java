@@ -165,7 +165,7 @@ public class BuyOrderController {
         List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
         List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
 
-        List<BaseOrderCpm> cpmList = baseBuyOrder.getBaseOrderCpmList();
+        List<BaseOrderCpmVO> cpmList = baseBuyOrder.getBaseOrderCpmList();
         int index = 1;
         JSONArray cpmArrList = new JSONArray();
         for (BaseOrderCpm cpmTemp : cpmList) {
@@ -200,7 +200,6 @@ public class BuyOrderController {
         return "demand/buyOrder/update";
     }
 
-
     /**
      * 跳转修改页
      *
@@ -210,7 +209,48 @@ public class BuyOrderController {
     @RequestMapping("/refer")
     public String refer(Integer id, Model model){
 
+        Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+        SysUser sysUser = userMananger.findById(userId);
+        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+
         BaseBuyOrder baseBuyOrder = buyOrderService.findById(id).getData();
+        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
+        BaseArea baseArea = areaService.findById(baseBuyOrder.getAreaId()).getData();
+        List<BasePerson> leaderList = personMananger.findPersonListByArea(baseBuyOrder.getAreaId());
+        List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
+        List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
+        List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
+        List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
+        List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
+
+        List<BaseOrderCpmVO> cpmList = baseBuyOrder.getBaseOrderCpmList();
+        int index = 1;
+        JSONArray cpmArrList = new JSONArray();
+        for (BaseOrderCpmVO cpmTemp : cpmList) {
+            JSONObject cpmVo = new JSONObject();
+            cpmVo.put("num", index++);
+            cpmVo.put("id", cpmTemp.getId());
+            cpmVo.put("mediaName", cpmTemp.getMediaName());
+            cpmVo.put("mediaPrice", cpmTemp.getMediaPrice());
+            cpmVo.put("firstPrice", cpmTemp.getFirstPrice());
+            cpmVo.put("adTypeName", cpmTemp.getAdTypeName());
+            cpmVo.put("cpm", cpmTemp.getCpm());
+            cpmVo.put("remark", cpmTemp.getRemark());
+            cpmArrList.add(cpmVo);
+        }
+        baseBuyOrder.setCpmJsonStr(cpmArrList.toJSONString());
+
+
+        model.addAttribute("selectedReginList", StringListUtil.toList(baseBuyOrder.getDeliveryAreaIds()));
+        model.addAttribute("monitorRequestList", baseMonitorRequestList);
+        model.addAttribute("regionList", regionList);
+        model.addAttribute("industryList", industryList);
+        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("leaderList", leaderList);
+        model.addAttribute("areaTreeJson", areaTreeJson);
+        model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
+        model.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
+        model.addAttribute("format", format);
 
         model.addAttribute("baseBuyOrder", baseBuyOrder);
 

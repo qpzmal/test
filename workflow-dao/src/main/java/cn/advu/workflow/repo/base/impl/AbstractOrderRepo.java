@@ -4,6 +4,7 @@ package cn.advu.workflow.repo.base.impl;
 import cn.advu.workflow.dao.fcf_vu.BaseOrderCpmMapper;
 import cn.advu.workflow.domain.base.AbstractOrderEntity;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
+import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +28,7 @@ public abstract class AbstractOrderRepo<T extends AbstractOrderEntity> extends A
 
             setCpmList(entity);
 
-            List<BaseOrderCpm> baseOrderCpmList = entity.getBaseOrderCpmList();
+            List<BaseOrderCpmVO> baseOrderCpmList = entity.getBaseOrderCpmList();
             if (baseOrderCpmList != null && !baseOrderCpmList.isEmpty()) {
                 for (BaseOrderCpm baseOrderCpm : baseOrderCpmList) {
                     baseOrderCpm.setOrderId(entity.getId());
@@ -48,10 +49,10 @@ public abstract class AbstractOrderRepo<T extends AbstractOrderEntity> extends A
         String cpmJsonStr = entity.getCpmJsonStr();
         if (StringUtils.isNotEmpty(cpmJsonStr)) {
             JSONArray cpmJsonArr = JSONArray.parseArray(cpmJsonStr);
-            List<BaseOrderCpm> baseOrderCpmList = new ArrayList<>();
+            List<BaseOrderCpmVO> baseOrderCpmList = new ArrayList<>();
             for (Object cpmObject : cpmJsonArr) {
                 JSONObject cpmJsonObject = (JSONObject)cpmObject;
-                BaseOrderCpm baseOrderCpm = new BaseOrderCpm();
+                BaseOrderCpmVO baseOrderCpm = new BaseOrderCpmVO();
                 baseOrderCpm.setOrderCpmType("1");// 类型：1，客户需求CPM 2,执行排期CPM 3，第三方检测CPM
                 baseOrderCpm.setMediaId(cpmJsonObject.getInteger("mediaId"));
                 baseOrderCpm.setMediaPrice(cpmJsonObject.getBigDecimal("mediaPrice"));

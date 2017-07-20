@@ -1,6 +1,7 @@
 package cn.advu.workflow.domain.base;
 
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
+import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,7 +11,7 @@ public abstract class AbstractOrderEntity extends AbstractEntity {
 
     private String orderNum;
 
-    private List<BaseOrderCpm> baseOrderCpmList;
+    private List<BaseOrderCpmVO> baseOrderCpmList;
 
     private String cpmJsonStr;
 
@@ -22,11 +23,11 @@ public abstract class AbstractOrderEntity extends AbstractEntity {
         this.orderNum = orderNum == null ? null : orderNum.trim();
     }
 
-    public List<BaseOrderCpm> getBaseOrderCpmList() {
+    public List<BaseOrderCpmVO> getBaseOrderCpmList() {
         return baseOrderCpmList;
     }
 
-    public void setBaseOrderCpmList(List<BaseOrderCpm> baseOrderCpmList) {
+    public void setBaseOrderCpmList(List<BaseOrderCpmVO> baseOrderCpmList) {
         this.baseOrderCpmList = baseOrderCpmList;
     }
 

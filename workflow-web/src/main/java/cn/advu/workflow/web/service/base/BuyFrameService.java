@@ -42,4 +42,12 @@ public interface BuyFrameService {
      * @return
      */
     ResultJson<BaseBuyOrderFrame> findById(Integer id);
+
+    /**
+     * 删除采购框架
+     *
+     * @param id
+     * @return
+     */
+    ResultJson<Void> remove(Integer id);
 }

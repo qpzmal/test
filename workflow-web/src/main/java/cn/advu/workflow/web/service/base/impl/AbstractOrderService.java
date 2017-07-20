@@ -6,6 +6,7 @@ import cn.advu.workflow.domain.enums.CpmTypeEnum;
 import cn.advu.workflow.domain.enums.CustomTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
+import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import cn.advu.workflow.domain.utils.ValueEnumUtils;
 import cn.advu.workflow.web.common.ResultJson;
 import com.alibaba.fastjson.JSONArray;
@@ -43,6 +44,11 @@ public class AbstractOrderService {
         return year.substring(2) + String.format("%04d", orderNumSeq);
     }
 
+    protected <T extends AbstractOrderEntity> void buildBuyFrameCpm(T orderEntity) {
+
+        buildCpm(orderEntity, CpmTypeEnum.BUY_FRAME.getValue());
+    }
+
     protected <T extends AbstractOrderEntity> void buildBuyOrderCpm(T orderEntity) {
 
         buildCpm(orderEntity, CpmTypeEnum.BUY.getValue());
@@ -60,10 +66,10 @@ public class AbstractOrderService {
         String cpmJsonStr = orderEntity.getCpmJsonStr();
         if (StringUtils.isNotEmpty(cpmJsonStr)) {
             JSONArray cpmJsonArr = JSONArray.parseArray(cpmJsonStr);
-            List<BaseOrderCpm> baseOrderCpmList = new ArrayList<>();
+            List<BaseOrderCpmVO> baseOrderCpmList = new ArrayList<>();
             for (Object cpmObject : cpmJsonArr) {
                 JSONObject cpmJsonObject = (JSONObject)cpmObject;
-                BaseOrderCpm baseOrderCpm = new BaseOrderCpm();
+                BaseOrderCpmVO baseOrderCpm = new BaseOrderCpmVO();
                 baseOrderCpm.setOrderCpmType(type);// 类型：1，客户需求CPM 2,执行排期CPM 3，第三方检测CPM
                 baseOrderCpm.setMediaId(cpmJsonObject.getInteger("mediaId"));
                 baseOrderCpm.setMediaPrice(cpmJsonObject.getBigDecimal("mediaPrice"));
@@ -71,7 +77,7 @@ public class AbstractOrderService {
                 baseOrderCpm.setAdTypeId(cpmJsonObject.getInteger("adTypeId"));
                 baseOrderCpm.setCpm(cpmJsonObject.getInteger("cpm"));
                 baseOrderCpm.setRemark(cpmJsonObject.getString("remark"));
-//                baseOrderCpm.setId(cpmJsonObject.getInteger("id"));
+                baseOrderCpm.setId(cpmJsonObject.getInteger("id"));
                 baseOrderCpmList.add(baseOrderCpm);
             }
             orderEntity.setBaseOrderCpmList(baseOrderCpmList);

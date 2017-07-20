@@ -181,7 +181,7 @@ public class SaleFrameController {
         }
         model.addAttribute("customList", customList);
 
-        List<BaseOrderCpm> cpmList = baseExecuteOrderFrame.getBaseOrderCpmList();
+        List<BaseOrderCpmVO> cpmList = baseExecuteOrderFrame.getBaseOrderCpmList();
         int index = 1;
         JSONArray cpmArrList = new JSONArray();
         for (BaseOrderCpm cpmTemp : cpmList) {
@@ -223,5 +223,82 @@ public class SaleFrameController {
         return "demand/saleFrame/update";
     }
 
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/refer")
+    public String toRefer(Integer id, Model model){
+        Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+        SysUser sysUser = userMananger.findById(userId);
+        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+
+        BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(id).getData();
+
+        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
+        BaseArea baseArea = areaService.findById(baseExecuteOrderFrame.getAreaId()).getData();
+        List<BasePerson> leaderList = personMananger.findPersonListByArea(baseExecuteOrderFrame.getAreaId());
+        List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
+        List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
+        List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
+        List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
+        List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
+
+        List<BaseCustom> signCompanyList = null;
+        String signType = baseExecuteOrderFrame.getSignType();
+        if (signType != null) {
+            signCompanyList = customMananger.findCustomListByCustomType(Integer.valueOf(signType));
+        }
+
+        List<BaseCustom> customList = null;
+        Integer signCustomId = baseExecuteOrderFrame.getCustomSignId();
+        if (signCustomId != null) {
+            customList = customMananger.findChildCustom(signCustomId);
+        }
+        model.addAttribute("customList", customList);
+
+        List<BaseOrderCpmVO> cpmList = baseExecuteOrderFrame.getBaseOrderCpmList();
+        int index = 1;
+        JSONArray cpmArrList = new JSONArray();
+        for (BaseOrderCpmVO cpmTemp : cpmList) {
+            JSONObject cpmVo = new JSONObject();
+            cpmVo.put("state", false);
+            cpmVo.put("num", index++);
+            cpmVo.put("id", cpmTemp.getId());
+            cpmVo.put("mediaName", cpmTemp.getMediaName());
+            cpmVo.put("mediaPrice", cpmTemp.getMediaPrice());
+            cpmVo.put("firstPrice", cpmTemp.getFirstPrice());
+            cpmVo.put("adTypeName", cpmTemp.getAdTypeName());
+            cpmVo.put("cpm", cpmTemp.getCpm());
+            cpmVo.put("remark", cpmTemp.getRemark());
+            cpmArrList.add(cpmVo);
+        }
+        baseExecuteOrderFrame.setCpmJsonStr(cpmArrList.toJSONString());
+
+
+        model.addAttribute("selectedReginList", StringListUtil.toList(baseExecuteOrderFrame.getDeliveryAreaIds()));
+        model.addAttribute("selectMonitorList", StringListUtil.toList(baseExecuteOrderFrame.getMonitorIds()));
+        model.addAttribute("selectOurMonitorNameList", StringListUtil.toList(baseExecuteOrderFrame.getOurMonitorName()));
+        model.addAttribute("selectReportList", StringListUtil.toList(baseExecuteOrderFrame.getReportTypeId()));
+
+        model.addAttribute("customList", customList);
+        model.addAttribute("signCompanyList", signCompanyList);
+        model.addAttribute("monitorRequestList", baseMonitorRequestList);
+        model.addAttribute("regionList", regionList);
+        model.addAttribute("industryList", industryList);
+        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("leaderList", leaderList);
+        model.addAttribute("areaTreeJson", areaTreeJson);
+        model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
+        model.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
+        model.addAttribute("format", format);
+        model.addAttribute("salePersonId", basePerson.getId());
+        model.addAttribute("salePersonName", basePerson.getName());
+        model.addAttribute("baseExecuteOrder", baseExecuteOrderFrame);
+
+        return "demand/saleFrame/refer";
+    }
 
 }
