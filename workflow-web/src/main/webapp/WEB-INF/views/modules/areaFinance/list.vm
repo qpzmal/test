@@ -54,6 +54,7 @@
                                     <input type="hidden" value="$!{data.id}">
                                     <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>
                                     <a href="javascript:;" class="btn btn-danger btn-sm button_view_pd"><i class="fa fa-trash "></i> 删除 </a>
+                                    <a href="javascript:;" class="btn btn-default btn-sm button_view_pd"><i class="fa fa-search "></i> 查看 </a>
                                 </td>
                             </tr>
                         #end
@@ -140,6 +141,11 @@
     $("#list_tbody").on("click",".btn-info",function(){
         var id = $(this).parent().children(":first").val();
         window.location.href = "${rc.contextPath}/areaFinance/toUpdate?id=" + id;
+    })
+    // 查看
+    $("#list_tbody").on("click",".btn-default",function(){
+        var id = $(this).parent().children(":first").val();
+        window.location.href = "${rc.contextPath}/areaFinance/toRefer?id=" + id;
     })
 
     // 删除

@@ -184,4 +184,30 @@ public class AreaFinanceController {
     }
 
 
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toRefer")
+    public String toRefer(Integer id, Model model){
+
+        BaseAreaFinance baseAreaFinance = areaFinanceService.findById(id).getData();
+
+        // 设置所属公司名称
+        String areaName = "";
+        Integer areaId = baseAreaFinance.getAreaId();
+        if (areaId != null) {
+            BaseArea parentArea = areaService.findById(areaId).getData();
+            areaName = parentArea.getName();
+        }
+
+        model.addAttribute("areaName", areaName);
+        model.addAttribute("baseAreaFinance", baseAreaFinance);
+        model.addAttribute("format", format);
+
+        return "modules/areaFinance/refer";
+    }
+
 }
