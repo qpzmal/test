@@ -1,11 +1,20 @@
 package cn.advu.workflow.web.controller.workflow;
 
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
+import cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame;
+import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
+import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.service.base.BuyFrameService;
 import cn.advu.workflow.web.service.base.BuyOrderService;
+import cn.advu.workflow.web.service.base.ExecuteOrderService;
+import cn.advu.workflow.web.service.base.SaleFrameService;
+import cn.advu.workflow.web.vo.BaseBuyOrderFrameVO;
 import cn.advu.workflow.web.vo.BaseBuyOrderVO;
+import cn.advu.workflow.web.vo.BaseExecuteOrderFrameVO;
+import cn.advu.workflow.web.vo.BaseExecuteOrderVO;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricProcessInstanceQuery;
@@ -58,6 +67,16 @@ public class TaskController {
     @Autowired
     private BuyOrderService buyOrderService;
 
+    @Autowired
+    private BuyFrameService buyFrameService;
+
+    @Autowired
+    private ExecuteOrderService executeOrderService;
+
+    @Autowired
+    private SaleFrameService saleFrameService;
+
+
     /**
      * 任务列表
      *
@@ -65,7 +84,11 @@ public class TaskController {
      */
     @RequestMapping(value = "todo")
     public String todoList(HttpServletRequest request, HttpSession session, Model model) {
-        Map<String, List<BaseBuyOrderVO>> resultMap = new HashMap();
+
+        List<BaseBuyOrderVO> baseBuyOrderVOList = new ArrayList<>();
+        List<BaseBuyOrderFrameVO> baseBuyOrderFrameVOList = new ArrayList<>();
+        List<BaseExecuteOrderVO> baseExecuteOrderVOList = new ArrayList<>();
+        List<BaseExecuteOrderFrameVO> baseExecuteOrderFrameVOList = new ArrayList<>();
 
         // 根据当前人的ID查询
         TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateOrAssigned(UserThreadLocalContext.getCurrentUser().getUserName());
@@ -73,8 +96,6 @@ public class TaskController {
 
         // 根据流程的业务ID查询实体并关联
         for (Task task : tasks) {
-            BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
-
             String processInstanceId = task.getProcessInstanceId();
             LOGGER.info("processInstanceId:{}", processInstanceId);
             ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).active().singleResult();
@@ -89,29 +110,60 @@ public class TaskController {
             LOGGER.info("businessKey:{}", businessKey);
             LOGGER.info("ProcessDefinitionKey:{}", processInstance.getProcessDefinitionKey());
 
-            BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
-            baseBuyOrderVO.setTask(task);
-            baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
-            baseBuyOrderVO.setProcessInstance(processInstance);
-            baseBuyOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 
+            switch (processInstance.getProcessDefinitionKey()) {
+                case WebConstants.WORKFLOW_BUY:
+                    BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
+                    BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
+                    baseBuyOrderVO.setTask(task);
+                    baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
+                    baseBuyOrderVO.setProcessInstance(processInstance);
+                    baseBuyOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 
+                    baseBuyOrderVOList.add(baseBuyOrderVO);
+                    break;
 
-            String mapKey = processInstance.getProcessDefinitionKey();
-            if (resultMap.get(mapKey) == null) {
-                List<BaseBuyOrderVO> results = new ArrayList<BaseBuyOrderVO>();
-                results.add(baseBuyOrderVO);
-                resultMap.put(mapKey, results);
-            } else {
-                List<BaseBuyOrderVO> results = resultMap.get(mapKey);
-                results.add(baseBuyOrderVO);
+                case WebConstants.WORKFLOW_BUY_FRAME:
+                    BaseBuyOrderFrameVO baseBuyOrderFrameVO = new BaseBuyOrderFrameVO();
+                    BaseBuyOrderFrame baseBuyOrderFrame = buyFrameService.findById(Integer.valueOf(businessKey)).getData();
+                    baseBuyOrderFrameVO.setTask(task);
+                    baseBuyOrderFrameVO.setBaseBuyOrderFrame(baseBuyOrderFrame);
+                    baseBuyOrderFrameVO.setProcessInstance(processInstance);
+                    baseBuyOrderFrameVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+
+                    baseBuyOrderFrameVOList.add(baseBuyOrderFrameVO);
+                    break;
+                case WebConstants.WORKFLOW_SALE_ORDER:
+                    BaseExecuteOrderVO baseExecuteOrderVO = new BaseExecuteOrderVO();
+                    BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+                    baseExecuteOrderVO.setTask(task);
+                    baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
+                    baseExecuteOrderVO.setProcessInstance(processInstance);
+                    baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+
+                    baseExecuteOrderVOList.add(baseExecuteOrderVO);
+                    break;
+                case WebConstants.WORKFLOW_SALE_FRAME:
+                    BaseExecuteOrderFrameVO baseExecuteOrderFrameVO = new BaseExecuteOrderFrameVO();
+                    BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(Integer.valueOf(businessKey)).getData();
+                    baseExecuteOrderFrameVO.setTask(task);
+                    baseExecuteOrderFrameVO.setBaseExecuteOrderFrame(baseExecuteOrderFrame);
+                    baseExecuteOrderFrameVO.setProcessInstance(processInstance);
+                    baseExecuteOrderFrameVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+
+                    baseExecuteOrderFrameVOList.add(baseExecuteOrderFrameVO);
+                    break;
+                default:
+                    LOGGER.error("ProcessDefinitionKey is error.");
+                    break;
             }
 
         }
-//        LOGGER.debug("results.size:{}", results.size());
-//        model.addAttribute("resultList", results);
 
-        model.addAttribute("resultMap", resultMap);
+        model.addAttribute("baseBuyOrderVOList", baseBuyOrderVOList);
+        model.addAttribute("baseBuyOrderFrameVOList", baseBuyOrderFrameVOList);
+        model.addAttribute("baseExecuteOrderVOList", baseExecuteOrderVOList);
+        model.addAttribute("baseExecuteOrderFrameVOList", baseExecuteOrderFrameVOList);
         return "workflow/task_todoList";
     }
 
@@ -124,21 +176,24 @@ public class TaskController {
      */
     @RequestMapping(value = "running")
     public String runningList(HttpServletRequest request, Model model) {
-        List<BaseBuyOrderVO> results = new ArrayList<BaseBuyOrderVO>();
-        ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_BUY).active().orderByProcessInstanceId().desc();
-//        List<ProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
-        List<ProcessInstance> list = query.list();
+        List<BaseBuyOrderVO> baseBuyOrderVOList = new ArrayList<>();
+        List<BaseBuyOrderFrameVO> baseBuyOrderFrameVOList = new ArrayList<>();
+        List<BaseExecuteOrderVO> baseExecuteOrderVOList = new ArrayList<>();
+        List<BaseExecuteOrderFrameVO> baseExecuteOrderFrameVOList = new ArrayList<>();
 
+
+        ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_BUY).active().orderByProcessInstanceId().desc();
+        List<ProcessInstance> list = query.list();
 
         // 关联业务实体
         for (ProcessInstance processInstance : list) {
-            BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
 
             String businessKey = processInstance.getBusinessKey();
             if (StringUtils.isEmpty(businessKey)) {
                 continue;
             }
 
+            BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
             BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
             baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
             baseBuyOrderVO.setProcessInstance(processInstance);
@@ -148,10 +203,89 @@ public class TaskController {
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
             baseBuyOrderVO.setTask(tasks.get(0));
 
-            results.add(baseBuyOrderVO);
+            baseBuyOrderVOList.add(baseBuyOrderVO);
         }
-        LOGGER.debug("results.size:{}", results.size());
-        model.addAttribute("resultList", results);
+        LOGGER.debug("baseBuyOrderVOList.size:{}", baseBuyOrderVOList.size());
+
+
+        query = runtimeService.createProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_BUY_FRAME).active().orderByProcessInstanceId().desc();
+        list = query.list();
+        // 关联业务实体
+        for (ProcessInstance processInstance : list) {
+
+            String businessKey = processInstance.getBusinessKey();
+            if (StringUtils.isEmpty(businessKey)) {
+                continue;
+            }
+
+            BaseBuyOrderFrameVO baseBuyOrderFrameVO = new BaseBuyOrderFrameVO();
+            BaseBuyOrderFrame baseBuyOrderFrame = buyFrameService.findById(Integer.valueOf(businessKey)).getData();
+            baseBuyOrderFrameVO.setBaseBuyOrderFrame(baseBuyOrderFrame);
+            baseBuyOrderFrameVO.setProcessInstance(processInstance);
+            baseBuyOrderFrameVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+
+            // 设置当前任务信息
+            List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
+            baseBuyOrderFrameVO.setTask(tasks.get(0));
+
+            baseBuyOrderFrameVOList.add(baseBuyOrderFrameVO);
+        }
+        LOGGER.debug("baseBuyOrderFrameVOList.size:{}", baseBuyOrderFrameVOList.size());
+
+
+        query = runtimeService.createProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_SALE_ORDER).active().orderByProcessInstanceId().desc();
+        list = query.list();
+        // 关联业务实体
+        for (ProcessInstance processInstance : list) {
+
+            String businessKey = processInstance.getBusinessKey();
+            if (StringUtils.isEmpty(businessKey)) {
+                continue;
+            }
+
+            BaseExecuteOrderVO baseExecuteOrderVO = new BaseExecuteOrderVO();
+            BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+            baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
+            baseExecuteOrderVO.setProcessInstance(processInstance);
+            baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+
+            // 设置当前任务信息
+            List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
+            baseExecuteOrderVO.setTask(tasks.get(0));
+
+            baseExecuteOrderVOList.add(baseExecuteOrderVO);
+        }
+        LOGGER.debug("baseExecuteOrderVOList.size:{}", baseExecuteOrderVOList.size());
+
+
+        query = runtimeService.createProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_SALE_FRAME).active().orderByProcessInstanceId().desc();
+        list = query.list();
+        // 关联业务实体
+        for (ProcessInstance processInstance : list) {
+
+            String businessKey = processInstance.getBusinessKey();
+            if (StringUtils.isEmpty(businessKey)) {
+                continue;
+            }
+
+            BaseExecuteOrderFrameVO baseExecuteOrderFrameVO = new BaseExecuteOrderFrameVO();
+            BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(Integer.valueOf(businessKey)).getData();
+            baseExecuteOrderFrameVO.setBaseExecuteOrderFrame(baseExecuteOrderFrame);
+            baseExecuteOrderFrameVO.setProcessInstance(processInstance);
+            baseExecuteOrderFrameVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+
+            // 设置当前任务信息
+            List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
+            baseExecuteOrderFrameVO.setTask(tasks.get(0));
+
+            baseExecuteOrderFrameVOList.add(baseExecuteOrderFrameVO);
+        }
+        LOGGER.debug("baseExecuteOrderFrameVOList.size:{}", baseExecuteOrderFrameVOList.size());
+
+        model.addAttribute("baseBuyOrderVOList", baseBuyOrderVOList);
+        model.addAttribute("baseBuyOrderFrameVOList", baseBuyOrderFrameVOList);
+        model.addAttribute("baseExecuteOrderVOList", baseExecuteOrderVOList);
+        model.addAttribute("baseExecuteOrderFrameVOList", baseExecuteOrderFrameVOList);
         return "workflow/task_runningList";
     }
 
@@ -164,24 +298,25 @@ public class TaskController {
      */
     @RequestMapping(value = "finished")
     public String finished(HttpServletRequest request, Model model) {
-        List<BaseBuyOrderVO> results = new ArrayList<BaseBuyOrderVO>();
+        List<BaseBuyOrderVO> baseBuyOrderVOList = new ArrayList<>();
+        List<BaseBuyOrderFrameVO> baseBuyOrderFrameVOList = new ArrayList<>();
+        List<BaseExecuteOrderVO> baseExecuteOrderVOList = new ArrayList<>();
+        List<BaseExecuteOrderFrameVO> baseExecuteOrderFrameVOList = new ArrayList<>();
 
 
         HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_BUY).finished().orderByProcessInstanceEndTime().desc();
 //        List<HistoricProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
-
         List<HistoricProcessInstance> list = query.list();
         LOGGER.info("WORKFLOW_BUY:size{}", list.size());
 
-
         // 关联业务实体
         for (HistoricProcessInstance historicProcessInstance : list) {
-            BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
 
             String businessKey = historicProcessInstance.getBusinessKey();
             if (StringUtils.isEmpty(businessKey)) {
                 continue;
             }
+            BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
 
             BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
             baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
@@ -192,10 +327,103 @@ public class TaskController {
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
             baseBuyOrderVO.setTask(tasks.get(0));
 
-            results.add(baseBuyOrderVO);
+            baseBuyOrderVOList.add(baseBuyOrderVO);
         }
-        LOGGER.debug("results.size:{}", results.size());
-        model.addAttribute("resultList", results);
+        LOGGER.debug("baseBuyOrderVOList.size:{}", baseBuyOrderVOList.size());
+
+
+
+
+        query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_BUY_FRAME).finished().orderByProcessInstanceEndTime().desc();
+//        List<HistoricProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
+        list = query.list();
+        LOGGER.info("WORKFLOW_BUY_FRAME:size{}", list.size());
+
+        // 关联业务实体
+        for (HistoricProcessInstance historicProcessInstance : list) {
+
+            String businessKey = historicProcessInstance.getBusinessKey();
+            if (StringUtils.isEmpty(businessKey)) {
+                continue;
+            }
+
+            BaseBuyOrderFrameVO baseBuyOrderFrameVO = new BaseBuyOrderFrameVO();
+            BaseBuyOrderFrame baseBuyOrderFrame = buyFrameService.findById(Integer.valueOf(businessKey)).getData();
+            baseBuyOrderFrameVO.setBaseBuyOrderFrame(baseBuyOrderFrame);
+            baseBuyOrderFrameVO.setHistoricProcessInstance(historicProcessInstance);
+            baseBuyOrderFrameVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
+
+            // 设置当前任务信息
+            List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
+            baseBuyOrderFrameVO.setTask(tasks.get(0));
+
+            baseBuyOrderFrameVOList.add(baseBuyOrderFrameVO);
+        }
+        LOGGER.debug("baseBuyOrderFrameVOList.size:{}", baseBuyOrderFrameVOList.size());
+
+
+
+
+        query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_SALE_ORDER).finished().orderByProcessInstanceEndTime().desc();
+//        List<HistoricProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
+        list = query.list();
+        LOGGER.info("WORKFLOW_BUY_FRAME:size{}", list.size());
+
+        // 关联业务实体
+        for (HistoricProcessInstance historicProcessInstance : list) {
+
+            String businessKey = historicProcessInstance.getBusinessKey();
+            if (StringUtils.isEmpty(businessKey)) {
+                continue;
+            }
+            BaseExecuteOrderVO baseExecuteOrderVO = new BaseExecuteOrderVO();
+            BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+            baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
+            baseExecuteOrderVO.setHistoricProcessInstance(historicProcessInstance);
+            baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
+
+            // 设置当前任务信息
+            List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
+            baseExecuteOrderVO.setTask(tasks.get(0));
+
+            baseExecuteOrderVOList.add(baseExecuteOrderVO);
+        }
+        LOGGER.debug("baseExecuteOrderVOList.size:{}", baseExecuteOrderVOList.size());
+
+
+
+
+        query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_SALE_ORDER).finished().orderByProcessInstanceEndTime().desc();
+//        List<HistoricProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
+        list = query.list();
+        LOGGER.info("WORKFLOW_BUY_FRAME:size{}", list.size());
+
+        // 关联业务实体
+        for (HistoricProcessInstance historicProcessInstance : list) {
+
+            String businessKey = historicProcessInstance.getBusinessKey();
+            if (StringUtils.isEmpty(businessKey)) {
+                continue;
+            }
+
+            BaseExecuteOrderFrameVO baseExecuteOrderFrameVO = new BaseExecuteOrderFrameVO();
+            BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(Integer.valueOf(businessKey)).getData();
+            baseExecuteOrderFrameVO.setBaseExecuteOrderFrame(baseExecuteOrderFrame);
+            baseExecuteOrderFrameVO.setHistoricProcessInstance(historicProcessInstance);
+            baseExecuteOrderFrameVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
+
+            // 设置当前任务信息
+            List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
+            baseExecuteOrderFrameVO.setTask(tasks.get(0));
+
+            baseExecuteOrderFrameVOList.add(baseExecuteOrderFrameVO);
+        }
+        LOGGER.debug("baseExecuteOrderFrameVOList.size:{}", baseExecuteOrderFrameVOList.size());
+
+        model.addAttribute("baseBuyOrderVOList", baseBuyOrderVOList);
+        model.addAttribute("baseBuyOrderFrameVOList", baseBuyOrderFrameVOList);
+        model.addAttribute("baseExecuteOrderVOList", baseExecuteOrderVOList);
+        model.addAttribute("baseExecuteOrderFrameVOList", baseExecuteOrderFrameVOList);
         return "workflow/task_finished";
     }
 
