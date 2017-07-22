@@ -198,4 +198,38 @@ public class DeptController {
     public ResultJson<Void> remove(Integer id, HttpServletRequest request){
         return deptService.remove(id);
     }
+
+    /**
+     * 跳转更新部门页面
+     *
+     * @return
+     */
+    @RequestMapping("/toRefer")
+    public String toRefer(Integer id, Model model) {
+
+        // 区域树
+        BaseDept baseDept = deptService.findById(id).getData();
+        AssertUtil.assertNotNull(baseDept, MessageConstants.DEPT_IS_NOT_EXISTS);
+
+        Integer areaId = baseDept.getAreaId();
+        AssertUtil.assertNotNull(areaId);
+
+        // 区域名称
+        BaseArea baseArea = areaService.findById(areaId).getData();
+        String areaName = baseArea.getName();
+
+        Integer parentId = baseDept.getParentId();
+
+        String parentDeptName = "";
+        if (parentId != null && parentId.intValue() != 0) {
+            BaseDept parentDept = deptService.findById(parentId).getData();
+            parentDeptName = parentDept.getName();
+        }
+
+        model.addAttribute("parentName", parentDeptName);
+        model.addAttribute("areaName", areaName);
+        model.addAttribute("baseDept", baseDept);
+
+        return "modules/dept/refer";
+    }
 }

@@ -1,0 +1,78 @@
+## 引入css
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
+
+#end
+
+<div class="ibox-content">
+    <form class="form-horizontal m-t" id="commentForm">
+        <input type="hidden" id="id" name="id" value="$baseDept.id">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">所属公司</label>
+            <div id="area_content" class="col-sm-9">
+                <label class="control-label" >$!{areaName}</label>
+                <input id="area_id" hidden value="$!{baseDept.areaId}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">上级部门</label>
+            <div id="parent_content"  class="col-sm-8">
+                <label class="control-label" >$!{parentName}</label>
+                <input id="parent_id" hidden value="$!{baseDept.parentId}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">部门名称</label>
+            <div class="col-sm-8">
+                <label class="control-label" >$!{baseDept.name}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">描述</label>
+            <div class="col-sm-8">
+                <label class="control-label" >$!{baseDept.description}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">启用/停用</label>
+            <div class="col-sm-8">
+                <input disabled value="$!{baseDept.itemStatus}" id="item_status" name="item_status" type="checkbox" class="js-switch" checked />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 col-sm-offset-6">
+                <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+## 引入js
+#define($jsblock)
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
+
+<script>
+
+
+    $().ready(
+            function(){
+                {var i=document.querySelector(".js-switch"),
+                        t=(new Switchery(i,{color:"#1AB394"}));
+                };
+            }
+    );
+
+    // 返回
+    $(".btn-default").click(function(){
+        history.go(-1);
+    })
+</script>
+#end
