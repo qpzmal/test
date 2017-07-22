@@ -1,0 +1,114 @@
+## 引入css
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
+#end
+
+<div class="ibox-content">
+    <form class="form-horizontal m-t" id="commentForm">
+        <input type="hidden" id="id" name="id" value="$baseCustom.id">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">客户名称</label>
+            <div class="col-sm-8">
+                <label class="control-label" >$!{baseCustom.name}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">类型</label>
+            <div class="col-sm-8">
+                <label class="control-label" >
+                    #if($!{baseCustom.customType} == 1)
+                        4A公司
+                        #elseif($!{baseCustom.customType} == 2)
+                            直客
+                        #elseif($!{baseCustom.customType} == 0)
+                        代理客户
+                    #end</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">隶属代理</label>
+            <div id="area_id_content"  class="col-sm-8">
+                <label class="control-label">
+                    #foreach($data in $customList)
+                            #if($!{baseCustom.parentId} == $data.id)
+                                $data.name
+                            #end
+                    #end
+                    $!{baseCustom.name}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">联系人</label>
+            <div class="col-sm-8">
+                <label class="control-label" >$!{baseCustom.contacts}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">手机</label>
+            <div class="col-sm-8">
+                <label class="control-label" >$!{baseCustom.mobile}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">地址</label>
+            <div class="col-sm-8">
+                <label class="control-label" >$!{baseCustom.address}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">邮箱地址</label>
+            <div class="col-sm-8">
+                <label class="control-label" >$!{baseCustom.email}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">备注</label>
+            <div class="col-sm-8">
+                <label class="control-label" >$!{baseCustom.remark}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">启用/停用</label>
+            <div class="col-sm-8">
+                <input disabled id="item_status" name="item_status" type="checkbox" class="js-switch"
+                    #if($!{baseCustom.itemStatus} == "0")
+                       checked
+                    #end
+                />
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 col-sm-offset-6">
+                <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+## 引入js
+#define($jsblock)
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
+
+<script>
+
+    $().ready(
+        function(){
+            {var i=document.querySelector(".js-switch"),
+                    t=(new Switchery(i,{color:"#1AB394"}));
+            };
+        }
+    );
+
+    // 返回
+    $(".btn-default").click(function(){
+        history.go(-1);
+    })
+</script>
+#end

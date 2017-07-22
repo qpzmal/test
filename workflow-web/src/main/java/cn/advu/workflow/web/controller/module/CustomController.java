@@ -118,4 +118,24 @@ public class CustomController {
     }
 
 
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toRefer")
+    public String toRefer(Integer id, Model model){
+
+        BaseCustom baseCustom = customService.findById(id).getData();
+        model.addAttribute("baseCustom", baseCustom);
+
+        List<BaseCustom> directCustom = customService.findParentCustom().getData();
+        model.addAttribute("customList", directCustom);
+
+        return "modules/custom/refer";
+    }
+
+
+
 }
