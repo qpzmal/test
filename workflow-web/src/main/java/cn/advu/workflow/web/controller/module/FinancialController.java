@@ -89,5 +89,20 @@ public class FinancialController {
         return "modules/financial/update";
     }
 
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toRefer")
+    public String toRefer(Integer id, Model model){
+
+        BaseFinancialindex baseFinancialindex = financialindexService.findById(id).getData();
+
+        model.addAttribute("baseFinancialindex", baseFinancialindex);
+
+        return "modules/financial/refer";
+    }
 
 }
