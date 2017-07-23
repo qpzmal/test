@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
     <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
@@ -14,7 +15,7 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, code, name, del_flag, item_status, creator_id, updater_id, create_time, update_time, 
+    id, code, name, del_flag, item_status, creator_id, updater_id, create_time, update_time, type,
     remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -31,11 +32,11 @@
     insert into base_media (id, code, name, 
       del_flag, item_status, creator_id, 
       updater_id, create_time, update_time, 
-      remark)
+      remark,type)
     values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT}, #{creatorId,jdbcType=INTEGER},
       #{updaterId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{remark,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.BaseMedia"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_media
@@ -48,6 +49,9 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="type != null">
+        type,
       </if>
       <if test="delFlag != null">
         del_flag,
@@ -81,6 +85,9 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
       <if test="delFlag != null">
         #{delFlag,jdbcType=TINYINT},
       </if>
@@ -112,6 +119,9 @@
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="delFlag != null">
         del_flag = #{delFlag,jdbcType=TINYINT},
@@ -147,7 +157,8 @@
       updater_id = #{updaterId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

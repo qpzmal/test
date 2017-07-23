@@ -1,8 +1,10 @@
 package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseMedia;
+import cn.advu.workflow.domain.fcf_vu.BaseMediaType;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.service.base.MediaService;
+import cn.advu.workflow.web.service.base.MediaTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,8 @@ public class MediaController {
     
     @Autowired
     private MediaService mediaService;
+    @Autowired
+    private MediaTypeService mediaTypeService;
 
     /**
      * 跳转区域媒体首页-媒体列表页
@@ -66,7 +70,9 @@ public class MediaController {
      * @return
      */
     @RequestMapping("/toAdd")
-    public String toAdd(){
+    public String toAdd(Model model){
+        List<BaseMediaType> activeMediaList = mediaTypeService.findActiveType().getData();
+        model.addAttribute("typeList", activeMediaList);
         return "modules/media/add";
     }
 
@@ -80,8 +86,12 @@ public class MediaController {
     @RequestMapping("/toUpdate")
     public String toUpdate(Integer id, Model model){
 
+        List<BaseMediaType> activeMediaList = mediaTypeService.findActiveType().getData();
+        model.addAttribute("typeList", activeMediaList);
+
         BaseMedia baseMedia = mediaService.findById(id).getData();
 
+        model.addAttribute("typeList", activeMediaList);
         model.addAttribute("baseMedia", baseMedia);
 
         return "modules/media/update";

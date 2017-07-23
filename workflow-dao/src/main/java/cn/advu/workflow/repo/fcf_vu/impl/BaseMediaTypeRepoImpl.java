@@ -3,6 +3,7 @@ package cn.advu.workflow.repo.fcf_vu.impl;
 import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.dao.fcf_vu.BaseMediaMapper;
 import cn.advu.workflow.dao.fcf_vu.BaseMediaTypeMapper;
+import cn.advu.workflow.domain.enums.ItemStatusEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseMedia;
 import cn.advu.workflow.domain.fcf_vu.BaseMediaType;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
@@ -31,5 +32,10 @@ public class BaseMediaTypeRepoImpl extends AbstractRepo<BaseMediaType> implement
     @Override
     public List<BaseMediaType> findAll() {
         return baseMediaTypeMapper.queryAll(null);
+    }
+
+    @Override
+    public List<BaseMediaType> findActiveType() {
+        return baseMediaTypeMapper.queryAll(Integer.valueOf(ItemStatusEnum.ACTIVE.getValue()));
     }
 }
