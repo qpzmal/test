@@ -1,5 +1,6 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.ItemStatusEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseMedia;
 import cn.advu.workflow.domain.fcf_vu.BaseMediaType;
 import cn.advu.workflow.repo.fcf_vu.BaseMediaRepo;
@@ -57,6 +58,13 @@ public class MediaTypeServiceImpl implements MediaTypeService {
     public ResultJson<BaseMediaType> findById(Integer id) {
         ResultJson<BaseMediaType> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         result.setData(baseMediaTypeRepo.findOne(id));
+        return result;
+    }
+
+    @Override
+    public ResultJson<List<BaseMediaType>> findActiveType() {
+        ResultJson<List<BaseMediaType>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseMediaTypeRepo.findActiveType());
         return result;
     }
 }

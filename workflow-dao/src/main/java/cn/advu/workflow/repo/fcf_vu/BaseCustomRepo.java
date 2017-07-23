@@ -3,6 +3,7 @@ package cn.advu.workflow.repo.fcf_vu;
 
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseFinancialindex;
+import cn.advu.workflow.domain.searchVO.CustomSearchVO;
 import cn.advu.workflow.repo.base.IRepo;
 import org.springframework.stereotype.Repository;
 
@@ -22,4 +23,8 @@ public interface BaseCustomRepo extends IRepo<BaseCustom> {
     List<BaseCustom> findAllChildCustom(Integer id);
 
     List<BaseCustom> findCustomListByCustomType(Integer customType);
+
+    List<BaseCustom> findAllBySearchVO(CustomSearchVO customSearchVO);
+
+
 }

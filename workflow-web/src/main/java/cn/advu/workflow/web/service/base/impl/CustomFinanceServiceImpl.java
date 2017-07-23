@@ -61,7 +61,7 @@ public class CustomFinanceServiceImpl implements CustomFinanceService {
         }
 
         ResultJson<Integer> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
-        baseCustomFinanceRepo.add(baseCustomFinance);
+        baseCustomFinanceRepo.addSelective(baseCustomFinance);
         result.setData(baseCustomFinance.getId());
         return result;
     }

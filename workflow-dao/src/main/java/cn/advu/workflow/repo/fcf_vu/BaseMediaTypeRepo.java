@@ -12,4 +12,6 @@ import java.util.List;
 public interface BaseMediaTypeRepo extends IRepo<BaseMediaType> {
 
     List<BaseMediaType> findAll();
+
+    List<BaseMediaType> findActiveType();
 }

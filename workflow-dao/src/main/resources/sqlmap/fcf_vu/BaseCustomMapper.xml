@@ -264,4 +264,22 @@
     and custom_type = #{customType, jdbcType=TINYINT}
   </select>
 
+  <select id="queryAllBySearchVO" resultMap="BaseResultMap" parameterType="cn.advu.workflow.domain.searchVO.CustomSearchVO">
+    select
+    <include refid="Base_Column_List" />
+    from base_custom
+    where del_flag = '0'
+    <if test="likeSearch != null">
+      and (name like CONCAT('%',#{likeSearch,jdbcType=VARCHAR},'%')
+      or contacts like CONCAT('%',#{likeSearch,jdbcType=VARCHAR},'%')
+      or mobile like CONCAT('%',#{likeSearch,jdbcType=VARCHAR},'%'))
+    </if>
+    <if test="customType != null">
+      and custom_type = #{customType, jdbcType=INTEGER}
+    </if>
+    <if test="parentId != null">
+      and parent_id = #{parentId, jdbcType=INTEGER}
+    </if>
+  </select>
+
 </mapper>

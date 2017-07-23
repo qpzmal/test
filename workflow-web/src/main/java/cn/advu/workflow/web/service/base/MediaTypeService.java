@@ -43,4 +43,12 @@ public interface MediaTypeService {
      * @return
      */
     ResultJson<BaseMediaType> findById(Integer id);
+
+
+    /**
+     * 返回全部媒体类型
+     *
+     * @return
+     */
+    ResultJson<List<BaseMediaType>> findActiveType();
 }

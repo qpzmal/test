@@ -2,6 +2,7 @@ package cn.advu.workflow.web.service.base;
 
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseFinancialindex;
+import cn.advu.workflow.domain.searchVO.CustomSearchVO;
 import cn.advu.workflow.web.common.ResultJson;
 
 import java.util.List;
@@ -56,4 +57,11 @@ public interface CustomService {
      * @return
      */
     ResultJson<List<BaseCustom>> findParentCustom();
+
+    /**
+     * 根据查询条件返回客户列表
+     * @return
+     */
+    ResultJson<List<BaseCustom>> findCustomBySearchVO(CustomSearchVO customSearchVO);
+
 }

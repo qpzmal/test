@@ -2,9 +2,11 @@ package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseIndustry;
+import cn.advu.workflow.domain.searchVO.CustomSearchVO;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.service.base.CustomService;
 import cn.advu.workflow.web.service.base.IndustryService;
+import cn.advu.workflow.web.util.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +30,6 @@ public class CustomController {
     @Autowired
     private CustomService customService;
 
-    @Autowired
-    private IndustryService industryService;
-
-
     /**
      * 跳转客户首页-客户列表页
      *
@@ -40,9 +38,30 @@ public class CustomController {
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
+
+
+        List<BaseCustom> directCustom = customService.findParentCustom().getData();
+        resultModel.addAttribute("customList", directCustom);
+
         ResultJson<List<BaseCustom>> result = customService.findAll();
         resultModel.addAttribute("dataList",result.getData());
         return "modules/custom/list";
+    }
+
+    /**
+     * 跳转客户首页-客户列表页
+     *
+     * @param resultModel
+     * @return
+     */
+    @RequestMapping("/search")
+    public String toList(CustomSearchVO customSearchVO, Model resultModel){
+
+        AssertUtil.assertNotNull(customSearchVO);
+
+        ResultJson<List<BaseCustom>> result = customService.findCustomBySearchVO(customSearchVO);
+        resultModel.addAttribute("dataList",result.getData());
+        return "modules/custom/searchList";
     }
 
     /**
@@ -86,9 +105,6 @@ public class CustomController {
     @RequestMapping("/toAdd")
     public String toAdd(Model resultModel){
 
-//        List<BaseIndustry> industryList = industryService.findAll().getData();
-//        resultModel.addAttribute("industryList", industryList);
-
         List<BaseCustom> directCustom = customService.findParentCustom().getData();
         resultModel.addAttribute("customList", directCustom);
 
@@ -111,11 +127,28 @@ public class CustomController {
         List<BaseCustom> directCustom = customService.findParentCustom().getData();
         model.addAttribute("customList", directCustom);
 
-//        List<BaseIndustry> industryList = industryService.findAll().getData();
-//        model.addAttribute("industryList", industryList);
-
         return "modules/custom/update";
     }
+
+
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toRefer")
+    public String toRefer(Integer id, Model model){
+
+        BaseCustom baseCustom = customService.findById(id).getData();
+        model.addAttribute("baseCustom", baseCustom);
+
+        List<BaseCustom> directCustom = customService.findParentCustom().getData();
+        model.addAttribute("customList", directCustom);
+
+        return "modules/custom/refer";
+    }
+
 
 
 }

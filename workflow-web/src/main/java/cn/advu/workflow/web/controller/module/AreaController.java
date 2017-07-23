@@ -47,7 +47,7 @@ public class AreaController {
     @RequestMapping("/index")
     public String toIndex(Integer areaId, Model resultModel){
 
-        areaId = (areaId == null)? 0 : areaId;
+//        areaId = (areaId == null)? 0 : areaId;
 
         // 所属公司的树状结构
         String parentTreeJson = findAreaTreeStr();
@@ -127,6 +127,24 @@ public class AreaController {
         model.addAttribute("parentTreeJson", parentTreeJson);
 
         return "modules/area/update";
+    }
+
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toRefer")
+    public String toRefer(Integer id, Model model){
+
+        BaseArea baseArea = areaService.findById(id).getData();
+        String parentName = findParentName(baseArea.getParentId());
+
+        model.addAttribute("baseArea", baseArea);
+        model.addAttribute("parentAreaName", parentName);
+
+        return "modules/area/refer";
     }
 
     /**

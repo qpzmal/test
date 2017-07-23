@@ -1,15 +1,39 @@
 ## 引入css
 #define($cssblock)
 <link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
+
 #end
 
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
         <input type="hidden" id="id" name="id" value="$baseMedia.id">
         <div class="form-group">
-            <label class="col-sm-3 control-label">区域名称:</label>
+            <label class="col-sm-3 control-label">名称</label>
             <div class="col-sm-8">
                 <input value="$!{baseMedia.name}" id="media_name" name="media_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">类型</label>
+            <div class="col-sm-8">
+                <select id="type" ata-placeholder="请选择类型" class="chosen-select" style="width:350px;" tabindex="2">
+                    <option value="">请选择类型</option>
+                    #foreach($data in $typeList)
+                        <option value ="$data.id"
+                        #if("$data.id" == $!{baseMedia.type})
+                            selected
+                        #end
+                        >$data.name</option>
+                    #end
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">备注</label>
+            <div class="col-sm-8">
+                <input value="$!{baseMedia.remark}" id="remark" name="remark" maxlength="500" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
@@ -42,8 +66,20 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
 
 <script>
+
+    var config = {
+        ".chosen-select": {},
+        ".chosen-select-deselect": {allow_single_deselect: !0},
+        ".chosen-select-no-single": {disable_search_threshold: 10},
+        ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
+        ".chosen-select-width": {width: "95%"}
+    };
+    for (var selector in config)
+        $(selector).chosen(config[selector]);
+
     $.validator.setDefaults(
         {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
             success:function(e){
@@ -67,13 +103,11 @@
         }
     );
 
-//    $(".btn-primary").click(function(){
-//        update();
-//    })
-
     function updateRegion(){
         var id = $("#id").val();
         var name = $("#media_name").val();
+        var remark = $("#remark").val();
+        var type = $("#type").val();
         var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/media/update.json",
@@ -81,13 +115,15 @@
             data:{
                 id:id,
                 name:name,
+                remark:remark,
+                type:type,
                 itemStatus:item_status
             },
             success: function(returnData){
                 if(returnData.code == 1){
                     popMsg('更新成功!', "/media/index");
                 } else{
-                    layer.msg('更新失败, 请联系技术人员!');
+                    layer.msg(returnData.info);
                 }
             }
         });

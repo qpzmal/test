@@ -13,6 +13,12 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-3 control-label">备注</label>
+            <div class="col-sm-8">
+                <input value="$!{baseAdtype.remark}" id="remark" name="remark" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label">启用:</label>
             <div class="col-sm-8">
                 <input id="item_status" name="item_status" type="checkbox" class="js-switch"
@@ -21,7 +27,6 @@
                     #end
                 />
             </div>
-
         </div>
         <div class="form-group">
             <div class="col-sm-4 col-sm-offset-3">
@@ -67,28 +72,26 @@
         }
     );
 
-//    $(".btn-primary").click(function(){
-//        addRegion();
-//    })
-
     function updateRegion(){
         var id = $("#id").val();
         var name = $("#adtype_name").val();
         var item_status = $(".js-switch")[0].checked?"0":"1";
+        var remark = $("#remark").val();
         $.ajax({
             url:"/adtype/update.json",
             type:"post",
             data:{
                 id:id,
                 name:name,
-                itemStatus:item_status
+                itemStatus:item_status,
+                remark:remark
             },
             success: function(returnData){
                 console.log(returnData);
                 if(returnData.code == 1){
                     popMsg('更新成功!', "/adtype/index");
                 } else{
-                    layer.msg('更新失败, 请联系技术人员!');
+                    layer.msg(returnData.info);
                 }
             }
         });

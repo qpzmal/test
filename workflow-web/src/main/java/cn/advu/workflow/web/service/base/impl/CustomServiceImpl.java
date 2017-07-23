@@ -2,6 +2,7 @@ package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.domain.enums.CustomTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
+import cn.advu.workflow.domain.searchVO.CustomSearchVO;
 import cn.advu.workflow.domain.utils.ValueEnumUtils;
 import cn.advu.workflow.repo.fcf_vu.BaseCustomRepo;
 import cn.advu.workflow.web.common.ResultJson;
@@ -149,6 +150,13 @@ public class CustomServiceImpl implements CustomService {
     public ResultJson<List<BaseCustom>> findParentCustom() {
         ResultJson<List<BaseCustom>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         result.setData(baseCustomRepo.findParentCustom());
+        return result;
+    }
+
+    @Override
+    public ResultJson<List<BaseCustom>> findCustomBySearchVO(CustomSearchVO customSearchVO) {
+        ResultJson<List<BaseCustom>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseCustomRepo.findAllBySearchVO(customSearchVO));
         return result;
     }
 }

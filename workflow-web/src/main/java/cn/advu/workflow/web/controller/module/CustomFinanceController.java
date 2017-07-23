@@ -148,4 +148,24 @@ public class CustomFinanceController {
     }
 
 
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toRefer")
+    public String toRefer(Integer id, Model model){
+
+        BaseCustomFinance baseCustomFinance = customFinanceService.findById(id).getData();
+        List<BaseCustom> customList = customService.findAll().getData();
+
+        model.addAttribute("baseCustomFinance", baseCustomFinance);
+        model.addAttribute("customList", customList);
+        model.addAttribute("format", format);
+
+        return "modules/customFinance/refer";
+    }
+
+
 }
