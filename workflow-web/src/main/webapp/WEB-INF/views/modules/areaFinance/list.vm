@@ -12,13 +12,13 @@
                 <div class="ibox-content">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">选择区域</label>
-                        <div id="parent_content"  class="col-sm-8">
+                        <div id="parent_content"  class="col-sm-10">
                             <input id="parent_id" hidden value="$!{areaId}">
                             <input value="$!{areaName}" id="parent_name" name="parent_name" type="text" class="form-control"
                                 #if(!${parentTreeJson})
                                    disabled
                                 #end
-                                   onclick="showDeptList(); return false;">
+                                   onclick="showDeptList(); return false;"  onfocus=this.blur()>
                         </div>
                     </div>
                 </div>
@@ -69,8 +69,11 @@
     </div>
 </div>
 
-<div id="parent_tree_content" class="col-sm-8 ibox-content" style="display:none; position: absolute;">
+<div id="parent_tree_content" class="col-sm-9 ibox-content" style="display:none; position: absolute;">
     <div id="parent_tree" class="test" ></div>
+    <div id="clear_content">
+        <a  href="javascript:;" id="clear"  class="btn btn-success btn-sm button_view_pd"><i class="fa fa-remove "></i> 清空 </a>
+    </div>
 </div>
 
 #define($jsblock)
@@ -82,9 +85,6 @@
 <script>
 
     function areaChange(area_id) {
-        if (area_id == "") {
-            return;
-        }
         $.ajax({
             url:"/areaFinance/list.json?areaId=" + area_id,
             type:"get",
@@ -124,8 +124,8 @@
                     levels:1,
                     data: treeData,
                     onNodeSelected: function (e, o) {
-                        $("#parent_id").attr("value", o.value);
-                        $("#parent_name").attr("value", o.text);
+                        $("#parent_id").val(o.value);
+                        $("#parent_name").val(o.text);
                         $("#parent_tree_content").fadeOut("fast");
                         areaChange($("#parent_id").val());
                     }
@@ -142,6 +142,14 @@
         var id = $(this).parent().children(":first").val();
         window.location.href = "${rc.contextPath}/areaFinance/toUpdate?id=" + id;
     })
+
+    $("#clear_content").on("click",".btn-success",function(){
+        $("#parent_id").val("");
+        $("#parent_name").val("");
+        areaChange($("#parent_id").val());
+        hideMenu();
+
+    });
     // 查看
     $("#list_tbody").on("click",".btn-default",function(){
         var id = $(this).parent().children(":first").val();
