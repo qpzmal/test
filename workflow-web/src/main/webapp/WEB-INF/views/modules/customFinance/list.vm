@@ -115,22 +115,25 @@
         });
     };
 
+
     // 添加
     $(".btn-primary").click(function(){
         window.location.href = "${rc.contextPath}/customFinance/toAdd?customId=" + $("#custom_id").val();
     })
     // 修改
-    $(".btn-info").click(function(){
+    $("#list_tbody").on("click",".btn-info",function(){
         var id = $(this).parent().children(":first").val();
         window.location.href = "${rc.contextPath}/customFinance/toUpdate?id=" + id;
     })
+
     // 修改
-    $(".btn-default").click(function(){
+    $("#list_tbody").on("click",".btn-default",function(){
         var id = $(this).parent().children(":first").val();
         window.location.href = "${rc.contextPath}/customFinance/toRefer?id=" + id;
     })
+
     // 删除
-    $(".btn-danger").click(function(){
+    $("#list_tbody").on("click",".btn-danger",function(){
         var id = $(this).parent().children(":first").val();
         delItem(function(){
             $.ajax({

@@ -2,6 +2,7 @@ package cn.advu.workflow.dao.fcf_vu;
 
 import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
+import cn.advu.workflow.domain.searchVO.CustomSearchVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,6 +21,10 @@ public interface BaseCustomMapper extends BaseDAO<BaseCustom>{
     List<BaseCustom> queryAllChildCustom(@Param("id") Integer id);
 
     List<BaseCustom> queryCustomListByCustomType(@Param("customType") Integer customType);
+
+    List<BaseCustom> queryAllBySearchVO(CustomSearchVO customSearchVO);
+
+
 
 
 }

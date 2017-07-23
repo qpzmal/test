@@ -4,6 +4,7 @@ import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.dao.fcf_vu.BaseCustomMapper;
 import cn.advu.workflow.domain.enums.CustomTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
+import cn.advu.workflow.domain.searchVO.CustomSearchVO;
 import cn.advu.workflow.domain.utils.ValueEnumUtils;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseCustomRepo;
@@ -55,6 +56,11 @@ public class BaseCustomRepoImpl extends AbstractRepo<BaseCustom> implements Base
     @Override
     public List<BaseCustom> findCustomListByCustomType(Integer customType) {
         return baseCustomMapper.queryCustomListByCustomType(customType);
+    }
+
+    @Override
+    public List<BaseCustom> findAllBySearchVO(CustomSearchVO customSearchVO) {
+        return baseCustomMapper.queryAllBySearchVO(customSearchVO);
     }
 
     @Override
