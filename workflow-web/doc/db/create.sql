@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `base_custom` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '客户ID',
   `name` varchar(100) NOT NULL DEFAULT '' COMMENT '客户名称(签约公司名称)',
   `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '所属上一级id',
-  `custom_type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '类型 1,4A公司 2,直客（下拉）',
+  `custom_type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '类型 1,4A公司 2,直客 3,广告主（下拉）',
   `contacts` varchar(30) NOT NULL DEFAULT '' COMMENT '联系人',
   `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '手机',
   `address` varchar(255) NOT NULL DEFAULT '' COMMENT '地址',
@@ -360,6 +360,7 @@ DROP TABLE IF EXISTS `base_media`;
 CREATE TABLE IF NOT EXISTS `base_media` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `code` varchar(20) NOT NULL DEFAULT '' COMMENT '媒体编码（对应广告曝光的厂商编码）',
+  `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '媒体类型 与base_media_type关联',
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '媒体名字',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记 ，0正常，1删除',
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',

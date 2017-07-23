@@ -1,10 +1,56 @@
 开发文档
 =
 
-导入本地patchca-0.5.0.jar包到maven库
+
+##TODO列表（必做）
+1. 报表
+1. 首页面板
+1. 计算器
+1. 采购框架、销售框架
+1. 日志
+1. 流程表中加入wf_step字段
+1. 流程的历史记录
+1. 流程触发时的短信、邮件
+1. 其他工作流
+1. 定时任务，提前七天收账
+1. 图像上传、修改LOGO
+1. FF浏览器使用测试
+1. ====================
+1. 列表页中的删除按钮，没有触发删除事件
+1. 更新页面如果数据库里该项没有值，则显示空。
+1. 启用停用，做成checkbox样式
+1. UserController里面的index_content和list都是干什么用的？不是我加的
+1. 角色页面，checkbox的展示错误
+
+##BUG列表
+1. 用户按钮，只有用户自己才能修改和发起流程。
+
+##TODO优化列表（选作）
+1. 用户修改密码
+1. 报表导出excel
+1. 翻页
+1. 查询页面重置功能
+1. 手机号DES加密
+1. sys_user表login_fail_count字段的使用（记录错误的登录次数）
+1. 连接池使用druid？现在使用的是boneCP
+1. 登录认证使用shiro?
+
+
+##交付前要做的
+1. 建立分支
+1. 整理代码：
+    1. 删除wv等字符
+    1. 删除无用注释
+    1. 删除无用代码
+1. aa
+
+
+## 项目开发
+1. 模版主页：http://www.zi-han.net/theme/hplus/
+1. 导入本地patchca-0.5.0.jar包到maven库
 > mvn install:install-file  -Dfile=/Users/wangry/WorkFlower/patchca-0.5.0.jar  -DgroupId=org.patchca  -DartifactId=patchca -Dversion=0.5.0 -Dpackaging=jar
 
-模版主页：http://www.zi-han.net/theme/hplus/
+
 
 # 流程图和项目之间的关系
 1. 图中的 **流程标识** 需要和流程相关的Controller的URI向匹配。比如采购定价单中的URI是/buyOrder/xxxx，因此流程标识应该设置为buyOrder，这样在审核列表页面中才能根据此地址，定位到相应的参考页面。
@@ -12,7 +58,7 @@
 ####相关插件版本：
 1. layer--3.0.3
 官网：http://layer.layui.com/
-2. Font Awesome--4.4.0
+1. Font Awesome--4.4.0
 图标示例：http://code.zoomla.cn/boot/font.html
 
 
@@ -69,11 +115,6 @@
 * 法务主管--legalGM--legalGMAudit--${legalGMPass}--${!legalGMPass}
 * hr--hr
 * 调整申请-----------modifyApply--${reApply}--${!reApply}
-
-#### 待实现功能
-* 流程的历史记录
-* 流程触发时的短信
-* 报表
 
 
 #### mybatis相关mapper配置

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 销售报表 -->
+<mapper namespace="cn.advu.workflow.dao.fcf_vu.datareport.VuDataReportMapper">
+
+    <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.datareport.VuDataReport">
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="order_date" jdbcType="VARCHAR" property="orderDate" />
+
+        <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
+        <result column="tax_amount" jdbcType="VARCHAR" property="taxAmount" />
+        <result column="tax_free_amount" jdbcType="VARCHAR" property="taxFreeAmount" />
+
+        <result column="yswc" jdbcType="VARCHAR" property="yswc" />
+
+        <result column="custom_id" jdbcType="VARCHAR" property="customId" />
+        <result column="custom_type" jdbcType="VARCHAR" property="customType" />
+        <result column="m_pay" jdbcType="VARCHAR" property="mPay" />
+        <result column="j_pay" jdbcType="VARCHAR" property="jPay" />
+        <result column="pay_percent" jdbcType="VARCHAR" property="payPercent" />
+    </resultMap>
+
+    <select id="querySaleHistoryByDate" resultMap="BaseResultMap">
+        SELECT
+        o.order_date AS order_date,COUNT(o.order_num) AS order_num,SUM(o.tax_amount) AS tax_amount,SUM(o.tax_free_amount) AS tax_free_amount
+        FROM base_execute_order AS o
+        WHERE o.del_flag = 0 AND o.item_status = 0
+        AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        AND  o.status = 3
+        GROUP BY o.order_date
+        ORDER BY  o.tax_amount DESC
+    </select>
+    <select id="querySaleHistoryByDateMonth" resultMap="BaseResultMap">
+        SELECT
+        date_format(o.order_date,'%Y-%m') AS order_date,
+        COUNT(o.order_num) AS order_num,SUM(o.tax_amount) AS tax_amount,
+        SUM(o.tax_free_amount) AS tax_free_amount
+        FROM base_execute_order AS o
+        WHERE o.del_flag = 0 AND o.item_status = 0
+        AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        AND  o.status = 3
+        GROUP BY date_format(o.order_date,'%Y-%m')
+        ORDER BY  SUM(o.tax_amount) DESC
+    </select>
+    <select id="querySaleHistoryByDateQuarter" resultMap="BaseResultMap">
+        SELECT
+        CONCAT(YEAR(o.order_date),'年',quarter(o.order_date),'季度') AS order_num,SUM(o.tax_amount) AS tax_amount,SUM(o.tax_free_amount) AS tax_free_amount
+        FROM base_execute_order AS o
+        WHERE o.del_flag = 0 AND o.item_status = 0
+        AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        AND  o.status = 3
+        GROUP BY CONCAT(YEAR(o.order_date),'年',quarter(o.order_date),'季度')
+        ORDER BY  SUM(o.tax_amount) DESC
+    </select>
+    <select id="querySaleHistoryByDateHalfYear" resultMap="BaseResultMap">
+        SELECT
+        case when month(o.order_date)<![CDATA[ < ]]>6 then CONCAT(year(o.order_date),'上半年')
+        when month(o.order_date)>=6 then CONCAT(year(o.order_date),'下半年')
+        else null
+        end  AS order_num,
+        SUM(o.tax_amount) AS tax_amount,SUM(o.tax_free_amount) AS tax_free_amount
+        FROM base_execute_order AS o
+        WHERE o.del_flag = 0 AND o.item_status = 0
+        AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        AND  o.status = 3
+        GROUP BY
+        case when month(o.order_date)<![CDATA[ < ]]>6 then CONCAT(year(o.order_date),'上半年')
+        when month(o.order_date)>=6 then CONCAT(year(o.order_date),'下半年')
+        else null
+        end
+        ORDER BY  SUM(o.tax_amount) DESC
+    </select>
+    <select id="querySaleHistoryByDateWholeYear" resultMap="BaseResultMap">
+        SELECT
+        year(o.order_date) AS order_date,COUNT(o.order_num) AS order_num,SUM(o.tax_amount) AS tax_amount,SUM(o.tax_free_amount) AS tax_free_amount
+        FROM base_execute_order AS o
+        WHERE o.del_flag = 0 AND o.item_status = 0
+        AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        AND  o.status = 3
+        GROUP BY year(o.order_date)
+        ORDER BY  SUM(o.tax_amount) DESC
+    </select>
+
+
+
+    <select id="querySaleHistoryByArea" resultMap="BaseResultMap">
+        SELECT
+        b.name AS name,count(o.order_num) AS order_num,sum(o.tax_amount) AS tax_amount,sum(o.tax_free_amount) AS tax_free_amount
+        FROM base_execute_order o
+        LEFT JOIN base_area b
+        ON   o.area_id=b.id
+        WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status = 3
+        GROUP BY  b.name
+        ORDER BY SUM(o.tax_amount) DESC
+    </select>
+    <select id="querySaleHistoryBySaler" resultMap="BaseResultMap">
+        SELECT
+        t2.name AS name,count(t1.order_num) AS order_num,sum(t1.tax_amount) AS tax_amount,sum(t1.tax_free_amount) AS tax_free_amount
+        FROM base_execute_order t1
+        LEFT JOIN   base_person t2
+        ON   t1.person_sales_id=t2.id
+        WHERE  t1.del_flag = 0 AND t1.item_status = 0
+        AND t1.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR})
+        AND   t1.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        AND   t1.status = 3
+        GROUP BY  t2.name
+        ORDER BY sum(t1.tax_amount) DESC
+    </select>
+
+    <select id="querySaleHistoryBySalerMonth" resultMap="BaseResultMap">
+        SELECT
+        t2.name AS name,date_format(t1.order_date,'%Y-%m') as order_date,  count(t1.order_num) AS order_num,sum(t1.tax_amount) AS tax_amount,sum(t1.tax_free_amount) AS tax_free_amount
+        FROM base_execute_order t1
+        LEFT JOIN   base_person t2
+        ON   t1.person_sales_id=t2.id
+        WHERE  t1.del_flag = 0 AND t1.item_status = 0
+        AND t1.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR})
+        AND   t1.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        AND   t1.status = 3
+        GROUP BY t2.name,date_format(t1.order_date,'%Y-%m')
+        ORDER BY sum(t1.tax_amount) DESC
+    </select>
+    <select id="querySaleHistoryBySalerQuarter" resultMap="BaseResultMap">
+        SELECT
+        t2.name AS name, CONCAT(YEAR(t1.order_date),'年',quarter(t1.order_date),'季度')  as order_date,  count(t1.order_num) AS order_num,sum(t1.tax_amount) AS tax_amount,sum(t1.tax_free_amount) AS tax_free_amount
+        FROM base_execute_order t1
+        LEFT JOIN   base_person t2
+        ON   t1.person_sales_id=t2.id
+        WHERE  t1.del_flag = 0 AND t1.item_status = 0
+        AND t1.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR})
+        AND   t1.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        AND   t1.status = 3
+        GROUP BY  t2.name, CONCAT(YEAR(t1.order_date),'年',quarter(t1.order_date),'季度')
+        ORDER BY sum(t1.tax_amount) DESC
+    </select>
+    <select id="querySaleHistoryBySalerWholeYear" resultMap="BaseResultMap">
+        SELECT
+        t2.name AS name,year(t1.order_date) as order_date,  count(t1.order_num) AS order_num,sum(t1.tax_amount) AS tax_amount,sum(t1.tax_free_amount) AS tax_free_amount
+        FROM base_execute_order t1
+        LEFT JOIN   base_person t2
+        ON   t1.person_sales_id=t2.id
+        WHERE  t1.del_flag = 0 AND t1.item_status = 0
+        AND t1.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR})
+        AND   t1.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        AND   t1.status = 3
+        GROUP BY t2.name,year(t1.order_date)
+        ORDER BY sum(t1.tax_amount) DESC
+    </select>
+    <select id="querySaleHistoryByCustomType" resultMap="BaseResultMap">
+        SELECT
+        t2.custom_type AS custom_type,count(order_num) AS order_num,sum(tax_amount) AS tax_amount,sum(tax_free_amount) AS  tax_free_amount
+        FROM base_execute_order t1
+        LEFT JOIN  base_custom t2
+        ON   t1.custom_sign_id=t2.id
+        WHERE  t1.del_flag = 0 AND t1.item_status = 0
+        AND t1.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR})
+        AND   t1.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        AND  T1.status = 3
+        AND  t2.custom_type = #{customType,jdbcType=VARCHAR}
+        GROUP BY  t1.custom_sign_id
+        ORDER BY sum(tax_amount)  DESC
+    </select>
+
+
+    <select id="querySaleFeature" resultMap="BaseResultMap">
+        SELECT
+        B.name AS name,o.order_date AS order_date,COUNT(o.order_num) AS order_num,SUM(o.tax_amount) AS tax_amount,SUM(o.tax_free_amount) AS tax_free_amount
+        FROM base_execute_order AS o
+        LEFT JOIN base_area B
+        ON o.areaid=B.id
+        WHERE o.del_flag = 0 AND o.item_status = 0
+        AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        AND  o.status <![CDATA[ < ]]> 3
+        <choose>
+            <when test="queryType == 0">
+                GROUP BY B.name
+            </when>
+            <otherwise>
+                GROUP BY o.order_date
+            </otherwise>
+        </choose>
+        ORDER BY SUM(o.tax_amount) DESC
+    </select>
+
+
+    <select id="queryAreaBudgetByDateHalfYear" resultMap="BaseResultMap">
+        SELECT
+        case when month(o.order_date)<![CDATA[ < ]]> 6 then CONCAT(year(o.order_date),'上半年')
+        when month(o.order_date)>=6 then CONCAT(year(o.order_date),'下半年')
+        else null
+        end  AS order_num ,
+        b.name AS name,count(o.order_num)/SUM(F.pay1) as yswc
+        FROM base_execute_order o
+        LEFT JOIN base_area_finance F
+        ON  o.area_id=F.area_id
+        LEFT JOIN base_area b
+        ON   o.area_id=b.id
+        WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
+        and o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        GROUP BY  b.name,
+        (case when month(o.order_date)<![CDATA[ < ]]> 6 then CONCAT(year(o.order_date),'上半年')
+        when month(o.order_date)>=6 then CONCAT(year(o.order_date),'下半年')
+        else null
+        end);
+    </select>
+    <select id="queryAreaBudgetByDateWholeYear" resultMap="BaseResultMap">
+        SELECT
+        year(o.order_date) AS order_num ,b.name AS name,count(o.order_num)/SUM(F.pay1) as yswc
+        FROM base_execute_order o
+        LEFT JOIN base_area_finance F
+        ON  o.area_id=F.area_id
+        LEFT JOIN base_area b
+        ON   o.area_id=b.id
+        WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
+        and o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+        GROUP BY  b.name,year(o.order_date);
+    </select>
+
+
+
+    <select id="queryCustomerByProfit" resultMap="BaseResultMap">
+        SELECT t1.custom_id AS custom_id ,t1.name AS name,t2.custom_type AS custom_type, income-cost_buy-other_pay AS m_pay,income-cost_buy as j_pay
+        FROM  base_custom_finance t1
+        LEFT JOIN base_custom t2
+        ON  t1.custom_id=t2.id
+        where  t1.del_flag = 0 AND t1.item_status = 0
+    </select>
+    <select id="queryCustomerByPay" resultMap="BaseResultMap">
+        SELECT t1.custom_id AS custom_id,t1.name AS name,t2.pay_percent AS pay_percent
+        FROM  base_custom_finance t1
+        LEFT JOIN base_execute_order_frame t2
+        ON t1.custom_id=t2.custom_sign_id
+        where  t1.del_flag = 0 AND t1.item_status = 0
+    </select>
+
+</mapper>
