@@ -101,9 +101,6 @@
     );
 
     function customeChange(obj) {
-        if (obj.value == "") {
-            return;
-        }
         $.ajax({
             url:"/customFinance/list.json?customId=" + obj.value,
             type:"get",
