@@ -47,7 +47,7 @@ public class AreaController {
     @RequestMapping("/index")
     public String toIndex(Integer areaId, Model resultModel){
 
-        areaId = (areaId == null)? 0 : areaId;
+//        areaId = (areaId == null)? 0 : areaId;
 
         // 所属公司的树状结构
         String parentTreeJson = findAreaTreeStr();
