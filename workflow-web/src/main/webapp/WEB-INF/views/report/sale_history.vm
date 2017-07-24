@@ -148,11 +148,15 @@
 
 ## js文件引入和js代码块
 #define($jsblock)
-<script src="#springUrl("")/static/js/plugins/echarts/echarts-3.6.2.min.js?$!application.getAttribute('/static/js/plugins/echarts/echarts-3.6.2.min.js')" type="text/javascript" language="javascript"></script>
+##<script src="#springUrl("")/static/js/plugins/echarts/echarts-3.6.2.min.js?$!application.getAttribute('/static/js/plugins/echarts/echarts-3.6.2.min.js')" type="text/javascript" language="javascript"></script>
+<script src="#springUrl("")/static/js/plugins/echarts/echarts.js?$!application.getAttribute('/static/js/plugins/echarts/echarts.js')" type="text/javascript" language="javascript"></script>
 <script src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" type="text/javascript" language="javascript"></script>
 <script>
     $(function() {
+        // 初始化日期控件
         initLaydate();
+        //载入图表
+        initChart();
     })
 
     ## 示例（开始日期、结束日期）
@@ -161,7 +165,7 @@
             elem: "#startDate",
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
-            min: laydate.now(),
+//            min: laydate.now(),
             max: "2099-06-16 23:59:59",
 //            istime: true,
             istoday: true,
@@ -193,18 +197,41 @@
     function initChart() {
         chart.clear();
         chart.showLoading({text: '正在努力的读取数据中...'});
-//        $.getJSON('analysis/removecauses.json', function (data) {
-//            if (data.success) {
-//                chart.setOption(data.data, true);
-//                chart.hideLoading();
-//            } else {
-//                layer.msg(data.msg);
-//            }
-//        });
+        var lid = $(".nav-tabs li.active").attr("lid");
+        var startDate = $(".tab-content div.active #startDate").val();
+        var endDate = $(".tab-content div.active #endDate").val();
+        var type = $(".tab-content div.active .btn-group label.active input").val();
+
+        $.ajax({
+            url:"/report/sale/history/query.json",
+            type:"post",
+            async: false,
+            data:{
+                lid:lid,
+                startDate:startDate,
+                endDate:endDate,
+                type:type
+            },
+            success: function(returnData){
+                chart.hideLoading();
+                if (returnData.code == '1') {
+                    chart.setOption(returnData.data, true);
+//                    chart.setOption(test, true);
+                } else {
+                    console.log("返回结果有误");
+                }
+            }
+        });
     }
 
-    //载入图表
-    initChart();
+    $(".button_view").click(function () {
+        initChart();
+    })
 
+
+
+
+    var test = {
+    }
 </script>
 #end

@@ -24,6 +24,12 @@
 
 ##BUG列表
 1. 用户按钮，只有用户自己才能修改和发起流程。
+1. 【客户需求单】--对公返点--填【10】报错：# Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Out of range value for column 'public_rebate' at row 1
+1. ***** Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'person_id' cannot be null
+***** at cn.advu.workflow.repo.fcf_vu.impl.BaseBuyOrderRepoImpl.update(BaseBuyOrderRepoImpl.java:61)
+1.
+
+
 
 ##TODO优化列表（选作）
 1. 用户修改密码
@@ -34,6 +40,7 @@
 1. sys_user表login_fail_count字段的使用（记录错误的登录次数）
 1. 连接池使用druid？现在使用的是boneCP
 1. 登录认证使用shiro?
+1. 饼图总数（subtext）
 
 
 ##交付前要做的

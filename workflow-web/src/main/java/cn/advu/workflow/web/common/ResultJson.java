@@ -32,19 +32,22 @@ public class ResultJson<T> {
     public T getData() {
         return data;
     }
-    public void setData(T data) {
+    public ResultJson setData(T data) {
         this.data = data;
+        return this;
     }
     public int getCode() {
         return code;
     }
-    public void setCode(int code) {
+    public ResultJson setCode(int code) {
         this.code = code;
+        return this;
     }
     public String getInfo() {
         return info;
     }
-    public void setInfo(String info) {
+    public ResultJson setInfo(String info) {
         this.info = info;
+        return this;
     }
 }
