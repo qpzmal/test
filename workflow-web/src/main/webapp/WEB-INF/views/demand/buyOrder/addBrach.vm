@@ -1,0 +1,70 @@
+## 引入css
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
+
+#end
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <input type="hidden" id="flowType" name="flowType" value="save">
+        <div class="row">
+            <div class="ibox-title">
+                <h5>框架信息</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">采购框架</label>
+                    <div class="col-sm-8">
+                        <select id="frameId" ata-placeholder="请选择采购框架" class="chosen-select" style="width:350px;" tabindex="2">
+                            <option value="">请选择采购框架</option>
+                            #foreach($data in $buyFrameList)
+                                <option value ="$data.id">$data.name</option>
+                            #end
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <div class="col-sm-12 col-sm-offset-4">
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 创建</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+## 引入js
+#define($jsblock)
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
+
+
+<script>
+
+    var config = {
+        ".chosen-select": {},
+        ".chosen-select-deselect": {allow_single_deselect: !0},
+        ".chosen-select-no-single": {disable_search_threshold: 10},
+        ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
+        ".chosen-select-width": {width: "95%"}
+    };
+    for (var selector in config)
+        $(selector).chosen(config[selector]);
+
+    // 添加
+    $(".btn-primary").click(function(){
+        if ($("#frameId").val() == "") {
+            window.location.href = "${rc.contextPath}/buyOrder/toAdd.json";
+        } else {
+            window.location.href = "${rc.contextPath}/buyOrder/toAddCopy.json?frameId=" + $("#frameId").val();
+        }
+    });
+
+
+
+
+
+
+</script>
+#end

@@ -6,6 +6,7 @@ import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.manager.*;
 import cn.advu.workflow.web.service.base.AreaService;
+import cn.advu.workflow.web.service.base.BuyFrameService;
 import cn.advu.workflow.web.service.base.BuyOrderService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import cn.advu.workflow.web.util.AssertUtil;
@@ -64,6 +65,9 @@ public class BuyOrderController {
     @Autowired
     AdtypeMananger adtypeMananger;
 
+    @Autowired
+    BuyFrameService buyFrameService;
+
     static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
@@ -88,6 +92,17 @@ public class BuyOrderController {
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     public ResultJson<Integer> add(BaseBuyOrder baseBuyOrder, HttpServletRequest request){
         return buyOrderService.add(baseBuyOrder);
+    }
+
+    @RequestMapping("/toAddBrach")
+    public String toAddBrach( Model model){
+
+        // 复制框架信息
+        List<BaseBuyOrderFrame> buyFrameList = buyFrameService.findAll().getData();
+        model.addAttribute("buyFrameList", buyFrameList);
+
+        return "demand/buyOrder/addBrach";
+
     }
 
     /**
@@ -198,6 +213,64 @@ public class BuyOrderController {
         model.addAttribute("baseBuyOrder", baseBuyOrder);
 
         return "demand/buyOrder/update";
+    }
+
+    /**
+     * 跳转修改页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toAddCopy")
+    public String toAddCopy(Integer frameId, Model model){
+
+        Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+        SysUser sysUser = userMananger.findById(userId);
+        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+
+        BaseBuyOrderFrame baseBuyOrderFrame = buyFrameService.findById(frameId).getData();
+        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
+        BaseArea baseArea = areaService.findById(baseBuyOrderFrame.getAreaId()).getData();
+        List<BasePerson> leaderList = personMananger.findPersonListByArea(baseBuyOrderFrame.getAreaId());
+        List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
+        List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
+        List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
+        List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
+        List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
+
+        List<BaseOrderCpmVO> cpmList = baseBuyOrderFrame.getBaseOrderCpmList();
+        int index = 1;
+        JSONArray cpmArrList = new JSONArray();
+        for (BaseOrderCpm cpmTemp : cpmList) {
+            JSONObject cpmVo = new JSONObject();
+            cpmVo.put("state", false);
+            cpmVo.put("num", index++);
+            cpmVo.put("id", cpmTemp.getId());
+            cpmVo.put("mediaId", cpmTemp.getMediaId());
+            cpmVo.put("mediaPrice", cpmTemp.getMediaPrice());
+            cpmVo.put("firstPrice", cpmTemp.getFirstPrice());
+            cpmVo.put("adTypeId", cpmTemp.getAdTypeId());
+            cpmVo.put("cpm", cpmTemp.getCpm());
+            cpmVo.put("remark", cpmTemp.getRemark());
+            cpmArrList.add(cpmVo);
+        }
+        baseBuyOrderFrame.setCpmJsonStr(cpmArrList.toJSONString());
+
+
+        model.addAttribute("selectedReginList", StringListUtil.toList(baseBuyOrderFrame.getDeliveryAreaIds()));
+        model.addAttribute("monitorRequestList", baseMonitorRequestList);
+        model.addAttribute("regionList", regionList);
+        model.addAttribute("industryList", industryList);
+        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("leaderList", leaderList);
+        model.addAttribute("areaTreeJson", areaTreeJson);
+        model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
+        model.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
+        model.addAttribute("format", format);
+
+        model.addAttribute("baseBuyOrder", baseBuyOrderFrame);
+
+        return "demand/buyOrder/addCopy";
     }
 
     /**
