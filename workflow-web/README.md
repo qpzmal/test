@@ -27,7 +27,7 @@
 1. 【客户需求单】--对公返点--填【10】报错：# Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Out of range value for column 'public_rebate' at row 1
 1. ***** Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'person_id' cannot be null
 ***** at cn.advu.workflow.repo.fcf_vu.impl.BaseBuyOrderRepoImpl.update(BaseBuyOrderRepoImpl.java:61)
-1.
+1. 更新改为动态更新
 
 
 

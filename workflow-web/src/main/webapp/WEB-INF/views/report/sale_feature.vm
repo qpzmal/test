@@ -15,10 +15,10 @@
             <div class="ibox float-e-margins">
                 <div class="tabs-container">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 已排期</a>
+                        <li class="active" lid="1"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 已排期</a>
                         </li>
-                        <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">无排期</a>
-                        </li>
+##                        <li class="" lid="2"><a data-toggle="tab" href="#tab-2" aria-expanded="false">无排期</a>
+##                        </li>
                     </ul>
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane active">
@@ -26,14 +26,14 @@
                                 <form class="form-horizontal m-t">
                                     <div class="form-group">
                                         <div class="col-sm-8">
-                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date" id="startDate">
-                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date" id="endDate">
+                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date startDate" id="startDate1">
+                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date endDate" id="endDate1">
                                         </div>
 
                                         <div class="col-sm-4 m-b-xs text-right">
                                             <div class="checkbox i-checks">
                                                 <label>
-                                                    <input type="checkbox" value="" checked=""> <i></i> 按地域</label>
+                                                    <input class="icheck_query" type="checkbox" value="0" checked=""> <i></i> 按地域</label>
                                                 <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
                                             </div>
                                         </div>
@@ -46,14 +46,14 @@
                                 <form class="form-horizontal m-t">
                                     <div class="form-group">
                                         <div class="col-sm-8">
-                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date" id="startDate">
-                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date" id="endDate">
+                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date startDate" id="startDate2">
+                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date endDate" id="endDate2">
                                         </div>
 
                                         <div class="col-sm-4 m-b-xs text-right">
                                             <div class="checkbox i-checks">
                                                 <label>
-                                                    <input type="checkbox" value="" checked=""> <i></i> 按地域</label>
+                                                    <input class="icheck_query" type="checkbox" value="0" checked=""> <i></i> 按地域</label>
                                                 <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
                                             </div>
                                         </div>
@@ -92,24 +92,27 @@
     $(function() {
         initLaydate();
         initIcheck();
+
+        //载入图表
+        initChart();
     })
 
     ## 示例（开始日期、结束日期）
     function initLaydate(){
-        var start = {
-            elem: "#startDate",
+        var start1 = {
+            elem: "#startDate1",
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
-            min: laydate.now(),
+//            min: laydate.now(),
             max: "2099-06-16 23:59:59",
 //            istime: true,
             istoday: true,
             choose: function(datas) {
-                end.min = datas;
-                end.start = datas }
+                end1.min = datas;
+                end1.start = datas }
         };
-        var end = {
-            elem: "#endDate",
+        var end1 = {
+            elem: "#endDate1",
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
             min: laydate.now(),
@@ -117,13 +120,39 @@
 //            istime: true,
             istoday: false,
             choose: function(datas) {
-                start.max = datas }
+                start1.max = datas }
         };
-        laydate(start);
-        laydate(end);
+        var start2 = {
+            elem: "#startDate2",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+//            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: true,
+            choose: function(datas) {
+                end2.min = datas;
+                end2.start = datas }
+        };
+        var end2 = {
+            elem: "#endDate2",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: false,
+            choose: function(datas) {
+                start2.max = datas }
+        };
+        laydate(start1);
+        laydate(end1);
+        laydate(start2);
+        laydate(end2);
     }
 
     function initIcheck(){
+        $(".i-checks").iCheck('uncheck');
         $(".i-checks").iCheck({
             checkboxClass:"icheckbox_square-green",
             radioClass:"iradio_square-green",
@@ -137,18 +166,39 @@
     function initChart() {
         chart.clear();
         chart.showLoading({text: '正在努力的读取数据中...'});
-//        $.getJSON('analysis/removecauses.json', function (data) {
-//            if (data.success) {
-//                chart.setOption(data.data, true);
-//                chart.hideLoading();
-//            } else {
-//                layer.msg(data.msg);
-//            }
-//        });
-    }
+        var lid = $(".nav-tabs li.active").attr("lid");
+        var startDate = $(".tab-content div.active .startDate").val();
+        var endDate = $(".tab-content div.active .endDate").val();
+        var queryType = "1";
+        if($('.tab-content div.active .icheck_query').is(':checked')) {
+            queryType = "0";
+        }
 
-    //载入图表
-    initChart();
+        $.ajax({
+            url:"/report/sale/feature/query.json",
+            type:"post",
+            async: false,
+            data:{
+                lid:lid,
+                startDate:startDate,
+                endDate:endDate,
+                queryType:queryType
+            },
+            success: function(returnData){
+                chart.hideLoading();
+                if (returnData.code == '1') {
+                    chart.setOption(returnData.data, true);
+//                    chart.setOption(test, true);
+                } else {
+                    console.log("返回结果有误");
+                }
+            }
+        });
+    }
+    $(".button_view").click(function () {
+        initChart();
+    })
+
 
 </script>
 #end

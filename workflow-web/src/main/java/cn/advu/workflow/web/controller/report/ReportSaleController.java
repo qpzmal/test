@@ -105,23 +105,33 @@ public class ReportSaleController {
 
 
 
-    @RequestMapping("/feature/query")
+    @RequestMapping(value = "/feature/query", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ResultJson<Object> queryFeature(
-            String lid, String startDate, String endDate, String options,
+    public String queryFeature(
+            String lid, String startDate, String endDate, String options, String queryType,
             HttpServletRequest request, HttpServletResponse response) {
         ResultJson result = new ResultJson<>(WebConstants.OPERATION_FAILURE);
         lid = StringUtils.isEmpty(lid)?"1":lid;
         startDate = StringUtils.isEmpty(startDate)?(new DateTime().withDayOfYear(1).withHourOfDay(1).withMinuteOfHour(1).toString("yyyy/MM/dd HH:mm:ss")):startDate;
         endDate = StringUtils.isEmpty(endDate)?(new DateTime().toString("yyyy/MM/dd HH:mm:ss")):endDate;
-        options = StringUtils.isEmpty(options)?"1":options;
-
+        queryType = StringUtils.isEmpty(queryType)?"0":queryType; //0地域；0以外时间
+        Option option = new Option();
 
         List<VuDataReport> list = new ArrayList<>();
-        list = dataReportService.querySaleFeature(startDate, endDate, options);
-        result.setData(list);
+        list = dataReportService.querySaleFeature(startDate, endDate, queryType);
 
-        return result;
+        if ("0".equals(queryType)) {
+            option = this.createChart4Area(list);
+        } else if ("1".equals(lid)) {
+            option = this.createChart4Date(list);
+        } else {
+            LOGGER.error("queryType 参数错误。");
+        }
+
+        result.setData(option);
+        result.setCode(WebConstants.OPERATION_SUCCESS).setInfo("成功");
+        LOGGER.info("result:{}", JSON.toJSONString(result));
+        return JSON.toJSONString(result);
     }
 
     private Option createChart4Date(List<VuDataReport> list) {
