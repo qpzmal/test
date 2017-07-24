@@ -29,8 +29,8 @@
                                 <form class="form-horizontal m-t">
                                     <div class="form-group">
                                         <div class="col-sm-8">
-                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date" id="startDate">
-                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date" id="endDate">
+                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date startDate" id="startDate1">
+                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date endDate" id="endDate1">
                                         </div>
 
                                         <div class="col-sm-4 m-b-xs text-right">
@@ -55,8 +55,8 @@
                                 <form class="form-horizontal m-t">
                                     <div class="form-group">
                                         <div class="col-sm-8">
-                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date" id="startDate">
-                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date" id="endDate">
+                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date startDate" id="startDate2">
+                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date endDate" id="endDate2">
                                         </div>
 
                                         <div class="col-sm-4 m-b-xs text-right">
@@ -71,8 +71,8 @@
                                 <form class="form-horizontal m-t">
                                     <div class="form-group">
                                         <div class="col-sm-8">
-                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date" id="startDate">
-                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date" id="endDate">
+                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date startDate" id="startDate3">
+                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date endDate" id="endDate3">
                                         </div>
 
                                         <div class="col-sm-4 m-b-xs text-right">
@@ -97,8 +97,8 @@
                                 <form class="form-horizontal m-t">
                                     <div class="form-group">
                                         <div class="col-sm-8">
-                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date" id="startDate">
-                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date" id="endDate">
+                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date startDate" id="startDate4">
+                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date endDate" id="endDate4">
                                         </div>
 
                                         <div class="col-sm-4 m-b-xs text-right">
@@ -148,8 +148,8 @@
 
 ## js文件引入和js代码块
 #define($jsblock)
-##<script src="#springUrl("")/static/js/plugins/echarts/echarts-3.6.2.min.js?$!application.getAttribute('/static/js/plugins/echarts/echarts-3.6.2.min.js')" type="text/javascript" language="javascript"></script>
-<script src="#springUrl("")/static/js/plugins/echarts/echarts.js?$!application.getAttribute('/static/js/plugins/echarts/echarts.js')" type="text/javascript" language="javascript"></script>
+<script src="#springUrl("")/static/js/plugins/echarts/echarts-3.6.2.min.js?$!application.getAttribute('/static/js/plugins/echarts/echarts-3.6.2.min.js')" type="text/javascript" language="javascript"></script>
+##<script src="#springUrl("")/static/js/plugins/echarts/echarts.js?$!application.getAttribute('/static/js/plugins/echarts/echarts.js')" type="text/javascript" language="javascript"></script>
 <script src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" type="text/javascript" language="javascript"></script>
 <script>
     $(function() {
@@ -161,8 +161,8 @@
 
     ## 示例（开始日期、结束日期）
     function initLaydate(){
-        var start = {
-            elem: "#startDate",
+        var start1 = {
+            elem: "#startDate1",
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
 //            min: laydate.now(),
@@ -170,11 +170,11 @@
 //            istime: true,
             istoday: true,
             choose: function(datas) {
-                end.min = datas;
-                end.start = datas }
+                end1.min = datas;
+                end1.start = datas }
         };
-        var end = {
-            elem: "#endDate",
+        var end1 = {
+            elem: "#endDate1",
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
             min: laydate.now(),
@@ -182,10 +182,85 @@
 //            istime: true,
             istoday: false,
             choose: function(datas) {
-                start.max = datas }
+                start1.max = datas }
         };
-        laydate(start);
-        laydate(end);
+        var start2 = {
+            elem: "#startDate2",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+//            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: true,
+            choose: function(datas) {
+                end2.min = datas;
+                end2.start = datas }
+        };
+        var end2 = {
+            elem: "#endDate2",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: false,
+            choose: function(datas) {
+                start2.max = datas }
+        };
+        var start3 = {
+            elem: "#startDate3",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+//            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: true,
+            choose: function(datas) {
+                end3.min = datas;
+                end3.start = datas }
+        };
+        var end3 = {
+            elem: "#endDate3",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: false,
+            choose: function(datas) {
+                start3.max = datas }
+        };
+        var start4 = {
+            elem: "#startDate4",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+//            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: true,
+            choose: function(datas) {
+                end4.min = datas;
+                end4.start = datas }
+        };
+        var end4 = {
+            elem: "#endDate4",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: false,
+            choose: function(datas) {
+                start4.max = datas }
+        };
+        laydate(start1);
+        laydate(end1);
+        laydate(start2);
+        laydate(end2);
+        laydate(start3);
+        laydate(end3);
+        laydate(start4);
+        laydate(end4);
     }
 
 
@@ -198,8 +273,8 @@
         chart.clear();
         chart.showLoading({text: '正在努力的读取数据中...'});
         var lid = $(".nav-tabs li.active").attr("lid");
-        var startDate = $(".tab-content div.active #startDate").val();
-        var endDate = $(".tab-content div.active #endDate").val();
+        var startDate = $(".tab-content div.active .startDate").val();
+        var endDate = $(".tab-content div.active .endDate").val();
         var type = $(".tab-content div.active .btn-group label.active input").val();
 
         $.ajax({

@@ -78,56 +78,23 @@ public class ReportSaleController {
         LOGGER.info("startDate:{},endDate:{}", startDate, endDate);
 
         List<VuDataReport> list = new ArrayList<>();
+        Option option = new Option();
         if ("1".equals(lid)) {
             list = dataReportService.querySaleHistoryByDate(startDate, endDate, type);
+            option = this.createChart4Date(list);
         } else if ("2".equals(lid)) {
             list = dataReportService.querySaleHistoryByArea();
+            option = this.createChart4Area(list);
         } else if ("3".equals(lid)) {
             list = dataReportService.querySaleHistoryBySaler(startDate, endDate, type);
+            option = this.createChart4Saler(list);
         } else if ("4".equals(lid)) {
             list = dataReportService.querySaleHistoryByCustomType(startDate, endDate, type);
+            option = this.createChart4CustomType(list);
         } else {
             LOGGER.error("lid 参数错误。");
         }
 
-        //创建Option
-        Option option = new Option();
-//        option.title("销售汇总").tooltip(Trigger.axis).legend("金额（元）");
-        option.title("销售汇总").legend("金额（元）").tooltip().trigger();
-        //横轴为值轴
-        option.xAxis(new ValueAxis().boundaryGap(0d, 0.01));
-        //创建类目轴
-        CategoryAxis category = new CategoryAxis();
-        //柱状数据
-        Bar bar = new Bar("金额（元）");
-        //饼图数据
-        Pie pie = new Pie("金额（元）");
-        //循环数据
-        for (VuDataReport vuDataReport : list) {
-            //设置类目
-            category.data(vuDataReport.getOrderDate());
-            //类目对应的柱状图
-            bar.data(vuDataReport.getTaxAmount());
-            //饼图数据
-            pie.data(new PieData(vuDataReport.getOrderDate(), vuDataReport.getTaxAmount()));
-        }
-        //设置类目轴
-        option.yAxis(category);
-        //饼图的圆心和半径
-        pie.center("80%","50%").radius(100);
-        // 设置柱状图参数
-        ItemStyle itemStyle = new ItemStyle();
-        NormalExtend normal = new NormalExtend();
-        normal.setPosition("right");
-        normal.setShow(true);
-        itemStyle.setNormal(normal);
-        bar.setLabel(itemStyle);
-
-        //设置数据
-        option.series(bar, pie);
-        //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
-        option.grid().x(180).width("50%");
-        //返回Option
 
 
         result.setData(option);
@@ -155,6 +122,82 @@ public class ReportSaleController {
         result.setData(list);
 
         return result;
+    }
+
+    private Option createChart4Date(List<VuDataReport> list) {
+        return this.createChartWithType(list, 1);
+    }
+    private Option createChart4Area(List<VuDataReport> list) {
+        return this.createChartWithType(list, 2);
+    }
+    private Option createChart4Saler(List<VuDataReport> list) {
+        return this.createChartWithType(list, 2);
+    }
+    private Option createChart4CustomType(List<VuDataReport> list) {
+        return this.createChartWithType(list, 3);
+    }
+
+
+    private Option createChartWithType(List<VuDataReport> list, int type) {
+        //创建Option
+        Option option = new Option();
+//        option.title("销售汇总").tooltip(Trigger.axis).legend("金额（元）");
+        option.title("销售汇总").legend("金额（元）").tooltip().trigger();
+        //横轴为值轴
+        option.xAxis(new ValueAxis().boundaryGap(0d, 0.01));
+        //创建类目轴
+        CategoryAxis category = new CategoryAxis();
+        //柱状数据
+        Bar bar = new Bar("金额（元）");
+        //饼图数据
+        Pie pie = new Pie("金额（元）");
+        //循环数据
+        for (VuDataReport vuDataReport : list) {
+            if (1 == type) { // orderDate
+                //设置类目
+                category.data(vuDataReport.getOrderDate());
+                //类目对应的柱状图
+                bar.data(vuDataReport.getTaxAmount());
+                //饼图数据
+                pie.data(new PieData(vuDataReport.getOrderDate(), vuDataReport.getTaxAmount()));
+
+            } else if (2 == type) { // name
+                //设置类目
+                category.data(vuDataReport.getName());
+                //类目对应的柱状图
+                bar.data(vuDataReport.getTaxAmount());
+                //饼图数据
+                pie.data(new PieData(vuDataReport.getName(), vuDataReport.getTaxAmount()));
+
+            } else if (3 == type){ // customType
+                //设置类目
+                category.data(vuDataReport.getCustomType());
+                //类目对应的柱状图
+                bar.data(vuDataReport.getTaxAmount());
+                //饼图数据
+                pie.data(new PieData(vuDataReport.getCustomType(), vuDataReport.getTaxAmount()));
+
+            }
+        }
+        //设置类目轴
+        option.yAxis(category);
+        //饼图的圆心和半径
+        pie.center("80%","50%").radius(100);
+        // 设置柱状图参数
+        ItemStyle itemStyle = new ItemStyle();
+        NormalExtend normal = new NormalExtend();
+        normal.setPosition("right");
+        normal.setShow(true);
+        itemStyle.setNormal(normal);
+        bar.setLabel(itemStyle);
+
+        //设置数据
+        option.series(bar, pie);
+        //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
+        option.grid().x(180).width("50%");
+        //返回Option
+
+        return option;
     }
 
 }
