@@ -52,7 +52,7 @@
 
     // 添加
     $(".btn-primary").click(function(){
-        window.location.href = "${rc.contextPath}/saleOrder/toAdd";
+        window.location.href = "${rc.contextPath}/saleOrder/toAddBrach";
     })
     // 修改
     $(".btn-info").click(function(){

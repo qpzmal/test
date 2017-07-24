@@ -5,7 +5,7 @@
             <td>$!{data.areaName}</td>
             <td>$!{data.deptName}</td>
             #if(!${data.parentName})
-                -
+                <td>-</td>
             #else
                 <td>${data.parentName}</td>
             #end
