@@ -37,10 +37,13 @@
     <bean id="workflow_sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="workflow_dataSource" />
         <property name="typeAliasesSuperType" value="cn.advu.workflow.domain.base.IDomain" />
+        <!-- 单文件路径配置 -->
         <!--<property name="mapperLocations" value="classpath*:sqlmap/*.xml" />-->
+        <!-- 多文件路径配置 -->
         <property name="mapperLocations">
             <array>
                 <value>classpath*:sqlmap/fcf_vu/*.xml</value>
+                <value>classpath*:sqlmap/data_report/*.xml</value>
                 <!--<value>classpath*:sqlmap/modules/*.xml</value>-->
                 <!--<value>classpath*:sqlmap/workflow/*.xml</value>-->
             </array>
@@ -50,6 +53,7 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="markerInterface" value="cn.advu.workflow.dao.base.ISqlMapper" />
         <property name="sqlSessionFactoryBeanName" value="workflow_sessionFactory"  />
+        <!-- 单数据路径配置 -->
         <property name="basePackage" value="cn.advu.workflow.dao.fcf_vu" />
     </bean>
     <bean id="workflow_transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
