@@ -8,6 +8,7 @@ import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.DeptService;
 import cn.advu.workflow.web.service.base.PersonService;
+import cn.advu.workflow.web.util.AssertUtil;
 import net.sf.ehcache.search.parser.MCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -128,6 +129,80 @@ public class PersonController {
         return "modules/person/add";
     }
 
+    @RequestMapping("/toUpdate")
+    public String toUpdate(Integer id, Model model) {
+
+        // 区域树
+        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
+        // 部门树
+        String deptTreeJson = null;
+
+        BasePerson basePerson = personService.findById(id).getData();
+        AssertUtil.assertNotNull(basePerson);
+
+        Integer areaId = basePerson.getAreaId();
+        Integer deptId = basePerson.getDeptId();
+
+        String areaName = "";
+        if (areaId != null) {
+            deptTreeJson = treeMananger.converToTreeJsonStr(deptService.findAreaDeptNodeList(areaId).getData());
+            BaseArea baseArea = areaService.findById(areaId).getData();
+            areaName = baseArea.getName();
+        }
+
+        List<BasePerson> parentList = null;
+        String deptName = "";
+        if (deptId != null) {
+            BaseDept parentDept = deptService.findById(deptId).getData();
+            deptName = parentDept.getName();
+            parentList = personMananger.findPersonByDept(deptId);
+        }
+        model.addAttribute("deptName", deptName);
+        model.addAttribute("areaName", areaName);
+
+        model.addAttribute("parentList", parentList);
+        model.addAttribute("areaTreeJson", areaTreeJson);
+        model.addAttribute("deptTreeJson", deptTreeJson);
+        model.addAttribute("basePerson", basePerson);
+
+        return "modules/person/update";
+
+    }
+
+    @RequestMapping("/toRefer")
+    public String toRefer(Integer id, Model model) {
+
+
+
+        BasePerson basePerson = personService.findById(id).getData();
+        AssertUtil.assertNotNull(basePerson);
+
+        Integer areaId = basePerson.getAreaId();
+        Integer deptId = basePerson.getDeptId();
+
+        String areaName = "";
+        if (areaId != null) {
+            BaseArea baseArea = areaService.findById(areaId).getData();
+            areaName = baseArea.getName();
+        }
+
+        List<BasePerson> parentList = null;
+        String deptName = "";
+        if (deptId != null) {
+            BaseDept parentDept = deptService.findById(deptId).getData();
+            deptName = parentDept.getName();
+            parentList = personMananger.findPersonByDept(deptId);
+        }
+        model.addAttribute("deptName", deptName);
+        model.addAttribute("areaName", areaName);
+
+        model.addAttribute("parentList", parentList);
+        model.addAttribute("basePerson", basePerson);
+
+        return "modules/person/refer";
+
+    }
+
     /**
      * 新增部门
      *
@@ -137,5 +212,18 @@ public class PersonController {
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     public ResultJson<Integer> add(BasePerson basePerson, HttpServletRequest request){
         return personService.add(basePerson);
+    }
+
+    @ResponseBody
+    @RequestMapping(value ="/update", method = RequestMethod.POST)
+    public ResultJson<Void> update(BasePerson basePerson, HttpServletRequest request){
+        return personService.update(basePerson);
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value ="/remove", method = RequestMethod.POST)
+    public ResultJson<Void> remove(Integer id, HttpServletRequest request){
+        return personService.remove(id);
     }
 }

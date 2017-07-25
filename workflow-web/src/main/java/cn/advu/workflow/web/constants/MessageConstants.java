@@ -31,7 +31,7 @@ public interface MessageConstants {
     String ROLE_IS_NOT_EXISTS = "角色不存在";
     // 用户
     String USER_NAME_IS_DUPLICATED = "用户登录名称重复";
-    // 需求单
+    // 通讯录
     String PERSON_IS_NOT_EXISTS="当前用户的通讯录不存在";
     // 地域
     String REGION_IS_NOT_EXISTS="地域不存在";

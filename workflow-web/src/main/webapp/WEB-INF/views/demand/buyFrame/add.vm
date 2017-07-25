@@ -520,6 +520,8 @@
                 secOrderNum:secOrderNum,
                 type:type,
                 orderDate:orderDate,
+                deliveryAreaIds:deliveryAreaIds,
+                deliveryAreaNames:deliveryAreaNames,
                 areaId:areaId,
                 amount:amount,
                 startDate:startDate,

@@ -129,8 +129,9 @@
                     levels:1,
                     data: parentTreeData,
                     onNodeSelected: function (e, o) {
-                        $("#parent_id").attr("value", o.value);
-                        $("#parent_name").attr("value", o.text);
+                        $("#parent_id").val(o.value);
+                        $("#parent_name").val(o.text);
+
                         $("#parent_tree_content").fadeOut("fast");
                         findDeptBody($("#area_id").val(), $("#parent_id").val());
                     }
