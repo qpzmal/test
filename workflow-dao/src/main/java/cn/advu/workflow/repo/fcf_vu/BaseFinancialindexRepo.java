@@ -16,4 +16,6 @@ public interface BaseFinancialindexRepo extends IRepo<BaseFinancialindex> {
     List<BaseFinancialindex> findAll();
 
     BaseFinancialindex findByIdAndName(Integer id, String name);
+
+    BaseFinancialindex findByIdAndNumber(Integer id, String number);
 }

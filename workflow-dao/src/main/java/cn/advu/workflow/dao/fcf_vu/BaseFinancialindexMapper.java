@@ -13,4 +13,6 @@ public interface BaseFinancialindexMapper extends BaseDAO<BaseFinancialindex> {
     List<BaseFinancialindex> queryAll(@Param("status") Integer status);
 
     BaseFinancialindex queryByIdAndName(@Param("id")Integer id, @Param("name")String name);
+
+    BaseFinancialindex queryByIdAndNumber(@Param("id")Integer id, @Param("number")String number);
 }
