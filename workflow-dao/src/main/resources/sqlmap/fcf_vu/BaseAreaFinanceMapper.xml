@@ -318,4 +318,16 @@
     limit 1
   </select>
 
+  <select id="queryByIdAndName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_area_finance
+    where del_flag = 0
+    <if test="id != null">
+      <![CDATA[ and base_area_finance.id <> #{id, jdbcType=INTEGER}]]>
+    </if>
+    <![CDATA[ and base_area_finance.name = #{name, jdbcType=VARCHAR}]]>
+    limit 1
+  </select>
+
 </mapper>

@@ -14,6 +14,7 @@
                         <tr>
                             <th>地域名称</th>
                             <th>地域类型</th>
+                            <th>状态</th>
                             <th>管理</th>
                         </tr>
                         </thead>
@@ -28,6 +29,11 @@
                                         市
                                     #end
                                     </td>
+                                <td>
+                                    #if($!{data.itemStatus} == "0") 启用
+                                    #else 停用
+                                    #end
+                                </td>
                                 <td class="right">
                                     <input type="hidden" value="$!{data.id}">
                                     <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>

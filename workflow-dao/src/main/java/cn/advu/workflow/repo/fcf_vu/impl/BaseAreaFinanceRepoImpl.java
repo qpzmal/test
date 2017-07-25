@@ -40,4 +40,9 @@ public class BaseAreaFinanceRepoImpl extends AbstractRepo<BaseAreaFinance> imple
     public BaseAreaFinance findByAreaAndDate(Integer id, Integer areaId, Date startDate, Date endDate) {
         return baseAreaFinanceMapper.queryByAreaAndDate(id, areaId, startDate, endDate);
     }
+
+    @Override
+    public BaseAreaFinance findByIdAndName(Integer id, String name) {
+        return baseAreaFinanceMapper.queryByIdAndName(id, name);
+    }
 }

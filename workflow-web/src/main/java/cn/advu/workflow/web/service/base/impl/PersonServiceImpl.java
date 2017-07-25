@@ -8,6 +8,8 @@ import cn.advu.workflow.repo.fcf_vu.BasePersonRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
+import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.PersonMananger;
 import cn.advu.workflow.web.service.base.PersonService;
 import cn.advu.workflow.web.util.AssertUtil;
 import org.slf4j.Logger;
@@ -25,7 +27,8 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     BasePersonRepo basePersonRepo;
-
+    @Autowired
+    PersonMananger personMananger;
     @Override
     public ResultJson<List<BasePersonExtend>> findPersonByDept(Integer areaId, Integer deptId) {
         ResultJson<List<BasePersonExtend>> resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
@@ -35,6 +38,11 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public ResultJson<Integer> add(BasePerson basePerson) {
+        // 名称不能重复
+        if (personMananger.isNameDuplicated(null, basePerson.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
+
         ResultJson<Integer> resultJson = new ResultJson();
         resultJson.setData(basePersonRepo.addSelective(basePerson));
         return resultJson;
@@ -42,6 +50,11 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public ResultJson<Void> update(BasePerson basePerson) {
+        // 名称不能重复
+        if (personMananger.isNameDuplicated(basePerson.getId(), basePerson.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
+
         ResultJson<Void> resultJson = new ResultJson();
         basePersonRepo.updateSelective(basePerson);
         return resultJson;
@@ -56,6 +69,11 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public ResultJson<Void> remove(Integer id) {
+        // 没有下属person
+        if (personMananger.hasSubordinate(id)) {
+            throw new ServiceException(MessageConstants.PERSON_HAS_SUBORDINATE);
+        }
+
         BasePerson basePerson = basePersonRepo.findOne(id);
         AssertUtil.assertNotNull(basePerson, MessageConstants.PERSON_IS_NOT_EXISTS);
         basePersonRepo.logicRemove(basePerson);

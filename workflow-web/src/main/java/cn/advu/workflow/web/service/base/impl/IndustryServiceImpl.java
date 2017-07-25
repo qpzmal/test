@@ -4,6 +4,9 @@ import cn.advu.workflow.domain.fcf_vu.BaseIndustry;
 import cn.advu.workflow.repo.fcf_vu.BaseIndustryRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.constants.MessageConstants;
+import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.IndustryManager;
 import cn.advu.workflow.web.service.base.IndustryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +25,14 @@ public class IndustryServiceImpl implements IndustryService {
     @Autowired
     private BaseIndustryRepo baseIndustryRepo;
 
+    @Autowired
+    IndustryManager industryManager;
 
     @Override
     public ResultJson<Integer> addIndustry(BaseIndustry baseIndustry) {
+        if (industryManager.isNameDuplicated(null, baseIndustry.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
         Integer insertCount = baseIndustryRepo.addSelective(baseIndustry);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建客户行业失败!");
@@ -36,6 +44,9 @@ public class IndustryServiceImpl implements IndustryService {
     public ResultJson<Integer> updateIndustry(BaseIndustry baseIndustry) {
         if (baseIndustry.getId() == null) {
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "客户行业ID没有设置!");
+        }
+        if (industryManager.isNameDuplicated(baseIndustry.getId(), baseIndustry.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
         Integer updateCount = baseIndustryRepo.updateSelective(baseIndustry);
         if(updateCount != 1){

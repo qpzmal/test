@@ -1,5 +1,6 @@
 package cn.advu.workflow.web.manager;
 
+import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
 import cn.advu.workflow.domain.fcf_vu.BaseAreaFinance;
 import cn.advu.workflow.domain.fcf_vu.BaseCustomFinance;
 import cn.advu.workflow.repo.fcf_vu.BaseAreaFinanceRepo;
@@ -47,5 +48,14 @@ public class AreaFinanceMananger {
             isDuplicated = true;
         }
         return isDuplicated;
+    }
+
+    public Boolean isNameDuplicated(Integer id, String name) {
+        Boolean isNameDuplicated = false;
+        BaseAreaFinance areaFinance = baseAreaFinanceRepo.findByIdAndName(id, name);
+        if (areaFinance != null) {
+            isNameDuplicated = true;
+        }
+        return isNameDuplicated;
     }
 }

@@ -1,5 +1,6 @@
 package cn.advu.workflow.web.manager;
 
+import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.repo.fcf_vu.BaseAreaRepo;
 import cn.advu.workflow.web.util.AssertUtil;
@@ -108,6 +109,15 @@ public class AreaManager {
 
     public BaseArea findById(Integer id) {
         return baseAreaRepo.findOne(id);
+    }
+
+    public Boolean isNameDuplicated(Integer id, String name) {
+        Boolean isNameDuplicated = false;
+        BaseArea baseArea = baseAreaRepo.findByIdAndName(id, name);
+        if (baseArea != null) {
+            isNameDuplicated = true;
+        }
+        return isNameDuplicated;
     }
 
 }

@@ -1,10 +1,9 @@
 package cn.advu.workflow.web.manager;
 
 import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
-import cn.advu.workflow.domain.fcf_vu.BaseMedia;
-import cn.advu.workflow.domain.fcf_vu.BaseMonitor;
+import cn.advu.workflow.domain.fcf_vu.BaseMediaType;
 import cn.advu.workflow.repo.fcf_vu.BaseAdtypeRepo;
-import cn.advu.workflow.repo.fcf_vu.BaseMediaRepo;
+import cn.advu.workflow.repo.fcf_vu.BaseMediaTypeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,24 +13,16 @@ import java.util.List;
  * Created by wangry on 17/7/18.
  */
 @Component
-public class AdtypeMananger {
+public class MediaTypeMananger {
 
     @Autowired
-    private BaseAdtypeRepo baseAdtypeRepo;
+    private BaseMediaTypeRepo baseMediaTypeRepo;
 
-    /**
-     * 返回可用的广告类型列表
-     *
-     * @return
-     */
-    public List<BaseAdtype> findAllActive() {
-        return  baseAdtypeRepo.findAllActive();
-    }
 
     public Boolean isNameDuplicated(Integer id, String name) {
         Boolean isNameDuplicated = false;
-        BaseAdtype baseAdtype = baseAdtypeRepo.findByIdAndName(id, name);
-        if (baseAdtype != null) {
+        BaseMediaType baseMediaType = baseMediaTypeRepo.findByIdAndName(id, name);
+        if (baseMediaType != null) {
             isNameDuplicated = true;
         }
         return isNameDuplicated;

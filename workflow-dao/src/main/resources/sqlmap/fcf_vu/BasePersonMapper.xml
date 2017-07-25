@@ -288,4 +288,23 @@
     and base_person.name = #{name,jdbcType=VARCHAR}
   </select>
 
+  <select id="queryByIdAndName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_person
+    where del_flag = 0
+    <if test="id != null">
+      <![CDATA[ and base_person.id <> #{id, jdbcType=INTEGER}]]>
+    </if>
+    <![CDATA[ and base_person.name = #{name, jdbcType=VARCHAR}]]>
+    limit 1
+  </select>
+  <select id="queryByParentId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_person
+    where del_flag = 0
+    and base_person.parent_id = #{parentId, jdbcType=INTEGER}
+  </select>
+
 </mapper>

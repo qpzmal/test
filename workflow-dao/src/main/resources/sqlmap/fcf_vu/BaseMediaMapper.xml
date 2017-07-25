@@ -173,4 +173,29 @@
       and item_status = #{status,jdbcType=TINYINT}
     </if>
   </select>
+
+  <select id="queryByIdAndName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_media
+    where del_flag = 0
+    <if test="id != null">
+      <![CDATA[ and base_media.id <> #{id, jdbcType=INTEGER}]]>
+    </if>
+    <![CDATA[ and base_media.name = #{name, jdbcType=VARCHAR}]]>
+    limit 1
+  </select>
+
+  <select id="queryByIdAndCode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_media
+    where del_flag = 0
+    <if test="id != null">
+      <![CDATA[ and base_media.id <> #{id, jdbcType=INTEGER}]]>
+    </if>
+    <![CDATA[ and base_media.code = #{code, jdbcType=VARCHAR}]]>
+    limit 1
+  </select>
+
 </mapper>

@@ -4,6 +4,9 @@ import cn.advu.workflow.domain.fcf_vu.BaseMonitor;
 import cn.advu.workflow.repo.fcf_vu.BaseMonitorRequestRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.constants.MessageConstants;
+import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.MonitorManager;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +24,14 @@ public class MonitorRequestServiceImpl implements MonitorRequestService {
 
     @Autowired
     private BaseMonitorRequestRepo baseMonitorRequestRepo;
-
+    @Autowired
+    MonitorManager monitorManager;
 
     @Override
     public ResultJson<Integer> addMonitorRequest(BaseMonitor baseMonitorRequest) {
+        if (monitorManager.isNameDuplicated(null, baseMonitorRequest.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
         Integer insertCount = baseMonitorRequestRepo.addSelective(baseMonitorRequest);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建监测机构失败!");
@@ -34,9 +41,11 @@ public class MonitorRequestServiceImpl implements MonitorRequestService {
 
     @Override
     public ResultJson<Integer> updateMonitorRequest(BaseMonitor baseMonitorRequest) {
-        if (baseMonitorRequest.getId() == null) {
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
+
+        if (monitorManager.isNameDuplicated(baseMonitorRequest.getId(), baseMonitorRequest.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
+
         Integer updateCount = baseMonitorRequestRepo.updateSelective(baseMonitorRequest);
         if(updateCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新监测机构失败!");
