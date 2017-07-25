@@ -29,7 +29,7 @@
         AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND  o.status = 3
         GROUP BY o.order_date
-        ORDER BY  o.tax_amount DESC
+--         ORDER BY  o.tax_amount ASC
     </select>
     <select id="querySaleHistoryByDateMonth" resultMap="BaseResultMap">
         SELECT
@@ -41,24 +41,24 @@
         AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND  o.status = 3
         GROUP BY date_format(o.order_date,'%Y-%m')
-        ORDER BY  SUM(o.tax_amount) DESC
+--         ORDER BY  SUM(o.tax_amount) ASC
     </select>
     <select id="querySaleHistoryByDateQuarter" resultMap="BaseResultMap">
         SELECT
-        CONCAT(YEAR(o.order_date),'年',quarter(o.order_date),'季度') AS order_num,SUM(o.tax_amount) AS tax_amount,SUM(o.tax_free_amount) AS tax_free_amount
+        CONCAT(YEAR(o.order_date),'年',quarter(o.order_date),'季度') AS order_date,SUM(o.tax_amount) AS tax_amount,SUM(o.tax_free_amount) AS tax_free_amount
         FROM base_execute_order AS o
         WHERE o.del_flag = 0 AND o.item_status = 0
         AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND  o.status = 3
         GROUP BY CONCAT(YEAR(o.order_date),'年',quarter(o.order_date),'季度')
-        ORDER BY  SUM(o.tax_amount) DESC
+--         ORDER BY  SUM(o.tax_amount) ASC
     </select>
     <select id="querySaleHistoryByDateHalfYear" resultMap="BaseResultMap">
         SELECT
         case when month(o.order_date)<![CDATA[ < ]]>6 then CONCAT(year(o.order_date),'上半年')
         when month(o.order_date)>=6 then CONCAT(year(o.order_date),'下半年')
         else null
-        end  AS order_num,
+        end  AS order_date,
         SUM(o.tax_amount) AS tax_amount,SUM(o.tax_free_amount) AS tax_free_amount
         FROM base_execute_order AS o
         WHERE o.del_flag = 0 AND o.item_status = 0
@@ -69,7 +69,7 @@
         when month(o.order_date)>=6 then CONCAT(year(o.order_date),'下半年')
         else null
         end
-        ORDER BY  SUM(o.tax_amount) DESC
+--         ORDER BY  SUM(o.tax_amount) ASC
     </select>
     <select id="querySaleHistoryByDateWholeYear" resultMap="BaseResultMap">
         SELECT
@@ -79,7 +79,7 @@
         AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND  o.status = 3
         GROUP BY year(o.order_date)
-        ORDER BY  SUM(o.tax_amount) DESC
+--         ORDER BY  SUM(o.tax_amount) ASC
     </select>
 
 
@@ -92,7 +92,7 @@
         ON   o.area_id=b.id
         WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status = 3
         GROUP BY  b.name
-        ORDER BY SUM(o.tax_amount) DESC
+        ORDER BY SUM(o.tax_amount) ASC
     </select>
     <select id="querySaleHistoryBySaler" resultMap="BaseResultMap">
         SELECT
@@ -105,7 +105,7 @@
         AND   t1.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND   t1.status = 3
         GROUP BY  t2.name
-        ORDER BY sum(t1.tax_amount) DESC
+        ORDER BY sum(t1.tax_amount) ASC
     </select>
 
     <select id="querySaleHistoryBySalerMonth" resultMap="BaseResultMap">
@@ -119,7 +119,7 @@
         AND   t1.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND   t1.status = 3
         GROUP BY t2.name,date_format(t1.order_date,'%Y-%m')
-        ORDER BY sum(t1.tax_amount) DESC
+        ORDER BY sum(t1.tax_amount) ASC
     </select>
     <select id="querySaleHistoryBySalerQuarter" resultMap="BaseResultMap">
         SELECT
@@ -132,7 +132,7 @@
         AND   t1.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND   t1.status = 3
         GROUP BY  t2.name, CONCAT(YEAR(t1.order_date),'年',quarter(t1.order_date),'季度')
-        ORDER BY sum(t1.tax_amount) DESC
+        ORDER BY sum(t1.tax_amount) ASC
     </select>
     <select id="querySaleHistoryBySalerWholeYear" resultMap="BaseResultMap">
         SELECT
@@ -145,7 +145,7 @@
         AND   t1.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND   t1.status = 3
         GROUP BY t2.name,year(t1.order_date)
-        ORDER BY sum(t1.tax_amount) DESC
+        ORDER BY sum(t1.tax_amount) ASC
     </select>
     <select id="querySaleHistoryByCustomType" resultMap="BaseResultMap">
         SELECT
@@ -159,28 +159,28 @@
         AND  T1.status = 3
         AND  t2.custom_type = #{customType,jdbcType=VARCHAR}
         GROUP BY  t1.custom_sign_id
-        ORDER BY sum(tax_amount)  DESC
+        ORDER BY sum(tax_amount)  ASC
     </select>
 
 
     <select id="querySaleFeature" resultMap="BaseResultMap">
         SELECT
-        B.name AS name,o.order_date AS order_date,COUNT(o.order_num) AS order_num,SUM(o.tax_amount) AS tax_amount,SUM(o.tax_free_amount) AS tax_free_amount
+        B.name AS name, date_format(o.order_date,'%Y-%m') AS order_date,COUNT(o.order_num) AS order_num,SUM(o.tax_amount) AS tax_amount,SUM(o.tax_free_amount) AS tax_free_amount
         FROM base_execute_order AS o
         LEFT JOIN base_area B
-        ON o.areaid=B.id
+        ON o.area_id=B.id
         WHERE o.del_flag = 0 AND o.item_status = 0
         AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
-        AND  o.status <![CDATA[ < ]]> 3
+        AND o.status > 0 AND  o.status <![CDATA[ < ]]> 3
         <choose>
             <when test="queryType == 0">
                 GROUP BY B.name
             </when>
             <otherwise>
-                GROUP BY o.order_date
+                GROUP BY date_format(o.order_date,'%Y-%m')
             </otherwise>
         </choose>
-        ORDER BY SUM(o.tax_amount) DESC
+        ORDER BY SUM(o.tax_amount) ASC
     </select>
 
 
@@ -189,8 +189,9 @@
         case when month(o.order_date)<![CDATA[ < ]]> 6 then CONCAT(year(o.order_date),'上半年')
         when month(o.order_date)>=6 then CONCAT(year(o.order_date),'下半年')
         else null
-        end  AS order_num ,
-        b.name AS name,count(o.order_num)/SUM(F.pay1) as yswc
+        end  AS order_date ,
+        b.name AS name,
+        count(o.order_num)/SUM(F.pay1) as yswc
         FROM base_execute_order o
         LEFT JOIN base_area_finance F
         ON  o.area_id=F.area_id
@@ -206,7 +207,7 @@
     </select>
     <select id="queryAreaBudgetByDateWholeYear" resultMap="BaseResultMap">
         SELECT
-        year(o.order_date) AS order_num ,b.name AS name,count(o.order_num)/SUM(F.pay1) as yswc
+        year(o.order_date) AS order_date ,b.name AS name,count(o.order_num)/SUM(F.pay1) as yswc
         FROM base_execute_order o
         LEFT JOIN base_area_finance F
         ON  o.area_id=F.area_id

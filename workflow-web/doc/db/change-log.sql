@@ -5,6 +5,11 @@
 -- 2.20170628 燕燕修改
 -- 1.20170620 兆华建立
 
+
+-- 20170724 weiqz
+ALTER TABLE `base_media`
+  CHANGE COLUMN `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '媒体类型 与base_media_type关联' AFTER `code`;
+
 -- 20170720 weiqz
 ALTER TABLE `base_order_cpm`
 	CHANGE COLUMN `order_cpm_type` `order_cpm_type` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '类型：1，客户需求CPM 2,执行排期CPM 3，第三方检测CPM 4，采购框架CPM 5，需求框架合同  6，表示单采CPM' AFTER `order_id`;

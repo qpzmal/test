@@ -3,8 +3,19 @@ package cn.advu.workflow.web.controller.report;
 import cn.advu.workflow.domain.fcf_vu.datareport.VuDataReport;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.service.datareport.DataReportService;
+import cn.advu.workflow.web.third.echarts.NormalExtend;
+import com.alibaba.fastjson.JSON;
+import com.github.abel533.echarts.Option;
+import com.github.abel533.echarts.axis.CategoryAxis;
+import com.github.abel533.echarts.axis.ValueAxis;
+import com.github.abel533.echarts.series.Bar;
+import com.github.abel533.echarts.style.ItemStyle;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by weiqz on 2017/7/13.
@@ -19,6 +32,11 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/report/area")
 public class ReportAreaController {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(ReportSaleController.class);
+
+    @Autowired
+    private DataReportService dataReportService;
 
     /**
      * 损益分析
@@ -28,7 +46,7 @@ public class ReportAreaController {
      */
     @RequestMapping("/balance")
     public String balance(Model resultModel, String type){
-        return "report/area_index";
+        return "report/area_balance";
     }
 
     /**
@@ -39,38 +57,92 @@ public class ReportAreaController {
      */
     @RequestMapping("/budget")
     public String budget(Model resultModel, String type){
-        return "report/budget_index";
+        return "report/area_budget";
     }
 
 
 
-    @RequestMapping("/balance/query")
+    @RequestMapping(value = "/balance/query", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ResultJson<VuDataReport> queryBalance(
-            String lid, String startDate, String endDate, String options,
+    public String queryBalance(
+            String lid, String startDate, String type,
             HttpServletRequest request, HttpServletResponse response) {
         ResultJson result = new ResultJson<>(WebConstants.OPERATION_FAILURE);
         lid = StringUtils.isEmpty(lid)?"1":lid;
-        startDate = StringUtils.isEmpty(startDate)?(new DateTime().withDayOfYear(1).withHourOfDay(1).withMinuteOfHour(1).toString("yyyy/MM/dd HH:mm:ss")):startDate;
-        endDate = StringUtils.isEmpty(endDate)?(new DateTime().toString("yyyy/MM/dd HH:mm:ss")):endDate;
-        options = StringUtils.isEmpty(options)?"1":options;
+        startDate = StringUtils.isEmpty(startDate)?(String.valueOf(new DateTime().getYear())):startDate;
+        type = StringUtils.isEmpty(type)?"1":type;
 
-        return result;
+
+
+        Option option = new Option();
+
+        result.setCode(WebConstants.OPERATION_SUCCESS).setInfo("成功");
+        LOGGER.info("result:{}", JSON.toJSONString(result));
+        return JSON.toJSONString(result);
     }
 
 
-    @RequestMapping("/budget/query")
+    @RequestMapping(value = "/budget/query", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ResultJson<VuDataReport> queryBudget(
-            String lid, String startDate, String endDate, String options,
+    public String queryBudget(
+            String lid, String startDate, String type,
             HttpServletRequest request, HttpServletResponse response) {
         ResultJson result = new ResultJson<>(WebConstants.OPERATION_FAILURE);
         lid = StringUtils.isEmpty(lid)?"1":lid;
-        startDate = StringUtils.isEmpty(startDate)?(new DateTime().withDayOfYear(1).withHourOfDay(1).withMinuteOfHour(1).toString("yyyy/MM/dd HH:mm:ss")):startDate;
-        endDate = StringUtils.isEmpty(endDate)?(new DateTime().toString("yyyy/MM/dd HH:mm:ss")):endDate;
-        options = StringUtils.isEmpty(options)?"1":options;
+        startDate = StringUtils.isEmpty(startDate)?(String.valueOf(new DateTime().getYear())):startDate;
+        type = StringUtils.isEmpty(type)?"1":type;
 
-        return result;
+
+        String endDate = new DateTime().toString("yyyy/MM/dd HH:mm:ss");
+        if ("1".equals(lid)) { // 全年
+            startDate = new DateTime().withDayOfYear(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
+            endDate = new DateTime().dayOfYear().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+
+        } else if ("2".equals(lid)) { // 半年
+            if ("1".equals(type)) { // 上半年
+                startDate = new DateTime().withDayOfYear(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
+                endDate = new DateTime().withMonthOfYear(6).dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+
+            } else {
+                startDate = new DateTime().withMonthOfYear(7).dayOfMonth().withMinimumValue().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
+                endDate = new DateTime().withMonthOfYear(12).dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+
+            }
+        } else if ("3".equals(lid)) { // 季度
+            if ("1".equals(type)) { // 一季度
+                startDate = new DateTime().withDayOfYear(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
+                endDate = new DateTime().withMonthOfYear(3).dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+
+            } else if ("2".equals(type)) {
+                startDate = new DateTime().withMonthOfYear(4).dayOfMonth().withMinimumValue().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
+                endDate = new DateTime().withMonthOfYear(6).dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+
+            } else if ("3".equals(type)) {
+                startDate = new DateTime().withMonthOfYear(7).dayOfMonth().withMinimumValue().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
+                endDate = new DateTime().withMonthOfYear(9).dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+
+            } else if ("4".equals(type)) {
+                startDate = new DateTime().withMonthOfYear(10).dayOfMonth().withMinimumValue().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
+                endDate = new DateTime().withMonthOfYear(12).dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+
+            }
+        } else {
+            LOGGER.error("lid 参数错误。");
+        }
+        LOGGER.info("startDate:{}, endDate:{}", startDate, endDate);
+
+        Option option = new Option();
+        List<VuDataReport> list = new ArrayList<>();
+
+        list = dataReportService.queryAreaBudgetByDate(startDate, endDate, type);
+
+        option = this.createChartWithType(list);
+        result.setData(option);
+
+
+        result.setCode(WebConstants.OPERATION_SUCCESS).setInfo("成功");
+        LOGGER.info("result:{}", JSON.toJSONString(result));
+        return JSON.toJSONString(result);
     }
 
 
@@ -119,5 +191,47 @@ public class ReportAreaController {
 //        }
 
         return "report/area_index";
+    }
+
+
+
+
+
+
+    private Option createChartWithType(List<VuDataReport> list) {
+        //创建Option
+        Option option = new Option();
+//        option.title("预算完成度").legend("金额（元）").tooltip().trigger();
+        option.title("预算完成度").tooltip().trigger();
+        //横轴为值轴
+        option.xAxis(new ValueAxis().boundaryGap(0d, 0.01));
+        //创建类目轴
+        CategoryAxis category = new CategoryAxis();
+        //柱状数据
+        Bar bar = new Bar("金额（元）");
+        //循环数据
+        for (VuDataReport vuDataReport : list) {
+            //设置类目
+            category.data(vuDataReport.getName());
+            //类目对应的柱状图
+            bar.data(vuDataReport.getYswc());
+        }
+        //设置类目轴
+        option.yAxis(category);
+        // 设置柱状图参数
+        ItemStyle itemStyle = new ItemStyle();
+        NormalExtend normal = new NormalExtend();
+        normal.setPosition("right");
+        normal.setShow(true);
+        itemStyle.setNormal(normal);
+        bar.setLabel(itemStyle);
+
+        //设置数据
+        option.series(bar);
+        //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
+        option.grid().x(180);
+        //返回Option
+
+        return option;
     }
 }

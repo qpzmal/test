@@ -88,7 +88,16 @@ public class DataReportServiceImpl implements DataReportService {
     @Override
     public List<VuDataReport> queryAreaBudgetByDate(String startDate, String endDate, String type) {
         List<VuDataReport> result = new ArrayList<>();
-        result = dataReportMapper.querySaleFeature(startDate, endDate, type);
+        if ("1".equals(type)) {
+            result = dataReportMapper.queryAreaBudgetByDateWholeYear(startDate, endDate);
+
+        } else if ("2".equals(type)) {
+            result = dataReportMapper.queryAreaBudgetByDateHalfYear(startDate, endDate);
+
+        } else {
+            result = dataReportMapper.queryAreaBudgetByDateWholeYear(startDate, endDate);
+
+        }
 
         return result;
     }

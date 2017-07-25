@@ -1,7 +1,6 @@
 
 ## css文件引入和css代码块
 #define($cssblock)
-<link href="#springUrl("")/static/css/plugins/iCheck/custom.css?$!application.getAttribute('/static/css/plugins/iCheck/custom.css')" rel="stylesheet">
 #end
 
 
@@ -15,10 +14,12 @@
             <div class="ibox float-e-margins">
                 <div class="tabs-container">
                     <ul class="nav nav-tabs">
-                        <li class="active" lid="1"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 已排期</a>
+                        <li class="active" lid="1"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 全年预算</a>
                         </li>
-##                        <li class="" lid="2"><a data-toggle="tab" href="#tab-2" aria-expanded="false">无排期</a>
-##                        </li>
+                        <li class="" lid="2"><a data-toggle="tab" href="#tab-2" aria-expanded="false">半年预算</a>
+                        </li>
+                        <li class="" lid="3"><a data-toggle="tab" href="#tab-3" aria-expanded="false">季度预算</a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane active">
@@ -27,15 +28,10 @@
                                     <div class="form-group">
                                         <div class="col-sm-8">
                                             <input placeholder="开始日期" class="laydate-icon form-control layer-date startDate" id="startDate1">
-                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date endDate" id="endDate1">
                                         </div>
 
                                         <div class="col-sm-4 m-b-xs text-right">
-                                            <div class="checkbox i-checks">
-                                                <label>
-                                                    <input class="icheck_query" type="checkbox" value="0" checked=""> <i></i> 按地域</label>
-                                                <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
-                                            </div>
+                                            <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
                                         </div>
                                     </div>
                                 </form>
@@ -47,15 +43,41 @@
                                     <div class="form-group">
                                         <div class="col-sm-8">
                                             <input placeholder="开始日期" class="laydate-icon form-control layer-date startDate" id="startDate2">
-                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date endDate" id="endDate2">
                                         </div>
 
                                         <div class="col-sm-4 m-b-xs text-right">
-                                            <div class="checkbox i-checks">
-                                                <label>
-                                                    <input class="icheck_query" type="checkbox" value="0" checked=""> <i></i> 按地域</label>
-                                                <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
+                                            <div data-toggle="buttons" class="btn-group">
+                                                <label class="btn btn-sm btn-white active">
+                                                    <input type="radio" id="option1" name="options" value="1">上半年</label>
+                                                <label class="btn btn-sm btn-white">
+                                                    <input type="radio" id="option2" name="options" value="2">下半年</label>
                                             </div>
+                                            <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="tab-3" class="tab-pane">
+                            <div class="panel-body">
+                                <form class="form-horizontal m-t">
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date startDate" id="startDate3">
+                                        </div>
+
+                                        <div class="col-sm-4 m-b-xs text-right">
+                                            <div data-toggle="buttons" class="btn-group">
+                                                <label class="btn btn-sm btn-white active">
+                                                    <input type="radio" id="option1" name="options" value="1">一季度</label>
+                                                <label class="btn btn-sm btn-white">
+                                                    <input type="radio" id="option2" name="options" value="2">二季度</label>
+                                                <label class="btn btn-sm btn-white">
+                                                    <input type="radio" id="option3" name="options" value="3">三季度</label>
+                                                <label class="btn btn-sm btn-white">
+                                                    <input type="radio" id="option4" name="options" value="4">四季度</label>
+                                            </div>
+                                            <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
                                         </div>
                                     </div>
                                 </form>
@@ -86,13 +108,12 @@
 ## js文件引入和js代码块
 #define($jsblock)
 <script src="#springUrl("")/static/js/plugins/echarts/echarts-3.6.2.min.js?$!application.getAttribute('/static/js/plugins/echarts/echarts-3.6.2.min.js')" type="text/javascript" language="javascript"></script>
+##<script src="#springUrl("")/static/js/plugins/echarts/echarts.js?$!application.getAttribute('/static/js/plugins/echarts/echarts.js')" type="text/javascript" language="javascript"></script>
 <script src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" type="text/javascript" language="javascript"></script>
-<script src="#springUrl("")/static/js/plugins/icheck/icheck.min.js?$!application.getAttribute('/static/js/plugins/icheck/icheck.min.js')" type="text/javascript" language="javascript"></script>
 <script>
     $(function() {
+        // 初始化日期控件
         initLaydate();
-        initIcheck();
-
         //载入图表
         initChart();
     })
@@ -102,62 +123,36 @@
         var start1 = {
             elem: "#startDate1",
 //            format: "YYYY/MM/DD hh:mm:ss",
-            format: "YYYY/MM/DD",
+            format: "YYYY",
 //            min: laydate.now(),
             max: "2099-06-16 23:59:59",
 //            istime: true,
-            istoday: true,
-            choose: function(datas) {
-                end1.min = datas;
-                end1.start = datas }
-        };
-        var end1 = {
-            elem: "#endDate1",
-//            format: "YYYY/MM/DD hh:mm:ss",
-            format: "YYYY/MM/DD",
-            min: laydate.now(),
-            max: "2099-06-16 23:59:59",
-//            istime: true,
-            istoday: false,
-            choose: function(datas) {
-                start1.max = datas }
+            istoday: true
         };
         var start2 = {
             elem: "#startDate2",
 //            format: "YYYY/MM/DD hh:mm:ss",
-            format: "YYYY/MM/DD",
+            format: "YYYY",
 //            min: laydate.now(),
             max: "2099-06-16 23:59:59",
 //            istime: true,
-            istoday: true,
-            choose: function(datas) {
-                end2.min = datas;
-                end2.start = datas }
+            istoday: true
         };
-        var end2 = {
-            elem: "#endDate2",
+        var start3 = {
+            elem: "#startDate3",
 //            format: "YYYY/MM/DD hh:mm:ss",
-            format: "YYYY/MM/DD",
-            min: laydate.now(),
+            format: "YYYY",
+//            min: laydate.now(),
             max: "2099-06-16 23:59:59",
 //            istime: true,
-            istoday: false,
-            choose: function(datas) {
-                start2.max = datas }
+            istoday: true
         };
         laydate(start1);
-        laydate(end1);
         laydate(start2);
-        laydate(end2);
+        laydate(start3);
     }
 
-    function initIcheck(){
-        $(".i-checks").iCheck('uncheck');
-        $(".i-checks").iCheck({
-            checkboxClass:"icheckbox_square-green",
-            radioClass:"iradio_square-green",
-        })
-    }
+
 
     // 基于准备好的dom，初始化echarts实例
     var chart = echarts.init(document.getElementById('echart-container'));
@@ -169,20 +164,17 @@
         var lid = $(".nav-tabs li.active").attr("lid");
         var startDate = $(".tab-content div.active .startDate").val();
         var endDate = $(".tab-content div.active .endDate").val();
-        var queryType = "1";
-        if($('.tab-content div.active .icheck_query').is(':checked')) {
-            queryType = "0";
-        }
+        var type = $(".tab-content div.active .btn-group label.active input").val();
 
         $.ajax({
-            url:"/report/sale/feature/query.json",
+            url:"/report/area/budget/query.json",
             type:"post",
             async: false,
             data:{
                 lid:lid,
                 startDate:startDate,
                 endDate:endDate,
-                queryType:queryType
+                type:type
             },
             success: function(returnData){
                 chart.hideLoading();
@@ -195,10 +187,15 @@
             }
         });
     }
+
     $(".button_view").click(function () {
         initChart();
     })
 
 
+
+
+    var test = {
+    }
 </script>
 #end
