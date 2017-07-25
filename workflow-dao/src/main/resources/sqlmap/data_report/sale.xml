@@ -189,7 +189,7 @@
         case when month(o.order_date)<![CDATA[ < ]]> 6 then CONCAT(year(o.order_date),'上半年')
         when month(o.order_date)>=6 then CONCAT(year(o.order_date),'下半年')
         else null
-        end  AS order_num ,
+        end  AS order_date ,
         b.name AS name,
         count(o.order_num)/SUM(F.pay1) as yswc
         FROM base_execute_order o
@@ -207,7 +207,7 @@
     </select>
     <select id="queryAreaBudgetByDateWholeYear" resultMap="BaseResultMap">
         SELECT
-        year(o.order_date) AS order_num ,b.name AS name,count(o.order_num)/SUM(F.pay1) as yswc
+        year(o.order_date) AS order_date ,b.name AS name,count(o.order_num)/SUM(F.pay1) as yswc
         FROM base_execute_order o
         LEFT JOIN base_area_finance F
         ON  o.area_id=F.area_id
