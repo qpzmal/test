@@ -52,4 +52,9 @@ public class BaseDeptRepoImpl extends AbstractTreeRepo<BaseDept> implements Base
     public List<DeptVO> findChildDeptWithAreaNameAndParentName(Integer areaId, Integer parentId) {
         return baseDeptMapper.queryByAreaAndDept(areaId, parentId);
     }
+
+    @Override
+    public BaseDept findByIdAndName(Integer id, String name) {
+        return baseDeptMapper.queryByIdAndName(id, name);
+    }
 }

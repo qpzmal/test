@@ -43,4 +43,13 @@ public class MediaMananger {
         }
         return isCodeDuplicated;
     }
+
+    public Boolean hasMediaByType(Integer type) {
+        Boolean hasMediaByType = false;
+        BaseMedia baseMedia = baseMediaRepo.findByType(type);
+        if (baseMedia != null) {
+            hasMediaByType = true;
+        }
+        return hasMediaByType;
+    }
 }

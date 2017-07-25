@@ -48,4 +48,9 @@ public class BaseMediaRepoImpl extends AbstractRepo<BaseMedia> implements BaseMe
     public BaseMedia findByIdAndCode(Integer id, String code) {
         return baseMediaMapper.queryByIdAndCode(id, code);
     }
+
+    @Override
+    public BaseMedia findByType(Integer type) {
+        return baseMediaMapper.queryByType(type);
+    }
 }

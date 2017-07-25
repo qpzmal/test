@@ -10,6 +10,7 @@ import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.dto.TreeNode;
 import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.DeptMananger;
 import cn.advu.workflow.web.manager.LevelComparetor;
 import cn.advu.workflow.web.manager.PersonMananger;
 import cn.advu.workflow.web.manager.UserMananger;
@@ -36,6 +37,9 @@ public class DeptServiceImpl extends AbstractTreeService implements DeptService 
     private UserMananger userMananger;
     @Autowired
     private PersonMananger personMananger;
+
+    @Autowired
+    DeptMananger deptMananger;
     @Override
     protected IRepo<? extends AbstractTreeEntity> getRepo() {
         return baseDeptRepo;
@@ -84,7 +88,10 @@ public class DeptServiceImpl extends AbstractTreeService implements DeptService 
 
         AssertUtil.assertNotNull(baseDept);
         AssertUtil.assertNotNull(baseDept.getAreaId(), MessageConstants.ASSIGN_AREA_IS_NULL);
-
+        // 名称不能重复
+        if (deptMananger.isNameDuplicated(null, baseDept.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
         // 设置level
         this.resetLevel(baseDept);
 
@@ -99,6 +106,14 @@ public class DeptServiceImpl extends AbstractTreeService implements DeptService 
     public ResultJson<Void> update(BaseDept baseDept) {
         AssertUtil.assertNotNull(baseDept);
         AssertUtil.assertNotNull(baseDept.getId());
+        // 名称不能重复
+        if (deptMananger.isNameDuplicated(baseDept.getId(), baseDept.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
+        Integer parentId = baseDept.getParentId();
+        if (parentId != null && parentId.equals(baseDept.getId())) {
+            throw new ServiceException(MessageConstants.PARENT_IS_SELF);
+        }
 
         // 设置level
         this.resetLevel(baseDept);

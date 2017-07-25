@@ -60,6 +60,7 @@ public class CustomFinanceServiceImpl implements CustomFinanceService {
             throw new ServiceException(MessageConstants.DATE_IS_DUPLICATED);
         }
 
+
         ResultJson<Integer> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
         baseCustomFinanceRepo.addSelective(baseCustomFinance);
         result.setData(baseCustomFinance.getId());

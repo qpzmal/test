@@ -9,9 +9,11 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.MediaMananger;
 import cn.advu.workflow.web.manager.MediaTypeMananger;
 import cn.advu.workflow.web.service.base.MediaService;
 import cn.advu.workflow.web.service.base.MediaTypeService;
+import cn.advu.workflow.web.util.AssertUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class MediaTypeServiceImpl implements MediaTypeService {
     private BaseMediaTypeRepo baseMediaTypeRepo;
     @Autowired
     MediaTypeMananger mediaTypeMananger;
+
+    @Autowired
+    MediaMananger mediaMananger;
 
     @Override
     public ResultJson<List<BaseMediaType>> findAll() {
@@ -79,5 +84,19 @@ public class MediaTypeServiceImpl implements MediaTypeService {
         ResultJson<List<BaseMediaType>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         result.setData(baseMediaTypeRepo.findActiveType());
         return result;
+    }
+
+    @Override
+    public ResultJson<Void> remove(Integer id) {
+
+        BaseMediaType baseMediaType = baseMediaTypeRepo.findOne(id);
+        AssertUtil.assertNotNull(baseMediaType, MessageConstants.MEDIA_TYPE_IS_NOT_EXISTS);
+
+        if (mediaMananger.hasMediaByType(id)) {
+            throw new ServiceException(MessageConstants.MEDIA_TYPE_IS_USEDBY_MEDIA);
+        }
+
+        baseMediaTypeRepo.logicRemove(baseMediaType);
+        return new ResultJson<>();
     }
 }
