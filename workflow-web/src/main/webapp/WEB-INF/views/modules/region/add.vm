@@ -2,27 +2,34 @@
 #define($cssblock)
 <link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
 <link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
+<link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
+
 #end
 
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
         <div class="form-group">
-            <label class="col-sm-3 control-label">地域名称:</label>
+            <label class="col-sm-3 control-label">名称</label>
             <div class="col-sm-8">
-                <input id="region_name" name="region_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="region_name" name="region_name" maxlength="128" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">地域类型:</label>
+            <label class="col-sm-3 control-label">类型</label>
             <div class="col-sm-8">
-                <select id="type" data-placeholder="选择区域类型..." class="chosen-select" style="width:350px;" tabindex="2">
+                <select id="type" data-placeholder="选择区域类型..." class="form-control chosen-select isNotEmpty" style="width:350px;" tabindex="2">
                     <option value="">请选择地域类型</option>
                     <option value="1" hassubinfo="true">省</option>
                     <option value="2" hassubinfo="true">市</option>
                 </select>
             </div>
         </div>
-
+        <div class="form-group">
+            <label class="col-sm-3 control-label">启用</label>
+            <div class="col-sm-8">
+                <input id="item_status" name="item_status" type="checkbox" class="js-switch" checked />
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-sm-4 col-sm-offset-3">
                 <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
@@ -42,8 +49,11 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
+
 
 <script>
+
     $.validator.setDefaults(
         {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
             success:function(e){
@@ -55,6 +65,11 @@
     ),
     $().ready(
         function(){
+
+            {var i=document.querySelector(".js-switch"),
+                    t=(new Switchery(i,{color:"#1AB394"}));
+            };
+
             var e="<i class='fa fa-times-circle'></i> ";
             $("#commentForm").validate({
                 submitHandler:function(form){
@@ -73,24 +88,20 @@
     for (var selector in config)
         $(selector).chosen(config[selector]);
 
-//    $(".btn-primary").click(function(){
-//        addRegion();
-//    })
-
     function addRegion(){
         var name = $("#region_name").val();
         var type = $("#type").val();
-//        var description = $("#description").val();
-//        var is_system = $(".js-switch")[0].checked;
+        var item_status = $(".js-switch")[0].checked?"0":"1";
+
         $.ajax({
             url:"/region/add.json",
             type:"post",
             async: false,
             data:{
                 name:name,
-                type:type
-//                description:description,
-//                isSystem:is_system
+                type:type,
+                itemStatus:item_status
+
             },
             success: function(returnData){
                 if(returnData.code == 1){

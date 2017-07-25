@@ -35,4 +35,9 @@ public class BaseIndustryRepoImpl extends AbstractRepo<BaseIndustry> implements 
     public List<BaseIndustry> findEnabledAll() {
         return baseIndustryMapper.queryAll(Integer.valueOf(ItemStatusEnum.ACTIVE.getValue()));
     }
+
+    @Override
+    public BaseIndustry findByIdAndName(Integer id, String name) {
+        return baseIndustryMapper.queryByIdAndName(id, name);
+    }
 }

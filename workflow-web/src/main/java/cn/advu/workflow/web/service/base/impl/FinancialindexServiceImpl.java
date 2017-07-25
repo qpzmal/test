@@ -6,6 +6,9 @@ import cn.advu.workflow.repo.fcf_vu.BaseFinancialindexRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseMediaTypeRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.constants.MessageConstants;
+import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.FinancialindexMananger;
 import cn.advu.workflow.web.service.base.FinancialindexService;
 import cn.advu.workflow.web.service.base.MediaTypeService;
 import org.slf4j.Logger;
@@ -24,6 +27,8 @@ public class FinancialindexServiceImpl implements FinancialindexService {
 
     @Autowired
     private BaseFinancialindexRepo baseFinancialindexRepo;
+    @Autowired
+    FinancialindexMananger financialindexMananger;
 
     @Override
     public ResultJson<List<BaseFinancialindex>> findAll() {
@@ -34,6 +39,14 @@ public class FinancialindexServiceImpl implements FinancialindexService {
 
     @Override
     public ResultJson<Integer> add(BaseFinancialindex baseFinancialindex) {
+        if (financialindexMananger.isNameDuplicated(null, baseFinancialindex.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
+
+        if (financialindexMananger.isNumberDuplicated(null, baseFinancialindex.getNumber())) {
+            throw new ServiceException(MessageConstants.CODE_IS_DUPLICATED);
+        }
+
         Integer insertCount = baseFinancialindexRepo.addSelective(baseFinancialindex);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建媒体类型失败!");
@@ -45,6 +58,12 @@ public class FinancialindexServiceImpl implements FinancialindexService {
     public ResultJson<Integer> update(BaseFinancialindex baseFinancialindex) {
         if (baseFinancialindex.getId() == null) {
         return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
+        }
+        if (financialindexMananger.isNameDuplicated(baseFinancialindex.getId(), baseFinancialindex.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
+        if (financialindexMananger.isNumberDuplicated(baseFinancialindex.getId(), baseFinancialindex.getNumber())) {
+            throw new ServiceException(MessageConstants.CODE_IS_DUPLICATED);
         }
         Integer insertCount = baseFinancialindexRepo.updateSelective(baseFinancialindex);
         if(insertCount != 1){

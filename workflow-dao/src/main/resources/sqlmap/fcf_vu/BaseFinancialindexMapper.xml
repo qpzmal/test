@@ -173,4 +173,29 @@
       and item_status = #{status,jdbcType=TINYINT}
     </if>
   </select>
+
+  <select id="queryByIdAndName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_financialindex
+    where del_flag = 0
+    <if test="id != null">
+      <![CDATA[ and base_financialindex.id <> #{id, jdbcType=INTEGER}]]>
+    </if>
+    <![CDATA[ and base_financialindex.name = #{name, jdbcType=VARCHAR}]]>
+    limit 1
+  </select>
+
+  <select id="queryByIdAndNumber" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_financialindex
+    where del_flag = 0
+    <if test="id != null">
+      <![CDATA[ and base_financialindex.id <> #{id, jdbcType=INTEGER}]]>
+    </if>
+    <![CDATA[ and base_financialindex.number = #{number, jdbcType=VARCHAR}]]>
+    limit 1
+  </select>
+
 </mapper>

@@ -37,8 +37,12 @@ public class MediaController {
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
+
+        List<BaseMediaType> activeMediaList = mediaTypeService.findActiveType().getData();
+
         ResultJson<List<BaseMedia>> result = mediaService.findAll();
         resultModel.addAttribute("dataList",result.getData());
+        resultModel.addAttribute("typeList", activeMediaList);
         return "modules/media/list";
     }
 

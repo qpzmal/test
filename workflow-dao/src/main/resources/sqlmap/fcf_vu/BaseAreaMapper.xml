@@ -260,4 +260,18 @@
     where parent_id = #{parentId,jdbcType=INTEGER}
   </select>
 
+
+
+  <select id="queryByIdAndName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_area
+    where del_flag = 0
+    <if test="id != null">
+      <![CDATA[ and base_area.id <> #{id, jdbcType=INTEGER}]]>
+    </if>
+    <![CDATA[ and base_area.name = #{name, jdbcType=VARCHAR}]]>
+    limit 1
+  </select>
+
 </mapper>

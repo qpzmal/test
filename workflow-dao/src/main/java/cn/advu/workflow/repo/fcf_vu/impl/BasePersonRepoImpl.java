@@ -52,4 +52,14 @@ public class BasePersonRepoImpl extends AbstractRepo<BasePerson> implements Base
     public BasePerson findPersonByName(String name) {
         return basePersonMapper.queryPersonByName(name);
     }
+
+    @Override
+    public BasePerson findByIdAndName(Integer id, String name) {
+        return basePersonMapper.queryByIdAndName(id, name);
+    }
+
+    @Override
+    public List<BasePerson> findByParentId(Integer parentId) {
+        return basePersonMapper.queryByParentId(parentId);
+    }
 }

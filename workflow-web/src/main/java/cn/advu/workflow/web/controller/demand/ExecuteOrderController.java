@@ -8,6 +8,7 @@ import cn.advu.workflow.web.manager.*;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
+import cn.advu.workflow.web.service.base.SaleFrameService;
 import cn.advu.workflow.web.util.AssertUtil;
 import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
@@ -63,6 +64,9 @@ public class ExecuteOrderController {
 
     @Autowired
     AdtypeMananger adtypeMananger;
+
+    @Autowired
+    SaleFrameService saleFrameService;
 
     static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -157,6 +161,9 @@ public class ExecuteOrderController {
         List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
         List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
 
+        // 复制框架信息
+        List<BaseExecuteOrderFrame> executeFrameList = saleFrameService.findAll().getData();
+
         resultModel.addAttribute("areaTreeJson", areaTreeJson);
         resultModel.addAttribute("monitorRequestList", baseMonitorRequestList);
         resultModel.addAttribute("leaderList", leaderList);
@@ -166,10 +173,98 @@ public class ExecuteOrderController {
         resultModel.addAttribute("salePersonName", basePerson.getName());
         resultModel.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
         resultModel.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
+        resultModel.addAttribute("executeFrameList", executeFrameList);
 
         return "demand/saleOrder/add";
     }
 
+    @RequestMapping("/toAddBrach")
+    public String toAddBrach( Model model){
+
+        // 复制框架信息
+        List<BaseExecuteOrderFrame> executeFrameList = saleFrameService.findAll().getData();
+        model.addAttribute("executeFrameList", executeFrameList);
+
+        return "demand/saleOrder/addBrach";
+
+    }
+
+    /**
+     * 跳转新增需求单页面
+     *
+     * @return
+     */
+    @RequestMapping("/toAddCopy")
+    public String toAddCopy(Integer frameId, Model model){
+
+        Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+        SysUser sysUser = userMananger.findById(userId);
+        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+
+        BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(frameId).getData();
+        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
+        BaseArea baseArea = areaService.findById(baseExecuteOrderFrame.getAreaId()).getData();
+        List<BasePerson> leaderList = personMananger.findPersonListByArea(baseExecuteOrderFrame.getAreaId());
+        List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
+        List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
+        List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
+        List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
+        List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
+
+        List<BaseCustom> signCompanyList = null;
+        String signType = baseExecuteOrderFrame.getSignType();
+        if (signType != null) {
+            signCompanyList = customMananger.findCustomListByCustomType(Integer.valueOf(signType));
+        }
+
+        List<BaseCustom> customList = null;
+        Integer signCustomId = baseExecuteOrderFrame.getCustomSignId();
+        if (signCustomId != null) {
+            customList = customMananger.findChildCustom(signCustomId);
+        }
+        model.addAttribute("customList", customList);
+
+        List<BaseOrderCpmVO> cpmList = baseExecuteOrderFrame.getBaseOrderCpmList();
+        int index = 1;
+        JSONArray cpmArrList = new JSONArray();
+        for (BaseOrderCpm cpmTemp : cpmList) {
+            JSONObject cpmVo = new JSONObject();
+            cpmVo.put("state", false);
+            cpmVo.put("num", index++);
+            cpmVo.put("id", cpmTemp.getId());
+            cpmVo.put("mediaId", cpmTemp.getMediaId());
+            cpmVo.put("mediaPrice", cpmTemp.getMediaPrice());
+            cpmVo.put("firstPrice", cpmTemp.getFirstPrice());
+            cpmVo.put("adTypeId", cpmTemp.getAdTypeId());
+            cpmVo.put("cpm", cpmTemp.getCpm());
+            cpmVo.put("remark", cpmTemp.getRemark());
+            cpmArrList.add(cpmVo);
+        }
+        baseExecuteOrderFrame.setCpmJsonStr(cpmArrList.toJSONString());
+
+
+        model.addAttribute("selectedReginList", StringListUtil.toList(baseExecuteOrderFrame.getDeliveryAreaIds()));
+        model.addAttribute("selectMonitorList", StringListUtil.toList(baseExecuteOrderFrame.getMonitorIds()));
+        model.addAttribute("selectOurMonitorNameList", StringListUtil.toList(baseExecuteOrderFrame.getOurMonitorName()));
+        model.addAttribute("selectReportList", StringListUtil.toList(baseExecuteOrderFrame.getReportTypeId()));
+
+        model.addAttribute("customList", customList);
+        model.addAttribute("signCompanyList", signCompanyList);
+        model.addAttribute("monitorRequestList", baseMonitorRequestList);
+        model.addAttribute("regionList", regionList);
+        model.addAttribute("industryList", industryList);
+        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("leaderList", leaderList);
+        model.addAttribute("areaTreeJson", areaTreeJson);
+        model.addAttribute("baseExecuteOrder", baseExecuteOrderFrame);
+        model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
+        model.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
+        model.addAttribute("format", format);
+        model.addAttribute("salePersonId", basePerson.getId());
+        model.addAttribute("salePersonName", basePerson.getName());
+
+        return "demand/saleOrder/addCopy";
+    }
 
     /**
      * 跳转修改页

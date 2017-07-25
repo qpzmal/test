@@ -16,4 +16,10 @@ public interface PersonService {
 
     ResultJson<Integer> add(BasePerson basePerson);
 
+    ResultJson<Void> update(BasePerson basePerson);
+
+    ResultJson<BasePerson> findById(Integer id);
+
+    ResultJson<Void> remove(Integer id);
+
 }

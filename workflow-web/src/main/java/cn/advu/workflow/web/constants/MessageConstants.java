@@ -5,6 +5,7 @@ package cn.advu.workflow.web.constants;
  */
 public interface MessageConstants {
      String NAME_IS_DUPLICATED = "名称重复";
+    String CODE_IS_DUPLICATED = "编码重复";
      String PARAM_IS_ILLEGAL = "参数不合法";
     String IS_NULL_OR_EMPTY = "为空";
     String CUSTOM_IS_NOT_EXISTS="客户不存在";
@@ -31,9 +32,15 @@ public interface MessageConstants {
     String ROLE_IS_NOT_EXISTS = "角色不存在";
     // 用户
     String USER_NAME_IS_DUPLICATED = "用户登录名称重复";
-    // 需求单
-    String PERSON_IS_NOT_EXISTS="当前用户的通讯录不存在";
+    // 通讯录
+    String PERSON_IS_NOT_EXISTS="当前通讯录不存在";
+    String PERSON_HAS_SUBORDINATE="当前通讯录下有子通讯录";
     // 地域
     String REGION_IS_NOT_EXISTS="地域不存在";
+    String REGION_TYPE_IS_NULL="类型没有设置";
+    // 监测机构
+    // 媒体
+    String MEDIA_TYPE_IS_NULL="类型没有设置";
+
 
 }

@@ -38,4 +38,14 @@ public class BaseMediaRepoImpl extends AbstractRepo<BaseMedia> implements BaseMe
     public List<BaseMedia> findAllActive() {
         return baseMediaMapper.queryAll(Integer.valueOf(ItemStatusEnum.ACTIVE.getValue()));
     }
+
+    @Override
+    public BaseMedia findByIdAndName(Integer id, String name) {
+        return baseMediaMapper.queryByIdAndName(id, name);
+    }
+
+    @Override
+    public BaseMedia findByIdAndCode(Integer id, String code) {
+        return baseMediaMapper.queryByIdAndCode(id, code);
+    }
 }

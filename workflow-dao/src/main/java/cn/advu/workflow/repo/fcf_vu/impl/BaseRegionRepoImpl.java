@@ -35,4 +35,9 @@ public class BaseRegionRepoImpl extends AbstractRepo<BaseRegion> implements Base
     public List<BaseRegion> findAllActiveRegion() {
         return baseRegionMapper.queryAll();
     }
+
+    @Override
+    public BaseRegion findByIdAndName(Integer id, String name) {
+        return baseRegionMapper.queryByIdAndName(id, name);
+    }
 }

@@ -30,4 +30,9 @@ public class BaseMonitorRequestRepoImpl extends AbstractRepo<BaseMonitor> implem
         return baseMonitorMapper.queryAll(null);
     }
 
+    @Override
+    public BaseMonitor findByIdAndName(Integer id, String name) {
+        return baseMonitorMapper.queryByIdAndName(id, name);
+    }
+
 }

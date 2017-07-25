@@ -1,0 +1,335 @@
+## 引入css
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/switchery/switchery.css?$!application.getAttribute('/static/css/plugins/switchery/switchery.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/plugins/chosen/chosen.css?$!application.getAttribute('/static/css/plugins/chosen/chosen.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/style.min862f.css?v=4.1.0?$!application.getAttribute('/static/css/style.min862f.css?v=4.1.0')" rel="stylesheet">
+##树状展示
+<link href="#springUrl("")/static/css/plugins/treeview/bootstrap-treeview.css?$!application.getAttribute('/static/css/plugins/treeview/bootstrap-treeview.css')" rel="stylesheet">
+
+#end
+
+<div class="ibox-content">
+    <form class="form-horizontal m-t" id="commentForm">
+        <input type="hidden" id="id" name="id" value="$basePerson.id">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">所属公司</label>
+            <div id="area_content" class="col-sm-9">
+                <input id="area_id" hidden value="$!{basePerson.areaId}">
+                <input value="$!{areaName}" id="area_name" name="area_name" type="text" class="form-control"
+                    #if(!${areaTreeJson})
+                       disabled
+                    #end
+                       onclick="showAreaList(); return false;" onfocus=this.blur()>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">所属部门</label>
+            <div id="dept_content"  class="col-sm-8">
+                <input id="dept_id" hidden value="$!{basePerson.deptId}">
+                <input value="$!{deptName}" id="dept_name" name="dept_name" type="text" class="form-control"
+                    #if(!${deptTreeJson})
+                       disabled
+                    #end
+                       onclick="showDeptList(); return false;" onfocus=this.blur()>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">上级领导</label>
+            <div id="parent_content" class="col-sm-8">
+                <select value="$!{basePerson.parentId}" id="parent_id" ata-placeholder="请选择上级领导" class="chosen-select" style="width:350px;" tabindex="2"
+                        #if(!$parentList || $parentList.isEmpty())
+                            disabled
+                        #end
+                >
+                    <option value="">请选择上级领导</option>
+                    #foreach($data in $parentList)
+                        <option value ="$data.id">$data.name</option>
+                    #end
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">员工名称</label>
+            <div class="col-sm-8">
+                <input value="$!{basePerson.name}" id="p_name" name="p_name" maxlength="10" type="text" class="form-control" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">手机</label>
+            <div class="col-sm-8">
+                <input value="$!{basePerson.mobile}" id="mobile" name="mobile" maxlength="30" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">地址</label>
+            <div class="col-sm-8">
+                <input value="$!{basePerson.address}" id="address" name="address" maxlength="255" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">邮箱</label>
+            <div class="col-sm-8">
+                <input value="$!{basePerson.email}" id="email" name="email" maxlength="60" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">备用字段</label>
+            <div class="col-sm-8">
+                <input value="$!{basePerson.pay2}" id="pay2" name="pay2" type="text" class="form-control isMoney">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">人员成本</label>
+            <div class="col-sm-8">
+                <input value="$!{basePerson.personPay}" id="person_pay" name="person_pay" type="text" class="form-control isMoney">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">备注</label>
+            <div class="col-sm-8">
+                <input value="$!{basePerson.remark}" id="remark" name="remark" type="text" maxlength="500" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">启用</label>
+            <div class="col-sm-8">
+                <input  id="item_status" name="item_status" type="checkbox" class="js-switch"
+                        #if($!{basePerson.itemStatus} == 0)
+                        checked
+                        #end
+                        />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-3">
+                <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <button class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div id="dept_tree_content"  class="col-sm-6 ibox-content" style="display:none; position: absolute;">
+    <div id="dept_tree" class="test" ></div>
+</div>
+
+<div id="area_tree_content" class="col-sm-6 ibox-content" style="display:none; position: absolute;">
+    <div id="area_tree" class="test" ></div>
+</div>
+
+
+## 引入js
+#define($jsblock)
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
+
+<script>
+
+    jQuery.validator.addMethod("isMoney", function(value, element) {
+        return this.optional(element) || /^(\-|\+)?\d{1,16}(\.\d{1,2})?$/.test(value);
+    }, "整数位不超过16位，小数位不超过2位");
+
+    ##所属公司变更
+    function areaChange(){
+        ##清空上级部门
+        $("#dept_id").attr("value", "");
+        $("#dept_name").attr("value", "");
+
+        ##联动查询上级部门
+        $.ajax({
+            url:"/dept/deptTreeList.json?areaId=" + $("#area_id").val(),
+            type:"get",
+            success: function(returnData){
+                console.log(returnData);
+                if(returnData.resultJson.code == 1){
+                    var deptTreeData = returnData.resultJson.data;
+                    if (deptTreeData == '' || deptTreeData == null) {
+                        $("#dept_name")[0].disabled = true;
+                        deptTreeData = "{}";
+                    } else {
+                        $("#dept_name")[0].disabled = "";
+                    }
+                    ## 生成部门树
+                    $("#dept_tree").treeview({
+                        showBorder: !1,
+                        levels:1,
+                        data: deptTreeData,
+                        onNodeSelected: function (e, o) {
+                            $("#dept_id").attr("value", o.value);
+                            $("#dept_name").attr("value", o.text);
+                            $("#dept_tree_content").fadeOut("fast");
+                            deptChange();
+                        }
+                    });
+                } else{
+                    layer.msg('初始化部门列表失败，请联系技术人员!');
+                }
+            }
+        });
+    }
+    ##所属部门变更
+    function deptChange(){
+        ##联动查询上级部门
+        $.ajax({
+            url:"/person/deptPersonSelect.json?deptId=" + $("#dept_id").val(),
+            type:"get",
+            success: function(returnData){
+                console.log(returnData);
+                $("#parent_content").html(returnData);
+            }
+        });
+    }
+
+    function onBodyDown(event) {
+        if (!(event.target.id == "dept_id" || event.target.id == "dept_tree_content" || $(event.target).parents("#dept_tree_content").length>0)) {
+            hideMenu();
+        }
+    }
+    function hideMenu() {
+        $("#area_tree_content").fadeOut("fast");
+        $("#dept_tree_content").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+
+    ##显示部门列表（上级部门）
+    function showDeptList() {
+        var dept_name = $("#dept_name");
+        var dept_content_offSet = $("#dept_content").offset();
+        var dept_name_offSet = dept_name.offset();
+        $("#dept_tree_content").css({left:dept_name_offSet.left + "px", top:dept_content_offSet.top + dept_name.outerHeight() + "px"}).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    };
+
+    ##显示公司列表
+    function showAreaList() {
+        var area_name = $("#area_name");
+        var area_content_offSet = $("#area_content").offset();
+        var area_name_offSet = area_name.offset();
+        $("#area_tree_content").css({left:area_name_offSet.left + "px", top:area_content_offSet.top + area_name.outerHeight() + "px"}).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    };
+
+    var config = {
+        ".chosen-select": {},
+        ".chosen-select-deselect": {allow_single_deselect: !0},
+        ".chosen-select-no-single": {disable_search_threshold: 10},
+        ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
+        ".chosen-select-width": {width: "95%"}
+    };
+    for (var selector in config)
+        $(selector).chosen(config[selector]);
+
+    $.validator.setDefaults(
+        {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+            success:function(e){
+                e.closest(".form-group").removeClass("has-error").addClass("has-success")
+            },
+            errorElement:"span",
+            errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+            errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+    ),
+    $().ready(
+            function(){
+                var e="<i class='fa fa-times-circle'></i> ";
+                $("#commentForm").validate({
+                    submitHandler:function(form){
+                        add();
+                    }
+                });
+                {var i=document.querySelector(".js-switch"),
+                        t=(new Switchery(i,{color:"#1AB394"}));
+                };
+
+                var deptTreeData = '$!{deptTreeJson}';
+                if (deptTreeData == '') {
+                    deptTreeData = "{}";
+                }
+                ## 生成部门树
+                $("#dept_tree").treeview({
+                    showBorder: !1,
+                    levels:1,
+                    data: deptTreeData,
+                    onNodeSelected: function (e, o) {
+                        $("#dept_id").attr("value", o.value);
+                        $("#dept_name").attr("value", o.text);
+                        $("#dept_tree_content").fadeOut("fast");
+                        deptChange();
+                    }
+                });
+
+                var areaTreeData = '$!{areaTreeJson}';
+                if (areaTreeData == '') {
+                    areaTreeData = "{}";
+                }
+                ## 生成区域树
+                $("#area_tree").treeview({
+                    showBorder: !1,
+                    levels:1,
+                    data: areaTreeData,
+                    onNodeSelected: function (e, o) {
+                        $("#area_id").attr("value", o.value);
+                        $("#area_name").attr("value", o.text);
+                        $("#area_tree_content").fadeOut("fast");
+                        areaChange();
+                    }
+                });
+            }
+    );
+
+    function add(){
+
+        var id = $("#id").val();
+        var name = $("#p_name").val();
+        var mobile = $("#mobile").val();
+        var address = $("#address").val();
+        var email = $("#email").val();
+        var remark = $("#remark").val();
+        var deptId = $("#dept_id").val();
+        var areaId = $("#area_id").val();
+        var parentId = $(".chosen-select").val();
+        var pay2 = $("#pay2").val();
+        var personPay = $("#person_pay").val();
+        var remark = $("#remark").val();
+        var item_status = $(".js-switch")[0].checked?"0":"1";
+        $.ajax({
+            url:"/person/update.json",
+            type:"post",
+            async: false,
+            data:{
+                id:id,
+                name:name,
+                mobile:mobile,
+                address:address,
+                email:email,
+                remark:remark,
+                deptId:deptId,
+                areaId:areaId,
+                parentId:parentId,
+                pay2:pay2,
+                personPay:personPay,
+                remark:remark,
+                itemStatus:item_status
+            },
+            success: function(returnData){
+                if(returnData.code == 1){
+                    popMsg('更新成功!', "/person/index");
+                } else{
+                    layer.msg(returnData.info);
+                }
+            }
+
+        });
+    }
+
+    // 返回
+    $(".btn-default").click(function(){
+        history.go(-1);
+    })
+</script>
+#end

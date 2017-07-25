@@ -35,4 +35,9 @@ public class BaseAdtypeRepoImpl extends AbstractRepo<BaseAdtype> implements Base
     public List<BaseAdtype> findAllActive() {
         return baseAdtypeMapper.queryAll(Integer.valueOf(ItemStatusEnum.ACTIVE.getValue()));
     }
+
+    @Override
+    public BaseAdtype findByIdAndName(Integer id, String name) {
+        return baseAdtypeMapper.queryByIdAndName(id, name);
+    }
 }

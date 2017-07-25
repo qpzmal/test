@@ -7,6 +7,9 @@ import cn.advu.workflow.repo.fcf_vu.BaseMediaRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseMediaTypeRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.constants.MessageConstants;
+import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.MediaTypeMananger;
 import cn.advu.workflow.web.service.base.MediaService;
 import cn.advu.workflow.web.service.base.MediaTypeService;
 import org.slf4j.Logger;
@@ -25,6 +28,8 @@ public class MediaTypeServiceImpl implements MediaTypeService {
 
     @Autowired
     private BaseMediaTypeRepo baseMediaTypeRepo;
+    @Autowired
+    MediaTypeMananger mediaTypeMananger;
 
     @Override
     public ResultJson<List<BaseMediaType>> findAll() {
@@ -35,6 +40,9 @@ public class MediaTypeServiceImpl implements MediaTypeService {
 
     @Override
     public ResultJson<Integer> add(BaseMediaType baseMediaType) {
+        if (mediaTypeMananger.isNameDuplicated(null, baseMediaType.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
         Integer insertCount = baseMediaTypeRepo.addSelective(baseMediaType);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建媒体类型失败!");
@@ -47,6 +55,11 @@ public class MediaTypeServiceImpl implements MediaTypeService {
         if (baseMediaType.getId() == null) {
         return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
         }
+
+        if (mediaTypeMananger.isNameDuplicated(baseMediaType.getId(), baseMediaType.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
+
         Integer insertCount = baseMediaTypeRepo.updateSelective(baseMediaType);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新媒体类型失败!");

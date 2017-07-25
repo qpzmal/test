@@ -38,4 +38,9 @@ public class BaseMediaTypeRepoImpl extends AbstractRepo<BaseMediaType> implement
     public List<BaseMediaType> findActiveType() {
         return baseMediaTypeMapper.queryAll(Integer.valueOf(ItemStatusEnum.ACTIVE.getValue()));
     }
+
+    @Override
+    public BaseMediaType findByIdAndName(Integer id, String name) {
+        return baseMediaTypeMapper.queryByIdAndName(id, name);
+    }
 }

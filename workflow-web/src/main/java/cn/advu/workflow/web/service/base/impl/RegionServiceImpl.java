@@ -8,6 +8,7 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.RegionManager;
 import cn.advu.workflow.web.service.base.RegionService;
 import cn.advu.workflow.web.util.AssertUtil;
 import org.slf4j.Logger;
@@ -27,26 +28,37 @@ public class RegionServiceImpl implements RegionService {
 
     @Autowired
     private BaseRegionRepo baseRegionRepo;
+    @Autowired
+    RegionManager regionManager;
 
     @Override
     public ResultJson<Integer> addRegion(BaseRegion baseRegion) {
+
+        AssertUtil.assertNotNull(baseRegion.getType(), MessageConstants.REGION_TYPE_IS_NULL);
+        if (regionManager.isNameDuplicated(null, baseRegion.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
+
         Integer insertCount = baseRegionRepo.addSelective(baseRegion);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建地域失败!");
         }
-        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        return new ResultJson<>();
     }
 
     @Override
     public ResultJson<Integer> updateRegion(BaseRegion baseRegion) {
-        if (baseRegion.getId() == null) {
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
+
+        AssertUtil.assertNotNull(baseRegion.getType(), MessageConstants.REGION_TYPE_IS_NULL);
+        if (regionManager.isNameDuplicated(baseRegion.getId(), baseRegion.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
+
         Integer insertCount = baseRegionRepo.updateSelective(baseRegion);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新地域失败!");
         }
-        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        return new ResultJson<>();
     }
 
     @Override

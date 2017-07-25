@@ -6,19 +6,25 @@
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
         <div class="form-group">
-            <label class="col-sm-3 control-label">检测公司名称:</label>
+            <label class="col-sm-3 control-label">名称</label>
             <div class="col-sm-8">
-                <input id="monitor_request_name" name="monitor_request_name" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="monitor_request_name" name="monitor_request_name" maxlength="10" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">检测链接:</label>
+            <label class="col-sm-3 control-label">链接</label>
             <div class="col-sm-8">
-                <input id="link" name="link" maxlength="50" type="text" class="form-control" required="" aria-required="true">
+                <input id="link" name="link" maxlength="300" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">启用:</label>
+            <label class="col-sm-3 control-label">备注</label>
+            <div class="col-sm-8">
+                <input id="remark" name="remark" maxlength="500" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">启用</label>
             <div class="col-sm-8">
                 <input id="item_status" name="item_status" type="checkbox" class="js-switch" checked />
             </div>
@@ -59,7 +65,7 @@
             var e="<i class='fa fa-times-circle'></i> ";
             $("#commentForm").validate({
                 submitHandler:function(form){
-                    addRegion();
+                    add();
                 }
             });
             {var i=document.querySelector(".js-switch"),
@@ -68,13 +74,10 @@
         }
     );
 
-//    $(".btn-primary").click(function(){
-//        addRegion();
-//    })
-
-    function addRegion(){
+    function add(){
         var name = $("#monitor_request_name").val();
         var link = $("#link").val();
+        var remark = $("#remark").val();
         var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
             url:"/monitor/add.json",
@@ -83,6 +86,7 @@
             data:{
                 name:name,
                 link:link,
+                remark:remark,
                 itemStatus:item_status
             },
             success: function(returnData){
@@ -90,7 +94,7 @@
                 if(returnData.code == 1){
                     popMsg('添加成功!', "/monitor/index");
                 } else{
-                    layer.msg('添加失败, 请联系技术人员!');
+                    layer.msg(returnData.info);
                 }
             }
 
