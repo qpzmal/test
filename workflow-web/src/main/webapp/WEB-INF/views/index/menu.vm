@@ -145,20 +145,20 @@
 
 
 
-            <li class="first-level">
-                <a href="#">
-                    <i class="fa fa-users"></i>
-                    <span class="nav-label">还没做的</span>
-                    <span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/notify/index">通知内容管理</a> ## oa_notify
-                        <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知内容管理</a> ## oa_notify_record
-                        <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知发送记录</a> ## oa_notify_record
-                    </li>
-                </ul>
-            </li>
+##            <li class="first-level">
+##                <a href="#">
+##                    <i class="fa fa-users"></i>
+##                    <span class="nav-label">还没做的</span>
+##                    <span class="fa arrow"></span>
+##                </a>
+##                <ul class="nav nav-second-level">
+##                    <li>
+##                        <a class="J_menuItem" href="${rc.contextPath}/notify/index">通知内容管理</a> ## oa_notify
+##                        <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知内容管理</a> ## oa_notify_record
+##                        <a class="J_menuItem" href="${rc.contextPath}/notifyRecord/index">通知发送记录</a> ## oa_notify_record
+##                    </li>
+##                </ul>
+##            </li>
             <li class="first-level">
                 <a href="#">
                     <i class="fa fa-home"></i>

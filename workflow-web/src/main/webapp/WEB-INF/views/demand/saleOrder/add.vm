@@ -546,7 +546,7 @@
     laydate(order_date);
     $('#start_date').val(laydate.now());
     $('#end_date').val(laydate.now());
-    $('#order_date').val(laydate.now());.
+    $('#order_date').val(laydate.now());
 
     var config = {
         ".chosen-select": {},
