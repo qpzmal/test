@@ -8,7 +8,6 @@ import cn.advu.workflow.web.manager.*;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.BuyFrameService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
-import cn.advu.workflow.web.service.base.SaleFrameService;
 import cn.advu.workflow.web.util.AssertUtil;
 import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
@@ -75,7 +74,9 @@ public class BuyFrameController {
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
-        ResultJson<List<BaseBuyOrderFrame>> result = buyFrameService.findAll();
+        BaseBuyOrderFrame param = new BaseBuyOrderFrame();
+        param.setStatus((byte) -1);
+        ResultJson<List<BaseBuyOrderFrame>> result = buyFrameService.findAll(param);
         resultModel.addAttribute("dataList",result.getData());
         return "demand/buyFrame/list";
     }
@@ -184,12 +185,13 @@ public class BuyFrameController {
         }
         baseBuyOrderFrame.setCpmJsonStr(cpmArrList.toJSONString());
 
+        String areaName = (baseArea==null)?"":baseArea.getName();
 
         model.addAttribute("selectedReginList", StringListUtil.toList(baseBuyOrderFrame.getDeliveryAreaIds()));
         model.addAttribute("monitorRequestList", baseMonitorRequestList);
         model.addAttribute("regionList", regionList);
         model.addAttribute("industryList", industryList);
-        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("areaName", areaName);
         model.addAttribute("leaderList", leaderList);
         model.addAttribute("areaTreeJson", areaTreeJson);
         model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));

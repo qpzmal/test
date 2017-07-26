@@ -5,6 +5,17 @@
 -- 2.20170628 燕燕修改
 -- 1.20170620 兆华建立
 
+-- 20170725 weiqz
+
+ALTER TABLE `base_buy_order`
+	CHANGE COLUMN `status` `status` TINYINT(3) DEFAULT '-1' COMMENT '执行状态：-1，审核前；0，审核中；1，未开始； 2，进行中；3，已结束' AFTER `person_id`;
+ALTER TABLE `base_buy_order_frame`
+	CHANGE COLUMN `status` `status` TINYINT(3) DEFAULT '-1' COMMENT '执行状态：-1，审核前；0，审核中；1，未开始； 2，进行中；3，已结束' AFTER `person_id`;
+ALTER TABLE `base_execute_order`
+	CHANGE COLUMN `status` `status` TINYINT(3) DEFAULT '-1' COMMENT '执行状态：-1，审核前；0，审核中；1，未开始； 2，进行中；3，已结束' AFTER `person_sales_id`;
+ALTER TABLE `base_execute_order_frame`
+	CHANGE COLUMN `status` `status` TINYINT(3) DEFAULT '-1' COMMENT '执行状态：-1，审核前；0，审核中；1，未开始； 2，进行中；3，已结束' AFTER `person_sales_id`;
+
 
 -- 20170724 weiqz
 ALTER TABLE `base_media`

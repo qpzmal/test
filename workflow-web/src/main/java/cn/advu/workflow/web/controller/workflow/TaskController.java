@@ -325,8 +325,9 @@ public class TaskController {
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
-            baseBuyOrderVO.setTask(tasks.get(0));
-
+            if (tasks != null && tasks.size() > 0) {
+                baseBuyOrderVO.setTask(tasks.get(0));
+            }
             baseBuyOrderVOList.add(baseBuyOrderVO);
         }
         LOGGER.debug("baseBuyOrderVOList.size:{}", baseBuyOrderVOList.size());
@@ -355,8 +356,9 @@ public class TaskController {
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
-            baseBuyOrderFrameVO.setTask(tasks.get(0));
-
+            if (tasks != null && tasks.size() > 0) {
+                baseBuyOrderFrameVO.setTask(tasks.get(0));
+            }
             baseBuyOrderFrameVOList.add(baseBuyOrderFrameVO);
         }
         LOGGER.debug("baseBuyOrderFrameVOList.size:{}", baseBuyOrderFrameVOList.size());
@@ -384,8 +386,9 @@ public class TaskController {
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
-            baseExecuteOrderVO.setTask(tasks.get(0));
-
+            if (tasks != null && tasks.size() > 0) {
+                baseExecuteOrderVO.setTask(tasks.get(0));
+            }
             baseExecuteOrderVOList.add(baseExecuteOrderVO);
         }
         LOGGER.debug("baseExecuteOrderVOList.size:{}", baseExecuteOrderVOList.size());
@@ -414,7 +417,9 @@ public class TaskController {
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
-            baseExecuteOrderFrameVO.setTask(tasks.get(0));
+            if (tasks != null && tasks.size() > 0) {
+                baseExecuteOrderFrameVO.setTask(tasks.get(0));
+            }
 
             baseExecuteOrderFrameVOList.add(baseExecuteOrderFrameVO);
         }

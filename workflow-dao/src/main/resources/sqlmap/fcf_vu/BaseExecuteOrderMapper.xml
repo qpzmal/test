@@ -454,7 +454,6 @@
     set
       name = #{name,jdbcType=VARCHAR},
       sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT},
       order_date = #{orderDate,jdbcType=TIMESTAMP},
       delivery_area_ids = #{deliveryAreaIds,jdbcType=VARCHAR},
       delivery_area_names = #{deliveryAreaNames,jdbcType=VARCHAR},

@@ -500,9 +500,12 @@
         var id =  $("#id").val();
         var name = $("#p_name").val();
         var secOrderNum = $("#sec_order_num").val();
-        var type = $("#type").val();
         var orderDate = stringToDate($("#order_date").val());
         var personLeaderId = $("#person_leader_id").val();
+        if (personLeaderId == "") {
+            personLeaderId = "0";
+        }
+
         var areaId = $("#area_id").val();
 
         var deliveryAreaIds = findSelecedValueStr("delivery_area_ids");
@@ -528,7 +531,6 @@
                 id:id,
                 name:name,
                 secOrderNum:secOrderNum,
-                type:type,
                 orderDate:orderDate,
                 deliveryAreaIds:deliveryAreaIds,
                 deliveryAreaNames:deliveryAreaNames,

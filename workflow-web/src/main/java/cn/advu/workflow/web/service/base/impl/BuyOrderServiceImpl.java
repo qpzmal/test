@@ -42,10 +42,8 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
     private IdentityService identityService;
 
     @Override
-    public ResultJson<List<BaseBuyOrder>> findAll() {
+    public ResultJson<List<BaseBuyOrder>> findAll(BaseBuyOrder param) {
         ResultJson<List<BaseBuyOrder>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        BaseBuyOrder param = new BaseBuyOrder();
-        param.setStatus((byte) 0);
         result.setData(baseBuyOrderRepo.findAll(param));
         return result;
     }
@@ -68,6 +66,11 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
         // CPM
         buildBuyOrderCpm(baseBuyOrder);
 
+        if (baseBuyOrder.getFrameId() != null && baseBuyOrder.getFrameId() != 0) {
+            baseBuyOrder.setType((byte) 1); // 框架
+        } else {
+            baseBuyOrder.setType((byte) 2); // 单采
+        }
         Integer insertCount = baseBuyOrderRepo.addSelective(baseBuyOrder);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建采购单失败!");
@@ -135,7 +138,7 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
                 LOGGER.info(" processInstanceId:{}", processInstance.getId());
 
                 baseBuyOrder.setProcessInstanceId(processInstance.getId());
-                baseBuyOrder.setStatus(WebConstants.WorkFlow.STATUS_1);
+                baseBuyOrder.setStatus(WebConstants.WorkFlow.STATUS_0);
                 baseBuyOrderRepo.updateSelective(baseBuyOrder);
 
             } catch (ActivitiException e) {

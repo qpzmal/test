@@ -54,10 +54,8 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
 
 
     @Override
-    public ResultJson<List<BaseExecuteOrderFrame>> findAll() {
+    public ResultJson<List<BaseExecuteOrderFrame>> findAll(BaseExecuteOrderFrame param) {
         ResultJson<List<BaseExecuteOrderFrame>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        BaseExecuteOrderFrame param = new BaseExecuteOrderFrame();
-        param.setStatus((byte) 0);
         result.setData(baseExecuteOrderFrameRepo.findAll(param));
         return result;
     }
@@ -153,7 +151,7 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
                 LOGGER.info(" processInstanceId:{}", processInstance.getId());
 
                 baseExecuteOrderFrame.setProcessInstanceId(processInstance.getId());
-                baseExecuteOrderFrame.setStatus(WebConstants.WorkFlow.STATUS_1);
+                baseExecuteOrderFrame.setStatus(WebConstants.WorkFlow.STATUS_0);
                 baseExecuteOrderFrameRepo.updateSelective(baseExecuteOrderFrame);
 
             } catch (ActivitiException e) {

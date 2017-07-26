@@ -25,7 +25,13 @@
                                 <td>$!{data.name}</td>
                                 <td>$!{data.OrderNum}</td>
                                 <td>$!{data.secOrderNum}</td>
-                                <td>$!{data.type}</td>
+                                <td>
+                                    #if($!{data.type} == "1")
+                                        框架
+                                    #else
+                                        单采
+                                    #end
+                                </td>
                                 <td class="right">
                                     <input type="hidden" value="$!{data.id}">
                                     <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>

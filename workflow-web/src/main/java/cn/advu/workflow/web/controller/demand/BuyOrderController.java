@@ -78,7 +78,9 @@ public class BuyOrderController {
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
-        ResultJson<List<BaseBuyOrder>> result = buyOrderService.findAll();
+        BaseBuyOrder param = new BaseBuyOrder();
+        param.setStatus((byte) -1);
+        ResultJson<List<BaseBuyOrder>> result = buyOrderService.findAll(param);
         resultModel.addAttribute("dataList",result.getData());
         return "demand/buyOrder/list";
     }
@@ -96,9 +98,10 @@ public class BuyOrderController {
 
     @RequestMapping("/toAddBrach")
     public String toAddBrach( Model model){
-
         // 复制框架信息
-        List<BaseBuyOrderFrame> buyFrameList = buyFrameService.findAll().getData();
+        BaseBuyOrderFrame param = new BaseBuyOrderFrame();
+        param.setStatus((byte) 1);
+        List<BaseBuyOrderFrame> buyFrameList = buyFrameService.findAll(param).getData();
         model.addAttribute("buyFrameList", buyFrameList);
 
         return "demand/buyOrder/addBrach";
@@ -198,12 +201,13 @@ public class BuyOrderController {
         }
         baseBuyOrder.setCpmJsonStr(cpmArrList.toJSONString());
 
+        String areaName = (baseArea==null)?"":baseArea.getName();
 
         model.addAttribute("selectedReginList", StringListUtil.toList(baseBuyOrder.getDeliveryAreaIds()));
         model.addAttribute("monitorRequestList", baseMonitorRequestList);
         model.addAttribute("regionList", regionList);
         model.addAttribute("industryList", industryList);
-        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("areaName", areaName);
         model.addAttribute("leaderList", leaderList);
         model.addAttribute("areaTreeJson", areaTreeJson);
         model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
@@ -256,12 +260,13 @@ public class BuyOrderController {
         }
         baseBuyOrderFrame.setCpmJsonStr(cpmArrList.toJSONString());
 
+        String areaName = (baseArea==null)?"":baseArea.getName();
 
         model.addAttribute("selectedReginList", StringListUtil.toList(baseBuyOrderFrame.getDeliveryAreaIds()));
         model.addAttribute("monitorRequestList", baseMonitorRequestList);
         model.addAttribute("regionList", regionList);
         model.addAttribute("industryList", industryList);
-        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("areaName", areaName);
         model.addAttribute("leaderList", leaderList);
         model.addAttribute("areaTreeJson", areaTreeJson);
         model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));

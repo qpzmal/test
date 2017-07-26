@@ -301,7 +301,6 @@
     set
       sec_order_num = #{secOrderNum,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT},
       order_date = #{orderDate,jdbcType=TIMESTAMP},
       amount = #{amount,jdbcType=DECIMAL},
       account_period = #{accountPeriod,jdbcType=INTEGER},

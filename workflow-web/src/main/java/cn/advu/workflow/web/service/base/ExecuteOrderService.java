@@ -1,6 +1,5 @@
 package cn.advu.workflow.web.service.base;
 
-import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.web.common.ResultJson;
 
@@ -18,7 +17,7 @@ public interface ExecuteOrderService {
      *
      * @return
      */
-    ResultJson<List<BaseExecuteOrder>> findAll();
+    ResultJson<List<BaseExecuteOrder>> findAll(BaseExecuteOrder param);
 
     /**
      * 新增需求单

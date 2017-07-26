@@ -53,10 +53,8 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
 
 
     @Override
-    public ResultJson<List<BaseExecuteOrder>> findAll() {
+    public ResultJson<List<BaseExecuteOrder>> findAll(BaseExecuteOrder param) {
         ResultJson<List<BaseExecuteOrder>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        BaseExecuteOrder param = new BaseExecuteOrder();
-        param.setStatus((byte) 0);
         result.setData(baseExecuteOrderRepo.findAll(param));
         return result;
     }
@@ -82,6 +80,11 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         // CPM
         buildExecuteCpm(baseExecuteOrder);
 
+        if (baseExecuteOrder.getFrameId() != null && baseExecuteOrder.getFrameId() != 0) {
+            baseExecuteOrder.setType("1"); // 框架
+        } else {
+            baseExecuteOrder.setType("2"); // 单采
+        }
         Integer insertCount = baseExecuteOrderRepo.addSelective(baseExecuteOrder);
         if(insertCount != 1){
             throw new ServiceException("创建需求单失败!");
@@ -150,7 +153,7 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
                 LOGGER.info(" processInstanceId:{}", processInstance.getId());
 
                 baseExecuteOrder.setProcessInstanceId(processInstance.getId());
-                baseExecuteOrder.setStatus(WebConstants.WorkFlow.STATUS_1);
+                baseExecuteOrder.setStatus(WebConstants.WorkFlow.STATUS_0);
                 baseExecuteOrderRepo.updateSelective(baseExecuteOrder);
 
             } catch (ActivitiException e) {
