@@ -42,6 +42,7 @@
 1. ***** Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'person_id' cannot be null
 ***** at cn.advu.workflow.repo.fcf_vu.impl.BaseBuyOrderRepoImpl.update(BaseBuyOrderRepoImpl.java:61)
 1. 更新改为动态更新
+1. 给用户赋予admin权限，无法看到日志菜单
 
 
 

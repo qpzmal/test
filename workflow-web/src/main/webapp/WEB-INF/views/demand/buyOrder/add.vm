@@ -361,7 +361,7 @@
 
     var start = {
         elem: "#start_date",
-        format: "YYYY/MM/DD",
+        format: "YYYY-MM-DD",
         min: laydate.now(),
         max: "2099-06-16",
         istime: false,
@@ -373,7 +373,7 @@
     };
     var end={
         elem:"#end_date",
-        format: "YYYY/MM/DD",
+        format: "YYYY-MM-DD",
         min: laydate.now(),
         max: "2099-06-16",
         istime: false,
@@ -383,7 +383,7 @@
         }};
     var order_date = {
         elem:"#order_date",
-        format: "YYYY/MM/DD",
+        format: "YYYY-MM-DD",
         min: laydate.now(),
         max: "2099-06-16",
         istime: false,
@@ -393,9 +393,9 @@
     laydate(start);
     laydate(end);
     laydate(order_date);
-    $('#start_date').val(laydate.now());
-    $('#end_date').val(laydate.now());
-    $('#order_date').val(laydate.now());
+    $('#start_date').val(laydate.now(0, 'YYYY-MM-DD'));
+    $('#end_date').val(laydate.now(0, 'YYYY-MM-DD'));
+    $('#order_date').val(laydate.now(0, 'YYYY-MM-DD'));
 
     var config = {
         ".chosen-select": {},
