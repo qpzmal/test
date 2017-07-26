@@ -54,6 +54,7 @@
 
     // 添加
     $(".btn-primary").click(function(){
+
         if ($("#frameId").val() == "") {
             window.location.href = "${rc.contextPath}/saleOrder/toAdd.json";
         } else {

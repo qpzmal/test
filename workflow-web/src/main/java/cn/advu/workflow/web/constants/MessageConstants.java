@@ -45,6 +45,9 @@ public interface MessageConstants {
     String MEDIA_TYPE_IS_NULL="媒体类型没有设置";
     String MEDIA_TYPE_IS_NOT_EXISTS="媒体类型不存在";
     String MEDIA_TYPE_IS_USEDBY_MEDIA="媒体类型被媒体引用";
+    // 需求单
+    String SIGN_TYPE_IS_NULL="签约类型没有设置";
+    String SIGN_CUSTOM_TYPE_IS_NULL="签约公司没有设置";
 
 
 }

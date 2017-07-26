@@ -1,7 +1,7 @@
 INSERT INTO `sequence` (`name`, `current_value`, `increment`, `dates`) VALUES ('orderNum', 1, 1, 2017);
 
 
---资源表
+-- 资源表
 INSERT INTO `sys_resource` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_type`)
 VALUES
 	(101, '广告类型', 0, 0, 0, 1),

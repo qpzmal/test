@@ -8,11 +8,13 @@ import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.manager.AreaManager;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
+import cn.advu.workflow.web.util.AssertUtil;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
@@ -62,14 +64,17 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     @Override
     public ResultJson<Integer> add(BaseExecuteOrder baseExecuteOrder) {
 
+        AssertUtil.assertNotNullOrEmpty(baseExecuteOrder.getSignType(), "签约类型");
+        AssertUtil.assertNotNull(baseExecuteOrder.getCustomSignId(), MessageConstants.SIGN_CUSTOM_TYPE_IS_NULL);
         // 编码
         String orderNumSeqStr = this.buildOrderNumSeqStr();
-        Integer signCustomId = baseExecuteOrder.getCustomSignId();
-        BaseCustom signCustom = customMananger.findById(signCustomId);
         BaseArea baseArea = areaManager.findById(baseExecuteOrder.getAreaId());
+        AssertUtil.assertNotNull(baseArea, MessageConstants.AREA_IS_NOT_EXISTS);
+
         String areaCode = baseArea.getCode();
-        String orderNum = "S" + findCustomType(signCustom.getCustomType()) + areaCode + orderNumSeqStr;
+        String orderNum = "S" + findCustomType(baseExecuteOrder.getSignType()) + areaCode + orderNumSeqStr;
         baseExecuteOrder.setOrderNum(orderNum);
+
         // 补充编码
         if (StringUtils.isEmpty(baseExecuteOrder.getSecOrderNum())) {
             baseExecuteOrder.setSecOrderNum(orderNum);
