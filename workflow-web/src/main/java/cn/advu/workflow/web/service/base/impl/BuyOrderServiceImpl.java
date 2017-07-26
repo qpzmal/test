@@ -66,6 +66,11 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
         // CPM
         buildBuyOrderCpm(baseBuyOrder);
 
+        if (baseBuyOrder.getFrameId() != null && baseBuyOrder.getFrameId() != 0) {
+            baseBuyOrder.setType((byte) 1); // 框架
+        } else {
+            baseBuyOrder.setType((byte) 2); // 单采
+        }
         Integer insertCount = baseBuyOrderRepo.addSelective(baseBuyOrder);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建采购单失败!");

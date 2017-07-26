@@ -500,7 +500,6 @@
         var id =  $("#id").val();
         var name = $("#p_name").val();
         var secOrderNum = $("#sec_order_num").val();
-        var type = $("#type").val();
         var orderDate = stringToDate($("#order_date").val());
         var personLeaderId = $("#person_leader_id").val();
         if (personLeaderId == "") {
@@ -532,7 +531,6 @@
                 id:id,
                 name:name,
                 secOrderNum:secOrderNum,
-                type:type,
                 orderDate:orderDate,
                 deliveryAreaIds:deliveryAreaIds,
                 deliveryAreaNames:deliveryAreaNames,

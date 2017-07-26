@@ -732,6 +732,7 @@
         var accountPeriod = $("#account_period").val();
 
         var cpmJsonStr = JSON.stringify(cpmTable.bootstrapTable('getData'));
+        var frameId = "$!baseExecuteOrder.id";
 
         $.ajax({
             url:"/saleOrder/add.json",
@@ -767,7 +768,8 @@
 
                 payPercent:payPercent,
                 accountPeriod:accountPeriod,
-                cpmJsonStr:cpmJsonStr
+                cpmJsonStr:cpmJsonStr,
+                frameId:frameId
             },
             success: function(returnData){
                 if(returnData.code == 1){

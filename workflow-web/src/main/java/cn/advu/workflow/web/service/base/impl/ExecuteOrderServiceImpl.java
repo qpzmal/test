@@ -80,6 +80,11 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         // CPM
         buildExecuteCpm(baseExecuteOrder);
 
+        if (baseExecuteOrder.getFrameId() != null && baseExecuteOrder.getFrameId() != 0) {
+            baseExecuteOrder.setType("1"); // 框架
+        } else {
+            baseExecuteOrder.setType("2"); // 单采
+        }
         Integer insertCount = baseExecuteOrderRepo.addSelective(baseExecuteOrder);
         if(insertCount != 1){
             throw new ServiceException("创建需求单失败!");
