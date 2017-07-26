@@ -45,12 +45,14 @@
                         #foreach($data in $dataList)
                             <tr class="gradeX">
                                 <td>$!{data.name}</td>
+
                                 <td>
-                                    #if(${data.parentName}=='')
-                                        -
+                                    #if($data.parentName)
+                                        $data.parentName
                                     #else
-                                        $!{data.parentName}
-                                    #end</td>
+                                        -
+                                    #end
+                                </td>
                                 <td>
                                     #if($!{data.itemStatus} == "0") 启用
                                     #else 停用

@@ -46,7 +46,14 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public ResultJson<Integer> addArea(BaseArea baseArea) {
-        // TODO 区域编号是否重复，是否必填，名称是否重复
+        // 区域编号是否重复
+        if (areaManager.isCodeDuplicated(null, baseArea.getCode())) {
+            throw new ServiceException(MessageConstants.CODE_IS_DUPLICATED);
+        }
+        if (areaManager.isNameDuplicated(null, baseArea.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
+
         areaManager.resetLevel(baseArea);
         Integer insertCount = baseAreaRepo.addSelective(baseArea);
         if(insertCount != 1){
@@ -61,7 +68,13 @@ public class AreaServiceImpl implements AreaService {
         if (baseArea.getId() == null) {
         return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
         }
-        // TODO 区域编号是否重复，是否必填，名称是否重复
+        // 区域编号是否重复
+        if (areaManager.isCodeDuplicated(baseArea.getId(), baseArea.getCode())) {
+            throw new ServiceException(MessageConstants.CODE_IS_DUPLICATED);
+        }
+        if (areaManager.isNameDuplicated(baseArea.getId(), baseArea.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
         areaManager.resetLevel(baseArea);
         Integer insertCount = baseAreaRepo.updateSelective(baseArea);
         if(insertCount != 1){
@@ -104,6 +117,10 @@ public class AreaServiceImpl implements AreaService {
 
         BaseArea oldBaseCustom = baseAreaRepo.findOne(id);
         AssertUtil.assertNotNull(oldBaseCustom, "区域"+MessageConstants.AREA_IS_NOT_EXISTS);
+
+        if (areaManager.hasSubordinate(id)) {
+            throw new ServiceException(MessageConstants.AREA_HAS_SUBORDINATE);
+        }
         int updateCount = baseAreaRepo.logicRemove(oldBaseCustom);
         if(updateCount != 1) {
             throw new ServiceException(MessageConstants.AREA_IS_NOT_EXISTS);

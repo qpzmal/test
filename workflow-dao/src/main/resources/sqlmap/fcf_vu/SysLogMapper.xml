@@ -160,9 +160,12 @@
 
 
   <!-- 以上为自动生成SQL，以下为自定义SQL -->
-  <select id="queryAll" resultMap="BaseResultMap">
+  <select id="queryAll" resultMap="ResultMapWithBLOBs">
     select
-    <include refid="Base_Column_List" />
+    <include refid="Base_Column_List" />,
+    <include refid="Blob_Column_List" />
+
     from sys_log
+    order by id
   </select>
 </mapper>

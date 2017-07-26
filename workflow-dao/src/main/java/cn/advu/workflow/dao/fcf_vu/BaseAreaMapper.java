@@ -20,4 +20,6 @@ public interface BaseAreaMapper extends BaseTreeDAO<BaseArea> {
 
     BaseArea queryByIdAndName(@Param("id")Integer id, @Param("name")String name);
 
+    BaseArea queryByIdAndCode(@Param("id")Integer id, @Param("code")String code);
+
 }

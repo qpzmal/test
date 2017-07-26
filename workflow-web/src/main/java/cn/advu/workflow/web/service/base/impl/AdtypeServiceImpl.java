@@ -1,9 +1,14 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.LogTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
 import cn.advu.workflow.repo.fcf_vu.BaseAdtypeRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.constants.MessageConstants;
+import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.AdtypeMananger;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.service.base.AdtypeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +26,28 @@ public class AdtypeServiceImpl implements AdtypeService {
 
     @Autowired
     private BaseAdtypeRepo baseAdtypeRepo;
+    @Autowired
+    AdtypeMananger adtypeMananger;
 
+    @Autowired
+    BizLogManager bizLogManager;
 
     @Override
     public ResultJson<Integer> addAdtype(BaseAdtype baseAdtype) {
+
+        // validator
+        if (adtypeMananger.isNameDuplicated(null, baseAdtype.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
+        // add
         Integer insertCount = baseAdtypeRepo.addSelective(baseAdtype);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建媒体失败!");
         }
+
+        // log
+        bizLogManager.addBizLog(baseAdtypeRepo.findOne(baseAdtype.getId()), "广告类型管理/添加广告类型", Integer.valueOf(LogTypeEnum.ADD.getValue()));
+
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
@@ -51,6 +70,11 @@ public class AdtypeServiceImpl implements AdtypeService {
         if (baseAdtype.getId() == null) {
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
         }
+
+        if (adtypeMananger.isNameDuplicated(baseAdtype.getId(), baseAdtype.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
+
         Integer updateCount = baseAdtypeRepo.updateSelective(baseAdtype);
         if(updateCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新广告类型失败!");

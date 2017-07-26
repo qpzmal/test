@@ -51,4 +51,9 @@ public class BaseAreaRepoImpl extends AbstractTreeRepo<BaseArea> implements Base
         return baseAreaMapper.queryByIdAndName(id, name);
     }
 
+    @Override
+    public BaseArea findByIdAndCode(Integer id, String code) {
+        return baseAreaMapper.queryByIdAndCode(id, code);
+    }
+
 }

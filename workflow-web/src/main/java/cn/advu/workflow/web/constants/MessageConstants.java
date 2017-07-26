@@ -20,6 +20,7 @@ public interface MessageConstants {
     String NAME_IS_NULL = "名称为空";
     String DATE_IS_DUPLICATED = "客户结算日期重复";
     String AREA_IS_NOT_EXISTS="区域不存在";
+    String AREA_HAS_SUBORDINATE="区域下有子区域";
     // 部门
     String ASSIGN_AREA_IS_NULL = "所属区域没有设置";
     String DEPT_IS_NOT_EXISTS = "部门不存在";

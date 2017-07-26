@@ -19,6 +19,7 @@ public interface BaseAreaRepo extends IRepo<BaseArea> {
     List<AreaVO> findByParentAreaVO(Integer parentId);
 
     BaseArea findByIdAndName(Integer id, String name);
+    BaseArea findByIdAndCode(Integer id, String code);
 
 
 }

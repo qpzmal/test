@@ -1,8 +1,10 @@
 package cn.advu.workflow.web.manager;
 
 import cn.advu.workflow.domain.base.IEntity;
+import cn.advu.workflow.domain.fcf_vu.SysLog;
 import cn.advu.workflow.domain.fcf_vu.SysLogWithBLOBs;
 import cn.advu.workflow.repo.fcf_vu.SysLogRepo;
+import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,10 @@ public class BizLogManager {
     @Autowired
     SysLogRepo sysLogRepo;
 
+    public List<SysLogWithBLOBs> findAllLog() {
+        return sysLogRepo.findAllLog();
+    }
+
     public void addBizLog(String content) {
         SysLogWithBLOBs sysLogWithBLOBs = new SysLogWithBLOBs();
         sysLogWithBLOBs.setContent(content);
@@ -31,9 +37,20 @@ public class BizLogManager {
         sysLogRepo.addSelective(sysLogWithBLOBs);
     }
 
+    public void addBizLog(IEntity entity, String operation, Integer type) {
+        SysLogWithBLOBs sysLogWithBLOBs = new SysLogWithBLOBs();
+        sysLogWithBLOBs.setContent(JSONObject.toJSONString(entity));
+        sysLogWithBLOBs.setOperation(operation);
+        sysLogWithBLOBs.setOperator(UserThreadLocalContext.getCurrentUser().getRealName());
+        sysLogWithBLOBs.setType(type);
+        sysLogRepo.addSelective(sysLogWithBLOBs);
+    }
+
     public void addBizLog(IEntity entity, Integer type) {
         SysLogWithBLOBs sysLogWithBLOBs = new SysLogWithBLOBs();
         sysLogWithBLOBs.setContent(JSONObject.toJSONString(entity));
+        sysLogWithBLOBs.setOperation("");
+        sysLogWithBLOBs.setOperator(UserThreadLocalContext.getCurrentUser().getUserId());
         sysLogWithBLOBs.setType(type);
         sysLogRepo.addSelective(sysLogWithBLOBs);
     }

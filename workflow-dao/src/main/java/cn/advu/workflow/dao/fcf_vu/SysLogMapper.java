@@ -8,5 +8,7 @@ import cn.advu.workflow.domain.fcf_vu.SysLogWithBLOBs;
 import java.util.List;
 
 public interface SysLogMapper extends BaseDAO<SysLogWithBLOBs> {
+
+    List<SysLogWithBLOBs> queryAll();
     
 }
