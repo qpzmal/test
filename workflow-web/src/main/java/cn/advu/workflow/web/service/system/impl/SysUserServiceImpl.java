@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.service.system.impl;
 
 import cn.advu.workflow.common.utils.md5.StrMD5;
+import cn.advu.workflow.domain.enums.LogTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.repo.fcf_vu.SysUserRepo;
 import cn.advu.workflow.web.common.ResultJson;
@@ -8,6 +9,7 @@ import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.UserMananger;
 import cn.advu.workflow.web.service.system.SysUserService;
 import cn.advu.workflow.web.util.AssertUtil;
@@ -32,24 +34,29 @@ public class SysUserServiceImpl implements SysUserService{
     @Autowired
     UserMananger userMananger;
 
+    @Autowired
+    BizLogManager bizLogManager;
+
     @Override
     @Transactional
     public ResultJson<Integer> add(SysUser user) {
 
-        // loginName不重复
+        // validator
         if (userMananger.isNameDuplicated(user.getId(), user.getLoginName())) {
             throw new ServiceException(MessageConstants.USER_NAME_IS_DUPLICATED);
         }
-        //密码加密
+
+        // add
         user.setPassword(StrMD5.getInstance().encrypt(user.getPassword(), WebConstants.MD5_SALT));
-
         int result = sysUserRepo.addSelective(user);
-//        activitiFacade.createUser(user);
-
         if(result == 0){
             throw new ServiceException("创建用户失败！");
         }
+
         activitiFacade.createUser(user);
+
+        // log
+        bizLogManager.addBizLog(sysUserRepo.findOne(user.getId()), "用户管理/添加用户", Integer.valueOf(LogTypeEnum.ADD.getValue()));
 
         ResultJson<Integer> rj = new ResultJson<>();
         rj.setData(user.getId());
@@ -64,7 +71,10 @@ public class SysUserServiceImpl implements SysUserService{
         Integer id = user.getId();
         AssertUtil.assertNotNull(id);
 
-        // loginName不重复
+        // log
+        bizLogManager.addBizLog(sysUserRepo.findOne(id), "用户管理/更新用户", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
+
+        // validator
         if (userMananger.isNameDuplicated(user.getId(), user.getLoginName())) {
             throw new ServiceException(MessageConstants.USER_NAME_IS_DUPLICATED);
         }
@@ -81,6 +91,7 @@ public class SysUserServiceImpl implements SysUserService{
         if(result == 0){
             throw new ServiceException("更新用户失败！");
         }
+
 
         return new ResultJson<>();
     }
@@ -107,6 +118,9 @@ public class SysUserServiceImpl implements SysUserService{
 
     @Override
     public ResultJson<Integer> remove(Integer userId) {
+        // log
+        bizLogManager.addBizLog(sysUserRepo.findOne(userId), "用户管理/删除用户", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
+
         ResultJson resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
         resultJson.setData(sysUserRepo.remove(userId));
 
