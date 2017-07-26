@@ -98,7 +98,9 @@ public class ExecuteOrderController {
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
-        ResultJson<List<BaseExecuteOrder>> result = executeOrderService.findAll();
+        BaseExecuteOrder param = new BaseExecuteOrder();
+        param.setStatus((byte) -1);
+        ResultJson<List<BaseExecuteOrder>> result = executeOrderService.findAll(param);
         resultModel.addAttribute("dataList",result.getData());
         return "demand/saleOrder/list";
     }
@@ -161,9 +163,6 @@ public class ExecuteOrderController {
         List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
         List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
 
-        // 复制框架信息
-        List<BaseExecuteOrderFrame> executeFrameList = saleFrameService.findAll().getData();
-
         resultModel.addAttribute("areaTreeJson", areaTreeJson);
         resultModel.addAttribute("monitorRequestList", baseMonitorRequestList);
         resultModel.addAttribute("leaderList", leaderList);
@@ -173,7 +172,6 @@ public class ExecuteOrderController {
         resultModel.addAttribute("salePersonName", basePerson.getName());
         resultModel.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
         resultModel.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
-        resultModel.addAttribute("executeFrameList", executeFrameList);
 
         return "demand/saleOrder/add";
     }
@@ -182,7 +180,9 @@ public class ExecuteOrderController {
     public String toAddBrach( Model model){
 
         // 复制框架信息
-        List<BaseExecuteOrderFrame> executeFrameList = saleFrameService.findAll().getData();
+        BaseExecuteOrderFrame param = new BaseExecuteOrderFrame();
+        param.setStatus((byte) 1);
+        List<BaseExecuteOrderFrame> executeFrameList = saleFrameService.findAll(param).getData();
         model.addAttribute("executeFrameList", executeFrameList);
 
         return "demand/saleOrder/addBrach";

@@ -78,7 +78,9 @@ public class BuyOrderController {
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
-        ResultJson<List<BaseBuyOrder>> result = buyOrderService.findAll();
+        BaseBuyOrder param = new BaseBuyOrder();
+        param.setStatus((byte) -1);
+        ResultJson<List<BaseBuyOrder>> result = buyOrderService.findAll(param);
         resultModel.addAttribute("dataList",result.getData());
         return "demand/buyOrder/list";
     }
@@ -96,9 +98,10 @@ public class BuyOrderController {
 
     @RequestMapping("/toAddBrach")
     public String toAddBrach( Model model){
-
         // 复制框架信息
-        List<BaseBuyOrderFrame> buyFrameList = buyFrameService.findAll().getData();
+        BaseBuyOrderFrame param = new BaseBuyOrderFrame();
+        param.setStatus((byte) 1);
+        List<BaseBuyOrderFrame> buyFrameList = buyFrameService.findAll(param).getData();
         model.addAttribute("buyFrameList", buyFrameList);
 
         return "demand/buyOrder/addBrach";

@@ -17,7 +17,7 @@ public interface SaleFrameService {
      *
      * @return
      */
-    ResultJson<List<BaseExecuteOrderFrame>> findAll();
+    ResultJson<List<BaseExecuteOrderFrame>> findAll(BaseExecuteOrderFrame param);
 
     /**
      * 新增需求框架

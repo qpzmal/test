@@ -44,10 +44,11 @@ public class WebConstants {
     public static class WorkFlow {
         public static final String SAVE = "save"; // 保存草稿
         public static final String START = "start"; // 发起流程
-        public static final Byte STATUS_0 = 0; // 0，未生效；
-        public static final Byte STATUS_1 = 1; // 1，未开始；
-        public static final Byte STATUS_2 = 2; // 2，进行中；
-        public static final Byte STATUS_3 = 3; // 3，已结束
+        public static final Byte STATUS_NEG_1 = -1; // -1，审核前(未触发流程，类似于草稿)；
+        public static final Byte STATUS_0 = 0; // 0，审核中（流程启动中，但尚未审核通过）；
+        public static final Byte STATUS_1 = 1; // 1，未开始（审核流程通过，但未投放）；
+        public static final Byte STATUS_2 = 2; // 2，进行中（开始投放）；
+        public static final Byte STATUS_3 = 3; // 3，已结束（投放结束）
 
     }
 }

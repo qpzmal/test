@@ -1,7 +1,6 @@
 package cn.advu.workflow.web.service.base;
 
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.web.common.ResultJson;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public interface BuyOrderService {
      *
      * @return
      */
-    ResultJson<List<BaseBuyOrder>> findAll();
+    ResultJson<List<BaseBuyOrder>> findAll(BaseBuyOrder param);
 
     /**
      * 新增需求单

@@ -43,10 +43,8 @@ public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFram
 
 
     @Override
-    public ResultJson<List<BaseBuyOrderFrame>> findAll() {
+    public ResultJson<List<BaseBuyOrderFrame>> findAll(BaseBuyOrderFrame param) {
         ResultJson<List<BaseBuyOrderFrame>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        BaseBuyOrderFrame param = new BaseBuyOrderFrame();
-        param.setStatus((byte) 0);
         result.setData(baseBuyOrderFrameRepo.findAll(param));
         return result;
     }
@@ -136,7 +134,7 @@ public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFram
                 LOGGER.info(" processInstanceId:{}", processInstance.getId());
 
                 baseBuyOrderFrame.setProcessInstanceId(processInstance.getId());
-                baseBuyOrderFrame.setStatus(WebConstants.WorkFlow.STATUS_1);
+                baseBuyOrderFrame.setStatus(WebConstants.WorkFlow.STATUS_0);
                 baseBuyOrderFrameRepo.updateSelective(baseBuyOrderFrame);
 
             } catch (ActivitiException e) {

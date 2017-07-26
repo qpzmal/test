@@ -74,7 +74,9 @@ public class SaleFrameController {
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
-        ResultJson<List<BaseExecuteOrderFrame>> result = saleFrameService.findAll();
+        BaseExecuteOrderFrame param = new BaseExecuteOrderFrame();
+        param.setStatus((byte) -1);
+        ResultJson<List<BaseExecuteOrderFrame>> result = saleFrameService.findAll(param);
         resultModel.addAttribute("dataList",result.getData());
         return "demand/saleFrame/list";
     }

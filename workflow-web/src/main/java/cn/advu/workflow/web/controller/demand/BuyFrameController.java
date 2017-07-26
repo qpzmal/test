@@ -74,7 +74,9 @@ public class BuyFrameController {
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
-        ResultJson<List<BaseBuyOrderFrame>> result = buyFrameService.findAll();
+        BaseBuyOrderFrame param = new BaseBuyOrderFrame();
+        param.setStatus((byte) -1);
+        ResultJson<List<BaseBuyOrderFrame>> result = buyFrameService.findAll(param);
         resultModel.addAttribute("dataList",result.getData());
         return "demand/buyFrame/list";
     }
