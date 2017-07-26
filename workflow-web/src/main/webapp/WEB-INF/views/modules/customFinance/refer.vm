@@ -11,7 +11,7 @@
     <form class="form-horizontal m-t" id="commentForm">
         <input type="hidden" id="id" name="id" value="$baseCustomFinance.id">
         <div class="form-group">
-            <label class="col-sm-3 control-label">客户名称</label>
+            <label class="col-sm-3 control-label">客户</label>
             <div id="custom_content"  class="col-sm-9">
                 <label class="control-label" >
                     #foreach($data in $customList)

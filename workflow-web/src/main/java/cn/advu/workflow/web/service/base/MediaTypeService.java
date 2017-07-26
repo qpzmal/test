@@ -51,4 +51,6 @@ public interface MediaTypeService {
      * @return
      */
     ResultJson<List<BaseMediaType>> findActiveType();
+
+    ResultJson<Void> remove(Integer id);
 }

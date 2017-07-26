@@ -20,4 +20,6 @@ public interface BaseMediaRepo extends IRepo<BaseMedia> {
     BaseMedia findByIdAndName(Integer id, String name);
 
     BaseMedia findByIdAndCode(Integer id, String code);
+
+    BaseMedia findByType(Integer type);
 }

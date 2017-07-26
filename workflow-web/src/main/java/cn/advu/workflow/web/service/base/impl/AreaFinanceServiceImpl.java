@@ -64,6 +64,9 @@ public class AreaFinanceServiceImpl implements AreaFinanceService {
         if (areaFinanceMananger.isDuplicated(areaId, startDate, endDate)) {
             throw new ServiceException(MessageConstants.DATE_IS_DUPLICATED);
         }
+        if (areaFinanceMananger.isNameDuplicated(null, baseAreaFinance.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
         ResultJson<Integer> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
         baseAreaFinanceRepo.addSelective(baseAreaFinance);
         result.setData(baseAreaFinance.getId());
@@ -86,6 +89,9 @@ public class AreaFinanceServiceImpl implements AreaFinanceService {
         // 结算日期重复
         if (areaFinanceMananger.isDuplicated(id, areaId, startDate, endDate)) {
             throw new ServiceException(MessageConstants.DATE_IS_DUPLICATED);
+        }
+        if (areaFinanceMananger.isNameDuplicated(baseAreaFinance.getId(), baseAreaFinance.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
 
         ResultJson<Void> result = new ResultJson(WebConstants.OPERATION_SUCCESS);

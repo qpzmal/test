@@ -40,9 +40,6 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Autowired
     RoleManager roleManager;
 
-//    @Autowired
-//    ActivitiFacade activitiFacade;
-
     @Autowired
     BizLogManager bizLogManager;
 

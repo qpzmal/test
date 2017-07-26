@@ -16,4 +16,6 @@ public interface BaseMediaMapper extends BaseDAO<BaseMedia>{
     BaseMedia queryByIdAndName(@Param("id")Integer id, @Param("name")String name);
 
     BaseMedia queryByIdAndCode(@Param("id")Integer id, @Param("code")String code);
+
+    BaseMedia queryByType(@Param("type")Integer type);
 }

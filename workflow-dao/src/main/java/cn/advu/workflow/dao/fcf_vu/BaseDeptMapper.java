@@ -19,4 +19,6 @@ public interface BaseDeptMapper extends BaseTreeDAO<BaseDept> {
 
     List<DeptVO> queryByAreaAndDept(@Param("areaId") Integer areaId, @Param("parentId") Integer parentId);
 
+    BaseDept queryByIdAndName(@Param("id")Integer id, @Param("name")String name);
+
 }

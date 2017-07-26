@@ -64,17 +64,16 @@
         var id = $(this).parent().children(":first").val();
         delItem(function(){
             $.ajax({
-                url:"/mediaType/update.json",
+                url:"/mediaType/remove.json",
                 type:"post",
                 data:{
-                    "id":id,
-                    "delFlag":1
+                    "id":id
                 },
                 success: function(returnData){
                     if(returnData.code == 1){
                         popMsg('删除成功!', "/mediaType/index");
                     } else{
-                        layer.msg('删除失败, 请联系技术人员!');
+                        layer.msg(returnData.info);
                     }
                 }
             });

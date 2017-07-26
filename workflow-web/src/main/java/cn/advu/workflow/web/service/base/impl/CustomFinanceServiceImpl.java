@@ -59,6 +59,10 @@ public class CustomFinanceServiceImpl implements CustomFinanceService {
         if (customFinanceMananger.isDuplicated(baseCustomFinance.getCustomId(), startDate, endDate)) {
             throw new ServiceException(MessageConstants.DATE_IS_DUPLICATED);
         }
+        if (customFinanceMananger.isNameDuplicated(null, baseCustomFinance.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
+        }
+
 
         ResultJson<Integer> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
         baseCustomFinanceRepo.addSelective(baseCustomFinance);
@@ -80,6 +84,9 @@ public class CustomFinanceServiceImpl implements CustomFinanceService {
         }
         if (customFinanceMananger.isDuplicated(baseCustomFinance.getCustomId(), startDate, endDate)) {
             throw new ServiceException(MessageConstants.DATE_IS_DUPLICATED);
+        }
+        if (customFinanceMananger.isNameDuplicated(baseCustomFinance.getId(), baseCustomFinance.getName())) {
+            throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
 
         ResultJson<Void> result = new ResultJson(WebConstants.OPERATION_SUCCESS);

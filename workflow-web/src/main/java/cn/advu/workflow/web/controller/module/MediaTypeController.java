@@ -89,5 +89,10 @@ public class MediaTypeController {
         return "modules/mediaType/update";
     }
 
+    @ResponseBody
+    @RequestMapping(value ="/remove", method = RequestMethod.POST)
+    public ResultJson<Void> remove(Integer id, HttpServletRequest request){
+        return mediaTypeService.remove(id);
+    }
 
 }

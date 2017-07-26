@@ -54,7 +54,7 @@ public class CustomServiceImpl implements CustomService {
 
         // DA，代理公司必须设置
         String customerType = baseCustom.getCustomType();
-        AssertUtil.assertNotNull(customerType, MessageConstants.CUSTOM_TYPE_IS_NULL);
+        AssertUtil.assertNotNullOrEmpty(customerType, "类型");
         CustomTypeEnum customTypeEnum = ValueEnumUtils.getEnum(CustomTypeEnum.class, customerType);
         AssertUtil.assertNotNull(customTypeEnum);
         if (CustomTypeEnum.MA == customTypeEnum) {

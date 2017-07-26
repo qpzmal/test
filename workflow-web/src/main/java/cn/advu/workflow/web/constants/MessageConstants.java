@@ -20,10 +20,12 @@ public interface MessageConstants {
     String NAME_IS_NULL = "名称为空";
     String DATE_IS_DUPLICATED = "客户结算日期重复";
     String AREA_IS_NOT_EXISTS="区域不存在";
+    String AREA_HAS_SUBORDINATE="区域下有子区域";
     // 部门
     String ASSIGN_AREA_IS_NULL = "所属区域没有设置";
     String DEPT_IS_NOT_EXISTS = "部门不存在";
     String DEPT_IS_USING = "部门下面有子部门，用户或者通讯录";
+    String PARENT_IS_SELF = "上级部门是当前部门";
 
     // 角色
     String ROLE_NAME_IS_NULL = "角色名称没有设置";
@@ -39,8 +41,10 @@ public interface MessageConstants {
     String REGION_IS_NOT_EXISTS="地域不存在";
     String REGION_TYPE_IS_NULL="类型没有设置";
     // 监测机构
-    // 媒体
-    String MEDIA_TYPE_IS_NULL="类型没有设置";
+    // 媒体类型
+    String MEDIA_TYPE_IS_NULL="媒体类型没有设置";
+    String MEDIA_TYPE_IS_NOT_EXISTS="媒体类型不存在";
+    String MEDIA_TYPE_IS_USEDBY_MEDIA="媒体类型被媒体引用";
 
 
 }

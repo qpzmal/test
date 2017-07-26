@@ -3,6 +3,7 @@ package cn.advu.workflow.repo.fcf_vu.impl;
 import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.dao.fcf_vu.SysLogMapper;
 import cn.advu.workflow.dao.fcf_vu.SysRoleFuctionMapper;
+import cn.advu.workflow.domain.fcf_vu.SysLog;
 import cn.advu.workflow.domain.fcf_vu.SysLogWithBLOBs;
 import cn.advu.workflow.domain.fcf_vu.SysRoleFuction;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
@@ -28,4 +29,8 @@ public class SysLogRepoImpl extends AbstractRepo<SysLogWithBLOBs> implements Sys
         return sysLogMapper;
     }
 
+    @Override
+    public List<SysLogWithBLOBs> findAllLog() {
+        return sysLogMapper.queryAll();
+    }
 }

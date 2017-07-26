@@ -7,6 +7,8 @@ import cn.advu.workflow.web.util.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by wangry on 17/7/14.
  */
@@ -120,4 +122,22 @@ public class AreaManager {
         return isNameDuplicated;
     }
 
+    public Boolean isCodeDuplicated(Integer id, String code) {
+        Boolean isCodeDuplicated = false;
+        BaseArea baseArea = baseAreaRepo.findByIdAndCode(id, code);
+        if (baseArea != null) {
+            isCodeDuplicated = true;
+        }
+        return isCodeDuplicated;
+    }
+
+    public Boolean hasSubordinate(Integer id) {
+        Boolean hasSubordinate = false;
+        List<BaseArea> baseAreaList = baseAreaRepo.findByParent(id);
+        if (baseAreaList != null && !baseAreaList.isEmpty()) {
+            hasSubordinate = true;
+        }
+        return hasSubordinate;
+
+    }
 }
