@@ -242,6 +242,7 @@ public class ExecuteOrderController {
         }
         baseExecuteOrderFrame.setCpmJsonStr(cpmArrList.toJSONString());
 
+        String areaName = (baseArea==null)?"":baseArea.getName();
 
         model.addAttribute("selectedReginList", StringListUtil.toList(baseExecuteOrderFrame.getDeliveryAreaIds()));
         model.addAttribute("selectMonitorList", StringListUtil.toList(baseExecuteOrderFrame.getMonitorIds()));
@@ -253,7 +254,7 @@ public class ExecuteOrderController {
         model.addAttribute("monitorRequestList", baseMonitorRequestList);
         model.addAttribute("regionList", regionList);
         model.addAttribute("industryList", industryList);
-        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("areaName", areaName);
         model.addAttribute("leaderList", leaderList);
         model.addAttribute("areaTreeJson", areaTreeJson);
         model.addAttribute("baseExecuteOrder", baseExecuteOrderFrame);

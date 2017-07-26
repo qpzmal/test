@@ -712,6 +712,10 @@
         var type = $("#type").val();
         var orderDate = stringToDate($("#order_date").val());
         var personLeaderId = $("#person_leader_id").val();
+        if (personLeaderId == "") {
+            personLeaderId = "0";
+        }
+
         var areaId = $("#area_id").val();
         var signType = $("#sign_type").val();
         var signCompanyId = $("#sign_company_id").val();

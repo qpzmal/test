@@ -521,6 +521,9 @@
         var type = $("#type").val();
         var orderDate = stringToDate($("#order_date").val());
         var personLeaderId = $("#person_leader_id").val();
+        if (personLeaderId == "") {
+            personLeaderId = "0";
+        }
         var areaId = $("#area_id").val();
 
         var deliveryAreaIds = findSelecedValueStr("delivery_area_ids");
