@@ -1571,9 +1571,9 @@
                 success: function(returnData){
                     console.log(returnData);
                     if(returnData.code == 1){
-                        window.location.href = "/role/index";
+                        popMsg('授权成功!', "/role/index");
                     } else{
-                        layer.msg('添加失败, 请联系技术人员!');
+                        layer.msg(returnData.info);
                     }
                 }
             });

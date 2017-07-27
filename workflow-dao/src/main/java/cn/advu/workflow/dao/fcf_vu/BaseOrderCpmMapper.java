@@ -20,5 +20,6 @@ public interface BaseOrderCpmMapper extends BaseDAO<BaseOrderCpm> {
             @Param("orderId")Integer orderId,
             @Param("orderCpmType")Integer orderCpmType);
 
+    List<BaseOrderCpmVO> selectPassBuyOrderCpm();
 
 }

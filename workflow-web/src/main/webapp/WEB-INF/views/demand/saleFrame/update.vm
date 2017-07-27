@@ -32,37 +32,31 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目补充编号</label>
                         <div class="col-sm-8">
-                            <input value="$!{baseExecuteOrder.secOrderNum}" id="sec_order_num" name="sec_order_num" maxlength="15" type="text" class="form-control" required aria-required="true">
+                            <input value="$!{baseExecuteOrder.secOrderNum}" id="sec_order_num" name="sec_order_num" maxlength="15" type="text" class="form-control" required aria-required="true"
+                                #if($!{hasSaleAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目名称</label>
                         <div class="col-sm-8">
-                            <input value="$!{baseExecuteOrder.name}" id="p_name" name="p_name" maxlength="50" type="text" class="form-control" >
+                            <input value="$!{baseExecuteOrder.name}" id="p_name" name="p_name" maxlength="50" type="text" class="form-control"
+                                #if($!{hasSaleAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
-##                    <div class="form-group">
-##                        <label class="col-sm-3 control-label">项目类型</label>
-##                        <div class="col-sm-8">
-##                            <select id="type" data-placeholder="选择项目类型..." class="chosen-select" style="width:350px;"  tabindex="2">
-##                                <option value="">请选择项目类型</option>
-##                                <option value="1" hassubinfo="true"
-##                                        #if($!{baseExecuteOrder.type} == 1)
-##                                            selected
-##                                        #end
-##                                >框架</option>
-##                                <option value="2" hassubinfo="true"
-##                                    #if($!{baseExecuteOrder.type} == 2)
-##                                        selected
-##                                    #end
-##                                >单采</option>
-##                            </select>
-##                        </div>
-##                    </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目日期</label>
                         <div class="col-sm-8">
-                            <input value="$!{format.format($!{baseExecuteOrder.orderDate})}" id="order_date" name="order_date" class="laydate-icon form-control layer-date" >
+                            <input value="$!{format.format($!{baseExecuteOrder.orderDate})}" id="order_date" name="order_date" class="laydate-icon form-control layer-date"
+                                #if($!{hasSaleAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
                     <div class="form-group">
@@ -73,13 +67,21 @@
                                 #if(!${areaTreeJson})
                                    disabled
                                 #end
-                                   onclick="showAreaList(); return false;" onfocus=this.blur()>
+                                   onclick="showAreaList(); return false;" onfocus=this.blur()
+                                #if($!{hasSaleAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目负责人ID</label>
                         <div class="col-sm-8">
-                            <select id="person_leader_id" ata-placeholder="请选择项目负责人" class="chosen-select" style="width:350px;" tabindex="2">
+                            <select id="person_leader_id" ata-placeholder="请选择项目负责人" class="chosen-select" style="width:350px;" tabindex="2"
+                                #if($!{hasSaleAuth} == false)
+                                    disabled
+                                #end
+                            >
                                 <option value="">请选择项目负责人</option>
                                 #foreach($data in $leaderList)
                                     <option value ="$data.id"
@@ -103,7 +105,11 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">签约类型</label>
                         <div class="col-sm-8">
-                            <select id="sign_type" data-placeholder="选择签约类型..." class="chosen-select" style="width:350px;"  tabindex="2" onchange="signTypeChange()">
+                            <select id="sign_type" data-placeholder="选择签约类型..." class="chosen-select" style="width:350px;"  tabindex="2" onchange="signTypeChange()"
+                                #if($!{hasSaleAuth} == false)
+                                    disabled
+                                #end
+                            >
                                 <option value="">请选择签约类型</option>
                                 <option value="1" hassubinfo="true"
                                     #if(${baseExecuteOrder.signType} == 1)
@@ -121,7 +127,10 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">签约公司</label>
                         <div id="sign_company_content" class="col-sm-8">
-                            <select id="sign_company_select" ata-placeholder="请选择签约公司" class="form-control" style="width:350px;" tabindex="2">
+                            <select id="sign_company_select" ata-placeholder="请选择签约公司" class="form-control" style="width:350px;" tabindex="2"
+                                #if($!{hasSaleAuth} == false)
+                                    disabled
+                                #end>
                                 <option value="">请选择签约公司</option>
                                 #foreach($data in $signCompanyList)
                                     <option value ="$data.id"
@@ -136,7 +145,11 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">客户行业</label>
                         <div class="col-sm-8">
-                            <select id="custom_industry_id" ata-placeholder="请选择客户行业" class="chosen-select" style="width:350px;" tabindex="2">
+                            <select id="custom_industry_id" ata-placeholder="请选择客户行业" class="chosen-select" style="width:350px;" tabindex="2"
+                                #if($!{hasSaleAuth} == false)
+                                    disabled
+                                #end
+                            >
                                 <option value="">请选择客户行业</option>
                                 #foreach($data in $industryList)
                                     <option value ="$data.id"
@@ -151,7 +164,10 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">客户</label>
                         <div id="custom_content" class="col-sm-8">
-                            <select id="custom_select" ata-placeholder="请选择客户" class="form-control" style="width:350px;" tabindex="2">
+                            <select id="custom_select" ata-placeholder="请选择客户" class="form-control" style="width:350px;" tabindex="2"
+                                #if($!{hasSaleAuth} == false)
+                                    disabled
+                                #end>
                                 <option value="">请选择客户</option>
                                 #foreach($data in $customList)
                                     <option value ="$data.id"
@@ -175,7 +191,11 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">投放地区编号</label>
                         <div class="col-sm-8">
-                            <select id="delivery_area_ids" data-placeholder="选择投放地区" class="chosen-select" multiple style="width:350px;" tabindex="4">
+                            <select id="delivery_area_ids" data-placeholder="选择投放地区" class="chosen-select" multiple style="width:350px;" tabindex="4"
+                                #if($!{hasMediaAuth} == false)
+                                    disabled
+                                #end
+                            >
                                 <option value="">请选择投放地区</option>
                                 #foreach($data in $regionList)
                                     <option value ="$data.id"
@@ -190,10 +210,18 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">投放开始日期</label>
                         <div class="col-sm-4">
-                            <input value="$!{format.format($!{baseExecuteOrder.startDate})}" id="start_date" placeholder="开始日期" class="laydate-icon form-control layer-date" >
+                            <input value="$!{format.format($!{baseExecuteOrder.startDate})}" id="start_date" placeholder="开始日期" class="laydate-icon form-control layer-date"
+                                #if($!{hasMediaAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                         <div class="col-sm-4">
-                            <input value="$!{format.format($!{baseExecuteOrder.endDate})}" id="end_date" placeholder="结束日期" class="laydate-icon form-control layer-date" >
+                            <input value="$!{format.format($!{baseExecuteOrder.endDate})}" id="end_date" placeholder="结束日期" class="laydate-icon form-control layer-date"
+                                #if($!{hasMediaAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
                 </div>
@@ -208,7 +236,11 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">监测公司（客户指定）</label>
                         <div class="col-sm-8">
-                            <select id="monitor_ids" data-placeholder="请选择监测公司" class="chosen-select" multiple style="width:350px;" tabindex="2">
+                            <select id="monitor_ids" data-placeholder="请选择监测公司" class="chosen-select" multiple style="width:350px;" tabindex="2"
+                                #if($!{hasSaleAuth} == false)
+                                    disabled
+                                #end
+                            >
                                 <option value="">请选择监测公司</option>
                                 #foreach($data in $monitorRequestList)
                                     <option value ="$data.id"
@@ -223,7 +255,11 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">监测公司（我方指定）</label>
                         <div class="col-sm-8">
-                            <select id="our_monitor_ids" data-placeholder="请选择监测公司" class="chosen-select" multiple style="width:350px;" tabindex="2">
+                            <select id="our_monitor_ids" data-placeholder="请选择监测公司" class="chosen-select" multiple style="width:350px;" tabindex="2"
+                                #if($!{hasMediaAuth} == false)
+                                    disabled
+                                #end
+                            >
                                 <option value="">请选择监测公司</option>
                                 #foreach($data in $monitorRequestList)
                                     <option value ="$data.id"
@@ -238,7 +274,11 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">报告类型</label>
                         <div class="col-sm-8">
-                            <select id="report_type_id" data-placeholder="选择报告类型..." class="chosen-select" multiple style="width:350px;"  tabindex="2">
+                            <select id="report_type_id" data-placeholder="选择报告类型..." class="chosen-select" multiple style="width:350px;"  tabindex="2"
+                                #if($!{hasMediaAuth} == false)
+                                    disabled
+                                #end
+                            >
                                 <option value="">请选择报告类型</option>
                                 <option value="1" hassubinfo="true"
                                     #if($selectReportList.contains("1"))
@@ -283,31 +323,51 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目总金额</label>
                         <div class="col-sm-8">
-                            <input value="$!{baseExecuteOrder.amount}" id="amount" name="amount" type="text" class="form-control" aria-required="true">
+                            <input value="$!{baseExecuteOrder.amount}" id="amount" name="amount" type="text" class="form-control" aria-required="true"
+                                #if($!{hasSaleAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">对公返点</label>
                         <div class="col-sm-8">
-                            <input value="$!{baseExecuteOrder.publicRebate}" id="public_rebate" name="public_rebate" type="text" class="form-control">
+                            <input value="$!{baseExecuteOrder.publicRebate}" id="public_rebate" name="public_rebate" type="text" class="form-control"
+                                #if($!{hasSaleAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">对私返点</label>
                         <div class="col-sm-8">
-                            <input value="$!{baseExecuteOrder.privateRebate}" id="private_rebate" name="private_rebate" type="text" class="form-control" >
+                            <input value="$!{baseExecuteOrder.privateRebate}" id="private_rebate" name="private_rebate" type="text" class="form-control"
+                                #if($!{hasSaleAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">含税金额</label>
                         <div class="col-sm-8">
-                            <input value="$!{baseExecuteOrder.taxAmount}" id="tax_amount" name="tax_amount" type="text" class="form-control" >
+                            <input value="$!{baseExecuteOrder.taxAmount}" id="tax_amount" name="tax_amount" type="text" class="form-control"
+                                #if($!{hasSaleAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">不含税金额</label>
                         <div class="col-sm-8">
-                            <input value="$!{baseExecuteOrder.taxFreeAmount}" id="tax_free_amount" name="tax_free_amount" type="text" class="form-control" >
+                            <input value="$!{baseExecuteOrder.taxFreeAmount}" id="tax_free_amount" name="tax_free_amount" type="text" class="form-control"
+                                #if($!{hasSaleAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
                 </div>
@@ -322,19 +382,31 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">收款负责人</label>
                         <div class="col-sm-8">
-                            <input value="$!{baseExecuteOrder.personPayeeId}" id="person_payee_id" name="person_payee_id" type="text" class="form-control" >
+                            <input value="$!{baseExecuteOrder.personPayeeId}" id="person_payee_id" name="person_payee_id" type="text" class="form-control"
+                                #if($!{hasSaleAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">回款比例</label>
                         <div class="col-sm-8 ">
-                            <input value="$!{baseExecuteOrder.payPercent}" id="pay_percent" name="pay_percent" type="text" class="form-control" >
+                            <input value="$!{baseExecuteOrder.payPercent}" id="pay_percent" name="pay_percent" type="text" class="form-control"
+                                #if($!{hasFinancialAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">账期</label>
                         <div class="col-sm-8">
-                            <input value="$!{baseExecuteOrder.accountPeriod}" id="account_period" name="account_period" maxlength="5" type="text" class="form-control">
+                            <input value="$!{baseExecuteOrder.accountPeriod}" id="account_period" name="account_period" maxlength="5" type="text" class="form-control"
+                                #if($!{hasSaleAuth} == false)
+                                   disabled
+                                #end
+                            >
                         </div>
                     </div>
                 </div>

@@ -260,4 +260,14 @@
   </delete>
 
 
+  <select id="selectPassBuyOrderCpm" resultMap="BaseOrderCpmVO">
+    select
+    <include refid="Base_Column_List_BaseOrderCpmVO" />
+    from base_order_cpm LEFT JOIN base_media on base_order_cpm.media_id = base_media.id
+    LEFT JOIN base_adtype on base_order_cpm.ad_type_id = base_adtype.name
+    Inner join base_buy_order on base_buy_order.id = base_order_cpm.order_id
+    where order_cpm_type = 6
+    and base_buy_order.status = 1
+  </select>
+
 </mapper>

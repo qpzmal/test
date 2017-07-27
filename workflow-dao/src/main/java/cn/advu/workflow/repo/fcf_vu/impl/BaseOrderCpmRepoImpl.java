@@ -54,4 +54,9 @@ public class BaseOrderCpmRepoImpl extends AbstractRepo<BaseOrderCpm> implements 
         return baseOrderCpmMapper.selectByOrderAndType(orderId, Integer.valueOf(CpmTypeEnum.BUY_FRAME.getValue()));
     }
 
+    @Override
+    public List<BaseOrderCpmVO> findPassBuyOrderCpm() {
+        return baseOrderCpmMapper.selectPassBuyOrderCpm();
+    }
+
 }

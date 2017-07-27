@@ -21,5 +21,6 @@ public interface BaseOrderCpmRepo extends IRepo<BaseOrderCpm> {
 
     List<BaseOrderCpmVO> findByBuyOrderFrameCpm(Integer orderId);
 
+    List<BaseOrderCpmVO> findPassBuyOrderCpm();
 
 }

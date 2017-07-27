@@ -1,5 +1,6 @@
 package cn.advu.workflow.web.controller.demand;
 
+import cn.advu.workflow.domain.enums.RoleEnum;
 import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
@@ -67,6 +68,8 @@ public class ExecuteOrderController {
 
     @Autowired
     SaleFrameService saleFrameService;
+    @Autowired
+    RoleManager roleManager;
 
     static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -150,6 +153,8 @@ public class ExecuteOrderController {
     public String toAdd(Model resultModel){
 
         Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+
+
         SysUser sysUser = userMananger.findById(userId);
         BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
         AssertUtil.assertNotNull(basePerson, MessageConstants.PERSON_IS_NOT_EXISTS);
@@ -163,6 +168,30 @@ public class ExecuteOrderController {
         List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
         List<BaseMedia> mediaList = mediaMananger.findAllActiveMedia();
         List<BaseAdtype> adtypeList = adtypeMananger.findAllActive();
+
+        Boolean hasSaleAuth = false;
+        Boolean hasMediaAuth = false;
+        Boolean hasFinancialAuth = false;
+
+        List<Integer> userRoleIdList = roleManager.findUserAllRoleId(userId);
+        if (userRoleIdList.contains(RoleEnum.SALER.getIntegerValue())
+                || userRoleIdList.contains(RoleEnum.SALERDM.getIntegerValue())
+                || userRoleIdList.contains(RoleEnum.SALEGM.getIntegerValue())) {
+            hasSaleAuth = true;
+        }
+        if (userRoleIdList.contains(RoleEnum.MEDIA.getIntegerValue())
+                || userRoleIdList.contains(RoleEnum.MEDIAGM.getIntegerValue())) {
+            hasMediaAuth = true;
+        }
+
+        if (userRoleIdList.contains(RoleEnum.FINANCIALGM.getIntegerValue())) {
+            hasFinancialAuth = true;
+        }
+
+
+        resultModel.addAttribute("hasSaleAuth", hasSaleAuth);
+        resultModel.addAttribute("hasMediaAuth", hasMediaAuth);
+        resultModel.addAttribute("hasFinancialAuth", hasFinancialAuth);
 
         resultModel.addAttribute("areaTreeJson", areaTreeJson);
         resultModel.addAttribute("monitorRequestList", baseMonitorRequestList);
@@ -224,6 +253,30 @@ public class ExecuteOrderController {
             customList = customMananger.findChildCustom(signCustomId);
         }
         model.addAttribute("customList", customList);
+
+        Boolean hasSaleAuth = false;
+        Boolean hasMediaAuth = false;
+        Boolean hasFinancialAuth = false;
+
+        List<Integer> userRoleIdList = roleManager.findUserAllRoleId(userId);
+        if (userRoleIdList.contains(RoleEnum.SALER.getIntegerValue())
+                || userRoleIdList.contains(RoleEnum.SALERDM.getIntegerValue())
+                || userRoleIdList.contains(RoleEnum.SALEGM.getIntegerValue())) {
+            hasSaleAuth = true;
+        }
+        if (userRoleIdList.contains(RoleEnum.MEDIA.getIntegerValue())
+                || userRoleIdList.contains(RoleEnum.MEDIAGM.getIntegerValue())) {
+            hasMediaAuth = true;
+        }
+
+        if (userRoleIdList.contains(RoleEnum.FINANCIALGM.getIntegerValue())) {
+            hasFinancialAuth = true;
+        }
+
+
+        model.addAttribute("hasSaleAuth", hasSaleAuth);
+        model.addAttribute("hasMediaAuth", hasMediaAuth);
+        model.addAttribute("hasFinancialAuth", hasFinancialAuth);
 
         List<BaseOrderCpmVO> cpmList = baseExecuteOrderFrame.getBaseOrderCpmList();
         int index = 1;
@@ -303,6 +356,30 @@ public class ExecuteOrderController {
             customList = customMananger.findChildCustom(signCustomId);
         }
         model.addAttribute("customList", customList);
+
+        Boolean hasSaleAuth = false;
+        Boolean hasMediaAuth = false;
+        Boolean hasFinancialAuth = false;
+
+        List<Integer> userRoleIdList = roleManager.findUserAllRoleId(userId);
+        if (userRoleIdList.contains(RoleEnum.SALER.getIntegerValue())
+                || userRoleIdList.contains(RoleEnum.SALERDM.getIntegerValue())
+                || userRoleIdList.contains(RoleEnum.SALEGM.getIntegerValue())) {
+            hasSaleAuth = true;
+        }
+        if (userRoleIdList.contains(RoleEnum.MEDIA.getIntegerValue())
+                || userRoleIdList.contains(RoleEnum.MEDIAGM.getIntegerValue())) {
+            hasMediaAuth = true;
+        }
+
+        if (userRoleIdList.contains(RoleEnum.FINANCIALGM.getIntegerValue())) {
+            hasFinancialAuth = true;
+        }
+
+
+        model.addAttribute("hasSaleAuth", hasSaleAuth);
+        model.addAttribute("hasMediaAuth", hasMediaAuth);
+        model.addAttribute("hasFinancialAuth", hasFinancialAuth);
 
         List<BaseOrderCpmVO> cpmList = baseExecuteOrder.getBaseOrderCpmList();
         int index = 1;
