@@ -396,7 +396,7 @@ public class TaskController {
 
 
 
-        query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_SALE_ORDER).finished().orderByProcessInstanceEndTime().desc();
+        query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_SALE_FRAME).finished().orderByProcessInstanceEndTime().desc();
 //        List<HistoricProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
         list = query.list();
         LOGGER.info("WORKFLOW_BUY_FRAME:size{}", list.size());
