@@ -62,7 +62,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目日期</label>
                         <div class="col-sm-8">
-                            <input value="$!{format.format($!{baseExecuteOrder.orderDate})}" id="order_date" name="order_date" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                            <input value="$!{format.format($!{baseExecuteOrder.orderDate})}" id="order_date" name="order_date" class="laydate-icon form-control layer-date" >
                         </div>
                     </div>
                     <div class="form-group">
@@ -190,10 +190,10 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">投放开始日期</label>
                         <div class="col-sm-4">
-                            <input value="$!{format.format($!{baseExecuteOrder.startDate})}" id="start_date" placeholder="开始日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                            <input value="$!{format.format($!{baseExecuteOrder.startDate})}" id="start_date" placeholder="开始日期" class="laydate-icon form-control layer-date" >
                         </div>
                         <div class="col-sm-4">
-                            <input value="$!{format.format($!{baseExecuteOrder.endDate})}" id="end_date" placeholder="结束日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})">
+                            <input value="$!{format.format($!{baseExecuteOrder.endDate})}" id="end_date" placeholder="结束日期" class="laydate-icon form-control layer-date" >
                         </div>
                     </div>
                 </div>
@@ -612,7 +612,7 @@
     }(document, window, jQuery);
     var start = {
         elem: "#start_date",
-        format: "YYYY/MM/DD",
+        format: "YYYY-MM-DD",
         min: laydate.now(),
         max: "2099-06-16",
         istime: false,
@@ -624,7 +624,7 @@
     };
     var end={
         elem:"#end_date",
-        format: "YYYY/MM/DD",
+        format: "YYYY-MM-DD",
         min: laydate.now(),
         max: "2099-06-16",
         istime: false,
@@ -632,8 +632,20 @@
         choose: function (datas) {
             start.max = datas
         }};
+    var order_date = {
+        elem:"#order_date",
+        format: "YYYY-MM-DD",
+        min: laydate.now(),
+        max: "2099-06-16",
+        istime: false,
+        istoday: true
+    }
     laydate(start);
     laydate(end);
+    laydate(order_date);
+    $('#start_date').val(laydate.now(0, 'YYYY-MM-DD'));
+    $('#end_date').val(laydate.now(0, 'YYYY-MM-DD'));
+    $('#order_date').val(laydate.now(0, 'YYYY-MM-DD'));
 
     var config = {
         ".chosen-select": {},
