@@ -67,6 +67,13 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     }
 
     @Override
+    public ResultJson<List<BaseExecuteOrder>> findAllUnFinished() {
+        ResultJson<List<BaseExecuteOrder>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseExecuteOrderRepo.findAllUnFinished());
+        return result;
+    }
+
+    @Override
     public ResultJson<Integer> add(BaseExecuteOrder baseExecuteOrder) {
 
 

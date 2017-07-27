@@ -19,6 +19,14 @@ public interface ExecuteOrderService {
      */
     ResultJson<List<BaseExecuteOrder>> findAll(BaseExecuteOrder param);
 
+
+    /**
+     * 返回全部需求单
+     *
+     * @return
+     */
+    ResultJson<List<BaseExecuteOrder>> findAllUnFinished();
+
     /**
      * 新增需求单
      *

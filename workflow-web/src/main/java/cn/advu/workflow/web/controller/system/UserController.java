@@ -1,15 +1,13 @@
 package cn.advu.workflow.web.controller.system;
 
-import cn.advu.workflow.domain.fcf_vu.SysFuction;
-import cn.advu.workflow.domain.fcf_vu.SysRole;
-import cn.advu.workflow.domain.fcf_vu.SysUser;
-import cn.advu.workflow.domain.fcf_vu.SysUserRole;
+import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.dto.system.UserRole;
+import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import cn.advu.workflow.web.service.system.LoginService;
 import cn.advu.workflow.web.service.system.SysRoleService;
 import cn.advu.workflow.web.service.system.SysUserService;
@@ -44,6 +42,8 @@ public class UserController {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    ExecuteOrderService executeOrderService;
 
     /**
      * 获取用户可用菜单信息
@@ -266,8 +266,59 @@ public class UserController {
         return new ResultJson<>();
     }
 
+    /**
+     * 登录后，右侧内容页面
+     * @return
+     */
     @RequestMapping("/home")
-    public String toIndexContent(){
+    public String toIndexContent(Model model){
+        ResultJson<List<BaseExecuteOrder>> dbList;
+        boolean welcomeFlag = false; // true展示欢迎页；false不展示欢迎文字
+        boolean dataBoardFlag = true; // true展示工作看板；false不展示工作看板
+        boolean progressFlag = true; // true展示工作进度；false不展示工作进度
+
+        // 工作看板--待处理
+        BaseExecuteOrder param = new BaseExecuteOrder();
+        param.setStatus((byte) 1);
+        dbList = executeOrderService.findAll(param);
+        List<BaseExecuteOrder> todoList = dbList.getData();
+
+        // 工作看板--进行中
+        param.setStatus((byte) 2);
+        dbList = executeOrderService.findAll(param);
+        List<BaseExecuteOrder> handlingList = dbList.getData();
+
+        // 工作看板--已完成
+        param.setStatus((byte) 3);
+        dbList = executeOrderService.findAll(param);
+        List<BaseExecuteOrder> finishedList = dbList.getData();
+
+        // 项目进度
+        dbList = executeOrderService.findAll(param);
+        List<BaseExecuteOrder> unFinishedList = dbList.getData(); // 未完成进度列表
+
+        // 判断欢迎页展示内容：如果各list都为空，展示欢迎文字；否则展示工作看板
+        if ((todoList == null || todoList.size() == 0)
+                && (handlingList == null || handlingList.size() == 0)
+                && (finishedList == null || finishedList.size() == 0)
+            ) {
+            dataBoardFlag = false;
+        }
+        if ((unFinishedList == null || unFinishedList.size() == 0)
+                ) {
+            progressFlag = false;
+        }
+        if (!dataBoardFlag && !progressFlag) {
+            welcomeFlag = true;
+        }
+
+        model.addAttribute("welcomeFlag", welcomeFlag);
+        model.addAttribute("dataBoardFlag", dataBoardFlag);
+        model.addAttribute("progressFlag", progressFlag);
+        model.addAttribute("todoList", todoList);
+        model.addAttribute("handlingList", handlingList);
+        model.addAttribute("finishedList", finishedList);
+        model.addAttribute("unFinishedList", unFinishedList);
         return "system/user/home";
     }
     

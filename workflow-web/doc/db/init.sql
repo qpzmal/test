@@ -114,7 +114,7 @@ VALUES (1, 'admin', 'admin', '93d6f2648c6f590a7bc8cd0be9243149', '', '', '', '',
 INSERT INTO `sys_user_role` (`id`, `admins`, `roles`) VALUES (1, 1, 1);
 
 INSERT INTO `sys_role` (`id`, `activiti_name`, `name`, `description`, `is_system`, `sort`, `del_flag`) VALUES (1, '', 'admin', 'admin', b'1', NULL, 0);
-
+INSERT INTO `base_person` (`name`, `area_id`, `mobile`, `address`, `email`, `dept_id`, `state`, `parent_id`, `del_flag`, `item_status`, `pay2`, `person_pay`, `create_time`, `update_time`, `remark`) VALUES ('admin', 1, '1', '1', '1', 1, 0, 0, 0, 0, 0.00, 0.00, '2017-07-19 22:24:54', '2017-07-19 22:24:54', '');
 
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10101, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10102, '', 0, NULL, NULL, 0);
