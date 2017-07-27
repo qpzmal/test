@@ -21,6 +21,7 @@
 1. 定时任务，提前七天收账
 1. 图像上传、修改LOGO
 1. FF浏览器使用测试
+1. 销售，媒介，财务依次填写内容的流程
 1. ====================
 1. 列表页中的删除按钮，没有触发删除事件
 1. 更新页面如果数据库里该项没有值，则显示空。
@@ -43,6 +44,8 @@
 ***** at cn.advu.workflow.repo.fcf_vu.impl.BaseBuyOrderRepoImpl.update(BaseBuyOrderRepoImpl.java:61)
 1. 更新改为动态更新
 1. 给用户赋予admin权限，无法看到日志菜单
+1. 去掉拦截器中最后登录时间的校验
+
 
 
 
@@ -55,7 +58,8 @@
 1. sys_user表login_fail_count字段的使用（记录错误的登录次数）
 1. 连接池使用druid？现在使用的是boneCP
 1. 登录认证使用shiro?
-1. 饼图总数（subtext）
+1. 饼图总数（标题下面的subtext）
+
 
 
 ##交付前要做的
