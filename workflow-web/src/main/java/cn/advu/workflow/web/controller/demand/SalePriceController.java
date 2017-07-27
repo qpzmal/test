@@ -1,13 +1,9 @@
 package cn.advu.workflow.web.controller.demand;
 
-import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import cn.advu.workflow.domain.fcf_vu.SalePriceAccoutVO;
-import cn.advu.workflow.domain.searchVO.CustomSearchVO;
-import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.manager.CpmManager;
-import cn.advu.workflow.web.service.base.CustomService;
 import cn.advu.workflow.web.util.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -121,6 +117,8 @@ public class SalePriceController {
         resultModel.addAttribute("incomeTax", incomeTax);
         resultModel.addAttribute("afterTaxNetProfit", afterTaxNetProfit);
         resultModel.addAttribute("netProfitRate", netProfitRate);
+        BigDecimal std = new BigDecimal("100");
+        resultModel.addAttribute("std", std);
 
         return "demand/counter/countInfo";
     }
