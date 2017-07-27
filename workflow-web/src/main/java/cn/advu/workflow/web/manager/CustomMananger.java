@@ -2,6 +2,7 @@ package cn.advu.workflow.web.manager;
 
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.repo.fcf_vu.BaseCustomRepo;
+import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.service.base.CustomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -61,5 +62,17 @@ public class CustomMananger {
      */
     public BaseCustom findById(Integer id) {
         return baseCustomRepo.findOne(id);
+    }
+
+    public BaseCustom findByName(String name) {
+        return baseCustomRepo.findByIdAndName(null, name);
+    }
+
+    public void add(BaseCustom baseCustom) {
+        // 新增客户
+        Integer insertCount = baseCustomRepo.addSelective(baseCustom);
+        if(insertCount != 1){
+            throw new ServiceException("创建客户失败!");
+        }
     }
 }

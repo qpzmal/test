@@ -8,6 +8,7 @@
 <link href="#springUrl("")/static/css/plugins/bootstrap-table/bootstrap-editable.css?$!application.getAttribute('/static/css/plugins/bootstrap-table/bootstrap-editable.css')" rel="stylesheet">
 ##树状展示
 <link href="#springUrl("")/static/css/plugins/treeview/bootstrap-treeview.css?$!application.getAttribute('/static/css/plugins/treeview/bootstrap-treeview.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/plugins/editableSelect/jquery.editable-select.min.css?$!application.getAttribute('/static/css/plugins/editableSelect/jquery.editable-select.min.css')" rel="stylesheet">
 
 #end
 
@@ -39,16 +40,6 @@
                             <input id="p_name" name="p_name" maxlength="50" type="text" class="form-control" >
                         </div>
                     </div>
-##                    <div class="form-group">
-##                        <label class="col-sm-3 control-label">项目类型</label>
-##                        <div class="col-sm-8">
-##                            <select id="type" data-placeholder="选择项目类型..." class="chosen-select" style="width:350px;"  tabindex="2">
-##                                <option value="">请选择项目类型</option>
-##                                <option value="1" hassubinfo="true">框架</option>
-##                                <option value="2" hassubinfo="true">单采</option>
-##                            </select>
-##                        </div>
-##                    </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目日期</label>
                         <div class="col-sm-8">
@@ -99,8 +90,8 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">签约公司</label>
                         <div id="sign_company_content" class="col-sm-8">
-                            <select id="sign_company_id" ata-placeholder="请选择签约公司" class="chosen-select" style="width:350px;" tabindex="2" disabled>
-                                <option value="">请选择签约公司</option>
+                            <select id="sign_company_select" ata-placeholder="请选择签约公司"  style="width:350px;" class="form-control" tabindex="2" disabled>
+                                <option value="">请择签约公司</option>
                             </select>
                         </div>
                     </div>
@@ -118,7 +109,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">客户</label>
                         <div id="custom_content" class="col-sm-8">
-                            <select id="custom_id" ata-placeholder="请选择客户" class="chosen-select" style="width:350px;" tabindex="2" disabled>
+                            <select id="custom_select" ata-placeholder="请选择客户" class="form-control" style="width:350px;" tabindex="2" >
                                 <option value="">请选择客户</option>
                             </select>
                         </div>
@@ -342,6 +333,8 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-editable.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-table-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-table-editable.js')"></script>
 
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/editableSelect/jquery.editable-select.min.js?$!application.getAttribute('/static/js/plugins/editableSelect/jquery.editable-select.min.js')"></script>
+
 <script>
 
     ##签约类型变更
@@ -356,10 +349,23 @@
         });
     }
 
+
+    $('#sign_company_select').editableSelect({
+        effects: 'slide',
+        onSelect:function (element) {
+            signCompanyChange();
+        }
+    });
+
+    $('#custom_select').editableSelect({
+        effects: 'slide'
+
+    });
+
     ##签约公司变更
     function signCompanyChange(){
         $.ajax({
-            url:"/saleOrder/customSelect.json?signCustomId=" + $("#sign_company_id").val(),
+            url:"/saleOrder/customSelect.json?signCustomName=" + $("#sign_company_select").val(),
             type:"get",
             success: function(returnData){
                 console.log(returnData);
@@ -662,9 +668,9 @@
         var personLeaderId = $("#person_leader_id").val();
         var areaId = $("#area_id").val();
         var signType = $("#sign_type").val();
-        var signCompanyId = $("#sign_company_id").val();
+//        var signCompanyId = $("#sign_company_id").val();
         var customIndustryId = $("#custom_industry_id").val();
-        var customId = $("#custom_id").val();
+//        var customId = $("#custom_id").val();
         var deliveryAreaIds = findSelecedValueStr("delivery_area_ids");
         var deliveryAreaNames = findSelecedStr("delivery_area_ids");
 
@@ -689,6 +695,10 @@
 
         var cpmJsonStr = JSON.stringify(cpmTable.bootstrapTable('getData'));
 
+        var customSignName = $("#sign_company_select").val();
+        var customAdverserName = $("#custom_select").val();
+
+
         $.ajax({
             url:"/saleFrame/add.json",
             type:"post",
@@ -703,8 +713,8 @@
                 deliveryAreaNames:deliveryAreaNames,
                 areaId:areaId,
                 signType:signType,
-                customSignId:signCompanyId,
-                customAdverserId:customId,
+//                customSignId:signCompanyId,
+//                customAdverserId:customId,
                 industryId:customIndustryId,
                 personSalesId:personSalesId,
                 amount:amount,
@@ -720,6 +730,9 @@
                 endDate:endDate,
                 personLeaderId:personLeaderId,
                 personPayeeId:personPayeeId,
+
+                customSignName:customSignName,
+                customAdverserName:customAdverserName,
 
                 payPercent:payPercent,
                 accountPeriod:accountPeriod,

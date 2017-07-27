@@ -1,8 +1,5 @@
 #set($layout = '/layout/empty.vm')
-<select id="sign_company_id" ata-placeholder="请选择签约公司" class="chosen-select" style="width:350px;" tabindex="2"
-    #if(!$signCompanyList || $signCompanyList.isEmpty())
-        disabled
-    #end
+<select id="sign_company_select" ata-placeholder="请选择签约公司" class="form-control" style="width:350px;" tabindex="2"
 onchange="signCompanyChange()">
     <option value="">请选择签约公司</option>
     #foreach($data in $signCompanyList)
@@ -17,13 +14,23 @@ onchange="signCompanyChange()">
 
 <script>
 
-    var config = {
-        ".chosen-select": {},
-        ".chosen-select-deselect": {allow_single_deselect: !0},
-        ".chosen-select-no-single": {disable_search_threshold: 10},
-        ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
-        ".chosen-select-width": {width: "95%"}
-    };
-    for (var selector in config)
-        $(selector).chosen(config[selector]);
+    $('#sign_company_select').editableSelect({
+        effects: 'slide',
+        onSelect:function (element) {
+            signCompanyChange();
+        }
+    });
+
+    ##签约公司变更
+    function signCompanyChange(){
+        $.ajax({
+            url:"/saleOrder/customSelect.json?signCustomName=" + $("#sign_company_select").val(),
+            type:"get",
+            success: function(returnData){
+                console.log(returnData);
+                $("#custom_content").html(returnData);
+            }
+        });
+    }
+
 </script>

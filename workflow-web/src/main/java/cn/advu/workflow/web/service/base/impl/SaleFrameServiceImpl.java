@@ -1,5 +1,6 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.CustomTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame;
@@ -8,11 +9,13 @@ import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderFrameRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.manager.AreaManager;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.SaleFrameService;
+import cn.advu.workflow.web.util.AssertUtil;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
@@ -63,6 +66,53 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
     @Override
     public ResultJson<Integer> add(BaseExecuteOrderFrame baseExecuteOrderFrame) {
 
+        AssertUtil.assertNotNullOrEmpty(baseExecuteOrderFrame.getSignType(), "签约类型");
+
+        String customSignName = baseExecuteOrderFrame.getCustomSignName();
+        String customAdverserName = baseExecuteOrderFrame.getCustomAdverserName();
+
+        AssertUtil.assertNotNullOrEmpty(customSignName, "签约公司");
+        AssertUtil.assertNotNullOrEmpty(customAdverserName, "广告主");
+
+        customSignName = customSignName.trim();
+        customAdverserName = customAdverserName.trim();
+
+        AssertUtil.assertNotNullOrEmpty(customSignName, "签约公司");
+        AssertUtil.assertNotNullOrEmpty(customAdverserName, "广告主");
+
+
+        BaseCustom customSign = customMananger.findByName(customSignName);
+        if (customSign == null) {
+            customSign = new BaseCustom();
+            customSign.setName(customSignName);
+            customSign.setCustomType(baseExecuteOrderFrame.getSignType());
+            customMananger.add(customSign);
+        }
+
+        baseExecuteOrderFrame.setCustomSignId(customSign.getId());
+
+        Integer customAdverserId = customSign.getId();
+
+        if (customSignName.equals(customAdverserName) && CustomTypeEnum.FA.getValue().equalsIgnoreCase(baseExecuteOrderFrame.getSignType())) {
+            throw new ServiceException(MessageConstants.ADVERSER_IS_4A);
+        }
+        if ( CustomTypeEnum.FA.getValue().equalsIgnoreCase(baseExecuteOrderFrame.getSignType())) {
+            BaseCustom customAdverser = customMananger.findByName(customAdverserName);
+            baseExecuteOrderFrame.setCustomSignId(customSign.getId());
+            if (customAdverser == null) {
+                customAdverser = new BaseCustom();
+                customAdverser.setName(customAdverserName);
+                customAdverser.setCustomType(CustomTypeEnum.MA.getValue());
+                customAdverser.setParentId(customSign.getId());
+                customMananger.add(customAdverser);
+            }
+            customAdverserId = customAdverser.getId();
+        }
+
+        baseExecuteOrderFrame.setCustomAdverserId(customAdverserId);
+
+        AssertUtil.assertNotNull(baseExecuteOrderFrame.getCustomSignId(), MessageConstants.SIGN_CUSTOM_TYPE_IS_NULL);
+
         // 编码
         String orderNumSeqStr = this.buildOrderNumSeqStr();
         Integer signCustomId = baseExecuteOrderFrame.getCustomSignId();
@@ -93,7 +143,53 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
 
     @Override
     public ResultJson<Integer> update(BaseExecuteOrderFrame baseExecuteOrderFrame) {
+        AssertUtil.assertNotNullOrEmpty(baseExecuteOrderFrame.getSignType(), "签约类型");
+        String customSignName = baseExecuteOrderFrame.getCustomSignName();
+        String customAdverserName = baseExecuteOrderFrame.getCustomAdverserName();
 
+        AssertUtil.assertNotNullOrEmpty(customSignName, "签约公司");
+        AssertUtil.assertNotNullOrEmpty(customAdverserName, "广告主");
+
+        customSignName = customSignName.trim();
+        customAdverserName = customAdverserName.trim();
+
+        AssertUtil.assertNotNullOrEmpty(customSignName, "签约公司");
+        AssertUtil.assertNotNullOrEmpty(customAdverserName, "广告主");
+
+
+        BaseCustom customSign = customMananger.findByName(customSignName);
+        if (customSign == null) {
+            customSign = new BaseCustom();
+            customSign.setName(customSignName);
+            customSign.setCustomType(baseExecuteOrderFrame.getSignType());
+            customMananger.add(customSign);
+        }
+
+        baseExecuteOrderFrame.setCustomSignId(customSign.getId());
+
+        Integer customAdverserId = customSign.getId();
+
+        if (customSignName.equals(customAdverserName) && CustomTypeEnum.FA.getValue().equalsIgnoreCase(baseExecuteOrderFrame.getSignType())) {
+            throw new ServiceException(MessageConstants.ADVERSER_IS_4A);
+        }
+        if ( CustomTypeEnum.FA.getValue().equalsIgnoreCase(baseExecuteOrderFrame.getSignType())) {
+            BaseCustom customAdverser = customMananger.findByName(customAdverserName);
+            baseExecuteOrderFrame.setCustomSignId(customSign.getId());
+            if (customAdverser == null) {
+                customAdverser = new BaseCustom();
+                customAdverser.setName(customAdverserName);
+                customAdverser.setCustomType(CustomTypeEnum.MA.getValue());
+                customAdverser.setParentId(customSign.getId());
+                customMananger.add(customAdverser);
+            }
+            customAdverserId = customAdverser.getId();
+        }
+        baseExecuteOrderFrame.setCustomAdverserId(customAdverserId);
+        AssertUtil.assertNotNull(baseExecuteOrderFrame.getCustomSignId(), MessageConstants.SIGN_CUSTOM_TYPE_IS_NULL);
+        // 补充编码
+        if (StringUtils.isEmpty(baseExecuteOrderFrame.getSecOrderNum())) {
+            baseExecuteOrderFrame.setSecOrderNum(baseExecuteOrderFrame.getOrderNum());
+        }
         // CPM
         buildExecuteFrameCpm(baseExecuteOrderFrame);
 
