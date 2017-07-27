@@ -30,4 +30,12 @@ public class CpmManager {
     public List<BaseOrderCpmVO> findExecuteOrderFrameCpm(Integer orderId) {
         return  baseOrderCpmRepo.findByExecuteOrderFrameCpm(orderId);
     }
+
+    public List<BaseOrderCpmVO> findPassBuyOrderCpm() {
+        return  baseOrderCpmRepo.findPassBuyOrderCpm();
+    }
+
+    public BaseOrderCpm findById(Integer id) {
+        return baseOrderCpmRepo.findOne(id);
+    }
 }

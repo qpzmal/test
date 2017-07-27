@@ -7,20 +7,11 @@
 #end
 
 <div class="wrapper wrapper-content animated fadeInRight">
-    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
-                    <div class="btn-group hidden-xs"  role="group">
-                        <button id="btn_plus" type="button" class="btn btn-outline btn-default">
-                            <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
-                        </button>
-                        <button id="btn_trash" type="button" class="btn btn-outline btn-default">
-                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                    <table id="log_table" data-height="400" data-mobile-responsive="true">
+                    <table id="log_table" data-height="400" data-mobile-responsive="true" style="word-break:break-all; word-wrap:break-all;">
 ##                        <thead>
 ####                        <tr>
 ######                            <th data-field="content" data-editable="false">内容</th>
@@ -52,7 +43,7 @@
         dataType: "json",
         pagination: true,
         pageNumber: 1,
-        pageSize: 2,
+        pageSize: 100,
         silent: true,
         columns: [
             {

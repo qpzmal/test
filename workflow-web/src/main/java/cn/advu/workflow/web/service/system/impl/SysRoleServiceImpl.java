@@ -94,8 +94,10 @@ public class SysRoleServiceImpl implements SysRoleService {
 
         // 业务处理
         List<SysRoleFuction> updateBeforeFuctionList = sysRoleFunctionRepo.findByRole(roleId);
+
         if (updateBeforeFuctionList == null || updateBeforeFuctionList.isEmpty()) {
             addRoleFunction(functionIds, roleId);
+            return rj;
         }
 
         List<Integer> addFunctionList = new LinkedList<>();
