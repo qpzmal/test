@@ -1,9 +1,5 @@
 #set($layout = '/layout/empty.vm')
-<select id="custom_id" ata-placeholder="请选择客户" class="chosen-select" style="width:350px;" tabindex="2"
-    #if(!$customList || $customList.isEmpty())
-        disabled
-    #end
->
+<select id="custom_select" ata-placeholder="请选择客户" class="form-control" style="width:350px;" tabindex="2">
     <option value="">请选择客户</option>
     #foreach($data in $customList)
         <option value ="$data.id">$data.name</option>
@@ -12,14 +8,7 @@
 
 
 <script>
-
-    var config = {
-        ".chosen-select": {},
-        ".chosen-select-deselect": {allow_single_deselect: !0},
-        ".chosen-select-no-single": {disable_search_threshold: 10},
-        ".chosen-select-no-results": {no_results_text: "Oops, nothing found!"},
-        ".chosen-select-width": {width: "95%"}
-    };
-    for (var selector in config)
-        $(selector).chosen(config[selector]);
+    $('#custom_select').editableSelect({
+        effects: 'slide'
+    });
 </script>

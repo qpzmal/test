@@ -17,6 +17,11 @@ public class BaseExecuteOrderFrame extends AbstractOrderEntity {
 
     private Date orderDate;
 
+
+    private String customSignName;
+
+    private String customAdverserName;
+
     private String deliveryAreaIds;
 
     private String deliveryAreaNames;
@@ -74,6 +79,22 @@ public class BaseExecuteOrderFrame extends AbstractOrderEntity {
     private String wfStep; // 工作流步骤
 
     private String flowType; // 页面自定义属性：save保存草稿，start开始流程
+
+    public String getCustomSignName() {
+        return customSignName;
+    }
+
+    public void setCustomSignName(String customSignName) {
+        this.customSignName = customSignName;
+    }
+
+    public String getCustomAdverserName() {
+        return customAdverserName;
+    }
+
+    public void setCustomAdverserName(String customAdverserName) {
+        this.customAdverserName = customAdverserName;
+    }
 
     public String getSignType() {
         return signType;

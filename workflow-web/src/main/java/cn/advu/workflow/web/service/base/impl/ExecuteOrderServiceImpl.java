@@ -1,5 +1,6 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.CustomTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
@@ -41,6 +42,8 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     @Autowired
     CustomMananger customMananger;
 
+
+
     @Autowired
     AreaManager areaManager;
 
@@ -54,6 +57,8 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     private IdentityService identityService;
 
 
+
+
     @Override
     public ResultJson<List<BaseExecuteOrder>> findAll(BaseExecuteOrder param) {
         ResultJson<List<BaseExecuteOrder>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
@@ -64,7 +69,52 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     @Override
     public ResultJson<Integer> add(BaseExecuteOrder baseExecuteOrder) {
 
+
         AssertUtil.assertNotNullOrEmpty(baseExecuteOrder.getSignType(), "签约类型");
+
+        String customSignName = baseExecuteOrder.getCustomSignName();
+        String customAdverserName = baseExecuteOrder.getCustomAdverserName();
+
+        AssertUtil.assertNotNullOrEmpty(customSignName, "签约公司");
+        AssertUtil.assertNotNullOrEmpty(customAdverserName, "广告主");
+
+        customSignName = customSignName.trim();
+        customAdverserName = customAdverserName.trim();
+
+        AssertUtil.assertNotNullOrEmpty(customSignName, "签约公司");
+        AssertUtil.assertNotNullOrEmpty(customAdverserName, "广告主");
+
+
+        BaseCustom customSign = customMananger.findByName(customSignName);
+        if (customSign == null) {
+            customSign = new BaseCustom();
+            customSign.setName(customSignName);
+            customSign.setCustomType(baseExecuteOrder.getSignType());
+            customMananger.add(customSign);
+        }
+
+        baseExecuteOrder.setCustomSignId(customSign.getId());
+
+        Integer customAdverserId = customSign.getId();
+
+        if (customSignName.equals(customAdverserName) && CustomTypeEnum.FA.getValue().equalsIgnoreCase(baseExecuteOrder.getSignType())) {
+            throw new ServiceException(MessageConstants.ADVERSER_IS_4A);
+        }
+        if ( CustomTypeEnum.FA.getValue().equalsIgnoreCase(baseExecuteOrder.getSignType())) {
+            BaseCustom customAdverser = customMananger.findByName(customAdverserName);
+            baseExecuteOrder.setCustomSignId(customSign.getId());
+            if (customAdverser == null) {
+                customAdverser = new BaseCustom();
+                customAdverser.setName(customAdverserName);
+                customAdverser.setCustomType(CustomTypeEnum.MA.getValue());
+                customAdverser.setParentId(customSign.getId());
+                customMananger.add(customAdverser);
+            }
+            customAdverserId = customAdverser.getId();
+        }
+
+        baseExecuteOrder.setCustomAdverserId(customAdverserId);
+
         AssertUtil.assertNotNull(baseExecuteOrder.getCustomSignId(), MessageConstants.SIGN_CUSTOM_TYPE_IS_NULL);
         // 编码
         String orderNumSeqStr = this.buildOrderNumSeqStr();
@@ -101,6 +151,54 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
 
     @Override
     public ResultJson<Integer> update(BaseExecuteOrder baseExecuteOrder) {
+
+        AssertUtil.assertNotNullOrEmpty(baseExecuteOrder.getSignType(), "签约类型");
+        String customSignName = baseExecuteOrder.getCustomSignName();
+        String customAdverserName = baseExecuteOrder.getCustomAdverserName();
+
+        AssertUtil.assertNotNullOrEmpty(customSignName, "签约公司");
+        AssertUtil.assertNotNullOrEmpty(customAdverserName, "广告主");
+
+        customSignName = customSignName.trim();
+        customAdverserName = customAdverserName.trim();
+
+        AssertUtil.assertNotNullOrEmpty(customSignName, "签约公司");
+        AssertUtil.assertNotNullOrEmpty(customAdverserName, "广告主");
+
+
+        BaseCustom customSign = customMananger.findByName(customSignName);
+        if (customSign == null) {
+            customSign = new BaseCustom();
+            customSign.setName(customSignName);
+            customSign.setCustomType(baseExecuteOrder.getSignType());
+            customMananger.add(customSign);
+        }
+
+        baseExecuteOrder.setCustomSignId(customSign.getId());
+
+        Integer customAdverserId = customSign.getId();
+
+        if (customSignName.equals(customAdverserName) && CustomTypeEnum.FA.getValue().equalsIgnoreCase(baseExecuteOrder.getSignType())) {
+            throw new ServiceException(MessageConstants.ADVERSER_IS_4A);
+        }
+        if ( CustomTypeEnum.FA.getValue().equalsIgnoreCase(baseExecuteOrder.getSignType())) {
+            BaseCustom customAdverser = customMananger.findByName(customAdverserName);
+            baseExecuteOrder.setCustomSignId(customSign.getId());
+            if (customAdverser == null) {
+                customAdverser = new BaseCustom();
+                customAdverser.setName(customAdverserName);
+                customAdverser.setCustomType(CustomTypeEnum.MA.getValue());
+                customAdverser.setParentId(customSign.getId());
+                customMananger.add(customAdverser);
+            }
+            customAdverserId = customAdverser.getId();
+        }
+        baseExecuteOrder.setCustomAdverserId(customAdverserId);
+        AssertUtil.assertNotNull(baseExecuteOrder.getCustomSignId(), MessageConstants.SIGN_CUSTOM_TYPE_IS_NULL);
+        // 补充编码
+        if (StringUtils.isEmpty(baseExecuteOrder.getSecOrderNum())) {
+            baseExecuteOrder.setSecOrderNum(baseExecuteOrder.getOrderNum());
+        }
 
         // CPM
         buildExecuteCpm(baseExecuteOrder);

@@ -81,12 +81,13 @@ public class ExecuteOrderController {
     }
 
     @RequestMapping("/customSelect")
-    public String customSelect(Integer signCustomId, Model model){
-        List<BaseCustom> customList = null;
-        if (signCustomId != null) {
-            customList = customMananger.findChildCustom(signCustomId);
+    public String customSelect(String signCustomName, Model model){
+        BaseCustom baseCustom = customMananger.findByName(signCustomName);
+        if (baseCustom != null) {
+            List<BaseCustom> customList = customMananger.findChildCustom(baseCustom.getId());
+            model.addAttribute("customList", customList);
         }
-        model.addAttribute("customList", customList);
+
         return "demand/saleOrder/customSelect";
     }
 

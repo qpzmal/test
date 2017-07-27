@@ -49,5 +49,7 @@ public interface MessageConstants {
     String SIGN_TYPE_IS_NULL="签约类型没有设置";
     String SIGN_CUSTOM_TYPE_IS_NULL="签约公司没有设置";
 
+    String ADVERSER_IS_4A="广告主不能是4A公司";
+
 
 }

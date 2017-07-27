@@ -8,6 +8,7 @@
 <link href="#springUrl("")/static/css/plugins/bootstrap-table/bootstrap-editable.css?$!application.getAttribute('/static/css/plugins/bootstrap-table/bootstrap-editable.css')" rel="stylesheet">
 ##树状展示
 <link href="#springUrl("")/static/css/plugins/treeview/bootstrap-treeview.css?$!application.getAttribute('/static/css/plugins/treeview/bootstrap-treeview.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/plugins/editableSelect/jquery.editable-select.min.css?$!application.getAttribute('/static/css/plugins/editableSelect/jquery.editable-select.min.css')" rel="stylesheet">
 
 #end
 
@@ -120,11 +121,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">签约公司</label>
                         <div id="sign_company_content" class="col-sm-8">
-                            <select id="sign_company_id" ata-placeholder="请选择签约公司" class="chosen-select" style="width:350px;" tabindex="2"
-                                #if(!$signCompanyList || $signCompanyList.isEmpty())
-                                    disabled
-                                #end
-                                    onchange="signCompanyChange()">
+                            <select id="sign_company_select" ata-placeholder="请选择签约公司" class="form-control" style="width:350px;" tabindex="2">
                                 <option value="">请选择签约公司</option>
                                 #foreach($data in $signCompanyList)
                                     <option value ="$data.id"
@@ -154,11 +151,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">客户</label>
                         <div id="custom_content" class="col-sm-8">
-                            <select id="custom_id" ata-placeholder="请选择客户" class="chosen-select" style="width:350px;" tabindex="2"
-                                #if(!$customList || $customList.isEmpty())
-                                    disabled
-                                #end
-                            >
+                            <select id="custom_select" ata-placeholder="请选择客户" class="form-control" style="width:350px;" tabindex="2">
                                 <option value="">请选择客户</option>
                                 #foreach($data in $customList)
                                     <option value ="$data.id"
@@ -417,6 +410,7 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-editable.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-table-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-table-editable.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/editableSelect/jquery.editable-select.min.js?$!application.getAttribute('/static/js/plugins/editableSelect/jquery.editable-select.min.js')"></script>
 
 <script>
 
@@ -432,10 +426,22 @@
         });
     }
 
+    $('#sign_company_select').editableSelect({
+        effects: 'slide',
+        onSelect:function (element) {
+            signCompanyChange();
+        }
+    });
+
+    $('#custom_select').editableSelect({
+        effects: 'slide'
+
+    });
+
     ##签约公司变更
     function signCompanyChange(){
         $.ajax({
-            url:"/saleOrder/customSelect.json?signCustomId=" + $("#sign_company_id").val(),
+            url:"/saleOrder/customSelect.json?signCustomName=" + $("#sign_company_select").val(),
             type:"get",
             success: function(returnData){
                 console.log(returnData);
@@ -749,9 +755,9 @@
 
         var areaId = $("#area_id").val();
         var signType = $("#sign_type").val();
-        var signCompanyId = $("#sign_company_id").val();
+//        var signCompanyId = $("#sign_company_id").val();
         var customIndustryId = $("#custom_industry_id").val();
-        var customId = $("#custom_id").val();
+//        var customId = $("#custom_id").val();
         var deliveryAreaIds = findSelecedValueStr("delivery_area_ids");
         var deliveryAreaNames = findSelecedStr("delivery_area_ids");
 
@@ -776,6 +782,9 @@
 
         var cpmJsonStr = JSON.stringify(cpmTable.bootstrapTable('getData'));
 
+        var customSignName = $("#sign_company_select").val();
+        var customAdverserName = $("#custom_select").val();
+
         $.ajax({
             url:"/saleFrame/update.json",
             type:"post",
@@ -791,9 +800,12 @@
                 deliveryAreaNames:deliveryAreaNames,
                 areaId:areaId,
                 signType:signType,
-                customSignId:signCompanyId,
-                customAdverserId:customId,
+//                customSignId:signCompanyId,
+//                customAdverserId:customId,
                 industryId:customIndustryId,
+
+                customSignName:customSignName,
+                customAdverserName:customAdverserName,
 
                 personSalesId:personSalesId,
                 amount:amount,
@@ -815,6 +827,7 @@
 
                 payPercent:payPercent,
                 accountPeriod:accountPeriod,
+
                 cpmJsonStr:cpmJsonStr
             },
             success: function(returnData){
