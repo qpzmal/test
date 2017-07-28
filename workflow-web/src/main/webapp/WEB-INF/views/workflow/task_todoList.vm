@@ -33,7 +33,7 @@
                                     </thead>
                                     <tbody>
                                         #foreach($!{data} in $!{baseBuyOrderVOList})
-                                        <tr id="$!{data.baseBuyOrder.id}" tid="$!{data.task.id}" pkey="$!data.processInstance.ProcessDefinitionKey">
+                                        <tr id="$!{data.baseBuyOrder.id}" tid="$!{data.task.id}" pkey="$!data.processInstance.ProcessDefinitionKey" pid="$!{data.processInstance.id}">
                                             <td>$!{data.baseBuyOrder.name}</td>
                                             <td>$!{data.baseBuyOrder.userId}</td>
                                             <td>
@@ -90,7 +90,7 @@
                                     </thead>
                                     <tbody>
                                         #foreach($!{data} in $!{baseBuyOrderFrameVOList})
-                                        <tr id="$!{data.baseBuyOrderFrame.id}" tid="$!{data.task.id}" pkey="$!data.processInstance.ProcessDefinitionKey">
+                                        <tr id="$!{data.baseBuyOrderFrame.id}" tid="$!{data.task.id}" pkey="$!data.processInstance.ProcessDefinitionKey" pid="$!{data.processInstance.id}">
                                             <td>$!{data.baseBuyOrderFrame.name}</td>
                                             <td>$!{data.baseBuyOrderFrame.userId}</td>
                                             <td>
@@ -147,7 +147,7 @@
                                     </thead>
                                     <tbody>
                                         #foreach($!{data} in $!{baseExecuteOrderVOList})
-                                        <tr id="$!{data.baseExecuteOrder.id}" tid="$!{data.task.id}" pkey="$!data.processInstance.ProcessDefinitionKey">
+                                        <tr id="$!{data.baseExecuteOrder.id}" tid="$!{data.task.id}" pkey="$!data.processInstance.ProcessDefinitionKey" pid="$!{data.processInstance.id}">
                                             <td>$!{data.baseExecuteOrder.name}</td>
                                             <td>$!{data.baseExecuteOrder.userId}</td>
                                             <td>
@@ -204,7 +204,7 @@
                                     </thead>
                                     <tbody>
                                         #foreach($!{data} in $!{baseExecuteOrderFrameVOList})
-                                        <tr id="$!{data.baseExecuteOrderFrame.id}" tid="$!{data.task.id}" pkey="$!data.processInstance.ProcessDefinitionKey">
+                                        <tr id="$!{data.baseExecuteOrderFrame.id}" tid="$!{data.task.id}" pkey="$!data.processInstance.ProcessDefinitionKey" pid="$!{data.processInstance.id}">
                                             <td>$!{data.baseExecuteOrderFrame.name}</td>
                                             <td>$!{data.baseExecuteOrderFrame.userId}</td>
                                             <td>
@@ -404,39 +404,37 @@
     var taskId;
     var pkey;
     var tkey;
+    var pid;
+    var bizId;
     $(function(){
-        init();
+//        init();
     });
 
 
-    ## 示例（开始日期、结束日期）
-    function init(){
-        var start = {
-            elem: "#startDate",
-//            format: "YYYY/MM/DD hh:mm:ss",
-            format: "YYYY/MM/DD",
-            min: laydate.now(),
-            max: "2099-06-16 23:59:59",
-//            istime: true,
-            istoday: true,
-            choose: function(datas) {
-                end.min = datas;
-                end.start = datas }
-        };
-        var end = {
-            elem: "#endDate",
-//            format: "YYYY/MM/DD hh:mm:ss",
-            format: "YYYY/MM/DD",
-            min: laydate.now(),
-            max: "2099-06-16 23:59:59",
-//            istime: true,
-            istoday: false,
-            choose: function(datas) {
-                start.max = datas }
-        };
-        laydate(start);
-        laydate(end);
-    }
+##    ## 示例（开始日期、结束日期）
+##    function init(){
+##        var start = {
+##            elem: "#startDate",
+##            format: "YYYY/MM/DD",
+##            min: laydate.now(),
+##            max: "2099-06-16 23:59:59",
+##            istoday: true,
+##            choose: function(datas) {
+##                end.min = datas;
+##                end.start = datas }
+##        };
+##        var end = {
+##            elem: "#endDate",
+##            format: "YYYY/MM/DD",
+##            min: laydate.now(),
+##            max: "2099-06-16 23:59:59",
+##            istoday: false,
+##            choose: function(datas) {
+##                start.max = datas }
+##        };
+##        laydate(start);
+##        laydate(end);
+##    }
 
 
     // 跟踪
@@ -459,6 +457,8 @@
     $(".btn_handle").click(function(){
         taskId = $(this).parents('tr').attr('tid');
         pkey = $(this).parents('tr').attr('pkey');
+        pid = $(this).parents('tr').attr('pid');
+        bizId = $(this).parents('tr').attr('id');
         tkey = $(this).attr('tkey');
 //        var url = '/workflow/task/toAudit?pkey=' + pkey + '&tkey='+tkey + '&taskId='+taskId;
         openPopDivPage();
@@ -522,6 +522,8 @@
             data:{
                 "pkey":pkey,
                 "tkey":tkey,
+                "pid":pid,
+                "bizId":bizId,
                 "taskId":taskId,
                 "result":result,
                 "reason":$.trim($('#reason').val())

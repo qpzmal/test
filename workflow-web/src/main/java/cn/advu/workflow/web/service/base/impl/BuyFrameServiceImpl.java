@@ -96,6 +96,15 @@ public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFram
     }
 
     @Override
+    public ResultJson<Integer> updateSelective(BaseBuyOrderFrame baseBuyOrderFrame) {
+        Integer insertCount = baseBuyOrderFrameRepo.updateSelective(baseBuyOrderFrame);
+        if(insertCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新采购框架单失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
+    @Override
     public ResultJson<BaseBuyOrderFrame> findById(Integer id) {
         ResultJson<BaseBuyOrderFrame> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         BaseBuyOrderFrame baseBuyOrderFrame = baseBuyOrderFrameRepo.findOne(id);

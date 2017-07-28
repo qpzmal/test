@@ -36,6 +36,14 @@ public interface BuyFrameService {
     ResultJson<Integer> update(BaseBuyOrderFrame baseBuyOrderFrame);
 
     /**
+     * 更新需求框架--动态
+     *
+     * @param baseBuyOrderFrame
+     * @return
+     */
+    ResultJson<Integer> updateSelective(BaseBuyOrderFrame baseBuyOrderFrame);
+
+    /**
      * 返回当前需求框架
      * @param id
      * @return

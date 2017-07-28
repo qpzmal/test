@@ -44,6 +44,14 @@ public interface ExecuteOrderService {
     ResultJson<Integer> update(BaseExecuteOrder baseExecuteOrder);
 
     /**
+     * 更新需求单--动态
+     *
+     * @param baseExecuteOrder
+     * @return
+     */
+    ResultJson<Integer> updateSelective(BaseExecuteOrder baseExecuteOrder);
+
+    /**
      * 删除需求单
      * @param id
      * @return

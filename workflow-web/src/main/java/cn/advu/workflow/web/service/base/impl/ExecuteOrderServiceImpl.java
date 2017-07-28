@@ -223,6 +223,15 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     }
 
     @Override
+    public ResultJson<Integer> updateSelective(BaseExecuteOrder baseExecuteOrder) {
+        Integer insertCount = baseExecuteOrderRepo.updateSelective(baseExecuteOrder);
+        if(insertCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新销售单失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
+    @Override
     public ResultJson<Void> remove(Integer id) {
 
         BaseExecuteOrder baseExecuteOrder = baseExecuteOrderRepo.findOne(id);

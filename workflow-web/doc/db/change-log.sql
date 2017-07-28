@@ -5,8 +5,40 @@
 -- 2.20170628 燕燕修改
 -- 1.20170620 兆华建立
 
--- 20170725 weiqz
 
+-- 20170728 weiqz
+
+-- 资源表
+INSERT INTO `sys_resource` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_type`)
+VALUES
+	(206, '排期执行', 0, 0, 0, 1)
+-- 功能权限表
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_id`, `operate_type_id`)
+VALUES
+	(20601, '添加排期执行单', 0, 0, 0, 206, NULL),
+	(20602, '更新排期执行单', 0, 0, 0, 206, NULL),
+	(20603, '删除排期执行单', 0, 0, 0, 206, NULL)
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20601, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20602, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20603, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (3, 20601, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (3, 20602, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (3, 20603, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (5, 20601, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (5, 20602, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (5, 20603, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (6, 20601, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (6, 20602, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (6, 20603, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (7, 20601, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (7, 20602, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (7, 20603, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (9, 20601, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (9, 20602, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `create_time`, `update_time`, `del_flag`) VALUES (9, 20603, '', 0, NULL, NULL, '2017-07-20 16:25:56', '2017-07-20 16:25:56', 0);
+
+
+-- 20170725 weiqz
 ALTER TABLE `base_buy_order`
 	CHANGE COLUMN `status` `status` TINYINT(3) DEFAULT '-1' COMMENT '执行状态：-1，审核前；0，审核中；1，未开始； 2，进行中；3，已结束' AFTER `person_id`;
 ALTER TABLE `base_buy_order_frame`
