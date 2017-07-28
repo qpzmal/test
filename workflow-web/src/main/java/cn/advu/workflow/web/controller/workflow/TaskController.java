@@ -76,6 +76,8 @@ public class TaskController {
     @Autowired
     private SaleFrameService saleFrameService;
 
+    @Autowired
+    private ProcessEngine processEngine;
 
     /**
      * 任务列表
@@ -510,11 +512,20 @@ public class TaskController {
 
         try {
             taskService.complete(taskId, paramMap);
+
+//            // TODO 判定当前流程是否结束
+//            ProcessInstance processInstance = processEngine.getRuntimeService().createProcessInstanceQuery()
+//                    .processInstanceId(pkey).singleResult();
+//            if (processInstance == null) {
+//                // TODO 如果当前流程结束则更新单据状态
+//            }
             return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         } catch (Exception e) {
             LOGGER.error("", e);
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "系统错误!");
         }
+
+
     }
 
     /**

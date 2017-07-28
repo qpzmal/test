@@ -289,16 +289,19 @@
 
             return;
         }
-
+        publicRebate = publicRebate/100;
+        salesIncentiveRate = salesIncentiveRate/100;
+        alert(publicRebate);
+        alert(salesIncentiveRate);
         $.ajax({
             url:"/salePrice/accoutInfo.json?",
             type:"post",
             async: false,
             data:{
                 mediaPrice:mediaPrice,
-                publicRebate:publicRebate/100,
+                publicRebate:publicRebate,
                 purchase:purchase,
-                salesIncentiveRate:salesIncentiveRate/100
+                salesIncentiveRate:salesIncentiveRate
             },
             success: function(returnData){
                 console.log(returnData);
