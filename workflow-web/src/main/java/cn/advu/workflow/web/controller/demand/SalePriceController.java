@@ -1,18 +1,23 @@
 package cn.advu.workflow.web.controller.demand;
 
+import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import cn.advu.workflow.domain.fcf_vu.SalePriceAccoutVO;
+import cn.advu.workflow.web.manager.AdtypeMananger;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.util.AssertUtil;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.swing.*;
 import java.math.BigDecimal;
 import java.util.List;
-
+import java.util.Map;
 
 
 @Controller
@@ -20,27 +25,96 @@ import java.util.List;
 public class SalePriceController {
 
     @Autowired
-    CpmManager cpmManager;
+    AdtypeMananger adtypeMananger;
+
+    @RequestMapping("/addCounter")
+    public String addAcounter(Model resultModel){
+
+        // find cpmList
+        List<BaseAdtype> baseAdtypeList = adtypeMananger.findAllActive();
+        resultModel.addAttribute("baseAdtypeList", baseAdtypeList);
+        resultModel.addAttribute("num", System.currentTimeMillis());
+
+        return "demand/counter/addCounter";
+    }
+
+
+    @RequestMapping("/totalUpdate")
+    public String totalUpdate(String json, String jsonBefore, Model resultModel){
+        JSONArray inputParamList = JSONArray.parseArray(json);
+        JSONArray updateBeforeList = JSONArray.parseArray(jsonBefore);
+        for (int inputParamIndex = 0; inputParamIndex <  inputParamList.size(); inputParamIndex++) {
+            JSONObject inputParam = (JSONObject) inputParamList.get(inputParamIndex);
+            String inputNum =inputParam.getString("num");
+
+            for (int updateBeforeIndex = 0; updateBeforeIndex <  updateBeforeList.size(); updateBeforeIndex++) {
+                JSONObject inputParamBefore = (JSONObject) updateBeforeList.get(updateBeforeIndex);
+                String beforeNum  =inputParamBefore.getString("num");
+                // 如果存在则更新销售数量
+                if (beforeNum != null && beforeNum.equals(inputNum)) {
+                    inputParam.put("saleCount", inputParamBefore.getBigDecimal("saleCount"));
+                    break;
+                }
+            }
+        }
+
+        resetInputParamList(inputParamList);
+        resultModel.addAttribute("inputParamList", inputParamList);
+
+        return "demand/counter/total";
+    }
+
+    @RequestMapping("/totalInfo")
+    public String total(String json, Model resultModel){
+
+        JSONArray inputParamList = JSONArray.parseArray(json);
+
+        resetInputParamList(inputParamList);
+        resultModel.addAttribute("inputParamList", inputParamList);
+
+        return "demand/counter/total";
+    }
+
+    private void resetInputParamList(JSONArray inputParamList) {
+        BigDecimal saleCountSum = BigDecimal.ZERO;
+        BigDecimal netIncomeSum = BigDecimal.ZERO;
+        BigDecimal netProfitSum = BigDecimal.ZERO;
+
+        int index = 1;
+        for (Object rowInpuParam : inputParamList) {
+            JSONObject rowInputJsonObject = (JSONObject)rowInpuParam;
+
+            BigDecimal netIncomePrice = rowInputJsonObject.getBigDecimal("netIncomePrice");
+            BigDecimal netProfitRate = rowInputJsonObject.getBigDecimal("netProfitRate");
+            String adtypeName = rowInputJsonObject.getString("adtypeName");
+            BigDecimal saleCount = rowInputJsonObject.getBigDecimal("saleCount");
+
+            if (saleCount != null) {
+                BigDecimal netIncome = netIncomePrice.multiply(saleCount).setScale(2, BigDecimal.ROUND_UP);
+                BigDecimal netProfit = netProfitRate.multiply(saleCount).setScale(2, BigDecimal.ROUND_UP);
+                rowInputJsonObject.put("netIncome", netIncome);
+                rowInputJsonObject.put("netProfit", netProfit);
+                saleCountSum = saleCountSum.add(saleCount);
+                netIncomeSum = netIncomeSum.add(netIncome);
+                netProfitSum = netProfitSum.add(netProfit);
+            }
+            rowInputJsonObject.put("idNum",  index++);
+        }
+        JSONObject sum = new JSONObject();
+        sum.put("saleCount", saleCountSum);
+        sum.put("netIncome", netIncomeSum);
+        sum.put("netProfit", netProfitSum);
+        if(netIncomeSum.compareTo(BigDecimal.ZERO) != 0) {
+            sum.put("netProfitRate", netProfitSum.divide(netIncomeSum, 2, BigDecimal.ROUND_UP));
+        }
+        sum.put("idNum",  index++);
+        inputParamList.add(sum);
+    }
 
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
 
-        // find cpmList
-        List<BaseOrderCpmVO> baseOrderCpmVOList = cpmManager.findPassBuyOrderCpm();
-        resultModel.addAttribute("baseOrderCpmVOList", baseOrderCpmVOList);
-
         return "demand/counter/salePriceCounter";
-    }
-
-
-    @RequestMapping("/cpmInfo")
-    public String cpmInfo(Integer cpmId, Model resultModel){
-
-        BaseOrderCpm baseOrderCpm = cpmManager.findById(cpmId);
-
-        resultModel.addAttribute("baseOrderCpm", baseOrderCpm);
-
-        return "demand/counter/cpmInfo";
     }
 
     @RequestMapping("/accoutInfo")
@@ -98,6 +172,10 @@ public class SalePriceController {
         BigDecimal netProfitRate = afterTaxNetProfit.divide(netIncome, 2, BigDecimal.ROUND_UP);
 
 
+        resultModel.addAttribute("mediaPrice", mediaPrice);
+        resultModel.addAttribute("publicRebate", publicRebate);
+        resultModel.addAttribute("purchase", purchase);
+        resultModel.addAttribute("salesIncentiveRate", salesIncentiveRate);
 
         resultModel.addAttribute("netIncome", netIncome);
         resultModel.addAttribute("bizTax", bizTax);
@@ -120,7 +198,7 @@ public class SalePriceController {
         BigDecimal std = new BigDecimal("100");
         resultModel.addAttribute("std", std);
 
-        return "demand/counter/countInfo";
+        return "demand/counter/resetCounter";
     }
 
 

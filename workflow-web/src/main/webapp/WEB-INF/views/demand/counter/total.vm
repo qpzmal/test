@@ -1,0 +1,26 @@
+#set($layout = '/layout/empty.vm')
+#foreach($data in $inputParamList)
+<tr id="$!{data.idNum}" class="rowtr">
+    <input  value="$!{data.num}"  class="num" type="hidden">
+    <td style="width:80px;">
+        <label name="adtype" class=" adtype "> $!{data.adtypeName} </label>
+    </td>
+    <td style="width:80px;">
+        <label name="net_income_price_total" class="net_income_price_total">$!{data.netIncomePrice}</label>
+    </td>
+    <td style="width:80px;">
+        <input  value="$!{data.saleCount}" name="sale_count" class="form-control table-input-params sale_count">
+    </td>
+    <td style="width:80px;">
+        <label  name="net_income_total" class=" net_income_total">$!{data.netIncome}</label>
+    </td>
+    <td style="width:80px;">
+        <label name="net_profit_rate_total" class=" net_profit_rate_total">$!{data.netProfitRate}</label>
+    </td>
+    <td style="width:80px;">
+        <label  name="net_profit_total" class=" net_profit_total">$!{data.netProfit}</label>
+    </td>
+</tr>
+
+#end
+
