@@ -271,8 +271,19 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
                 ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, baseExecuteOrder.getId() + "", new HashMap<String, Object>());
                 LOGGER.info(" processInstanceId:{}", processInstance.getId());
 
+                // DB中状态
+                BaseExecuteOrder dbBaseExecuteOrder = baseExecuteOrderRepo.findOne(baseExecuteOrder.getId());
+                LOGGER.info(" dbBaseExecuteOrder-status:{}", dbBaseExecuteOrder.getStatus());
+
                 baseExecuteOrder.setProcessInstanceId(processInstance.getId());
-                baseExecuteOrder.setStatus(WebConstants.WorkFlow.STATUS_0);
+                if (WebConstants.WorkFlow.STATUS_NEG_1 == dbBaseExecuteOrder.getStatus()) {
+                    baseExecuteOrder.setStatus(WebConstants.WorkFlow.STATUS_0);
+                } else if (WebConstants.WorkFlow.STATUS_1 == dbBaseExecuteOrder.getStatus()) {
+                    baseExecuteOrder.setStatus(WebConstants.WorkFlow.STATUS_2);
+
+                } else {
+                    LOGGER.warn("UnExpected status:{}", dbBaseExecuteOrder.getStatus());
+                }
                 baseExecuteOrderRepo.updateSelective(baseExecuteOrder);
 
             } catch (ActivitiException e) {

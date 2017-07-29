@@ -33,9 +33,9 @@
                         <a class="J_menuItem" style="display:none" functionid="20100" href="${rc.contextPath}/salePrice/index">综合计价</a>
                         <a class="J_menuItem" style="display:none" functionid="20200" href="${rc.contextPath}/saleOrder/index">添制需求单</a> ## base_execute_order
                         <a class="J_menuItem" style="display:none" functionid="20300" href="${rc.contextPath}/saleFrame/index">框架需求合同</a> ## base_execute_order_frame
+                        <a class="J_menuItem" style="display:none" functionid="20600" href="${rc.contextPath}/saleOrder/index?status=1">排期执行单</a>
                         <a class="J_menuItem" style="display:none" functionid="20400" href="${rc.contextPath}/buyOrder/index">添制采购单</a> ## base_buy_order
                         <a class="J_menuItem" style="display:none" functionid="20500" href="${rc.contextPath}/buyFrame/index">框架采购合同</a> ## base_buy_order_frame
-                        <a class="J_menuItem" style="display:none" functionid="20600" href="${rc.contextPath}/buyFrame/index">排期执行单</a>
                     </li>
                 </ul>
             </li>
@@ -161,19 +161,19 @@
 ##                    </li>
 ##                </ul>
 ##            </li>
-            <li class="first-level">
-                <a href="#">
-                    <i class="fa fa-home"></i>
-                    <span class="nav-label">测试</span>
-                    <span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a class="J_menuItem" href="${rc.contextPath}/echartsDemo/index">报表</a>
-                        <a class="J_menuItem" href="${rc.contextPath}/example/mail/index">邮件短信</a>
-                    </li>
-                </ul>
-            </li>
+##            <li class="first-level">
+##                <a href="#">
+##                    <i class="fa fa-home"></i>
+##                    <span class="nav-label">测试</span>
+##                    <span class="fa arrow"></span>
+##                </a>
+##                <ul class="nav nav-second-level">
+##                    <li>
+##                        <a class="J_menuItem" href="${rc.contextPath}/echartsDemo/index">报表</a>
+##                        <a class="J_menuItem" href="${rc.contextPath}/example/mail/index">邮件短信</a>
+##                    </li>
+##                </ul>
+##            </li>
 
 ##            <li>
 ##                <a href="#">
