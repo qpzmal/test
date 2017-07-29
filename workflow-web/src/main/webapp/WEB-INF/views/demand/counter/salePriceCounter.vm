@@ -10,29 +10,21 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>查询条件</h5>
+                    <h5>CPM详细</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
                         </a>
                     </div>
                 </div>
-                <div class="ibox-content">
-                    <form class="form-horizontal m-t" id="commentForm">
-                        <div class="row">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">CPM</label>
-                                <div id="cpm_id_content"  class="col-sm-8">
-                                    <select id="cpm_id" data-placeholder="请选择请选择CPM" style="width:350px;" class="chosen-select" tabindex="2" onchange="cpmChange(this)">
-                                        <option value="">请选择CPM</option>
-                                        #foreach($data in $baseOrderCpmVOList)
-                                            <option value ="$data.id">$data.mediaName</option>
-                                        #end
-                                    </select>
-                                </div>
+                <div id="cpm_detail_content" class="ibox-content">
+                    <div id="add_row" class="row">
+                        <div class="ibox">
+                            <div class="ibox-title">
+                                <button id="addCounterBtn" type="button" class="btn btn-w-m btn-info">创建CPM计算器</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,154 +33,28 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>手动输入</h5>
+                    <h5>汇总信息</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
                         </a>
                     </div>
                 </div>
-                <div class="ibox-content" >
-                    <form class="form-horizontal m-t" id="cpm_info">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">媒体单价</label>
-                            <div class="col-sm-8">
-                                <input id="media_price" name="media_price" class="form-control input-params">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">对公返点比例</label>
-                            <div class="col-sm-8">
-                                <input id="public_rebate" name="public_rebate" class="form-control " >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">媒体采购成本（元／CPM）</label>
-                            <div class="col-sm-8">
-                                <input id="purchase" name="purchase" class="form-control input-params" >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">销售激励比例</label>
-                            <div class="col-sm-8">
-                                <input id="sales_incentive_rate" name="sales_incentive_rate" class="form-control input-params " >
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>自动计算</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-content" >
-                    <form class="form-horizontal m-t" id="accout_info">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">净收入</label>
-                            <div class="col-sm-8">
-                                <input id="net_income" name="net_income" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">主营业务税金及附加</label>
-                            <div class="col-sm-8">
-                                <input id="biz_tax" name="biz_tax" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">文化建设税</label>
-                            <div class="col-sm-8">
-                                <input id="culture_rate" name="culture_rate" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">税金合计</label>
-                            <div class="col-sm-8">
-                                <input id="total_rate" name="total_rate" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">毛利</label>
-                            <div class="col-sm-8">
-                                <input id="gross_profit" name="gross_profit" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">毛利率(百分比)</label>
-                            <div class="col-sm-8">
-                                <input id="gross_profit_rate" name="gross_profit_rate" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">销售提成比例(百分比)</label>
-                            <div class="col-sm-8">
-                                <input id="sales_commissions_rate" name="sales_commissions_rate" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">销售提成金额</label>
-                            <div class="col-sm-8">
-                                <input id="sales_commissions" name="sales_commissions" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">工资房租分摊比例(百分比)</label>
-                            <div class="col-sm-8">
-                                <input id="salary_rent_rate" name="salary_rent_rate" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">工资房租分摊额</label>
-                            <div class="col-sm-8">
-                                <input id="salary_rent" name="salary_rent" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">销售激励金额</label>
-                            <div class="col-sm-8">
-                                <input id="sales_incentive" name="sales_incentive" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">税前净利(百分比)</label>
-                            <div class="col-sm-8">
-                                <input id="pre_tax_net_profit" name="pre_tax_net_profit" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">所得税率(百分比)</label>
-                            <div class="col-sm-8">
-                                <input id="income_tax_rate" name="income_tax_rate" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">所得税</label>
-                            <div class="col-sm-8">
-                                <input id="income_tax" name="income_tax" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">税后净利</label>
-                            <div class="col-sm-8">
-                                <input id="after_tax_net_profit" name="after_tax_net_profit" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">净利润率(百分比)</label>
-                            <div class="col-sm-8">
-                                <input id="net_profit_rate" name="net_profit_rate" class="form-control" disabled>
-                            </div>
-                        </div>
-                    </form>
+                <div id="total-content" class="ibox-content " >
+                    <table class="table table-hover no-margins">
+                        <thead>
+                        <tr>
+                            <th>广告形式</th>
+                            <th>净收入单价</th>
+                            <th>销售量</th>
+                            <th>净收入</th>
+                            <th>净利润率</th>
+                            <th>净利润</th>
+                        </tr>
+                        </thead>
+                        <tbody id="total">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -199,24 +65,197 @@
 #define($jsblock)
 <script type="text/javascript" src="#springUrl("")/static/js/content.min.js?v=1.0.0?$!application.getAttribute('/static/js/content.min.js?v=1.0.0')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
+##<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
+##<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
 
 <script>
+    $("#cpm_detail_content").on("click",".child-chevron-up",function(){
+                    $(this).parent().parent().parent().parent().children(".ibox-content").slideToggle("slow");
 
+        });
+
+    $("#cpm_detail_content").on("click",".child-chevron-close",function(){
+        $(this).parent().parent().parent().parent().parent().remove();
+        totalSet();
+    });
+
+    $("#cpm_detail_content").on("change",".adtype_select",function(){
+        totalSet();
+    });
+
+    $("#total-content").on("change",".sale_count",function(){
+        var rowList = $(this).parent().parent().parent().children(".rowtr");
+        var rowCount = rowList.size();
+
+        var inputParamList = new Array();
+        for (var i =0; i < rowCount-1; i++) {
+            var rowTemp = rowList.get(i);
+            var num = rowTemp.id;
+            num = "#"+num;
+
+            var map = {};
+            map['netIncomePrice']= $(num).find(".net_income_price_total").text();
+            map['netProfitRate']= $(num).find(".net_profit_rate_total").text();
+            map['adtypeName']= $(num).find(".adtype").text();
+            map['saleCount']= $(num).find(".sale_count").val();
+            map['num']= $(num).find(".num").val();
+
+            inputParamList.push(map);
+        }
+        var json = JSON.stringify(inputParamList);
+        $.ajax({
+            url:"/salePrice/totalInfo.json?",
+            type:"post",
+            async: false,
+            data:{
+                json:json
+            },
+            success: function(returnData){
+                console.log(returnData);
+                $("#total").html(returnData);
+            }
+        });
+
+    });
+
+    $("#cpm_detail_content").on("change",".input-params",function(){
+        var tbody = $(this).parent().parent().parent();
+        var mediaPrice = tbody.find("#media_price").val();
+        var publicRebate = tbody.find("#public_rebate").val();
+        var purchase = tbody.find("#purchase").val();
+        var salesIncentiveRate = tbody.find("#sales_incentive_rate").val();
+        if (mediaPrice == ""
+                || publicRebate == ""
+                || purchase == ""
+                || salesIncentiveRate == "") {
+
+            tbody.find("#net_income").val("");
+            tbody.find("#biz_tax").val("");
+            tbody.find("#culture_rate").val("");
+            tbody.find("#total_rate").val("");
+            tbody.find("#gross_profit").val("");
+            tbody.find("#gross_profit_rate").val("");
+            tbody.find("#sales_commissions_rate").val("");
+            tbody.find("#sales_commissions").val("");
+            tbody.find("#salary_rent_rate").val("");
+            tbody.find("#salary_rent").val("");
+            tbody.find("#sales_incentive").val("");
+            tbody.find("#pre_tax_net_profit").val("");
+            tbody.find("#income_tax_rate").val("");
+            tbody.find("#income_tax").val("");
+            tbody.find("#after_tax_net_profit").val("");
+            tbody.find("#net_profit_rate").val("");
+
+            return;
+        }
+        publicRebate = publicRebate/100;
+        salesIncentiveRate = salesIncentiveRate/100;
+
+        $.ajax({
+            url:"/salePrice/accoutInfo.json?",
+            type:"post",
+            async: false,
+            data:{
+                mediaPrice:mediaPrice,
+                publicRebate:publicRebate,
+                purchase:purchase,
+                salesIncentiveRate:salesIncentiveRate
+            },
+            success: function(returnData){
+                console.log(returnData);
+                tbody.html(returnData);
+            }
+        });
+        totalSet();
+
+    })
+
+    function totalSet() {
+        var rowList = $("#cpm_detail_content").children(".counter");
+        var rowCount = rowList.size();
+
+        var inputParamList = new Array();
+        for (var i =0; i < rowCount; i++) {
+            var rowTemp = rowList.get(i);
+            var num = rowTemp.id;
+            num = "#"+num;
+
+            var map = {};
+            map['netIncomePrice']= $(num).find("#net_income").val();
+            map['netProfitRate']= $(num).find("#net_profit_rate").val();
+            var adtypeId = $(num).find("#adtype_id").val();
+            map['adtypeId']= adtypeId;
+
+            if (adtypeId != '') {
+                map['adtypeName']= $(num).find("#adtype_id").find("option:selected").text();
+            } else {
+                map['adtypeName']='';
+            }
+            map['num']= num;
+            inputParamList.push(map);
+        }
+        var json = JSON.stringify(inputParamList);
+
+        var beforeRowList = $(".rowtr");
+        var rowCountBefore = beforeRowList.size();
+
+        var inputParamBeforeList = new Array();
+        for (var i =0; i < rowCountBefore-1; i++) {
+            var rowBeforeTemp = beforeRowList.get(i);
+            var numBefore = rowBeforeTemp.id;
+            numBefore = "#"+numBefore;
+
+            var map = {};
+            map['netIncomePrice']= $(numBefore).find(".net_income_price_total").text();
+            map['netProfitRate']= $(numBefore).find(".net_profit_rate_total").text();
+            map['adtypeName']= $(numBefore).find(".adtype").text();
+            map['saleCount']= $(numBefore).find(".sale_count").val();
+            map['num']= $(numBefore).find(".num").val();
+
+            inputParamBeforeList.push(map);
+        }
+        var jsonBefore = JSON.stringify(inputParamBeforeList);
+        $.ajax({
+            url:"/salePrice/totalUpdate.json?",
+            type:"post",
+            async: false,
+            data:{
+                json:json,
+                jsonBefore:jsonBefore
+            },
+            success: function(returnData){
+                console.log(returnData);
+                $("#total").html(returnData);
+            }
+        });
+    }
+    // 删除
+    $(".btn-info").click(function(){
+        var add_row = $("#add_row");
+        $.ajax({
+            url:"/salePrice/addCounter.json",
+            type:"post",
+            async: false,
+            success: function(returnData){
+                console.log(returnData);
+                add_row.before(returnData);
+            }
+        });
+    }
+    )
     $().ready(
             function(){
-                $("#cpm_info").validate({
-                        rules:{
-                            public_rebate:{
-                                range: "[1,100]"
-                            },
-                            sales_incentive_rate:{
-                                range: "[2,100]"
-                            }
-                        }
-                }
-                );
+//                $("#cpm_info").validate({
+//                        rules:{
+//                            public_rebate:{
+//                                range: "[1,100]"
+//                            },
+//                            sales_incentive_rate:{
+//                                range: "[2,100]"
+//                            }
+//                        }
+//                }
+//                );
                 var config = {
                     ".chosen-select": {},
                     ".chosen-select-deselect": {allow_single_deselect: !0},
@@ -229,83 +268,6 @@
 
             }
     );
-
-    $("#cpm_info").on("change",".input-params",function(){
-//        $("#cpm_info").valid();
-        getCountInfo();
-    })
-
-    function cpmChange(obj) {
-        getCpmInfo();
-        countInputChange();
-    };
-
-    function countInputChange() {
-        getCountInfo();
-    };
-
-    function getCpmInfo() {
-        var cpmId = $("#cpm_id").val();
-        $.ajax({
-            url:"/salePrice/cpmInfo.json?",
-            type:"post",
-            async: false,
-            data:{
-                cpmId:cpmId
-            },
-            success: function(returnData){
-                console.log(returnData);
-                $("#cpm_info").html(returnData);
-            }
-        });
-    }
-
-    function getCountInfo() {
-        var mediaPrice = $("#media_price").val();
-        var publicRebate = $("#public_rebate").val();
-        var purchase = $("#purchase").val();
-        var salesIncentiveRate = $("#sales_incentive_rate").val();
-        if (mediaPrice == ""
-                || publicRebate == ""
-                || purchase == ""
-                || salesIncentiveRate == "") {
-
-            $("#net_income").val("");
-            $("#biz_tax").val("");
-            $("#culture_rate").val("");
-            $("#total_rate").val("");
-            $("#gross_profit").val("");
-            $("#gross_profit_rate").val("");
-            $("#sales_commissions_rate").val("");
-            $("#sales_commissions").val("");
-            $("#salary_rent_rate").val("");
-            $("#salary_rent").val("");
-            $("#sales_incentive").val("");
-            $("#pre_tax_net_profit").val("");
-            $("#income_tax_rate").val("");
-            $("#income_tax").val("");
-            $("#after_tax_net_profit").val("");
-            $("#net_profit_rate").val("");
-
-            return;
-        }
-
-        $.ajax({
-            url:"/salePrice/accoutInfo.json?",
-            type:"post",
-            async: false,
-            data:{
-                mediaPrice:mediaPrice,
-                publicRebate:publicRebate/100,
-                purchase:purchase,
-                salesIncentiveRate:salesIncentiveRate/100
-            },
-            success: function(returnData){
-                console.log(returnData);
-                $("#accout_info").html(returnData);
-            }
-        });
-    }
 
 </script>
 #end
