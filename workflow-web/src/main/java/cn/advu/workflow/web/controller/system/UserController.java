@@ -282,16 +282,19 @@ public class UserController {
         param.setStatus((byte) 1);
         dbList = executeOrderService.findAll(param);
         List<BaseExecuteOrder> todoList = dbList.getData();
+        LOGGER.info("待处理件数：{}", todoList.size());
 
         // 工作看板--进行中
         param.setStatus((byte) 2);
         dbList = executeOrderService.findAll(param);
         List<BaseExecuteOrder> handlingList = dbList.getData();
+        LOGGER.info("进行中件数：{}", handlingList.size());
 
         // 工作看板--已完成
         param.setStatus((byte) 3);
         dbList = executeOrderService.findAll(param);
         List<BaseExecuteOrder> finishedList = dbList.getData();
+        LOGGER.info("已完成件数：{}", finishedList.size());
 
         // 项目进度
         dbList = executeOrderService.findAll(param);
@@ -311,6 +314,8 @@ public class UserController {
         if (!dataBoardFlag && !progressFlag) {
             welcomeFlag = true;
         }
+        LOGGER.info("dataBoardFlag：{}, progressFlag：{}", dataBoardFlag, progressFlag);
+        LOGGER.info("welcomeFlag：{}", welcomeFlag);
 
         model.addAttribute("welcomeFlag", welcomeFlag);
         model.addAttribute("dataBoardFlag", dataBoardFlag);
