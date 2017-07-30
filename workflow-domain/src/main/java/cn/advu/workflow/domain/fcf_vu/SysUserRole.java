@@ -3,9 +3,11 @@ package cn.advu.workflow.domain.fcf_vu;
 import cn.advu.workflow.domain.base.AbstractEntity;
 
 public class SysUserRole extends AbstractEntity {
-    private Integer admins;
+    private Integer admins; // 用户id
 
-    private Integer roles;
+    private Integer roles; // 角色id
+
+    private String roleName; // 角色名称
 
     public Integer getAdmins() {
         return admins;
@@ -21,5 +23,13 @@ public class SysUserRole extends AbstractEntity {
 
     public void setRoles(Integer roles) {
         this.roles = roles;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

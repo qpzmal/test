@@ -5,11 +5,12 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="admins" jdbcType="INTEGER" property="admins" />
     <result column="roles" jdbcType="INTEGER" property="roles" />
+    <result column="roleName" jdbcType="VARCHAR" property="roleName" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, admins, roles, create_time, update_time
+    sys_user_role.id, admins, roles, sys_user_role.create_time, sys_user_role.update_time
   </sql>
   <delete id="deleteByPrimaryKey" parameterType="cn.advu.workflow.domain.fcf_vu.SysUserRole">
     delete from sys_user_role
@@ -48,8 +49,9 @@
   <select id="queryByUser" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from sys_user_role
-    where admins = ${userId}
+    , sys_role.name AS roleName
+    from sys_user_role, sys_role
+    where sys_user_role.roles = sys_role.id and sys_user_role.admins = ${userId}
   </select>
   <select id="queryByRole" resultMap="BaseResultMap">
     select

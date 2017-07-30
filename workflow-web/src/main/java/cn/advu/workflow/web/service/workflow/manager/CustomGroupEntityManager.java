@@ -1,9 +1,17 @@
 package cn.advu.workflow.web.service.workflow.manager;
 
+import cn.advu.workflow.domain.fcf_vu.SysUserRole;
+import cn.advu.workflow.repo.fcf_vu.SysUserRoleRepo;
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.activiti.engine.impl.persistence.entity.GroupEntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by weiqz on 2017/6/30.
@@ -12,31 +20,32 @@ import org.springframework.stereotype.Component;
 public class CustomGroupEntityManager extends GroupEntityManager {
     private static Logger LOGGER = LoggerFactory.getLogger(CustomGroupEntityManager.class);
 
-//    @Autowired
-//    private UserMapper userMapper;//用于查询实际业务中用户表、角色等表
+    @Autowired
+    private SysUserRoleRepo sysUserRoleRepo;//用于查询实际业务中角色表
 
 
-//    @Override
-//    public List<Group> findGroupsByUser(final String userCode) {
-//        if (userCode == null)
-//            return null;
-//
-//        List<Role> bGroupList = userMapper.getGroupByUserName(userCode);
-//
-//        List<Group> gs = new java.util.ArrayList<>();
-//        GroupEntity g;
-//        String roleId;
-//        String activitRole;
-//        for (Role bGroup : bGroupList) {
-//            g = new GroupEntity();
-//            g.setRevision(1);
-//            g.setType("assignment");
-//            roleId = String.valueOf(bGroup.getRoleID());
+    @Override
+    public List<Group> findGroupsByUser(final String uid) {
+        if (uid == null) {
+            return null;
+        }
+
+        List<SysUserRole> dbGroupList = sysUserRoleRepo.findUserRole(Integer.valueOf(uid));
+
+        List<Group> gs = new ArrayList<>();
+        GroupEntity g;
+        String roleId;
+        String activitRole = null;
+        for (SysUserRole dbGroup : dbGroupList) {
+            g = new GroupEntity();
+            g.setRevision(1);
+            g.setType("assignment");
+            roleId = String.valueOf(dbGroup.getId());
 //            activitRole = bindGroupWithRole.get(roleId);//此处只是根据RoleId获取RoleCode， 因实际表中无RoleCode字段，暂且如此实际，此行可注释掉
-//            g.setId(activitRole != null ? activitRole : roleId);
-//            g.setName(bGroup.getRoleName());
-//            gs.add(g);
-//        }
-//        return gs;
-//    }
+            g.setId(activitRole != null ? activitRole : roleId);
+            g.setName(dbGroup.getRoleName());
+            gs.add(g);
+        }
+        return gs;
+    }
 }

@@ -23,16 +23,16 @@
         <property name="labelFontName" value="微软雅黑"/>
         <property name="annotationFontName" value="微软雅黑"/>
 
-        <!--<property name="customSessionFactories">-->
-            <!--<list>-->
-                <!--<bean class="com.jimubox.transformers.factory.workflow.CustomUserEntityManagerFactory">-->
-                    <!--<property name="customUserEntityManager" ref="customUserEntityManager"/>-->
-                <!--</bean>-->
-                <!--<bean class="com.jimubox.transformers.factory.workflow.CustomGroupEntityManagerFactory">-->
+        <property name="customSessionFactories">
+            <list>
+                <bean class="cn.advu.workflow.web.service.workflow.factory.CustomGroupEntityManagerFactory">
                     <!--<property name="customGroupEntityManager" ref="customGroupEntityManager"/>-->
-                <!--</bean>-->
-            <!--</list>-->
-        <!--</property>-->
+                </bean>
+                <bean class="cn.advu.workflow.web.service.workflow.factory.CustomUserEntityManagerFactory">
+                    <!--<property name="customUserEntityManager" ref="customUserEntityManager"/>-->
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <!-- 创建流程引擎对象 -->
