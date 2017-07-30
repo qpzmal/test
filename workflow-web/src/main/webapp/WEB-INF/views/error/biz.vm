@@ -22,7 +22,9 @@
 
 <body class="gray-bg">
     <div class="middle-box text-center animated fadeInDown">
-        <h2>业务异常：</h2>
+        <h2 class="font-bold">业务校验</h2>
+        <label><small>(请修复数据后，继续！)</small></label>
+        <br>
         <h3 class="font-bold">$!{exception.info}</h3>
     </div>
     <script src="#springUrl("")/static/js/jquery.min.js?v=2.1.4"></script>
