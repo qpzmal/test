@@ -2,19 +2,19 @@
 <tr>
     <td style="width:80px;">媒体单价</td>
     <td style="width:80px;">
-        <input value="$!{mediaPrice}" id="media_price" name="media_price" class="form-control input-params">
+        <input value="$!{mediaPrice}" id="media_price" name="media_price" class="form-control input-params isDecimal notZero">
     </td>
-    <td style="width:80px;">对公返点(%)</td>
+    <td style="width:80px;">对公返点<label class="text-danger">(%)</label></td>
     <td style="width:80px;">
-        <input value="$publicRebate.multiply($std)" id="public_rebate" name="public_rebate" class="form-control input-params col-md-8" >
+        <input value="$publicRebate.multiply($std)" id="public_rebate" name="public_rebate" class="form-control input-params isDecimal isPercent" >
     </td>
     <td style="width:80px;">采购成本</td>
     <td style="width:80px;">
-        <input value="$!{purchase}"  id="purchase" name="purchase" class="form-control input-params" >
+        <input value="$!{purchase}"  id="purchase" name="purchase" class="form-control input-params isDecimal" >
     </td>
-    <td style="width:80px;">销售激励比例(%)</td>
+    <td style="width:80px;">销售激励比例<label class="text-danger">(%)</label></td>
     <td style="width:80px;">
-        <input value="$salesIncentiveRate.multiply($std)"  id="sales_incentive_rate" name="sales_incentive_rate" class="form-control input-params " >
+        <input value="$salesIncentiveRate.multiply($std)"  id="sales_incentive_rate" name="sales_incentive_rate" class="form-control input-params isDecimal isPercent" >
     </td>
 </tr>
 <tr>
@@ -68,7 +68,7 @@
     <td >
         <input value="$!{salesIncentive}"  id="sales_incentive" name="sales_incentive" class="form-control" disabled>
     </td>
-    <td>税前净利(%)</td>
+    <td>税前净利</td>
     <td >
         <input value="$preTaxNetProfit.multiply($std)"  id="pre_tax_net_profit" name="pre_tax_net_profit" class="form-control" disabled>
     </td>
