@@ -14,6 +14,8 @@ public interface SysUserRoleRepo extends IRepo<SysUserRole> {
 
     List<SysUserRole> findUserRole(Integer userId);
 
+    List<SysUserRole> findUserRoleByName(String loginName);
+
     List<SysUserRole> findRoleUser(Integer roleId);
 
     int removeUserRole(Integer userId);

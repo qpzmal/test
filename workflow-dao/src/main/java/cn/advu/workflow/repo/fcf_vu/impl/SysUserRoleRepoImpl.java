@@ -2,7 +2,6 @@ package cn.advu.workflow.repo.fcf_vu.impl;
 
 import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.dao.fcf_vu.SysUserRoleMapper;
-import cn.advu.workflow.domain.fcf_vu.SysRole;
 import cn.advu.workflow.domain.fcf_vu.SysUserRole;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
 import cn.advu.workflow.repo.fcf_vu.SysUserRoleRepo;
@@ -37,6 +36,11 @@ public class SysUserRoleRepoImpl extends AbstractRepo<SysUserRole> implements Sy
     public List<SysUserRole> findUserRole(Integer userId) {
 
         return sysUserRoleMapper.queryByUser(userId);
+    }
+
+    @Override
+    public List<SysUserRole> findUserRoleByName(String loginName) {
+        return sysUserRoleMapper.queryByUserByLoginName(loginName);
     }
 
     @Override

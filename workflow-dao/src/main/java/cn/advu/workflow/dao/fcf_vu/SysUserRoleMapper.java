@@ -12,6 +12,8 @@ public interface SysUserRoleMapper extends BaseDAO<SysUserRole> {
 
     List<SysUserRole> queryByUser(@Param("userId")Integer userId);
 
+    List<SysUserRole> queryByUserByLoginName(@Param("loginName")String loginName);
+
     List<SysUserRole> queryByRole(@Param("roleId")Integer roleId);
 
     int deleteByUser(@Param("userId")Integer userId);

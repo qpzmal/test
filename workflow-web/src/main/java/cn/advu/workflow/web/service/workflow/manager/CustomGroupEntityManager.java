@@ -25,12 +25,12 @@ public class CustomGroupEntityManager extends GroupEntityManager {
 
 
     @Override
-    public List<Group> findGroupsByUser(final String uid) {
-        if (uid == null) {
+    public List<Group> findGroupsByUser(final String loginName) {
+        if (loginName == null) {
             return null;
         }
 
-        List<SysUserRole> dbGroupList = sysUserRoleRepo.findUserRole(Integer.valueOf(uid));
+        List<SysUserRole> dbGroupList = sysUserRoleRepo.findUserRoleByName(loginName);
 
         List<Group> gs = new ArrayList<>();
         GroupEntity g;

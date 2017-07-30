@@ -31,19 +31,19 @@ public class CustomUserEntityManager extends UserEntityManager {
 
 
     @Override
-    public UserEntity findUserById(String userId) {
+    public UserEntity findUserById(String loginName) {
         UserEntity userEntity = new UserEntity();
-        SysUser dbUser = sysUserRepo.findOne(Integer.valueOf(userId));
+        SysUser dbUser = sysUserRepo.findByIdAndName(null, loginName);
         ActivitiUtils.toActivitiUser(dbUser);
         return userEntity;
     }
 
     @Override
-    public List<Group> findGroupsByUser(final String userId) {
-        if (userId == null)
+    public List<Group> findGroupsByUser(final String loginName) {
+        if (loginName == null)
             return null;
 
-        List<SysUserRole> dbGroupList = sysUserRoleRepo.findUserRole(Integer.valueOf(userId));
+        List<SysUserRole> dbGroupList = sysUserRoleRepo.findUserRoleByName(loginName);
 
         List<Group> gs = ActivitiUtils.toActivitiGroups(dbGroupList);
         return gs;

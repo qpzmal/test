@@ -49,9 +49,14 @@
   <select id="queryByUser" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
+    from sys_user_role
+  </select>
+  <select id="queryByUserByLoginName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
     , sys_role.name AS roleName
-    from sys_user_role, sys_role
-    where sys_user_role.roles = sys_role.id and sys_user_role.admins = ${userId}
+    from sys_user_role, sys_role, sys_user
+    where sys_user_role.roles = sys_role.id and sys_user_role.admins = sys_user.id and sys_user.login_name = ${loginName}
   </select>
   <select id="queryByRole" resultMap="BaseResultMap">
     select
