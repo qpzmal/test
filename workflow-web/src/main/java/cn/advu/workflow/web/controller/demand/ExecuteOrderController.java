@@ -77,6 +77,13 @@ public class ExecuteOrderController {
 
     static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
+    @RequestMapping("/leaderSelect")
+    public String leaderSelect(Integer areaId, Model model){
+        List<BasePerson> leaderList = personMananger.findPersonListByArea(areaId);
+        model.addAttribute("leaderList", leaderList);
+        return "demand/saleOrder/leaderSelect";
+    }
+
     @RequestMapping("/signCompanySelect")
     public String signCompanySelect(Integer signType, Model model){
         List<BaseCustom> signCompanyList = null;

@@ -3,6 +3,7 @@ package cn.advu.workflow.repo.fcf_vu.impl;
 import cn.advu.workflow.dao.base.BaseDAO;
 import cn.advu.workflow.dao.fcf_vu.BaseExecuteOrderFrameMapper;
 import cn.advu.workflow.dao.fcf_vu.BaseOrderCpmMapper;
+import cn.advu.workflow.domain.enums.CpmTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
@@ -60,7 +61,7 @@ public class BaseExecuteOrderFrameRepoImpl extends AbstractOrderRepo<BaseExecute
         if (entity != null) {
             count = getSqlMapper().updateByPrimaryKey(entity);
 
-            baseOrderCpmMapper.deleteByOrderAndType(entity.getId(), 1);
+            baseOrderCpmMapper.deleteByOrderAndType(entity.getId(), Integer.valueOf(CpmTypeEnum.EXECUTE_FRAME.getValue()));
 
             List<BaseOrderCpmVO> baseOrderCpmList = entity.getBaseOrderCpmList();
             if (baseOrderCpmList != null && !baseOrderCpmList.isEmpty()) {

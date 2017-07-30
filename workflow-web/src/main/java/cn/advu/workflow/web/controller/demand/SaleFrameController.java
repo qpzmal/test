@@ -189,7 +189,9 @@ public class SaleFrameController {
 
         String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
         BaseArea baseArea = areaService.findById(baseExecuteOrderFrame.getAreaId()).getData();
+
         List<BasePerson> leaderList = personMananger.findPersonListByArea(baseExecuteOrderFrame.getAreaId());
+
         List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
         List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
         List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
@@ -285,9 +287,10 @@ public class SaleFrameController {
     public String toRefer(Integer id, Model model){
         Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
         SysUser sysUser = userMananger.findById(userId);
-        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
 
         BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(id).getData();
+        BasePerson basePerson = personMananger.findById(baseExecuteOrderFrame.getPersonSalesId());
+        AssertUtil.assertNotNull(basePerson, MessageConstants.SALE_PERSON_IS_NOT_EXISTS);
 
         String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
         BaseArea baseArea = areaService.findById(baseExecuteOrderFrame.getAreaId()).getData();

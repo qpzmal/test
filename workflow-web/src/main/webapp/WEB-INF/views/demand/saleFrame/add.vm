@@ -22,16 +22,16 @@
                     <h5>项目基本信息</h5>
                 </div>
                 <div class="ibox-content">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">项目编号</label>
-                        <div class="col-sm-8">
-                            <input value="自动生成" id="order_num" name="order_num" maxlength="15" type="text" class="form-control" disabled >
-                        </div>
-                    </div>
+##                    <div class="form-group">
+##                        <label class="col-sm-3 control-label">项目编号</label>
+##                        <div class="col-sm-8">
+##                            <input value="自动生成" id="order_num" name="order_num" maxlength="15" type="text" class="form-control" disabled >
+##                        </div>
+##                    </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目补充编号</label>
                         <div class="col-sm-8">
-                            <input id="sec_order_num" name="sec_order_num" maxlength="15" type="text" class="form-control" required aria-required="true"
+                            <input id="sec_order_num" name="sec_order_num" maxlength="15" type="text" class="form-control"
                                 #if($!{hasSaleAuth} == false)
                                    disabled
                                 #end
@@ -41,7 +41,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目名称</label>
                         <div class="col-sm-8">
-                            <input id="p_name" name="p_name" maxlength="50" type="text" class="form-control"
+                            <input id="p_name" name="p_name" maxlength="50" type="text" class="form-control" required aria-required="true"
                                 #if($!{hasSaleAuth} == false)
                                    disabled
                                 #end>
@@ -50,7 +50,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目日期</label>
                         <div class="col-sm-8">
-                            <input id="order_date" name="order_date" class="laydate-icon form-control layer-date"
+                            <input id="order_date" name="order_date" class="laydate-icon form-control layer-date" required aria-required="true"
                                 #if($!{hasSaleAuth} == false)
                                    disabled
                                 #end
@@ -65,7 +65,7 @@
                                 #if(!${areaTreeJson})
                                    disabled
                                 #end
-                                   onclick="showAreaList(); return false;" onfocus=this.blur()
+                                   onclick="showAreaList(); return false;" onfocus=this.blur() required aria-required="true"
                                 #if($!{hasSaleAuth} == false)
                                    disabled
                                 #end
@@ -74,8 +74,8 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目负责人</label>
-                        <div class="col-sm-8">
-                            <select id="person_leader_id" ata-placeholder="请选择项目负责人" class="chosen-select" style="width:350px;" tabindex="2"
+                        <div id="person_leader_content" class="col-sm-8">
+                            <select id="person_leader_id" data-placeholder="请选择项目负责人" class="chosen-select" style="width:350px;" tabindex="2"
                                 #if($!{hasSaleAuth} == false)
                                     disabled
                                 #end
@@ -125,7 +125,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">客户行业</label>
                         <div class="col-sm-8">
-                            <select id="custom_industry_id" ata-placeholder="请选择客户行业" class="chosen-select" style="width:350px;" tabindex="2"
+                            <select id="custom_industry_id" data-placeholder="请选择客户行业" class="chosen-select" style="width:350px;" tabindex="2"
                                 #if($!{hasSaleAuth} == false)
                                     disabled
                                 #end
@@ -140,7 +140,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">客户</label>
                         <div id="custom_content" class="col-sm-8">
-                            <select id="custom_select" ata-placeholder="请选择客户" class="form-control" style="width:350px;" tabindex="2"
+                            <select id="custom_select" data-placeholder="请选择客户" class="form-control" style="width:350px;" tabindex="2"
                                 #if($!{hasSaleAuth} == false)
                                     disabled
                                 #end
@@ -428,6 +428,17 @@
 
 <script>
 
+    function areaChange() {
+        $.ajax({
+            url:"/saleOrder/leaderSelect.json?areaId=" + $("#area_id").val(),
+            type:"get",
+            success: function(returnData){
+                console.log(returnData);
+                $("#person_leader_content").html(returnData);
+            }
+        });
+    }
+
     ##签约类型变更
     function signTypeChange(){
         $.ajax({
@@ -699,6 +710,7 @@
                     $("#area_id").attr("value", o.value);
                     $("#area_name").attr("value", o.text);
                     $("#area_tree_content").fadeOut("fast");
+                    areaChange();
                 }
             });
         }
