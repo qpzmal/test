@@ -158,6 +158,10 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
 
     @Override
     public ResultJson<Integer> update(BaseExecuteOrder baseExecuteOrder) {
+        // 补充编码
+        if (StringUtils.isEmpty(baseExecuteOrder.getSecOrderNum())) {
+            baseExecuteOrder.setSecOrderNum(baseExecuteOrder.getOrderNum());
+        }
 
         AssertUtil.assertNotNullOrEmpty(baseExecuteOrder.getSignType(), "签约类型");
         String customSignName = baseExecuteOrder.getCustomSignName();
