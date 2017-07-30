@@ -77,8 +77,8 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目负责人</label>
-                        <div class="col-sm-8">
-                            <select id="person_leader_id" ata-placeholder="请选择项目负责人" class="chosen-select" style="width:350px;" tabindex="2">
+                        <div id="person_content" class="col-sm-8">
+                            <select id="person_id" ata-placeholder="请选择项目负责人" class="chosen-select" style="width:350px;" tabindex="2">
                                 <option value="">请选择项目负责人</option>
                                 #foreach($data in $leaderList)
                                     <option value ="$data.id"
@@ -233,6 +233,16 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-table-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-table-editable.js')"></script>
 
 <script>
+    function areaChange() {
+        $.ajax({
+            url:"/buyOrder/leaderSelect.json?areaId=" + $("#area_id").val(),
+            type:"get",
+            success: function(returnData){
+                console.log(returnData);
+                $("#person_content").html(returnData);
+            }
+        });
+    }
 
     ##显示公司列表
     function onBodyDown(event) {
@@ -475,6 +485,7 @@
                     $("#area_id").attr("value", o.value);
                     $("#area_name").attr("value", o.text);
                     $("#area_tree_content").fadeOut("fast");
+                    areaChange();
                 }
             });
         }
@@ -533,7 +544,7 @@
         var secOrderNum = $("#sec_order_num").val();
         var type = $("#type").val();
         var orderDate = stringToDate($("#order_date").val());
-        var personLeaderId = $("#person_leader_id").val();
+        var personLeaderId = $("#person_id").val();
         if (personLeaderId == "") {
             personLeaderId = "0";
         }
