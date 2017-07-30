@@ -438,7 +438,6 @@
                                 <th data-field="adTypeId" data-editable="true" >广告形式Id</th>
                                 <th data-field="cpm" data-editable="true" >CPM数</th>
                                 <th data-field="remark" data-editable="true" >备注</th>
-                                <th data-field="id" data-editable="true">id</th>
                             </tr>
                             </thead>
                         </table>
