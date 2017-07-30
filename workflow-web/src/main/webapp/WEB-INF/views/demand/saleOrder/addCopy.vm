@@ -816,9 +816,9 @@
         var personLeaderId = $("#person_leader_id").val();
         var areaId = $("#area_id").val();
         var signType = $("#sign_type").val();
-        var signCompanyId = $("#sign_company_id").val();
+//        var signCompanyId = $("#sign_company_id").val();
         var customIndustryId = $("#custom_industry_id").val();
-        var customId = $("#custom_id").val();
+//        var customId = $("#custom_id").val();
         var deliveryAreaIds = findSelecedValueStr("delivery_area_ids");
         var deliveryAreaNames = findSelecedStr("delivery_area_ids");
 
@@ -844,6 +844,9 @@
         var cpmJsonStr = JSON.stringify(cpmTable.bootstrapTable('getData'));
         var frameId = "$!baseExecuteOrder.id";
 
+        var customSignName = $("#sign_company_select").val();
+        var customAdverserName = $("#custom_select").val();
+
         $.ajax({
             url:"/saleOrder/add.json",
             type:"post",
@@ -858,8 +861,8 @@
                 deliveryAreaNames:deliveryAreaNames,
                 areaId:areaId,
                 signType:signType,
-                customSignId:signCompanyId,
-                customAdverserId:customId,
+//                customSignId:signCompanyId,
+//                customAdverserId:customId,
                 industryId:customIndustryId,
                 personSalesId:personSalesId,
                 amount:amount,
@@ -875,6 +878,9 @@
                 endDate:endDate,
                 personLeaderId:personLeaderId,
                 personPayeeId:personPayeeId,
+
+                customSignName:customSignName,
+                customAdverserName:customAdverserName,
 
                 payPercent:payPercent,
                 accountPeriod:accountPeriod,

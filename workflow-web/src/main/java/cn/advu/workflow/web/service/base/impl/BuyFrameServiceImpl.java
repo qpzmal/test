@@ -110,7 +110,7 @@ public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFram
         BaseBuyOrderFrame baseBuyOrderFrame = baseBuyOrderFrameRepo.findOne(id);
         result.setData(baseBuyOrderFrame);
 
-        List<BaseOrderCpmVO> cpmList = cpmManager.findOrderBuyCpm(id);
+        List<BaseOrderCpmVO> cpmList = cpmManager.findOrderBuyFrameCpm(id);
         baseBuyOrderFrame.setBaseOrderCpmList(cpmList);
         return result;
     }

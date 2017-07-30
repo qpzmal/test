@@ -346,8 +346,8 @@ public class ExecuteOrderController {
 
         BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(id).getData();
 
-        BasePerson basePerson = personMananger.findById(id);
-        AssertUtil.assertNotNull(basePerson, MessageConstants.PERSON_IS_NOT_EXISTS);
+        BasePerson basePerson = personMananger.findById(baseExecuteOrder.getPersonSalesId());
+        AssertUtil.assertNotNull(basePerson, MessageConstants.SALE_PERSON_IS_NOT_EXISTS);
 
         String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
         BaseArea baseArea = areaService.findById(baseExecuteOrder.getAreaId()).getData();
