@@ -238,6 +238,7 @@ public class ExecuteOrderController {
 
         Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
         SysUser sysUser = userMananger.findById(userId);
+
         BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
         AssertUtil.assertNotNull(basePerson, MessageConstants.PERSON_IS_NOT_EXISTS);
 
@@ -342,10 +343,12 @@ public class ExecuteOrderController {
 
         Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
         SysUser sysUser = userMananger.findById(userId);
-        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
-        AssertUtil.assertNotNull(basePerson, MessageConstants.PERSON_IS_NOT_EXISTS);
 
         BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(id).getData();
+
+        BasePerson basePerson = personMananger.findById(baseExecuteOrder.getPersonSalesId());
+        AssertUtil.assertNotNull(basePerson, MessageConstants.SALE_PERSON_IS_NOT_EXISTS);
+
         String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
         BaseArea baseArea = areaService.findById(baseExecuteOrder.getAreaId()).getData();
         List<BasePerson> leaderList = personMananger.findPersonListByArea(baseExecuteOrder.getAreaId());
@@ -429,6 +432,7 @@ public class ExecuteOrderController {
         model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
         model.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
         model.addAttribute("format", format);
+
         model.addAttribute("salePersonId", basePerson.getId());
         model.addAttribute("salePersonName", basePerson.getName());
 
@@ -448,9 +452,13 @@ public class ExecuteOrderController {
 
         Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
         SysUser sysUser = userMananger.findById(userId);
-        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+//        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
 
         BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(id).getData();
+
+        BasePerson basePerson = personMananger.findById(id);
+        AssertUtil.assertNotNull(basePerson, MessageConstants.PERSON_IS_NOT_EXISTS);
+
         String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
         BaseArea baseArea = areaService.findById(baseExecuteOrder.getAreaId()).getData();
         List<BasePerson> leaderList = personMananger.findPersonListByArea(baseExecuteOrder.getAreaId());

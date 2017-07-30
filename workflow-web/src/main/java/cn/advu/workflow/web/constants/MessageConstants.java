@@ -36,6 +36,7 @@ public interface MessageConstants {
     String USER_NAME_IS_DUPLICATED = "用户登录名称重复";
     // 通讯录
     String PERSON_IS_NOT_EXISTS="当前用户在通讯录中不存在";
+    String SALE_PERSON_IS_NOT_EXISTS="销售负责人在通讯录中不存在";
     String PERSON_HAS_SUBORDINATE="当前通讯录下有子通讯录";
     String AREA_IS_NULL="所属区域没有设置";
     String DEPT_IS_NULL="所属部门没有设置";
