@@ -243,12 +243,13 @@ public class BuyFrameController {
         }
         baseBuyOrderFrame.setCpmJsonStr(cpmArrList.toJSONString());
 
+        String areaName = (baseArea==null)?"":baseArea.getName();
 
         model.addAttribute("selectedReginList", StringListUtil.toList(baseBuyOrderFrame.getDeliveryAreaIds()));
         model.addAttribute("monitorRequestList", baseMonitorRequestList);
         model.addAttribute("regionList", regionList);
         model.addAttribute("industryList", industryList);
-        model.addAttribute("areaName", baseArea.getName());
+        model.addAttribute("areaName", areaName);
         model.addAttribute("leaderList", leaderList);
         model.addAttribute("areaTreeJson", areaTreeJson);
         model.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
