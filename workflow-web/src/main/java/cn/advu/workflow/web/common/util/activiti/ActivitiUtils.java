@@ -30,7 +30,7 @@ public class ActivitiUtils {
         groupEntity.setRevision(1);
         groupEntity.setType("assignment");
 
-        groupEntity.setId(userRole.getRoles() + "");
+        groupEntity.setId(userRole.getActivitiName());
         groupEntity.setName(userRole.getRoleName());
         return groupEntity;
     }

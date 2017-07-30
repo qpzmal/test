@@ -40,7 +40,7 @@ public class CustomGroupEntityManager extends GroupEntityManager {
             g = new GroupEntity();
             g.setRevision(1);
             g.setType("assignment");
-            roleId = String.valueOf(dbGroup.getId());
+            roleId = dbGroup.getActivitiName();
 //            activitRole = bindGroupWithRole.get(roleId);//此处只是根据RoleId获取RoleCode， 因实际表中无RoleCode字段，暂且如此实际，此行可注释掉
             g.setId(activitRole != null ? activitRole : roleId);
             g.setName(dbGroup.getRoleName());

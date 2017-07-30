@@ -9,6 +9,8 @@ public class SysUserRole extends AbstractEntity {
 
     private String roleName; // 角色名称
 
+    private String activitiName; // activiti名称
+
     public Integer getAdmins() {
         return admins;
     }
@@ -31,5 +33,13 @@ public class SysUserRole extends AbstractEntity {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public String getActivitiName() {
+        return activitiName;
+    }
+
+    public void setActivitiName(String activitiName) {
+        this.activitiName = activitiName;
     }
 }

@@ -6,6 +6,7 @@
     <result column="admins" jdbcType="INTEGER" property="admins" />
     <result column="roles" jdbcType="INTEGER" property="roles" />
     <result column="roleName" jdbcType="VARCHAR" property="roleName" />
+    <result column="activitiName" jdbcType="VARCHAR" property="activitiName" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -55,6 +56,7 @@
     select
     <include refid="Base_Column_List" />
     , sys_role.name AS roleName
+    , sys_role.activiti_name AS activitiName
     from sys_user_role, sys_role, sys_user
     where sys_user_role.roles = sys_role.id and sys_user_role.admins = sys_user.id and sys_user.login_name = #{loginName}
   </select>
