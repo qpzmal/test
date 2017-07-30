@@ -810,7 +810,6 @@
 
         var name = $("#p_name").val();
         var secOrderNum = $("#sec_order_num").val();
-        var type = $("#type").val();
         var orderDate = stringToDate($("#order_date").val());
         var personLeaderId = $("#person_leader_id").val();
         var areaId = $("#area_id").val();
@@ -854,7 +853,6 @@
                 flowType:flowType,
                 name:name,
                 secOrderNum:secOrderNum,
-                type:type,
                 orderDate:orderDate,
                 deliveryAreaIds:deliveryAreaIds,
                 deliveryAreaNames:deliveryAreaNames,

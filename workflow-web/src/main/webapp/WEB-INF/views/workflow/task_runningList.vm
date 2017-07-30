@@ -6,8 +6,6 @@
 
 
 <div class="wrapper wrapper-content">
-##    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
-
 
     #foreach($dataForName in ${baseBuyOrderVOList})
     #if($!{velocityCount} == 2) #break #end
@@ -21,14 +19,11 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>名</th>
+                            <th>审批流程名称</th>
                             <th>申请人</th>
-                            <th>申请时间</th>
-                            <th>开始时间</th>
-                            <th>结束时间</th>
                             <th>当前节点</th>
                             <th>任务创建时间</th>
-                            <th>流程状态</th>
+                            <th>流程版本状态</th>
                             <th>当前处理人</th>
                         </tr>
                         </thead>
@@ -36,14 +31,11 @@
                             #foreach($!{data} in $!{baseBuyOrderVOList})
                             <tr id="$!{data.baseBuyOrder.id}" tid="$!{data.baseBuyOrder.id}">
                                 <td>$!{data.baseBuyOrder.name}</td>
-                                <td>$!{data.baseBuyOrder.userId}</td>
-                                <td>$!{data.baseBuyOrder.applyTime}</td>
-                                <td>$!{data.baseBuyOrder.startTime}</td>
-                                <td>$!{data.baseBuyOrder.endTime}</td>
+                                <td>$!{data.baseBuyOrder.userName}</td>
                                 <td>
                                     <a class="trace" href='javascript:;' pid="$!{data.processInstance.id}" pdid="$!{data.processInstance.processDefinitionId}" title="点击查看流程图">$!{data.task.name}</a>
                                 </td>
-                                <td>$!{data.task.createTime}</td>
+                                <td>$!date.format('yyyy-MM-dd HH:mm:ss ',${data.task.createTime})</td>
                                 <td>
                                 ##                                    ${data.processInstance.suspended ? "已挂起" : "正常" }；
                                     <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
@@ -74,14 +66,11 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>名</th>
+                                <th>审批流程名称</th>
                                 <th>申请人</th>
-                                <th>申请时间</th>
-                                <th>开始时间</th>
-                                <th>结束时间</th>
                                 <th>当前节点</th>
                                 <th>任务创建时间</th>
-                                <th>流程状态</th>
+                                <th>流程版本状态</th>
                                 <th>当前处理人</th>
                             </tr>
                             </thead>
@@ -89,14 +78,11 @@
                                 #foreach($!{data} in $!{baseBuyOrderFrameVOList})
                                 <tr id="$!{data.baseBuyOrderFrame.id}" tid="$!{data.baseBuyOrderFrame.id}">
                                     <td>$!{data.baseBuyOrderFrame.name}</td>
-                                    <td>$!{data.baseBuyOrderFrame.userId}</td>
-                                    <td>$!{data.baseBuyOrderFrame.applyTime}</td>
-                                    <td>$!{data.baseBuyOrderFrame.startTime}</td>
-                                    <td>$!{data.baseBuyOrderFrame.endTime}</td>
+                                    <td>$!{data.baseBuyOrderFrame.userName}</td>
                                     <td>
                                         <a class="trace" href='javascript:;' pid="$!{data.processInstance.id}" pdid="$!{data.processInstance.processDefinitionId}" title="点击查看流程图">$!{data.task.name}</a>
                                     </td>
-                                    <td>$!{data.task.createTime}</td>
+                                    <td>$!date.format('yyyy-MM-dd HH:mm:ss ',${data.task.createTime})</td>
                                     <td>
                                     ##                                    ${data.processInstance.suspended ? "已挂起" : "正常" }；
                                         <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
@@ -128,14 +114,11 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>名</th>
+                                <th>审批流程名称</th>
                                 <th>申请人</th>
-                                <th>申请时间</th>
-                                <th>开始时间</th>
-                                <th>结束时间</th>
                                 <th>当前节点</th>
                                 <th>任务创建时间</th>
-                                <th>流程状态</th>
+                                <th>流程版本状态</th>
                                 <th>当前处理人</th>
                             </tr>
                             </thead>
@@ -143,14 +126,11 @@
                                 #foreach($!{data} in $!{baseExecuteOrderVOList})
                                 <tr id="$!{data.baseExecuteOrder.id}" tid="$!{data.baseExecuteOrder.id}">
                                     <td>$!{data.baseExecuteOrder.name}</td>
-                                    <td>$!{data.baseExecuteOrder.userId}</td>
-                                    <td>$!{data.baseExecuteOrder.applyTime}</td>
-                                    <td>$!{data.baseExecuteOrder.startTime}</td>
-                                    <td>$!{data.baseExecuteOrder.endTime}</td>
+                                    <td>$!{data.baseExecuteOrder.userName}</td>
                                     <td>
                                         <a class="trace" href='javascript:;' pid="$!{data.processInstance.id}" pdid="$!{data.processInstance.processDefinitionId}" title="点击查看流程图">$!{data.task.name}</a>
                                     </td>
-                                    <td>$!{data.task.createTime}</td>
+                                    <td>$!date.format('yyyy-MM-dd HH:mm:ss ',${data.task.createTime})</td>
                                     <td>
                                     ##                                    ${data.processInstance.suspended ? "已挂起" : "正常" }；
                                         <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
@@ -182,14 +162,11 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>名</th>
+                                <th>审批流程名称</th>
                                 <th>申请人</th>
-                                <th>申请时间</th>
-                                <th>开始时间</th>
-                                <th>结束时间</th>
                                 <th>当前节点</th>
                                 <th>任务创建时间</th>
-                                <th>流程状态</th>
+                                <th>流程版本状态</th>
                                 <th>当前处理人</th>
                             </tr>
                             </thead>
@@ -197,14 +174,11 @@
                                 #foreach($!{data} in $!{baseExecuteOrderFrameVOList})
                                 <tr id="$!{data.baseExecuteOrderFrame.id}" tid="$!{data.baseExecuteOrderFrame.id}">
                                     <td>$!{data.baseExecuteOrderFrame.name}</td>
-                                    <td>$!{data.baseExecuteOrderFrame.userId}</td>
-                                    <td>$!{data.baseExecuteOrderFrame.applyTime}</td>
-                                    <td>$!{data.baseExecuteOrderFrame.startTime}</td>
-                                    <td>$!{data.baseExecuteOrderFrame.endTime}</td>
+                                    <td>$!{data.baseExecuteOrderFrame.userName}</td>
                                     <td>
                                         <a class="trace" href='javascript:;' pid="$!{data.processInstance.id}" pdid="$!{data.processInstance.processDefinitionId}" title="点击查看流程图">$!{data.task.name}</a>
                                     </td>
-                                    <td>$!{data.task.createTime}</td>
+                                    <td>$!date.format('yyyy-MM-dd HH:mm:ss ',${data.task.createTime})</td>
                                     <td>
                                     ##                                    ${data.processInstance.suspended ? "已挂起" : "正常" }；
                                         <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
@@ -221,6 +195,55 @@
         </div>
     #end
 </div>
+
+
+
+
+
+#foreach($dataForName in ${baseExecuteOrderExecuteVOList})
+    #if($!{velocityCount} == 2) #break #end
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>$!{dataForName.processInstance.processDefinitionName}</h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>审批流程名称</th>
+                        <th>申请人</th>
+                        <th>当前节点</th>
+                        <th>任务创建时间</th>
+                        <th>流程版本状态</th>
+                        <th>当前处理人</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #foreach($!{data} in $!{baseExecuteOrderExecuteVOList})
+                        <tr id="$!{data.baseExecuteOrder.id}" tid="$!{data.baseExecuteOrder.id}">
+                            <td>$!{data.baseExecuteOrder.name}</td>
+                            <td>$!{data.baseExecuteOrder.userName}</td>
+                            <td>
+                                <a class="trace" href='javascript:;' pid="$!{data.processInstance.id}" pdid="$!{data.processInstance.processDefinitionId}" title="点击查看流程图">$!{data.task.name}</a>
+                            </td>
+                            <td>$!date.format('yyyy-MM-dd HH:mm:ss ',${data.task.createTime})</td>
+                            <td>
+                            ##                                    ${data.processInstance.suspended ? "已挂起" : "正常" }；
+                                <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
+                            </td>
+                            <td>$!{data.task.assignee}</td>
+                        </tr>
+                        #end
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+#end
 
 
 
