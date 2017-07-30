@@ -266,18 +266,27 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         if (WebConstants.WorkFlow.START.equals(baseExecuteOrder.getFlowType())) {
             String userName = UserThreadLocalContext.getCurrentUser().getUserName();
             String processKey = WebConstants.WORKFLOW_SALE_ORDER;
+
             LOGGER.debug("userName:{}, processKey:{}", userName, processKey);
 
             try {
+
+                // DB中状态
+                BaseExecuteOrder dbBaseExecuteOrder = baseExecuteOrderRepo.findOne(baseExecuteOrder.getId());
+                LOGGER.info(" dbBaseExecuteOrder-status:{}", dbBaseExecuteOrder.getStatus());
+                // 根据status，决定流程key
+                if (WebConstants.WorkFlow.STATUS_1 == dbBaseExecuteOrder.getStatus()) {
+                    processKey = WebConstants.WORKFLOW_SALE_EXECUTE;
+
+                } else {
+                    LOGGER.warn("UnExpected status:{}", dbBaseExecuteOrder.getStatus());
+                }
+
                 // 用来设置启动流程的人员ID，引擎会自动把用户ID保存到activiti:initiator中
                 identityService.setAuthenticatedUserId(userName);
 
                 ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, baseExecuteOrder.getId() + "", new HashMap<String, Object>());
                 LOGGER.info(" processInstanceId:{}", processInstance.getId());
-
-                // DB中状态
-                BaseExecuteOrder dbBaseExecuteOrder = baseExecuteOrderRepo.findOne(baseExecuteOrder.getId());
-                LOGGER.info(" dbBaseExecuteOrder-status:{}", dbBaseExecuteOrder.getStatus());
 
                 baseExecuteOrder.setProcessInstanceId(processInstance.getId());
                 if (WebConstants.WorkFlow.STATUS_NEG_1 == dbBaseExecuteOrder.getStatus()) {
