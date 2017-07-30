@@ -70,6 +70,14 @@ public class BuyOrderController {
 
     static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
+
+    @RequestMapping("/leaderSelect")
+    public String leaderSelect(Integer areaId, Model model){
+        List<BasePerson> leaderList = personMananger.findPersonListByArea(areaId);
+        model.addAttribute("leaderList", leaderList);
+        return "demand/buyOrder/leaderSelect";
+    }
+
     /**
      * 跳转需求单首页-需求单列表页
      *
