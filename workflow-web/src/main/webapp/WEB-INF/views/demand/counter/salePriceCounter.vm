@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>CPM详细</h5>
+                    <h5>CPM计算器</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -65,24 +65,42 @@
 #define($jsblock)
 <script type="text/javascript" src="#springUrl("")/static/js/content.min.js?v=1.0.0?$!application.getAttribute('/static/js/content.min.js?v=1.0.0')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
-##<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
-##<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
 
 <script>
+
+    jQuery.validator.addMethod("isDecimal", function(value, element) {
+        return this.optional(element) || /^(\+)?\d{1,16}(\.\d{1,2})?$/.test(value);
+    }, "填写非负数、小数位不超过2位");
+
+    jQuery.validator.addMethod("isPercent", function(value, element) {
+        return this.optional(element) || /^(\+)?\d{1,3}(\.\d{1,2})?$/.test(value) && value <=  100;
+    }, "填写非负数、小数位不超过2位、不超过100");
+
+    jQuery.validator.addMethod("notZero", function(value, element) {
+        return this.optional(element) ||  value !=  0;
+    }, "填写非零数据");
+
+    ## 收起计算器
     $("#cpm_detail_content").on("click",".child-chevron-up",function(){
                     $(this).parent().parent().parent().parent().children(".ibox-content").slideToggle("slow");
 
         });
 
+
+    ## 删除计算器
     $("#cpm_detail_content").on("click",".child-chevron-close",function(){
         $(this).parent().parent().parent().parent().parent().remove();
         totalSet();
     });
 
+    ## 校验[媒体类型]
     $("#cpm_detail_content").on("change",".adtype_select",function(){
         totalSet();
     });
 
+    ## 汇总计算
     $("#total-content").on("change",".sale_count",function(){
         var rowList = $(this).parent().parent().parent().children(".rowtr");
         var rowCount = rowList.size();
@@ -96,8 +114,14 @@
             var map = {};
             map['netIncomePrice']= $(num).find(".net_income_price_total").text();
             map['netProfitRate']= $(num).find(".net_profit_rate_total").text();
+            map['netProfitRate']=map['netProfitRate']/100
             map['adtypeName']= $(num).find(".adtype").text();
             map['saleCount']= $(num).find(".sale_count").val();
+            var line = i + 1;
+            if (!/^(\-|\+)?\d{1,16}(\.\d{1,2})?$/.test(map['saleCount'])) {
+                layer.msg("第"+line+ "行：销售数量整数位不超过16，小数位不超过2位");
+                return;
+            }
             map['num']= $(num).find(".num").val();
 
             inputParamList.push(map);
@@ -118,7 +142,15 @@
 
     });
 
+    ## 计算器校验
     $("#cpm_detail_content").on("change",".input-params",function(){
+
+        var div = $(this).parent().parent().parent().parent().parent().parent().parent().parent();
+        var validateFormId = "#" + div[0].id + "validateForm";
+
+        if (!$(validateFormId).valid()) {
+            return;
+        }
         var tbody = $(this).parent().parent().parent();
         var mediaPrice = tbody.find("#media_price").val();
         var publicRebate = tbody.find("#public_rebate").val();
@@ -167,7 +199,6 @@
             }
         });
         totalSet();
-
     })
 
     function totalSet() {
@@ -180,12 +211,17 @@
             var num = rowTemp.id;
             num = "#"+num;
 
+            var validateFormId = num + "validateForm";
+            if (!$(validateFormId).valid()) {
+                continue;
+            }
+
             var map = {};
             map['netIncomePrice']= $(num).find("#net_income").val();
             map['netProfitRate']= $(num).find("#net_profit_rate").val();
+            map['netProfitRate']=map['netProfitRate']/100;
             var adtypeId = $(num).find("#adtype_id").val();
             map['adtypeId']= adtypeId;
-
             if (adtypeId != '') {
                 map['adtypeName']= $(num).find("#adtype_id").find("option:selected").text();
             } else {

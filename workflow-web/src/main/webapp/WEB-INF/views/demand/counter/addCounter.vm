@@ -2,9 +2,8 @@
 <div id="$!{num}" class="row counter">
     <div class="ibox">
         <div class="ibox-title">
-            <select id="adtype_id" data-placeholder="请选择广告形式"  style="width:350px;" class="chosen-select adtype_select" tabindex="2" >
-                <option value="">请选择广告形式</option>
-                #foreach($data in $baseAdtypeList)
+            <select id="adtype_id" data-placeholder="请选择媒体类型"  style="width:350px;" class="chosen-select adtype_select" tabindex="2" >
+                #foreach($data in $baseMediaList)
                     <option value ="$data.id">$data.name</option>
                 #end
             </select>
@@ -18,26 +17,29 @@
             </div>
         </div>
         <div class="ibox-content">
+            #set($formId = $!{num} + "validateForm")
+            <form id="$formId">
             <table class="table table-hover no-margins">
                 <tbody>
-                <tr>
-                    <td style="width:80px;">媒体单价</td>
-                    <td style="width:80px;">
-                        <input id="media_price" name="media_price" class="form-control input-params">
-                    </td>
-                    <td style="width:80px;">对公返点(%)</td>
-                    <td style="width:80px;">
-                        <input id="public_rebate" name="public_rebate" class="form-control input-params col-md-8" >
-                    </td>
-                    <td style="width:80px;">采购成本</td>
-                    <td style="width:80px;">
-                        <input id="purchase" name="purchase" class="form-control input-params" >
-                    </td>
-                    <td style="width:80px;">销售激励比例(%)</td>
-                    <td style="width:80px;">
-                        <input id="sales_incentive_rate" name="sales_incentive_rate" class="form-control input-params " >
-                    </td>
-                </tr>
+                    <tr>
+                        <td style="width:80px;">媒体单价</td>
+                        <td style="width:80px;">
+                            <input id="media_price" name="media_price" class="form-control input-params isDecimal notZero" required="" aria-required="true">
+                        </td>
+                        <td style="width:80px;">对公返点<label class="text-danger">(%)</label></td>
+                        <td style="width:80px;">
+                            <input id="public_rebate" name="public_rebate" class="form-control input-params isDecimal isPercent" >
+                        </td>
+                        <td style="width:80px;">采购成本</td>
+                        <td style="width:80px;">
+                            <input id="purchase" name="purchase" class="form-control input-params isDecimal" >
+                        </td>
+                        <td style="width:80px;">销售激励比例<label class="text-danger">(%)</label></td>
+                        <td style="width:80px;">
+                            <input id="sales_incentive_rate" name="sales_incentive_rate"  class="form-control input-params isDecimal isPercent" >
+                        </td>
+                    </tr>
+
                 <tr>
                 </tr>
                 <tr>
@@ -89,7 +91,7 @@
                     <td >
                         <input id="sales_incentive" name="sales_incentive" class="form-control" disabled>
                     </td>
-                    <td>税前净利(%)</td>
+                    <td>税前净利</td>
                     <td >
                         <input id="pre_tax_net_profit" name="pre_tax_net_profit" class="form-control" disabled>
                     </td>
@@ -114,6 +116,7 @@
                 </tr>
                 </tbody>
             </table>
+            </form>
         </div>
     </div>
 </div>
@@ -130,9 +133,5 @@
     for (var selector in config)
         $(selector).chosen(config[selector]);
 
-    $(".child-chevron-up").click(function(){
-                $(this).parent().parent().parent().parent().children(".ibox-content").slideToggle("slow");
-
-    });
 
 </script>
