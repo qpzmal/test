@@ -6,7 +6,7 @@
     </td>
     <td style="width:80px;">对公返点(%)</td>
     <td style="width:80px;">
-        <input value="$!{publicRebate}" id="public_rebate" name="public_rebate" class="form-control input-params col-md-8" >
+        <input value="$publicRebate.multiply($std)" id="public_rebate" name="public_rebate" class="form-control input-params col-md-8" >
     </td>
     <td style="width:80px;">采购成本</td>
     <td style="width:80px;">
@@ -14,7 +14,7 @@
     </td>
     <td style="width:80px;">销售激励比例(%)</td>
     <td style="width:80px;">
-        <input value="$!{salesIncentiveRate}"  id="sales_incentive_rate" name="sales_incentive_rate" class="form-control input-params " >
+        <input value="$salesIncentiveRate.multiply($std)"  id="sales_incentive_rate" name="sales_incentive_rate" class="form-control input-params " >
     </td>
 </tr>
 <tr>
@@ -44,7 +44,7 @@
     </td>
     <td>毛利率(%)</td>
     <td >
-        <input value="$!{grossProfitRate}"  id="gross_profit_rate" name="gross_profit_rate" class="form-control" disabled>
+        <input value="$grossProfitRate.multiply($std)"  id="gross_profit_rate" name="gross_profit_rate" class="form-control" disabled>
     </td>
     <td>销售提成比例(%)</td>
     <td >
@@ -58,7 +58,7 @@
 <tr>
     <td>工资房租分摊比例(%)</td>
     <td >
-        <input value="$!{salaryRentRate}"  id="salary_rent_rate" name="salary_rent_rate" class="form-control" disabled>
+        <input value="$salaryRentRate.multiply($std)"  id="salary_rent_rate" name="salary_rent_rate" class="form-control" disabled>
     </td>
     <td>工资房租分摊额</td>
     <td >
@@ -70,13 +70,13 @@
     </td>
     <td>税前净利(%)</td>
     <td >
-        <input value="$!{preTaxNetProfit}"  id="pre_tax_net_profit" name="pre_tax_net_profit" class="form-control" disabled>
+        <input value="$preTaxNetProfit.multiply($std)"  id="pre_tax_net_profit" name="pre_tax_net_profit" class="form-control" disabled>
     </td>
 </tr>
 <tr>
     <td>所得税率(%)</td>
     <td >
-        <input value="$!{incomeTaxRate}"  id="income_tax_rate" name="income_tax_rate" class="form-control" disabled>
+        <input value="$incomeTaxRate.multiply($std)"  id="income_tax_rate" name="income_tax_rate" class="form-control" disabled>
     </td>
     <td>所得税</td>
     <td >
@@ -88,6 +88,6 @@
     </td>
     <td>净利润率(%)</td>
     <td >
-        <input value="$!{netProfitRate}"  id="net_profit_rate" name="net_profit_rate" class="form-control" disabled>
+        <input value="$netProfitRate.multiply($std)"  id="net_profit_rate" name="net_profit_rate" class="form-control" disabled>
     </td>
 </tr>

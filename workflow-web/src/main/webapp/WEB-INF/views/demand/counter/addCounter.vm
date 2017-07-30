@@ -2,9 +2,8 @@
 <div id="$!{num}" class="row counter">
     <div class="ibox">
         <div class="ibox-title">
-            <select id="adtype_id" data-placeholder="请选择广告形式"  style="width:350px;" class="chosen-select adtype_select" tabindex="2" >
-                <option value="">请选择广告形式</option>
-                #foreach($data in $baseAdtypeList)
+            <select id="adtype_id" data-placeholder="请选择媒体类型"  style="width:350px;" class="chosen-select adtype_select" tabindex="2" >
+                #foreach($data in $baseMediaList)
                     <option value ="$data.id">$data.name</option>
                 #end
             </select>
@@ -27,7 +26,7 @@
                     </td>
                     <td style="width:80px;">对公返点(%)</td>
                     <td style="width:80px;">
-                        <input id="public_rebate" name="public_rebate" class="form-control input-params col-md-8" >
+                        <input id="public_rebate" name="public_rebate" placeholder="请输入％" class="form-control input-params col-md-8" >
                     </td>
                     <td style="width:80px;">采购成本</td>
                     <td style="width:80px;">
@@ -35,7 +34,7 @@
                     </td>
                     <td style="width:80px;">销售激励比例(%)</td>
                     <td style="width:80px;">
-                        <input id="sales_incentive_rate" name="sales_incentive_rate" class="form-control input-params " >
+                        <input id="sales_incentive_rate" name="sales_incentive_rate" placeholder="请输入％" class="form-control input-params " >
                     </td>
                 </tr>
                 <tr>
@@ -129,10 +128,5 @@
     };
     for (var selector in config)
         $(selector).chosen(config[selector]);
-
-    $(".child-chevron-up").click(function(){
-                $(this).parent().parent().parent().parent().children(".ibox-content").slideToggle("slow");
-
-    });
 
 </script>

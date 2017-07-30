@@ -96,6 +96,7 @@
             var map = {};
             map['netIncomePrice']= $(num).find(".net_income_price_total").text();
             map['netProfitRate']= $(num).find(".net_profit_rate_total").text();
+            map['netProfitRate']=map['netProfitRate']/100
             map['adtypeName']= $(num).find(".adtype").text();
             map['saleCount']= $(num).find(".sale_count").val();
             map['num']= $(num).find(".num").val();
@@ -180,12 +181,18 @@
             var num = rowTemp.id;
             num = "#"+num;
 
+            var mediaPrice = $(num).find("#media_price").val();
+            if (mediaPrice == "") {
+                continue;
+            }
+
+
             var map = {};
             map['netIncomePrice']= $(num).find("#net_income").val();
             map['netProfitRate']= $(num).find("#net_profit_rate").val();
+            map['netProfitRate']=map['netProfitRate']/100;
             var adtypeId = $(num).find("#adtype_id").val();
             map['adtypeId']= adtypeId;
-
             if (adtypeId != '') {
                 map['adtypeName']= $(num).find("#adtype_id").find("option:selected").text();
             } else {

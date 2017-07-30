@@ -1,12 +1,11 @@
 package cn.advu.workflow.web.controller.demand;
 
-import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
-import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
-import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
-import cn.advu.workflow.domain.fcf_vu.SalePriceAccoutVO;
+import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.web.manager.AdtypeMananger;
 import cn.advu.workflow.web.manager.CpmManager;
+import cn.advu.workflow.web.manager.MediaMananger;
 import cn.advu.workflow.web.util.AssertUtil;
+import cn.advu.workflow.web.util.BigDecimalUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +24,14 @@ import java.util.Map;
 public class SalePriceController {
 
     @Autowired
-    AdtypeMananger adtypeMananger;
+    MediaMananger mediaMananger;
 
     @RequestMapping("/addCounter")
     public String addAcounter(Model resultModel){
 
         // find cpmList
-        List<BaseAdtype> baseAdtypeList = adtypeMananger.findAllActive();
-        resultModel.addAttribute("baseAdtypeList", baseAdtypeList);
+        List<BaseMedia> baseMediaList = mediaMananger.findAllActiveMedia();
+        resultModel.addAttribute("baseMediaList", baseMediaList);
         resultModel.addAttribute("num", System.currentTimeMillis());
 
         return "demand/counter/addCounter";
@@ -60,6 +59,7 @@ public class SalePriceController {
 
         resetInputParamList(inputParamList);
         resultModel.addAttribute("inputParamList", inputParamList);
+        resultModel.addAttribute("std", BigDecimalUtil.HUNDRED);
 
         return "demand/counter/total";
     }
@@ -72,6 +72,8 @@ public class SalePriceController {
         resetInputParamList(inputParamList);
         resultModel.addAttribute("inputParamList", inputParamList);
 
+        resultModel.addAttribute("std", BigDecimalUtil.HUNDRED);
+
         return "demand/counter/total";
     }
 
@@ -79,36 +81,45 @@ public class SalePriceController {
         BigDecimal saleCountSum = BigDecimal.ZERO;
         BigDecimal netIncomeSum = BigDecimal.ZERO;
         BigDecimal netProfitSum = BigDecimal.ZERO;
+        BigDecimal netIncomePriceSum = BigDecimal.ZERO;
 
         int index = 1;
         for (Object rowInpuParam : inputParamList) {
             JSONObject rowInputJsonObject = (JSONObject)rowInpuParam;
 
-            BigDecimal netIncomePrice = rowInputJsonObject.getBigDecimal("netIncomePrice");
-            BigDecimal netProfitRate = rowInputJsonObject.getBigDecimal("netProfitRate");
+            BigDecimal netIncomePrice = BigDecimalUtil.getBigDecimalWithDefaultZero(rowInputJsonObject.getBigDecimal("netIncomePrice"));
+            BigDecimal netProfitRate = BigDecimalUtil.getBigDecimalWithDefaultZero(rowInputJsonObject.getBigDecimal("netProfitRate"));
             String adtypeName = rowInputJsonObject.getString("adtypeName");
-            BigDecimal saleCount = rowInputJsonObject.getBigDecimal("saleCount");
+            BigDecimal saleCount = BigDecimalUtil.getBigDecimalWithDefaultZero(rowInputJsonObject.getBigDecimal("saleCount"));
 
-            if (saleCount != null) {
-                BigDecimal netIncome = netIncomePrice.multiply(saleCount).setScale(2, BigDecimal.ROUND_UP);
-                BigDecimal netProfit = netProfitRate.multiply(saleCount).setScale(2, BigDecimal.ROUND_UP);
-                rowInputJsonObject.put("netIncome", netIncome);
-                rowInputJsonObject.put("netProfit", netProfit);
-                saleCountSum = saleCountSum.add(saleCount);
-                netIncomeSum = netIncomeSum.add(netIncome);
-                netProfitSum = netProfitSum.add(netProfit);
-            }
+            BigDecimal netIncome = netIncomePrice.multiply(saleCount).setScale(2, BigDecimal.ROUND_UP);
+            BigDecimal netProfit = netIncome.multiply(netProfitRate).setScale(2, BigDecimal.ROUND_UP);
+            rowInputJsonObject.put("netIncome", netIncome);
+            rowInputJsonObject.put("netProfit", netProfit);
+
+            saleCountSum = saleCountSum.add(saleCount);
+            netIncomeSum = netIncomeSum.add(netIncome);
+            netProfitSum = netProfitSum.add(netProfit);
+            netIncomePriceSum = netIncomePriceSum.add(netIncomePrice);
+
             rowInputJsonObject.put("idNum",  index++);
         }
-        JSONObject sum = new JSONObject();
-        sum.put("saleCount", saleCountSum);
-        sum.put("netIncome", netIncomeSum);
-        sum.put("netProfit", netProfitSum);
-        if(netIncomeSum.compareTo(BigDecimal.ZERO) != 0) {
-            sum.put("netProfitRate", netProfitSum.divide(netIncomeSum, 2, BigDecimal.ROUND_UP));
+        if (inputParamList != null && !inputParamList.isEmpty()) {
+            JSONObject sum = new JSONObject();
+            sum.put("adtypeName", "综合");
+            sum.put("saleCount", saleCountSum);
+            sum.put("netIncome", netIncomeSum);
+            sum.put("netProfit", netProfitSum);
+            sum.put("netIncomePrice", netIncomePriceSum.divide(new BigDecimal(inputParamList.size()), 2, BigDecimal.ROUND_UP));
+            if(netIncomeSum.compareTo(BigDecimal.ZERO) != 0) {
+                sum.put("netProfitRate", netProfitSum.divide(netIncomeSum, 2, BigDecimal.ROUND_UP));
+            } else {
+                sum.put("netProfitRate", BigDecimal.ZERO);
+            }
+            sum.put("idNum",  index++);
+            inputParamList.add(sum);
         }
-        sum.put("idNum",  index++);
-        inputParamList.add(sum);
+
     }
 
     @RequestMapping("/index")
@@ -121,13 +132,11 @@ public class SalePriceController {
     public String accoutInfo(SalePriceAccoutVO salePriceAccoutVO, Model resultModel){
 
         BigDecimal mediaPrice = salePriceAccoutVO.getMediaPrice();
-        BigDecimal publicRebate = salePriceAccoutVO.getPublicRebate();
-        BigDecimal purchase = salePriceAccoutVO.getPurchase();
-        BigDecimal salesIncentiveRate = salePriceAccoutVO.getSalesIncentiveRate();
+        BigDecimal publicRebate = BigDecimalUtil.getBigDecimalWithDefaultZero(salePriceAccoutVO.getPublicRebate());
+        BigDecimal purchase = BigDecimalUtil.getBigDecimalWithDefaultZero(salePriceAccoutVO.getPurchase());
+        BigDecimal salesIncentiveRate = BigDecimalUtil.getBigDecimalWithDefaultZero(salePriceAccoutVO.getSalesIncentiveRate());
         AssertUtil.assertNotNull(mediaPrice);
-        AssertUtil.assertNotNull(publicRebate);
         AssertUtil.assertNotNull(purchase);
-        AssertUtil.assertNotNull(salesIncentiveRate);
 
         // 净收入＝（1-对公返点）＊媒体单价／1.06
         BigDecimal netIncome = BigDecimal.ONE.subtract(publicRebate).multiply(mediaPrice).divide(new BigDecimal("1.06"), 2, BigDecimal.ROUND_UP);
