@@ -117,7 +117,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目总金额</label>
                         <div class="col-sm-8">
-                            <input value="$!{baseBuyOrder.amount}" id="amount" name="amount" type="text" class="form-control" aria-required="true">
+                            <input value="$!{baseBuyOrder.amount}" id="amount" name="amount" type="text" class="form-control isMoney" aria-required="true">
                         </div>
                     </div>
                 </div>
@@ -215,6 +215,11 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-table-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-table-editable.js')"></script>
 
 <script>
+
+    jQuery.validator.addMethod("isMoney", function(value, element) {
+        return this.optional(element) || /^(\-|\+)?\d{1,16}(\.\d{1,2})?$/.test(value);
+    }, "整数位不超过16位，小数位不超过2位");
+
     function areaChange() {
         $.ajax({
             url:"/buyOrder/leaderSelect.json?areaId=" + $("#area_id").val(),
