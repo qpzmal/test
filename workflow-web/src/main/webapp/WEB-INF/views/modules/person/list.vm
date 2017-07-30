@@ -259,7 +259,7 @@
     });
         // 添加
         $(".btn-primary").click(function(){
-            window.location.href = "${rc.contextPath}/person/toAdd?areaId=" + $("#area_id").val() + "&parentId=" + $("#parent_id").val();
+            window.location.href = "${rc.contextPath}/person/toAdd?areaId=" + $("#area_id").val() + "&deptId=" + $("#parent_id").val();
         });
 
         // 修改
