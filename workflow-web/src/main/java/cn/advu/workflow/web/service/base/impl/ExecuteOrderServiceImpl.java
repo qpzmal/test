@@ -80,17 +80,15 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         AssertUtil.assertNotNullOrEmpty(baseExecuteOrder.getSignType(), "签约类型");
 
         String customSignName = baseExecuteOrder.getCustomSignName();
-        String customAdverserName = baseExecuteOrder.getCustomAdverserName();
-
         AssertUtil.assertNotNullOrEmpty(customSignName, "签约公司");
-        AssertUtil.assertNotNullOrEmpty(customAdverserName, "广告主");
-
         customSignName = customSignName.trim();
-        customAdverserName = customAdverserName.trim();
-
         AssertUtil.assertNotNullOrEmpty(customSignName, "签约公司");
-        AssertUtil.assertNotNullOrEmpty(customAdverserName, "广告主");
 
+
+        String customAdverserName = baseExecuteOrder.getCustomAdverserName();
+        AssertUtil.assertNotNullOrEmpty(customAdverserName, "广告主");
+        customAdverserName = customAdverserName.trim();
+        AssertUtil.assertNotNullOrEmpty(customAdverserName, "广告主");
 
         BaseCustom customSign = customMananger.findByName(customSignName);
         if (customSign == null) {
@@ -99,11 +97,9 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
             customSign.setCustomType(baseExecuteOrder.getSignType());
             customMananger.add(customSign);
         }
-
         baseExecuteOrder.setCustomSignId(customSign.getId());
 
         Integer customAdverserId = customSign.getId();
-
         if (customSignName.equals(customAdverserName) && CustomTypeEnum.FA.getValue().equalsIgnoreCase(baseExecuteOrder.getSignType())) {
             throw new ServiceException(MessageConstants.ADVERSER_IS_4A);
         }
