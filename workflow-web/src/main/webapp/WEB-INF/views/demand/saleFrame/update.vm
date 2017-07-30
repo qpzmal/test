@@ -32,7 +32,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">项目补充编号</label>
                         <div class="col-sm-8">
-                            <input value="$!{baseExecuteOrder.secOrderNum}" id="sec_order_num" name="sec_order_num" maxlength="15" type="text" class="form-control" required aria-required="true"
+                            <input value="$!{baseExecuteOrder.secOrderNum}" id="sec_order_num" name="sec_order_num" maxlength="15" type="text" class="form-control"
                                 #if($!{hasSaleAuth} == false)
                                    disabled
                                 #end
