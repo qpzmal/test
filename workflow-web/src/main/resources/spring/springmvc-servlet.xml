@@ -165,6 +165,7 @@
             <props>
                 <prop key="cn.advu.workflow.web.common.exception.AuthException">/error/403</prop>
                 <prop key="cn.advu.workflow.web.common.exception.LoginException">/login/in</prop>
+                <prop key="cn.advu.workflow.web.exception.ServiceException">/error/biz</prop>
                 <prop key="java.lang.Exception">error/500</prop>
                 <!--<prop key="IOException">error/io.jsp</prop>-->
                 <!--<prop key="cn.advu.common.exception.NoCookieException">error/cookie_time_out</prop>-->

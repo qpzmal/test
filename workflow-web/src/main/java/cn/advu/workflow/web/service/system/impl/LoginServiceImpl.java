@@ -50,17 +50,19 @@ public class LoginServiceImpl implements LoginService {
         SysUser dbUser = sysUserMapper.queryUserByNameAndId(loginUser.getUserName(), loginUser.getUserId());
 
         if (dbUser == null) {
-            LOGGER.warn("登录时间验证错误，dbUser is null.");
+            LOGGER.warn("用户名和id验证错误，dbUser is null.");
             throw new LoginException("用户名和id验证错误");
         }
         if (dbUser.getLastLoginTime() == null) {
             LOGGER.warn("登录时间验证错误，dbUser.lastLoginTime is null.");
             throw new LoginException("登录时间验证错误");
         }
-        if (loginUser.getLoginTime().longValue() != dbUser.getLastLoginTime().longValue()) {
-            LOGGER.warn("登录时间验证错误，dbUser.lastLoginTime != loginUser.logintime.");
-            throw new LoginException("登录时间验证错误");
-        }
+
+        // 客户要求多用户共用一个账户，因此不做登录时间校验
+//        if (loginUser.getLoginTime().longValue() != dbUser.getLastLoginTime().longValue()) {
+//            LOGGER.warn("登录时间验证错误，dbUser.lastLoginTime != loginUser.logintime.");
+//            throw new LoginException("登录时间验证错误");
+//        }
 
         //超过30天
         if (loginUser.getLoginTime().longValue() + GlobalConstant.CacheExpire.MONTH_MSEC < System.currentTimeMillis()) {

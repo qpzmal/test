@@ -67,6 +67,13 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     }
 
     @Override
+    public ResultJson<List<BaseExecuteOrder>> findAllUnFinished() {
+        ResultJson<List<BaseExecuteOrder>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseExecuteOrderRepo.findAllUnFinished());
+        return result;
+    }
+
+    @Override
     public ResultJson<Integer> add(BaseExecuteOrder baseExecuteOrder) {
 
 
@@ -216,6 +223,15 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     }
 
     @Override
+    public ResultJson<Integer> updateSelective(BaseExecuteOrder baseExecuteOrder) {
+        Integer insertCount = baseExecuteOrderRepo.updateSelective(baseExecuteOrder);
+        if(insertCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新销售单失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
+    @Override
     public ResultJson<Void> remove(Integer id) {
 
         BaseExecuteOrder baseExecuteOrder = baseExecuteOrderRepo.findOne(id);
@@ -255,8 +271,19 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
                 ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, baseExecuteOrder.getId() + "", new HashMap<String, Object>());
                 LOGGER.info(" processInstanceId:{}", processInstance.getId());
 
+                // DB中状态
+                BaseExecuteOrder dbBaseExecuteOrder = baseExecuteOrderRepo.findOne(baseExecuteOrder.getId());
+                LOGGER.info(" dbBaseExecuteOrder-status:{}", dbBaseExecuteOrder.getStatus());
+
                 baseExecuteOrder.setProcessInstanceId(processInstance.getId());
-                baseExecuteOrder.setStatus(WebConstants.WorkFlow.STATUS_0);
+                if (WebConstants.WorkFlow.STATUS_NEG_1 == dbBaseExecuteOrder.getStatus()) {
+                    baseExecuteOrder.setStatus(WebConstants.WorkFlow.STATUS_0);
+                } else if (WebConstants.WorkFlow.STATUS_1 == dbBaseExecuteOrder.getStatus()) {
+                    baseExecuteOrder.setStatus(WebConstants.WorkFlow.STATUS_2);
+
+                } else {
+                    LOGGER.warn("UnExpected status:{}", dbBaseExecuteOrder.getStatus());
+                }
                 baseExecuteOrderRepo.updateSelective(baseExecuteOrder);
 
             } catch (ActivitiException e) {

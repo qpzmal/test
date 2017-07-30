@@ -20,8 +20,8 @@ public class WebConstants {
     public static final String WORKFLOW_BUY = "buyOrder"; // 单独采购审批
     public static final String WORKFLOW_BUY_FRAME = "buyFrame";// 框架采购审批模型
     public static final String WORKFLOW_SALE_ORDER = "saleOrder";// 单独销售审批模型/排期执行审批模型
+    public static final String WORKFLOW_SALE_EXECUTE = "saleExecute"; // 排期执行审批模型
     public static final String WORKFLOW_SALE_FRAME = "saleFrame";// 框架销售审批模型
-//    public static final String WORKFLOW_SALE = "sale"; // 排期执行审批模型
 
     public static class Audit {
         public static final String MEDIA = "mediaAudit"; // 媒介主管审核

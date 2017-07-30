@@ -139,7 +139,7 @@ public class BaseBuyOrder extends AbstractOrderEntity {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void  setStatus(Byte status) {
         this.status = status;
     }
 

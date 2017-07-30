@@ -76,8 +76,6 @@ public class TaskController {
     @Autowired
     private SaleFrameService saleFrameService;
 
-    @Autowired
-    private ProcessEngine processEngine;
 
     /**
      * 任务列表
@@ -90,6 +88,7 @@ public class TaskController {
         List<BaseBuyOrderVO> baseBuyOrderVOList = new ArrayList<>();
         List<BaseBuyOrderFrameVO> baseBuyOrderFrameVOList = new ArrayList<>();
         List<BaseExecuteOrderVO> baseExecuteOrderVOList = new ArrayList<>();
+        List<BaseExecuteOrderVO> baseExecuteOrderExecuteVOList = new ArrayList<>();
         List<BaseExecuteOrderFrameVO> baseExecuteOrderFrameVOList = new ArrayList<>();
 
         // 根据当前人的ID查询
@@ -145,6 +144,16 @@ public class TaskController {
 
                     baseExecuteOrderVOList.add(baseExecuteOrderVO);
                     break;
+                case WebConstants.WORKFLOW_SALE_EXECUTE:
+                    BaseExecuteOrderVO baseExecuteOrderExecuteVO = new BaseExecuteOrderVO();
+                    BaseExecuteOrder baseExecuteOrderExecute = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+                    baseExecuteOrderExecuteVO.setTask(task);
+                    baseExecuteOrderExecuteVO.setBaseExecuteOrder(baseExecuteOrderExecute);
+                    baseExecuteOrderExecuteVO.setProcessInstance(processInstance);
+                    baseExecuteOrderExecuteVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+
+                    baseExecuteOrderExecuteVOList.add(baseExecuteOrderExecuteVO);
+                    break;
                 case WebConstants.WORKFLOW_SALE_FRAME:
                     BaseExecuteOrderFrameVO baseExecuteOrderFrameVO = new BaseExecuteOrderFrameVO();
                     BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(Integer.valueOf(businessKey)).getData();
@@ -165,6 +174,7 @@ public class TaskController {
         model.addAttribute("baseBuyOrderVOList", baseBuyOrderVOList);
         model.addAttribute("baseBuyOrderFrameVOList", baseBuyOrderFrameVOList);
         model.addAttribute("baseExecuteOrderVOList", baseExecuteOrderVOList);
+        model.addAttribute("baseExecuteOrderExecuteVOList", baseExecuteOrderExecuteVOList);
         model.addAttribute("baseExecuteOrderFrameVOList", baseExecuteOrderFrameVOList);
         return "workflow/task_todoList";
     }
@@ -181,6 +191,7 @@ public class TaskController {
         List<BaseBuyOrderVO> baseBuyOrderVOList = new ArrayList<>();
         List<BaseBuyOrderFrameVO> baseBuyOrderFrameVOList = new ArrayList<>();
         List<BaseExecuteOrderVO> baseExecuteOrderVOList = new ArrayList<>();
+        List<BaseExecuteOrderVO> baseExecuteOrderExecuteVOList = new ArrayList<>();
         List<BaseExecuteOrderFrameVO> baseExecuteOrderFrameVOList = new ArrayList<>();
 
 
@@ -260,6 +271,30 @@ public class TaskController {
         LOGGER.debug("baseExecuteOrderVOList.size:{}", baseExecuteOrderVOList.size());
 
 
+        query = runtimeService.createProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_SALE_EXECUTE).active().orderByProcessInstanceId().desc();
+        list = query.list();
+        // 关联业务实体
+        for (ProcessInstance processInstance : list) {
+
+            String businessKey = processInstance.getBusinessKey();
+            if (StringUtils.isEmpty(businessKey)) {
+                continue;
+            }
+
+            BaseExecuteOrderVO baseExecuteOrderVO = new BaseExecuteOrderVO();
+            BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+            baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
+            baseExecuteOrderVO.setProcessInstance(processInstance);
+            baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+
+            // 设置当前任务信息
+            List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
+            baseExecuteOrderVO.setTask(tasks.get(0));
+
+            baseExecuteOrderExecuteVOList.add(baseExecuteOrderVO);
+        }
+        LOGGER.debug("baseExecuteOrderExecuteVOList.size:{}", baseExecuteOrderExecuteVOList.size());
+
         query = runtimeService.createProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_SALE_FRAME).active().orderByProcessInstanceId().desc();
         list = query.list();
         // 关联业务实体
@@ -303,6 +338,7 @@ public class TaskController {
         List<BaseBuyOrderVO> baseBuyOrderVOList = new ArrayList<>();
         List<BaseBuyOrderFrameVO> baseBuyOrderFrameVOList = new ArrayList<>();
         List<BaseExecuteOrderVO> baseExecuteOrderVOList = new ArrayList<>();
+        List<BaseExecuteOrderVO> baseExecuteOrderExecuteVOList = new ArrayList<>();
         List<BaseExecuteOrderFrameVO> baseExecuteOrderFrameVOList = new ArrayList<>();
 
 
@@ -371,7 +407,7 @@ public class TaskController {
         query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_SALE_ORDER).finished().orderByProcessInstanceEndTime().desc();
 //        List<HistoricProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
         list = query.list();
-        LOGGER.info("WORKFLOW_BUY_FRAME:size{}", list.size());
+        LOGGER.info("WORKFLOW_SALE_ORDER:size{}", list.size());
 
         // 关联业务实体
         for (HistoricProcessInstance historicProcessInstance : list) {
@@ -398,10 +434,40 @@ public class TaskController {
 
 
 
+        query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_SALE_EXECUTE).finished().orderByProcessInstanceEndTime().desc();
+//        List<HistoricProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
+        list = query.list();
+        LOGGER.info("WORKFLOW_SALE_EXECUTE:size{}", list.size());
+
+        // 关联业务实体
+        for (HistoricProcessInstance historicProcessInstance : list) {
+
+            String businessKey = historicProcessInstance.getBusinessKey();
+            if (StringUtils.isEmpty(businessKey)) {
+                continue;
+            }
+            BaseExecuteOrderVO baseExecuteOrderVO = new BaseExecuteOrderVO();
+            BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+            baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
+            baseExecuteOrderVO.setHistoricProcessInstance(historicProcessInstance);
+            baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
+
+            // 设置当前任务信息
+            List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
+            if (tasks != null && tasks.size() > 0) {
+                baseExecuteOrderVO.setTask(tasks.get(0));
+            }
+            baseExecuteOrderExecuteVOList.add(baseExecuteOrderVO);
+        }
+        LOGGER.debug("baseExecuteOrderExecuteVOList.size:{}", baseExecuteOrderExecuteVOList.size());
+
+
+
+
         query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_SALE_FRAME).finished().orderByProcessInstanceEndTime().desc();
 //        List<HistoricProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
         list = query.list();
-        LOGGER.info("WORKFLOW_BUY_FRAME:size{}", list.size());
+        LOGGER.info("WORKFLOW_SALE_FRAME:size{}", list.size());
 
         // 关联业务实体
         for (HistoricProcessInstance historicProcessInstance : list) {
@@ -465,6 +531,8 @@ public class TaskController {
      *
      * @param pkey   流程key，例:buyOrder
      * @param tkey   审核任务key，例:mediaAudit
+     * @param pid    流程定义ID
+     * @param bizId  业务表ID
      * @param taskId 任务ID
      * @param result 审核结果true 通过/false 驳回
      * @param reason 驳回原因
@@ -472,7 +540,7 @@ public class TaskController {
      */
     @RequestMapping(value = "complete")
     @ResponseBody
-    public ResultJson complete(String pkey, String tkey, String taskId, String result, String reason) {
+    public ResultJson complete(String pkey, String tkey, String pid, String bizId, String taskId, String result, String reason) {
         ResultJson<Object> rj = new ResultJson<>();
         Boolean resultBoolean = Boolean.valueOf(result);
 
@@ -512,20 +580,59 @@ public class TaskController {
 
         try {
             taskService.complete(taskId, paramMap);
+            if (WebConstants.Audit.FINANCIAL_GM.equals(tkey) || WebConstants.Audit.LEGAL_GM.equals(tkey)) {
+                HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(pkey).processInstanceId(pid).finished().orderByProcessInstanceEndTime().desc();
+                List<HistoricProcessInstance> list = query.list();
+                LOGGER.info("processInstanceId:{}", pid);
+                LOGGER.info("HistoricProcessInstance-listSize:{}", list.size());
+                if (list.size() > 0) {
 
-//            // TODO 判定当前流程是否结束
-//            ProcessInstance processInstance = processEngine.getRuntimeService().createProcessInstanceQuery()
-//                    .processInstanceId(pkey).singleResult();
-//            if (processInstance == null) {
-//                // TODO 如果当前流程结束则更新单据状态
-//            }
-            return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+                    switch (pkey) {
+                        case WebConstants.WORKFLOW_BUY:
+                            BaseBuyOrder baseBuyOrder = new BaseBuyOrder();
+                            baseBuyOrder.setId(Integer.valueOf(bizId));
+                            baseBuyOrder.setStatus((byte)1);
+                            buyOrderService.updateSelective(baseBuyOrder).getData();
+                            break;
+
+                        case WebConstants.WORKFLOW_BUY_FRAME:
+                            BaseBuyOrderFrame baseBuyOrderFrame = new BaseBuyOrderFrame();
+                            baseBuyOrderFrame.setId(Integer.valueOf(bizId));
+                            baseBuyOrderFrame.setStatus((byte)1);
+                            buyFrameService.updateSelective(baseBuyOrderFrame).getData();
+                            break;
+
+                        case WebConstants.WORKFLOW_SALE_ORDER:
+                            BaseExecuteOrder baseExecuteOrder = new BaseExecuteOrder();
+                            baseExecuteOrder.setId(Integer.valueOf(bizId));
+                            baseExecuteOrder.setStatus((byte)1);
+                            executeOrderService.updateSelective(baseExecuteOrder).getData();
+                            break;
+
+                        case WebConstants.WORKFLOW_SALE_FRAME:
+                            BaseExecuteOrderFrame baseExecuteOrderFrame = new BaseExecuteOrderFrame();
+                            baseExecuteOrderFrame.setId(Integer.valueOf(bizId));
+                            baseExecuteOrderFrame.setStatus((byte)1);
+                            saleFrameService.updateSelective(baseExecuteOrderFrame).getData();
+                            break;
+
+                        case WebConstants.WORKFLOW_SALE_EXECUTE:
+                            BaseExecuteOrder baseExecuteOrderExecute = new BaseExecuteOrder();
+                            baseExecuteOrderExecute.setId(Integer.valueOf(bizId));
+                            baseExecuteOrderExecute.setStatus((byte)2);
+                            executeOrderService.updateSelective(baseExecuteOrderExecute).getData();
+                            break;
+                        default:
+                            LOGGER.error("pkey is error.");
+                            break;
+                    }
+                }
+            }
         } catch (Exception e) {
             LOGGER.error("", e);
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "系统错误!");
         }
-
-
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
     /**

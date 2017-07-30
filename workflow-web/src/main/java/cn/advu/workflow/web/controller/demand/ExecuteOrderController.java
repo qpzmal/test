@@ -14,6 +14,7 @@ import cn.advu.workflow.web.util.AssertUtil;
 import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +34,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/saleOrder")
 public class ExecuteOrderController {
+
+    @Autowired
+    HttpServletRequest httpServletRequest;
 
     @Autowired
     ExecuteOrderService executeOrderService;
@@ -102,10 +106,15 @@ public class ExecuteOrderController {
      */
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
+        String strStatus = httpServletRequest.getParameter("status");
+        byte pStatus = -1;
+        if (StringUtils.isNotEmpty(strStatus)) {
+            pStatus = Byte.parseByte(strStatus);
+        }
         BaseExecuteOrder param = new BaseExecuteOrder();
-        param.setStatus((byte) -1);
+        param.setStatus(pStatus);
         ResultJson<List<BaseExecuteOrder>> result = executeOrderService.findAll(param);
-        resultModel.addAttribute("dataList",result.getData());
+        resultModel.addAttribute("dataList", result.getData());
         return "demand/saleOrder/list";
     }
 

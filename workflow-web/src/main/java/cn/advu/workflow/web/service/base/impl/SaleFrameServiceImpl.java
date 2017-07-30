@@ -206,6 +206,15 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
     }
 
     @Override
+    public ResultJson<Integer> updateSelective(BaseExecuteOrderFrame baseExecuteOrderFrame) {
+        Integer insertCount = baseExecuteOrderFrameRepo.updateSelective(baseExecuteOrderFrame);
+        if(insertCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新销售框架单失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
+    @Override
     public ResultJson<BaseExecuteOrderFrame> findById(Integer id) {
         ResultJson<BaseExecuteOrderFrame> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         BaseExecuteOrderFrame baseExecuteOrderFrame = baseExecuteOrderFrameRepo.findOne(id);

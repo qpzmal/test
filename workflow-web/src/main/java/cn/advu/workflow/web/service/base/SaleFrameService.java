@@ -35,6 +35,15 @@ public interface SaleFrameService {
      */
     ResultJson<Integer> update(BaseExecuteOrderFrame baseExecuteOrderFrame);
 
+
+    /**
+     * 更新需求框架--动态
+     *
+     * @param baseExecuteOrderFrame
+     * @return
+     */
+    ResultJson<Integer> updateSelective(BaseExecuteOrderFrame baseExecuteOrderFrame);
+
     /**
      * 返回当前需求框架
      * @param id

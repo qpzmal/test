@@ -36,6 +36,14 @@ public interface BuyOrderService {
     ResultJson<Integer> update(BaseBuyOrder baseBuyOrder);
 
     /**
+     * 更新需求单--动态
+     *
+     * @param baseBuyOrder
+     * @return
+     */
+    ResultJson<Integer> updateSelective(BaseBuyOrder baseBuyOrder);
+
+    /**
      * 返回当前需求单
      * @param id
      * @return

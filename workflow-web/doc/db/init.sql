@@ -22,6 +22,7 @@ VALUES
 	(203, '框架需求', 0, 0, 0, 1),
 	(204, '采购单', 0, 0, 0, 1),
 	(205, '框架采购', 0, 0, 0, 1),
+	(206, '排期执行', 0, 0, 0, 1),
 	(301, '待处理流程', 0, 0, 0, 1),
 	(302, '运行中流程', 0, 0, 0, 1),
 	(303, '已结束流程', 0, 0, 0, 1),
@@ -89,6 +90,9 @@ VALUES
 	(20501, '添加框架采购', 0, 0, 0, 205, NULL),
 	(20502, '更新框架采购', 0, 0, 0, 205, NULL),
 	(20503, '删除框架采购', 0, 0, 0, 205, NULL),
+	(20601, '添加排期执行单', 0, 0, 0, 206, NULL),
+	(20602, '更新排期执行单', 0, 0, 0, 206, NULL),
+	(20603, '删除排期执行单', 0, 0, 0, 206, NULL),
 	(30101, '办理待处理流程', 0, 0, 0, 301, NULL),
 	(30201, '查看运行中流程', 0, 0, 0, 302, NULL),
 	(30301, '查看已结束流程', 0, 0, 0, 303, NULL),
@@ -114,7 +118,7 @@ VALUES (1, 'admin', 'admin', '93d6f2648c6f590a7bc8cd0be9243149', '', '', '', '',
 INSERT INTO `sys_user_role` (`id`, `admins`, `roles`) VALUES (1, 1, 1);
 
 INSERT INTO `sys_role` (`id`, `activiti_name`, `name`, `description`, `is_system`, `sort`, `del_flag`) VALUES (1, '', 'admin', 'admin', b'1', NULL, 0);
-
+INSERT INTO `base_person` (`name`, `area_id`, `mobile`, `address`, `email`, `dept_id`, `state`, `parent_id`, `del_flag`, `item_status`, `pay2`, `person_pay`, `create_time`, `update_time`, `remark`) VALUES ('admin', 1, '1', '1', '1', 1, 0, 0, 0, 0, 0.00, 0.00, '2017-07-19 22:24:54', '2017-07-19 22:24:54', '');
 
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10101, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 10102, '', 0, NULL, NULL, 0);
@@ -168,6 +172,9 @@ INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`,
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20501, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20502, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20503, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20601, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20602, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 20603, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30101, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30201, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30301, '', 0, NULL, NULL, 0);
@@ -231,4 +238,6 @@ insert into act_id_membership VALUES ('u5', 'financialGM'); -- 财务管理
 insert into act_id_membership VALUES ('u6', 'legalGM'); -- 法务管理
 insert into act_id_membership VALUES ('u7', 'customer4A'); -- 4A
 insert into act_id_membership VALUES ('u8', 'media'); -- 媒介普通
+
+
 

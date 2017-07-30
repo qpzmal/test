@@ -98,6 +98,15 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
     }
 
     @Override
+    public ResultJson<Integer> updateSelective(BaseBuyOrder baseBuyOrder) {
+        Integer insertCount = baseBuyOrderRepo.updateSelective(baseBuyOrder);
+        if(insertCount != 1){
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新采购单失败!");
+        }
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
+    @Override
     public ResultJson<BaseBuyOrder> findById(Integer id) {
         ResultJson<BaseBuyOrder> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
         BaseBuyOrder baseBuyOrder = baseBuyOrderRepo.findOne(id);
