@@ -525,6 +525,9 @@
     $(".button_view").click(function(){
         var taskId = $(this).parents('tr').attr('id'); // 取申请ID
         var pkey = $(this).parents('tr').attr('pkey');
+        if (pkey == "saleExecute") {
+            pkey ="saleOrder";
+        }
         var url = "${rc.contextPath}/"+ pkey+"/refer?id="+taskId;
         openPopIframePage(url);
     })
