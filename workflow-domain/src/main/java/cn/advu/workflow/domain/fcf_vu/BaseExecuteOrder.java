@@ -65,7 +65,7 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
 
     private String signingIntention;
 
-    private Integer personPayeeId;
+    private String personPayeeId;
 
     private BigDecimal payPercent;
 
@@ -311,11 +311,11 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
         this.signingIntention = signingIntention == null ? null : signingIntention.trim();
     }
 
-    public Integer getPersonPayeeId() {
+    public String getPersonPayeeId() {
         return personPayeeId;
     }
 
-    public void setPersonPayeeId(Integer personPayeeId) {
+    public void setPersonPayeeId(String personPayeeId) {
         this.personPayeeId = personPayeeId;
     }
 

@@ -467,6 +467,7 @@
                     $("#area_id").attr("value", o.value);
                     $("#area_name").attr("value", o.text);
                     $("#area_tree_content").fadeOut("fast");
+                    areaChange();
                 }
             });
         }

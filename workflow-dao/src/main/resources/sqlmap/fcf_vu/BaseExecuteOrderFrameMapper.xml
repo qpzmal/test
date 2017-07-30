@@ -30,7 +30,7 @@
     <result column="report_type_id" jdbcType="VARCHAR" property="reportTypeId" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="signing_intention" jdbcType="VARCHAR" property="signingIntention" />
-    <result column="person_payee_id" jdbcType="INTEGER" property="personPayeeId" />
+    <result column="person_payee_id" jdbcType="VARCHAR" property="personPayeeId" />
     <result column="pay_percent" jdbcType="DECIMAL" property="payPercent" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="account_period" jdbcType="INTEGER" property="accountPeriod" />
@@ -81,7 +81,7 @@
       #{monitorIds,jdbcType=VARCHAR}, #{monitorNames,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP},
       #{endDate,jdbcType=TIMESTAMP}, #{personLeaderId,jdbcType=INTEGER}, #{ourMonitorName,jdbcType=VARCHAR},
       #{reportTypeId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{signingIntention,jdbcType=VARCHAR},
-      #{personPayeeId,jdbcType=INTEGER}, #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER},
+      #{personPayeeId,jdbcType=VARCHAR}, #{payPercent,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER},
       #{accountPeriod,jdbcType=INTEGER}, #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR},
       #{frameId,jdbcType=INTEGER}, #{signType,jdbcType=TINYINT})
@@ -290,7 +290,7 @@
         #{signingIntention,jdbcType=VARCHAR},
       </if>
       <if test="personPayeeId != null">
-        #{personPayeeId,jdbcType=INTEGER},
+        #{personPayeeId,jdbcType=VARCHAR},
       </if>
       <if test="payPercent != null">
         #{payPercent,jdbcType=DECIMAL},
@@ -406,7 +406,7 @@
         signing_intention = #{signingIntention,jdbcType=VARCHAR},
       </if>
       <if test="personPayeeId != null">
-        person_payee_id = #{personPayeeId,jdbcType=INTEGER},
+        person_payee_id = #{personPayeeId,jdbcType=VARCHAR},
       </if>
       <if test="payPercent != null">
         pay_percent = #{payPercent,jdbcType=DECIMAL},
@@ -464,7 +464,7 @@
       our_monitor_name = #{ourMonitorName,jdbcType=VARCHAR},
       report_type_id = #{reportTypeId,jdbcType=VARCHAR},
       signing_intention = #{signingIntention,jdbcType=VARCHAR},
-      person_payee_id = #{personPayeeId,jdbcType=INTEGER},
+      person_payee_id = #{personPayeeId,jdbcType=VARCHAR},
       pay_percent = #{payPercent,jdbcType=DECIMAL},
       account_period = #{accountPeriod,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
