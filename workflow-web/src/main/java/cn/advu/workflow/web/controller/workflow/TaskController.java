@@ -1,9 +1,7 @@
 package cn.advu.workflow.web.controller.workflow;
 
-import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
-import cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame;
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame;
+import cn.advu.workflow.domain.fcf_vu.*;
+import cn.advu.workflow.repo.fcf_vu.SysUserRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
@@ -76,6 +74,9 @@ public class TaskController {
     @Autowired
     private SaleFrameService saleFrameService;
 
+    @Autowired
+    private SysUserRepo sysUserRepo;
+
 
     /**
      * 任务列表
@@ -112,6 +113,7 @@ public class TaskController {
             LOGGER.info("ProcessDefinitionKey:{}", processInstance.getProcessDefinitionKey());
 
 
+            SysUser dbUser = null;
             switch (processInstance.getProcessDefinitionKey()) {
                 case WebConstants.WORKFLOW_BUY:
                     BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
@@ -120,6 +122,8 @@ public class TaskController {
                     baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
                     baseBuyOrderVO.setProcessInstance(processInstance);
                     baseBuyOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+                    dbUser = sysUserRepo.findOne(baseBuyOrder.getUserId());
+                    baseBuyOrder.setUserName(dbUser.getUserName());
 
                     baseBuyOrderVOList.add(baseBuyOrderVO);
                     break;
@@ -131,6 +135,8 @@ public class TaskController {
                     baseBuyOrderFrameVO.setBaseBuyOrderFrame(baseBuyOrderFrame);
                     baseBuyOrderFrameVO.setProcessInstance(processInstance);
                     baseBuyOrderFrameVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+                    dbUser = sysUserRepo.findOne(baseBuyOrderFrame.getUserId());
+                    baseBuyOrderFrame.setUserName(dbUser.getUserName());
 
                     baseBuyOrderFrameVOList.add(baseBuyOrderFrameVO);
                     break;
@@ -141,6 +147,8 @@ public class TaskController {
                     baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
                     baseExecuteOrderVO.setProcessInstance(processInstance);
                     baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+                    dbUser = sysUserRepo.findOne(baseExecuteOrder.getUserId());
+                    baseExecuteOrder.setUserName(dbUser.getUserName());
 
                     baseExecuteOrderVOList.add(baseExecuteOrderVO);
                     break;
@@ -151,6 +159,8 @@ public class TaskController {
                     baseExecuteOrderExecuteVO.setBaseExecuteOrder(baseExecuteOrderExecute);
                     baseExecuteOrderExecuteVO.setProcessInstance(processInstance);
                     baseExecuteOrderExecuteVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+                    dbUser = sysUserRepo.findOne(baseExecuteOrderExecute.getUserId());
+                    baseExecuteOrderExecute.setUserName(dbUser.getUserName());
 
                     baseExecuteOrderExecuteVOList.add(baseExecuteOrderExecuteVO);
                     break;
@@ -161,6 +171,8 @@ public class TaskController {
                     baseExecuteOrderFrameVO.setBaseExecuteOrderFrame(baseExecuteOrderFrame);
                     baseExecuteOrderFrameVO.setProcessInstance(processInstance);
                     baseExecuteOrderFrameVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+                    dbUser = sysUserRepo.findOne(baseExecuteOrderFrame.getUserId());
+                    baseExecuteOrderFrame.setUserName(dbUser.getUserName());
 
                     baseExecuteOrderFrameVOList.add(baseExecuteOrderFrameVO);
                     break;
@@ -198,6 +210,7 @@ public class TaskController {
         ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_BUY).active().orderByProcessInstanceId().desc();
         List<ProcessInstance> list = query.list();
 
+        SysUser dbUser = null;
         // 关联业务实体
         for (ProcessInstance processInstance : list) {
 
@@ -211,6 +224,8 @@ public class TaskController {
             baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
             baseBuyOrderVO.setProcessInstance(processInstance);
             baseBuyOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+            dbUser = sysUserRepo.findOne(baseBuyOrder.getUserId());
+            baseBuyOrder.setUserName(dbUser.getUserName());
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
@@ -236,6 +251,8 @@ public class TaskController {
             baseBuyOrderFrameVO.setBaseBuyOrderFrame(baseBuyOrderFrame);
             baseBuyOrderFrameVO.setProcessInstance(processInstance);
             baseBuyOrderFrameVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+            dbUser = sysUserRepo.findOne(baseBuyOrderFrame.getUserId());
+            baseBuyOrderFrame.setUserName(dbUser.getUserName());
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
@@ -261,6 +278,8 @@ public class TaskController {
             baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
             baseExecuteOrderVO.setProcessInstance(processInstance);
             baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+            dbUser = sysUserRepo.findOne(baseExecuteOrder.getUserId());
+            baseExecuteOrder.setUserName(dbUser.getUserName());
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
@@ -286,6 +305,8 @@ public class TaskController {
             baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
             baseExecuteOrderVO.setProcessInstance(processInstance);
             baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+            dbUser = sysUserRepo.findOne(baseExecuteOrder.getUserId());
+            baseExecuteOrder.setUserName(dbUser.getUserName());
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
@@ -310,6 +331,9 @@ public class TaskController {
             baseExecuteOrderFrameVO.setBaseExecuteOrderFrame(baseExecuteOrderFrame);
             baseExecuteOrderFrameVO.setProcessInstance(processInstance);
             baseExecuteOrderFrameVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+            dbUser = sysUserRepo.findOne(baseExecuteOrderFrame.getUserId());
+            baseExecuteOrderFrame.setUserName(dbUser.getUserName());
+
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
@@ -347,6 +371,7 @@ public class TaskController {
         List<HistoricProcessInstance> list = query.list();
         LOGGER.info("WORKFLOW_BUY:size{}", list.size());
 
+        SysUser dbUser = null;
         // 关联业务实体
         for (HistoricProcessInstance historicProcessInstance : list) {
 
@@ -360,6 +385,8 @@ public class TaskController {
             baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
             baseBuyOrderVO.setHistoricProcessInstance(historicProcessInstance);
             baseBuyOrderVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
+            dbUser = sysUserRepo.findOne(baseBuyOrder.getUserId());
+            baseBuyOrder.setUserName(dbUser.getUserName());
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
@@ -391,6 +418,9 @@ public class TaskController {
             baseBuyOrderFrameVO.setBaseBuyOrderFrame(baseBuyOrderFrame);
             baseBuyOrderFrameVO.setHistoricProcessInstance(historicProcessInstance);
             baseBuyOrderFrameVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
+            dbUser = sysUserRepo.findOne(baseBuyOrderFrame.getUserId());
+            baseBuyOrderFrame.setUserName(dbUser.getUserName());
+
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
@@ -421,6 +451,9 @@ public class TaskController {
             baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
             baseExecuteOrderVO.setHistoricProcessInstance(historicProcessInstance);
             baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
+            dbUser = sysUserRepo.findOne(baseExecuteOrder.getUserId());
+            baseExecuteOrder.setUserName(dbUser.getUserName());
+
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
@@ -451,6 +484,8 @@ public class TaskController {
             baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
             baseExecuteOrderVO.setHistoricProcessInstance(historicProcessInstance);
             baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
+            dbUser = sysUserRepo.findOne(baseExecuteOrder.getUserId());
+            baseExecuteOrder.setUserName(dbUser.getUserName());
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
@@ -482,6 +517,8 @@ public class TaskController {
             baseExecuteOrderFrameVO.setBaseExecuteOrderFrame(baseExecuteOrderFrame);
             baseExecuteOrderFrameVO.setHistoricProcessInstance(historicProcessInstance);
             baseExecuteOrderFrameVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
+            dbUser = sysUserRepo.findOne(baseExecuteOrderFrame.getUserId());
+            baseExecuteOrderFrame.setUserName(dbUser.getUserName());
 
             // 设置当前任务信息
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(historicProcessInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);

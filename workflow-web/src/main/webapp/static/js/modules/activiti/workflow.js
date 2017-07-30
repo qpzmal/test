@@ -97,7 +97,7 @@ function graphTrace(options) {
         if ($('#workflowTraceDialog').length == 0) {
             $('<div/>', {
                 id: 'workflowTraceDialog',
-                title: '查看流程（按ESC键可以关闭）<button id="changeImg">如果坐标错乱请点击这里</button><button id="diagram-viewer">Diagram-Viewer</button>',
+                // title: '查看流程（按ESC键可以关闭）<button id="changeImg">如果坐标错乱请点击这里</button><button id="diagram-viewer">Diagram-Viewer</button>',
                 html: "<div><img src='" + imageUrl + "' style='position:absolute; left:0px; top:0px;' />" +
                 "<div id='processImageBorder'>" +
                 positionHtml +
@@ -120,7 +120,7 @@ function graphTrace(options) {
             resizable: false,
             dragable: false,
             open: function() {
-                $('#workflowTraceDialog').dialog('option', 'title', '查看流程（按ESC键可以关闭）<button id="changeImg">如果坐标错乱请点击这里</button><button id="diagram-viewer">Diagram-Viewer</button>');
+                // $('#workflowTraceDialog').dialog('option', 'title', '查看流程（按ESC键可以关闭）<button id="changeImg">如果坐标错乱请点击这里</button><button id="diagram-viewer">Diagram-Viewer</button>');
                 $('#workflowTraceDialog').css('padding', '0.2em');
                 $('#workflowTraceDialog .ui-accordion-content').css('padding', '0.2em').height($('#workflowTraceDialog').height() - 75);
 
