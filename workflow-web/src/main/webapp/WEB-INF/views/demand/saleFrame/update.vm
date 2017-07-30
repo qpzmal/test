@@ -486,6 +486,17 @@
 
 <script>
 
+    function areaChange() {
+        $.ajax({
+            url:"/saleOrder/leaderSelect.json?areaId=" + $("#area_id").val(),
+            type:"get",
+            success: function(returnData){
+                console.log(returnData);
+                $("#person_leader_content").html(returnData);
+            }
+        });
+    }
+
     ##签约类型变更
     function signTypeChange(){
         $.ajax({
@@ -763,6 +774,7 @@
                     $("#area_id").attr("value", o.value);
                     $("#area_name").attr("value", o.text);
                     $("#area_tree_content").fadeOut("fast");
+                    areaChange();
                 }
             });
         }

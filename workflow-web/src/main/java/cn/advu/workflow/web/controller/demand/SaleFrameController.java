@@ -189,7 +189,9 @@ public class SaleFrameController {
 
         String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
         BaseArea baseArea = areaService.findById(baseExecuteOrderFrame.getAreaId()).getData();
+
         List<BasePerson> leaderList = personMananger.findPersonListByArea(baseExecuteOrderFrame.getAreaId());
+
         List<BaseIndustry> industryList = industryManager.findAllEnabledIndustryList();
         List<BaseRegion> regionList = regionManager.findAllActiveRegionList();
         List<BaseMonitor> baseMonitorRequestList = monitorRequestService.findAll().getData();
