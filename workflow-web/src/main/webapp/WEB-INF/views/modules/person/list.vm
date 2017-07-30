@@ -161,7 +161,8 @@
     );
 
     function onBodyDown(event) {
-        if (!(event.target.id == "parent_id" || event.target.id == "parent_tree_content" || $(event.target).parents("#parent_tree_content").length>0)) {
+        if (!(event.target.id == "parent_id" || event.target.id == "parent_tree_content" || $(event.target).parents("#parent_tree_content").length>0
+                || event.target.id == "area_tree_content" || $(event.target).parents("#area_tree_content").length>0)) {
             hideMenu();
         }
     }
