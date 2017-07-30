@@ -38,7 +38,7 @@
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from base_buy_order_frame
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} AND status=-1
   </delete>
   <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame" keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_buy_order_frame (id, process_instance_id, order_num, sec_order_num,

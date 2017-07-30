@@ -672,6 +672,45 @@
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-md-6">
+                                            排期执行单
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="executeOrderFrameAllCheck" type="checkbox" class="flowApplyCheck">
+                                                <label for="executeOrderFrameAllCheck">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20601" type="checkbox" class="executeOrderFrameCheck flowApplyCheck function">
+                                        <label for="20601">
+                                            新增
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="20602" type="checkbox" class="executeOrderFrameCheck flowApplyCheck function">
+                                        <label for="20602">
+                                            修改
+                                        </label>
+                                    </div>
+##                                    <div class="checkbox checkbox-success checkbox-inline ">
+##                                        <input id="20303" type="checkbox" class="executeOrderFrameCheck flowApplyCheck function">
+##                                        <label for="20303">
+##                                            删除
+##                                        </label>
+##                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
                                             采购单
                                         </div>
                                         <div class="col-md-6">
