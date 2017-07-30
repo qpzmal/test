@@ -37,6 +37,8 @@ public interface MessageConstants {
     // 通讯录
     String PERSON_IS_NOT_EXISTS="当前用户在通讯录中不存在";
     String PERSON_HAS_SUBORDINATE="当前通讯录下有子通讯录";
+    String AREA_IS_NULL="所属区域没有设置";
+    String DEPT_IS_NULL="所属部门没有设置";
     // 地域
     String REGION_IS_NOT_EXISTS="地域不存在";
     String REGION_TYPE_IS_NULL="类型没有设置";

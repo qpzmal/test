@@ -239,6 +239,7 @@ public class ExecuteOrderController {
         Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
         SysUser sysUser = userMananger.findById(userId);
         BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+        AssertUtil.assertNotNull(basePerson, MessageConstants.PERSON_IS_NOT_EXISTS);
 
         BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(frameId).getData();
         String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
@@ -342,6 +343,7 @@ public class ExecuteOrderController {
         Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
         SysUser sysUser = userMananger.findById(userId);
         BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+        AssertUtil.assertNotNull(basePerson, MessageConstants.PERSON_IS_NOT_EXISTS);
 
         BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(id).getData();
         String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());

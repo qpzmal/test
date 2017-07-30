@@ -161,7 +161,8 @@
     );
 
     function onBodyDown(event) {
-        if (!(event.target.id == "parent_id" || event.target.id == "parent_tree_content" || $(event.target).parents("#parent_tree_content").length>0)) {
+        if (!(event.target.id == "parent_id" || event.target.id == "parent_tree_content" || $(event.target).parents("#parent_tree_content").length>0
+                || event.target.id == "area_tree_content" || $(event.target).parents("#area_tree_content").length>0)) {
             hideMenu();
         }
     }
@@ -258,7 +259,7 @@
     });
         // 添加
         $(".btn-primary").click(function(){
-            window.location.href = "${rc.contextPath}/person/toAdd?areaId=" + $("#area_id").val() + "&parentId=" + $("#parent_id").val();
+            window.location.href = "${rc.contextPath}/person/toAdd?areaId=" + $("#area_id").val() + "&deptId=" + $("#parent_id").val();
         });
 
         // 修改
