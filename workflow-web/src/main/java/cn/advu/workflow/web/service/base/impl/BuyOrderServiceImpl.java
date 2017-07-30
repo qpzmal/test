@@ -83,6 +83,11 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
     @Override
     public ResultJson<Integer> update(BaseBuyOrder baseBuyOrder) {
 
+        // 补充编码
+        if (StringUtils.isEmpty(baseBuyOrder.getSecOrderNum())) {
+            baseBuyOrder.setSecOrderNum(baseBuyOrder.getOrderNum());
+        }
+
         // CPM
         buildBuyOrderCpm(baseBuyOrder);
         if (baseBuyOrder.getId() == null) {

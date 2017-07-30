@@ -80,6 +80,11 @@ public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFram
     @Override
     public ResultJson<Integer> update(BaseBuyOrderFrame baseExecuteOrderFrame) {
 
+        // 补充编码
+        if (org.apache.commons.lang3.StringUtils.isEmpty(baseExecuteOrderFrame.getSecOrderNum())) {
+            baseExecuteOrderFrame.setSecOrderNum(baseExecuteOrderFrame.getOrderNum());
+        }
+
         // CPM
         buildBuyFrameCpm(baseExecuteOrderFrame);
 

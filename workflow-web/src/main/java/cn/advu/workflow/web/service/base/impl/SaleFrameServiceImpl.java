@@ -143,6 +143,13 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
 
     @Override
     public ResultJson<Integer> update(BaseExecuteOrderFrame baseExecuteOrderFrame) {
+
+        // 补充编码
+        if (StringUtils.isEmpty(baseExecuteOrderFrame.getSecOrderNum())) {
+            baseExecuteOrderFrame.setSecOrderNum(baseExecuteOrderFrame.getOrderNum());
+        }
+
+
         AssertUtil.assertNotNullOrEmpty(baseExecuteOrderFrame.getSignType(), "签约类型");
         String customSignName = baseExecuteOrderFrame.getCustomSignName();
         String customAdverserName = baseExecuteOrderFrame.getCustomAdverserName();
