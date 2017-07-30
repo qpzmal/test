@@ -16,6 +16,7 @@ import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.SaleFrameService;
 import cn.advu.workflow.web.util.AssertUtil;
+import cn.advu.workflow.web.util.BigDecimalUtil;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
@@ -131,6 +132,10 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
         // CPM
         buildExecuteFrameCpm(baseExecuteOrderFrame);
 
+        baseExecuteOrderFrame.setPublicRebate(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrderFrame.getPublicRebate()));
+        baseExecuteOrderFrame.setPrivateRebate(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrderFrame.getPrivateRebate()));
+        baseExecuteOrderFrame.setPayPercent(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrderFrame.getPayPercent()));
+
         Integer insertCount = baseExecuteOrderFrameRepo.addSelective(baseExecuteOrderFrame);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建需求单失败!");
@@ -139,6 +144,7 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
         // 发起工作流
         return this.startWorkFlow(baseExecuteOrderFrame);
     }
+
 
 
     @Override
@@ -203,6 +209,11 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
         if (baseExecuteOrderFrame.getId() == null) {
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
         }
+
+        baseExecuteOrderFrame.setPublicRebate(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrderFrame.getPublicRebate()));
+        baseExecuteOrderFrame.setPrivateRebate(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrderFrame.getPrivateRebate()));
+        baseExecuteOrderFrame.setPayPercent(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrderFrame.getPayPercent()));
+
         Integer insertCount = baseExecuteOrderFrameRepo.update(baseExecuteOrderFrame);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新需求单失败!");

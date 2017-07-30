@@ -10,6 +10,7 @@ import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import cn.advu.workflow.web.service.base.SaleFrameService;
 import cn.advu.workflow.web.util.AssertUtil;
+import cn.advu.workflow.web.util.BigDecimalUtil;
 import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -273,6 +274,7 @@ public class SaleFrameController {
         model.addAttribute("salePersonId", basePerson.getId());
         model.addAttribute("salePersonName", basePerson.getName());
         model.addAttribute("baseExecuteOrder", baseExecuteOrderFrame);
+        model.addAttribute("std", BigDecimalUtil.HUNDRED);
 
         return "demand/saleFrame/update";
     }
@@ -354,6 +356,7 @@ public class SaleFrameController {
         model.addAttribute("salePersonId", basePerson.getId());
         model.addAttribute("salePersonName", basePerson.getName());
         model.addAttribute("baseExecuteOrder", baseExecuteOrderFrame);
+        model.addAttribute("std", BigDecimalUtil.HUNDRED);
 
         return "demand/saleFrame/refer";
     }

@@ -16,6 +16,7 @@ import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import cn.advu.workflow.web.util.AssertUtil;
+import cn.advu.workflow.web.util.BigDecimalUtil;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
@@ -138,6 +139,10 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         // CPM
         buildExecuteCpm(baseExecuteOrder);
 
+        baseExecuteOrder.setPublicRebate(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPublicRebate()));
+        baseExecuteOrder.setPrivateRebate(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPrivateRebate()));
+        baseExecuteOrder.setPayPercent(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPayPercent()));
+
 //        if (baseExecuteOrder.getFrameId() != null && baseExecuteOrder.getFrameId() != 0) {
 //            baseExecuteOrder.setType("1"); // 框架
 //        } else {
@@ -213,6 +218,11 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         if (baseExecuteOrder.getId() == null) {
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
         }
+
+        baseExecuteOrder.setPublicRebate(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPublicRebate()));
+        baseExecuteOrder.setPrivateRebate(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPrivateRebate()));
+        baseExecuteOrder.setPayPercent(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPayPercent()));
+
         Integer insertCount = baseExecuteOrderRepo.update(baseExecuteOrder);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新需求单失败!");
