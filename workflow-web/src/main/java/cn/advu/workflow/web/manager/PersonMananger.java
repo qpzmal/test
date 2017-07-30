@@ -90,4 +90,8 @@ public class PersonMananger {
         }
         return hasSubordinate;
     }
+
+    public BasePerson findById(Integer id) {
+        return basePersonRepo.findOne(id);
+    }
 }
