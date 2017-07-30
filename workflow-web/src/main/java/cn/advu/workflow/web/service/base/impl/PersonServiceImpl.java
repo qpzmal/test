@@ -43,6 +43,8 @@ public class PersonServiceImpl implements PersonService {
             throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
 
+        AssertUtil.assertNotNull(basePerson.getAreaId(), MessageConstants.AREA_IS_NULL);
+        AssertUtil.assertNotNull(basePerson.getDeptId(), MessageConstants.DEPT_IS_NULL);
         ResultJson<Integer> resultJson = new ResultJson();
         resultJson.setData(basePersonRepo.addSelective(basePerson));
         return resultJson;
@@ -54,6 +56,9 @@ public class PersonServiceImpl implements PersonService {
         if (personMananger.isNameDuplicated(basePerson.getId(), basePerson.getName())) {
             throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
+
+        AssertUtil.assertNotNull(basePerson.getAreaId(), MessageConstants.AREA_IS_NULL);
+        AssertUtil.assertNotNull(basePerson.getDeptId(), MessageConstants.DEPT_IS_NULL);
 
         ResultJson<Void> resultJson = new ResultJson();
         basePersonRepo.updateSelective(basePerson);
