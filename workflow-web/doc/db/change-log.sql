@@ -6,8 +6,15 @@
 -- 1.20170620 兆华建立
 
 
--- 20170728 weiqz
+-- 20170731 weiqz
+ALTER TABLE `base_execute_order`
+	CHANGE COLUMN `person_payee_id` `person_payee_id` VARCHAR(30) NOT NULL DEFAULT '' COMMENT '收款负责人' AFTER `signing_intention`;
+ALTER TABLE `base_execute_order_frame`
+	CHANGE COLUMN `person_payee_id` `person_payee_id` VARCHAR(30) NOT NULL DEFAULT '' COMMENT '收款负责人' AFTER `signing_intention`;
 
+
+
+-- 20170728 weiqz
 -- 资源表
 INSERT INTO `sys_resource` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_type`)
 VALUES

@@ -316,6 +316,8 @@ public class TaskController {
         }
         LOGGER.debug("baseExecuteOrderExecuteVOList.size:{}", baseExecuteOrderExecuteVOList.size());
 
+
+
         query = runtimeService.createProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_SALE_FRAME).active().orderByProcessInstanceId().desc();
         list = query.list();
         // 关联业务实体
@@ -347,6 +349,7 @@ public class TaskController {
         model.addAttribute("baseBuyOrderFrameVOList", baseBuyOrderFrameVOList);
         model.addAttribute("baseExecuteOrderVOList", baseExecuteOrderVOList);
         model.addAttribute("baseExecuteOrderFrameVOList", baseExecuteOrderFrameVOList);
+        model.addAttribute("baseExecuteOrderExecuteVOList", baseExecuteOrderExecuteVOList);
         return "workflow/task_runningList";
     }
 
@@ -534,6 +537,7 @@ public class TaskController {
         model.addAttribute("baseBuyOrderFrameVOList", baseBuyOrderFrameVOList);
         model.addAttribute("baseExecuteOrderVOList", baseExecuteOrderVOList);
         model.addAttribute("baseExecuteOrderFrameVOList", baseExecuteOrderFrameVOList);
+        model.addAttribute("baseExecuteOrderExecuteVOList", baseExecuteOrderExecuteVOList);
         return "workflow/task_finished";
     }
 
