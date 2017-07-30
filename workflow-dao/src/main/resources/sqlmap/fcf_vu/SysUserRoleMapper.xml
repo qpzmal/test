@@ -56,27 +56,27 @@
     <include refid="Base_Column_List" />
     , sys_role.name AS roleName
     from sys_user_role, sys_role, sys_user
-    where sys_user_role.roles = sys_role.id and sys_user_role.admins = sys_user.id and sys_user.login_name = ${loginName}
+    where sys_user_role.roles = sys_role.id and sys_user_role.admins = sys_user.id and sys_user.login_name = #{loginName}
   </select>
   <select id="queryByRole" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from sys_user_role
-    where roles = ${roleId}
+    where roles = #{roleId}
   </select>
   <delete id="deleteByUser">
     delete from sys_user_role
-    where admins = ${userId}
+    where admins = #{userId}
   </delete>
   <delete id="deleteByRole">
     delete from sys_user_role
-    where roles = ${roleId}
+    where roles = #{roleId}
   </delete>
   <delete id="deleteByIds">
     delete from sys_user_role
     where id in
     <foreach close=")" collection="userRoleIds" item="userRoleId" open="(" separator=",">
-      ${userRoleId}
+      #{userRoleId}
     </foreach>
   </delete>
 </mapper>
