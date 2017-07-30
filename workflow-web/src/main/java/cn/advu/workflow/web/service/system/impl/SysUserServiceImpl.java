@@ -53,7 +53,7 @@ public class SysUserServiceImpl implements SysUserService{
             throw new ServiceException("创建用户失败！");
         }
 
-        activitiFacade.createUser(user);
+//        activitiFacade.createUser(user);
 
         // log
         bizLogManager.addBizLog(sysUserRepo.findOne(user.getId()), "用户管理/添加用户", Integer.valueOf(LogTypeEnum.ADD.getValue()));
@@ -124,7 +124,7 @@ public class SysUserServiceImpl implements SysUserService{
         ResultJson resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
         resultJson.setData(sysUserRepo.remove(userId));
 
-        activitiFacade.deleteUser(userId + "");
+//        activitiFacade.deleteUser(userId + "");
         return resultJson;
     }
 

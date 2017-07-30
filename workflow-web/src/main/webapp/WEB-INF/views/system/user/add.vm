@@ -165,7 +165,7 @@
         if (roleIds != null) {
             for (var i = 0; i < roleIds.length; i++) {
                 var roleIdTemp = roleIds[i];
-                if (roleIdTemp == "") {
+                if (roleIdTemp != "") {
                     userRoleList = userRoleList + "," + roleIdTemp;
                 }
             };

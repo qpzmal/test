@@ -676,8 +676,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-warning">
-                                                <input id="executeOrderFrameAllCheck" type="checkbox" class="flowApplyCheck">
-                                                <label for="executeOrderFrameAllCheck">
+                                                <input id="executeOrderPaiqiAllCheck" type="checkbox" class="flowApplyCheck">
+                                                <label for="executeOrderPaiqiAllCheck">
                                                     <b>全选</b>
                                                 </label>
                                             </div>
@@ -686,19 +686,19 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20601" type="checkbox" class="executeOrderFrameCheck flowApplyCheck function">
+                                        <input id="20601" type="checkbox" class="executeOrderPaiqiAllCheck flowApplyCheck function">
                                         <label for="20601">
                                             新增
                                         </label>
                                     </div>
                                     <div class="checkbox checkbox-success checkbox-inline ">
-                                        <input id="20602" type="checkbox" class="executeOrderFrameCheck flowApplyCheck function">
+                                        <input id="20602" type="checkbox" class="executeOrderPaiqiAllCheck flowApplyCheck function">
                                         <label for="20602">
                                             修改
                                         </label>
                                     </div>
 ##                                    <div class="checkbox checkbox-success checkbox-inline ">
-##                                        <input id="20303" type="checkbox" class="executeOrderFrameCheck flowApplyCheck function">
+##                                        <input id="20303" type="checkbox" class="executeOrderPaiqiAllCheck flowApplyCheck function">
 ##                                        <label for="20303">
 ##                                            删除
 ##                                        </label>
@@ -1452,6 +1452,21 @@
             };
 
         })
+        ## 排期执行单的全选
+        $("#executeOrderPaiqiAllCheck").change(function(){
+            var checkArr = $(".executeOrderPaiqiAllCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
+
+        })
+
         $("#buyOrderAllCheck").change(function(){
             var checkArr = $(".buyOrderCheck");
             if (this.checked) {
