@@ -67,13 +67,16 @@ public class AdtypeServiceImpl implements AdtypeService {
 
     @Override
     public ResultJson<Integer> udpateAdtype(BaseAdtype baseAdtype) {
-        if (baseAdtype.getId() == null) {
+        Integer id = baseAdtype.getId();
+        if (id == null) {
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
         }
 
-        if (adtypeMananger.isNameDuplicated(baseAdtype.getId(), baseAdtype.getName())) {
+        if (adtypeMananger.isNameDuplicated(id, baseAdtype.getName())) {
             throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
+        // log
+        bizLogManager.addBizLog(baseAdtypeRepo.findOne(id), "广告类型管理/更新广告类型", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
 
         Integer updateCount = baseAdtypeRepo.updateSelective(baseAdtype);
         if(updateCount != 1){

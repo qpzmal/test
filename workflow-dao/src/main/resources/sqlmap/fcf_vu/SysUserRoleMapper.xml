@@ -51,6 +51,7 @@
     select
     <include refid="Base_Column_List" />
     from sys_user_role
+    where admins = #{userId}
   </select>
   <select id="queryByUserByLoginName" resultMap="BaseResultMap">
     select
