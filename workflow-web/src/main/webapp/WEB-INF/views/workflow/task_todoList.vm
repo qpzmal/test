@@ -281,6 +281,7 @@
                                                     #if(${data.task.assignee})
                                                     ##  此处用tkey记录当前节点的名称
                                                         <a href="javascript:;" class="btn btn-info btn-sm button_to_start btn_handle" tkey='$!{data.task.taskDefinitionKey}' tname='$!{data.task.name}'><i class="fa fa-play "></i> 办理</a>
+                                                        <a href="javascript:;" class="btn btn-info btn-sm button_to_start btn_edit" tkey='$!{data.task.taskDefinitionKey}' tname='$!{data.task.name}'><i class="fa fa-pencil "></i> 修改</a>
                                                     #end
 
                                                     <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
@@ -529,6 +530,14 @@
             pkey ="saleOrder";
         }
         var url = "${rc.contextPath}/"+ pkey+"/refer?id="+taskId;
+        openPopIframePage(url);
+    })
+
+    ## 修改
+    $(".btn_edit").click(function(){
+        var taskId = $(this).parents('tr').attr('id'); // 取申请ID
+        var pkey = $(this).parents('tr').attr('pkey');
+        var url = "${rc.contextPath}/saleOrder/toUpdate?id="+taskId;
         openPopIframePage(url);
     })
 
