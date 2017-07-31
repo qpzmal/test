@@ -311,11 +311,29 @@
                     },
                     {
                         field: "mediaPrice",
-                        title: "媒体单价"
+                        title: "媒体单价",
+                        editable: {
+                            validate:function (value) {
+                                value = $.trim(value);
+                                if (!(value = '' || /^(\-|\+)?\d{1,16}(\.\d{1,2})?$/.test(value)))
+                                {
+                                    return '整数位不超过16位，小数位不超过2位';
+                                }
+                            }
+                        }
                     },
                     {
                         field: "firstPrice",
-                        title: "媒体采购成本单价"
+                        title: "媒体采购成本单价",
+                        editable: {
+                            validate:function (value) {
+                                value = $.trim(value);
+                                if (!(value = '' || /^(\-|\+)?\d{1,16}(\.\d{1,2})?$/.test(value)))
+                                {
+                                    return '整数位不超过16位，小数位不超过2位';
+                                }
+                            }
+                        }
                     },
                     {
                         field: "adTypeId",
