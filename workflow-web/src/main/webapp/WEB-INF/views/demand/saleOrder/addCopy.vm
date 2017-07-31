@@ -324,7 +324,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">项目总金额</label>
                             <div class="col-sm-8">
-                                <input value="$!{baseExecuteOrder.amount}" id="amount" name="amount" type="text" class="form-control" aria-required="true"
+                                <input value="$!{baseExecuteOrder.amount}" id="amount" name="amount" type="text" class="form-control" aria-required="true isMoney"
                                     #if($!{hasSaleAuth} == false)
                                        disabled
                                     #end
@@ -334,7 +334,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">对公返点</label>
                             <div class="col-sm-8">
-                                <input value="$!{baseExecuteOrder.publicRebate}" id="public_rebate" name="public_rebate" type="text" class="form-control"
+                                <input value="$baseExecuteOrder.getPublicRebate().multiply($std)" id="public_rebate" name="public_rebate" type="text" class="form-control isPercent"
                                     #if($!{hasSaleAuth} == false)
                                        disabled
                                     #end
@@ -344,7 +344,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">对私返点</label>
                             <div class="col-sm-8">
-                                <input value="$!{baseExecuteOrder.privateRebate}" id="private_rebate" name="private_rebate" type="text" class="form-control"
+                                <input value="$baseExecuteOrder.getPrivateRebate().multiply($std)" id="private_rebate" name="private_rebate" type="text" class="form-control isPercent"
                                     #if($!{hasSaleAuth} == false)
                                        disabled
                                     #end
@@ -354,7 +354,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">含税金额</label>
                             <div class="col-sm-8">
-                                <input value="$!{baseExecuteOrder.taxAmount}" id="tax_amount" name="tax_amount" type="text" class="form-control"
+                                <input value="$!{baseExecuteOrder.taxAmount}" id="tax_amount" name="tax_amount" type="text" class="form-control isMoney"
                                     #if($!{hasSaleAuth} == false)
                                        disabled
                                     #end
@@ -364,7 +364,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">不含税金额</label>
                             <div class="col-sm-8">
-                                <input value="$!{baseExecuteOrder.taxFreeAmount}" id="tax_free_amount" name="tax_free_amount" type="text" class="form-control"
+                                <input value="$!{baseExecuteOrder.taxFreeAmount}" id="tax_free_amount" name="tax_free_amount" type="text" class="form-control isMoney"
                                     #if($!{hasSaleAuth} == false)
                                        disabled
                                     #end
@@ -383,7 +383,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">收款负责人</label>
                             <div class="col-sm-8">
-                                <input value="$!{baseExecuteOrder.personPayeeId}" id="person_payee_id" name="person_payee_id" type="text" class="form-control"
+                                <input value="$!{baseExecuteOrder.personPayeeId}" id="person_payee_id" name="person_payee_id" maxlength="30" type="text" class="form-control"
                                     #if($!{hasSaleAuth} == false)
                                        disabled
                                     #end
@@ -393,7 +393,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">回款比例</label>
                             <div class="col-sm-8 ">
-                                <input value="$!{baseExecuteOrder.payPercent}" id="pay_percent" name="pay_percent" type="text" class="form-control"
+                                <input value="$baseExecuteOrder.getPayPercent().multiply($std)" id="pay_percent" name="pay_percent" type="text" class="form-control isPercent"
                                     #if($!{hasFinancialAuth} == false)
                                        disabled
                                     #end
@@ -484,6 +484,12 @@
 
 <script>
 
+    jQuery.validator.addMethod("isMoney", function(value, element) {
+        return this.optional(element) || /^(\-|\+)?\d{1,16}(\.\d{1,2})?$/.test(value);
+    }, "整数位不超过16位，小数位不超过2位");
+    jQuery.validator.addMethod("isPercent", function(value, element) {
+        return this.optional(element) || /^(\+)?\d{1,3}(\.\d{1,2})?$/.test(value) && value <=  100;
+    }, "填写非负数、小数位不超过2位、不超过100");
     ##签约类型变更
     function signTypeChange(){
         $.ajax({

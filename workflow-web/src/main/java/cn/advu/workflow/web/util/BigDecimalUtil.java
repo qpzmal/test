@@ -20,4 +20,9 @@ public class BigDecimalUtil {
         return baseValue.multiply(HUNDRED);
     }
 
+    public static BigDecimal percentConvertToDecimal(BigDecimal value) {
+        BigDecimal baseValue = getBigDecimalWithDefaultZero(value);
+        return baseValue.divide(HUNDRED);
+    }
+
 }

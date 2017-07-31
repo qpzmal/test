@@ -11,6 +11,7 @@ import cn.advu.workflow.web.service.base.ExecuteOrderService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import cn.advu.workflow.web.service.base.SaleFrameService;
 import cn.advu.workflow.web.util.AssertUtil;
+import cn.advu.workflow.web.util.BigDecimalUtil;
 import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -335,6 +336,7 @@ public class ExecuteOrderController {
         model.addAttribute("format", format);
         model.addAttribute("salePersonId", basePerson.getId());
         model.addAttribute("salePersonName", basePerson.getName());
+        model.addAttribute("std", BigDecimalUtil.HUNDRED);
 
         return "demand/saleOrder/addCopy";
     }
@@ -442,6 +444,7 @@ public class ExecuteOrderController {
 
         model.addAttribute("salePersonId", basePerson.getId());
         model.addAttribute("salePersonName", basePerson.getName());
+        model.addAttribute("std", BigDecimalUtil.HUNDRED);
 
         return "demand/saleOrder/update";
     }
@@ -528,6 +531,7 @@ public class ExecuteOrderController {
         model.addAttribute("format", format);
         model.addAttribute("salePersonId", basePerson.getId());
         model.addAttribute("salePersonName", basePerson.getName());
+        model.addAttribute("std", BigDecimalUtil.HUNDRED);
 
         return "demand/saleOrder/refer";
     }
