@@ -550,8 +550,16 @@
     $("#btn_plus").click(
             function () {
                 var index = cpmTable.bootstrapTable('getData').length;
+                var currentId ;
+                if (index > 1) {
+                    currentId = cpmTable.bootstrapTable('getData')[index-1].id;
+                } else if (index == 1) {
+                    currentId = cpmTable.bootstrapTable('getData')[0].id;
+                } else {
+                    currentId = 0;
+                }
                 cpmTable.bootstrapTable('insertRow', {index: index,row: {
-                    id: index+1,
+                    id: currentId+1,
                     mediaId:'',
                     mediaPrice:'',
                     firstPrice:'',
@@ -632,11 +640,29 @@
                     },
                     {
                         field: "mediaPrice",
-                        title: "媒体单价"
+                        title: "媒体单价",
+                        editable: {
+                            validate:function (value) {
+                                value = $.trim(value);
+                                if (!(value = '' || /^(\-|\+)?\d{1,16}(\.\d{1,2})?$/.test(value)))
+                                {
+                                    return '整数位不超过16位，小数位不超过2位';
+                                }
+                            }
+                        }
                     },
                     {
                         field: "firstPrice",
-                        title: "媒体采购成本单价"
+                        title: "媒体采购成本单价",
+                        editable: {
+                            validate:function (value) {
+                                value = $.trim(value);
+                                if (!(value = '' || /^(\-|\+)?\d{1,16}(\.\d{1,2})?$/.test(value)))
+                                {
+                                    return '整数位不超过16位，小数位不超过2位';
+                                }
+                            }
+                        }
                     },
                     {
                         field: "adTypeId",
