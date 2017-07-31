@@ -2,8 +2,8 @@
 <div id="$!{num}" class="row counter">
     <div class="ibox">
         <div class="ibox-title">
-            <select id="adtype_id" data-placeholder="请选择媒体类型"  style="width:350px;" class="chosen-select adtype_select" tabindex="2" >
-                #foreach($data in $baseMediaList)
+            <select id="adtype_id" data-placeholder="请选择广告形式"  style="width:350px;" class="chosen-select adtype_select" tabindex="2" >
+                #foreach($data in $baseAdtypeList)
                     <option value ="$data.id">$data.name</option>
                 #end
             </select>

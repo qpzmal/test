@@ -1,9 +1,8 @@
 package cn.advu.workflow.web.controller.demand;
 
-import cn.advu.workflow.domain.fcf_vu.*;
+import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
+import cn.advu.workflow.domain.fcf_vu.SalePriceAccoutVO;
 import cn.advu.workflow.web.manager.AdtypeMananger;
-import cn.advu.workflow.web.manager.CpmManager;
-import cn.advu.workflow.web.manager.MediaMananger;
 import cn.advu.workflow.web.util.AssertUtil;
 import cn.advu.workflow.web.util.BigDecimalUtil;
 import com.alibaba.fastjson.JSONArray;
@@ -13,10 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.swing.*;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 
 @Controller
@@ -24,14 +21,14 @@ import java.util.Map;
 public class SalePriceController {
 
     @Autowired
-    MediaMananger mediaMananger;
+    AdtypeMananger adtypeMananger;
 
     @RequestMapping("/addCounter")
     public String addAcounter(Model resultModel){
 
         // find cpmList
-        List<BaseMedia> baseMediaList = mediaMananger.findAllActiveMedia();
-        resultModel.addAttribute("baseMediaList", baseMediaList);
+        List<BaseAdtype> baseAdtypeList = adtypeMananger.findAllActive();
+        resultModel.addAttribute("baseAdtypeList", baseAdtypeList);
         resultModel.addAttribute("num", System.currentTimeMillis());
 
         return "demand/counter/addCounter";
