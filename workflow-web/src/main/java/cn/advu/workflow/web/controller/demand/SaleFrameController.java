@@ -184,9 +184,11 @@ public class SaleFrameController {
     public String toUpdate(Integer id, Model model){
         Integer userId = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
         SysUser sysUser = userMananger.findById(userId);
-        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
+//        BasePerson basePerson = personMananger.findPersonByName(sysUser.getUserName());
 
         BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(id).getData();
+        BasePerson basePerson = personMananger.findById(baseExecuteOrderFrame.getPersonSalesId());
+        AssertUtil.assertNotNull(basePerson, MessageConstants.SALE_PERSON_IS_NOT_EXISTS);
 
         String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
         BaseArea baseArea = areaService.findById(baseExecuteOrderFrame.getAreaId()).getData();
