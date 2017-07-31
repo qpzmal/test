@@ -235,8 +235,16 @@
     $("#btn_plus").click(
             function () {
                 var index = cpmTable.bootstrapTable('getData').length;
+                var currentId ;
+                if (index > 1) {
+                    currentId = cpmTable.bootstrapTable('getData')[index-1].id;
+                } else if (index == 1) {
+                    currentId = cpmTable.bootstrapTable('getData')[0].id;
+                } else {
+                    currentId = 0;
+                }
                 cpmTable.bootstrapTable('insertRow', {index: index,row: {
-                    id: index+1,
+                    id: currentId+1,
                     mediaId:'',
                     mediaPrice:'',
                     firstPrice:'',

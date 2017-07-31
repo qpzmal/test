@@ -272,8 +272,16 @@
     $("#btn_plus").click(
         function () {
             var index = cpmTable.bootstrapTable('getData').length;
+            var currentId ;
+            if (index > 1) {
+                currentId = cpmTable.bootstrapTable('getData')[index-1].num;
+            } else if (index == 1) {
+                currentId = cpmTable.bootstrapTable('getData')[0].num;
+            } else {
+                currentId = 0;
+            }
             cpmTable.bootstrapTable('insertRow', {index: index,row: {
-                num: index+1,
+                num: currentId+1,
                 mediaId:'',
                 mediaPrice:'',
                 firstPrice:'',
@@ -286,9 +294,9 @@
             return false;
     });
     $("#btn_trash").click(function () {
-    var ids = $.map(cpmTable.bootstrapTable('getSelections'), function (row) {return row.id;});
-    if (ids.length < 1 ) {return;}
-        cpmTable.bootstrapTable('remove', {field: 'id',values: ids});
+    var nums = $.map(cpmTable.bootstrapTable('getSelections'), function (row) {return row.num;});
+    if (nums.length < 1 ) {return;}
+        cpmTable.bootstrapTable('remove', {field: 'num',values: nums});
     });
     function cellStyle(e, t, o) {
         var n = ["active", "success", "info", "warning", "danger"];
