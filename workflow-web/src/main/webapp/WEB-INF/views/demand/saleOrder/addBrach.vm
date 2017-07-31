@@ -27,8 +27,11 @@
         </div>
         <div class="row">
             <div class="form-group">
-                <div class="col-sm-12 col-sm-offset-4">
+                <div class="col-sm-2 col-sm-offset-3">
                     <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 创建</button>
+                </div>
+                <div class="col-sm-2 col-sm-offset-2">
+                    <button id="btn_cancel" class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
                 </div>
             </div>
         </div>
@@ -63,6 +66,10 @@
     });
 
 
+    // 返回
+    $("#btn_cancel").click(function(){
+        history.go(-1);
+    })
 
 
 
