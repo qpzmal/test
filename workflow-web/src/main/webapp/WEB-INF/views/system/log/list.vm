@@ -11,7 +11,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
-                    <table id="log_table" data-height="400" data-mobile-responsive="true" style="word-break:break-all; word-wrap:break-all;">
+                    <table id="log_table" data-height="500" data-mobile-responsive="true" style="word-break:break-all; word-wrap:break-all;">
 ##                        <thead>
 ####                        <tr>
 ######                            <th data-field="content" data-editable="false">内容</th>
@@ -43,8 +43,16 @@
         dataType: "json",
         pagination: true,
         pageNumber: 1,
-        pageSize: 100,
+        pageSize: 30,
         silent: true,
+        queryParamsType:'',
+        queryParams: function queryParams(params) {
+            var param = {
+                pageNumber: params.pageNumber,
+                pageSize: params.pageSize
+            };
+            return param;
+        },
         columns: [
             {
                 field: 'content',
@@ -59,11 +67,12 @@
             field: 'operator',
             title: '操作者',
             align: 'center'
-        }, {
-            field: 'type',
-            title: '操作类型',
-            align: 'center'
         }
+//        , {
+//            field: 'type',
+//            title: '操作类型',
+//            align: 'center'
+//        }
         ]
     });
 

@@ -30,7 +30,12 @@ public class SysLogRepoImpl extends AbstractRepo<SysLogWithBLOBs> implements Sys
     }
 
     @Override
-    public List<SysLogWithBLOBs> findAllLog() {
-        return sysLogMapper.queryAll();
+    public List<SysLogWithBLOBs> findAllLog(Integer index, Integer pageSize) {
+        return sysLogMapper.queryAll(index, pageSize);
+    }
+
+    @Override
+    public Integer count() {
+        return sysLogMapper.queryCount();
     }
 }

@@ -131,7 +131,7 @@
                 </div>
                 <div class="ibox-content">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">回款比例</label>
+                        <label class="col-sm-3 control-label">付款比例</label>
                         <div class="col-sm-8 ">
                             <input id="pay_percent" name="pay_percent" type="text" class="form-control" >
                         </div>
