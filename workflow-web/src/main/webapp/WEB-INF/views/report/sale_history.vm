@@ -166,7 +166,7 @@
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
 //            min: laydate.now(),
-            max: "2099-06-16 23:59:59",
+            max: laydate.now(),
 //            istime: true,
             istoday: true,
             choose: function(datas) {
@@ -177,8 +177,8 @@
             elem: "#endDate1",
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
-            min: laydate.now(),
-            max: "2099-06-16 23:59:59",
+//            min: laydate.now(),
+            max: laydate.now(),
 //            istime: true,
             istoday: false,
             choose: function(datas) {
@@ -189,7 +189,7 @@
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
 //            min: laydate.now(),
-            max: "2099-06-16 23:59:59",
+            max: laydate.now(),
 //            istime: true,
             istoday: true,
             choose: function(datas) {
@@ -200,8 +200,8 @@
             elem: "#endDate2",
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
-            min: laydate.now(),
-            max: "2099-06-16 23:59:59",
+//            min: laydate.now(),
+            max: laydate.now(),
 //            istime: true,
             istoday: false,
             choose: function(datas) {
@@ -212,7 +212,7 @@
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
 //            min: laydate.now(),
-            max: "2099-06-16 23:59:59",
+            max: laydate.now(),
 //            istime: true,
             istoday: true,
             choose: function(datas) {
@@ -223,8 +223,8 @@
             elem: "#endDate3",
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
-            min: laydate.now(),
-            max: "2099-06-16 23:59:59",
+//            min: laydate.now(),
+            max: laydate.now(),
 //            istime: true,
             istoday: false,
             choose: function(datas) {
@@ -235,7 +235,7 @@
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
 //            min: laydate.now(),
-            max: "2099-06-16 23:59:59",
+            max: laydate.now(),
 //            istime: true,
             istoday: true,
             choose: function(datas) {
@@ -246,8 +246,8 @@
             elem: "#endDate4",
 //            format: "YYYY/MM/DD hh:mm:ss",
             format: "YYYY/MM/DD",
-            min: laydate.now(),
-            max: "2099-06-16 23:59:59",
+//            min: laydate.now(),
+            max: laydate.now(),
 //            istime: true,
             istoday: false,
             choose: function(datas) {
