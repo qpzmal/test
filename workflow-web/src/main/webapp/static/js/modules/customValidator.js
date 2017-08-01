@@ -3,6 +3,7 @@
 jQuery.validator.addMethod("stringCheck", function(value, element) {
     return this.optional(element) || /^[\u0391-\uFFE5\w]+$/.test(value);
 }, "只能包括中文字、英文字母、数字和下划线");
+
 // 中文字两个字节
 jQuery.validator.addMethod("byteRangeLength", function(value, element, param) {
     var length = value.length;
@@ -21,7 +22,12 @@ jQuery.validator.addMethod("isMobile", function(value, element) {
     return this.optional(element) || (length == 11 && mobile.test(value));
 }, "请正确填写您的手机号码");
 
-
+// 钱
 jQuery.validator.addMethod("isMoney", function(value, element) {
     return this.optional(element) || /^(\-|\+)?\d{1,16}(\.\d{1,2})?$/.test(value);
 }, "整数位不超过16位，小数位不超过2位");
+
+// 百分比
+jQuery.validator.addMethod("isPercent", function(value, element) {
+    return this.optional(element) || /^(\+)?\d{1,3}(\.\d{1,2})?$/.test(value) && value <=  100;
+}, "填写非负数、小数位不超过2位、不超过100");
