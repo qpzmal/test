@@ -20,8 +20,13 @@ public class BizLogManager {
     @Autowired
     SysLogRepo sysLogRepo;
 
-    public List<SysLogWithBLOBs> findAllLog() {
-        return sysLogRepo.findAllLog();
+    public List<SysLogWithBLOBs> findAllLog(Integer index, Integer pageSize) {
+        return sysLogRepo.findAllLog(index, pageSize);
+    }
+
+
+    public Integer count() {
+        return sysLogRepo.count();
     }
 
     public void addBizLog(String content) {

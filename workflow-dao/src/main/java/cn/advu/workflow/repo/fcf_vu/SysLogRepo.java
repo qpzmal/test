@@ -12,6 +12,9 @@ import java.util.List;
 @Repository
 public interface SysLogRepo extends IRepo<SysLogWithBLOBs> {
 
-    List<SysLogWithBLOBs> findAllLog();
+    List<SysLogWithBLOBs> findAllLog(Integer index, Integer pageSize);
+
+    Integer count();
+
 
 }

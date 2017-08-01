@@ -11,6 +11,7 @@ import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.service.system.LoginService;
 import cn.advu.workflow.web.service.system.SysRoleService;
 import cn.advu.workflow.web.service.system.SysUserService;
+import cn.advu.workflow.web.util.AssertUtil;
 import cn.advu.workflow.web.vo.MenuVO;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -41,31 +42,7 @@ public class LogController {
 
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
-        List<SysLogWithBLOBs> bizLogManagerAllLog = bizLogManager.findAllLog();
-
-        JSONArray sysLogVOList = new JSONArray();
-        if (bizLogManagerAllLog != null && !bizLogManagerAllLog.isEmpty()) {
-            for (SysLogWithBLOBs sysLog : bizLogManagerAllLog) {
-                JSONObject sysLogVO = new JSONObject();
-                String content = sysLog.getContent();
-//                sysLogVO.put("content", content);
-                sysLogVO.put("operation", sysLog.getOperation());
-                sysLogVO.put("operator", sysLog.getOperator());
-                sysLogVO.put("type", sysLog.getType().toString());
-                sysLogVOList.add(sysLogVO);
-            }
-        }
-        JSONObject sysLogVO = new JSONObject();
-        sysLogVO.put("total", bizLogManagerAllLog.size());
-        sysLogVO.put("rows", sysLogVOList);
-
-        resultModel.addAttribute("dataJsonStr", sysLogVO);
-        return "system/log/list";
-    }
-
-    @RequestMapping("/list")
-    public JSONObject list(Model resultModel){
-        List<SysLogWithBLOBs> bizLogManagerAllLog = bizLogManager.findAllLog();
+        List<SysLogWithBLOBs> bizLogManagerAllLog = bizLogManager.findAllLog(0, 30);
 
         JSONArray sysLogVOList = new JSONArray();
         if (bizLogManagerAllLog != null && !bizLogManagerAllLog.isEmpty()) {
@@ -75,12 +52,41 @@ public class LogController {
                 sysLogVO.put("content", content);
                 sysLogVO.put("operation", sysLog.getOperation());
                 sysLogVO.put("operator", sysLog.getOperator());
-                sysLogVO.put("type", sysLog.getType().toString());
+//                sysLogVO.put("type", sysLog.getType().toString());
                 sysLogVOList.add(sysLogVO);
             }
         }
         JSONObject sysLogVO = new JSONObject();
-        sysLogVO.put("total", bizLogManagerAllLog.size());
+        sysLogVO.put("total", bizLogManager.count());
+        sysLogVO.put("rows", sysLogVOList);
+
+        resultModel.addAttribute("dataJsonStr", sysLogVO);
+        return "system/log/list";
+    }
+
+    @RequestMapping("/list")
+    public JSONObject list(Integer pageNumber, Integer pageSize, Model resultModel){
+
+        AssertUtil.assertNotNull(pageNumber);
+        AssertUtil.assertNotNull(pageSize);
+
+        Integer index = (pageNumber - 1)*pageSize;
+        List<SysLogWithBLOBs> bizLogManagerAllLog = bizLogManager.findAllLog(index, pageSize);
+
+        JSONArray sysLogVOList = new JSONArray();
+        if (bizLogManagerAllLog != null && !bizLogManagerAllLog.isEmpty()) {
+            for (SysLogWithBLOBs sysLog : bizLogManagerAllLog) {
+                JSONObject sysLogVO = new JSONObject();
+                String content = sysLog.getContent();
+                sysLogVO.put("content", content);
+                sysLogVO.put("operation", sysLog.getOperation());
+                sysLogVO.put("operator", sysLog.getOperator());
+//                sysLogVO.put("type", sysLog.getType().toString());
+                sysLogVOList.add(sysLogVO);
+            }
+        }
+        JSONObject sysLogVO = new JSONObject();
+        sysLogVO.put("total", bizLogManager.count());
         sysLogVO.put("rows", sysLogVOList);
 
         resultModel.addAttribute("dataJsonStr", sysLogVO);

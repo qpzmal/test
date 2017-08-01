@@ -164,8 +164,14 @@
     select
     <include refid="Base_Column_List" />,
     <include refid="Blob_Column_List" />
-
     from sys_log
-    order by id
+    order by id desc
+    limit #{index,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
   </select>
+
+  <select id="queryCount" resultType="java.lang.Integer">
+    select count(id)
+    from sys_log
+  </select>
+
 </mapper>
