@@ -115,6 +115,8 @@
                         </li>
                     </ul>
                 </div>
+                <div class="roll-nav roll-right cur-user">用户：$!curUserName
+                </div>
                 <a href="javascript:;" class="roll-nav roll-right J_tabExit button-logout"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main">
