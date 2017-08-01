@@ -1,5 +1,6 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.LogTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.AreaVO;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
@@ -10,6 +11,7 @@ import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.dto.TreeNode;
 import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.manager.AreaManager;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.util.AssertUtil;
@@ -37,6 +39,9 @@ public class AreaServiceImpl implements AreaService {
     @Autowired
     private TreeMananger treeMananger;
 
+    @Autowired
+    BizLogManager bizLogManager;
+
     @Override
     public ResultJson<List<BaseArea>> findAll() {
         ResultJson<List<BaseArea>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
@@ -59,6 +64,10 @@ public class AreaServiceImpl implements AreaService {
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建公司失败!");
         }
+
+        // log
+        bizLogManager.addBizLog(baseAreaRepo.findOne(baseArea.getId()), "地域管理/添加地域", Integer.valueOf(LogTypeEnum.ADD.getValue()));
+
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
@@ -76,6 +85,9 @@ public class AreaServiceImpl implements AreaService {
             throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
         areaManager.resetLevel(baseArea);
+        // log
+        bizLogManager.addBizLog(baseAreaRepo.findOne(baseArea.getId()), "地域管理/更新地域", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
+
         Integer insertCount = baseAreaRepo.updateSelective(baseArea);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新公司失败!");
@@ -121,6 +133,9 @@ public class AreaServiceImpl implements AreaService {
         if (areaManager.hasSubordinate(id)) {
             throw new ServiceException(MessageConstants.AREA_HAS_SUBORDINATE);
         }
+        // log
+        bizLogManager.addBizLog(oldBaseCustom, "地域管理/删除地域", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
+
         int updateCount = baseAreaRepo.logicRemove(oldBaseCustom);
         if(updateCount != 1) {
             throw new ServiceException(MessageConstants.AREA_IS_NOT_EXISTS);
