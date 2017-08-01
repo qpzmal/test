@@ -42,39 +42,43 @@
 ##                        </form>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-alerts">
-                                <li>
-                                    <a href="mailbox.html">
-                                        <div>
-                                            <i class="fa fa-envelope fa-fw"></i> 您有16条未读消息
-                                            <span class="pull-right text-muted small">4分钟前</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="profile.html">
-                                        <div>
-                                            <i class="fa fa-qq fa-fw"></i> 3条新回复
-                                            <span class="pull-right text-muted small">12分钟钱</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <div class="text-center link-block">
-                                        <a class="J_menuItem" href="notifications.html">
-                                            <strong>查看所有 </strong>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
+##                        <li class="dropdown">
+##                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+##                                <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
+##                            </a>
+##                            <ul class="dropdown-menu dropdown-alerts">
+##                                <li>
+##                                    <a href="mailbox.html">
+##                                        <div>
+##                                            <i class="fa fa-envelope fa-fw"></i> 您有16条未读消息
+##                                            <span class="pull-right text-muted small">4分钟前</span>
+##                                        </div>
+##                                    </a>
+##                                </li>
+##                                <li class="divider"></li>
+##                                <li>
+##                                    <a href="profile.html">
+##                                        <div>
+##                                            <i class="fa fa-qq fa-fw"></i> 3条新回复
+##                                            <span class="pull-right text-muted small">12分钟钱</span>
+##                                        </div>
+##                                    </a>
+##                                </li>
+##                                <li class="divider"></li>
+##                                <li>
+##                                    <div class="text-center link-block">
+##                                        <a class="J_menuItem" href="notifications.html">
+##                                            <strong>查看所有 </strong>
+##                                            <i class="fa fa-angle-right"></i>
+##                                        </a>
+##                                    </div>
+##                                </li>
+##                            </ul>
+##                        </li>
+
+
+
+
 ##                        <li class="hidden-xs">
 ##                            <a href="index_v1.html" class="J_menuItem" data-index="0"><i class="fa fa-cart-arrow-down"></i> 购买</a>
 ##                        </li>
@@ -167,7 +171,13 @@
 
     ## 退出
     $(".button-logout").click(function () {
-        out();
+        layer.confirm('确认退出？', {
+            title: '确认',
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            out();
+        }, function(){
+        });
     })
 
 

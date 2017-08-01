@@ -119,16 +119,12 @@
 ## 引入js
 #define($jsblock)
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/treeview/bootstrap-treeview.js?$!application.getAttribute('/static/js/plugins/treeview/bootstrap-treeview.js')"></script>
+    #define($validblock)#end
 
 <script>
 
-    jQuery.validator.addMethod("isMoney", function(value, element) {
-        return this.optional(element) || /^(\-|\+)?\d{1,16}(\.\d{1,2})?$/.test(value);
-    }, "整数位不超过16位，小数位不超过2位");
 
     ##所属公司变更
     function areaChange(){
@@ -236,6 +232,11 @@
             function(){
                 var e="<i class='fa fa-times-circle'></i> ";
                 $("#commentForm").validate({
+                    rules:{
+                        mobile:{
+                            isMobile:true
+                        },
+                    },
                     submitHandler:function(form){
                         add();
                     },
