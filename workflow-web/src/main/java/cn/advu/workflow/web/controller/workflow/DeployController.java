@@ -112,7 +112,7 @@ public class DeployController {
             LOGGER.error("error on deploy process, because of file input stream", e);
         }
 
-        return "redirect:/workflow/model/index";
+        return "redirect:/workflow/model_index";
     }
 
 
