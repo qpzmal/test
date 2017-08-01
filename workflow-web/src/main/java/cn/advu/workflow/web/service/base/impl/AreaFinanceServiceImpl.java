@@ -1,27 +1,23 @@
 package cn.advu.workflow.web.service.base.impl;
 
-import cn.advu.workflow.domain.fcf_vu.BaseArea;
+import cn.advu.workflow.domain.enums.LogTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseAreaFinance;
-import cn.advu.workflow.domain.fcf_vu.BaseCustomFinance;
 import cn.advu.workflow.repo.fcf_vu.BaseAreaFinanceRepo;
-import cn.advu.workflow.repo.fcf_vu.BaseAreaRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
-import cn.advu.workflow.web.dto.TreeNode;
 import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.manager.AreaFinanceMananger;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.DateManager;
-import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.AreaFinanceService;
-import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.util.AssertUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.Date;
 import java.util.Date;
 import java.util.List;
 
@@ -41,6 +37,8 @@ public class AreaFinanceServiceImpl implements AreaFinanceService {
 
     @Autowired
     AreaFinanceMananger areaFinanceMananger;
+    @Autowired
+    BizLogManager bizLogManager;
 
     @Override
     public ResultJson<List<BaseAreaFinance>> findByArea(Integer areaId) {
@@ -70,6 +68,9 @@ public class AreaFinanceServiceImpl implements AreaFinanceService {
         ResultJson<Integer> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
         baseAreaFinanceRepo.addSelective(baseAreaFinance);
         result.setData(baseAreaFinance.getId());
+
+        // log
+        bizLogManager.addBizLog(baseAreaFinanceRepo.findOne(baseAreaFinance.getId()), "地域财务结算管理/添加地域财务结算", Integer.valueOf(LogTypeEnum.ADD.getValue()));
         return result;
     }
 
@@ -96,6 +97,9 @@ public class AreaFinanceServiceImpl implements AreaFinanceService {
 
         ResultJson<Void> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
         baseAreaFinanceRepo.updateSelective(baseAreaFinance);
+
+        // log
+        bizLogManager.addBizLog(baseAreaFinanceRepo.findOne(id), "地域财务结算管理/更新地域财务结算", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
         return result;
     }
 
@@ -111,6 +115,10 @@ public class AreaFinanceServiceImpl implements AreaFinanceService {
         AssertUtil.assertNotNull(id);
 
         BaseAreaFinance oldBaseAreaFinance = baseAreaFinanceRepo.findOne(id);
+
+        // log
+        bizLogManager.addBizLog(oldBaseAreaFinance, "地域财务结算管理/删除地域财务结算", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
+
         baseAreaFinanceRepo.logicRemove(oldBaseAreaFinance);
 
         return new ResultJson(WebConstants.OPERATION_SUCCESS);

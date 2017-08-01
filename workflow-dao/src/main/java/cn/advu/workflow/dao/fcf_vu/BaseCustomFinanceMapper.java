@@ -13,6 +13,7 @@ public interface BaseCustomFinanceMapper extends BaseDAO<BaseCustomFinance> {
     List<BaseCustomFinance> queryByCustom(@Param("customId") Integer customId);
 
     BaseCustomFinance queryByCustomAndDate(
+            @Param("id")Integer id,
             @Param("customId") Integer customId,
             @Param("startDate") Date starDate,
             @Param("endDate") Date endDate);

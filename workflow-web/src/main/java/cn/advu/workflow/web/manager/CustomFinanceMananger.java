@@ -28,9 +28,9 @@ public class CustomFinanceMananger {
      * @param endDate
      * @return
      */
-    public Boolean isDuplicated(Integer customId, Date startDate, Date endDate) {
+    public Boolean isDuplicated(Integer id, Integer customId, Date startDate, Date endDate) {
         Boolean isDuplicated = false;
-        BaseCustomFinance customFinance = baseCustomFinanceRepo.findByCustomAndDate(customId, startDate, endDate);
+        BaseCustomFinance customFinance = baseCustomFinanceRepo.findByCustomAndDate(id, customId, startDate, endDate);
         if (customFinance != null) {
             isDuplicated = true;
         }

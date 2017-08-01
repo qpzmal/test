@@ -88,10 +88,12 @@ public class AdtypeServiceImpl implements AdtypeService {
     @Override
     public ResultJson<Void> remove(Integer id) {
         BaseAdtype baseAdtype = baseAdtypeRepo.findOne(id);
-        if (baseAdtype != null) {
-            baseAdtype.setDelFlag("1");
-            baseAdtypeRepo.update(baseAdtype);
-        }
-        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        // log
+        bizLogManager.addBizLog(baseAdtype, "广告类型管理/删除广告类型", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
+
+        ResultJson resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
+        baseAdtypeRepo.logicRemove(baseAdtype);
+
+        return resultJson;
     }
 }
