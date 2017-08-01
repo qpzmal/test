@@ -36,8 +36,8 @@ public class BaseCustomFinanceRepoImpl extends AbstractRepo<BaseCustomFinance> i
     }
 
     @Override
-    public BaseCustomFinance findByCustomAndDate(Integer customId, Date startDate, Date endDate) {
-        return baseCustomFinanceMapper.queryByCustomAndDate(customId, startDate, endDate);
+    public BaseCustomFinance findByCustomAndDate(Integer id, Integer customId, Date startDate, Date endDate) {
+        return baseCustomFinanceMapper.queryByCustomAndDate(id, customId, startDate, endDate);
     }
 
     @Override

@@ -280,12 +280,7 @@
       pay1 = #{pay1,jdbcType=DECIMAL},
       pay3 = #{pay3,jdbcType=DECIMAL},
       pay2 = #{pay2,jdbcType=DECIMAL},
-      del_flag = #{delFlag,jdbcType=TINYINT},
       item_status = #{itemStatus,jdbcType=TINYINT},
-      creator_id = #{creatorId,jdbcType=INTEGER},
-      updater_id = #{updaterId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -317,6 +312,9 @@
     <include refid="Base_Column_List" />
     from base_custom_finance
     where del_flag = '0'
+    <if test="id != null">
+      <![CDATA[ and base_custom_finance.id <> #{id, jdbcType=INTEGER}]]>
+    </if>
     and custom_id = #{customId,jdbcType=INTEGER}
     and start_date = #{startDate,jdbcType=TIMESTAMP}
     and end_date = #{endDate,jdbcType=TIMESTAMP}

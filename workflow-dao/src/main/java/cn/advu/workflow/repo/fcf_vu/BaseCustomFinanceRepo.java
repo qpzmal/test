@@ -15,7 +15,7 @@ public interface BaseCustomFinanceRepo extends IRepo<BaseCustomFinance> {
 
     List<BaseCustomFinance> findByCustom(Integer customId);
 
-    BaseCustomFinance findByCustomAndDate(Integer customId, Date startDate, Date endDate);
+    BaseCustomFinance findByCustomAndDate(Integer id, Integer customId, Date startDate, Date endDate);
 
     BaseCustomFinance findByIdAndName(Integer id, String name);
 }

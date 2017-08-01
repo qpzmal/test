@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.domain.enums.CustomTypeEnum;
+import cn.advu.workflow.domain.enums.LogTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.searchVO.CustomSearchVO;
 import cn.advu.workflow.domain.utils.ValueEnumUtils;
@@ -9,6 +10,7 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.CustomService;
 import cn.advu.workflow.web.util.AssertUtil;
@@ -32,6 +34,9 @@ public class CustomServiceImpl implements CustomService {
 
     @Autowired
     private CustomMananger customMananger;
+
+    @Autowired
+    BizLogManager bizLogManager;
 
     @Override
     public ResultJson<List<BaseCustom>> findAll() {
@@ -66,6 +71,9 @@ public class CustomServiceImpl implements CustomService {
         if(insertCount != 1){
             throw new ServiceException("创建客户失败!");
         }
+
+        // log
+        bizLogManager.addBizLog(baseCustomRepo.findOne(baseCustom.getId()), "客户管理/添加客户", Integer.valueOf(LogTypeEnum.ADD.getValue()));
 
         ResultJson<Integer> resultJson = new ResultJson<>();
         resultJson.setData(baseCustom.getId());
@@ -108,6 +116,9 @@ public class CustomServiceImpl implements CustomService {
             AssertUtil.assertNotNull(baseCustom.getParentId(), MessageConstants.CUSTOM_PARENT_IS_NULL);
         }
 
+        // log
+        bizLogManager.addBizLog(baseCustomRepo.findOne(id), "客户管理/更新客户", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
+
         // 更新客户
         Integer updateCount = baseCustomRepo.update(baseCustom);
         if(updateCount != 1) {
@@ -132,6 +143,10 @@ public class CustomServiceImpl implements CustomService {
                 throw new ServiceException(MessageConstants.FA_CUSTOM_HAS_CHILD_FOR_REMOVE);
             }
         }
+
+        // log
+        bizLogManager.addBizLog(oldBaseCustom, "客户管理/删除客户", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
+
         int updateCount = baseCustomRepo.logicRemove(oldBaseCustom);
         if(updateCount != 1) {
             throw new ServiceException(MessageConstants.CUSTOM_IS_NOT_EXISTS);

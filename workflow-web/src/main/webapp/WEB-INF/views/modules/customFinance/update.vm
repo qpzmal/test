@@ -218,6 +218,7 @@
     }
 
     function commit(){
+        var id = $("#id").val();
         var start_date = stringToDate($("#start_date").val());
         var end_date = stringToDate($("#end_date").val());
         var custom_id = $("#custom_id").val();
@@ -234,10 +235,11 @@
         var sales_commission = $("#sales_commission").val();
         var item_status = $(".js-switch")[0].checked?"0":"1";
         $.ajax({
-            url:"/areaFinance/update.json",
+            url:"/customFinance/update.json",
             type:"post",
             async: false,
             data:{
+                id:id,
                 customId:custom_id,
                 name:area_finance_name,
                 startDate:start_date,
@@ -256,7 +258,7 @@
             },
             success: function(returnData){
                 if(returnData.code == 1){
-                    popMsg('添加成功!', "/customFinance/index?customId=" + custom_id);
+                    popMsg('成功!', "/customFinance/index?customId=" + custom_id);
                 } else{
                     layer.msg(returnData.info);
                 }

@@ -1,5 +1,6 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.LogTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseAreaFinance;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseCustomFinance;
@@ -9,6 +10,7 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.CustomFinanceMananger;
 import cn.advu.workflow.web.service.base.AreaFinanceService;
 import cn.advu.workflow.web.service.base.CustomFinanceService;
@@ -34,6 +36,9 @@ public class CustomFinanceServiceImpl implements CustomFinanceService {
     @Autowired
     CustomFinanceMananger customFinanceMananger;
 
+    @Autowired
+    BizLogManager bizLogManager;
+
     @Override
     public ResultJson<List<BaseCustomFinance>> findByCustom(Integer customId) {
         ResultJson<List<BaseCustomFinance>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
@@ -56,7 +61,7 @@ public class CustomFinanceServiceImpl implements CustomFinanceService {
         if (startDate.after(endDate)) {
             throw new ServiceException(MessageConstants.START_DATE_AFTER_END_DATE);
         }
-        if (customFinanceMananger.isDuplicated(baseCustomFinance.getCustomId(), startDate, endDate)) {
+        if (customFinanceMananger.isDuplicated(baseCustomFinance.getId(), baseCustomFinance.getCustomId(), startDate, endDate)) {
             throw new ServiceException(MessageConstants.DATE_IS_DUPLICATED);
         }
         if (customFinanceMananger.isNameDuplicated(null, baseCustomFinance.getName())) {
@@ -66,6 +71,10 @@ public class CustomFinanceServiceImpl implements CustomFinanceService {
 
         ResultJson<Integer> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
         baseCustomFinanceRepo.addSelective(baseCustomFinance);
+
+        // log
+        bizLogManager.addBizLog(baseCustomFinanceRepo.findOne(baseCustomFinance.getId()), "客户财务结算管理/添加客户财务结算", Integer.valueOf(LogTypeEnum.ADD.getValue()));
+
         result.setData(baseCustomFinance.getId());
         return result;
     }
@@ -82,12 +91,15 @@ public class CustomFinanceServiceImpl implements CustomFinanceService {
         if (startDate.after(endDate)) {
             throw new ServiceException(MessageConstants.START_DATE_AFTER_END_DATE);
         }
-        if (customFinanceMananger.isDuplicated(baseCustomFinance.getCustomId(), startDate, endDate)) {
+        if (customFinanceMananger.isDuplicated(baseCustomFinance.getId(), baseCustomFinance.getCustomId(), startDate, endDate)) {
             throw new ServiceException(MessageConstants.DATE_IS_DUPLICATED);
         }
         if (customFinanceMananger.isNameDuplicated(baseCustomFinance.getId(), baseCustomFinance.getName())) {
             throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
+
+        // log
+        bizLogManager.addBizLog(baseCustomFinanceRepo.findOne(baseCustomFinance.getId()), "客户财务结算管理/更新客户财务结算", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
 
         ResultJson<Void> result = new ResultJson(WebConstants.OPERATION_SUCCESS);
         baseCustomFinanceRepo.update(baseCustomFinance);
@@ -104,8 +116,12 @@ public class CustomFinanceServiceImpl implements CustomFinanceService {
     @Override
     public ResultJson<Void> remove(Integer id) {
         AssertUtil.assertNotNull(id);
+
         // 4A -> 直客，广告主
         BaseCustomFinance oldBaseCustomFinance = baseCustomFinanceRepo.findOne(id);
+        // log
+        bizLogManager.addBizLog(oldBaseCustomFinance, "客户财务结算管理/删除客户财务结算", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
+
         baseCustomFinanceRepo.logicRemove(oldBaseCustomFinance);
 
         return new ResultJson(WebConstants.OPERATION_SUCCESS);
