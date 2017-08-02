@@ -170,6 +170,7 @@
 
 
     var upload_btn =$("#ctlBtn");   //开始上传
+    var maxSize=30;
 
     ## WebUploader初始化
     var uploader = WebUploader.create({
@@ -182,6 +183,7 @@
         // 选择文件的按钮。可选。
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
         pick: '#upload_file',
+        fileSingleSizeLimit:maxSize*1024,   //设定单个文件大小---> 30K
 
     ##      // 初始化的时候直接添加自定义参数
     ##        formData: {
@@ -205,12 +207,26 @@
 //    uploader.options.formData.flowName = "workflow";
 
 
+    /**
+     * 验证文件格式以及文件大小
+     */
+    uploader.on("error",function (type){
+        if (type=="Q_TYPE_DENIED"){
+            layer.msg('请上传XML格式文件');
+        }else if(type=="F_EXCEED_SIZE"){
+            layer.msg("文件大小不能超过"+maxSize + "K");
+        }
+    });
+
+
     uploader.on( 'uploadSuccess', function( file ) {
-        $( '#'+file.id ).find('p.state').text('已上传');
+        layer.msg('已上传');
+//        $( '#'+file.id ).find('p.state').text('已上传');
     });
 
     uploader.on( 'uploadError', function( file ) {
-        $( '#'+file.id ).find('p.state').text('上传出错');
+        layer.msg('上传出错');
+//        $( '#'+file.id ).find('p.state').text('上传出错');
     });
 
     uploader.on( 'uploadComplete', function( file ) {

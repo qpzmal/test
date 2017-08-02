@@ -90,10 +90,8 @@
 ## 引入js
 #define($jsblock)
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
-
+    #define($validblock)#end
 <script>
 
     function customeTypeChange(obj) {
@@ -118,6 +116,11 @@
         function(){
             var e="<i class='fa fa-times-circle'></i> ";
             $("#commentForm").validate({
+                rules:{
+                    mobile:{
+                        isMobile:true
+                    },
+                },
                 submitHandler:function(form){
                     addRegion();
                 }

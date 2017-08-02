@@ -103,12 +103,10 @@
 
 ## 引入js
 #define($jsblock)
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/jquery.validate.min.js?$!application.getAttribute('/static/js/plugins/validate/jquery.validate.min.js')"></script>
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/validate/messages_zh.min.js?$!application.getAttribute('/static/js/plugins/validate/messages_zh.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
 ##checkbox
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
-
+    #define($validblock)#end
 <script>
 
     var config = {
@@ -137,7 +135,10 @@
                 rules:{
                     repassword:{
                         equalTo:"#password"
-                    }
+                    },
+                    mobile:{
+                        isMobile:true
+                    },
                 },
                 messages:{
                     repassword:{

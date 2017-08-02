@@ -7,6 +7,7 @@ import cn.advu.workflow.web.common.exception.LoginException;
 import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginTools;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
+import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.service.system.LoginService;
 import org.apache.commons.lang3.StringUtils;
@@ -49,7 +50,10 @@ public class LoginController {
 
 
     @RequestMapping("/index")
-    public String toIndex(HttpServletRequest request, HttpSession session){
+    public String toIndex(HttpServletRequest request, HttpSession session, Model model){
+        String userName = UserThreadLocalContext.getCurrentUser().getRealName();
+
+        model.addAttribute("curUserName", userName);
         return "index";
     }
 
