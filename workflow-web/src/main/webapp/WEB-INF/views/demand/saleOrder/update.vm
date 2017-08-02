@@ -320,16 +320,16 @@
                             <input value="$!{salePersonName}" id="person_sales_name" name="person_sales_name" maxlength="100" type="text" class="form-control" aria-required="true" disabled>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">项目总金额</label>
-                        <div class="col-sm-8">
-                            <input value="$!{baseExecuteOrder.amount}" id="amount" name="amount" type="text" class="form-control isMoney" aria-required="true"
-                                #if($!{hasSaleAuth} == false)
-                                   disabled
-                                #end
-                            >
-                        </div>
-                    </div>
+##                    <div class="form-group">
+##                        <label class="col-sm-3 control-label">项目总金额</label>
+##                        <div class="col-sm-8">
+##                            <input value="$!{baseExecuteOrder.amount}" id="amount" name="amount" type="text" class="form-control isMoney" aria-required="true"
+##                                #if($!{hasSaleAuth} == false)
+##                                   disabled
+##                                #end
+##                            >
+##                        </div>
+##                    </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">对公返点</label>
                         <div class="col-sm-8">
@@ -880,7 +880,7 @@
         var reportTypeId = findSelecedValueStr("report_type_id");
         var reportTypeNames = findSelecedStr("report_type_id");
         var personSalesId = $("#person_sales_id").val();
-        var amount = $("#amount").val();
+//        var amount = $("#amount").val();
         var publicRebate = $("#public_rebate").val();
         var privateRebate = $("#private_rebate").val();
         var taxAmount = $("#tax_amount").val();
@@ -917,7 +917,7 @@
                 customAdverserName:customAdverserName,
 
                 personSalesId:personSalesId,
-                amount:amount,
+//                amount:amount,
                 publicRebate:publicRebate,
                 privateRebate:privateRebate,
                 taxAmount:taxAmount,
