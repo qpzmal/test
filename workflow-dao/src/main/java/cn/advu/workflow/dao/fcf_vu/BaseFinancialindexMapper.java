@@ -15,4 +15,6 @@ public interface BaseFinancialindexMapper extends BaseDAO<BaseFinancialindex> {
     BaseFinancialindex queryByIdAndName(@Param("id")Integer id, @Param("name")String name);
 
     BaseFinancialindex queryByIdAndNumber(@Param("id")Integer id, @Param("number")String number);
+
+    BaseFinancialindex queryByNumber(@Param("number")String number);
 }

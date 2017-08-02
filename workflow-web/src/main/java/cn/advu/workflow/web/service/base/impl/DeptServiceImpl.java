@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.domain.base.AbstractTreeEntity;
+import cn.advu.workflow.domain.enums.LogTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseDept;
 import cn.advu.workflow.domain.fcf_vu.DeptVO;
 import cn.advu.workflow.repo.base.IRepo;
@@ -10,10 +11,7 @@ import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.dto.TreeNode;
 import cn.advu.workflow.web.exception.ServiceException;
-import cn.advu.workflow.web.manager.DeptMananger;
-import cn.advu.workflow.web.manager.LevelComparetor;
-import cn.advu.workflow.web.manager.PersonMananger;
-import cn.advu.workflow.web.manager.UserMananger;
+import cn.advu.workflow.web.manager.*;
 import cn.advu.workflow.web.service.AbstractTreeService;
 import cn.advu.workflow.web.service.base.DeptService;
 import cn.advu.workflow.web.util.AssertUtil;
@@ -40,6 +38,10 @@ public class DeptServiceImpl extends AbstractTreeService implements DeptService 
 
     @Autowired
     DeptMananger deptMananger;
+
+    @Autowired
+    BizLogManager bizLogManager;
+
     @Override
     protected IRepo<? extends AbstractTreeEntity> getRepo() {
         return baseDeptRepo;
@@ -99,6 +101,9 @@ public class DeptServiceImpl extends AbstractTreeService implements DeptService 
         Integer deptId = baseDeptRepo.addSelective(baseDept);
         resultJson.setData(deptId);
 
+        // log
+        bizLogManager.addBizLog(baseDeptRepo.findOne(baseDept.getId()), "部门管理/添加部门", Integer.valueOf(LogTypeEnum.ADD.getValue()));
+
         return resultJson;
     }
 
@@ -117,6 +122,9 @@ public class DeptServiceImpl extends AbstractTreeService implements DeptService 
 
         // 设置level
         this.resetLevel(baseDept);
+
+        // log
+        bizLogManager.addBizLog(baseDeptRepo.findOne(baseDept.getId()), "部门管理/更新部门", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
 
         ResultJson<Void> resultJson = new ResultJson();
         baseDeptRepo.updateSelective(baseDept);
@@ -139,6 +147,10 @@ public class DeptServiceImpl extends AbstractTreeService implements DeptService 
         }
 
         BaseDept baseDept = baseDeptRepo.findOne(id);
+
+        // log
+        bizLogManager.addBizLog(baseDept, "部门管理/删除部门", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
+
         AssertUtil.assertNotNull(baseDept, MessageConstants.DEPT_IS_NOT_EXISTS);
         baseDeptRepo.logicRemove(baseDept);
 

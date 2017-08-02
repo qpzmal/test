@@ -1,11 +1,14 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.LogTypeEnum;
+import cn.advu.workflow.domain.fcf_vu.BaseDept;
 import cn.advu.workflow.domain.fcf_vu.BaseMonitor;
 import cn.advu.workflow.repo.fcf_vu.BaseMonitorRequestRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.MonitorManager;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import org.slf4j.Logger;
@@ -26,6 +29,8 @@ public class MonitorRequestServiceImpl implements MonitorRequestService {
     private BaseMonitorRequestRepo baseMonitorRequestRepo;
     @Autowired
     MonitorManager monitorManager;
+    @Autowired
+    BizLogManager bizLogManager;
 
     @Override
     public ResultJson<Integer> addMonitorRequest(BaseMonitor baseMonitorRequest) {
@@ -36,6 +41,9 @@ public class MonitorRequestServiceImpl implements MonitorRequestService {
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建监测机构失败!");
         }
+        // log
+        bizLogManager.addBizLog(baseMonitorRequestRepo.findOne(baseMonitorRequest.getId()), "监测机构管理/添加监测机构", Integer.valueOf(LogTypeEnum.ADD.getValue()));
+
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
@@ -46,10 +54,15 @@ public class MonitorRequestServiceImpl implements MonitorRequestService {
             throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
 
+        BaseMonitor oldBaseMonitor = baseMonitorRequestRepo.findOne(baseMonitorRequest.getId());
+
         Integer updateCount = baseMonitorRequestRepo.updateSelective(baseMonitorRequest);
         if(updateCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新监测机构失败!");
         }
+
+        // log
+        bizLogManager.addBizLog(oldBaseMonitor, "监测机构管理/更新监测机构", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 

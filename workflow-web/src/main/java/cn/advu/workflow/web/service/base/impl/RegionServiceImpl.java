@@ -1,13 +1,16 @@
 package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.domain.enums.CustomTypeEnum;
+import cn.advu.workflow.domain.enums.LogTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
+import cn.advu.workflow.domain.fcf_vu.BasePerson;
 import cn.advu.workflow.domain.fcf_vu.BaseRegion;
 import cn.advu.workflow.repo.fcf_vu.BaseRegionRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.RegionManager;
 import cn.advu.workflow.web.service.base.RegionService;
 import cn.advu.workflow.web.util.AssertUtil;
@@ -31,6 +34,9 @@ public class RegionServiceImpl implements RegionService {
     @Autowired
     RegionManager regionManager;
 
+    @Autowired
+    BizLogManager bizLogManager;
+
     @Override
     public ResultJson<Integer> addRegion(BaseRegion baseRegion) {
 
@@ -43,6 +49,8 @@ public class RegionServiceImpl implements RegionService {
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建地域失败!");
         }
+        // log
+        bizLogManager.addBizLog(baseRegionRepo.findOne(baseRegion.getId()), "地域管理/添加地域", Integer.valueOf(LogTypeEnum.ADD.getValue()));
         return new ResultJson<>();
     }
 
@@ -54,10 +62,15 @@ public class RegionServiceImpl implements RegionService {
             throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
 
+        BaseRegion oldRegion = baseRegionRepo.findOne(baseRegion.getId());
+
         Integer insertCount = baseRegionRepo.updateSelective(baseRegion);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新地域失败!");
         }
+        // log
+        bizLogManager.addBizLog(oldRegion, "地域管理/更新地域", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
+
         return new ResultJson<>();
     }
 
@@ -82,10 +95,15 @@ public class RegionServiceImpl implements RegionService {
         BaseRegion oldBaseRegion = baseRegionRepo.findOne(id);
         AssertUtil.assertNotNull(oldBaseRegion, MessageConstants.REGION_IS_NOT_EXISTS);
 
+        // log
+        bizLogManager.addBizLog(oldBaseRegion, "地域管理/删除地域", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
+
         int updateCount = baseRegionRepo.logicRemove(oldBaseRegion);
         if(updateCount != 1) {
             throw new ServiceException(MessageConstants.REGION_IS_NOT_EXISTS);
         }
+
+
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 }

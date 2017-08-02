@@ -1,12 +1,15 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.LogTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
+import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import cn.advu.workflow.repo.fcf_vu.BaseBuyOrderRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.service.base.BuyOrderService;
 import org.activiti.engine.ActivitiException;
@@ -40,6 +43,9 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
 
     @Autowired
     private IdentityService identityService;
+
+    @Autowired
+    BizLogManager bizLogManager;
 
     @Override
     public ResultJson<List<BaseBuyOrder>> findAll(BaseBuyOrder param) {
@@ -76,6 +82,9 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建采购单失败!");
         }
 
+        // log
+        bizLogManager.addBizLog(baseBuyOrderRepo.findOne(baseBuyOrder.getId()), "采购单管理/添加采购单", Integer.valueOf(LogTypeEnum.ADD.getValue()));
+
         // 发起工作流
         return this.startWorkFlow(baseBuyOrder);
     }
@@ -93,10 +102,17 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
         if (baseBuyOrder.getId() == null) {
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
         }
+
+        BaseBuyOrder oldBaseBuyOrder = baseBuyOrderRepo.findOne(baseBuyOrder.getId());
+
+
         Integer insertCount = baseBuyOrderRepo.update(baseBuyOrder);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新采购单失败!");
         }
+
+        // log
+        bizLogManager.addBizLog(oldBaseBuyOrder, "采购单管理/更新采购单", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
 
         // 发起工作流
         return this.startWorkFlow(baseBuyOrder);
@@ -130,10 +146,15 @@ public class BuyOrderServiceImpl extends AbstractOrderService implements BuyOrde
         List<BaseOrderCpmVO> cpmList = cpmManager.findOrderBuyCpm(id);
         baseBuyOrder.setBaseOrderCpmList(cpmList);
 
+        // log
+        bizLogManager.addBizLog(baseBuyOrder, "采购单管理/删除采购单", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
+
         Integer count = baseBuyOrderRepo.logicRemove(baseBuyOrder);
         if (count == 0) {
-            throw new ServiceException("需求单不存在！");
+            throw new ServiceException("采购单不存在！");
         }
+
+
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 

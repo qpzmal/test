@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.domain.enums.CustomTypeEnum;
+import cn.advu.workflow.domain.enums.LogTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
@@ -12,6 +13,7 @@ import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.manager.AreaManager;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
@@ -43,7 +45,8 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     @Autowired
     CustomMananger customMananger;
 
-
+    @Autowired
+    BizLogManager bizLogManager;
 
     @Autowired
     AreaManager areaManager;
@@ -153,6 +156,9 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
             throw new ServiceException("创建需求单失败!");
         }
 
+        // log
+        bizLogManager.addBizLog(baseExecuteOrderRepo.findOne(baseExecuteOrder.getId()), "需求单管理/添加需求单", Integer.valueOf(LogTypeEnum.ADD.getValue()));
+
         // 发起工作流
         return this.startWorkFlow(baseExecuteOrder);
     }
@@ -223,10 +229,15 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         baseExecuteOrder.setPrivateRebate(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPrivateRebate()));
         baseExecuteOrder.setPayPercent(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPayPercent()));
 
+        BaseExecuteOrder oldBaseExecuteOrder = baseExecuteOrderRepo.findOne(baseExecuteOrder.getId());
+
         Integer insertCount = baseExecuteOrderRepo.update(baseExecuteOrder);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新需求单失败!");
         }
+
+        // log
+        bizLogManager.addBizLog(oldBaseExecuteOrder, "需求单管理/更新需求单", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
 
         // 发起工作流
         return this.startWorkFlow(baseExecuteOrder);
@@ -248,10 +259,15 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         List<BaseOrderCpmVO> cpmList = cpmManager.findExecuteOrderFrameCpm(id);
         baseExecuteOrder.setBaseOrderCpmList(cpmList);
 
+        // log
+        bizLogManager.addBizLog(baseExecuteOrder, "需求单管理/删除需求单", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
+
         Integer count = baseExecuteOrderRepo.logicRemove(baseExecuteOrder);
         if (count == 0) {
             throw new ServiceException("需求单不存在！");
         }
+
+
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 

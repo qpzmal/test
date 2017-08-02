@@ -1,11 +1,14 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.LogTypeEnum;
+import cn.advu.workflow.domain.fcf_vu.BaseDept;
 import cn.advu.workflow.domain.fcf_vu.BaseIndustry;
 import cn.advu.workflow.repo.fcf_vu.BaseIndustryRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.IndustryManager;
 import cn.advu.workflow.web.service.base.IndustryService;
 import org.slf4j.Logger;
@@ -28,6 +31,9 @@ public class IndustryServiceImpl implements IndustryService {
     @Autowired
     IndustryManager industryManager;
 
+    @Autowired
+    BizLogManager bizLogManager;
+
     @Override
     public ResultJson<Integer> addIndustry(BaseIndustry baseIndustry) {
         if (industryManager.isNameDuplicated(null, baseIndustry.getName())) {
@@ -37,6 +43,9 @@ public class IndustryServiceImpl implements IndustryService {
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建客户行业失败!");
         }
+        // log
+        bizLogManager.addBizLog(baseIndustryRepo.findOne(baseIndustry.getId()), "客户行业管理/添加客户行业", Integer.valueOf(LogTypeEnum.ADD.getValue()));
+
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
@@ -48,10 +57,16 @@ public class IndustryServiceImpl implements IndustryService {
         if (industryManager.isNameDuplicated(baseIndustry.getId(), baseIndustry.getName())) {
             throw new ServiceException(MessageConstants.NAME_IS_DUPLICATED);
         }
+        BaseIndustry oldBaseIndustry = baseIndustryRepo.findOne(baseIndustry.getId());
+
         Integer updateCount = baseIndustryRepo.updateSelective(baseIndustry);
         if(updateCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新客户行业失败!");
         }
+
+        // log
+        bizLogManager.addBizLog(oldBaseIndustry, "客户行业管理/更新客户行业", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
+
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
