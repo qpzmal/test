@@ -210,14 +210,14 @@ INSERT INTO `sys_role` (`activiti_name`, `name`, `description`, `is_system`, `so
 	('media', '媒介员工', '媒介员工', b'1', NULL);
 
 INSERT INTO `sys_user` (`login_name`, `user_name`, `password`) VALUES
-   ('u1', 'u1', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
-	('u2', 'u2', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
-	('u3', 'u3', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
-	('u4', 'u4', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
-	('u5', 'u5', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
-	('u6', 'u6', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
-	('u7', 'u7', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
-	('u8', 'u8', 'f7ad7cc1c8ee8431b0a8c3abb872a33c');
+   ('u1', 'u1', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'), -- 媒介管理
+	('u2', 'u2', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'), -- 销售普通
+	('u3', 'u3', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'), -- 销售主管
+	('u4', 'u4', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'), -- 销售总经理
+	('u5', 'u5', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'), -- 财务管理
+	('u6', 'u6', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'), -- 法务管理
+	('u7', 'u7', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'), -- 4A
+	('u8', 'u8', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'); -- 媒介普通
 
 -- INSERT INTO `act_id_group` (`ID_`, `REV_`, `NAME_`, `TYPE_`) VALUES
 -- 	('legalGM', 1, '法务主管', ''),

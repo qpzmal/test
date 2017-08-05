@@ -11,6 +11,8 @@ import java.util.Map;
  * Created by weiqz on 2017/7/5.
  */
 public class WorkflowVO {
+    // 是否为调整申请 true是/false否
+    private Boolean isModify;
 
     // 流程任务
     private Task task;
@@ -25,6 +27,14 @@ public class WorkflowVO {
 
     // 流程定义
     private ProcessDefinition processDefinition;
+
+    public Boolean getIsModify() {
+        return isModify;
+    }
+
+    public void setIsModify(Boolean modify) {
+        isModify = modify;
+    }
 
     public Task getTask() {
         return task;

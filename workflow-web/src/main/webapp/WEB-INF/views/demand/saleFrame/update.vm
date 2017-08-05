@@ -449,12 +449,15 @@
                 <div class="col-sm-2 col-sm-offset-2">
                     <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
                 </div>
-                <div class="col-sm-2 col-sm-offset-2">
-                    <button class="btn btn-info" type="button"><i class="fa fa-play"></i> 发起流程</button>
-                </div>
-                <div class="col-sm-2 col-sm-offset-2">
-                    <button id="btn_cancel" class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
-                </div>
+
+                #if($baseExecuteOrder.status == -1)
+                    <div class="col-sm-2 col-sm-offset-2">
+                        <button class="btn btn-info" type="button"><i class="fa fa-play"></i> 发起流程</button>
+                    </div>
+                    <div class="col-sm-2 col-sm-offset-2">
+                        <button id="btn_cancel" class="btn btn-default" type="button"><i class="fa fa-reply"></i> 取消</button>
+                    </div>
+                #end
             </div>
         </div>
 

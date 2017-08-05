@@ -62,6 +62,14 @@ $Integer.parseInt($intString)
 ## js文件引入和js代码块
 #define($jsblock)
 <script src="#springUrl("")/static/js/jquery-1.8.3.min.js?$!application.getAttribute('/static/js/jquery-1.8.3.min.js')" type="text/javascript" language="javascript"></script>
+
+## 示例（判断页面元素是否为空）
+#if ("$!jsonLog" == "")
+#else
+## 有上报参数时，上报
+<script type="text/javascript" src="//zlog.taobao.com/log.js?${jsonLog}"></script>
+#end
+
 <script>
 </script>
 #end

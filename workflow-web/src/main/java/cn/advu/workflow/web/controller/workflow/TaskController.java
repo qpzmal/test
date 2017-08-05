@@ -16,6 +16,7 @@ import cn.advu.workflow.web.vo.BaseExecuteOrderVO;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricProcessInstanceQuery;
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
@@ -33,10 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by weiqz on 2017/6/4.
@@ -92,7 +90,10 @@ public class TaskController {
         List<BaseExecuteOrderVO> baseExecuteOrderExecuteVOList = new ArrayList<>();
         List<BaseExecuteOrderFrameVO> baseExecuteOrderFrameVOList = new ArrayList<>();
 
-        // 根据当前人的ID查询
+        Map<String, Object> variables = new HashMap<>();
+        boolean isModify = false;
+
+        // 根据当前人的ID查询（签收+办理）
         TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateOrAssigned(UserThreadLocalContext.getCurrentUser().getUserName());
         List<Task> tasks = taskQuery.list();
 
@@ -112,6 +113,16 @@ public class TaskController {
             LOGGER.info("businessKey:{}", businessKey);
             LOGGER.info("ProcessDefinitionKey:{}", processInstance.getProcessDefinitionKey());
 
+            // 根据任务获取当前流程执行ID
+            String excId = task.getExecutionId();
+            // 执行实例以及当前流程节点的ID
+            ExecutionEntity execution = (ExecutionEntity) runtimeService.createExecutionQuery().executionId(excId).singleResult();
+            String activitiId = execution.getActivityId();
+            if ("modifyApply".equals(activitiId)) { // 判断是否为【申请调整】，既驳回后调整
+                isModify = true;
+                variables = taskService.getVariables(task.getId());
+            }
+            LOGGER.info("task_id:{}, activity_id:{}", task.getId(), activitiId);
 
             SysUser dbUser = null;
             switch (processInstance.getProcessDefinitionKey()) {
@@ -119,6 +130,8 @@ public class TaskController {
                     BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
                     BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
                     baseBuyOrderVO.setTask(task);
+                    baseBuyOrderVO.setIsModify(isModify);
+                    baseBuyOrderVO.setVariables(variables);
                     baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
                     baseBuyOrderVO.setProcessInstance(processInstance);
                     baseBuyOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
@@ -132,6 +145,8 @@ public class TaskController {
                     BaseBuyOrderFrameVO baseBuyOrderFrameVO = new BaseBuyOrderFrameVO();
                     BaseBuyOrderFrame baseBuyOrderFrame = buyFrameService.findById(Integer.valueOf(businessKey)).getData();
                     baseBuyOrderFrameVO.setTask(task);
+                    baseBuyOrderFrameVO.setIsModify(isModify);
+                    baseBuyOrderFrameVO.setVariables(variables);
                     baseBuyOrderFrameVO.setBaseBuyOrderFrame(baseBuyOrderFrame);
                     baseBuyOrderFrameVO.setProcessInstance(processInstance);
                     baseBuyOrderFrameVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
@@ -143,7 +158,8 @@ public class TaskController {
                 case WebConstants.WORKFLOW_SALE_ORDER:
                     BaseExecuteOrderVO baseExecuteOrderVO = new BaseExecuteOrderVO();
                     BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
-                    baseExecuteOrderVO.setTask(task);
+                    baseExecuteOrderVO.setIsModify(isModify);
+                    baseExecuteOrderVO.setVariables(variables);
                     baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
                     baseExecuteOrderVO.setProcessInstance(processInstance);
                     baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
@@ -156,6 +172,8 @@ public class TaskController {
                     BaseExecuteOrderVO baseExecuteOrderExecuteVO = new BaseExecuteOrderVO();
                     BaseExecuteOrder baseExecuteOrderExecute = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
                     baseExecuteOrderExecuteVO.setTask(task);
+                    baseExecuteOrderExecuteVO.setIsModify(isModify);
+                    baseExecuteOrderExecuteVO.setVariables(variables);
                     baseExecuteOrderExecuteVO.setBaseExecuteOrder(baseExecuteOrderExecute);
                     baseExecuteOrderExecuteVO.setProcessInstance(processInstance);
                     baseExecuteOrderExecuteVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
@@ -168,6 +186,8 @@ public class TaskController {
                     BaseExecuteOrderFrameVO baseExecuteOrderFrameVO = new BaseExecuteOrderFrameVO();
                     BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(Integer.valueOf(businessKey)).getData();
                     baseExecuteOrderFrameVO.setTask(task);
+                    baseExecuteOrderFrameVO.setIsModify(isModify);
+                    baseExecuteOrderFrameVO.setVariables(variables);
                     baseExecuteOrderFrameVO.setBaseExecuteOrderFrame(baseExecuteOrderFrame);
                     baseExecuteOrderFrameVO.setProcessInstance(processInstance);
                     baseExecuteOrderFrameVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
@@ -587,10 +607,7 @@ public class TaskController {
 
         Map<String, Object> paramMap = new HashMap<>();
 
-        if ("true".equals(result)) {
-        } else if ("false".equals(result))  {
-            paramMap.put("reason", reason);
-        } else {
+        if (!"true".equals(result) && !"false".equals(result)) {
             LOGGER.warn("错误的参数。result is :{}", result);
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "错误的参数!");
         }
@@ -598,18 +615,33 @@ public class TaskController {
         switch (tkey) {
             case WebConstants.Audit.MEDIA:
                 paramMap.put(WebConstants.AuditPass.MEDIA, resultBoolean);
+                if ("false".equals(result)) {
+                    paramMap.put(WebConstants.Audit.MEDIA, reason);
+                }
                 break;
             case WebConstants.Audit.SALER_DM:
                 paramMap.put(WebConstants.AuditPass.SALER_DM, resultBoolean);
+                if ("false".equals(result)) {
+                    paramMap.put(WebConstants.Audit.SALER_DM, reason);
+                }
                 break;
             case WebConstants.Audit.SALER_GM:
                 paramMap.put(WebConstants.AuditPass.SALER_GM, resultBoolean);
+                if ("false".equals(result)) {
+                    paramMap.put(WebConstants.Audit.SALER_GM, reason);
+                }
                 break;
             case WebConstants.Audit.FINANCIAL_GM:
                 paramMap.put(WebConstants.AuditPass.FINANCIAL_GM, resultBoolean);
+                if ("false".equals(result)) {
+                    paramMap.put(WebConstants.Audit.FINANCIAL_GM, reason);
+                }
                 break;
             case WebConstants.Audit.LEGAL_GM:
                 paramMap.put(WebConstants.AuditPass.LEGAL_GM, resultBoolean);
+                if ("false".equals(result)) {
+                    paramMap.put(WebConstants.Audit.LEGAL_GM, reason);
+                }
                 break;
             case WebConstants.Audit.MODIFY_APPLY:
                 paramMap.put(WebConstants.AuditPass.MODIFY_APPLY, resultBoolean);
@@ -676,6 +708,44 @@ public class TaskController {
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
+    /**
+     * 调整申请
+     *
+     * @param request
+     */
+    @RequestMapping(value = "toReApply")
+    public String toReApply(HttpServletRequest request, Model model) {
+        String taskId = (String) request.getParameter("taskId");
+        Map<String,Object> variables = taskService.getVariables(taskId);
+
+        Iterator iterator = variables.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+            String mapKey = entry.getKey();
+
+            switch (mapKey) {
+                case WebConstants.Audit.MEDIA:
+                    model.addAttribute(WebConstants.Audit.MEDIA, entry.getValue());
+                    break;
+                case WebConstants.Audit.SALER_DM:
+                    model.addAttribute(WebConstants.Audit.SALER_DM, entry.getValue());
+                    break;
+                case WebConstants.Audit.SALER_GM:
+                    model.addAttribute(WebConstants.Audit.SALER_GM, entry.getValue());
+                    break;
+                case WebConstants.Audit.FINANCIAL_GM:
+                    model.addAttribute(WebConstants.Audit.FINANCIAL_GM, entry.getValue());
+                    break;
+                case WebConstants.Audit.LEGAL_GM:
+                    model.addAttribute(WebConstants.Audit.LEGAL_GM, entry.getValue());
+                    break;
+                default:
+                    LOGGER.warn("错误的参数。mapKey is :{}", mapKey);
+            }
+        }
+
+        return "/workflow/ajax/reApply";
+    }
     /**
      * 查询流程定义对象
      *

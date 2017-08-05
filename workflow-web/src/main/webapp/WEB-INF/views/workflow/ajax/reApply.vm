@@ -1,0 +1,49 @@
+#set($layout = '/layout/empty.vm')
+
+
+## 重新申请
+<div class="form-group" style="min-height: 150px;">
+    <label class="col-sm-3 control-label">
+        被驳回原因:
+    </label>
+    <div class="col-sm-8">
+        #if ("$!mediaAudit" == "")
+        #else
+            <label>媒介主管:$!mediaAudit</label>
+        #end
+
+
+        #if ("$!salerDMAudit" == "")
+        #else
+            <label>销售主管:$!salerDMAudit</label>
+        #end
+
+
+        #if ("$!salerGMAudit" == "")
+        #else
+            <label>销售总经理:$!salerGMAudit</label>
+        #end
+
+
+        #if ("$!financialGMPass" == "")
+        #else
+            <label>财务主管:$!financialGMPass</label>
+        #end
+
+
+        #if ("$!legalGMPass" == "")
+        #else
+            <label>法务主管:$!legalGMPass</label>
+        #end
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-3 col-sm-offset-1">
+        <button class="btn btn-primary re-apply" type="button"><i class="fa fa-check"></i> 重新申请</button>
+    </div>
+    <div class="col-sm-3 col-sm-offset-1">
+        <button class="btn btn-danger channel-apply" type="button"><i class="fa fa-remove"></i> 终止申请</button>
+    </div>
+</div>
