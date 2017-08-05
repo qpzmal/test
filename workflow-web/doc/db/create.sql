@@ -334,7 +334,8 @@ CREATE TABLE IF NOT EXISTS `base_financialindex` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `remark` varchar(255) DEFAULT '' COMMENT '备注',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `number` (`number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='财务指标管理';
 
 -- 数据导出被取消选择。

@@ -1,5 +1,12 @@
 INSERT INTO `sequence` (`name`, `current_value`, `increment`, `dates`) VALUES ('orderNum', 1, 1, 2017);
 
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C001', '加税率', '1.06', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C002', '增值税税率', '0.06', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C003', '附加税税率', '0.12', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C004', '文化事业建设税的税率', '0.03', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C005', '销售提成比例（%）', '0.035', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C006', '工资房租分摊比例', '0.115', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C007', '所得税率', '0.15', 0, 0, 0, 0, '备注');
 
 -- 资源表
 INSERT INTO `sys_resource` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_type`)
@@ -201,15 +208,6 @@ INSERT INTO `sys_role` (`activiti_name`, `name`, `description`, `is_system`, `so
 	('financialGM', '财务主管', '财务主管', b'1', NULL),
 	('legalGM', '法务主管', '法务主管', b'1', NULL),
 	('media', '媒介员工', '媒介员工', b'1', NULL);
-INSERT INTO `act_id_group` (`ID_`, `REV_`, `NAME_`, `TYPE_`) VALUES
-	('legalGM', 1, '法务主管', ''),
-	('customer4A', 1, '4A', ''),
-	('financialGM', 1, '财务主管', ''),
-	('mediaGM', 1, '媒介主管', ''),
-	('saler', 1, '销售员工', ''),
-	('salerDM', 1, '销售主管', ''),
-	('salerGM', 1, '销售总经理', ''),
-	('media', 1, '媒介员工', '');
 
 INSERT INTO `sys_user` (`login_name`, `user_name`, `password`) VALUES
    ('u1', 'u1', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
@@ -220,24 +218,34 @@ INSERT INTO `sys_user` (`login_name`, `user_name`, `password`) VALUES
 	('u6', 'u6', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
 	('u7', 'u7', 'f7ad7cc1c8ee8431b0a8c3abb872a33c'),
 	('u8', 'u8', 'f7ad7cc1c8ee8431b0a8c3abb872a33c');
-INSERT INTO `act_id_user` (`ID_`, `REV_`, `FIRST_`, `LAST_`, `EMAIL_`, `PWD_`, `PICTURE_ID_`) VALUES
-	('u1', 1, 'u', '1', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
-	('u2', 1, 'u', '2', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
-	('u3', 1, 'u', '3', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
-	('u4', 1, 'u', '4', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
-	('u5', 1, 'u', '5', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
-	('u6', 1, 'u', '6', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
-	('u7', 1, 'u', '7', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
-	('u8', 1, 'u', '8', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL);
 
-insert into act_id_membership VALUES ('u1', 'mediaGM'); -- 媒介管理
-insert into act_id_membership VALUES ('u2', 'saler'); -- 销售普通
-insert into act_id_membership VALUES ('u3', 'salerDM'); -- 销售主管
-insert into act_id_membership VALUES ('u4', 'salerGM'); -- 销售总经理
-insert into act_id_membership VALUES ('u5', 'financialGM'); -- 财务管理
-insert into act_id_membership VALUES ('u6', 'legalGM'); -- 法务管理
-insert into act_id_membership VALUES ('u7', 'customer4A'); -- 4A
-insert into act_id_membership VALUES ('u8', 'media'); -- 媒介普通
+-- INSERT INTO `act_id_group` (`ID_`, `REV_`, `NAME_`, `TYPE_`) VALUES
+-- 	('legalGM', 1, '法务主管', ''),
+-- 	('customer4A', 1, '4A', ''),
+-- 	('financialGM', 1, '财务主管', ''),
+-- 	('mediaGM', 1, '媒介主管', ''),
+-- 	('saler', 1, '销售员工', ''),
+-- 	('salerDM', 1, '销售主管', ''),
+-- 	('salerGM', 1, '销售总经理', ''),
+-- 	('media', 1, '媒介员工', '');
+-- INSERT INTO `act_id_user` (`ID_`, `REV_`, `FIRST_`, `LAST_`, `EMAIL_`, `PWD_`, `PICTURE_ID_`) VALUES
+-- 	('u1', 1, 'u', '1', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+-- 	('u2', 1, 'u', '2', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+-- 	('u3', 1, 'u', '3', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+-- 	('u4', 1, 'u', '4', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+-- 	('u5', 1, 'u', '5', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+-- 	('u6', 1, 'u', '6', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+-- 	('u7', 1, 'u', '7', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL),
+-- 	('u8', 1, 'u', '8', '', 'f7ad7cc1c8ee8431b0a8c3abb872a33c', NULL);
+
+-- insert into act_id_membership VALUES ('u1', 'mediaGM'); -- 媒介管理
+-- insert into act_id_membership VALUES ('u2', 'saler'); -- 销售普通
+-- insert into act_id_membership VALUES ('u3', 'salerDM'); -- 销售主管
+-- insert into act_id_membership VALUES ('u4', 'salerGM'); -- 销售总经理
+-- insert into act_id_membership VALUES ('u5', 'financialGM'); -- 财务管理
+-- insert into act_id_membership VALUES ('u6', 'legalGM'); -- 法务管理
+-- insert into act_id_membership VALUES ('u7', 'customer4A'); -- 4A
+-- insert into act_id_membership VALUES ('u8', 'media'); -- 媒介普通
 
 
 
