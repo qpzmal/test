@@ -449,7 +449,7 @@
                 <div class="col-sm-2 col-sm-offset-2">
                     <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
                 </div>
-                #if($baseExecuteOrder.status == -1)
+                #if($baseExecuteOrder.status != -1)
                     <div class="col-sm-2 col-sm-offset-2">
                         <button class="btn btn-info" type="button"><i class="fa fa-play"></i> 发起流程</button>
                     </div>
@@ -469,6 +469,7 @@
 
 ## 引入js
 #define($jsblock)
+    #define($validblock)#end
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/switchery/switchery.js?$!application.getAttribute('/static/js/plugins/switchery/switchery.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/chosen/chosen.jquery.js?$!application.getAttribute('/static/js/plugins/chosen/chosen.jquery.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')"></script>
