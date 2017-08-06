@@ -1,5 +1,7 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.LogTypeEnum;
+import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import cn.advu.workflow.repo.fcf_vu.BaseBuyOrderFrameRepo;
@@ -7,6 +9,7 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.service.base.BuyFrameService;
 import org.activiti.engine.ActivitiException;
@@ -41,6 +44,8 @@ public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFram
     @Autowired
     private IdentityService identityService;
 
+    @Autowired
+    BizLogManager bizLogManager;
 
     @Override
     public ResultJson<List<BaseBuyOrderFrame>> findAll(BaseBuyOrderFrame param) {
@@ -69,8 +74,11 @@ public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFram
 
         Integer insertCount = baseBuyOrderFrameRepo.addSelective(baseExecuteOrderFrame);
         if(insertCount != 1){
-            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建需求单失败!");
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建采购单框架失败!");
         }
+
+        // log
+        bizLogManager.addBizLog(baseBuyOrderFrameRepo.findOne(baseExecuteOrderFrame.getId()), "采购单框架管理/添加采购单框架", Integer.valueOf(LogTypeEnum.ADD.getValue()));
 
         // 发起工作流
         return this.startWorkFlow(baseExecuteOrderFrame);
@@ -91,10 +99,16 @@ public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFram
         if (baseExecuteOrderFrame.getId() == null) {
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "ID没有设置!");
         }
+
+        BaseBuyOrderFrame oldExecuteOrderFrame = baseBuyOrderFrameRepo.findOne(baseExecuteOrderFrame.getId());
+
         Integer insertCount = baseBuyOrderFrameRepo.update(baseExecuteOrderFrame);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新需求单失败!");
         }
+
+        // log
+        bizLogManager.addBizLog(oldExecuteOrderFrame, "采购单框架管理/更新采购单框架", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
 
         // 发起工作流
         return this.startWorkFlow(baseExecuteOrderFrame);
@@ -125,11 +139,15 @@ public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFram
         BaseBuyOrderFrame baseBuyOrderFrame = baseBuyOrderFrameRepo.findOne(id);
         List<BaseOrderCpmVO> cpmList = cpmManager.findOrderBuyCpm(id);
         baseBuyOrderFrame.setBaseOrderCpmList(cpmList);
+        // log
+        bizLogManager.addBizLog(baseBuyOrderFrame, "采购单管理/删除采购单", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
 
         Integer count = baseBuyOrderFrameRepo.logicRemove(baseBuyOrderFrame);
         if (count == 0) {
             throw new ServiceException("需求单不存在！");
         }
+
+
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 

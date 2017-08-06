@@ -42,4 +42,9 @@ public class BaseFinancialindexRepoImpl extends AbstractRepo<BaseFinancialindex>
     public BaseFinancialindex findByIdAndNumber(Integer id, String number) {
         return baseFinancialindexMapper.queryByIdAndNumber(id, number);
     }
+
+    @Override
+    public BaseFinancialindex findByNumber(String number) {
+        return baseFinancialindexMapper.queryByNumber(number);
+    }
 }

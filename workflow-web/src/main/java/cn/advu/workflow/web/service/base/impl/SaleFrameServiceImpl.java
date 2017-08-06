@@ -1,10 +1,8 @@
 package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.domain.enums.CustomTypeEnum;
-import cn.advu.workflow.domain.fcf_vu.BaseArea;
-import cn.advu.workflow.domain.fcf_vu.BaseCustom;
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame;
-import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
+import cn.advu.workflow.domain.enums.LogTypeEnum;
+import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderFrameRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
@@ -12,6 +10,7 @@ import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.manager.AreaManager;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.SaleFrameService;
@@ -56,6 +55,9 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
     @Autowired
     private IdentityService identityService;
 
+
+    @Autowired
+    BizLogManager bizLogManager;
 
     @Override
     public ResultJson<List<BaseExecuteOrderFrame>> findAll(BaseExecuteOrderFrame param) {
@@ -141,6 +143,9 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建需求单失败!");
         }
 
+        // log
+        bizLogManager.addBizLog(baseExecuteOrderFrameRepo.findOne(baseExecuteOrderFrame.getId()), "需求单框架管理/添加需求单框架", Integer.valueOf(LogTypeEnum.ADD.getValue()));
+
         // 发起工作流
         return this.startWorkFlow(baseExecuteOrderFrame);
     }
@@ -214,10 +219,15 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
         baseExecuteOrderFrame.setPrivateRebate(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrderFrame.getPrivateRebate()));
         baseExecuteOrderFrame.setPayPercent(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrderFrame.getPayPercent()));
 
+        BaseExecuteOrderFrame oldbaseExecuteOrderFrame = baseExecuteOrderFrameRepo.findOne(baseExecuteOrderFrame.getId());
+
         Integer insertCount = baseExecuteOrderFrameRepo.update(baseExecuteOrderFrame);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新需求单失败!");
         }
+
+        // log
+        bizLogManager.addBizLog(oldbaseExecuteOrderFrame, "需求单框架管理/更新需求单框架", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
 
         // 发起工作流
         return this.startWorkFlow(baseExecuteOrderFrame);
@@ -250,6 +260,10 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
         BaseExecuteOrderFrame baseExecuteOrderFrame = baseExecuteOrderFrameRepo.findOne(id);
         List<BaseOrderCpmVO> cpmList = cpmManager.findOrderCustomCpm(id);
         baseExecuteOrderFrame.setBaseOrderCpmList(cpmList);
+
+        // log
+        bizLogManager.addBizLog(baseExecuteOrderFrame, "需求单管理/删除需求单", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
+
 
         Integer count = baseExecuteOrderFrameRepo.logicRemove(baseExecuteOrderFrame);
         if (count == 0) {

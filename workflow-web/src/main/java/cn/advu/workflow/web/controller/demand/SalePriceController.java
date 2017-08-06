@@ -2,7 +2,9 @@ package cn.advu.workflow.web.controller.demand;
 
 import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
 import cn.advu.workflow.domain.fcf_vu.SalePriceAccoutVO;
+import cn.advu.workflow.repo.fcf_vu.BaseFinancialindexRepo;
 import cn.advu.workflow.web.manager.AdtypeMananger;
+import cn.advu.workflow.web.manager.FinancialindexMananger;
 import cn.advu.workflow.web.util.AssertUtil;
 import cn.advu.workflow.web.util.BigDecimalUtil;
 import com.alibaba.fastjson.JSONArray;
@@ -22,6 +24,9 @@ public class SalePriceController {
 
     @Autowired
     AdtypeMananger adtypeMananger;
+
+    @Autowired
+    FinancialindexMananger financialindexMananger;
 
     @RequestMapping("/addCounter")
     public String addAcounter(Model resultModel){
@@ -136,11 +141,11 @@ public class SalePriceController {
         AssertUtil.assertNotNull(purchase);
 
         // 净收入＝（1-对公返点）＊媒体单价／1.06
-        BigDecimal netIncome = BigDecimal.ONE.subtract(publicRebate).multiply(mediaPrice).divide(new BigDecimal("1.06"), 2, BigDecimal.ROUND_UP);
+        BigDecimal netIncome = BigDecimal.ONE.subtract(publicRebate).multiply(mediaPrice).divide(financialindexMananger.getMarkUpRate(), 2, BigDecimal.ROUND_UP);
         // 主营业务税金及附加＝（净收入－媒体采购成本）＊0.06*0.12
-        BigDecimal bizTax = netIncome.subtract(purchase).multiply(new BigDecimal("0.06")).multiply(new BigDecimal("0.12")).setScale(2, BigDecimal.ROUND_UP);
+        BigDecimal bizTax = netIncome.subtract(purchase).multiply(financialindexMananger.getValueAddedTax()).multiply(financialindexMananger.getAttachTax()).setScale(2, BigDecimal.ROUND_UP);
         // 文化建设税金＝（净收入－媒体采购成本）＊1.06*0.03
-        BigDecimal cultureRate = netIncome.subtract(purchase).multiply(new BigDecimal("1.06")).multiply(new BigDecimal("0.03")).setScale(2, BigDecimal.ROUND_UP);
+        BigDecimal cultureRate = netIncome.subtract(purchase).multiply(financialindexMananger.getMarkUpRate()).multiply(financialindexMananger.getCultureTax()).setScale(2, BigDecimal.ROUND_UP);
         // 税金总计＝主营业务税金及附加＋文化建设税金
         BigDecimal totalTax = bizTax.add(cultureRate);
         // 毛利＝净收入－媒体采购成本－税金总计
@@ -148,13 +153,13 @@ public class SalePriceController {
         // 毛利率＝毛利／净收入
         BigDecimal grossProfitRate = grossProfit.divide(netIncome, 2, BigDecimal.ROUND_UP);
         // 销售提成比例＝0.035
-        BigDecimal salesCommissionsRate = new BigDecimal("0.035");
+        BigDecimal salesCommissionsRate = financialindexMananger.getSaleRate();
         // 销售提成金额＝媒体单价＊销售提成比例
         BigDecimal salesCommissions = mediaPrice.multiply(salesCommissionsRate);
         salesCommissions.setScale(2, BigDecimal.ROUND_UP);
 
         // 工资房租分摊比例＝0.115
-        BigDecimal salaryRentRate = new BigDecimal("0.115");
+        BigDecimal salaryRentRate = financialindexMananger.getOfferRate();
 
         // 工资房租分摊额＝媒体单价＊工资房租分摊比例
         BigDecimal salaryRent =mediaPrice.multiply(salaryRentRate);
@@ -167,7 +172,7 @@ public class SalePriceController {
         BigDecimal preTaxNetProfit = grossProfit.subtract(salesCommissions).subtract(salaryRent).subtract(salesIncentive);
 
         // 所得税率＝0.15
-        BigDecimal incomeTaxRate = new BigDecimal("0.15");
+        BigDecimal incomeTaxRate = financialindexMananger.getIncomeTax();
         // 所得税＝税前净利＊所得税率
         BigDecimal incomeTax = preTaxNetProfit.multiply(incomeTaxRate).setScale(2, BigDecimal.ROUND_UP);
 

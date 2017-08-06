@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.dao.fcf_vu.BasePersonMapper;
+import cn.advu.workflow.domain.enums.LogTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseDept;
 import cn.advu.workflow.domain.fcf_vu.BasePerson;
 import cn.advu.workflow.domain.fcf_vu.BasePersonExtend;
@@ -9,6 +10,7 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.PersonMananger;
 import cn.advu.workflow.web.service.base.PersonService;
 import cn.advu.workflow.web.util.AssertUtil;
@@ -29,6 +31,10 @@ public class PersonServiceImpl implements PersonService {
     BasePersonRepo basePersonRepo;
     @Autowired
     PersonMananger personMananger;
+
+    @Autowired
+    BizLogManager bizLogManager;
+
     @Override
     public ResultJson<List<BasePersonExtend>> findPersonByDept(Integer areaId, Integer deptId) {
         ResultJson<List<BasePersonExtend>> resultJson = new ResultJson(WebConstants.OPERATION_SUCCESS);
@@ -47,6 +53,9 @@ public class PersonServiceImpl implements PersonService {
         AssertUtil.assertNotNull(basePerson.getDeptId(), MessageConstants.DEPT_IS_NULL);
         ResultJson<Integer> resultJson = new ResultJson();
         resultJson.setData(basePersonRepo.addSelective(basePerson));
+        // log
+        bizLogManager.addBizLog(basePersonRepo.findOne(basePerson.getId()), "通讯录管理/添加通讯录", Integer.valueOf(LogTypeEnum.ADD.getValue()));
+
         return resultJson;
     }
 
@@ -60,8 +69,14 @@ public class PersonServiceImpl implements PersonService {
         AssertUtil.assertNotNull(basePerson.getAreaId(), MessageConstants.AREA_IS_NULL);
         AssertUtil.assertNotNull(basePerson.getDeptId(), MessageConstants.DEPT_IS_NULL);
 
+        BasePerson oldPerson = basePersonRepo.findOne(basePerson.getId());
+
         ResultJson<Void> resultJson = new ResultJson();
         basePersonRepo.updateSelective(basePerson);
+
+        // log
+        bizLogManager.addBizLog(oldPerson, "通讯录管理/更新通讯录", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
+
         return resultJson;
     }
 
@@ -81,6 +96,10 @@ public class PersonServiceImpl implements PersonService {
 
         BasePerson basePerson = basePersonRepo.findOne(id);
         AssertUtil.assertNotNull(basePerson, MessageConstants.PERSON_IS_NOT_EXISTS);
+
+        // log
+        bizLogManager.addBizLog(basePerson, "通讯录管理/删除通讯录", Integer.valueOf(LogTypeEnum.DELETE.getValue()));
+
         basePersonRepo.logicRemove(basePerson);
 
         return new ResultJson<>();

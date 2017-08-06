@@ -1,13 +1,16 @@
 package cn.advu.workflow.web.service.base.impl;
 
+import cn.advu.workflow.domain.enums.LogTypeEnum;
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseMedia;
+import cn.advu.workflow.domain.fcf_vu.BaseMediaType;
 import cn.advu.workflow.repo.fcf_vu.BaseAreaRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseMediaRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.exception.ServiceException;
+import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.MediaMananger;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.MediaService;
@@ -30,6 +33,9 @@ public class MediaServiceImpl implements MediaService {
     private BaseMediaRepo baseMediaRepo;
     @Autowired
     MediaMananger mediaMananger;
+
+    @Autowired
+    BizLogManager bizLogManager;
 
     @Override
     public ResultJson<List<BaseMedia>> findAll() {
@@ -56,6 +62,8 @@ public class MediaServiceImpl implements MediaService {
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "创建媒体失败!");
         }
+        // log
+        bizLogManager.addBizLog(baseMediaRepo.findOne(baseMedia.getId()), "媒体管理/添加媒体", Integer.valueOf(LogTypeEnum.ADD.getValue()));
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
@@ -74,10 +82,14 @@ public class MediaServiceImpl implements MediaService {
             throw new ServiceException(MessageConstants.CODE_IS_DUPLICATED);
         }
 
+        BaseMedia oldMedia = baseMediaRepo.findOne(baseMedia.getId());
+
         Integer insertCount = baseMediaRepo.updateSelective(baseMedia);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新媒体失败!");
         }
+        // log
+        bizLogManager.addBizLog(oldMedia, "媒体管理/更新媒体", Integer.valueOf(LogTypeEnum.UPDATE.getValue()));
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }
 
