@@ -19,17 +19,18 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>审批流程名称</th>
+                            <th>项目名称</th>
                             <th>申请人</th>
                             <th>当前节点</th>
                             <th>任务创建时间</th>
                             <th>流程版本状态</th>
                             <th>当前处理人</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
                             #foreach($!{data} in $!{baseBuyOrderVOList})
-                            <tr id="$!{data.baseBuyOrder.id}" tid="$!{data.baseBuyOrder.id}">
+                            <tr id="$!{data.baseBuyOrder.id}"  pkey="$!data.processInstance.ProcessDefinitionKey" pid="$!{data.processInstance.id}">
                                 <td>$!{data.baseBuyOrder.name}</td>
                                 <td>$!{data.baseBuyOrder.userName}</td>
                                 <td>
@@ -41,6 +42,9 @@
                                     <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
                                 </td>
                                 <td>$!{data.task.assignee}</td>
+                                <td>
+                                    <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
+                                </td>
                             </tr>
                             #end
                         </tbody>
@@ -66,17 +70,18 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>审批流程名称</th>
+                                <th>项目名称</th>
                                 <th>申请人</th>
                                 <th>当前节点</th>
                                 <th>任务创建时间</th>
                                 <th>流程版本状态</th>
                                 <th>当前处理人</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
                                 #foreach($!{data} in $!{baseBuyOrderFrameVOList})
-                                <tr id="$!{data.baseBuyOrderFrame.id}" tid="$!{data.baseBuyOrderFrame.id}">
+                                <tr id="$!{data.baseBuyOrderFrame.id}"  pkey="$!data.processInstance.ProcessDefinitionKey" pid="$!{data.processInstance.id}">
                                     <td>$!{data.baseBuyOrderFrame.name}</td>
                                     <td>$!{data.baseBuyOrderFrame.userName}</td>
                                     <td>
@@ -88,6 +93,9 @@
                                         <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
                                     </td>
                                     <td>$!{data.task.assignee}</td>
+                                    <td>
+                                        <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
+                                    </td>
                                 </tr>
                                 #end
                             </tbody>
@@ -114,17 +122,18 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>审批流程名称</th>
+                                <th>项目名称</th>
                                 <th>申请人</th>
                                 <th>当前节点</th>
                                 <th>任务创建时间</th>
                                 <th>流程版本状态</th>
                                 <th>当前处理人</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
                                 #foreach($!{data} in $!{baseExecuteOrderVOList})
-                                <tr id="$!{data.baseExecuteOrder.id}" tid="$!{data.baseExecuteOrder.id}">
+                                <tr id="$!{data.baseExecuteOrder.id}"  pkey="$!data.processInstance.ProcessDefinitionKey" pid="$!{data.processInstance.id}">
                                     <td>$!{data.baseExecuteOrder.name}</td>
                                     <td>$!{data.baseExecuteOrder.userName}</td>
                                     <td>
@@ -136,6 +145,9 @@
                                         <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
                                     </td>
                                     <td>$!{data.task.assignee}</td>
+                                    <td>
+                                        <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
+                                    </td>
                                 </tr>
                                 #end
                             </tbody>
@@ -162,17 +174,18 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>审批流程名称</th>
+                                <th>项目名称</th>
                                 <th>申请人</th>
                                 <th>当前节点</th>
                                 <th>任务创建时间</th>
                                 <th>流程版本状态</th>
                                 <th>当前处理人</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
                                 #foreach($!{data} in $!{baseExecuteOrderFrameVOList})
-                                <tr id="$!{data.baseExecuteOrderFrame.id}" tid="$!{data.baseExecuteOrderFrame.id}">
+                                <tr id="$!{data.baseExecuteOrderFrame.id}"  pkey="$!data.processInstance.ProcessDefinitionKey" pid="$!{data.processInstance.id}">
                                     <td>$!{data.baseExecuteOrderFrame.name}</td>
                                     <td>$!{data.baseExecuteOrderFrame.userName}</td>
                                     <td>
@@ -184,6 +197,61 @@
                                         <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
                                     </td>
                                     <td>$!{data.task.assignee}</td>
+                                    <td>
+                                        <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
+                                    </td>
+                                </tr>
+                                #end
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    #end
+
+
+
+
+    #foreach($dataForName in ${baseExecuteOrderExecuteVOList})
+        #if($!{velocityCount} == 2) #break #end
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>$!{dataForName.processInstance.processDefinitionName}</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>项目名称</th>
+                                <th>申请人</th>
+                                <th>当前节点</th>
+                                <th>任务创建时间</th>
+                                <th>流程版本状态</th>
+                                <th>当前处理人</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                #foreach($!{data} in $!{baseExecuteOrderExecuteVOList})
+                                <tr id="$!{data.baseExecuteOrder.id}"  pkey="$!data.processInstance.ProcessDefinitionKey" pid="$!{data.processInstance.id}">
+                                    <td>$!{data.baseExecuteOrder.name}</td>
+                                    <td>$!{data.baseExecuteOrder.userName}</td>
+                                    <td>
+                                        <a class="trace" href='javascript:;' pid="$!{data.processInstance.id}" pdid="$!{data.processInstance.processDefinitionId}" title="点击查看流程图">$!{data.task.name}</a>
+                                    </td>
+                                    <td>$!date.format('yyyy-MM-dd HH:mm:ss ',${data.task.createTime})</td>
+                                    <td>
+                                    ##                                    ${data.processInstance.suspended ? "已挂起" : "正常" }；
+                                        <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
+                                    </td>
+                                    <td>$!{data.task.assignee}</td>
+                                    <td>
+                                        <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
+                                    </td>
                                 </tr>
                                 #end
                             </tbody>
@@ -200,50 +268,6 @@
 
 
 
-#foreach($dataForName in ${baseExecuteOrderExecuteVOList})
-    #if($!{velocityCount} == 2) #break #end
-<div class="row">
-    <div class="col-sm-12">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>$!{dataForName.processInstance.processDefinitionName}</h5>
-            </div>
-            <div class="ibox-content">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>审批流程名称</th>
-                        <th>申请人</th>
-                        <th>当前节点</th>
-                        <th>任务创建时间</th>
-                        <th>流程版本状态</th>
-                        <th>当前处理人</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        #foreach($!{data} in $!{baseExecuteOrderExecuteVOList})
-                        <tr id="$!{data.baseExecuteOrder.id}" tid="$!{data.baseExecuteOrder.id}">
-                            <td>$!{data.baseExecuteOrder.name}</td>
-                            <td>$!{data.baseExecuteOrder.userName}</td>
-                            <td>
-                                <a class="trace" href='javascript:;' pid="$!{data.processInstance.id}" pdid="$!{data.processInstance.processDefinitionId}" title="点击查看流程图">$!{data.task.name}</a>
-                            </td>
-                            <td>$!date.format('yyyy-MM-dd HH:mm:ss ',${data.task.createTime})</td>
-                            <td>
-                            ##                                    ${data.processInstance.suspended ? "已挂起" : "正常" }；
-                                <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
-                            </td>
-                            <td>$!{data.task.assignee}</td>
-                        </tr>
-                        #end
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-    </div>
-</div>
-#end
 
 
 
@@ -261,5 +285,19 @@
 
     // 跟踪
     $('.trace').click(graphTrace);
+
+
+
+    ## 查看
+    $(".button_view").click(function(){
+        var id = $(this).parents('tr').attr('id'); // 取申请ID
+        var pkey = $(this).parents('tr').attr('pkey');
+        if (pkey == "saleExecute") {
+            pkey ="saleOrder";
+        }
+        var url = "${rc.contextPath}/"+ pkey+"/refer?id="+id;
+        openPopIframePage(url);
+    })
+
 </script>
 #end

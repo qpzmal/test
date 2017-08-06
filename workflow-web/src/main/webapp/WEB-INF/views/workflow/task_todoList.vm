@@ -22,7 +22,7 @@
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th>审批流程名称</th>
+                                        <th>项目名称</th>
                                         <th>申请人</th>
                                         <th>当前节点</th>
                                         <th>任务创建时间</th>
@@ -85,7 +85,7 @@
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th>审批流程名称</th>
+                                        <th>项目名称</th>
                                         <th>申请人</th>
                                         <th>当前节点</th>
                                         <th>任务创建时间</th>
@@ -148,7 +148,7 @@
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th>审批流程名称</th>
+                                        <th>项目名称</th>
                                         <th>申请人</th>
                                         <th>当前节点</th>
                                         <th>任务创建时间</th>
@@ -211,7 +211,7 @@
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th>审批流程名称</th>
+                                        <th>项目名称</th>
                                         <th>申请人</th>
                                         <th>当前节点</th>
                                         <th>任务创建时间</th>
@@ -276,7 +276,7 @@
                                     <table class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
-                                            <th>审批流程名称</th>
+                                            <th>项目名称</th>
                                             <th>申请人</th>
                                             <th>当前节点</th>
                                             <th>任务创建时间</th>
@@ -425,35 +425,35 @@
 
     ## 查看
     $(".button_view").click(function(){
-        var taskId = $(this).parents('tr').attr('id'); // 取申请ID
+        var bizId = $(this).parents('tr').attr('id'); // 取申请ID
         var pkey = $(this).parents('tr').attr('pkey');
         if (pkey == "saleExecute") {
             pkey ="saleOrder";
         }
-        var url = "${rc.contextPath}/"+ pkey+"/refer?id="+taskId;
+        var url = "${rc.contextPath}/"+ pkey+"/refer?id="+bizId;
         openPopIframePage(url);
     })
 
     ## 修改
     $(".btn_edit").click(function(){
-        var taskId = $(this).parents('tr').attr('id'); // 取申请ID
+        var bizId = $(this).parents('tr').attr('id'); // 取申请ID
         var pkey = $(this).parents('tr').attr('pkey');
-        var url = "${rc.contextPath}/saleOrder/toUpdate?id="+taskId;
+        var url = "${rc.contextPath}/saleOrder/toUpdate?id="+bizId;
         openPopIframePage(url);
     })
 
-    ## 查看（示例：弹出Iframe窗口）
-    function openPopIframePage(url){
-        layer.open({
-            type: 2,
-            title: '确认',
-            shadeClose: true,
-            shade: false,
-            maxmin: true, //开启最大化最小化按钮
-            area: ['893px', '500px'],
-            content: url
-        });
-    }
+##    ## 查看（示例：弹出Iframe窗口）
+##    function openPopIframePage(url){
+##        layer.open({
+##            type: 2,
+##            title: '确认',
+##            shadeClose: true,
+##            shade: false,
+##            maxmin: true, //开启最大化最小化按钮
+##            area: ['700px', '500px'],
+##            content: url
+##        });
+##    }
 
     ## 办理（示例：弹出确认页）
     function openPopDivPage_taskAudit(){

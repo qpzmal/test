@@ -13,3 +13,17 @@ function delItem(callback){
     }, callback, function(){
     });
 }
+
+
+// 查看（示例：弹出Iframe窗口）
+function openPopIframePage(url){
+    layer.open({
+        type: 2,
+        title: '确认',
+        shadeClose: true,
+        shade: false,
+        maxmin: true, //开启最大化最小化按钮
+        area: ['700px', '500px'],
+        content: url
+    });
+}
