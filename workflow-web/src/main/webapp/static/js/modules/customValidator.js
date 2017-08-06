@@ -31,3 +31,8 @@ jQuery.validator.addMethod("isMoney", function(value, element) {
 jQuery.validator.addMethod("isPercent", function(value, element) {
     return this.optional(element) || /^(\+)?\d{1,3}(\.\d{1,2})?$/.test(value) && value <=  100;
 }, "填写非负数、小数位不超过2位、不超过100");
+
+// 高精度百分比
+jQuery.validator.addMethod("isPercentHighPrecision", function(value, element) {
+    return this.optional(element) || /^(\+)?\d{1,3}(\.\d{1,4})?$/.test(value) && value <=  100;
+}, "填写非负数、小数位不超过2位、不超过100");

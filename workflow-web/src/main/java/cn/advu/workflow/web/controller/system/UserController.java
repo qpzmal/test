@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.controller.system;
 
 import cn.advu.workflow.domain.fcf_vu.*;
+import cn.advu.workflow.domain.golbal.Page;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.LoginAccount;
@@ -13,6 +14,8 @@ import cn.advu.workflow.web.service.system.SysRoleService;
 import cn.advu.workflow.web.service.system.SysUserService;
 import cn.advu.workflow.web.vo.MenuVO;
 import com.google.gson.Gson;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +47,9 @@ public class UserController {
 
     @Autowired
     ExecuteOrderService executeOrderService;
+
+    @Autowired
+    protected TaskService taskService;
 
     /**
      * 获取用户可用菜单信息
@@ -277,8 +283,10 @@ public class UserController {
         boolean dataBoardFlag = true; // true展示工作看板；false不展示工作看板
         boolean progressFlag = true; // true展示工作进度；false不展示工作进度
 
+        Page page = new Page();
         // 工作看板--待处理
         BaseExecuteOrder param = new BaseExecuteOrder();
+        param.setPage(page);
         param.setStatus((byte) 1);
         dbList = executeOrderService.findAll(param);
         List<BaseExecuteOrder> todoList = dbList.getData();
@@ -297,8 +305,94 @@ public class UserController {
         LOGGER.info("已完成件数：{}", finishedList.size());
 
         // 项目进度
+        param = new BaseExecuteOrder();
+        param.setPage(page);
+        param.setStatusArray("(0, 1, 2)");
         dbList = executeOrderService.findAll(param);
         List<BaseExecuteOrder> unFinishedList = dbList.getData(); // 未完成进度列表
+        for (BaseExecuteOrder obj:unFinishedList) { // 设置项目进度
+            Byte status = obj.getStatus();
+            String wfStep = "0";
+            switch (status) {
+                case 2:
+                    wfStep = "1"; // 开始投放
+                    if (false) { // TODO 发票
+                        wfStep = "9"; // 发票
+
+                    } else if (false) { // TODO 原章合同
+                        wfStep = "8"; // 原章合同
+
+                    } else if (false) { // TODO 合同已签署
+                        wfStep = "7"; //  开始投放 + 合同已签署
+                    } else {
+                        // 设置当前任务信息
+                        if (StringUtils.isEmpty(obj.getProcessInstanceId())) {
+                            LOGGER.warn("ProcessInstanceId is empty, biz-id is :{}", obj.getId());
+                            obj.setWfStep(wfStep);
+                            continue;
+                        }
+                        Task task = taskService.createTaskQuery().processInstanceId(obj.getProcessInstanceId()).active().singleResult();
+                        if (task == null) {
+                            LOGGER.warn("task is null, biz-id is :{}", obj.getId());
+                            obj.setWfStep(wfStep);
+                            continue;
+                        }
+                        String taskDefKey = task.getTaskDefinitionKey();
+                        switch (taskDefKey) {
+                            case WebConstants.Audit.MEDIA:
+                                wfStep = "2"; // 媒介审核
+                                break;
+                            case WebConstants.Audit.SALER_GM:
+                                wfStep = "3"; // 销售总经理审核
+                                break;
+                            case WebConstants.Audit.FINANCIAL_GM:
+                                wfStep = "4"; //  财务审核
+                                break;
+                            case WebConstants.Audit.LEGAL_GM:
+                                wfStep = "5"; //  法务审核
+                                break;
+                            default:
+                                LOGGER.warn("错误的参数。mapKey is :{}", taskDefKey);
+                        }
+                    }
+                    break;
+                case 1:
+                    wfStep = "7"; // 法务已审核
+                    break;
+                case 0:
+                    wfStep = "2"; // 销售已提交
+
+                    // 设置当前任务信息
+                    Task task = taskService.createTaskQuery().processInstanceId(obj.getProcessInstanceId()).active().singleResult();
+                    String taskDefKey = task.getTaskDefinitionKey();
+                    switch (taskDefKey) {
+                        case WebConstants.Audit.SALER_DM:
+                            wfStep = "3"; // 销售主管审核
+                            break;
+                        case WebConstants.Audit.SALER_GM:
+                            wfStep = "4"; // 销售总经理审核
+                            break;
+                        case WebConstants.Audit.MEDIA:
+                            wfStep = "5"; // 媒介审核
+                            break;
+                        case WebConstants.Audit.FINANCIAL_GM:
+                            wfStep = "6"; //  财务审核
+                            break;
+                        case WebConstants.Audit.LEGAL_GM:
+                            wfStep = "7"; //  法务审核
+                            break;
+                        default:
+                            LOGGER.warn("错误的参数。mapKey is :{}", taskDefKey);
+                    }
+                    break;
+                default:
+                    LOGGER.warn("status was wrong:{}", status);
+                    break;
+            }
+            obj.setWfStep(wfStep);
+
+        }
+
 
         // 判断欢迎页展示内容：如果各list都为空，展示欢迎文字；否则展示工作看板
         if ((todoList == null || todoList.size() == 0)

@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `base_buy_order` (
   `pay_percent` decimal(5,4) DEFAULT '0.0000' COMMENT '付款比例',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `area_id` int(11) NOT NULL DEFAULT '0' COMMENT '所属区域Id',
-  `wf_step` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '工作流步骤数',
+  `wf_step` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '工作流步骤数(暂时没使用)',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记 ，0正常，1删除',
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

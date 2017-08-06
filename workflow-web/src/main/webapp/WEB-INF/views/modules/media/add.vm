@@ -23,7 +23,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">类型</label>
             <div class="col-sm-8">
-                <select id="type" ata-placeholder="请选择类型" class="chosen-select" style="width:350px;" tabindex="2">
+                <select id="type" data-placeholder="请选择类型" class="chosen-select" style="width:350px;" tabindex="2">
                     <option value="">请选择类型</option>
                     #foreach($data in $typeList)
                         <option value ="$data.id">$data.name</option>

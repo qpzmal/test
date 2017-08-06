@@ -1,6 +1,8 @@
 package cn.advu.workflow.domain.base;
 
 
+import cn.advu.workflow.domain.golbal.Page;
+
 import java.util.Date;
 
 /**
@@ -17,6 +19,8 @@ public class AbstractEntity implements IEntity {
     private String delFlag; // 删除标记 ，0正常，1删除
     private String itemStatus; // 状态 ，0正常；1停用。由于前端选中为true，不选中为false，与DB设计相反，所以取反
     private String remark; // 备注
+
+    private Page page;
 
     @Override
     public Integer getId() {
@@ -96,5 +100,13 @@ public class AbstractEntity implements IEntity {
     @Override
     public void setRemark(String remark) {
         this.remark = remark == null ? EMPTY : remark.trim();
+    }
+
+    public Page getPage() {
+        return page;
+    }
+
+    public void setPage(Page page) {
+        this.page = page;
     }
 }

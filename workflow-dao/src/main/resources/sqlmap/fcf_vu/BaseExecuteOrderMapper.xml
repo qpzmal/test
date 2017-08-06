@@ -502,7 +502,13 @@
     <if test="status != null">
       and status = #{status,jdbcType=TINYINT}
     </if>
+    <if test="statusArray != null">
+      and status IN ${statusArray}
+    </if>
     order by update_time desc
+    <if test="page != null">
+      limit #{page.start}, #{page.pageSize}
+    </if>
   </select>
   <select id="findAllUnFinished" resultMap="BaseResultMap">
     select

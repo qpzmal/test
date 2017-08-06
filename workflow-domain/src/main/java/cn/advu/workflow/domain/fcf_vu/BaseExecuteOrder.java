@@ -75,6 +75,8 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
 
     private Integer frameId;
 
+    private String statusArray;
+
     private String wfStep; // 工作流步骤
 
     private String flowType; // 页面自定义属性：save保存草稿，start开始流程
@@ -349,6 +351,14 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
 
     public void setFrameId(Integer frameId) {
         this.frameId = frameId;
+    }
+
+    public String getStatusArray() {
+        return statusArray;
+    }
+
+    public void setStatusArray(String statusArray) {
+        this.statusArray = statusArray;
     }
 
     public String getWfStep() {
