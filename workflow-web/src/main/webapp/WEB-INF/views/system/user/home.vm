@@ -40,7 +40,9 @@
                                 <tbody>
                                     #foreach($data in $todoList)
                                     <tr class="gradeX">
-                                        <td>$!{data.name}</td>
+                                        <td class="refer-detail" tid="$!data.id">
+                                            <a href="javascript:;" >$!{data.name}</a>
+                                        </td>
                                     </tr>
                                     #end
                                 </tbody>
@@ -62,7 +64,9 @@
                                 <tbody>
                                     #foreach($data in $handlingList)
                                     <tr class="gradeX">
-                                        <td>$!{data.name}</td>
+                                        <td class="refer-detail" tid="$!data.id">
+                                            <a href="javascript:;" >$!{data.name}</a>
+                                        </td>
                                     </tr>
                                     #end
                                 </tbody>
@@ -84,7 +88,9 @@
                                 <tbody>
                                     #foreach($data in $finishedList)
                                     <tr class="gradeX">
-                                        <td>$!{data.name}</td>
+                                        <td class="refer-detail" tid="$!data.id">
+                                            <a href="javascript:;" >$!{data.name}</a>
+                                        </td>
                                     </tr>
                                     #end
                                 </tbody>
@@ -173,93 +179,96 @@
 
                     <table class="table table-hover">
                         <tbody>
+                        #set($Integer = 0)
                         #foreach($data in $unFinishedList)
+                            #set($intWorkFlowStep = $Integer.parseInt($data.wfStep))
+
                         <tr>
                             <td class="project-title">
-                                <a href="project_detail.html">$data.name</a>
+                                <a href="javascript:;"  class="refer-detail" tid="$!data.id" >$data.name</a>
                                 <br/>
                                 <small>更新于 $!date.format('yyyy-MM-dd HH:mm:ss ',${data.updateTime})</small><br/>
                                 <small>创建于 $!date.format('yyyy-MM-dd HH:mm:ss ',${data.createTime})</small>
                             </td>
                             <td class="project-completion">
                                 <span
-                                    #if($data.status == 1 || ($data.status == 0 && $data.wfStep >= 1 ) )
+                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep >= 1 ) )
                                         style="background: #45FF39"
                                     #end >
                                     客户已下单</span>
                                 <span
-                                    #if($data.status == 1 || ($data.status == 0 && $data.wfStep >= 2 ) )
+                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 2 ) )
                                         style="background: #45FF39"
                                     #end >
                                     销售已提交</span>
                                 <span
-                                    #if($data.status == 1 || ($data.status == 0 && $data.wfStep >= 3 ) )
+                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 3 ) )
                                             style="background: #45FF39"
                                     #end >
                                     销售主管审核</span>
                                 <span
-                                    #if($data.status == 1 || ($data.status == 0 && $data.wfStep >= 4 ) )
+                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 4 ) )
                                             style="background: #45FF39"
                                     #end >
                                     销售总经理审核</span>
                                 <span
-                                    #if($data.status == 1 || ($data.status == 0 && $data.wfStep >= 5 ) )
+                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 5 ) )
                                             style="background: #45FF39"
                                     #end >
                                     媒介审核</span>
                                 <span
-                                    #if($data.status == 1 || ($data.status == 0 && $data.wfStep >= 6 ) )
+                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 6 ) )
                                             style="background: #45FF39"
                                     #end >
                                     财务审核</span>
                                 <span
-                                    #if($data.status == 1 )
+                                    #if($data.status == 1 || $data.status == 2)
                                             style="background: #45FF39"
                                     #end >
                                     法务审核</span>
                                 <br/>
                                 <span
-                                    #if($data.status == 2 && $data.wfStep >= 1  )
+                                    #if($data.status == 2 && $intWorkFlowStep >= 1  )
                                             style="background: #45FF39"
                                     #end >
                                     媒介已处理</span>
                                 <span
-                                    #if($data.status == 2 && $data.wfStep >= 2  )
+                                    #if($data.status == 2 && $intWorkFlowStep > 2  )
                                             style="background: #45FF39"
                                     #end >
                                     媒介审核</span>
                                 <span
-                                    #if($data.status == 2 && $data.wfStep >= 3  )
+                                    #if($data.status == 2 && $intWorkFlowStep > 3  )
                                             style="background: #45FF39"
                                     #end >
                                     销售总经理审核</span>
                                 <span
-                                    #if($data.status == 2 && $data.wfStep >= 4  )
+                                    #if($data.status == 2 && $intWorkFlowStep > 4  )
                                             style="background: #45FF39"
                                     #end >
                                     财务审核</span>
                                 <span
-                                    #if($data.status == 2 && $data.wfStep >= 5  )
+                                    #if($data.status == 2 && $intWorkFlowStep > 5  )
                                             style="background: #45FF39"
                                     #end >
                                     法务审核</span>
                                 <span
-                                    #if($data.status == 2 && $data.wfStep >= 6  )
+                                    #if($data.status == 2 && $intWorkFlowStep > 6  )
                                             style="background: #45FF39"
                                     #end >
                                     合同已签署</span>
                                 <span
-                                    #if($data.status == 2 && $data.wfStep >= 7  )
+                                    #if($data.status == 2 && $intWorkFlowStep > 7  )
                                             style="background: #45FF39"
                                     #end >
                                     开始投放</span>
                                 <span
-                                    #if($data.status == 2 && $data.wfStep >= 8  )
+                                    #if($data.status == 2 && $intWorkFlowStep > 8  )
                                             style="background: #45FF39"
                                     #end >
                                     原章合同</span>
                                 <span
-                                    #if($data.status == 2 && $data.wfStep >= 9  )
+                                    #if($data.status == 2 && $intWorkFlowStep > 9  )
                                             style="background: #45FF39"
                                     #end >
                                     发票</span>
@@ -278,4 +287,19 @@
         </div>
     </div>
     #end
+#end
+
+
+
+## 引入js
+#define($jsblock)
+<script>
+
+    ## 查看
+    $(".refer-detail").click(function(){
+        var id = $(this).attr('tid'); // 取业务ID
+        var url = "${rc.contextPath}/saleOrder/refer?id="+id;
+        openPopIframePage(url);
+    })
+</script>
 #end

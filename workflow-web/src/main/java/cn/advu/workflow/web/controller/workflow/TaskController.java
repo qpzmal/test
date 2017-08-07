@@ -91,7 +91,6 @@ public class TaskController {
         List<BaseExecuteOrderFrameVO> baseExecuteOrderFrameVOList = new ArrayList<>();
 
         Map<String, Object> variables = new HashMap<>();
-        boolean isModify = false;
 
         // 根据当前人的ID查询（签收+办理）
         TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateOrAssigned(UserThreadLocalContext.getCurrentUser().getUserName());
@@ -99,6 +98,7 @@ public class TaskController {
 
         // 根据流程的业务ID查询实体并关联
         for (Task task : tasks) {
+            boolean isModify = false;
             String processInstanceId = task.getProcessInstanceId();
             LOGGER.info("processInstanceId:{}", processInstanceId);
             ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).active().singleResult();
@@ -158,6 +158,7 @@ public class TaskController {
                 case WebConstants.WORKFLOW_SALE_ORDER:
                     BaseExecuteOrderVO baseExecuteOrderVO = new BaseExecuteOrderVO();
                     BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+                    baseExecuteOrderVO.setTask(task);
                     baseExecuteOrderVO.setIsModify(isModify);
                     baseExecuteOrderVO.setVariables(variables);
                     baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);

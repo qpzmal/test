@@ -449,7 +449,7 @@
                 <div class="col-sm-2 col-sm-offset-2">
                     <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> 保存</button>
                 </div>
-                #if($baseExecuteOrder.status != -1)
+                #if($baseExecuteOrder.status == -1 || $baseExecuteOrder.status == 1)
                     <div class="col-sm-2 col-sm-offset-2">
                         <button class="btn btn-info" type="button"><i class="fa fa-play"></i> 发起流程</button>
                     </div>
