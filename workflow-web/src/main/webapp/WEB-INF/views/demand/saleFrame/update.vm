@@ -390,7 +390,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">付款比例</label>
+                        <label class="col-sm-3 control-label">付款比例<label class="text-danger">(%)</label></label>
                         <div class="col-sm-8 ">
                             <input value="$baseExecuteOrder.getPayPercent().multiply($std)" id="pay_percent" name="pay_percent" type="text" class="form-control isPercentHighPrecision"
                                 #if($!{hasFinancialAuth} == false)
@@ -897,6 +897,11 @@
 
         var customSignName = $("#sign_company_select").val();
         var customAdverserName = $("#custom_select").val();
+
+
+        if (payPercent != '') {
+            payPercent = payPercent/100;
+        }
 
         $.ajax({
             url:"/saleFrame/update.json",
