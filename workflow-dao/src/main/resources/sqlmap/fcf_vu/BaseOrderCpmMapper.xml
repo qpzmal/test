@@ -239,7 +239,7 @@
     select
     <include refid="Base_Column_List_BaseOrderCpmVO" />
     from base_order_cpm LEFT JOIN base_media on base_order_cpm.media_id = base_media.id
-    LEFT JOIN base_adtype on base_order_cpm.ad_type_id = base_adtype.name
+    LEFT JOIN base_adtype on base_order_cpm.ad_type_id = base_adtype.id
     where order_id = #{orderId,jdbcType=INTEGER}
     and order_cpm_type = #{orderCpmType,jdbcType=TINYINT}
   </select>
@@ -248,7 +248,7 @@
     select
     <include refid="Base_Column_List_BaseOrderCpmVO" />
     from base_order_cpm LEFT JOIN base_media on base_order_cpm.media_id = base_media.id
-    LEFT JOIN base_adtype on base_order_cpm.ad_type_id = base_adtype.name
+    LEFT JOIN base_adtype on base_order_cpm.ad_type_id = base_adtype.id
     where order_id = #{orderId,jdbcType=INTEGER}
     and order_cpm_type in (1, 2, 3)
   </select>
@@ -264,7 +264,7 @@
     select
     <include refid="Base_Column_List_BaseOrderCpmVO" />
     from base_order_cpm LEFT JOIN base_media on base_order_cpm.media_id = base_media.id
-    LEFT JOIN base_adtype on base_order_cpm.ad_type_id = base_adtype.name
+    LEFT JOIN base_adtype on base_order_cpm.ad_type_id = base_adtype.id
     Inner join base_buy_order on base_buy_order.id = base_order_cpm.order_id
     where order_cpm_type = 6
     and base_buy_order.status = 1

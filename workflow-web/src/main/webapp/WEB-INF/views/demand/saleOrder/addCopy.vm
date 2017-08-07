@@ -334,7 +334,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">对公返点<label class="text-danger">(%)</label></label>
                             <div class="col-sm-8">
-                                <input value="$baseExecuteOrder.getPublicRebate().multiply($std)" id="public_rebate" name="public_rebate" type="text" class="form-control isPercent"  placeholder="填写非负数、小数位不超过2位、不超过100"
+                                <input value="$baseExecuteOrder.getPublicRebate().multiply($std).stripTrailingZeros().toPlainString()" id="public_rebate" name="public_rebate" type="text" class="form-control isPercent"  placeholder="填写非负数、小数位不超过2位、不超过100"
                                     #if($!{hasSaleAuth} == false)
                                        disabled
                                     #end
@@ -344,7 +344,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">对私返点<label class="text-danger">(%)</label></label>
                             <div class="col-sm-8">
-                                <input value="$baseExecuteOrder.getPrivateRebate().multiply($std)" id="private_rebate" name="private_rebate" type="text" class="form-control isPercent" placeholder="填写非负数、小数位不超过2位、不超过100"
+                                <input value="$baseExecuteOrder.getPrivateRebate().multiply($std).stripTrailingZeros().toPlainString()" id="private_rebate" name="private_rebate" type="text" class="form-control isPercent" placeholder="填写非负数、小数位不超过2位、不超过100"
                                     #if($!{hasSaleAuth} == false)
                                        disabled
                                     #end
@@ -393,7 +393,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">付款比例<label class="text-danger">(%)</label></label>
                             <div class="col-sm-8 ">
-                                <input value="$baseExecuteOrder.getPayPercent().multiply($std)" id="pay_percent" name="pay_percent" type="text" class="form-control isPercent"
+                                <input value="$baseExecuteOrder.getPayPercent().multiply($std).stripTrailingZeros().toPlainString()" id="pay_percent" name="pay_percent" type="text" class="form-control isPercent"
                                     #if($!{hasFinancialAuth} == false)
                                        disabled
                                     #end
