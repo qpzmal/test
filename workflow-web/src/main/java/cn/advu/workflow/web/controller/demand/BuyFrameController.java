@@ -9,6 +9,7 @@ import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.BuyFrameService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import cn.advu.workflow.web.util.AssertUtil;
+import cn.advu.workflow.web.util.BigDecimalUtil;
 import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -111,6 +112,8 @@ public class BuyFrameController {
         resultModel.addAttribute("salePersonName", basePerson.getName());
         resultModel.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
         resultModel.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
+        resultModel.addAttribute("std", BigDecimalUtil.HUNDRED);
+
 
         return "demand/buyFrame/add";
     }
@@ -199,6 +202,8 @@ public class BuyFrameController {
         model.addAttribute("format", format);
 
         model.addAttribute("baseBuyOrder", baseBuyOrderFrame);
+        model.addAttribute("std", BigDecimalUtil.HUNDRED);
+
 
         return "demand/buyFrame/update";
     }
@@ -257,6 +262,7 @@ public class BuyFrameController {
         model.addAttribute("format", format);
 
         model.addAttribute("baseBuyOrder", baseBuyOrderFrame);
+        model.addAttribute("std", BigDecimalUtil.HUNDRED);
 
         return "demand/buyFrame/refer";
     }

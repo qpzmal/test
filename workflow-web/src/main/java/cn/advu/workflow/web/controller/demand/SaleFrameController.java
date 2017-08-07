@@ -142,6 +142,8 @@ public class SaleFrameController {
         resultModel.addAttribute("salePersonName", basePerson.getName());
         resultModel.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
         resultModel.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
+        resultModel.addAttribute("std", BigDecimalUtil.HUNDRED);
+
 
         return "demand/saleFrame/add";
     }

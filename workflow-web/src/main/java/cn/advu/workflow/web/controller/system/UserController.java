@@ -364,6 +364,11 @@ public class UserController {
 
                     // 设置当前任务信息
                     Task task = taskService.createTaskQuery().processInstanceId(obj.getProcessInstanceId()).active().singleResult();
+                    if (task == null) {
+                        LOGGER.warn("task is null, biz-id is :{}", obj.getId());
+                        obj.setWfStep(wfStep);
+                        continue;
+                    }
                     String taskDefKey = task.getTaskDefinitionKey();
                     switch (taskDefKey) {
                         case WebConstants.Audit.SALER_DM:

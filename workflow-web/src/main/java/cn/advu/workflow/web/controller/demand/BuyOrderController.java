@@ -10,6 +10,7 @@ import cn.advu.workflow.web.service.base.BuyFrameService;
 import cn.advu.workflow.web.service.base.BuyOrderService;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import cn.advu.workflow.web.util.AssertUtil;
+import cn.advu.workflow.web.util.BigDecimalUtil;
 import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -163,6 +164,7 @@ public class BuyOrderController {
         resultModel.addAttribute("salePersonName", basePerson.getName());
         resultModel.addAttribute("mediaListJson", JSONArray.toJSONString(mediaList));
         resultModel.addAttribute("adtypeListJson", JSONArray.toJSONString(adtypeList));
+        resultModel.addAttribute("std", BigDecimalUtil.HUNDRED);
 
         return "demand/buyOrder/add";
     }
@@ -223,6 +225,8 @@ public class BuyOrderController {
         model.addAttribute("format", format);
 
         model.addAttribute("baseBuyOrder", baseBuyOrder);
+        model.addAttribute("std", BigDecimalUtil.HUNDRED);
+
 
         return "demand/buyOrder/update";
     }
@@ -282,6 +286,7 @@ public class BuyOrderController {
         model.addAttribute("format", format);
 
         model.addAttribute("baseBuyOrder", baseBuyOrderFrame);
+        model.addAttribute("std", BigDecimalUtil.HUNDRED);
 
         return "demand/buyOrder/addCopy";
     }
@@ -341,6 +346,7 @@ public class BuyOrderController {
         model.addAttribute("format", format);
 
         model.addAttribute("baseBuyOrder", baseBuyOrder);
+        model.addAttribute("std", BigDecimalUtil.HUNDRED);
 
         return "demand/buyOrder/refer";
     }
