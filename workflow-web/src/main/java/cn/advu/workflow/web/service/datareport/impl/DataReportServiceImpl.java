@@ -86,6 +86,36 @@ public class DataReportServiceImpl implements DataReportService {
     }
 
     @Override
+    public List<VuDataReport> queryBuyResourceByDate(String startDate, String endDate, String type, String orderKey) {
+
+        List<VuDataReport> result = new ArrayList<>();
+        if ("1".equals(type)) {
+            result = dataReportMapper.queryBuyResourceByDateMonth(startDate, endDate, orderKey);
+
+        } else if ("2".equals(type)) {
+            result = dataReportMapper.queryBuyResourceByDateQuarter(startDate, endDate, orderKey);
+
+        } else if ("3".equals(type)) {
+            result = dataReportMapper.queryBuyResourceByDateHalfYear(startDate, endDate, orderKey);
+
+        } else if ("4".equals(type)) {
+            result = dataReportMapper.queryBuyResourceByDateWholeYear(startDate, endDate, orderKey);
+
+        } else {
+            LOGGER.warn("input parameter error:type-{}", type);
+        }
+
+        return result;
+    }
+
+
+    @Override
+    public List<VuDataReport> queryBuyResourceByArea(String startDate, String endDate, String orderKey) {
+        List<VuDataReport> result = dataReportMapper.queryBuyArea(startDate, endDate, orderKey);
+        return result;
+    }
+
+    @Override
     public List<VuDataReport> queryAreaBudgetByDate(String startDate, String endDate, String type) {
         List<VuDataReport> result = new ArrayList<>();
         if ("1".equals(type)) {
@@ -103,9 +133,24 @@ public class DataReportServiceImpl implements DataReportService {
     }
 
     @Override
-    public List<VuDataReport> queryCustomerByProfit(String startDate, String endDate) {
+    public List<VuDataReport> queryCustomerByProfit(String startDate, String endDate, String customerType, String options) {
         List<VuDataReport> result = new ArrayList<>();
-        result = dataReportMapper.queryCustomerByProfit(startDate, endDate);
+        if ("0".equals(options)) {
+            result = dataReportMapper.queryCustomerByProfitNoDate(startDate, endDate, customerType);
+
+        } else if ("1".equals(options)) {
+            result = dataReportMapper.queryCustomerByProfitDateMonth(startDate, endDate, customerType);
+
+        } else if ("2".equals(options)) {
+            result = dataReportMapper.queryCustomerByProfitDateQuarter(startDate, endDate, customerType);
+
+        } else if ("3".equals(options)) {
+            result = dataReportMapper.queryCustomerByProfitDateHalfYear(startDate, endDate, customerType);
+
+        } else if ("4".equals(options)) {
+            result = dataReportMapper.queryCustomerByProfitDateWholeYear(startDate, endDate, customerType);
+
+        }
 
         return result;
     }

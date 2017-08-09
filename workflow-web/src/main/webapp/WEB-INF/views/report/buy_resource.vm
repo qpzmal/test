@@ -1,0 +1,170 @@
+
+## css文件引入和css代码块
+
+
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+
+            ## 查询条件
+            ## 示例（查询条件）
+            <div class="ibox float-e-margins">
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active" lid="1"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 资源类别</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+                            <div class="panel-body">
+                                <form class="form-horizontal m-t">
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <input placeholder="开始日期" class="laydate-icon form-control layer-date startDate" id="startDate1">
+                                            <input placeholder="结束日期" class="laydate-icon form-control layer-date endDate" id="endDate1">
+                                        </div>
+
+                                        <div class="col-sm-4 m-b-xs text-right">
+                                            <div class="checkbox i-checks">
+                                                <div data-toggle="buttons" class="btn-group groupCondition">
+                                                    <label class="btn btn-sm btn-white active">
+                                                        <input type="radio" id="option1" name="options" value="1">月</label>
+                                                    <label class="btn btn-sm btn-white">
+                                                        <input type="radio" id="option2" name="options" value="2">季度</label>
+                                                    <label class="btn btn-sm btn-white">
+                                                        <input type="radio" id="option3" name="options" value="3">半年</label>
+                                                    <label class="btn btn-sm btn-white">
+                                                        <input type="radio" id="option4" name="options" value="4">年</label>
+                                                </div>
+                                                <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <div class="checkbox ">
+                                                查询：
+                                                <div data-toggle="buttons" class="btn-group orderCondition">
+##                                                    <label class="btn btn-sm btn-white active">
+##                                                        <input type="radio" id="orderKey1" name="orderKey" value="order_date">时间</label>
+                                                    <label class="btn btn-sm btn-white active">
+                                                        <input type="radio" id="orderKey2" name="orderKey" value="cpm_total">CPM数</label>
+                                                    <label class="btn btn-sm btn-white">
+                                                        <input type="radio" id="orderKey3" name="orderKey" value="sale_amount">[媒体单价]总价</label>
+                                                    <label class="btn btn-sm btn-white">
+                                                        <input type="radio" id="orderKey4" name="orderKey" value="buy_amount">[媒体采购成本单价]总价</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            ## 查询结果
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div id="echart-container" style="height:400px;" ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+## js文件引入和js代码块
+#define($jsblock)
+<script src="#springUrl("")/static/js/plugins/echarts/echarts-3.6.2.min.js?$!application.getAttribute('/static/js/plugins/echarts/echarts-3.6.2.min.js')" type="text/javascript" language="javascript"></script>
+<script src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" type="text/javascript" language="javascript"></script>
+<script>
+    $(function() {
+        initLaydate();
+
+        //载入图表
+        initChart();
+    })
+
+    ## 示例（开始日期、结束日期）
+    function initLaydate(){
+        var start1 = {
+            elem: "#startDate1",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+//            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: true,
+            choose: function(datas) {
+                end1.min = datas;
+                end1.start = datas }
+        };
+        var end1 = {
+            elem: "#endDate1",
+//            format: "YYYY/MM/DD hh:mm:ss",
+            format: "YYYY/MM/DD",
+//            min: laydate.now(),
+            max: "2099-06-16 23:59:59",
+//            istime: true,
+            istoday: false,
+            choose: function(datas) {
+                start1.max = datas }
+        };
+        laydate(start1);
+        laydate(end1);
+    }
+
+
+    // 基于准备好的dom，初始化echarts实例
+    var chart = echarts.init(document.getElementById('echart-container'));
+
+
+
+    //查询
+    function initChart() {
+        chart.clear();
+        chart.showLoading({text: '正在努力的读取数据中...'});
+//        var lid = $(".nav-tabs li.active").attr("lid");
+        var startDate = $(".tab-content div.active .startDate").val();
+        var endDate = $(".tab-content div.active .endDate").val();
+        var options = $(".tab-content div.active .groupCondition label.active input").val();
+        var orderKey = $(".tab-content div.active .orderCondition label.active input").val();
+
+        $.ajax({
+            url:"/report/buy/resource/query.json",
+            type:"post",
+            async: false,
+            data:{
+                startDate:startDate,
+                endDate:endDate,
+                options:options,
+                orderKey:orderKey
+            },
+            success: function(returnData){
+                chart.hideLoading();
+                if (returnData.code == '1') {
+                    chart.setOption(returnData.data, true);
+//                    chart.setOption(test, true);
+                } else {
+                    console.log("返回结果有误");
+                }
+            }
+        });
+    }
+    $(".button_view").click(function () {
+        initChart();
+    })
+
+
+</script>
+#end

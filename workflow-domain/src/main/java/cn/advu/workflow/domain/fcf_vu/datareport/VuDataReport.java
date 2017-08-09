@@ -19,6 +19,9 @@ public class VuDataReport implements IDomain {
 
 
     // ==========================以下为[资源采购分析]用属性
+    private String cpmTotal; // CPM总数
+    private String saleAmount; // [媒体单价]总价
+    private String buyAmount; // [媒体采购成本单价]总价
 
 
     // ==========================以下为[分公司财务分析]用属性
@@ -71,6 +74,30 @@ public class VuDataReport implements IDomain {
 
     public void setTaxFreeAmount(String taxFreeAmount) {
         this.taxFreeAmount = taxFreeAmount;
+    }
+
+    public String getCpmTotal() {
+        return cpmTotal;
+    }
+
+    public void setCpmTotal(String cpmTotal) {
+        this.cpmTotal = cpmTotal;
+    }
+
+    public String getSaleAmount() {
+        return saleAmount;
+    }
+
+    public void setSaleAmount(String saleAmount) {
+        this.saleAmount = saleAmount;
+    }
+
+    public String getBuyAmount() {
+        return buyAmount;
+    }
+
+    public void setBuyAmount(String buyAmount) {
+        this.buyAmount = buyAmount;
     }
 
     public String getYswc() {
@@ -129,6 +156,9 @@ public class VuDataReport implements IDomain {
                 ", orderNum='" + orderNum + '\'' +
                 ", taxAmount='" + taxAmount + '\'' +
                 ", taxFreeAmount='" + taxFreeAmount + '\'' +
+                ", cpmTotal='" + cpmTotal + '\'' +
+                ", saleAmount='" + saleAmount + '\'' +
+                ", buyAmount='" + buyAmount + '\'' +
                 ", yswc='" + yswc + '\'' +
                 ", customId='" + customId + '\'' +
                 ", customType='" + customType + '\'' +

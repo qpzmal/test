@@ -181,11 +181,11 @@ public class ReportSaleController {
 
             } else if (3 == type){ // customType
                 //设置类目
-                category.data(vuDataReport.getCustomType());
+                category.data(vuDataReport.getName());
                 //类目对应的柱状图
                 bar.data(vuDataReport.getTaxAmount());
                 //饼图数据
-                pie.data(new PieData(vuDataReport.getCustomType(), vuDataReport.getTaxAmount()));
+                pie.data(new PieData(vuDataReport.getName(), vuDataReport.getTaxAmount()));
 
             }
         }

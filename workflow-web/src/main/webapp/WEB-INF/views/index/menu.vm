@@ -67,8 +67,8 @@
                     <li>
                         <a href="#">分公司财务分析 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem J_menuItem_40100" style="display:none" functionid="40100" href="${rc.contextPath}/report/area/balance">损益分析</a>
-                            </li>
+##                            <li><a class="J_menuItem J_menuItem_40100" style="display:none" functionid="40100" href="${rc.contextPath}/report/area/balance">损益分析</a>
+##                            </li>
                             <li><a class="J_menuItem J_menuItem_40100" style="display:none" functionid="40100" href="${rc.contextPath}/report/area/budget">预算完成度分析</a>
                             </li>
                         </ul>
@@ -87,8 +87,8 @@
                         <ul class="nav nav-third-level">
                             <li><a class="J_menuItem J_menuItem_40300" style="display:none" functionid="40300" href="${rc.contextPath}/report/customer/profit">毛利/净利贡献率</a>
                             </li>
-                            <li><a class="J_menuItem J_menuItem_40300" style="display:none" functionid="40300" href="${rc.contextPath}/report/customer/pay">回款汇总</a>
-                            </li>
+##                            <li><a class="J_menuItem J_menuItem_40300" style="display:none" functionid="40300" href="${rc.contextPath}/report/customer/pay">回款汇总</a>
+##                            </li>
                         </ul>
                     </li>
                     <li>
