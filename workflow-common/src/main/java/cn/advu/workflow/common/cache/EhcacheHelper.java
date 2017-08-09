@@ -22,6 +22,7 @@ public class EhcacheHelper {
     private EhcacheHelper() {
     }
 
+
     static {
         ClassLoader standardClassloader = Thread.currentThread().getContextClassLoader();
         URL url = null;
@@ -74,6 +75,11 @@ public class EhcacheHelper {
 
     static public void removeAll(String cacheName) {
         cm.getCache(cacheName).removeAll();
+    }
+
+
+    static public void removeCache(String cacheName) {
+        cm.removeCache(cacheName);
     }
 
     static public <T> T getCacheAndSet(String cacheName, String key,

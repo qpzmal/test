@@ -56,11 +56,12 @@
 ##                                    <a href="/modeler.html?modelId=${data.id}" target="_blank">编辑</a>
                                     <a href="/modeler.html?modelId=${data.id}" class="btn btn-info btn-sm " target="_blank" ><i class="fa fa-pencil "></i> 修改 </a>
                                     <a href="/workflow/model/deploy/${data.id}" class="btn btn-danger btn-sm "><i class="fa fa-rocket "></i> 部署</a>
-                                    导出(<a href="/workflow/model/export/${data.id}/bpmn"  class="btn btn-default btn-sm " target="_blank"><i class="fa fa-download "></i>BPMN</a>
+                                    <a href="/workflow/model/export/${data.id}/bpmn"  class="btn btn-default btn-sm " target="_blank"><i class="fa fa-download "></i>BPMN</a>
+##                                    导出(<a href="/workflow/model/export/${data.id}/bpmn"  class="btn btn-default btn-sm " target="_blank"><i class="fa fa-download "></i>BPMN</a><a href="/workflow/model/export/${data.id}/bpmn"  class="btn btn-default btn-sm " target="_blank"><i class="fa fa-download "></i>BPMN</a>
 ##                                    |&nbsp;<a href="/workflow/model/export/${data.id}/json" target="_blank">JSON</a>
 ##                                    |&nbsp;<a href="javascript:;" onclick='showSvgTip()'>SVG</a>
-                                     )
-                                    <a href="/workflow/model/delete/${data.id}">删除</a>
+##                                     )
+##                                    <a href="/workflow/model/delete/${data.id}">删除</a>
                                 </td>
                             </tr>
                             #end
@@ -86,7 +87,6 @@
                             <th>#</th>
                             <th>流程名称</th>
                             <th>发布时间</th>
-                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -95,9 +95,6 @@
                                 <td>$!{deployment.id}</td>
                                 <td>$!{deployment.name}</td>
                                 <td>$!date.format('yyyy-MM-dd HH:mm:ss ',$!{deployment.deploymentTime})</td>
-                                <td>
-##                                    <a href='/workflow/process/convert-to-model/${deployment.id}'>转换为Model</a>
-                                </td>
                             </tr>
                             #end
                         </tbody>
