@@ -2,7 +2,6 @@ package cn.advu.workflow.web.controller.demand;
 
 import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
 import cn.advu.workflow.domain.fcf_vu.SalePriceAccoutVO;
-import cn.advu.workflow.repo.fcf_vu.BaseFinancialindexRepo;
 import cn.advu.workflow.web.manager.AdtypeMananger;
 import cn.advu.workflow.web.manager.FinancialindexMananger;
 import cn.advu.workflow.web.util.AssertUtil;
@@ -94,8 +93,8 @@ public class SalePriceController {
             String adtypeName = rowInputJsonObject.getString("adtypeName");
             BigDecimal saleCount = BigDecimalUtil.getBigDecimalWithDefaultZero(rowInputJsonObject.getBigDecimal("saleCount"));
 
-            BigDecimal netIncome = netIncomePrice.multiply(saleCount).setScale(2, BigDecimal.ROUND_UP);
-            BigDecimal netProfit = netIncome.multiply(netProfitRate).setScale(2, BigDecimal.ROUND_UP);
+            BigDecimal netIncome = netIncomePrice.multiply(saleCount).setScale(2, BigDecimal.ROUND_HALF_UP);
+            BigDecimal netProfit = netIncome.multiply(netProfitRate).setScale(2, BigDecimal.ROUND_HALF_UP);
             rowInputJsonObject.put("netIncome", netIncome);
             rowInputJsonObject.put("netProfit", netProfit);
 
@@ -112,9 +111,9 @@ public class SalePriceController {
             sum.put("saleCount", saleCountSum);
             sum.put("netIncome", netIncomeSum);
             sum.put("netProfit", netProfitSum);
-            sum.put("netIncomePrice", netIncomePriceSum.divide(new BigDecimal(inputParamList.size()), 2, BigDecimal.ROUND_UP));
+            sum.put("netIncomePrice", netIncomePriceSum.divide(new BigDecimal(inputParamList.size()), 2, BigDecimal.ROUND_HALF_UP));
             if(netIncomeSum.compareTo(BigDecimal.ZERO) != 0) {
-                sum.put("netProfitRate", netProfitSum.divide(netIncomeSum, 2, BigDecimal.ROUND_UP));
+                sum.put("netProfitRate", netProfitSum.divide(netIncomeSum, 2, BigDecimal.ROUND_HALF_UP));
             } else {
                 sum.put("netProfitRate", BigDecimal.ZERO);
             }
@@ -133,54 +132,56 @@ public class SalePriceController {
     @RequestMapping("/accoutInfo")
     public String accoutInfo(SalePriceAccoutVO salePriceAccoutVO, Model resultModel){
 
-        BigDecimal mediaPrice = salePriceAccoutVO.getMediaPrice();
-        BigDecimal publicRebate = BigDecimalUtil.getBigDecimalWithDefaultZero(salePriceAccoutVO.getPublicRebate());
-        BigDecimal purchase = BigDecimalUtil.getBigDecimalWithDefaultZero(salePriceAccoutVO.getPurchase());
-        BigDecimal salesIncentiveRate = BigDecimalUtil.getBigDecimalWithDefaultZero(salePriceAccoutVO.getSalesIncentiveRate());
+        BigDecimal mediaPrice = salePriceAccoutVO.getMediaPrice(); // 媒体单价
+        BigDecimal publicRebate = BigDecimalUtil.getBigDecimalWithDefaultZero(salePriceAccoutVO.getPublicRebate()); // 对公返点(%)
+        BigDecimal purchase = BigDecimalUtil.getBigDecimalWithDefaultZero(salePriceAccoutVO.getPurchase()); // 采购成本
+        BigDecimal salesIncentiveRate = BigDecimalUtil.getBigDecimalWithDefaultZero(salePriceAccoutVO.getSalesIncentiveRate()); //销售激励比例(%)
         AssertUtil.assertNotNull(mediaPrice);
         AssertUtil.assertNotNull(purchase);
 
         // 净收入＝（1-对公返点）＊媒体单价／1.06
-        BigDecimal netIncome = BigDecimal.ONE.subtract(publicRebate).multiply(mediaPrice).divide(financialindexMananger.getMarkUpRate(), 2, BigDecimal.ROUND_UP);
+        BigDecimal netIncome = BigDecimal.ONE.subtract(publicRebate).multiply(mediaPrice).divide(financialindexMananger.getMarkUpRate(), 2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal netIncome6decimal = BigDecimal.ONE.subtract(publicRebate).multiply(mediaPrice).divide(financialindexMananger.getMarkUpRate(), 6, BigDecimal.ROUND_HALF_UP);
         // 主营业务税金及附加＝（净收入－媒体采购成本）＊0.06*0.12
-        BigDecimal bizTax = netIncome.subtract(purchase).multiply(financialindexMananger.getValueAddedTax()).multiply(financialindexMananger.getAttachTax()).setScale(2, BigDecimal.ROUND_UP);
+        BigDecimal bizTax = netIncome.subtract(purchase).multiply(financialindexMananger.getValueAddedTax()).multiply(financialindexMananger.getAttachTax()).setScale(2, BigDecimal.ROUND_HALF_UP);
         // 文化建设税金＝（净收入－媒体采购成本）＊1.06*0.03
-        BigDecimal cultureRate = netIncome.subtract(purchase).multiply(financialindexMananger.getMarkUpRate()).multiply(financialindexMananger.getCultureTax()).setScale(2, BigDecimal.ROUND_UP);
+        BigDecimal cultureRate = netIncome.subtract(purchase).multiply(financialindexMananger.getMarkUpRate()).multiply(financialindexMananger.getCultureTax()).setScale(2, BigDecimal.ROUND_HALF_UP);
         // 税金总计＝主营业务税金及附加＋文化建设税金
         BigDecimal totalTax = bizTax.add(cultureRate);
         // 毛利＝净收入－媒体采购成本－税金总计
         BigDecimal grossProfit = netIncome.subtract(purchase).subtract(totalTax);
         // 毛利率＝毛利／净收入
-        BigDecimal grossProfitRate = grossProfit.divide(netIncome, 2, BigDecimal.ROUND_UP);
+        BigDecimal grossProfitRate = grossProfit.divide(netIncome, 2, BigDecimal.ROUND_HALF_UP);
         // 销售提成比例＝0.035
         BigDecimal salesCommissionsRate = financialindexMananger.getSaleRate();
         // 销售提成金额＝媒体单价＊销售提成比例
         BigDecimal salesCommissions = mediaPrice.multiply(salesCommissionsRate);
-        salesCommissions.setScale(2, BigDecimal.ROUND_UP);
+        salesCommissions.setScale(2, BigDecimal.ROUND_HALF_UP);
 
         // 工资房租分摊比例＝0.115
         BigDecimal salaryRentRate = financialindexMananger.getOfferRate();
 
         // 工资房租分摊额＝媒体单价＊工资房租分摊比例
         BigDecimal salaryRent =mediaPrice.multiply(salaryRentRate);
-        salaryRent.setScale(2, BigDecimal.ROUND_UP);
+        salaryRent.setScale(2, BigDecimal.ROUND_HALF_UP);
 
         // 销售激励金额＝媒体单价＊销售激励比例
         BigDecimal salesIncentive = mediaPrice.multiply(salesIncentiveRate);
-        salesIncentive.setScale(2, BigDecimal.ROUND_UP);
+        salesIncentive.setScale(2, BigDecimal.ROUND_HALF_UP);
         // 税前净利＝毛利－销售提成金额－工资房租分摊额－销售激励金额
         BigDecimal preTaxNetProfit = grossProfit.subtract(salesCommissions).subtract(salaryRent).subtract(salesIncentive);
 
         // 所得税率＝0.15
         BigDecimal incomeTaxRate = financialindexMananger.getIncomeTax();
         // 所得税＝税前净利＊所得税率
-        BigDecimal incomeTax = preTaxNetProfit.multiply(incomeTaxRate).setScale(2, BigDecimal.ROUND_UP);
+        BigDecimal incomeTax = preTaxNetProfit.multiply(incomeTaxRate).setScale(2, BigDecimal.ROUND_HALF_UP);
 
         // 税后净利＝税前净利－所得税
         BigDecimal afterTaxNetProfit = preTaxNetProfit.subtract(incomeTax);
 
         // 净利润率＝税后净利／净收入
-        BigDecimal netProfitRate = afterTaxNetProfit.divide(netIncome, 2, BigDecimal.ROUND_UP);
+        BigDecimal netProfitRate = afterTaxNetProfit.divide(netIncome, 2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal netProfitRate6decimal = afterTaxNetProfit.divide(netIncome, 6, BigDecimal.ROUND_HALF_UP);
 
 
         resultModel.addAttribute("mediaPrice", mediaPrice);
@@ -189,6 +190,7 @@ public class SalePriceController {
         resultModel.addAttribute("salesIncentiveRate", salesIncentiveRate);
 
         resultModel.addAttribute("netIncome", netIncome);
+        resultModel.addAttribute("netIncome6decimal", netIncome6decimal);
         resultModel.addAttribute("bizTax", bizTax);
         resultModel.addAttribute("cultureRate", cultureRate);
         resultModel.addAttribute("totalTax", totalTax);
@@ -206,6 +208,7 @@ public class SalePriceController {
         resultModel.addAttribute("incomeTax", incomeTax);
         resultModel.addAttribute("afterTaxNetProfit", afterTaxNetProfit);
         resultModel.addAttribute("netProfitRate", netProfitRate);
+        resultModel.addAttribute("netProfitRate6decimal", netProfitRate6decimal);
         BigDecimal std = new BigDecimal("100");
         resultModel.addAttribute("std", std);
 

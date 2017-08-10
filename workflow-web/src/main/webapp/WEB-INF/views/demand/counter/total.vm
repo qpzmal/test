@@ -19,7 +19,7 @@
             <label  name="net_income_total" class=" net_income_total">$!{data.netIncome}</label>
         </td>
         <td style="width:80px;">
-            <label name="net_profit_rate_total" class=" net_profit_rate_total">$data.get('netProfitRate').multiply($std).stripTrailingZeros().toPlainString()</label><label>%</label>
+            <label name="net_profit_rate_total" class=" net_profit_rate_total">$data.get('netProfitRate').multiply($std)</label><label>%</label>
         </td>
         <td style="width:80px;">
             <label  name="net_profit_total" class=" net_profit_total">$!{data.netProfit}</label>

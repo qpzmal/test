@@ -23,6 +23,7 @@
     <td>净收入</td>
     <td >
         <input value="$!{netIncome}"  id="net_income" name="net_income" class="form-control" disabled>
+        <input type="hidden" value="$!{netIncome6decimal}" id="net_income_6decimal" name="net_income_6decimal">
     </td>
     <td>主营业务税金及附加</td>
     <td >
@@ -48,7 +49,7 @@
     </td>
     <td>销售提成比例(%)</td>
     <td >
-        <input value="$!{salesCommissionsRate}"  id="sales_commissions_rate" name="sales_commissions_rate" class="form-control" disabled>
+        <input value="$!salesCommissionsRate.multiply($std).stripTrailingZeros().toPlainString()"  id="sales_commissions_rate" name="sales_commissions_rate" class="form-control" disabled>
     </td>
     <td>销售提成金额</td>
     <td >
@@ -70,7 +71,7 @@
     </td>
     <td>税前净利</td>
     <td >
-        <input value="$preTaxNetProfit.multiply($std).stripTrailingZeros().toPlainString()"  id="pre_tax_net_profit" name="pre_tax_net_profit" class="form-control" disabled>
+        <input value="$preTaxNetProfit"  id="pre_tax_net_profit" name="pre_tax_net_profit" class="form-control" disabled>
     </td>
 </tr>
 <tr>
@@ -89,5 +90,6 @@
     <td>净利润率(%)</td>
     <td >
         <input value="$netProfitRate.multiply($std).stripTrailingZeros().toPlainString()"  id="net_profit_rate" name="net_profit_rate" class="form-control" disabled>
+        <input type="hidden" value="$!{netProfitRate6decimal}" id="net_profit_rate_6decimal" name="net_profit_rate_6decimal">
     </td>
 </tr>

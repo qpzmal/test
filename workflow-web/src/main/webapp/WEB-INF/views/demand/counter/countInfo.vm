@@ -1,97 +1,97 @@
-#set($layout = '/layout/empty.vm')
-<div class="form-group">
-    <label class="col-sm-3 control-label">净收入</label>
-    <div class="col-sm-8">
-        <input value="$!{netIncome}" id="net_income" name="net_income" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">主营业务税金及附加</label>
-    <div class="col-sm-8">
-        <input value="$!{bizTax}" id="biz_tax" name="biz_tax" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">文化建设税</label>
-    <div class="col-sm-8">
-        <input value="$!{cultureRate}" id="culture_rate" name="culture_rate" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">税金合计</label>
-    <div class="col-sm-8">
-        <input value="$!{totalTax}" id="total_rate" name="total_rate" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">毛利</label>
-    <div class="col-sm-8">
-        <input value="$!{grossProfit}" id="gross_profit" name="gross_profit" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">毛利率(百分比)</label>
-    <div class="col-sm-8">
-        <input value="$!grossProfitRate.multiply($std).stripTrailingZeros().toPlainString()" id="gross_profit_rate" name="gross_profit_rate" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">销售提成比例(百分比)</label>
-    <div class="col-sm-8">
-        <input value="$!salesCommissionsRate.multiply($std).stripTrailingZeros().toPlainString()" id="sales_commissions_rate" name="sales_commissions_rate" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">销售提成金额</label>
-    <div class="col-sm-8">
-        <input  value="$!{salesCommissions}" id="sales_commissions" name="sales_commissions" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">工资房租分摊比例(百分比)</label>
-    <div class="col-sm-8">
-        <input value="$!salaryRentRate.multiply($std).stripTrailingZeros().toPlainString()" id="salary_rent_rate" name="salary_rent_rate" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">工资房租分摊额</label>
-    <div class="col-sm-8">
-        <input value="$!{salaryRent}" id="salary_rent" name="salary_rent" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">销售激励金额</label>
-    <div class="col-sm-8">
-        <input value="$!{salesIncentive}" id="sales_incentive" name="sales_incentive" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">税前净利</label>
-    <div class="col-sm-8">
-        <input value="$!{preTaxNetProfit}" id="pre_tax_net_profit" name="pre_tax_net_profit" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">所得税率(百分比)</label>
-    <div class="col-sm-8">
-        <input value="$!incomeTaxRate.multiply($std).stripTrailingZeros().toPlainString()" id="income_tax_rate" name="income_tax_rate" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">所得税</label>
-    <div class="col-sm-8">
-        <input value="$!{incomeTax}" id="income_tax" name="income_tax" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">税后净利</label>
-    <div class="col-sm-8">
-        <input value="$!{afterTaxNetProfit}" id="after_tax_net_profit" name="after_tax_net_profit" class="form-control" disabled>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">净利润率(百分比)</label>
-    <div class="col-sm-8">
-        <input value="$!netProfitRate.multiply($std).stripTrailingZeros().toPlainString()" id="net_profit_rate" name="net_profit_rate" class="form-control" disabled>
-    </div>
-</div>
+###set($layout = '/layout/empty.vm')
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">净收入</label>
+##    <div class="col-sm-8">
+##        <input value="$!{netIncome}" id="net_income" name="net_income" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">主营业务税金及附加</label>
+##    <div class="col-sm-8">
+##        <input value="$!{bizTax}" id="biz_tax" name="biz_tax" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">文化建设税</label>
+##    <div class="col-sm-8">
+##        <input value="$!{cultureRate}" id="culture_rate" name="culture_rate" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">税金合计</label>
+##    <div class="col-sm-8">
+##        <input value="$!{totalTax}" id="total_rate" name="total_rate" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">毛利</label>
+##    <div class="col-sm-8">
+##        <input value="$!{grossProfit}" id="gross_profit" name="gross_profit" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">毛利率(百分比)</label>
+##    <div class="col-sm-8">
+##        <input value="$!grossProfitRate.multiply($std).stripTrailingZeros().toPlainString()" id="gross_profit_rate" name="gross_profit_rate" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">销售提成比例(百分比)</label>
+##    <div class="col-sm-8">
+##        <input value="$!salesCommissionsRate.multiply($std).stripTrailingZeros().toPlainString()" id="sales_commissions_rate" name="sales_commissions_rate" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">销售提成金额</label>
+##    <div class="col-sm-8">
+##        <input  value="$!{salesCommissions}" id="sales_commissions" name="sales_commissions" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">工资房租分摊比例(百分比)</label>
+##    <div class="col-sm-8">
+##        <input value="$!salaryRentRate.multiply($std).stripTrailingZeros().toPlainString()" id="salary_rent_rate" name="salary_rent_rate" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">工资房租分摊额</label>
+##    <div class="col-sm-8">
+##        <input value="$!{salaryRent}" id="salary_rent" name="salary_rent" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">销售激励金额</label>
+##    <div class="col-sm-8">
+##        <input value="$!{salesIncentive}" id="sales_incentive" name="sales_incentive" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">税前净利</label>
+##    <div class="col-sm-8">
+##        <input value="$!{preTaxNetProfit}" id="pre_tax_net_profit" name="pre_tax_net_profit" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">所得税率(百分比)</label>
+##    <div class="col-sm-8">
+##        <input value="$!incomeTaxRate.multiply($std).stripTrailingZeros().toPlainString()" id="income_tax_rate" name="income_tax_rate" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">所得税</label>
+##    <div class="col-sm-8">
+##        <input value="$!{incomeTax}" id="income_tax" name="income_tax" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">税后净利</label>
+##    <div class="col-sm-8">
+##        <input value="$!{afterTaxNetProfit}" id="after_tax_net_profit" name="after_tax_net_profit" class="form-control" disabled>
+##    </div>
+##</div>
+##<div class="form-group">
+##    <label class="col-sm-3 control-label">净利润率(百分比)</label>
+##    <div class="col-sm-8">
+##        <input value="$!netProfitRate.multiply($std).stripTrailingZeros().toPlainString()" id="net_profit_rate" name="net_profit_rate" class="form-control" disabled>
+##    </div>
+##</div>
