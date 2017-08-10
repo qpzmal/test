@@ -54,6 +54,7 @@
 	3.短信和邮件的功能放开；
 	4.设置LOGO入口；
 	5.需求单再做一个可以填写发票、合同之类的入口
+	6.排期单审核时，有必填校验
 1. 报表
     1. 销售报表分析系统--2）未来订单--b）无排期
     1. 资源采购分析系统（全部）
@@ -144,29 +145,31 @@
 1. 更新layer版本，由2.0升级到3.0.3版本
 
 ####项目中部分守则
-1. 每个表有以下字段，字段为NOT NULL 并设置默认值
->     `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
->     `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记 ，0正常，1删除',
->     `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',
->     `creator_id` int(11) unsigned NOT NULL COMMENT '创建者ID',
->     `updater_id` int(11) unsigned NOT NULL COMMENT '更新者ID',
->     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
->     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
->     `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+2. 每个表有以下字段，字段为NOT NULL 并设置默认值
+    >     `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+    >     `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记 ，0正常，1删除',
+    >     `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',
+    >     `creator_id` int(11) unsigned NOT NULL COMMENT '创建者ID',
+    >     `updater_id` int(11) unsigned NOT NULL COMMENT '更新者ID',
+    >     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    >     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    >     `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
 
-2. 按钮颜色以及对应图案
->       <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>
->       <a href="javascript:;" class="btn btn-danger btn-sm button_view_pd"><i class="fa fa-trash "></i> 删除 </a>
-* 新增 btn-primary --> fa-plus
-* 修改 btn-info --> fa-pencil
-* 删除 btn-danger --> fa-trash
-* 搜索 btn-info --> fa-search
-* 查看 btn-default --> fa-photo 或 fa-search
-* 返回 btn-default --> fa-reply
+1. 按钮颜色以及对应图案
+    >       <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>
+    >       <a href="javascript:;" class="btn btn-danger btn-sm button_view_pd"><i class="fa fa-trash "></i> 删除 </a>
+    * 新增 btn-primary --> fa-plus
+    * 修改 btn-info --> fa-pencil
+    * 删除 btn-danger --> fa-trash
+    * 搜索 btn-info --> fa-search
+    * 查看 btn-default --> fa-photo 或 fa-search
+    * 返回 btn-default --> fa-reply
 
-3. 示例部分代码有如下注释
-* （示例：XXXX）
+1. 示例部分代码有如下注释
+    * （示例：XXXX）
 
+1. 特殊颜色文字：
+    1. 必须输入项目：<label class="text-danger">(*)</label>
 
 ####短信模版
 1. 您有由%s发起的%s申请带待处理，请及时处理。
