@@ -9,7 +9,7 @@
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
         <div class="form-group">
-            <label class="col-sm-3 control-label">所属公司</label>
+            <label class="col-sm-3 control-label">所属公司<label class="text-danger">(*)</label></label>
             <div id="parent_content"  class="col-sm-8">
                 <input id="parent_id" hidden value="$!{areaId}">
                 <input value="$!{areaName}" id="parent_name" name="parent_name" type="text" class="form-control"
@@ -20,13 +20,13 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">名称</label>
+            <label class="col-sm-3 control-label">名称<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="area_finance_name" name="area_finance_name" maxlength="60" type="text" class="form-control" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">财务结算日期</label>
+            <label class="col-sm-3 control-label">财务结算日期<label class="text-danger">(*)</label></label>
             <div class="col-sm-9">
                 <input id="start_date" placeholder="开始日期" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" required="" aria-required="true">
                 <label class="control-label">-</label>
@@ -34,67 +34,67 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">财务预算</label>
+            <label class="col-sm-3 control-label">财务预算<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="pay1" name="pay1" type="text" class="form-control isMoney" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">房租成本</label>
+            <label class="col-sm-3 control-label">房租成本<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="room_pay" name="room_pay" type="text" class="form-control isMoney" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">人员成本</label>
+            <label class="col-sm-3 control-label">人员成本<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="person_pay" name="person_pay" type="text" class="form-control isMoney" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">其他综合分摊费用</label>
+            <label class="col-sm-3 control-label">其他综合分摊费用<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="other_pay" name="other_pay" type="text" class="form-control isMoney" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">成本</label>
+            <label class="col-sm-3 control-label">成本<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="cost_buy" name="cost_buy" type="text" class="form-control isMoney" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">净收入（订单额减去返点）</label>
+            <label class="col-sm-3 control-label">净收入（订单额减去返点）<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="income" name="income" type="text" class="form-control isMoney" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">税费</label>
+            <label class="col-sm-3 control-label">税费<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="tax" name="tax" type="text" class="form-control isMoney" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">销售提成</label>
+            <label class="col-sm-3 control-label">销售提成<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="sales_commission" name="sales_commission" type="text" class="form-control isMoney" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">备用字段2</label>
+            <label class="col-sm-3 control-label">备用字段2<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="pay2" name="pay2" type="text" class="form-control isMoney" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">备用字段3</label>
+            <label class="col-sm-3 control-label">备用字段3<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="pay3" name="pay3" type="text" class="form-control isMoney" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">备注</label>
+            <label class="col-sm-3 control-label">备注<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="remark" name="remark" maxlength="255" type="text" class="form-control">
             </div>

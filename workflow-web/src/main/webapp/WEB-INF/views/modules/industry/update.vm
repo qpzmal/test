@@ -7,7 +7,7 @@
     <form class="form-horizontal m-t" id="commentForm">
         <input type="hidden" id="id" name="id" value="$baseIndustry.id">
         <div class="form-group">
-            <label class="col-sm-3 control-label">名称</label>
+            <label class="col-sm-3 control-label">名称<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input value="$!{baseIndustry.name}" id="industry_name" name="industry_name" maxlength="255" type="text" class="form-control" required="" aria-required="true">
             </div>

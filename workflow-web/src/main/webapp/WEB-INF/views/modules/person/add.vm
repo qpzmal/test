@@ -11,7 +11,7 @@
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
         <div class="form-group">
-            <label class="col-sm-3 control-label">所属公司</label>
+            <label class="col-sm-3 control-label">所属公司<label class="text-danger">(*)</label></label>
             <div id="area_content" class="col-sm-9">
                 <input id="area_id" hidden value="$!{areaId}">
                 <input value="$!{areaName}" id="area_name" name="area_name" type="text" class="form-control"
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">名称</label>
+            <label class="col-sm-3 control-label">名称<label class="text-danger">(*)</label></label>
             <div class="col-sm-8">
                 <input id="p_name" name="p_name" maxlength="10" type="text" class="form-control" required aria-required="true" >
             </div>
