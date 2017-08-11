@@ -6,6 +6,7 @@
     <result column="number" jdbcType="VARCHAR" property="number" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="is_system" jdbcType="TINYINT" property="isSystem" />
     <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
     <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
@@ -15,7 +16,7 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, number, name, value, del_flag, item_status, creator_id, updater_id, create_time, 
+    id, number, name, value, is_system, del_flag, item_status, creator_id, updater_id, create_time,
     update_time, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -30,11 +31,11 @@
   </delete>
   <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BaseFinancialindex"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
     insert into base_financialindex (id, number, name, 
-      value, del_flag, item_status, 
+      value, is_system, del_flag, item_status,
       creator_id, updater_id, create_time, 
       update_time, remark)
     values (#{id,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{value,jdbcType=VARCHAR}, #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT},
+      #{value,jdbcType=VARCHAR}, #{isSystem,jdbcType=TINYINT}, #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT},
       #{creatorId,jdbcType=INTEGER}, #{updaterId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
   </insert>
@@ -53,6 +54,9 @@
       <if test="value != null">
         value,
       </if>
+      <!--<if test="isSystem != null">-->
+        <!--is_system,-->
+      <!--</if>-->
       <if test="delFlag != null">
         del_flag,
       </if>
@@ -88,6 +92,9 @@
       <if test="value != null">
         #{value,jdbcType=VARCHAR},
       </if>
+      <!--<if test="isSystem != null">-->
+        <!--#{isSystem,jdbcType=TINYINT},-->
+      <!--</if>-->
       <if test="delFlag != null">
         #{delFlag,jdbcType=TINYINT},
       </if>
@@ -123,6 +130,9 @@
       <if test="value != null">
         value = #{value,jdbcType=VARCHAR},
       </if>
+      <if test="isSystem != null">
+        is_system = #{isSystem,jdbcType=TINYINT},
+      </if>
       <if test="delFlag != null">
         del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
@@ -152,6 +162,7 @@
     set number = #{number,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       value = #{value,jdbcType=VARCHAR},
+      is_system = #{isSystem,jdbcType=TINYINT},
       del_flag = #{delFlag,jdbcType=TINYINT},
       item_status = #{itemStatus,jdbcType=TINYINT},
       creator_id = #{creatorId,jdbcType=INTEGER},

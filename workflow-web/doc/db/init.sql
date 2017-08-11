@@ -1,12 +1,12 @@
 INSERT INTO `sequence` (`name`, `current_value`, `increment`, `dates`) VALUES ('orderNum', 1, 1, 2017);
 
-INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C001', '加税率', '1.06', 0, 0, 0, 0, '备注');
-INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C002', '增值税税率', '0.06', 0, 0, 0, 0, '备注');
-INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C003', '附加税税率', '0.12', 0, 0, 0, 0, '备注');
-INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C004', '文化事业建设税的税率', '0.03', 0, 0, 0, 0, '备注');
-INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C005', '销售提成比例（%）', '0.035', 0, 0, 0, 0, '备注');
-INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C006', '工资房租分摊比例', '0.115', 0, 0, 0, 0, '备注');
-INSERT INTO `base_financialindex` (`number`, `name`, `value`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C007', '所得税率', '0.15', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `is_system`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C001', '加税率', '1.06', b'1', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `is_system`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C002', '增值税税率', '0.06', b'1', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `is_system`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C003', '附加税税率', '0.12', b'1', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `is_system`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C004', '文化事业建设税的税率', '0.03', b'1', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `is_system`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C005', '销售提成比例（%）', '0.035', b'1', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `is_system`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C006', '工资房租分摊比例', '0.115', b'1', 0, 0, 0, 0, '备注');
+INSERT INTO `base_financialindex` (`number`, `name`, `value`, `is_system`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C007', '所得税率', '0.15', b'1', 0, 0, 0, 0, '备注');
 
 -- 资源表
 INSERT INTO `sys_resource` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_type`)

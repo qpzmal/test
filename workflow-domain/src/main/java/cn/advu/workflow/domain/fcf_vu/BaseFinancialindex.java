@@ -11,6 +11,8 @@ public class BaseFinancialindex extends AbstractEntity {
 
     private String value;
 
+    private Boolean isSystem;
+
     public String getNumber() {
         return number;
     }
@@ -33,5 +35,13 @@ public class BaseFinancialindex extends AbstractEntity {
 
     public void setValue(String value) {
         this.value = value == null ? null : value.trim();
+    }
+
+    public Boolean getIsSystem() {
+        return isSystem;
+    }
+
+    public void setIsSystem(Boolean isSystem) {
+        this.isSystem = isSystem;
     }
 }

@@ -5,6 +5,10 @@
 -- 2.20170628 燕燕修改
 -- 1.20170620 兆华建立
 
+-- 20170811 weiqz
+ALTER TABLE `base_financialindex`
+	CHANGE COLUMN `is_system` `is_system` BIT NOT NULL DEFAULT b'0' COMMENT '是否系统内置，0非系统内置，1系统内置' AFTER `value`;
+
 
 -- 20170731 weiqz
 ALTER TABLE `base_execute_order`

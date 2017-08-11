@@ -3,7 +3,7 @@
 #end
 
 <div class="wrapper wrapper-content animated fadeInRight">
-##    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
+    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
