@@ -6,11 +6,9 @@ import cn.advu.workflow.common.constant.GlobalConstant;
 import cn.advu.workflow.common.utils.md5.StrMD5;
 import cn.advu.workflow.dao.fcf_vu.SysFuctionMapper;
 import cn.advu.workflow.dao.fcf_vu.SysUserMapper;
-import cn.advu.workflow.domain.fcf_vu.SysFuction;
 import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.exception.LoginException;
-import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.constants.cache.EhcacheConstants;
 import cn.advu.workflow.web.service.system.LoginService;
@@ -116,17 +114,17 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public void queryUserFunction(LoginAccount account) throws LoginException {
-        final String userid = account.getUser().getUserId();
+    public void queryUserFunction(LoginUser loginUser) throws LoginException {
+        final String userid = loginUser.getUserId();
 
-        List<SysFuction> userFunList = EhcacheHelper.getCacheAndSet(EhcacheConstants.USER_FUNCTION, userid, new CacheCaller<List<SysFuction>>() {
+        List<String> userFunList = EhcacheHelper.getCacheAndSet(EhcacheConstants.USER_FUNCTION, userid, new CacheCaller<List<String>>() {
             @Override
-            public  List<SysFuction> getData() {
+            public  List<String> getData() {
                 return sysFuctionMapper.queryFunctionByUserId(userid);
             }
         });
         LOGGER.info("用户id:{},的菜单件数:{}", userid, userFunList.size());
-        account.setUserFunction(userFunList);
+        loginUser.setUserFunction(userFunList);
     }
 
 }

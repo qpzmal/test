@@ -595,7 +595,7 @@ CREATE TABLE IF NOT EXISTS `sys_fuction` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `resource_id` int(11) DEFAULT '0' COMMENT '资源ID',
-  `operate_type_id` int(11) DEFAULT '0' COMMENT '操作类型ID',
+  `operate_type_id` TINYINT UNSIGNED NULL DEFAULT '0' COMMENT '操作类型ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='功能列表';
 

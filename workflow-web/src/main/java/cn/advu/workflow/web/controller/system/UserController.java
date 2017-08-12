@@ -4,7 +4,6 @@ import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.domain.golbal.Page;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
-import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.dto.system.UserRole;
@@ -68,12 +67,10 @@ public class UserController {
 //
 //        LoginUser loginUser = LoginTools.parseLoginUser(loginCookie);
 
-        LoginAccount account = new LoginAccount();
         LoginUser loginUser = UserThreadLocalContext.getCurrentUser();
         if(loginUser != null ){
-            account.setUser(loginUser);
             // 获取用户菜单信息
-            loginService.queryUserFunction(account);
+            loginService.queryUserFunction(loginUser);
         } else {
             LOGGER.warn("loginuser is null.");
         }
@@ -84,10 +81,9 @@ public class UserController {
         menu.setReportInfo(new ArrayList<String>());
         menu.setBaseInfo(new ArrayList<String>());
         menu.setSystemInfo(new ArrayList<String>());
-        for (SysFuction sysfunction : account.getUserFunction()) {
-            String strId = sysfunction.getId()  + "";
-            strId = strId.substring(0, strId.length() - 1) + "0"; // 将ID末位变为0
-            LOGGER.debug("sysfunction-id:{},strId:{}", sysfunction.getId(), strId);
+        for (String functionId : loginUser.getUserFunction()) {
+            String strId = functionId.substring(0, functionId.length() - 1) + "0"; // 将ID末位变为0
+            LOGGER.debug("sysfunction-id:{},strId:{}", functionId, strId);
             String firstChar = strId.substring(0,1);
 
             switch (firstChar) {

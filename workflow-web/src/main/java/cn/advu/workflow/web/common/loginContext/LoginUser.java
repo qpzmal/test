@@ -1,6 +1,7 @@
 package cn.advu.workflow.web.common.loginContext;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by kai on 15/8/5.
@@ -17,6 +18,8 @@ public class LoginUser implements Serializable {
     private Long departId;
 
     private Integer leader;
+
+    private List<String> userFunction;
 
     public String getUserId() {
         return userId;
@@ -64,6 +67,14 @@ public class LoginUser implements Serializable {
 
     public void setLeader(Integer leader) {
         this.leader = leader;
+    }
+
+    public List<String> getUserFunction() {
+        return userFunction;
+    }
+
+    public void setUserFunction(List<String> userFunction) {
+        this.userFunction = userFunction;
     }
 
     @Override

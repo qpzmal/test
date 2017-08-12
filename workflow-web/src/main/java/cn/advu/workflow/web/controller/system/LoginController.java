@@ -4,7 +4,6 @@ import cn.advu.workflow.common.constant.Constants;
 import cn.advu.workflow.common.golbal.AjaxJson;
 import cn.advu.workflow.web.common.RequestUtil;
 import cn.advu.workflow.web.common.exception.LoginException;
-import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginTools;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
@@ -99,7 +98,6 @@ public class LoginController {
             HttpServletRequest request, HttpServletResponse response) {
 
         AjaxJson ajaxJson = new AjaxJson();
-        LoginAccount account = new LoginAccount();
         try {
             LOGGER.info("name:{}, pw:{}", uname, passwd);
 
@@ -107,9 +105,8 @@ public class LoginController {
             LoginUser loginUser = loginService.login(uname, passwd, vcode, request);
 
             if(loginUser != null ){
-                account.setUser(loginUser);
                 // 获取用户菜单信息
-                loginService.queryUserFunction(account);
+                loginService.queryUserFunction(loginUser);
             } else {
                 LOGGER.warn("loginuser is null. loginname is :{}, pw:{}", uname, passwd);
             }

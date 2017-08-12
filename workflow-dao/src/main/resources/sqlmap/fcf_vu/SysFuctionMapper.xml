@@ -10,7 +10,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="resource_id" jdbcType="INTEGER" property="resourceId" />
-    <result column="operate_type_id" jdbcType="INTEGER" property="operateTypeId" />
+    <result column="operate_type_id" jdbcType="TINYINT" property="operateTypeId" />
   </resultMap>
   <sql id="Base_Column_List">
     id, name, item_status, creator_id, updater_id, create_time, update_time, resource_id, 
@@ -33,7 +33,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{itemStatus,jdbcType=TINYINT},
       #{creatorId,jdbcType=INTEGER}, #{updaterId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{resourceId,jdbcType=INTEGER}, #{operateTypeId,jdbcType=INTEGER}
+      #{updateTime,jdbcType=TIMESTAMP}, #{resourceId,jdbcType=INTEGER}, #{operateTypeId,jdbcType=TINYINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.advu.workflow.domain.fcf_vu.SysFuction"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
@@ -93,7 +93,7 @@
         #{resourceId,jdbcType=INTEGER},
       </if>
       <if test="operateTypeId != null">
-        #{operateTypeId,jdbcType=INTEGER},
+        #{operateTypeId,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -122,7 +122,7 @@
         resource_id = #{resourceId,jdbcType=INTEGER},
       </if>
       <if test="operateTypeId != null">
-        operate_type_id = #{operateTypeId,jdbcType=INTEGER},
+        operate_type_id = #{operateTypeId,jdbcType=TINYINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -136,7 +136,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       resource_id = #{resourceId,jdbcType=INTEGER},
-      operate_type_id = #{operateTypeId,jdbcType=INTEGER}
+      operate_type_id = #{operateTypeId,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -145,7 +145,7 @@
 
 
   <!-- 以上为自动生成SQL，以下为自定义SQL -->
-  <select id="queryFunctionByUserId" resultMap="BaseResultMap">
+  <select id="queryFunctionByUserId" resultType="String">
     select distinct function_id AS id from (
     select distinct rf.function_id from sys_user suser
     left join sys_user_role ur on suser.id = ur.admins

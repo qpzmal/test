@@ -1,7 +1,6 @@
 package cn.advu.workflow.web.service.system;
 
 import cn.advu.workflow.web.common.exception.LoginException;
-import cn.advu.workflow.web.common.loginContext.LoginAccount;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +32,10 @@ public interface LoginService {
 
     /**
      * 获取用户资源信息
-     * @param account
+     * @param loginUser
      * @return
      * @throws LoginException
      */
-    void queryUserFunction(LoginAccount account) throws LoginException;
+    void queryUserFunction(LoginUser loginUser) throws LoginException;
 
 }

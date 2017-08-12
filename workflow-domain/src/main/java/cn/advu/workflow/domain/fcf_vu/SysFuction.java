@@ -8,7 +8,7 @@ public class SysFuction extends AbstractEntity {
 
     private Integer resourceId;
 
-    private Integer operateTypeId;
+    private String operateTypeId;
 
     public String getName() {
         return name;
@@ -26,11 +26,11 @@ public class SysFuction extends AbstractEntity {
         this.resourceId = resourceId;
     }
 
-    public Integer getOperateTypeId() {
+    public String getOperateTypeId() {
         return operateTypeId;
     }
 
-    public void setOperateTypeId(Integer operateTypeId) {
+    public void setOperateTypeId(String operateTypeId) {
         this.operateTypeId = operateTypeId;
     }
 }

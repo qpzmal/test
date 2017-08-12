@@ -66,9 +66,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 			loginService.validLoginUser(loginUser);
 
+			loginService.queryUserFunction(loginUser);
+
 			UserThreadLocalContext.addCurrentUser(loginUser);
 
-			request.setAttribute(Constants.Login.LOGIN_USER_ATTR_KEY,loginUser);
+//			request.setAttribute(Constants.Login.LOGIN_USER_ATTR_KEY,loginUser);
 
 			return true;
 

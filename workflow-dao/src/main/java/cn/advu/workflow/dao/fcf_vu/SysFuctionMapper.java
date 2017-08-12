@@ -23,5 +23,5 @@ public interface SysFuctionMapper extends ISqlMapper {
      * @param userid
      * @return
      */
-    List<SysFuction> queryFunctionByUserId(String userid);
+    List<String> queryFunctionByUserId(String userid);
 }
