@@ -1,13 +1,9 @@
 package cn.advu.workflow.web.controller.module;
 
-import cn.advu.workflow.domain.fcf_vu.BaseArea;
-import cn.advu.workflow.domain.fcf_vu.BaseAreaFinance;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseCustomFinance;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.manager.TreeMananger;
-import cn.advu.workflow.web.service.base.AreaFinanceService;
-import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.CustomFinanceService;
 import cn.advu.workflow.web.service.base.CustomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +19,7 @@ import java.util.List;
 
 
 /**
- * 区域财务结算相关controller，用于管理区域财务结算
+ * 客户财务结算相关controller，用于管理区域财务结算
  *
  */
 @Controller
