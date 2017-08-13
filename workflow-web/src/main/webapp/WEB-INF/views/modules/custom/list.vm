@@ -141,7 +141,7 @@
         $("#parent_id").trigger("chosen:updated");
     })
 
-    // 清空
+    // 查询
     $("#search").click(function(){
         search();
     })

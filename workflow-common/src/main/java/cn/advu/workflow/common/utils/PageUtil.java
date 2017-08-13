@@ -4,7 +4,9 @@ import cn.advu.workflow.common.golbal.Page;
 
 /**
  * Created by weiqz on 2017/3/1.
+ * 使用domain包下的PageUtil
  */
+@Deprecated
 public class PageUtil {
 
     public static Page initPage(int pageIndex, int pageSize) {

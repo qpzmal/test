@@ -5,8 +5,9 @@ import java.util.List;
 
 /**
  * @author hekai
- * 
+ * 使用domain包下的Page
  */
+@Deprecated
 public class Page {
 	public static final int DEFAUTLPAGESIZE = 10;
 	public static final int DEFAUTL_APP_PAGESIZE = 20; // 移动端默认每页件数

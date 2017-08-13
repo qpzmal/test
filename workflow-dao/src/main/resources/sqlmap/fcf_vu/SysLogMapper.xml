@@ -165,13 +165,28 @@
     <include refid="Base_Column_List" />,
     <include refid="Blob_Column_List" />
     from sys_log
-    order by id desc
-    limit #{index,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    WHERE 1=1
+    <if test="startDate != null and startDate != '' ">
+      AND create_time >= STR_TO_DATE(#{startDate}, '%Y-%m-%d %H:%i:%s')
+    </if>
+    <if test="endDate != null and endDate != '' ">
+      AND create_time <![CDATA[ <= ]]> STR_TO_DATE(#{endDate}, '%Y-%m-%d %H:%i:%s')
+    </if>
+    order by create_time desc
+    limit #{sysLog.page.start,jdbcType=INTEGER}, #{sysLog.page.pageSize,jdbcType=INTEGER}
   </select>
 
   <select id="queryCount" resultType="java.lang.Integer">
     select count(id)
     from sys_log
+    WHERE 1=1
+
+    <if test="startDate != null and startDate != '' ">
+      AND create_time >= STR_TO_DATE(#{startDate}, '%Y-%m-%d %H:%i:%s')
+    </if>
+    <if test="endDate != null and endDate != '' ">
+      AND create_time <![CDATA[ <= ]]> STR_TO_DATE(#{endDate}, '%Y-%m-%d %H:%i:%s')
+    </if>
   </select>
 
 </mapper>
