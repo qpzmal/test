@@ -1,15 +1,16 @@
 package cn.advu.workflow.web.controller.module;
 
-import cn.advu.workflow.domain.fcf_vu.*;
+import cn.advu.workflow.domain.fcf_vu.BaseArea;
+import cn.advu.workflow.domain.fcf_vu.BaseDept;
+import cn.advu.workflow.domain.fcf_vu.BasePerson;
+import cn.advu.workflow.domain.fcf_vu.BasePersonExtend;
 import cn.advu.workflow.web.common.ResultJson;
-import cn.advu.workflow.web.dto.TreeNode;
 import cn.advu.workflow.web.manager.PersonMananger;
 import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.DeptService;
 import cn.advu.workflow.web.service.base.PersonService;
 import cn.advu.workflow.web.util.AssertUtil;
-import net.sf.ehcache.search.parser.MCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.LinkedList;
 import java.util.List;
 
 
 /**
- * 部门相关controller，用于管理部门
+ * 通讯录相关controller，用于管理部门
  *
  */
 @Controller
