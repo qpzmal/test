@@ -126,7 +126,7 @@
         AND   t1.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND   t1.status = 3
         GROUP BY t2.name,date_format(t1.order_date,'%Y-%m')
-        ORDER BY sum(t1.tax_amount) ASC
+        ORDER BY order_date ASC
     </select>
     <select id="querySaleHistoryBySalerQuarter" resultMap="BaseResultMap">
         SELECT
@@ -139,7 +139,7 @@
         AND   t1.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND   t1.status = 3
         GROUP BY  t2.name, CONCAT(YEAR(t1.order_date),'年',quarter(t1.order_date),'季度')
-        ORDER BY sum(t1.tax_amount) ASC
+        ORDER BY order_date ASC
     </select>
     <select id="querySaleHistoryBySalerWholeYear" resultMap="BaseResultMap">
         SELECT
@@ -152,7 +152,7 @@
         AND   t1.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND   t1.status = 3
         GROUP BY t2.name,year(t1.order_date)
-        ORDER BY sum(t1.tax_amount) ASC
+        ORDER BY order_date ASC
     </select>
     <select id="querySaleHistoryByCustomType" resultMap="BaseResultMap">
         SELECT
@@ -204,7 +204,7 @@
         WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         and  t2.del_flag = 0 AND t2.item_status = 0 AND t2.status = 1
         GROUP BY mt.name ,date_format(t2.order_date,'%Y-%m')
-        ORDER BY  #{orderKey} DESC;
+        ORDER BY order_date DESC;
     </select>
     <select id="queryBuyResourceByDateQuarter" resultMap="BaseResultMap">
         SELECT  CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度') AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total,SUM(media_price*cpm) AS sale_amount,SUM(first_price*cpm) AS buy_amount
@@ -218,7 +218,7 @@
         WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         and  t2.del_flag = 0 AND t2.item_status = 0 AND t2.status = 1
         GROUP BY mt.name , CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度')
-        ORDER BY  #{orderKey} DESC;
+        ORDER BY order_date DESC;
     </select>
     <select id="queryBuyResourceByDateHalfYear" resultMap="BaseResultMap">
         SELECT  case when month(t2.order_date)<![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
@@ -238,7 +238,7 @@
         when month(t2.order_date)>=6 then CONCAT(year(t2.order_date),'下半年')
         else null
         end
-        ORDER BY  #{orderKey} DESC;
+        ORDER BY order_date DESC;
     </select>
     <select id="queryBuyResourceByDateWholeYear" resultMap="BaseResultMap">
         SELECT year(t2.order_date) AS order_date,mt.name AS name,sum(t1.cpm) AS cpm_total,SUM(media_price*cpm) AS sale_amount,SUM(first_price*cpm) AS buy_amount
@@ -252,7 +252,7 @@
         WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         and  t2.del_flag = 0 AND t2.item_status = 0 AND t2.status = 1
         GROUP BY mt.name ,year(t2.order_date)
-        ORDER BY  #{orderKey} DESC;
+        ORDER BY order_date DESC;
     </select>
 
 

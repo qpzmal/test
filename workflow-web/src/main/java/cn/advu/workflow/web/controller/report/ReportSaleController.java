@@ -7,10 +7,15 @@ import cn.advu.workflow.web.service.datareport.DataReportService;
 import cn.advu.workflow.web.third.echarts.NormalExtend;
 import com.alibaba.fastjson.JSON;
 import com.github.abel533.echarts.Option;
+import com.github.abel533.echarts.axis.AxisLine;
 import com.github.abel533.echarts.axis.CategoryAxis;
+import com.github.abel533.echarts.axis.SplitLine;
 import com.github.abel533.echarts.axis.ValueAxis;
+import com.github.abel533.echarts.code.Trigger;
+import com.github.abel533.echarts.code.X;
 import com.github.abel533.echarts.data.PieData;
 import com.github.abel533.echarts.series.Bar;
+import com.github.abel533.echarts.series.Line;
 import com.github.abel533.echarts.series.Pie;
 import com.github.abel533.echarts.style.ItemStyle;
 import org.apache.commons.lang.StringUtils;
@@ -24,8 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by weiqz on 2017/7/13.
@@ -87,7 +91,11 @@ public class ReportSaleController {
             option = this.createChart4Area(list);
         } else if ("3".equals(lid)) {
             list = dataReportService.querySaleHistoryBySaler(startDate, endDate, type);
-            option = this.createChart4Saler(list);
+            if ("0".equals(type)) {
+                option = this.createChart4Saler(list); // 柱状图
+            } else {
+                option = this.createChart(list); // 折线图
+            }
         } else if ("4".equals(lid)) {
             list = dataReportService.querySaleHistoryByCustomType(startDate, endDate, type);
             option = this.createChart4CustomType(list);
@@ -206,6 +214,74 @@ public class ReportSaleController {
         //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
         option.grid().x(180).width("50%");
         //返回Option
+
+        return option;
+    }
+
+
+
+    private Option createChart(List<VuDataReport> list) {
+
+        //创建Option对象
+        Option option = new Option();
+
+        //设置图表标题，并且居中显示
+        option.tooltip(Trigger.axis).title().text("销售汇总").x(X.left);
+
+        //设置y轴为值轴
+        option.yAxis(new ValueAxis());
+
+        //创建类目轴，并且不显示竖着的分割线，onZero=false
+        CategoryAxis categoryAxis = new CategoryAxis()
+                .splitLine(new SplitLine().show(false))
+                .axisLine(new AxisLine().onZero(false));
+
+        //不显示表格边框，就是围着图标的方框
+        option.grid().borderWidth(0);
+
+
+        Map<String, List<VuDataReport>> dataMap = new HashMap<>();
+        List<String> dateList = new ArrayList();
+        for (VuDataReport data : list) {
+            if (dataMap.containsKey(data.getName())) {
+                dataMap.get(data.getName()).add(data);
+            } else {
+                List<VuDataReport> dataList = new ArrayList();
+                dataList.add(data);
+                dataMap.put(data.getName(), dataList);
+            }
+        }
+
+        Iterator iterator = dataMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, List<VuDataReport>> entry = (Map.Entry<String, List<VuDataReport>>) iterator.next();
+
+            //设置图例,居中底部显示，显示边框
+//            option.legend().data("人名").x(X.center).y(Y.bottom).borderWidth(1);
+            option.legend().data(entry.getKey());
+
+            //创建Line数据
+            Line line = new Line(entry.getKey()).smooth(true);
+
+            //根据获取的数据赋值
+            for (VuDataReport data : entry.getValue()) {
+
+                if (!dateList.contains(data.getOrderDate())) {
+                    dateList.add(data.getOrderDate());
+                    //增加类目，值为日期
+                    categoryAxis.data(data.getOrderDate());
+                }
+
+                //日期对应的数据
+                line.data(data.getTaxAmount());
+            }
+
+            //设置x轴为类目轴
+            option.xAxis(categoryAxis);
+
+            //设置数据
+            option.series(line);
+        }
 
         return option;
     }

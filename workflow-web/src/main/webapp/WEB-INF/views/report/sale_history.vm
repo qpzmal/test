@@ -78,6 +78,8 @@
                                         <div class="col-sm-4 m-b-xs text-right">
                                             <div data-toggle="buttons" class="btn-group">
                                                 <label class="btn btn-sm btn-white active">
+                                                    <input type="radio" id="option0" name="options" value="0">无</label>
+                                                <label class="btn btn-sm btn-white ">
                                                     <input type="radio" id="option1" name="options" value="1">月</label>
                                                 <label class="btn btn-sm btn-white">
                                                     <input type="radio" id="option2" name="options" value="2">季度</label>

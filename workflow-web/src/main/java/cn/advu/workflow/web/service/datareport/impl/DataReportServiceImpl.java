@@ -52,7 +52,9 @@ public class DataReportServiceImpl implements DataReportService {
     @Override
     public List<VuDataReport> querySaleHistoryBySaler(String startDate, String endDate, String type) {
         List<VuDataReport> result = new ArrayList<>();
-        if ("1".equals(type)) {
+        if ("0".equals(type)) {
+            result = dataReportMapper.querySaleHistoryBySaler(startDate, endDate);
+        } else if ("1".equals(type)) {
             result = dataReportMapper.querySaleHistoryBySalerMonth(startDate, endDate);
 
         } else if ("2".equals(type)) {
