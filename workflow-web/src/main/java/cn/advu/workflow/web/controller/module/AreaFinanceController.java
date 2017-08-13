@@ -2,14 +2,11 @@ package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseAreaFinance;
-import cn.advu.workflow.domain.fcf_vu.BaseCustomFinance;
 import cn.advu.workflow.web.common.ResultJson;
-import cn.advu.workflow.web.dto.TreeNode;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.AreaFinanceService;
 import cn.advu.workflow.web.service.base.AreaService;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -48,8 +44,8 @@ public class AreaFinanceController {
      * @param resultModel
      * @return
      */
-    @RequestMapping("/list")
-    public String toList(Integer areaId, Model resultModel){
+    @RequestMapping("/areaFinanceList")
+    public String areaFinanceList(Integer areaId, Model resultModel){
 
         List<BaseAreaFinance> dataList = areaFinanceService.findByArea(areaId).getData();
         resultModel.addAttribute("dataList", dataList);
@@ -86,6 +82,9 @@ public class AreaFinanceController {
         resultModel.addAttribute("areaName", areaName);
         resultModel.addAttribute("parentTreeJson", parentTreeJson);
         resultModel.addAttribute("format", format);
+        DisplayTool.buttonDisplay(resultModel, "add", "11301");
+        DisplayTool.buttonDisplay(resultModel, "modify", "11302");
+        DisplayTool.buttonDisplay(resultModel, "delete", "11303");
 
         return "modules/areaFinance/list";
     }
@@ -146,6 +145,7 @@ public class AreaFinanceController {
         model.addAttribute("areaId", areaId);
         model.addAttribute("areaName", areaName);
         model.addAttribute("parentTreeJson", parentTreeJson);
+        DisplayTool.buttonDisplay(model, "add", "11301");
 
         return "modules/areaFinance/add";
     }
@@ -179,6 +179,7 @@ public class AreaFinanceController {
         model.addAttribute("baseAreaFinance", baseAreaFinance);
         model.addAttribute("parentTreeJson", parentTreeJson);
         model.addAttribute("format", format);
+        DisplayTool.buttonDisplay(model, "modify", "11302");
 
         return "modules/areaFinance/update";
     }

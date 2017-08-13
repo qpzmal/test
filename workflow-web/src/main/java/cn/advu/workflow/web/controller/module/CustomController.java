@@ -1,11 +1,10 @@
 package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
-import cn.advu.workflow.domain.fcf_vu.BaseIndustry;
 import cn.advu.workflow.domain.searchVO.CustomSearchVO;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.service.base.CustomService;
-import cn.advu.workflow.web.service.base.IndustryService;
 import cn.advu.workflow.web.util.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -45,6 +43,9 @@ public class CustomController {
 
         ResultJson<List<BaseCustom>> result = customService.findAll();
         resultModel.addAttribute("dataList",result.getData());
+        DisplayTool.buttonDisplay(resultModel, "add", "10601");
+        DisplayTool.buttonDisplay(resultModel, "modify", "10602");
+        DisplayTool.buttonDisplay(resultModel, "delete", "10603");
         return "modules/custom/list";
     }
 
@@ -107,6 +108,7 @@ public class CustomController {
 
         List<BaseCustom> directCustom = customService.findParentCustom().getData();
         resultModel.addAttribute("customList", directCustom);
+        DisplayTool.buttonDisplay(resultModel, "add", "10601");
 
         return "modules/custom/add";
     }
@@ -126,6 +128,7 @@ public class CustomController {
 
         List<BaseCustom> directCustom = customService.findParentCustom().getData();
         model.addAttribute("customList", directCustom);
+        DisplayTool.buttonDisplay(model, "modify", "10602");
 
         return "modules/custom/update";
     }

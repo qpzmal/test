@@ -2,6 +2,7 @@ package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseRegion;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.service.base.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ public class RegionController {
     public String toIndex(Model resultModel){
         ResultJson<List<BaseRegion>> result = regionService.findAll();
         resultModel.addAttribute("dataList",result.getData());
+        DisplayTool.buttonDisplay(resultModel, "add", "10401");
+        DisplayTool.buttonDisplay(resultModel, "modify", "10402");
+        DisplayTool.buttonDisplay(resultModel, "delete", "10403");
         return "modules/region/list";
     }
 
@@ -83,6 +87,7 @@ public class RegionController {
         BaseRegion baseRegion = regionService.findById(id).getData();
 
         model.addAttribute("baseRegion", baseRegion);
+        DisplayTool.buttonDisplay(model, "modify", "10402");
 
         return "modules/region/update";
     }

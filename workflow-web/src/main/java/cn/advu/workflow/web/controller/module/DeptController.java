@@ -2,16 +2,15 @@ package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.domain.fcf_vu.BaseDept;
+import cn.advu.workflow.domain.fcf_vu.DeptVO;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.constants.MessageConstants;
-import cn.advu.workflow.web.dto.TreeNode;
-import cn.advu.workflow.domain.fcf_vu.DeptVO;
 import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.DeptService;
 import cn.advu.workflow.web.util.AssertUtil;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -87,6 +85,10 @@ public class DeptController {
         resultModel.addAttribute("parentId", parentId);
         resultModel.addAttribute("areaTreeJson", areaTreeJson);
         resultModel.addAttribute("parentTreeJson", parentTreeJson);
+        DisplayTool.buttonDisplay(resultModel, "add", "11101");
+        DisplayTool.buttonDisplay(resultModel, "modify", "11102");
+        DisplayTool.buttonDisplay(resultModel, "delete", "11103");
+
         return "modules/dept/list";
     }
 
@@ -120,6 +122,7 @@ public class DeptController {
         model.addAttribute("parentId", parentId);
         model.addAttribute("areaTreeJson", areaTreeJson);
         model.addAttribute("parentTreeJson", parentTreeJson);
+        DisplayTool.buttonDisplay(model, "add", "11101");
 
         return "modules/dept/add";
     }
@@ -160,6 +163,7 @@ public class DeptController {
         model.addAttribute("areaTreeJson", areaTreeJson);
         model.addAttribute("parentTreeJson", parentTreeJson);
         model.addAttribute("baseDept", baseDept);
+        DisplayTool.buttonDisplay(model, "modify", "11102");
 
         return "modules/dept/update";
     }

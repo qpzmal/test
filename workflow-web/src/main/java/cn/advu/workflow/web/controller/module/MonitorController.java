@@ -2,6 +2,7 @@ package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseMonitor;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.service.base.MonitorRequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,9 @@ public class MonitorController {
     @RequestMapping("/index")
     public String toIndex(Model resultModel){
         resultModel.addAttribute("dataList",monitorRequestService.findAll().getData());
+        DisplayTool.buttonDisplay(resultModel, "add", "10301");
+        DisplayTool.buttonDisplay(resultModel, "modify", "10302");
+        DisplayTool.buttonDisplay(resultModel, "delete", "10303");
         return "modules/monitor/list";
     }
 
@@ -71,6 +75,7 @@ public class MonitorController {
     public String toUpdate(Integer id, Model resultModel){
         BaseMonitor baseMonitorRequest = monitorRequestService.findById(id).getData();
         resultModel.addAttribute("baseMonitorRequest", baseMonitorRequest);
+        DisplayTool.buttonDisplay(resultModel, "modify", "10302");
         return "modules/monitor/update";
     }
 

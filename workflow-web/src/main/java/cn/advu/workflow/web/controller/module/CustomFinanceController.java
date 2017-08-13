@@ -3,6 +3,7 @@ package cn.advu.workflow.web.controller.module;
 import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BaseCustomFinance;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.CustomFinanceService;
 import cn.advu.workflow.web.service.base.CustomService;
@@ -44,8 +45,8 @@ public class CustomFinanceController {
      * @param resultModel
      * @return
      */
-    @RequestMapping("/list")
-    public String toList(Integer customId, Model resultModel){
+    @RequestMapping("/customFinanceList")
+    public String customFinanceList(Integer customId, Model resultModel){
 
         List<BaseCustomFinance> dataList = customFinanceService.findByCustom(customId).getData();
         resultModel.addAttribute("dataList", dataList);
@@ -70,6 +71,9 @@ public class CustomFinanceController {
         resultModel.addAttribute("customList", customList);
         resultModel.addAttribute("customId", customId);
         resultModel.addAttribute("format", format);
+        DisplayTool.buttonDisplay(resultModel, "add", "11201");
+        DisplayTool.buttonDisplay(resultModel, "modify", "11202");
+        DisplayTool.buttonDisplay(resultModel, "delete", "11203");
 
         return "modules/customFinance/list";
     }
@@ -119,6 +123,7 @@ public class CustomFinanceController {
 
         model.addAttribute("customId", customId);
         model.addAttribute("customList", customList);
+        DisplayTool.buttonDisplay(model, "add", "11201");
 
         return "modules/customFinance/add";
     }
@@ -139,6 +144,7 @@ public class CustomFinanceController {
         model.addAttribute("baseCustomFinance", baseCustomFinance);
         model.addAttribute("customList", customList);
         model.addAttribute("format", format);
+        DisplayTool.buttonDisplay(model, "modify", "11202");
 
         return "modules/customFinance/update";
     }

@@ -1,9 +1,8 @@
 package cn.advu.workflow.web.controller.module;
 
-import cn.advu.workflow.domain.fcf_vu.BaseMedia;
 import cn.advu.workflow.domain.fcf_vu.BaseMediaType;
 import cn.advu.workflow.web.common.ResultJson;
-import cn.advu.workflow.web.service.base.MediaService;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.service.base.MediaTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +36,9 @@ public class MediaTypeController {
     public String toIndex(Model resultModel){
         ResultJson<List<BaseMediaType>> result = mediaTypeService.findAll();
         resultModel.addAttribute("dataList",result.getData());
+        DisplayTool.buttonDisplay(resultModel, "add", "11001");
+        DisplayTool.buttonDisplay(resultModel, "modify", "11002");
+        DisplayTool.buttonDisplay(resultModel, "delete", "11003");
         return "modules/mediaType/list";
     }
 
@@ -85,6 +87,7 @@ public class MediaTypeController {
         BaseMediaType baseMediaType = mediaTypeService.findById(id).getData();
 
         model.addAttribute("baseMediaType", baseMediaType);
+        DisplayTool.buttonDisplay(model, "modify", "11002");
 
         return "modules/mediaType/update";
     }

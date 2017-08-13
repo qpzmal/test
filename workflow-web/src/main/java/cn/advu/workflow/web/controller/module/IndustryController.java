@@ -2,6 +2,7 @@ package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseIndustry;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.service.base.IndustryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ public class IndustryController {
     public String toIndex(Model resultModel){
         ResultJson<List<BaseIndustry>> result = industryService.findAll();
         resultModel.addAttribute("dataList",result.getData());
+        DisplayTool.buttonDisplay(resultModel, "add", "10201");
+        DisplayTool.buttonDisplay(resultModel, "modify", "10202");
+        DisplayTool.buttonDisplay(resultModel, "delete", "10203");
         return "modules/industry/list";
     }
 
@@ -83,6 +87,7 @@ public class IndustryController {
         BaseIndustry baseIndustry = industryService.findById(id).getData();
 
         model.addAttribute("baseIndustry", baseIndustry);
+        DisplayTool.buttonDisplay(model, "modify", "10202");
 
         return "modules/industry/update";
     }

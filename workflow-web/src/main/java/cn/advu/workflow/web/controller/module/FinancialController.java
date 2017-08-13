@@ -1,10 +1,9 @@
 package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseFinancialindex;
-import cn.advu.workflow.domain.fcf_vu.BaseMediaType;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.service.base.FinancialindexService;
-import cn.advu.workflow.web.service.base.MediaTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +36,9 @@ public class FinancialController {
     public String toIndex(Model resultModel){
         ResultJson<List<BaseFinancialindex>> result = financialindexService.findAll();
         resultModel.addAttribute("dataList",result.getData());
+        DisplayTool.buttonDisplay(resultModel, "add", "10801");
+        DisplayTool.buttonDisplay(resultModel, "modify", "10802");
+        DisplayTool.buttonDisplay(resultModel, "delete", "10803");
         return "modules/financial/list";
     }
 
@@ -85,6 +87,7 @@ public class FinancialController {
         BaseFinancialindex baseFinancialindex = financialindexService.findById(id).getData();
 
         model.addAttribute("baseFinancialindex", baseFinancialindex);
+        DisplayTool.buttonDisplay(model, "modify", "10802");
 
         return "modules/financial/update";
     }

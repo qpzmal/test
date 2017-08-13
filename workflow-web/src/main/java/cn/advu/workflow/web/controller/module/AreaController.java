@@ -1,10 +1,11 @@
 package cn.advu.workflow.web.controller.module;
 
-import cn.advu.workflow.domain.fcf_vu.*;
+import cn.advu.workflow.domain.fcf_vu.AreaVO;
+import cn.advu.workflow.domain.fcf_vu.BaseArea;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.dto.TreeNode;
 import cn.advu.workflow.web.service.base.AreaService;
-import cn.advu.workflow.web.service.base.RegionService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,12 +30,11 @@ public class AreaController {
     @Autowired
     private AreaService areaService;
 
-    @RequestMapping("/list")
-    public String toList(Integer parentId, Model resultModel){
+    @RequestMapping("/areaList")
+    public String areaList(Integer parentId, Model resultModel){
 
         ResultJson<List<AreaVO>> result = areaService.findByParent(parentId);
         resultModel.addAttribute("dataList",result.getData());
-
         return "modules/area/areaList";
     }
 
@@ -55,6 +55,10 @@ public class AreaController {
 
         resultModel.addAttribute("dataList",result.getData());
         resultModel.addAttribute("parentTreeJson", parentTreeJson);
+        DisplayTool.buttonDisplay(resultModel, "add", "10701");
+        DisplayTool.buttonDisplay(resultModel, "modify", "10702");
+        DisplayTool.buttonDisplay(resultModel, "delete", "10703");
+
         return "modules/area/list";
     }
 
@@ -125,6 +129,7 @@ public class AreaController {
         model.addAttribute("baseArea", baseArea);
         model.addAttribute("parentAreaName", parentName);
         model.addAttribute("parentTreeJson", parentTreeJson);
+        DisplayTool.buttonDisplay(model, "modify", "10702");
 
         return "modules/area/update";
     }

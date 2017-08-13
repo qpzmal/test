@@ -124,6 +124,10 @@ public class LoginServiceImpl implements LoginService {
             }
         });
         LOGGER.info("用户id:{},的菜单件数:{}", userid, userFunList.size());
+
+
+        // TODO 测试时不用缓存
+        userFunList = sysFuctionMapper.queryFunctionByUserId(userid);
         loginUser.setUserFunction(userFunList);
     }
 

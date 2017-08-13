@@ -25,7 +25,9 @@
             </div>
         </div>
     </div>
-    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
+    #if(${add} == 0)
+        <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
+    #end
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
@@ -52,9 +54,13 @@
                                 </td>
                                 <td class="right">
                                     <input type="hidden" value="$!{data.id}">
-                                    <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>
-                                    <a href="javascript:;" class="btn btn-danger btn-sm button_view_pd"><i class="fa fa-trash "></i> 删除 </a>
-                                    <a href="javascript:;" class="btn btn-default btn-sm button_view_pd"><i class="fa fa-search "></i> 查看 </a>
+                                    #if(${modify} == 0)
+                                        <a href="javascript:;" class="btn btn-info btn-sm "><i class="fa fa-pencil "></i> 修改 </a>
+                                    #end
+                                    #if(${delete} == 0)
+                                        <a href="javascript:;" class="btn btn-danger btn-sm "><i class="fa fa-trash "></i> 删除 </a>
+                                    #end
+                                    <a href="javascript:;" class="btn btn-default btn-sm "><i class="fa fa-search "></i> 查看 </a>
                                 </td>
                             </tr>
                         #end
@@ -72,7 +78,7 @@
 <div id="parent_tree_content" class="col-sm-9 ibox-content" style="display:none; position: absolute;">
     <div id="parent_tree" class="test" ></div>
     <div id="clear_content">
-        <a  href="javascript:;" id="clear"  class="btn btn-success btn-sm button_view_pd"><i class="fa fa-remove "></i> 清空 </a>
+        <a  href="javascript:;" id="clear"  class="btn btn-success btn-sm "><i class="fa fa-remove "></i> 清空 </a>
     </div>
 </div>
 
@@ -86,7 +92,7 @@
 
     function areaChange(area_id) {
         $.ajax({
-            url:"/areaFinance/list.json?areaId=" + area_id,
+            url:"/areaFinance/areaFinanceList.json?areaId=" + area_id,
             type:"get",
             async: false,
             success: function(returnData){

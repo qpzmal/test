@@ -5,6 +5,7 @@ import cn.advu.workflow.domain.fcf_vu.BaseDept;
 import cn.advu.workflow.domain.fcf_vu.BasePerson;
 import cn.advu.workflow.domain.fcf_vu.BasePersonExtend;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.manager.PersonMananger;
 import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.AreaService;
@@ -87,6 +88,9 @@ public class PersonController {
         resultModel.addAttribute("areaName", areaName);
         resultModel.addAttribute("areaTreeJson", areaTreeJson);
         resultModel.addAttribute("parentTreeJson", parentTreeJson);
+        DisplayTool.buttonDisplay(resultModel, "add", "10501");
+        DisplayTool.buttonDisplay(resultModel, "modify", "10502");
+        DisplayTool.buttonDisplay(resultModel, "delete", "10503");
 
         return "modules/person/list";
     }
@@ -125,6 +129,7 @@ public class PersonController {
         model.addAttribute("parentList", parentList);
         model.addAttribute("areaTreeJson", areaTreeJson);
         model.addAttribute("deptTreeJson", deptTreeJson);
+        DisplayTool.buttonDisplay(model, "add", "10501");
 
         return "modules/person/add";
     }
@@ -164,6 +169,8 @@ public class PersonController {
         model.addAttribute("areaTreeJson", areaTreeJson);
         model.addAttribute("deptTreeJson", deptTreeJson);
         model.addAttribute("basePerson", basePerson);
+        DisplayTool.buttonDisplay(model, "modify", "10502");
+
 
         return "modules/person/update";
 

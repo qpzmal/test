@@ -2,6 +2,7 @@ package cn.advu.workflow.web.controller.module;
 
 import cn.advu.workflow.domain.fcf_vu.BaseAdtype;
 import cn.advu.workflow.web.common.ResultJson;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.service.base.AdtypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,9 @@ public class AdtypeController {
     public String toIndex(Model resultModel){
         ResultJson<List<BaseAdtype>> result = adtypeService.findAll();
         resultModel.addAttribute("dataList",result.getData());
+        DisplayTool.buttonDisplay(resultModel, "add", "10101");
+        DisplayTool.buttonDisplay(resultModel, "modify", "10102");
+        DisplayTool.buttonDisplay(resultModel, "delete", "10103");
         return "modules/adtype/list";
     }
 
@@ -96,6 +100,7 @@ public class AdtypeController {
         BaseAdtype baseAdtype = adtypeService.findById(id).getData();
 
         model.addAttribute("baseAdtype", baseAdtype);
+        DisplayTool.buttonDisplay(model, "modify", "10102");
 
         return "modules/adtype/update";
     }

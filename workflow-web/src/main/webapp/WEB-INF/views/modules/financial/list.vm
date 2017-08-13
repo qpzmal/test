@@ -3,7 +3,9 @@
 #end
 
 <div class="wrapper wrapper-content animated fadeInRight">
-    <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
+    #if(${add} == 0)
+        <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
+    #end
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
@@ -32,9 +34,15 @@
                                 </td>
                                 <td class="right">
                                     <input type="hidden" value="$!{data.id}">
-                                    <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>
-##                                    <a href="javascript:;" class="btn btn-danger btn-sm button_view_pd"><i class="fa fa-trash "></i> 删除 </a>
-                                    <a href="javascript:;" class="btn btn-default btn-sm button_view_pd"><i class="fa fa-search "></i> 查看 </a>
+                                    #if(${modify} == 0)
+                                        <a href="javascript:;" class="btn btn-info btn-sm "><i class="fa fa-pencil "></i> 修改 </a>
+                                    #end
+                                    #if(!$!{baseFinancialindex.isSystem}) ## 只有非预制数据可以删除
+                                        #if(${delete} == 0)
+                                            <a href="javascript:;" class="btn btn-danger btn-sm "><i class="fa fa-trash "></i> 删除 </a>
+                                        #end
+                                    #end
+                                    <a href="javascript:;" class="btn btn-default btn-sm "><i class="fa fa-search "></i> 查看 </a>
                                 </td>
                             </tr>
                         #end
