@@ -40,8 +40,8 @@
                                 <tbody>
                                     #foreach($data in $todoList)
                                     <tr class="gradeX">
-                                        <td class="refer-detail" tid="$!data.id">
-                                            <a href="javascript:;" >$!{data.name}</a>
+                                        <td >
+                                            <a href="javascript:;" class="refer-detail" tid="$!data.id" >$!{data.name}</a>
                                         </td>
                                     </tr>
                                     #end
@@ -64,8 +64,8 @@
                                 <tbody>
                                     #foreach($data in $handlingList)
                                     <tr class="gradeX">
-                                        <td class="refer-detail" tid="$!data.id">
-                                            <a href="javascript:;" >$!{data.name}</a>
+                                        <td >
+                                            <a href="javascript:;" class="refer-detail" tid="$!data.id">$!{data.name}</a>
                                         </td>
                                     </tr>
                                     #end
@@ -88,8 +88,8 @@
                                 <tbody>
                                     #foreach($data in $finishedList)
                                     <tr class="gradeX">
-                                        <td class="refer-detail" tid="$!data.id">
-                                            <a href="javascript:;" >$!{data.name}</a>
+                                        <td >
+                                            <a href="javascript:;" class="refer-detail" tid="$!data.id">$!{data.name}</a>
                                         </td>
                                     </tr>
                                     #end

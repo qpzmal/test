@@ -52,6 +52,10 @@
                         <a class="J_menuItem" style="display:none" functionid="30100" href="${rc.contextPath}/workflow/task/todo">待处理流程</a>
                         <a class="J_menuItem" style="display:none" functionid="30200" href="${rc.contextPath}/workflow/task/running">运行中流程</a>
                         <a class="J_menuItem" style="display:none" functionid="30300" href="${rc.contextPath}/workflow/task/finished">已结束流程</a>
+
+
+
+                        <a class="J_menuItem" style="" functionid="30400" href="${rc.contextPath}/saleOrder/contractList">合同与单据</a>
                     </li>
                 </ul>
             </li>

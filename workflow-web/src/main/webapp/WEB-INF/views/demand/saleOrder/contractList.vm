@@ -1,0 +1,273 @@
+
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/webuploader/webuploader.css?$!application.getAttribute('/static/css/plugins/webuploader/webuploader.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/demo/webuploader-demo.min.css?$!application.getAttribute('/static/css/demo/webuploader-demo.min.css')" rel="stylesheet">
+
+#end
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+
+                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+                        <tr>
+                            <th>项目名称</th>
+                            <th>项目编码</th>
+                            <th>状态</th>
+                            <th>管理</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            #foreach($data in $dataList)
+                            <tr class="gradeX">
+                                <td>$!{data.name}</td>
+                                <td>$!{data.OrderNum}</td>
+                                <td>
+                                    $!{data.strTodoStatus}
+                                </td>
+                                <td class="right" tid="$!{data.id}">
+                                    <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
+
+                                    #if($data.intTodoStatus == 1)
+                                        <a href="javascript:;" class="btn btn-info btn-sm button_contract "><i class="fa fa-pencil "></i> 已签署合同 </a>
+                                    #elseif($data.intTodoStatus == 6)
+                                        <a href="javascript:;" class="btn btn-info btn-sm button_contract_img "><i class="fa fa-upload "></i> 上传扫描版合同 </a>
+                                    #elseif($data.intTodoStatus == 11)
+                                        <a href="javascript:;" class="btn btn-info btn-sm button_original_contract "><i class="fa fa-pencil "></i> 已获取原章合同 </a>
+                                    #elseif($data.intTodoStatus == 16)
+                                        <a href="javascript:;" class="btn btn-info btn-sm button_execute_order_img "><i class="fa fa-upload "></i> 上传扫描版排期单 </a>
+                                    #elseif($data.intTodoStatus == 21)
+                                        <a href="javascript:;" class="btn btn-info btn-sm button_original_execute_order "><i class="fa fa-pencil "></i> 已获取原章排期单 </a>
+                                    #elseif($data.intTodoStatus == 26)
+                                        <a href="javascript:;" class="btn btn-info btn-sm button_reminder_payment "><i class="fa fa-pencil "></i> 催款 </a>
+                                    #end
+##                                    <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>
+                                </td>
+                            </tr>
+                            #end
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ibox-content file-upload" style="display:none">
+    <div class="page-container">
+        <p>您可以尝试文件拖拽，使用QQ截屏工具，然后激活窗口后粘贴，或者点击添加图片按钮，来上传图片</p>
+        <div id="uploader" class="wu-example">
+            <div class="queueList">
+                <div id="dndArea" class="placeholder">
+                    <div id="filePicker"></div>
+                    <p>或将图片拖到这里，单次最多可选300张</p>
+                </div>
+            </div>
+            <div class="statusBar" style="display:none;">
+                <div class="progress">
+                    <span class="text">0%</span>
+                    <span class="percentage"></span>
+                </div>
+                <div class="info"></div>
+                <div class="btns">
+                    <div id="filePicker2"></div>
+                    <div class="uploadBtn">开始上传</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+#define($jsblock)
+<script type="text/javascript">
+    // 添加全局站点信息
+    var BASE_URL = '/webuploader';
+##    var BASE_URL = '#springUrl("")/static/js/plugins/webuploader/index.html';
+</script>
+
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/webuploader/webuploader.min.js?$!application.getAttribute('/static/js/plugins/webuploader/webuploader.min.js')" ></script>
+##<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader-demo.min.js?$!application.getAttribute('/static/js/demo/webuploader-demo.min.js')" ></script>
+##<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader/webuploader.js?$!application.getAttribute('/static/js/demo/webuploader/webuploader.js')" ></script>
+<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader/weiqz-demo.js?$!application.getAttribute('/static/js/demo/webuploader/weiqz-demo.js')" ></script>
+
+<script>
+    $(function(){
+    });
+
+    /**
+     * 验证文件格式以及文件大小
+     */
+    uploader.on("error",function (type){
+        if (type=="Q_TYPE_DENIED"){
+            layer.msg('请上传gif,jpg,jpeg,bmp,png格式文件');
+        }else if(type=="F_EXCEED_SIZE"){
+            layer.msg("文件大小不能超过"+file_maxSize + "M");
+        }
+    });
+
+
+    ## 查看
+    $(".button_view").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        var url = "${rc.contextPath}/saleOrder/refer?id="+bizId;
+        openPopIframePage(url);
+    })
+
+
+    ## 已签署合同
+    $(".button_contract").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        var url = "/saleOrder/updateStatus.json";
+
+        layer.confirm('此操作不可修改，是否确认已签署合同？', {
+            title: '确认',
+            btn: ['确认','取消'] //按钮
+        }, function(){
+//            layer.closeAll('dialog');
+            $.ajax({
+                url:url,
+                type:"post",
+                data:{
+                    "id":bizId,
+                    "contractStatus":0
+                },
+                success: function(returnData){
+                    if(returnData.code == 1){
+                        popMsg('修改成功!', "/saleOrder/contractList");
+                    } else{
+                        layer.msg(returnData.info);
+                    }
+                }
+
+            });
+        }, function(){
+        });
+    })
+
+
+    ## 上传扫描版合同
+    $(".button_contract_img").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        // WebUploader初始化以后添加自定义参数
+        uploader.options.formData.bizId = bizId;
+        layer.open({
+            type: 1,
+            title: false, //不显示标题
+            skin: 'layui-layer-rim', //加上边框
+            area: ['600px', '400px'], //宽高
+//            closeBtn: 0, //不显示关闭按钮
+            shadeClose: true, //开启遮罩关闭
+            content: $('.file-upload'),
+        });
+        uploader.refresh();
+    })
+
+
+
+    ## 已获取原章合同
+    $(".button_original_contract").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        var url = "/saleOrder/updateStatus.json";
+
+        layer.confirm('此操作不可修改，是否确认已获取原章合同？', {
+            title: '确认',
+            btn: ['确认','取消'] //按钮
+        }, function(){
+//            layer.closeAll('dialog');
+            $.ajax({
+                url:url,
+                type:"post",
+                data:{
+                    "id":bizId,
+                    "originalContractStatus":0
+                },
+                success: function(returnData){
+                    if(returnData.code == 1){
+                        popMsg('修改成功!', "/saleOrder/contractList");
+                    } else{
+                        layer.msg(returnData.info);
+                    }
+                }
+
+            });
+        }, function(){
+        });
+    })
+
+
+
+    ## 已获取原章排期单
+    $(".button_original_execute_order").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        var url = "/saleOrder/updateStatus.json";
+
+        layer.confirm('此操作不可修改，是否确认已获取原章排期单？', {
+            title: '确认',
+            btn: ['确认','取消'] //按钮
+        }, function(){
+//            layer.closeAll('dialog');
+            $.ajax({
+                url:url,
+                type:"post",
+                data:{
+                    "id":bizId,
+                    "originalExecuteOrderStatus":0
+                },
+                success: function(returnData){
+                    if(returnData.code == 1){
+                        popMsg('修改成功!', "/saleOrder/contractList");
+                    } else{
+                        layer.msg(returnData.info);
+                    }
+                }
+
+            });
+        }, function(){
+        });
+    })
+
+
+
+    ## 已催款
+    $(".button_reminder_payment").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        var url = "/saleOrder/updateStatus.json";
+
+        layer.confirm('此操作不可修改，是否确认已发起催款？', {
+            title: '确认',
+            btn: ['确认','取消'] //按钮
+        }, function(){
+//            layer.closeAll('dialog');
+            $.ajax({
+                url:url,
+                type:"post",
+                data:{
+                    "id":bizId,
+                    "reminderPaymentStatus":0
+                },
+                success: function(returnData){
+                    if(returnData.code == 1){
+                        popMsg('修改成功!', "/saleOrder/contractList");
+                    } else{
+                        layer.msg(returnData.info);
+                    }
+                }
+
+            });
+        }, function(){
+        });
+    })
+
+
+
+
+</script>
+#end

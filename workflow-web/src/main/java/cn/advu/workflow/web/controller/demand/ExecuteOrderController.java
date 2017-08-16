@@ -15,15 +15,27 @@ import cn.advu.workflow.web.util.BigDecimalUtil;
 import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -35,6 +47,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/saleOrder")
 public class ExecuteOrderController {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(ExecuteOrderController.class);
 
     @Autowired
     HttpServletRequest httpServletRequest;
@@ -73,8 +87,16 @@ public class ExecuteOrderController {
 
     @Autowired
     SaleFrameService saleFrameService;
+
     @Autowired
     RoleManager roleManager;
+
+    @Value("${upload.img.base}")
+    private String uploadImgBase;
+    @Value("${upload.img.contract}")
+    private String uploadImgContract;
+    @Value("${upload.img.execute_order}")
+    private String uploadImgExeOrder;
 
     static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -121,9 +143,67 @@ public class ExecuteOrderController {
         }
         BaseExecuteOrder param = new BaseExecuteOrder();
         param.setStatus(pStatus);
+        if ("1".equals(strStatus)) { // 排期执行单
+            param.setContractStatus("0");
+            param.setContractImgStatus("0");
+            param.setOriginalExecuteOrderStatus("0");
+        }
+
         ResultJson<List<BaseExecuteOrder>> result = executeOrderService.findAll(param);
         resultModel.addAttribute("dataList", result.getData());
         return "demand/saleOrder/list";
+    }
+
+    /**
+     * 跳转合同与单据首页-合同与单据列表页
+     *
+     * @param resultModel
+     * @return
+     */
+    @RequestMapping("/contractList")
+    public String toContractList(Model resultModel){
+
+        BaseExecuteOrder param = new BaseExecuteOrder();
+        param.setStatusArray("(1, 2)");
+        param.setPayPercent(new BigDecimal(100));
+
+        ResultJson<List<BaseExecuteOrder>> result = executeOrderService.findAll(param);
+        List<BaseExecuteOrder> dataList = result.getData();
+        for (BaseExecuteOrder data:dataList) {
+
+            if ("-1".equals(data.getContractStatus())) {
+                data.setStrTodoStatus("待签署合同");
+                data.setIntTodoStatus("1");
+
+            } else if ("-1".equals(data.getContractImgStatus())) {
+                data.setStrTodoStatus("待上传扫描版合同");
+                data.setIntTodoStatus("6");
+
+            } else if ("-1".equals(data.getOriginalContractStatus())) {
+                data.setStrTodoStatus("待获取原章合同");
+                data.setIntTodoStatus("11");
+
+            } else if ("-1".equals(data.getExecuteOrderImgStatus())) {
+                data.setStrTodoStatus("待上传扫描版排期单");
+                data.setIntTodoStatus("16");
+
+            } else if ("-1".equals(data.getOriginalContractStatus())) {
+                data.setStrTodoStatus("待获取原章排期单");
+                data.setIntTodoStatus("21");
+
+
+            } else if ("-1".equals(data.getReminderPaymentStatus())) {
+                    data.setStrTodoStatus("待催款");
+                    data.setIntTodoStatus("26");
+
+            } else {
+                data.setStrTodoStatus("未知状态");
+                LOGGER.warn("合同与单据列表中，出现未知状态");
+            }
+
+        }
+        resultModel.addAttribute("dataList", result.getData());
+        return "demand/saleOrder/contractList";
     }
 
     /**
@@ -146,6 +226,17 @@ public class ExecuteOrderController {
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     public ResultJson<Integer> update(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
         return executeOrderService.update(baseExecuteOrder);
+    }
+
+    /**
+     * 更新需求单状态
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/updateStatus")
+    public ResultJson<Integer> updateStatus(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
+        return executeOrderService.updateSelective(baseExecuteOrder);
     }
 
     /**
@@ -536,5 +627,47 @@ public class ExecuteOrderController {
 
         return "demand/saleOrder/refer";
     }
+
+    @RequestMapping(value="fileUpload",produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String fileUpload(Integer bizId, String uploadType, Model model
+//                             @RequestParam("file") CommonsMultipartFile[] imgFile,
+    ){
+        MultipartResolver resolver = new CommonsMultipartResolver(httpServletRequest.getSession().getServletContext());
+        MultipartHttpServletRequest multipartRequest = resolver.resolveMultipart(httpServletRequest);
+
+//        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) httpServletRequest;
+        List<MultipartFile> imgFileList = multipartRequest.getFiles("file");
+
+        BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(bizId).getData();
+        String orderNum = baseExecuteOrder.getOrderNum();
+
+        String path = uploadImgBase;
+        if ("1".equals(uploadType)) { // 上传扫描版合同
+            path = path + uploadImgContract;
+        } else if ("2".equals(uploadType)) { // 上传扫描版排期单
+            path = path + uploadImgExeOrder;
+        }
+        path = path + File.separator + (new DateTime().getYear());
+        if(!new File(path).exists())   {
+            new File(path).mkdirs();
+        }
+        for (MultipartFile file:imgFileList) {
+            String fileName = file.getName();
+            fileName = orderNum + fileName;
+            String filePath = path + fileName;
+            LOGGER.debug("file path:{}", filePath);
+			try {
+	            FileOutputStream fout = new FileOutputStream(filePath);
+	            IOUtils.write(file.getBytes(), fout);
+	            fout.close();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        }
+
+        return "aaaaaa";
+    }
+
 
 }

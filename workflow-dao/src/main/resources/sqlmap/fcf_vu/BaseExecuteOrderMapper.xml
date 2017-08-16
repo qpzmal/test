@@ -41,6 +41,12 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="frame_id" jdbcType="INTEGER" property="frameId" />
+    <result column="contract_status" jdbcType="TINYINT" property="contractStatus" />
+    <result column="contract_img_status" jdbcType="TINYINT" property="contractImgStatus" />
+    <result column="original_contract_status" jdbcType="TINYINT" property="originalContractStatus" />
+    <result column="execute_order_img_status" jdbcType="TINYINT" property="executeOrderImgStatus" />
+    <result column="original_execute_order_status" jdbcType="TINYINT" property="originalExecuteOrderStatus" />
+    <result column="reminder_payment_status" jdbcType="TINYINT" property="reminderPaymentStatus" />
   </resultMap>
   <sql id="Base_Column_List">
     id, process_instance_id, name, order_num, sec_order_num, type, order_date, delivery_area_ids, 
@@ -48,7 +54,8 @@
     amount, public_rebate, private_rebate, tax_amount, tax_free_amount, monitor_ids, 
     monitor_names, start_date, end_date, person_leader_id, our_monitor_name, report_type_id, 
     status, signing_intention, person_payee_id, pay_percent, user_id, account_period, 
-    del_flag, item_status, create_time, update_time, remark, frame_id,sign_type
+    del_flag, item_status, create_time, update_time, remark, frame_id,sign_type,
+    contract_status, contract_img_status, original_contract_status, execute_order_img_status, original_execute_order_status, reminder_payment_status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -446,6 +453,25 @@
       <if test="frameId != null">
         frame_id = #{frameId,jdbcType=INTEGER},
       </if>
+      <if test="contractStatus != null">
+        contract_status = #{contractStatus,jdbcType=INTEGER},
+      </if>
+      <if test="contractImgStatus != null">
+        contract_img_status = #{contractImgStatus,jdbcType=INTEGER},
+      </if>
+      <if test="originalContractStatus != null">
+        original_contract_status = #{originalContractStatus,jdbcType=INTEGER},
+      </if>
+      <if test="executeOrderImgStatus != null">
+        execute_order_img_status = #{executeOrderImgStatus,jdbcType=INTEGER},
+      </if>
+      <if test="originalExecuteOrderStatus != null">
+        original_execute_order_status = #{originalExecuteOrderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="reminderPaymentStatus != null">
+        reminder_payment_status = #{reminderPaymentStatus,jdbcType=INTEGER},
+      </if>
+
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -502,6 +528,29 @@
     <if test="status != null">
       and status = #{status,jdbcType=TINYINT}
     </if>
+    <if test="payPercent != null">
+      and pay_percent <![CDATA[ < ]]> #{payPercent,jdbcType=DECIMAL}
+    </if>
+
+    <!--<if test="contractStatus != null">-->
+      <!--and contract_status = #{contractStatus,jdbcType=TINYINT}-->
+    <!--</if>-->
+    <!--<if test="contractImgStatus != null">-->
+      <!--and contract_img_status = #{contractImgStatus,jdbcType=TINYINT}-->
+    <!--</if>-->
+    <!--<if test="originalContractStatus != null">-->
+      <!--and original_contract_status = #{originalContractStatus,jdbcType=TINYINT}-->
+    <!--</if>-->
+    <!--<if test="executeOrderImgStatus != null">-->
+      <!--and execute_order_img_status = #{executeOrderImgStatus,jdbcType=TINYINT}-->
+    <!--</if>-->
+    <!--<if test="originalExecuteOrderStatus != null">-->
+      <!--and original_execute_order_status = #{originalExecuteOrderStatus,jdbcType=TINYINT}-->
+    <!--</if>-->
+    <!--<if test="reminderPaymentStatus != null">-->
+      <!--and reminder_payment_status = #{reminderPaymentStatus,jdbcType=TINYINT}-->
+    <!--</if>-->
+
     <if test="statusArray != null">
       and status IN ${statusArray}
     </if>

@@ -372,7 +372,7 @@
 <script type="text/javascript" src="#springUrl("")/static/js/modules/activiti/workflow.js?$!application.getAttribute('/static/js/modules/activiti/workflow.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/jquery-qtip/jquery.qtip.min.js?$!application.getAttribute('/static/js/plugins/jquery-qtip/jquery.qtip.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/jquery-outerhtml/jquery.outerhtml.js?$!application.getAttribute('/static/js/plugins/jquery-outerhtml/jquery.outerhtml.js')"></script>
-<script src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" ></script>
 
 <script>
     var taskId;

@@ -75,11 +75,21 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
 
     private Integer frameId;
 
-    private String statusArray;
+    private String contractStatus; // 合同签署状态（-1未签署；0已签署；）
+    private String contractImgStatus; // 扫描版合同状态（-1未上传；0已上传；）
+    private String originalContractStatus; // 原章合同状态（-1无；0有；）
+    private String executeOrderImgStatus; // 扫描版排期单状态（-1未上传；0已上传；）
+    private String originalExecuteOrderStatus; // 原章排期状态（-1无；0有；）
+    private String reminderPaymentStatus; // 催款状态（-1未完成；0已完成）
+
+    private String statusArray; // 用于IN查询
 
     private String wfStep; // 工作流步骤
 
     private String flowType; // 页面自定义属性：save保存草稿，start开始流程
+
+    private String intTodoStatus; // 待执行流程（下一步流程）
+    private String strTodoStatus; // 待执行流程描述（下一步流程）
 
     public String getCustomSignName() {
         return customSignName;
@@ -353,6 +363,54 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
         this.frameId = frameId;
     }
 
+    public String getContractStatus() {
+        return contractStatus;
+    }
+
+    public void setContractStatus(String contractStatus) {
+        this.contractStatus = contractStatus;
+    }
+
+    public String getContractImgStatus() {
+        return contractImgStatus;
+    }
+
+    public void setContractImgStatus(String contractImgStatus) {
+        this.contractImgStatus = contractImgStatus;
+    }
+
+    public String getOriginalContractStatus() {
+        return originalContractStatus;
+    }
+
+    public void setOriginalContractStatus(String originalContractStatus) {
+        this.originalContractStatus = originalContractStatus;
+    }
+
+    public String getExecuteOrderImgStatus() {
+        return executeOrderImgStatus;
+    }
+
+    public void setExecuteOrderImgStatus(String executeOrderImgStatus) {
+        this.executeOrderImgStatus = executeOrderImgStatus;
+    }
+
+    public String getOriginalExecuteOrderStatus() {
+        return originalExecuteOrderStatus;
+    }
+
+    public void setOriginalExecuteOrderStatus(String originalExecuteOrderStatus) {
+        this.originalExecuteOrderStatus = originalExecuteOrderStatus;
+    }
+
+    public String getReminderPaymentStatus() {
+        return reminderPaymentStatus;
+    }
+
+    public void setReminderPaymentStatus(String reminderPaymentStatus) {
+        this.reminderPaymentStatus = reminderPaymentStatus;
+    }
+
     public String getStatusArray() {
         return statusArray;
     }
@@ -375,5 +433,21 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
 
     public void setFlowType(String flowType) {
         this.flowType = flowType;
+    }
+
+    public String getIntTodoStatus() {
+        return intTodoStatus;
+    }
+
+    public void setIntTodoStatus(String intTodoStatus) {
+        this.intTodoStatus = intTodoStatus;
+    }
+
+    public String getStrTodoStatus() {
+        return strTodoStatus;
+    }
+
+    public void setStrTodoStatus(String strTodoStatus) {
+        this.strTodoStatus = strTodoStatus;
     }
 }

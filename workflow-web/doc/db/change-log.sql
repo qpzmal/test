@@ -5,6 +5,16 @@
 -- 2.20170628 燕燕修改
 -- 1.20170620 兆华建立
 
+-- 20170814 weiqz
+ALTER TABLE `base_execute_order`
+	ADD COLUMN `contract_status` TINYINT(1) NOT NULL DEFAULT '-1' COMMENT '合同签署状态（-1未签署；0已签署；）' AFTER `sign_type`,
+	ADD COLUMN `contract_img_status` TINYINT(1) NOT NULL DEFAULT '-1' COMMENT '扫描版合同状态（-1未上传；0已上传；）' AFTER `contract_status`,
+	ADD COLUMN `original_contract_status` TINYINT(1) NOT NULL DEFAULT '-1' COMMENT '原章合同状态（-1无；0有；）' AFTER `contract_img_status`,
+	ADD COLUMN `execute_order_img_status` TINYINT(1) NOT NULL DEFAULT '-1' COMMENT '扫描版排期单状态（-1未上传；0已上传；）' AFTER `original_contract_status`,
+	ADD COLUMN `original_execute_order_status` TINYINT(1) NOT NULL DEFAULT '-1' COMMENT '原章排期状态（-1无；0有；）' AFTER `execute_order_img_status`,
+	ADD COLUMN `reminder_payment_status` TINYINT(1) NOT NULL DEFAULT '-1' COMMENT '催款状态（-1未完成；0已完成）' AFTER `original_execute_order_status`;
+
+
 -- 20170811 weiqz
 ALTER TABLE `base_financialindex`
 	CHANGE COLUMN `is_system` `is_system` BIT NOT NULL DEFAULT b'0' COMMENT '是否系统内置，0非系统内置，1系统内置' AFTER `value`;
