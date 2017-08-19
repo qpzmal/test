@@ -6,6 +6,7 @@ import cn.advu.workflow.dao.fcf_vu.BaseOrderCpmMapper;
 import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpm;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
+import cn.advu.workflow.domain.fcf_vu.datareport.BaseExecuteOrderReportVO;
 import cn.advu.workflow.repo.base.impl.AbstractRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,11 @@ public class BaseExecuteOrderRepoImpl extends AbstractRepo<BaseExecuteOrder> imp
     @Override
     public List<BaseExecuteOrder> findAllUnFinished() {
         return baseExecuteOrderMapper.findAllUnFinished();
+    }
+
+    @Override
+    public List<BaseExecuteOrderReportVO> finalReport(String likeSearch) {
+        return baseExecuteOrderMapper.queryFinalReport(likeSearch);
     }
 
     @Override

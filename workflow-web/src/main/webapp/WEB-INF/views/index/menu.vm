@@ -52,9 +52,6 @@
                         <a class="J_menuItem" style="display:none" functionid="30100" href="${rc.contextPath}/workflow/task/todo">待处理流程</a>
                         <a class="J_menuItem" style="display:none" functionid="30200" href="${rc.contextPath}/workflow/task/running">运行中流程</a>
                         <a class="J_menuItem" style="display:none" functionid="30300" href="${rc.contextPath}/workflow/task/finished">已结束流程</a>
-
-
-
                         <a class="J_menuItem" style="" functionid="30400" href="${rc.contextPath}/saleOrder/contractList">合同与单据</a>
                     </li>
                 </ul>
@@ -103,6 +100,15 @@
                             <li><a class="J_menuItem J_menuItem_40400" style="display:none" functionid="40400" href="${rc.contextPath}/report/sale/feature">未来订单</a>
                             </li>
                         </ul>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" style="" functionid="30400" href="${rc.contextPath}/report/finalReport/">结案报告</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" style="" functionid="30400" href="${rc.contextPath}/report/incomeCostConfirmReport">收入及成本确认单</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" style="" functionid="30400" href="${rc.contextPath}/report/receivableAccountReport">应收账款催款单</a>
                     </li>
                 </ul>
             </li>

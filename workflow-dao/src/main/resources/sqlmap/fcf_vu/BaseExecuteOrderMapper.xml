@@ -14,6 +14,7 @@
     <result column="area_id" jdbcType="INTEGER" property="areaId" />
     <result column="sign_type" jdbcType="TINYINT" property="signType" />
     <result column="custom_sign_id" jdbcType="INTEGER" property="customSignId" />
+    <result column="custom_sign_name" jdbcType="VARCHAR" property="customSignName" />
     <result column="custom_adverser_id" jdbcType="INTEGER" property="customAdverserId" />
     <result column="industry_id" jdbcType="INTEGER" property="industryId" />
     <result column="person_sales_id" jdbcType="INTEGER" property="personSalesId" />
@@ -50,14 +51,60 @@
     <result column="contractImgCount" jdbcType="INTEGER" property="contractImgCount" />
     <result column="executeOrderImgCount" jdbcType="INTEGER" property="executeOrderImgCount" />
   </resultMap>
+
+  <resultMap id="ReportResultMap" type="cn.advu.workflow.domain.fcf_vu.datareport.BaseExecuteOrderReportVO" extends="BaseResultMap">
+    <result column="ad_type_name" jdbcType="VARCHAR" property="adTypeName" />
+    <result column="person_leader_name" jdbcType="VARCHAR" property="personLeaderName" />
+    <result column="total_cpm_count" jdbcType="DECIMAL" property="totalCpmCount" />
+    <result column="total_cpm_cost" jdbcType="DECIMAL" property="totalCpmCost" />
+  </resultMap>
+
   <sql id="Base_Column_List">
-    id, process_instance_id, name, order_num, sec_order_num, type, order_date, delivery_area_ids, 
-    delivery_area_names, area_id, custom_sign_id, custom_adverser_id, industry_id, person_sales_id, 
-    amount, public_rebate, private_rebate, tax_amount, tax_free_amount, monitor_ids, 
-    monitor_names, start_date, end_date, person_leader_id, our_monitor_name, report_type_id, 
-    status, signing_intention, person_payee_id, pay_percent, user_id, account_period, 
-    del_flag, item_status, create_time, update_time, remark, frame_id,sign_type,
-    contract_status, contract_img_status, original_contract_status, execute_order_img_status, original_execute_order_status, reminder_payment_status
+    base_execute_order.id,
+    base_execute_order.process_instance_id,
+    base_execute_order.name,
+    base_execute_order.order_num,
+    base_execute_order.sec_order_num,
+    base_execute_order.type,
+    base_execute_order.order_date,
+    base_execute_order.delivery_area_ids,
+    base_execute_order.delivery_area_names,
+    base_execute_order.area_id,
+    base_execute_order.custom_sign_id,
+    base_execute_order.custom_adverser_id,
+    base_execute_order.industry_id,
+    base_execute_order.person_sales_id,
+    base_execute_order.amount,
+    base_execute_order.public_rebate,
+    base_execute_order.private_rebate,
+    base_execute_order.tax_amount,
+    base_execute_order.tax_free_amount,
+    base_execute_order.monitor_ids,
+    base_execute_order.monitor_names,
+    base_execute_order.start_date,
+    base_execute_order.end_date,
+    base_execute_order.person_leader_id,
+    base_execute_order.our_monitor_name,
+    base_execute_order.report_type_id,
+    base_execute_order.status,
+    base_execute_order.signing_intention,
+    base_execute_order.person_payee_id,
+    base_execute_order.pay_percent,
+    base_execute_order.user_id,
+    base_execute_order.account_period,
+    base_execute_order.del_flag,
+    base_execute_order.item_status,
+    base_execute_order.create_time,
+    base_execute_order.update_time,
+    base_execute_order.remark,
+    base_execute_order.frame_id,
+    base_execute_order.sign_type,
+    base_execute_order.contract_status,
+    base_execute_order.contract_img_status,
+    base_execute_order.original_contract_status,
+    base_execute_order.execute_order_img_status,
+    base_execute_order.original_execute_order_status,
+    base_execute_order.reminder_payment_status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -617,5 +664,32 @@
     where del_flag = '0'
     and status != '3'
     order by update_time desc
+  </select>
+
+
+  <!-- 以上为自动生成SQL，以下为自定义SQL -->
+  <select id="queryFinalReport" resultMap="ReportResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    base_custom.name as custom_sign_name,
+    base_person.name as person_leader_name,
+    group_concat(DISTINCT base_adtype.name separator '、') as ad_type_name,
+    base_execute_order.update_time,
+    count(base_order_cpm.id) as total_cpm_count,
+    sum(IFNULL(first_price,0)*IFNULL(cpm,0)) as total_cpm_cost
+    from base_execute_order left join base_order_cpm on  base_order_cpm.order_id = base_execute_order.id
+    left join base_adtype on base_order_cpm.ad_type_id = base_adtype.id
+    left join base_custom on base_execute_order.custom_sign_id = base_custom.id
+    left join base_person on base_execute_order.person_leader_id = base_person.id
+    where base_execute_order.del_flag = '0' and base_order_cpm.order_cpm_type = 2
+    <if test="likeSearch != null">
+      and (
+        base_execute_order.name like CONCAT('%',#{likeSearch,jdbcType=VARCHAR},'%')
+        or
+        base_execute_order.order_num like CONCAT('%',#{likeSearch,jdbcType=VARCHAR},'%')
+      )
+    </if>
+    group by base_execute_order.id
+    order by base_execute_order.update_time desc
   </select>
 </mapper>
