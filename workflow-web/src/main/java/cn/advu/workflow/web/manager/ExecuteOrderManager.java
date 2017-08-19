@@ -1,8 +1,5 @@
 package cn.advu.workflow.web.manager;
 
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
-import cn.advu.workflow.domain.fcf_vu.datareport.BaseExecuteOrderReportVO;
-import cn.advu.workflow.repo.fcf_vu.BaseAdtypeRepo;
 import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,5 +18,8 @@ public class ExecuteOrderManager {
 
     public List<Map> findFinalReport(String likeSearch, List<String> mediaIdList) {
         return baseExecuteOrderRepo.finalReport(likeSearch, mediaIdList);
+    }
+    public List<Map> finalReport(String days) {
+        return baseExecuteOrderRepo.finalReport(days);
     }
 }

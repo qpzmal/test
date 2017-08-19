@@ -36,6 +36,7 @@ import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -61,6 +62,16 @@ public class ExecuteOrderController {
     MonitorRequestService monitorRequestService;
 
     @Autowired
+    SaleFrameService saleFrameService;
+
+    @Autowired
+    RoleManager roleManager;
+
+    @Autowired
+    FileUploadService fileUploadService;
+
+
+    @Autowired
     TreeMananger treeMananger;
 
     @Autowired
@@ -84,13 +95,7 @@ public class ExecuteOrderController {
     AdtypeMananger adtypeMananger;
 
     @Autowired
-    SaleFrameService saleFrameService;
-
-    @Autowired
-    RoleManager roleManager;
-
-    @Autowired
-    FileUploadService fileUploadService;
+    ExecuteOrderManager executeOrderManager;
 
     @Value("${upload.img.base}")
     private String uploadImgBase;
@@ -772,8 +777,13 @@ public class ExecuteOrderController {
 
     @RequestMapping("/reminderPaymentList")
     public String reminderPaymentList(Model resultModel){
-        String bizId = RequestUtil.getStringParamDef(httpServletRequest, "bizId", ""); // N日后到达逾期
+        String days = RequestUtil.getStringParamDef(httpServletRequest, "days", "7"); // N日后到达逾期
 
+
+        List<Map> dataList = executeOrderManager.finalReport(days);
+
+        resultModel.addAttribute("dataList", dataList);
+        resultModel.addAttribute("days", days);
         return "demand/saleOrder/reminder_payment_list";
     }
 
