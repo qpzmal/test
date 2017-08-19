@@ -569,6 +569,7 @@
     base_execute_order.id,
     base_execute_order.name,
     base_execute_order.order_num,
+    base_execute_order.status,
     base_execute_order.contract_status,
     base_execute_order.contract_img_status,
     base_execute_order.original_contract_status,

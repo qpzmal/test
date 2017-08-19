@@ -34,11 +34,11 @@
       <if test="id != null">
         id,
       </if>
-      <if test="bizType != null">
-        biz_type,
-      </if>
       <if test="bizName != null">
         biz_name,
+      </if>
+      <if test="bizType != null">
+        biz_type,
       </if>
       <if test="fileName != null">
         file_name,
@@ -58,7 +58,7 @@
         #{bizName,jdbcType=VARCHAR},
       </if>
       <if test="bizType != null">
-        biz_type,
+        #{bizType,jdbcType=TINYINT},
       </if>
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
@@ -114,7 +114,7 @@
     select
     <include refid="Base_Column_List" />
     from base_fileupload
-    where biz_name = #{bizName,jdbcType=VARCHAR}
+    where biz_name = #{bizName,jdbcType=VARCHAR} AND biz_type = #{bizType,jdbcType=TINYINT}
   </select>
   <delete id="removeByName" parameterType="String">
     delete from base_fileupload

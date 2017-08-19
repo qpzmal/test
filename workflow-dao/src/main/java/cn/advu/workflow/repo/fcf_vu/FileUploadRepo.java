@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface FileUploadRepo extends IRepo<BaseFileupload> {
 
-    List<BaseFileupload> findByCustom(String bizName);
+    List<BaseFileupload> findByCustom(String bizName, String bizType);
     int removeByName(String bizName, String bizType);
 }

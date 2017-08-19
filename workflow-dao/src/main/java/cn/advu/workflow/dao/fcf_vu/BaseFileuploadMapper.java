@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface BaseFileuploadMapper  extends BaseDAO<BaseFileupload> {
 
-    List<BaseFileupload> findByCustom(@Param("bizName") String bizName);
+    List<BaseFileupload> findByCustom(@Param("bizName") String bizName, @Param("bizType") String bizType);
     int removeByName(@Param("bizName") String bizName, @Param("bizType") String bizType);
 }
