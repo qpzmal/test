@@ -24,9 +24,9 @@ public class FileUploadServiceImpl implements FileUploadService {
 
 
     @Override
-    public ResultJson<List<BaseFileupload>> findByCustom(String bizName) {
+    public ResultJson<List<BaseFileupload>> findByCustom(String bizName, String bizType) {
         ResultJson<List<BaseFileupload>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
-        result.setData(fileUploadRepo.findByCustom(bizName));
+        result.setData(fileUploadRepo.findByCustom(bizName, bizType));
         return result;
     }
 

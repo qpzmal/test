@@ -176,42 +176,58 @@ public class ExecuteOrderController {
         ResultJson<List<BaseExecuteOrder>> result = executeOrderService.queryAllForContract(param);
         List<BaseExecuteOrder> dataList = result.getData();
         for (BaseExecuteOrder data:dataList) {
+            if (data.getStatus() == 1) { // 未开始--需求单
+                if ("-1".equals(data.getContractStatus())) {
+                    data.setStrTodoStatus("待签署合同");
+                    data.setIntTodoStatus("1");
 
-            if ("-1".equals(data.getContractStatus())) {
-                data.setStrTodoStatus("待签署合同");
-                data.setIntTodoStatus("1");
+                } else if ("-1".equals(data.getContractImgStatus())) {
+                    data.setStrTodoStatus("待上传扫描版合同");
+                    data.setIntTodoStatus("6");
+                    if (data.getContractImgCount() > 0) {
+                        data.setIntTodoStatus("7");
+                    }
+                } else if ("-1".equals(data.getOriginalContractStatus())) {
+                    data.setStrTodoStatus("待获取原章合同");
+                    data.setIntTodoStatus("11");
+                } else {
+                    data.setStrTodoStatus("待发起排期执行单");
+                    data.setIntTodoStatus("14");
 
-            } else if ("-1".equals(data.getContractImgStatus())) {
-                data.setStrTodoStatus("待上传扫描版合同");
-                data.setIntTodoStatus("6");
-                if (data.getContractImgCount() > 0 ) {
-                    data.setIntTodoStatus("7");
                 }
 
-            } else if ("-1".equals(data.getOriginalContractStatus())) {
-                data.setStrTodoStatus("待获取原章合同");
-                data.setIntTodoStatus("11");
+            } else if (data.getStatus() == 2) { // 执行中--排期执行单
+                if ("-1".equals(data.getExecuteOrderImgStatus())) {
+                    data.setStrTodoStatus("待上传扫描版排期单");
+                    data.setIntTodoStatus("16");
+                    if (data.getExecuteOrderImgCount() > 0 ) {
+                        data.setIntTodoStatus("17");
+                    }
 
-            } else if ("-1".equals(data.getExecuteOrderImgStatus())) {
-                data.setStrTodoStatus("待上传扫描版排期单");
-                data.setIntTodoStatus("16");
-                if (data.getExecuteOrderImgCount() > 0 ) {
-                    data.setIntTodoStatus("17");
-                }
-
-            } else if ("-1".equals(data.getOriginalContractStatus())) {
-                data.setStrTodoStatus("待获取原章排期单");
-                data.setIntTodoStatus("21");
+                } else if ("-1".equals(data.getOriginalExecuteOrderStatus())) {
+                    data.setStrTodoStatus("待获取原章排期单");
+                    data.setIntTodoStatus("21");
 
 
-            } else if ("-1".equals(data.getReminderPaymentStatus())) {
+                } else if ("-1".equals(data.getReminderPaymentStatus())) {
                     data.setStrTodoStatus("待催款");
                     data.setIntTodoStatus("26");
 
+                } else {
+                    data.setStrTodoStatus("待回款");
+                    data.setIntTodoStatus("31");
+
+                }
+            } else if (data.getStatus() == 3) {
+                data.setStrTodoStatus("已结束");
+                data.setIntTodoStatus("99");
             } else {
                 data.setStrTodoStatus("未知状态");
-                LOGGER.warn("合同与单据列表中，出现未知状态");
+                data.setIntTodoStatus("0");
+                LOGGER.warn("合同与单据列表中，出现未知状态：{}", data.getStatus());
+
             }
+
 
         }
         resultModel.addAttribute("dataList", result.getData());
@@ -640,6 +656,15 @@ public class ExecuteOrderController {
         return "demand/saleOrder/refer";
     }
 
+    /**
+     *
+     * @param bizId base_execute_order表ID
+     * @param picType 1合同；2执行单
+     * @param uploadType 首次、续传、重传
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping(value="fileUpload",produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String fileUpload(Integer bizId, String picType, String uploadType, Model model
@@ -691,13 +716,57 @@ public class ExecuteOrderController {
 			}
             BaseFileupload obj = new BaseFileupload();
             obj.setBizName(baseExecuteOrder.getOrderNum());
+            obj.setBizType(picType);
             obj.setFileName(filePath.substring(filePath.indexOf("/workflow-admin"), filePath.length()));
             obj.setCreatorId(UserThreadLocalContext.getCurrentUser().getUserId());
             fileUploadService.add(obj);
         }
 
-        return "aaaaaa";
+        return "";
     }
 
+
+
+
+    /**
+     * 预览已上传图片
+     *
+     * @param resultModel
+     * @return
+     */
+    @RequestMapping("/preViewImg")
+    public String preViewImg(Model resultModel){
+
+        String bizId = RequestUtil.getStringParamDef(httpServletRequest, "bizId", "");
+        String bizName = RequestUtil.getStringParamDef(httpServletRequest, "bizName", "");
+        String bizType = RequestUtil.getStringParamDef(httpServletRequest, "bizType", "");
+        LOGGER.info("bizId:{}, bizName:{}, bizType:{}", new Object[]{bizId, bizName, bizType});
+
+
+        BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(bizId)).getData();
+        String displayFlag = "false";
+        if ("1".equals(bizType)) {
+            if ("-1".equals(baseExecuteOrder.getContractImgStatus())) {
+                displayFlag = "true";
+            }
+        } else {
+            if ("-1".equals(baseExecuteOrder.getExecuteOrderImgStatus())) {
+                displayFlag = "true";
+            }
+        }
+
+        ResultJson<List<BaseFileupload>> result = fileUploadService.findByCustom(bizName, bizType);
+
+
+//        String host = httpServletRequest.getScheme()+"://"+httpServletRequest.getServerName()+":"+httpServletRequest.getServerPort();
+        String host = httpServletRequest.getScheme()+"://"+httpServletRequest.getServerName();
+
+        resultModel.addAttribute("dataList", result.getData());
+        resultModel.addAttribute("host", host);
+        resultModel.addAttribute("bizId", bizId);
+        resultModel.addAttribute("bizType", bizType);
+        resultModel.addAttribute("displayFlag", displayFlag);
+        return "demand/saleOrder/img_preview";
+    }
 
 }

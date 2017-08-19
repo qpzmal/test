@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface FileUploadService {
 
-   ResultJson<List<BaseFileupload>> findByCustom(String bizName);
+   ResultJson<List<BaseFileupload>> findByCustom(String bizName, String bizType);
 
    ResultJson<Integer> add(BaseFileupload baseFileupload);
 

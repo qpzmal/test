@@ -26,8 +26,8 @@ public class BaseFileUploadRepoImpl extends AbstractRepo<BaseFileupload> impleme
     }
 
     @Override
-    public List<BaseFileupload> findByCustom(String bizName) {
-        return baseFileuploadMapper.findByCustom(bizName);
+    public List<BaseFileupload> findByCustom(String bizName, String bizType) {
+        return baseFileuploadMapper.findByCustom(bizName, bizType);
     }
 
     @Override
