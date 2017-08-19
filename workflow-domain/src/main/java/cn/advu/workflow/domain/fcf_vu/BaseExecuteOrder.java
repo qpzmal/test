@@ -90,6 +90,8 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
 
     private String intTodoStatus; // 待执行流程（下一步流程）
     private String strTodoStatus; // 待执行流程描述（下一步流程）
+    private Integer contractImgCount; // 已上传的扫描版合同图片数
+    private Integer executeOrderImgCount; // 已上传的扫描版排期单图片数
 
     public String getCustomSignName() {
         return customSignName;
@@ -449,5 +451,21 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
 
     public void setStrTodoStatus(String strTodoStatus) {
         this.strTodoStatus = strTodoStatus;
+    }
+
+    public Integer getContractImgCount() {
+        return contractImgCount;
+    }
+
+    public void setContractImgCount(Integer contractImgCount) {
+        this.contractImgCount = contractImgCount;
+    }
+
+    public Integer getExecuteOrderImgCount() {
+        return executeOrderImgCount;
+    }
+
+    public void setExecuteOrderImgCount(Integer executeOrderImgCount) {
+        this.executeOrderImgCount = executeOrderImgCount;
     }
 }

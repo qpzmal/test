@@ -35,6 +35,10 @@ public class BaseExecuteOrderRepoImpl extends AbstractRepo<BaseExecuteOrder> imp
         return baseExecuteOrderMapper.queryAll(baseExecuteOrder);
     }
     @Override
+    public List<BaseExecuteOrder> queryAllForContract(BaseExecuteOrder baseExecuteOrder) {
+        return baseExecuteOrderMapper.queryAllForContract(baseExecuteOrder);
+    }
+    @Override
     public List<BaseExecuteOrder> findAllUnFinished() {
         return baseExecuteOrderMapper.findAllUnFinished();
     }

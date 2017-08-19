@@ -9,5 +9,6 @@ public interface BaseExecuteOrderMapper extends BaseDAO<BaseExecuteOrder> {
 
     // 以下为自定义SQL
     List<BaseExecuteOrder> queryAll(BaseExecuteOrder baseExecuteOrder);
+    List<BaseExecuteOrder> queryAllForContract(BaseExecuteOrder baseExecuteOrder);
     List<BaseExecuteOrder> findAllUnFinished();
 }

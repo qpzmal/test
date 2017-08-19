@@ -19,6 +19,13 @@ public interface ExecuteOrderService {
      */
     ResultJson<List<BaseExecuteOrder>> findAll(BaseExecuteOrder param);
 
+    /**
+     * 返回需求单（合同、单据用）
+     *
+     * @return
+     */
+    ResultJson<List<BaseExecuteOrder>> queryAllForContract(BaseExecuteOrder param);
+
 
     /**
      * 返回全部需求单

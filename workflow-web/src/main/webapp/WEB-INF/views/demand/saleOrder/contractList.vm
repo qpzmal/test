@@ -30,15 +30,23 @@
                                 </td>
                                 <td class="right" tid="$!{data.id}">
                                     <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
-
                                     #if($data.intTodoStatus == 1)
                                         <a href="javascript:;" class="btn btn-info btn-sm button_contract "><i class="fa fa-pencil "></i> 已签署合同 </a>
                                     #elseif($data.intTodoStatus == 6)
                                         <a href="javascript:;" class="btn btn-info btn-sm button_contract_img "><i class="fa fa-upload "></i> 上传扫描版合同 </a>
+                                    #elseif($data.intTodoStatus == 7)
+                                        <a href="javascript:;" class="btn btn-default btn-sm button_view_contract_img "><i class="fa fa-search "></i> 查看已上传图片 </a>
+                                        <a href="javascript:;" class="btn btn-info btn-sm button_contract_img_continue "><i class="fa fa-upload "></i> 续传 </a>
+                                        <a href="javascript:;" class="btn btn-info btn-sm button_contract_img_reupload "><i class="fa fa-upload "></i> 重新上传 </a>
                                     #elseif($data.intTodoStatus == 11)
                                         <a href="javascript:;" class="btn btn-info btn-sm button_original_contract "><i class="fa fa-pencil "></i> 已获取原章合同 </a>
                                     #elseif($data.intTodoStatus == 16)
                                         <a href="javascript:;" class="btn btn-info btn-sm button_execute_order_img "><i class="fa fa-upload "></i> 上传扫描版排期单 </a>
+
+                                    #elseif($data.intTodoStatus == 17)
+                                        <a href="javascript:;" class="btn btn-default btn-sm button_view_execute_img "><i class="fa fa-search "></i> 查看已上传图片 </a>
+                                        <a href="javascript:;" class="btn btn-info btn-sm button_execute_img_continue "><i class="fa fa-upload "></i> 续传 </a>
+                                        <a href="javascript:;" class="btn btn-info btn-sm button_execute_img_reupload "><i class="fa fa-upload "></i> 重新上传 </a>
                                     #elseif($data.intTodoStatus == 21)
                                         <a href="javascript:;" class="btn btn-info btn-sm button_original_execute_order "><i class="fa fa-pencil "></i> 已获取原章排期单 </a>
                                     #elseif($data.intTodoStatus == 26)
@@ -61,12 +69,12 @@
 
 <div class="ibox-content file-upload" style="display:none">
     <div class="page-container">
-        <p>您可以尝试文件拖拽，使用QQ截屏工具，然后激活窗口后粘贴，或者点击添加图片按钮，来上传图片</p>
+        <p>您可以尝试文件拖拽，使用QQ截屏工具，然后激活窗口后粘贴，或者点击添加图片按钮，来上传图片（仅允许gif,jpg,jpeg,bmp,png格式，单个文件最大1M，批量共计最大10M）</p>
         <div id="uploader" class="wu-example">
             <div class="queueList">
                 <div id="dndArea" class="placeholder">
                     <div id="filePicker"></div>
-                    <p>或将图片拖到这里，单次最多可选300张</p>
+                    <p>或将图片拖到这里，单次最多可选30张</p>
                 </div>
             </div>
             <div class="statusBar" style="display:none;">
@@ -153,11 +161,26 @@
     })
 
 
-    ## 上传扫描版合同
+    ## 上传扫描版合同(首次)
     $(".button_contract_img").click(function(){
         var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        uploadFile(bizId, 1, "first");
+    })
+    ## 上传扫描版合同(续传)
+    $(".button_contract_img_continue").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        uploadFile(bizId, 1, "continue");
+    })
+    ## 上传扫描版合同(重传)
+    $(".button_contract_img_reupload").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        uploadFile(bizId, 1, "reupload");
+    })
+    function uploadFile(bizId, picType, uploadType) {
         // WebUploader初始化以后添加自定义参数
         uploader.options.formData.bizId = bizId;
+        uploader.options.formData.picType = picType;
+        uploader.options.formData.uploadType = uploadType;
         layer.open({
             type: 1,
             title: false, //不显示标题
@@ -168,7 +191,7 @@
             content: $('.file-upload'),
         });
         uploader.refresh();
-    })
+    }
 
 
 

@@ -5,6 +5,7 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.datareport.DataReportService;
 import cn.advu.workflow.web.third.echarts.NormalExtend;
+import cn.advu.workflow.web.util.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.github.abel533.echarts.Option;
 import com.github.abel533.echarts.axis.CategoryAxis;
@@ -93,37 +94,37 @@ public class ReportAreaController {
         type = StringUtils.isEmpty(type)?"1":type;
 
 
-        String endDate = new DateTime().toString("yyyy/MM/dd HH:mm:ss");
+        String endDate = DateUtil.getToday();
         if ("1".equals(lid)) { // 全年
-            startDate = new DateTime().withDayOfYear(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
-            endDate = new DateTime().dayOfYear().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+            startDate = DateUtil.getYearFirstDay();
+            endDate = DateUtil.getYearLastDay();
 
         } else if ("2".equals(lid)) { // 半年
             if ("1".equals(type)) { // 上半年
-                startDate = new DateTime().withDayOfYear(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
-                endDate = new DateTime().withMonthOfYear(6).dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+                startDate = DateUtil.getYearFirstDay();
+                endDate = DateUtil.getFirstHalfYearLastDay();
 
             } else {
-                startDate = new DateTime().withMonthOfYear(7).dayOfMonth().withMinimumValue().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
-                endDate = new DateTime().withMonthOfYear(12).dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+                startDate = DateUtil.getSecondHalfYearFirstDay();
+                endDate = DateUtil.getYearLastDay();
 
             }
         } else if ("3".equals(lid)) { // 季度
             if ("1".equals(type)) { // 一季度
-                startDate = new DateTime().withDayOfYear(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
-                endDate = new DateTime().withMonthOfYear(3).dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+                startDate = DateUtil.getYearFirstDay();
+                endDate = DateUtil.getFirstSeasonLastDay();
 
             } else if ("2".equals(type)) {
-                startDate = new DateTime().withMonthOfYear(4).dayOfMonth().withMinimumValue().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
-                endDate = new DateTime().withMonthOfYear(6).dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+                startDate = DateUtil.getSecSeasonFirstDay();
+                endDate = DateUtil.getFirstHalfYearLastDay();
 
             } else if ("3".equals(type)) {
-                startDate = new DateTime().withMonthOfYear(7).dayOfMonth().withMinimumValue().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
-                endDate = new DateTime().withMonthOfYear(9).dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+                startDate = DateUtil.getSecondHalfYearFirstDay();
+                endDate = DateUtil.getThirdSeasonLastDay();
 
             } else if ("4".equals(type)) {
-                startDate = new DateTime().withMonthOfYear(10).dayOfMonth().withMinimumValue().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toString("yyyy/MM/dd HH:mm:ss");
-                endDate = new DateTime().withMonthOfYear(12).dayOfMonth().withMaximumValue().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toString("yyyy/MM/dd HH:mm:ss");
+                startDate = DateUtil.getFourthSeasonFirstDay();
+                endDate = DateUtil.getYearLastDay();
 
             }
         } else {

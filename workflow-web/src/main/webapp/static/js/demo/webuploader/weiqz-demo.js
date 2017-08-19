@@ -85,8 +85,8 @@ file_maxSize=1;
         chunked: true,
         // server: 'http://webuploader.duapp.com/server/fileupload.php',
         server: '/saleOrder/fileUpload.json',
-        fileNumLimit: 300,
-        fileSizeLimit: 5 * file_maxSize  * 1024 * 1024,    // 5 M
+        fileNumLimit: 30, // 批量最大文件数
+        fileSizeLimit: 3 * file_maxSize  * 1024 * 1024,    // 10 M
         fileSingleSizeLimit: 1 * file_maxSize * 1024 * 1024    // 1 M
     });
 
@@ -343,7 +343,8 @@ file_maxSize=1;
             case 'finish':
                 stats = uploader.getStats();
                 if ( stats.successNum ) {
-                    alert( '上传成功' );
+                    popMsg("上传文件成功！", "/saleOrder/contractList");
+                    // alert( '上传成功' );
                 } else {
                     // 没有成功的图片，重设
                     state = 'done';

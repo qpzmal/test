@@ -11,5 +11,6 @@ import java.util.List;
 public interface BaseExecuteOrderRepo extends IRepo<BaseExecuteOrder> {
 
     List<BaseExecuteOrder> findAll(BaseExecuteOrder baseExecuteOrder);
+    List<BaseExecuteOrder> queryAllForContract(BaseExecuteOrder baseExecuteOrder);
     List<BaseExecuteOrder> findAllUnFinished();
 }

@@ -5,6 +5,7 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.datareport.DataReportService;
 import cn.advu.workflow.web.third.echarts.NormalExtend;
+import cn.advu.workflow.web.util.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.github.abel533.echarts.Option;
 import com.github.abel533.echarts.axis.CategoryAxis;
@@ -14,7 +15,6 @@ import com.github.abel533.echarts.series.Bar;
 import com.github.abel533.echarts.series.Pie;
 import com.github.abel533.echarts.style.ItemStyle;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +68,8 @@ public class ReportCustomerController {
             HttpServletRequest request, HttpServletResponse response) {
         ResultJson result = new ResultJson<>(WebConstants.OPERATION_FAILURE);
         lid = StringUtils.isEmpty(lid)?"1":lid;
-        startDate = StringUtils.isEmpty(startDate)?(new DateTime().withDayOfYear(1).withHourOfDay(1).withMinuteOfHour(1).toString("yyyy/MM/dd HH:mm:ss")):startDate;
-        endDate = StringUtils.isEmpty(endDate)?(new DateTime().toString("yyyy/MM/dd HH:mm:ss")):endDate;
+        startDate = StringUtils.isEmpty(startDate)? DateUtil.getYearFirstDay():startDate;
+        endDate = StringUtils.isEmpty(endDate)? DateUtil.getToday():endDate;
         options = StringUtils.isEmpty(options)?"0":options;
         customerType = StringUtils.isEmpty(customerType)?"1":customerType;
         profitType = StringUtils.isEmpty(profitType)?"1":profitType;
@@ -96,8 +96,8 @@ public class ReportCustomerController {
             HttpServletRequest request, HttpServletResponse response) {
         ResultJson result = new ResultJson<>(WebConstants.OPERATION_FAILURE);
         lid = StringUtils.isEmpty(lid)?"1":lid;
-        startDate = StringUtils.isEmpty(startDate)?(new DateTime().withDayOfYear(1).withHourOfDay(1).withMinuteOfHour(1).toString("yyyy/MM/dd HH:mm:ss")):startDate;
-        endDate = StringUtils.isEmpty(endDate)?(new DateTime().toString("yyyy/MM/dd HH:mm:ss")):endDate;
+        startDate = StringUtils.isEmpty(startDate) ? DateUtil.getYearFirstDay() :startDate;
+        endDate = StringUtils.isEmpty(endDate) ? DateUtil.getToday():endDate;
         options = StringUtils.isEmpty(options)?"1":options;
 
         List<VuDataReport> list = new ArrayList<>();

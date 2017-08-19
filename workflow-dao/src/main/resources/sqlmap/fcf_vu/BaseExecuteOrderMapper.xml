@@ -47,6 +47,8 @@
     <result column="execute_order_img_status" jdbcType="TINYINT" property="executeOrderImgStatus" />
     <result column="original_execute_order_status" jdbcType="TINYINT" property="originalExecuteOrderStatus" />
     <result column="reminder_payment_status" jdbcType="TINYINT" property="reminderPaymentStatus" />
+    <result column="contractImgCount" jdbcType="INTEGER" property="contractImgCount" />
+    <result column="executeOrderImgCount" jdbcType="INTEGER" property="executeOrderImgCount" />
   </resultMap>
   <sql id="Base_Column_List">
     id, process_instance_id, name, order_num, sec_order_num, type, order_date, delivery_area_ids, 
@@ -559,6 +561,55 @@
       limit #{page.start}, #{page.pageSize}
     </if>
   </select>
+
+
+
+  <select id="queryAllForContract" resultMap="BaseResultMap">
+    select
+    base_execute_order.id,
+    base_execute_order.name,
+    base_execute_order.order_num,
+    base_execute_order.contract_status,
+    base_execute_order.contract_img_status,
+    base_execute_order.original_contract_status,
+    base_execute_order.execute_order_img_status,
+    base_execute_order.original_execute_order_status,
+    base_execute_order.reminder_payment_status,
+    IFNULL(base_fileupload_1.countNum, 0) as contractImgCount,
+    IFNULL(base_fileupload_2.countNum, 0) as executeOrderImgCount
+    from base_execute_order left join
+    (
+    select biz_name, count(biz_name) as countNum from  base_fileupload  where biz_type = 1 group by biz_name
+    ) base_fileupload_1 on  base_execute_order.order_num = base_fileupload_1.biz_name
+    left join
+    (
+    select biz_name, count(biz_name) as countNum from  base_fileupload  where biz_type = 2 group by biz_name
+    ) base_fileupload_2 on base_execute_order.order_num = base_fileupload_2.biz_name
+    where del_flag = '0'
+    <if test="itemStatus != null">
+      and item_status = #{itemStatus,jdbcType=TINYINT}
+    </if>
+    <if test="status != null">
+      and status = #{status,jdbcType=TINYINT}
+    </if>
+    <if test="payPercent != null">
+      and pay_percent <![CDATA[ < ]]> #{payPercent,jdbcType=DECIMAL}
+    </if>
+    <if test="statusArray != null">
+      and status IN ${statusArray}
+    </if>
+    <if test="conditionStartDate != null">
+      AND create_time >= STR_TO_DATE(#{conditionStartDate,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s')
+    </if>
+    <if test="conditionEndDate != null and endDate != '' ">
+      AND create_time <![CDATA[ <= ]]> STR_TO_DATE(#{conditionEndDate,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s')
+    </if>
+    order by update_time desc
+    <if test="page != null">
+      limit #{page.start}, #{page.pageSize}
+    </if>
+  </select>
+
   <select id="findAllUnFinished" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

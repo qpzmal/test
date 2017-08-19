@@ -1,17 +1,17 @@
 package cn.advu.workflow.web.controller.demand;
 
+import cn.advu.workflow.common.utils.StringUtil;
 import cn.advu.workflow.domain.enums.RoleEnum;
 import cn.advu.workflow.domain.fcf_vu.*;
+import cn.advu.workflow.web.common.RequestUtil;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.manager.*;
-import cn.advu.workflow.web.service.base.AreaService;
-import cn.advu.workflow.web.service.base.ExecuteOrderService;
-import cn.advu.workflow.web.service.base.MonitorRequestService;
-import cn.advu.workflow.web.service.base.SaleFrameService;
+import cn.advu.workflow.web.service.base.*;
 import cn.advu.workflow.web.util.AssertUtil;
 import cn.advu.workflow.web.util.BigDecimalUtil;
+import cn.advu.workflow.web.util.DateUtil;
 import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -29,8 +29,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -90,6 +88,9 @@ public class ExecuteOrderController {
 
     @Autowired
     RoleManager roleManager;
+
+    @Autowired
+    FileUploadService fileUploadService;
 
     @Value("${upload.img.base}")
     private String uploadImgBase;
@@ -163,11 +164,16 @@ public class ExecuteOrderController {
     @RequestMapping("/contractList")
     public String toContractList(Model resultModel){
 
+        String conditionStartDate = RequestUtil.getStringParamDef(httpServletRequest, "startDate", DateUtil.getYearFirstDay());
+        String conditionEndDate = RequestUtil.getStringParamDef(httpServletRequest, "endDate", DateUtil.getToday());
+
         BaseExecuteOrder param = new BaseExecuteOrder();
         param.setStatusArray("(1, 2)");
         param.setPayPercent(new BigDecimal(100));
+        param.setConditionStartDate(conditionStartDate);
+        param.setConditionEndDate(conditionEndDate);
 
-        ResultJson<List<BaseExecuteOrder>> result = executeOrderService.findAll(param);
+        ResultJson<List<BaseExecuteOrder>> result = executeOrderService.queryAllForContract(param);
         List<BaseExecuteOrder> dataList = result.getData();
         for (BaseExecuteOrder data:dataList) {
 
@@ -178,6 +184,9 @@ public class ExecuteOrderController {
             } else if ("-1".equals(data.getContractImgStatus())) {
                 data.setStrTodoStatus("待上传扫描版合同");
                 data.setIntTodoStatus("6");
+                if (data.getContractImgCount() > 0 ) {
+                    data.setIntTodoStatus("7");
+                }
 
             } else if ("-1".equals(data.getOriginalContractStatus())) {
                 data.setStrTodoStatus("待获取原章合同");
@@ -186,6 +195,9 @@ public class ExecuteOrderController {
             } else if ("-1".equals(data.getExecuteOrderImgStatus())) {
                 data.setStrTodoStatus("待上传扫描版排期单");
                 data.setIntTodoStatus("16");
+                if (data.getExecuteOrderImgCount() > 0 ) {
+                    data.setIntTodoStatus("17");
+                }
 
             } else if ("-1".equals(data.getOriginalContractStatus())) {
                 data.setStrTodoStatus("待获取原章排期单");
@@ -630,33 +642,46 @@ public class ExecuteOrderController {
 
     @RequestMapping(value="fileUpload",produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String fileUpload(Integer bizId, String uploadType, Model model
+    public String fileUpload(Integer bizId, String picType, String uploadType, Model model
 //                             @RequestParam("file") CommonsMultipartFile[] imgFile,
+                             ,HttpServletRequest request
     ){
-        MultipartResolver resolver = new CommonsMultipartResolver(httpServletRequest.getSession().getServletContext());
-        MultipartHttpServletRequest multipartRequest = resolver.resolveMultipart(httpServletRequest);
+//        MultipartResolver resolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+//        MultipartHttpServletRequest multipartRequest = resolver.resolveMultipart(request);
 
-//        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) httpServletRequest;
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         List<MultipartFile> imgFileList = multipartRequest.getFiles("file");
+        LOGGER.info("共上传【{}】个文件", imgFileList.size());
 
         BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(bizId).getData();
         String orderNum = baseExecuteOrder.getOrderNum();
 
         String path = uploadImgBase;
-        if ("1".equals(uploadType)) { // 上传扫描版合同
-            path = path + uploadImgContract;
-        } else if ("2".equals(uploadType)) { // 上传扫描版排期单
-            path = path + uploadImgExeOrder;
+        if ("1".equals(picType)) { // 上传扫描版合同
+            path = path + (new DateTime().getYear()) + uploadImgContract;
+        } else if ("2".equals(picType)) { // 上传扫描版排期单
+            path = path + (new DateTime().getYear()) + uploadImgExeOrder;
         }
-        path = path + File.separator + (new DateTime().getYear());
+        LOGGER.info("文件上传路径：{}", path);
         if(!new File(path).exists())   {
             new File(path).mkdirs();
         }
+
+        if ("reupload".equals(uploadType)) { // 续传
+            fileUploadService.removeByName(baseExecuteOrder.getOrderNum(), picType);
+        }
+
+        DateTime dateTime=new DateTime();
         for (MultipartFile file:imgFileList) {
-            String fileName = file.getName();
-            fileName = orderNum + fileName;
+            String fileName = file.getOriginalFilename();
+            if (fileName.length() > 30) { // 文件名过长时，改名
+                fileName = System.currentTimeMillis() + ".jpg";
+            }
+            fileName = orderNum + "_" + dateTime.toString("yyyyMMddhhmmss") + "_" + StringUtil.getRandom6Str() + "_" + fileName;
             String filePath = path + fileName;
             LOGGER.debug("file path:{}", filePath);
+            LOGGER.debug("file path:{}", filePath.substring(filePath.indexOf("/workflow-admin"), filePath.length()));
+
 			try {
 	            FileOutputStream fout = new FileOutputStream(filePath);
 	            IOUtils.write(file.getBytes(), fout);
@@ -664,6 +689,11 @@ public class ExecuteOrderController {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
+            BaseFileupload obj = new BaseFileupload();
+            obj.setBizName(baseExecuteOrder.getOrderNum());
+            obj.setFileName(filePath.substring(filePath.indexOf("/workflow-admin"), filePath.length()));
+            obj.setCreatorId(UserThreadLocalContext.getCurrentUser().getUserId());
+            fileUploadService.add(obj);
         }
 
         return "aaaaaa";
