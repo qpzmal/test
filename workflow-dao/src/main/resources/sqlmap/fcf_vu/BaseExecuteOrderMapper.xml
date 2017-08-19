@@ -669,15 +669,27 @@
 
 
   <!-- 以上为自动生成SQL，以下为自定义SQL -->
-  <select id="queryFinalReport" resultMap="ReportResultMap">
+  <select id="queryFinalReport" resultType="HashMap">
     select
-    <include refid="Base_Column_List" />,
-    base_custom.name as custom_sign_name,
-    base_person.name as person_leader_name,
-    group_concat(DISTINCT base_adtype.name separator '、') as ad_type_name,
+    base_execute_order.order_num as orderNum,
+    base_execute_order.name as name,
+    base_custom.name as customSignName,
+    base_person.name as personLeaderName,
+    base_execute_order.delivery_area_names as deliveryAreaNames,
+    base_execute_order.start_date as startDate,
+    base_execute_order.end_date as endDate,
+    ifnull(base_execute_order.tax_amount,0) as amount,
+    ifnull(base_execute_order.public_rebate, 0) as publicRebate,
+    group_concat(DISTINCT base_adtype.name separator '、') as adTypeName,
     base_execute_order.update_time,
-    count(base_order_cpm.id) as total_cpm_count,
-    sum(IFNULL(first_price,0)*IFNULL(cpm,0)) as total_cpm_cost
+    count(base_order_cpm.id) as totalCpmCount,
+    sum(IFNULL(first_price,0)*IFNULL(cpm,0)) as totalCpmCost
+    <if test="mediaIdList != null ">
+      ,
+    </if>
+    <foreach collection="mediaIdList" item="mediaId" separator="," >
+      (select count(media_cpm_${mediaId}.cpm) from base_order_cpm media_cpm_${mediaId}  where media_cpm_${mediaId}.order_id = base_execute_order.id and media_cpm_${mediaId}.order_cpm_type = 2 and media_cpm_${mediaId}.media_id=${mediaId}) as s_${mediaId}
+    </foreach>
     from base_execute_order left join base_order_cpm on  base_order_cpm.order_id = base_execute_order.id
     left join base_adtype on base_order_cpm.ad_type_id = base_adtype.id
     left join base_custom on base_execute_order.custom_sign_id = base_custom.id

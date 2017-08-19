@@ -6,6 +6,7 @@ import cn.advu.workflow.domain.fcf_vu.datareport.BaseExecuteOrderReportVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BaseExecuteOrderMapper extends BaseDAO<BaseExecuteOrder> {
 
@@ -13,5 +14,5 @@ public interface BaseExecuteOrderMapper extends BaseDAO<BaseExecuteOrder> {
     List<BaseExecuteOrder> queryAll(BaseExecuteOrder baseExecuteOrder);
     List<BaseExecuteOrder> queryAllForContract(BaseExecuteOrder baseExecuteOrder);
     List<BaseExecuteOrder> findAllUnFinished();
-    List<BaseExecuteOrderReportVO> queryFinalReport(@Param("likeSearch") String likeSearch);
+    List<Map> queryFinalReport(@Param("likeSearch") String likeSearch, @Param("mediaIdList") List<String> mediaIdList);
 }

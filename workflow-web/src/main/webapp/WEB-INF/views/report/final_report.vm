@@ -92,6 +92,7 @@
             pageSize: 30,
             silent: true,
             queryParamsType:'',
+            striped: true,      //是否显示行间隔色
             queryParams: function queryParams(params) {
 
 //                var startDate = $("#startDate").val();
@@ -111,6 +112,17 @@
                     likeSearch:likeSearch
                 };
                 return param;
+            },
+            rowStyle: function (row, index) {
+                //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+                var strclass = "";
+                if (row.adTypeName == "合计") {
+                    strclass = 'info';//还有一个active
+                }
+                else {
+                    return {};
+                }
+                return { classes: strclass }
             },
             columns: tableColumns
 //                    [

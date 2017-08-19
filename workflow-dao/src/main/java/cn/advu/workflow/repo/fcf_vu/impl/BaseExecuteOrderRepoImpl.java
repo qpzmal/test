@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 需求订单
@@ -45,8 +46,8 @@ public class BaseExecuteOrderRepoImpl extends AbstractRepo<BaseExecuteOrder> imp
     }
 
     @Override
-    public List<BaseExecuteOrderReportVO> finalReport(String likeSearch) {
-        return baseExecuteOrderMapper.queryFinalReport(likeSearch);
+    public List<Map> finalReport(String likeSearch, List<String> mediaIdList) {
+        return baseExecuteOrderMapper.queryFinalReport(likeSearch, mediaIdList);
     }
 
     @Override

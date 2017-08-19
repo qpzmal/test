@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wangry on 17/8/19.
@@ -18,7 +19,7 @@ public class ExecuteOrderManager {
     @Autowired
     private BaseExecuteOrderRepo baseExecuteOrderRepo;
 
-    public List<BaseExecuteOrderReportVO> findFinalReport(String likeSearch) {
-        return baseExecuteOrderRepo.finalReport(likeSearch);
+    public List<Map> findFinalReport(String likeSearch, List<String> mediaIdList) {
+        return baseExecuteOrderRepo.finalReport(likeSearch, mediaIdList);
     }
 }

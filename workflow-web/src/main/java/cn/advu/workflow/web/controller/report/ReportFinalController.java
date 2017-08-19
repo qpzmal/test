@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by wangry on 17/8/19.
@@ -37,6 +38,8 @@ public class ReportFinalController {
     @Autowired
     FinancialindexMananger financialindexMananger;
 
+    static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
     @RequestMapping("/")
     public String finalReport(Model resultModel){
         return "report/final_report";
@@ -48,6 +51,39 @@ public class ReportFinalController {
         JSONArray totalTile = new JSONArray();
         setFixedTitle(totalTile);
         List<BaseMedia> baseMediaList = mediaMananger.findAllActiveMedia();
+        if (baseMediaList != null && !baseMediaList.isEmpty()) {
+            for (BaseMedia baseMedia : baseMediaList) {
+                JSONObject extendTitle = new JSONObject();
+                extendTitle.put("field", "s_"+baseMedia.getId());
+                extendTitle.put("title", baseMedia.getName() + "CPM量");
+                extendTitle.put("align", "center");
+                totalTile.add(extendTitle);
+            }
+        }
+        JSONObject fixedTitle = new JSONObject();
+        fixedTitle.put("field", "totalCpmNum");
+        fixedTitle.put("title", "总CPM量");
+        fixedTitle.put("align", "center");
+        totalTile.add(fixedTitle);
+
+        fixedTitle = new JSONObject();
+        fixedTitle.put("field", "totalCost");
+        fixedTitle.put("title", "总成本");
+        fixedTitle.put("align", "center");
+        totalTile.add(fixedTitle);
+
+        fixedTitle = new JSONObject();
+        fixedTitle.put("field", "grossProfit");
+        fixedTitle.put("title", "毛利");
+        fixedTitle.put("align", "center");
+        totalTile.add(fixedTitle);
+
+        fixedTitle = new JSONObject();
+        fixedTitle.put("field", "grossProfitRate");
+        fixedTitle.put("title", "毛利率(%)");
+        fixedTitle.put("align", "center");
+        totalTile.add(fixedTitle);
+
         JSONObject result = new JSONObject();
         result.put("data", totalTile);
         return result;
@@ -111,7 +147,7 @@ public class ReportFinalController {
 
         fixedTitle = new JSONObject();
         fixedTitle.put("field", "rebate");
-        fixedTitle.put("title", "返点");
+        fixedTitle.put("title", "返点(%)");
         fixedTitle.put("align", "center");
         totalTile.add(fixedTitle);
 
@@ -127,56 +163,46 @@ public class ReportFinalController {
         fixedTitle.put("align", "center");
         totalTile.add(fixedTitle);
 
-        fixedTitle = new JSONObject();
-        fixedTitle.put("field", "totalCpmNum");
-        fixedTitle.put("title", "总CPM量");
-        fixedTitle.put("align", "center");
-        totalTile.add(fixedTitle);
-
-        fixedTitle = new JSONObject();
-        fixedTitle.put("field", "totalCost");
-        fixedTitle.put("title", "总成本");
-        fixedTitle.put("align", "center");
-        totalTile.add(fixedTitle);
-
-        fixedTitle = new JSONObject();
-        fixedTitle.put("field", "grossProfit");
-        fixedTitle.put("title", "毛利");
-        fixedTitle.put("align", "center");
-        totalTile.add(fixedTitle);
-
-        fixedTitle = new JSONObject();
-        fixedTitle.put("field", "grossProfitRate");
-        fixedTitle.put("title", "毛利率(%)");
-        fixedTitle.put("align", "center");
-        totalTile.add(fixedTitle);
-
-
-
     }
 
     @RequestMapping("/list")
     @ResponseBody
     public JSONObject list(String likeSearch, Model resultModel){
 
-        List<BaseExecuteOrderReportVO> baseExecuteOrderList = executeOrderManager.findFinalReport(likeSearch);
+        List<BaseMedia> baseMediaList = mediaMananger.findAllActiveMedia();
+        List<String> mediaIdList = null;
+        Map<String, BigDecimal> mediaCpmNum = null;
+        if (baseMediaList != null && !baseMediaList.isEmpty()) {
+            mediaIdList = new ArrayList<>();
+            mediaCpmNum = new HashMap<>();
+            for (BaseMedia baseMedia : baseMediaList) {
+                mediaIdList.add(baseMedia.getId().toString());
+                mediaCpmNum.put("s_"+baseMedia.getId().toString(), BigDecimal.ZERO);
+            }
+        }
+
+        List<Map> baseExecuteOrderList = executeOrderManager.findFinalReport(likeSearch, mediaIdList);
         JSONArray baseExecuteOrderVOList = new JSONArray();
         if (baseExecuteOrderList != null && !baseExecuteOrderList.isEmpty()) {
-            for (BaseExecuteOrderReportVO baseExecuteOrderReportVO : baseExecuteOrderList) {
+            BigDecimal totalTaxAmount = BigDecimal.ZERO;
+            BigDecimal totalTotalCpmNum = BigDecimal.ZERO;
+            BigDecimal totalTotalCpmCost = BigDecimal.ZERO;
+            BigDecimal totalGrossProfit = BigDecimal.ZERO;
+            for (Map baseExecuteOrderReportVO : baseExecuteOrderList) {
                 JSONObject baseExecuteOrderVO = new JSONObject();
-                baseExecuteOrderVO.put("orderNum", baseExecuteOrderReportVO.getOrderNum());
-                baseExecuteOrderVO.put("customSign", baseExecuteOrderReportVO.getCustomSignName());
-                baseExecuteOrderVO.put("name", baseExecuteOrderReportVO.getName());
-                baseExecuteOrderVO.put("personLeader", baseExecuteOrderReportVO.getPersonLeaderName());
-                baseExecuteOrderVO.put("deliveryAreaNames", baseExecuteOrderReportVO.getDeliveryAreaNames());
-                baseExecuteOrderVO.put("startDate", baseExecuteOrderReportVO.getStartDate());
-                baseExecuteOrderVO.put("endDate", baseExecuteOrderReportVO.getEndDate());
-                baseExecuteOrderVO.put("adTypeName", baseExecuteOrderReportVO.getAdTypeName());
-                BigDecimal taxAmount = baseExecuteOrderReportVO.getTaxAmount();
-                BigDecimal rebate = baseExecuteOrderReportVO.getPublicRebate();
+                baseExecuteOrderVO.put("orderNum", baseExecuteOrderReportVO.get("orderNum"));
+                baseExecuteOrderVO.put("customSign", baseExecuteOrderReportVO.get("customSignName"));
+                baseExecuteOrderVO.put("name", baseExecuteOrderReportVO.get("name"));
+                baseExecuteOrderVO.put("personLeader", baseExecuteOrderReportVO.get("personLeaderName"));
+                baseExecuteOrderVO.put("deliveryAreaNames", baseExecuteOrderReportVO.get("deliveryAreaNames"));
+                baseExecuteOrderVO.put("startDate", format.format(baseExecuteOrderReportVO.get("startDate")));
+                baseExecuteOrderVO.put("endDate", format.format(baseExecuteOrderReportVO.get("endDate")));
+                baseExecuteOrderVO.put("adTypeName", baseExecuteOrderReportVO.get("adTypeName"));
+                BigDecimal taxAmount = (BigDecimal)baseExecuteOrderReportVO.get("amount");
+                BigDecimal rebate = (BigDecimal)baseExecuteOrderReportVO.get("publicRebate");
 
                 baseExecuteOrderVO.put("taxAmount", taxAmount);
-                baseExecuteOrderVO.put("rebate", rebate);
+                baseExecuteOrderVO.put("rebate", rebate.multiply(BigDecimalUtil.HUNDRED).stripTrailingZeros().toPlainString() + "%");
                 // 含税收入＝订单金额＊（1-返点）
                 BigDecimal taxIncome = BigDecimal.ONE.subtract(rebate).multiply(taxAmount).setScale(2, BigDecimal.ROUND_HALF_UP);
                 // 净收入＝含税收入／1.06
@@ -185,9 +211,10 @@ public class ReportFinalController {
                 baseExecuteOrderVO.put("taxIncome", taxIncome);
                 baseExecuteOrderVO.put("netIncome", netIncome);
 
-                baseExecuteOrderVO.put("totalCpmNum", baseExecuteOrderReportVO.getTotalCpmCount());
+                BigDecimal totalCpmNum = BigDecimal.valueOf((Long)baseExecuteOrderReportVO.get("totalCpmCount"));
+                baseExecuteOrderVO.put("totalCpmNum", totalCpmNum);
 
-                BigDecimal totalCost = baseExecuteOrderReportVO.getTotalCpmCost();
+                BigDecimal totalCost = (BigDecimal)baseExecuteOrderReportVO.get("totalCpmCost");
                 baseExecuteOrderVO.put("totalCost", totalCost);
 
                 BigDecimal grossProfit = netIncome.subtract(totalCost);
@@ -201,7 +228,35 @@ public class ReportFinalController {
                 baseExecuteOrderVO.put("grossProfitRate", grossProfitRateString);
 
                 baseExecuteOrderVOList.add(baseExecuteOrderVO);
+
+                totalTaxAmount = totalTaxAmount.add(taxAmount);
+                totalTotalCpmNum = totalTotalCpmNum.add(totalCpmNum);
+                totalTotalCpmCost = totalTotalCpmCost.add(totalCost);
+                totalGrossProfit = totalGrossProfit.add(grossProfit);
+
+                if (mediaCpmNum != null) {
+                    for (String mediaKey : mediaCpmNum.keySet()) {
+                        BigDecimal mediaTotal = mediaCpmNum.get(mediaKey);
+                        Object mediaNumObject = baseExecuteOrderReportVO.get(mediaKey);
+                        if (mediaNumObject != null) {
+                            BigDecimal mediaNum = BigDecimal.valueOf((Long)mediaNumObject);
+                            baseExecuteOrderVO.put(mediaKey, mediaNum);
+                            mediaTotal = mediaTotal.add(mediaNum);
+                            mediaCpmNum.put(mediaKey, mediaTotal);
+                        }
+                    }
+                }
             }
+
+            JSONObject totalExecuteOrderVO = new JSONObject();
+            totalExecuteOrderVO.put("adTypeName", "合计");
+            totalExecuteOrderVO.put("taxAmount", totalTaxAmount);
+            totalExecuteOrderVO.put("totalCpmNum", totalTotalCpmNum);
+            totalExecuteOrderVO.put("totalCost", totalTotalCpmCost);
+            totalExecuteOrderVO.put("grossProfit", totalGrossProfit);
+            totalExecuteOrderVO.putAll(mediaCpmNum);
+
+            baseExecuteOrderVOList.add(totalExecuteOrderVO);
         }
         JSONObject sysLogVO = new JSONObject();
         sysLogVO.put("rows", baseExecuteOrderVOList);
