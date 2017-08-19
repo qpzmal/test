@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">模糊查询</label>
                                 <div class="col-sm-8">
-                                    <input id="like_search" placeholder="项目名称／项目编号" name="like_search" maxlength="100" type="text" class="form-control" >
+                                    <input id="like_search" value="$!{likeSearch}" placeholder="项目名称／项目编号" name="like_search" maxlength="100" type="text" class="form-control" >
                                 </div>
                             </div>
                         </div>

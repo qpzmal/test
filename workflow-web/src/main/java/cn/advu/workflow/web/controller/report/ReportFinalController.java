@@ -41,7 +41,8 @@ public class ReportFinalController {
     static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     @RequestMapping("/")
-    public String finalReport(Model resultModel){
+    public String finalReport(Model resultModel, String likeSearch){
+        resultModel.addAttribute("likeSearch", likeSearch);
         return "report/final_report";
     }
 
