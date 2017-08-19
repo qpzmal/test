@@ -757,8 +757,6 @@ public class ExecuteOrderController {
 
         ResultJson<List<BaseFileupload>> result = fileUploadService.findByCustom(bizName, bizType);
 
-
-//        String host = httpServletRequest.getScheme()+"://"+httpServletRequest.getServerName()+":"+httpServletRequest.getServerPort();
         String host = httpServletRequest.getScheme()+"://"+httpServletRequest.getServerName();
 
         resultModel.addAttribute("dataList", result.getData());
@@ -767,6 +765,16 @@ public class ExecuteOrderController {
         resultModel.addAttribute("bizType", bizType);
         resultModel.addAttribute("displayFlag", displayFlag);
         return "demand/saleOrder/img_preview";
+    }
+
+
+
+
+    @RequestMapping("/reminderPaymentList")
+    public String reminderPaymentList(Model resultModel){
+        String bizId = RequestUtil.getStringParamDef(httpServletRequest, "bizId", ""); // N日后到达逾期
+
+        return "demand/saleOrder/reminder_payment_list";
     }
 
 }

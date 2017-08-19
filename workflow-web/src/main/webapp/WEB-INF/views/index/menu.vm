@@ -56,6 +56,7 @@
 
 
                         <a class="J_menuItem" style="" functionid="30400" href="${rc.contextPath}/saleOrder/contractList">合同与单据</a>
+                        <a class="J_menuItem" style="" functionid="30500" href="${rc.contextPath}/saleOrder/reminderPaymentList">应收催款单</a>
                     </li>
                 </ul>
             </li>
