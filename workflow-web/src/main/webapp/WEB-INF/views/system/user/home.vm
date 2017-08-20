@@ -182,6 +182,13 @@
                         #set($Integer = 0)
                         #foreach($data in $unFinishedList)
                             #set($intWorkFlowStep = $Integer.parseInt($data.wfStep))
+                            #set($intContractStatus = $Integer.parseInt($data.contractStatus))
+                            #set($intContractImgStatus = $Integer.parseInt($data.contractImgStatus))
+                            #set($intOriginalContractStatus = $Integer.parseInt($data.originalContractStatus))
+                            #set($intExecuteOrderImgStatus = $Integer.parseInt($data.executeOrderImgStatus))
+                            #set($intOriginalExecuteOrderStatus = $Integer.parseInt($data.originalExecuteOrderStatus))
+                            #set($intConfirmCostStatus = $Integer.parseInt($data.confirmCostStatus))
+                            #set($intReminderPaymentStatus = $Integer.parseInt($data.reminderPaymentStatus))
 
                         <tr>
                             <td class="project-title">
@@ -228,6 +235,21 @@
                                     法务审核</span>
                                 <br/>
                                 <span
+                                    #if($data.intContractStatus == 0  )
+                                            style="background: #45FF39"
+                                    #end >
+                                    签署合同</span>
+                                <span
+                                    #if($data.intContractImgStatus == 0  )
+                                            style="background: #45FF39"
+                                    #end >
+                                    扫描合同</span>
+                                <span
+                                    #if($data.intOriginalContractStatus == 0  )
+                                            style="background: #45FF39"
+                                    #end >
+                                    原章合同</span>
+                                <span
                                     #if($data.status == 2 && $intWorkFlowStep >= 1  )
                                             style="background: #45FF39"
                                     #end >
@@ -252,26 +274,42 @@
                                             style="background: #45FF39"
                                     #end >
                                     法务审核</span>
+
                                 <span
-                                    #if($data.status == 2 && $intWorkFlowStep > 6  )
+                                    #if($data.executeOrderImgStatus == 0  )
                                             style="background: #45FF39"
                                     #end >
-                                    合同已签署</span>
+                                    扫描排期单</span>
+                                <span
+                                    #if($data.originalExecuteOrderStatus == 0  )
+                                            style="background: #45FF39"
+                                    #end >
+                                    原章排期单</span>
                                 <span
                                     #if($data.status == 2 && $intWorkFlowStep > 7  )
                                             style="background: #45FF39"
                                     #end >
                                     开始投放</span>
                                 <span
-                                    #if($data.status == 2 && $intWorkFlowStep > 8  )
+                                    #if($data.confirmCostStatus == 0  )
                                             style="background: #45FF39"
                                     #end >
-                                    原章合同</span>
+                                    收入成本确认单</span>
                                 <span
-                                    #if($data.status == 2 && $intWorkFlowStep > 9  )
+                                    #if($data.reminderPaymentStatus == 0  )
                                             style="background: #45FF39"
                                     #end >
-                                    发票</span>
+                                    催款提醒</span>
+##                                <span
+##                                    #if($data.status == 2 && $intWorkFlowStep > 8  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    原章合同</span>
+##                                <span
+##                                    #if($data.status == 2 && $intWorkFlowStep > 9  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    发票</span>
                                 <span
                                     #if($data.status == 3  )
                                             style="background: #45FF39"
