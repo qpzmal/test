@@ -27,38 +27,38 @@
                                 <td>$!{data.name}</td>
                                 <td>$!{data.OrderNum}</td>
                                 <td>
-                                    $!{data.strTodoStatus}
+                                    $!{data.strTodoStep}
                                 </td>
                                 <td class="right" tid="$!{data.id}" tname="$!{data.orderNum}">
                                     <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
-                                    $data.intTodoStatus
-                                    #if($Integer.parseInt($data.intTodoStatus) >= 7)
+                                    $data.intTodoStep
+                                    #if($Integer.parseInt($data.intTodoStep) >= 7)
                                         <a href="javascript:;" class="btn btn-default btn-sm button_view_contract_img "><i class="fa fa-search "></i> 已上传合同 </a>
                                     #end
-                                    #if($Integer.parseInt($data.intTodoStatus) >= 17)
+                                    #if($Integer.parseInt($data.intTodoStep) >= 17)
                                         <a href="javascript:;" class="btn btn-default btn-sm button_view_execute_img "><i class="fa fa-search "></i> 已上传排期单 </a>
                                     #end
 
-                                    #if($data.intTodoStatus == 1)
+                                    #if($data.intTodoStep == 1)
                                         <a href="javascript:;" class="btn btn-info btn-sm button_contract "><i class="fa fa-pencil "></i> 已签署合同 </a>
-                                    #elseif($data.intTodoStatus == 6)
+                                    #elseif($data.intTodoStep == 6)
                                         <a href="javascript:;" class="btn btn-info btn-sm button_contract_img "><i class="fa fa-upload "></i> 上传扫描版合同 </a>
-                                    #elseif($data.intTodoStatus == 7)
+                                    #elseif($data.intTodoStep == 7)
 ##                                        <a href="javascript:;" class="btn btn-default btn-sm button_view_contract_img "><i class="fa fa-search "></i> 已上传图片 </a>
                                         <a href="javascript:;" class="btn btn-info btn-sm button_contract_img_continue "><i class="fa fa-upload "></i> 续传 </a>
                                         <a href="javascript:;" class="btn btn-info btn-sm button_contract_img_reupload "><i class="fa fa-upload "></i> 重新上传 </a>
-                                    #elseif($data.intTodoStatus == 11)
+                                    #elseif($data.intTodoStep == 11)
                                         <a href="javascript:;" class="btn btn-info btn-sm button_original_contract "><i class="fa fa-pencil "></i> 已获取原章合同 </a>
-                                    #elseif($data.intTodoStatus == 16)
+                                    #elseif($data.intTodoStep == 16)
                                         <a href="javascript:;" class="btn btn-info btn-sm button_execute_order_img "><i class="fa fa-upload "></i> 上传扫描版排期单 </a>
 
-                                    #elseif($data.intTodoStatus == 17)
+                                    #elseif($data.intTodoStep == 17)
 ##                                        <a href="javascript:;" class="btn btn-default btn-sm button_view_execute_img "><i class="fa fa-search "></i> 已上传图片 </a>
                                         <a href="javascript:;" class="btn btn-info btn-sm button_execute_img_continue "><i class="fa fa-upload "></i> 续传 </a>
                                         <a href="javascript:;" class="btn btn-info btn-sm button_execute_img_reupload "><i class="fa fa-upload "></i> 重新上传 </a>
-                                    #elseif($data.intTodoStatus == 21)
+                                    #elseif($data.intTodoStep == 21)
                                         <a href="javascript:;" class="btn btn-info btn-sm button_original_execute_order "><i class="fa fa-pencil "></i> 已获取原章排期单 </a>
-                                    #elseif($data.intTodoStatus == 26)
+                                    #elseif($data.intTodoStep == 26)
                                         <a href="javascript:;" class="btn btn-info btn-sm button_reminder_payment "><i class="fa fa-pencil "></i> 催款 </a>
                                     #end
 ##                                    <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>

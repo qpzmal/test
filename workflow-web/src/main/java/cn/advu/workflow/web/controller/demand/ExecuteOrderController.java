@@ -183,52 +183,52 @@ public class ExecuteOrderController {
         for (BaseExecuteOrder data:dataList) {
             if (data.getStatus() == 1) { // 未开始--需求单
                 if ("-1".equals(data.getContractStatus())) {
-                    data.setStrTodoStatus("待签署合同");
-                    data.setIntTodoStatus("1");
+                    data.setStrTodoStep("待签署合同");
+                    data.setIntTodoStep("1");
 
                 } else if ("-1".equals(data.getContractImgStatus())) {
-                    data.setStrTodoStatus("待上传扫描版合同");
-                    data.setIntTodoStatus("6");
+                    data.setStrTodoStep("待上传扫描版合同");
+                    data.setIntTodoStep("6");
                     if (data.getContractImgCount() > 0) {
-                        data.setIntTodoStatus("7");
+                        data.setIntTodoStep("7");
                     }
                 } else if ("-1".equals(data.getOriginalContractStatus())) {
-                    data.setStrTodoStatus("待获取原章合同");
-                    data.setIntTodoStatus("11");
+                    data.setStrTodoStep("待获取原章合同");
+                    data.setIntTodoStep("11");
                 } else {
-                    data.setStrTodoStatus("待发起排期执行单");
-                    data.setIntTodoStatus("14");
+                    data.setStrTodoStep("待发起排期执行单");
+                    data.setIntTodoStep("14");
 
                 }
 
             } else if (data.getStatus() == 2) { // 执行中--排期执行单
                 if ("-1".equals(data.getExecuteOrderImgStatus())) {
-                    data.setStrTodoStatus("待上传扫描版排期单");
-                    data.setIntTodoStatus("16");
+                    data.setStrTodoStep("待上传扫描版排期单");
+                    data.setIntTodoStep("16");
                     if (data.getExecuteOrderImgCount() > 0 ) {
-                        data.setIntTodoStatus("17");
+                        data.setIntTodoStep("17");
                     }
 
                 } else if ("-1".equals(data.getOriginalExecuteOrderStatus())) {
-                    data.setStrTodoStatus("待获取原章排期单");
-                    data.setIntTodoStatus("21");
+                    data.setStrTodoStep("待获取原章排期单");
+                    data.setIntTodoStep("21");
 
 
                 } else if ("-1".equals(data.getReminderPaymentStatus())) {
-                    data.setStrTodoStatus("待催款");
-                    data.setIntTodoStatus("26");
+                    data.setStrTodoStep("待催款");
+                    data.setIntTodoStep("26");
 
                 } else {
-                    data.setStrTodoStatus("待回款");
-                    data.setIntTodoStatus("31");
+                    data.setStrTodoStep("待回款");
+                    data.setIntTodoStep("31");
 
                 }
             } else if (data.getStatus() == 3) {
-                data.setStrTodoStatus("已结束");
-                data.setIntTodoStatus("99");
+                data.setStrTodoStep("已结束");
+                data.setIntTodoStep("99");
             } else {
-                data.setStrTodoStatus("未知状态");
-                data.setIntTodoStatus("0");
+                data.setStrTodoStep("未知状态");
+                data.setIntTodoStep("0");
                 LOGGER.warn("合同与单据列表中，出现未知状态：{}", data.getStatus());
 
             }
