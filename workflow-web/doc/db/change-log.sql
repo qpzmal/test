@@ -5,6 +5,11 @@
 -- 2.20170628 燕燕修改
 -- 1.20170620 兆华建立
 
+-- 20170820 weiqz
+ALTER TABLE `base_execute_order`
+	ADD COLUMN `confirm_cost_status` TINYINT(1) NOT NULL DEFAULT '-1' COMMENT '成本确认状态（-1未确认；0已确认；）' AFTER `original_execute_order_status`;
+
+
 -- 20170814 weiqz
 ALTER TABLE `base_execute_order`
 	ADD COLUMN `contract_status` TINYINT(1) NOT NULL DEFAULT '-1' COMMENT '合同签署状态（-1未签署；0已签署；）' AFTER `sign_type`,

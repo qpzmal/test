@@ -213,6 +213,10 @@ public class ExecuteOrderController {
                     data.setStrTodoStep("待获取原章排期单");
                     data.setIntTodoStep("21");
 
+                } else if ("-1".equals(data.getConfirmCostStatus())) {
+                    data.setStrTodoStep("待确认成本确认单");
+                    data.setIntTodoStep("25");
+
 
                 } else if ("-1".equals(data.getReminderPaymentStatus())) {
                     data.setStrTodoStep("待催款");
@@ -778,9 +782,10 @@ public class ExecuteOrderController {
     @RequestMapping("/reminderPaymentList")
     public String reminderPaymentList(Model resultModel){
         String days = RequestUtil.getStringParamDef(httpServletRequest, "days", "7"); // N日后到达逾期
+        String bizId = RequestUtil.getStringParamDef(httpServletRequest, "bizId", ""); // 需求单、排期单ID
 
 
-        List<Map> dataList = executeOrderManager.finalReport(days);
+        List<Map> dataList = executeOrderManager.reminderPaymentList(days, bizId);
 
         resultModel.addAttribute("dataList", dataList);
         resultModel.addAttribute("days", days);

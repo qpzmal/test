@@ -47,6 +47,7 @@
     <result column="original_contract_status" jdbcType="TINYINT" property="originalContractStatus" />
     <result column="execute_order_img_status" jdbcType="TINYINT" property="executeOrderImgStatus" />
     <result column="original_execute_order_status" jdbcType="TINYINT" property="originalExecuteOrderStatus" />
+    <result column="confirm_cost_status" jdbcType="TINYINT" property="confirmCostStatus" />
     <result column="reminder_payment_status" jdbcType="TINYINT" property="reminderPaymentStatus" />
     <result column="contractImgCount" jdbcType="INTEGER" property="contractImgCount" />
     <result column="executeOrderImgCount" jdbcType="INTEGER" property="executeOrderImgCount" />
@@ -104,6 +105,7 @@
     base_execute_order.original_contract_status,
     base_execute_order.execute_order_img_status,
     base_execute_order.original_execute_order_status,
+    base_execute_order.confirm_cost_status,
     base_execute_order.reminder_payment_status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -517,6 +519,9 @@
       <if test="originalExecuteOrderStatus != null">
         original_execute_order_status = #{originalExecuteOrderStatus,jdbcType=INTEGER},
       </if>
+      <if test="confirmCostStatus != null">
+        confirm_cost_status = #{confirmCostStatus,jdbcType=INTEGER},
+      </if>
       <if test="reminderPaymentStatus != null">
         reminder_payment_status = #{reminderPaymentStatus,jdbcType=INTEGER},
       </if>
@@ -622,6 +627,7 @@
     base_execute_order.original_contract_status,
     base_execute_order.execute_order_img_status,
     base_execute_order.original_execute_order_status,
+    base_execute_order.confirm_cost_status,
     base_execute_order.reminder_payment_status,
     IFNULL(base_fileupload_1.countNum, 0) as contractImgCount,
     IFNULL(base_fileupload_2.countNum, 0) as executeOrderImgCount
@@ -693,7 +699,7 @@
     left join base_adtype on base_order_cpm.ad_type_id = base_adtype.id
     left join base_custom on base_execute_order.custom_sign_id = base_custom.id
     left join base_person on base_execute_order.person_leader_id = base_person.id
-    where base_execute_order.del_flag = '0' and base_order_cpm.order_cpm_type = 2
+    where base_execute_order.del_flag = '0' and base_order_cpm.order_cpm_type IN (1,2)
     <if test="likeSearch != null">
       and (
         base_execute_order.name like CONCAT('%',#{likeSearch,jdbcType=VARCHAR},'%')
@@ -731,6 +737,9 @@
     (base_execute_order.end_date <![CDATA[ < ]]> date_add(now(), interval - account_period day)
     OR base_execute_order.end_date <![CDATA[ < ]]> date_add(now(), interval -account_period+${days} day)
     )
+    <if test="bizId != null and bizId != '' ">
+      AND base_execute_order.id = #{bizId,jdbcType=INTEGER}
+    </if>
     group by base_execute_order.id
     order by overdueDate desc
   </select>

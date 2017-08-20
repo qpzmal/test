@@ -50,8 +50,8 @@ public class BaseExecuteOrderRepoImpl extends AbstractRepo<BaseExecuteOrder> imp
     }
 
     @Override
-    public List<Map> finalReport(String days) {
-        return baseExecuteOrderMapper.reminderPaymentList(days);
+    public List<Map> reminderPaymentList(String days, String bizId) {
+        return baseExecuteOrderMapper.reminderPaymentList(days, bizId);
     }
 
     @Override

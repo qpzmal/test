@@ -15,5 +15,5 @@ public interface BaseExecuteOrderRepo extends IRepo<BaseExecuteOrder> {
     List<BaseExecuteOrder> queryAllForContract(BaseExecuteOrder baseExecuteOrder);
     List<BaseExecuteOrder> findAllUnFinished();
     List<Map> finalReport(String likeSearch, List<String> mediaIdList);
-    List<Map> finalReport(String days);
+    List<Map> reminderPaymentList(String days, String bizId);
 }

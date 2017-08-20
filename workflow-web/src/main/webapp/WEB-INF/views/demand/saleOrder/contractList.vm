@@ -31,7 +31,7 @@
                                 </td>
                                 <td class="right" tid="$!{data.id}" tname="$!{data.orderNum}">
                                     <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
-                                    $data.intTodoStep
+
                                     #if($Integer.parseInt($data.intTodoStep) >= 7)
                                         <a href="javascript:;" class="btn btn-default btn-sm button_view_contract_img "><i class="fa fa-search "></i> 已上传合同 </a>
                                     #end
@@ -58,7 +58,11 @@
                                         <a href="javascript:;" class="btn btn-info btn-sm button_execute_img_reupload "><i class="fa fa-upload "></i> 重新上传 </a>
                                     #elseif($data.intTodoStep == 21)
                                         <a href="javascript:;" class="btn btn-info btn-sm button_original_execute_order "><i class="fa fa-pencil "></i> 已获取原章排期单 </a>
+                                    #elseif($data.intTodoStep == 25)
+                                        <a href="javascript:;" class="btn btn-default btn-sm button_view_confirm_cost"><i class="fa fa-search "></i> 成本确认单 </a>
+                                        <a href="javascript:;" class="btn btn-info btn-sm button_confirm_cost_status "><i class="fa fa-pencil "></i> 已确认成本确认单 </a>
                                     #elseif($data.intTodoStep == 26)
+                                        <a href="javascript:;" class="btn btn-default btn-sm button_view_reminder_payment"><i class="fa fa-search "></i> 应收催款单 </a>
                                         <a href="javascript:;" class="btn btn-info btn-sm button_reminder_payment "><i class="fa fa-pencil "></i> 催款 </a>
                                     #end
 ##                                    <a href="javascript:;" class="btn btn-info btn-sm button_view_pd"><i class="fa fa-pencil "></i> 修改 </a>
@@ -255,6 +259,7 @@
 
 
 
+
     ## 已获取原章合同
     $(".button_original_contract").click(function(){
         var bizId = $(this).parents('td').attr('tid'); // 取申请ID
@@ -319,6 +324,36 @@
 
 
 
+    ## 已确认成本确认单
+    $(".button_confirm_cost_status").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        var url = "/saleOrder/updateStatus.json";
+
+        layer.confirm('此操作不可修改，是否已经确认成本确认单？', {
+            title: '确认',
+            btn: ['确认','取消'] //按钮
+        }, function(){
+//            layer.closeAll('dialog');
+            $.ajax({
+                url:url,
+                type:"post",
+                data:{
+                    "id":bizId,
+                    "confirmCostStatus":0
+                },
+                success: function(returnData){
+                    if(returnData.code == 1){
+                        popMsg('修改成功!', "/saleOrder/contractList");
+                    } else{
+                        layer.msg(returnData.info);
+                    }
+                }
+
+            });
+        }, function(){
+        });
+    })
+
     ## 已催款
     $(".button_reminder_payment").click(function(){
         var bizId = $(this).parents('td').attr('tid'); // 取申请ID
@@ -367,6 +402,26 @@
         var url = "${rc.contextPath}/saleOrder/preViewImg?bizType=2&bizName="+bizName+"&bizId="+tid;
         openPopIframePage(url);
     })
+
+
+
+    ## 查看应收催款单
+    $(".button_view_reminder_payment").click(function(){
+        var tid = $(this).parents('td').attr('tid'); // 取申请ID
+        var bizName = $(this).parents('td').attr('tname'); // 项目编号
+        var url = "${rc.contextPath}/saleOrder/reminderPaymentList?likeSearch=" + bizName;
+        openPopIframePage(url);
+    })
+
+
+    ## 查看成本确认单
+    $(".button_view_confirm_cost").click(function(){
+        var tid = $(this).parents('td').attr('tid'); // 取申请ID
+        var bizName = $(this).parents('td').attr('tname'); // 项目编号
+        var url = "${rc.contextPath}/report/finalReport/?likeSearch=" + bizName;
+        openPopIframePage(url);
+    })
+
 
 </script>
 #end

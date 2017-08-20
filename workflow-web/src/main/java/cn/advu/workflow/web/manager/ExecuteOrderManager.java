@@ -19,7 +19,7 @@ public class ExecuteOrderManager {
     public List<Map> findFinalReport(String likeSearch, List<String> mediaIdList) {
         return baseExecuteOrderRepo.finalReport(likeSearch, mediaIdList);
     }
-    public List<Map> finalReport(String days) {
-        return baseExecuteOrderRepo.finalReport(days);
+    public List<Map> reminderPaymentList(String days, String bizId) {
+        return baseExecuteOrderRepo.reminderPaymentList(days, bizId);
     }
 }

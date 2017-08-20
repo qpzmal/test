@@ -80,6 +80,7 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
     private String originalContractStatus; // 原章合同状态（-1无；0有；）
     private String executeOrderImgStatus; // 扫描版排期单状态（-1未上传；0已上传；）
     private String originalExecuteOrderStatus; // 原章排期状态（-1无；0有；）
+    private String confirmCostStatus; // 成本确认状态（-1未确认；0已确认；）
     private String reminderPaymentStatus; // 催款状态（-1未完成；0已完成）
 
     private String statusArray; // 用于IN查询
@@ -403,6 +404,14 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
 
     public void setOriginalExecuteOrderStatus(String originalExecuteOrderStatus) {
         this.originalExecuteOrderStatus = originalExecuteOrderStatus;
+    }
+
+    public String getConfirmCostStatus() {
+        return confirmCostStatus;
+    }
+
+    public void setConfirmCostStatus(String confirmCostStatus) {
+        this.confirmCostStatus = confirmCostStatus;
     }
 
     public String getReminderPaymentStatus() {
