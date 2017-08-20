@@ -72,4 +72,12 @@ public interface ExecuteOrderService {
      */
     ResultJson<BaseExecuteOrder> findById(Integer id);
 
+    /**
+     * 发送催款要求
+     *
+     * @param baseExecuteOrder
+     * @return
+     */
+    ResultJson<Integer> doRemindPayment(BaseExecuteOrder baseExecuteOrder);
+
 }

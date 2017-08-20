@@ -49,6 +49,10 @@ public class WebConstants {
         public static final Byte STATUS_1 = 1; // 1，未开始（审核流程通过，但未投放）；
         public static final Byte STATUS_2 = 2; // 2，进行中（开始投放）；
         public static final Byte STATUS_3 = 3; // 3，已结束（投放结束）
+    }
 
+    public static class Notify {
+        public static final String TEMPLATE_DEMAND = "demand"; // 审核
+        public static final String TEMPLATE_REMIND = "remind"; // 催款提醒
     }
 }

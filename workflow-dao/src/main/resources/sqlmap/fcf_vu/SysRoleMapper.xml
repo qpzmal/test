@@ -149,4 +149,14 @@
     limit 1
   </select>
 
+
+  <select id="queryByActivitiName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_role
+    where activiti_name = #{activitiName,jdbcType=INTEGER}
+    and del_flag = 0
+  </select>
+
+
 </mapper>

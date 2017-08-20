@@ -11,4 +11,6 @@ public interface SysRoleMapper extends BaseDAO<SysRole> {
     List<SysRole> queryAll();
 
     SysRole queryByIdAndName(@Param("id") Integer id, @Param("name")String name);
+
+    SysRole queryByActivitiName(@Param("activitiName") String activitiName);
 }

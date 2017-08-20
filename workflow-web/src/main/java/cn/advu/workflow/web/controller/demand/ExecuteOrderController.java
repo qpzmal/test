@@ -792,4 +792,16 @@ public class ExecuteOrderController {
         return "demand/saleOrder/reminder_payment_list";
     }
 
+    /**
+     * 提醒收款
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/doRemindPayment")
+    public ResultJson<Integer> doRemindPayment(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
+        return executeOrderService.doRemindPayment(baseExecuteOrder);
+    }
+
+
 }

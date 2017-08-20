@@ -14,4 +14,6 @@ public interface SysRoleRepo extends IRepo<SysRole> {
 
     SysRole findByIdAndName(Integer roleId, String name);
 
+    SysRole queryByActivitiName(String activitiName);
+
 }

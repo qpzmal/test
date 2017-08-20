@@ -700,6 +700,10 @@ public class TaskController {
                             LOGGER.error("pkey is error.");
                             break;
                     }
+
+                    // TODO 判断taskId和新taskid不一致时（重新申请），更新相关业务表
+
+
                 }
             }
         } catch (Exception e) {
@@ -717,6 +721,8 @@ public class TaskController {
     @RequestMapping(value = "toReApply")
     public String toReApply(HttpServletRequest request, Model model) {
         String taskId = (String) request.getParameter("taskId");
+
+        LOGGER.info("task_id:{}", taskId);
         Map<String,Object> variables = taskService.getVariables(taskId);
 
         Iterator iterator = variables.entrySet().iterator();
@@ -744,7 +750,6 @@ public class TaskController {
                     LOGGER.warn("错误的参数。mapKey is :{}", mapKey);
             }
         }
-
         return "/workflow/ajax/reApply";
     }
     /**
