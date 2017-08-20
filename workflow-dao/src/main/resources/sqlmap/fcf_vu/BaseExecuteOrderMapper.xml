@@ -674,6 +674,7 @@
   </select>
 
 
+  <!-- 以上为自动生成SQL，以下为自定义SQL -->
   <select id="queryFinalReport" resultType="HashMap">
     select
     base_execute_order.order_num as orderNum,
@@ -700,6 +701,7 @@
     left join base_custom on base_execute_order.custom_sign_id = base_custom.id
     left join base_person on base_execute_order.person_leader_id = base_person.id
     where base_execute_order.del_flag = '0' and base_order_cpm.order_cpm_type IN (1,2)
+    and base_execute_order.status = '2' and base_execute_order.end_date <![CDATA[ < current_date()]]>
     <if test="likeSearch != null">
       and (
         base_execute_order.name like CONCAT('%',#{likeSearch,jdbcType=VARCHAR},'%')
