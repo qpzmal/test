@@ -1,6 +1,10 @@
 开发文档
 =
 
+## 测试环境配置路径
+1. nginx    /usr/local/webserver/nginx/conf/nginx.conf
+
+
 ##BUG列表
 1. ~~需求单里项目补充编码不应该是必须填~~
     1. 是否加数据权限控制 ---待定
