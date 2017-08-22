@@ -41,15 +41,15 @@
             </div>
         </div>
     </div>
-    #if("${displayFlag}" == "true")
-        <div class="row">
-            <div class="form-group">
-                <div class="col-sm-4 col-sm-offset-4 text-right">
-                    <button class="btn btn-info button_confirm" type="button"><i class="fa fa-play"></i> 确认</button>
-                </div>
-            </div>
-        </div>
-    #end
+##    #if("${displayFlag}" == "true")
+##        <div class="row">
+##            <div class="form-group">
+##                <div class="col-sm-4 col-sm-offset-4 text-right">
+##                    <button class="btn btn-info button_confirm" type="button"><i class="fa fa-play"></i> 确认</button>
+##                </div>
+##            </div>
+##        </div>
+##    #end
 </div>
 
 
@@ -65,38 +65,37 @@
 
 
 
-    ## 已签署合同
-    $(".button_confirm").click(function(){
-        var url = "/saleOrder/updateStatus.json";
-        var json;
-        if ("1" == "${bizType}") {
-            json = {"id":"${bizId}","contractImgStatus":"0"};
-        } else {
-            json = {"id":"${bizId}","executeOrderImgStatus":"0"};
-        }
-
-
-        layer.confirm('此操作不可修改，是否确认已上传全部图片？', {
-            title: '确认',
-            btn: ['确认','取消'] //按钮
-        }, function(){
-//            layer.closeAll('dialog');
-            $.ajax({
-                url:url,
-                type:"post",
-                data:json,
-                success: function(returnData){
-                    if(returnData.code == 1){
-                        popMsg('修改成功!', "/saleOrder/contractList");
-                        parent.location.reload();
-                    } else{
-                        layer.msg(returnData.info);
-                    }
-                }
-            });
-        }, function(){
-        });
-    })
+##    ## 已签署合同
+##    $(".button_confirm").click(function(){
+##        var url = "/saleOrder/updateStatus.json";
+##        var json;
+##        if ("1" == "${bizType}") {
+##            json = {"id":"${bizId}","contractImgStatus":"0"};
+##        } else {
+##            json = {"id":"${bizId}","executeOrderImgStatus":"0"};
+##        }
+##
+##
+##        layer.confirm('此操作不可修改，是否确认已上传全部图片？', {
+##            title: '确认',
+##            btn: ['确认','取消'] //按钮
+##        }, function(){
+##            $.ajax({
+##                url:url,
+##                type:"post",
+##                data:json,
+##                success: function(returnData){
+##                    if(returnData.code == 1){
+##                        popMsg('修改成功!', "/workflow/task/todo");
+##                        parent.location.reload();
+##                    } else{
+##                        layer.msg(returnData.info);
+##                    }
+##                }
+##            });
+##        }, function(){
+##        });
+##    })
 
 </script>
 #end

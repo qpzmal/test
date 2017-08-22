@@ -6,8 +6,9 @@ import org.joda.time.DateTime;
  * Created by weiqz on 2017/8/19.
  */
 public class DateUtil {
-    private static final String DATE_FORMAT_DEFAULT_12H = "yyyy-MM-dd hh:mm:ss"; // 12小时制度
-    private static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss"; // 24小时制度
+    public static final String DATE_FORMAT_DEFAULT_12H = "yyyy-MM-dd hh:mm:ss"; // 12小时制
+    public static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss"; // 24小时制
+    public static final String DATE_FORMAT_NO_SYMBOL_24H = "yyyyMMddHHmmss"; // 日期无符号，24小时
 
     /**
      * 当前年度第一天

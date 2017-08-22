@@ -5,10 +5,8 @@ import cn.advu.workflow.repo.fcf_vu.SysUserRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
-import cn.advu.workflow.web.service.base.BuyFrameService;
-import cn.advu.workflow.web.service.base.BuyOrderService;
-import cn.advu.workflow.web.service.base.ExecuteOrderService;
-import cn.advu.workflow.web.service.base.SaleFrameService;
+import cn.advu.workflow.web.service.base.*;
+import cn.advu.workflow.web.service.system.NoticeService;
 import cn.advu.workflow.web.vo.BaseBuyOrderFrameVO;
 import cn.advu.workflow.web.vo.BaseBuyOrderVO;
 import cn.advu.workflow.web.vo.BaseExecuteOrderFrameVO;
@@ -73,7 +71,13 @@ public class TaskController {
     private SaleFrameService saleFrameService;
 
     @Autowired
+    private FileUploadService fileUploadService;
+
+    @Autowired
     private SysUserRepo sysUserRepo;
+
+    @Autowired
+    private NoticeService noticeService;
 
 
     /**
@@ -123,6 +127,7 @@ public class TaskController {
                 variables = taskService.getVariables(task.getId());
             }
             LOGGER.info("task_id:{}, activity_id:{}", task.getId(), activitiId);
+            LOGGER.info("task.getTaskDefinitionKey():{}", task.getTaskDefinitionKey());
 
             SysUser dbUser = null;
             switch (processInstance.getProcessDefinitionKey()) {
@@ -158,6 +163,12 @@ public class TaskController {
                 case WebConstants.WORKFLOW_SALE_ORDER:
                     BaseExecuteOrderVO baseExecuteOrderVO = new BaseExecuteOrderVO();
                     BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+
+                    if (WebConstants.Audit.UPLOAD_CONTRACT_IMG.equals(task.getTaskDefinitionKey())) {
+                        ResultJson<List<BaseFileupload>> contractImgList = fileUploadService.findByCustom(baseExecuteOrder.getOrderNum(), WebConstants.FileUpload.BIZ_TYPE_1);
+                        baseExecuteOrder.setContractImgCount(contractImgList.getData().size());
+                    }
+
                     baseExecuteOrderVO.setTask(task);
                     baseExecuteOrderVO.setIsModify(isModify);
                     baseExecuteOrderVO.setVariables(variables);
@@ -172,6 +183,12 @@ public class TaskController {
                 case WebConstants.WORKFLOW_SALE_EXECUTE:
                     BaseExecuteOrderVO baseExecuteOrderExecuteVO = new BaseExecuteOrderVO();
                     BaseExecuteOrder baseExecuteOrderExecute = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+
+                    if (WebConstants.Audit.UPLOAD_EXECUTE_ORDER_IMG.equals(task.getTaskDefinitionKey())) {
+                        ResultJson<List<BaseFileupload>> executeOrderImgList = fileUploadService.findByCustom(baseExecuteOrderExecute.getOrderNum(), WebConstants.FileUpload.BIZ_TYPE_2);
+                        baseExecuteOrderExecute.setExecuteOrderImgCount(executeOrderImgList.getData().size());
+                    }
+
                     baseExecuteOrderExecuteVO.setTask(task);
                     baseExecuteOrderExecuteVO.setIsModify(isModify);
                     baseExecuteOrderExecuteVO.setVariables(variables);
@@ -290,6 +307,7 @@ public class TaskController {
         for (ProcessInstance processInstance : list) {
 
             String businessKey = processInstance.getBusinessKey();
+            LOGGER.info("businessKey:{}, processInstanceID:{}", businessKey, processInstance.getId());
             if (StringUtils.isEmpty(businessKey)) {
                 continue;
             }
@@ -614,97 +632,165 @@ public class TaskController {
         }
 
         switch (tkey) {
-            case WebConstants.Audit.MEDIA:
+            case WebConstants.Audit.MEDIA:   // 媒介主管审核
                 paramMap.put(WebConstants.AuditPass.MEDIA, resultBoolean);
                 if ("false".equals(result)) {
                     paramMap.put(WebConstants.Audit.MEDIA, reason);
                 }
                 break;
-            case WebConstants.Audit.SALER_DM:
+            case WebConstants.Audit.SALER_DM: // 销售主管审核
                 paramMap.put(WebConstants.AuditPass.SALER_DM, resultBoolean);
                 if ("false".equals(result)) {
                     paramMap.put(WebConstants.Audit.SALER_DM, reason);
                 }
                 break;
-            case WebConstants.Audit.SALER_GM:
+            case WebConstants.Audit.SALER_GM: // 销售总经理审核
                 paramMap.put(WebConstants.AuditPass.SALER_GM, resultBoolean);
                 if ("false".equals(result)) {
                     paramMap.put(WebConstants.Audit.SALER_GM, reason);
                 }
                 break;
-            case WebConstants.Audit.FINANCIAL_GM:
+            case WebConstants.Audit.FINANCIAL_GM: // 财务主管审核
                 paramMap.put(WebConstants.AuditPass.FINANCIAL_GM, resultBoolean);
                 if ("false".equals(result)) {
                     paramMap.put(WebConstants.Audit.FINANCIAL_GM, reason);
                 }
                 break;
-            case WebConstants.Audit.LEGAL_GM:
+            case WebConstants.Audit.LEGAL_GM: // 法务主管审核
                 paramMap.put(WebConstants.AuditPass.LEGAL_GM, resultBoolean);
                 if ("false".equals(result)) {
                     paramMap.put(WebConstants.Audit.LEGAL_GM, reason);
                 }
                 break;
-            case WebConstants.Audit.MODIFY_APPLY:
+            case WebConstants.Audit.MODIFY_APPLY: // 申请人调整申请
+                // TODO 判断taskId和新taskid不一致时（重新申请），更新相关业务表---->需确认
                 paramMap.put(WebConstants.AuditPass.MODIFY_APPLY, resultBoolean);
                 break;
             default:
-                LOGGER.warn("错误的参数。tkey is :{},result is :{}", tkey, resultBoolean);
-                return new ResultJson<>(WebConstants.OPERATION_FAILURE, "错误的参数!");
+                LOGGER.warn("tkey is :{},result is :{}", tkey, resultBoolean);
+                break;
         }
 
         try {
             taskService.complete(taskId, paramMap);
-            if (WebConstants.Audit.FINANCIAL_GM.equals(tkey) || WebConstants.Audit.LEGAL_GM.equals(tkey)) {
-                HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(pkey).processInstanceId(pid).finished().orderByProcessInstanceEndTime().desc();
-                List<HistoricProcessInstance> list = query.list();
-                LOGGER.info("processInstanceId:{}", pid);
-                LOGGER.info("HistoricProcessInstance-listSize:{}", list.size());
-                if (list.size() > 0) {
 
-                    switch (pkey) {
-                        case WebConstants.WORKFLOW_BUY:
-                            BaseBuyOrder baseBuyOrder = new BaseBuyOrder();
-                            baseBuyOrder.setId(Integer.valueOf(bizId));
-                            baseBuyOrder.setStatus((byte)1);
-                            buyOrderService.updateSelective(baseBuyOrder).getData();
-                            break;
-
-                        case WebConstants.WORKFLOW_BUY_FRAME:
-                            BaseBuyOrderFrame baseBuyOrderFrame = new BaseBuyOrderFrame();
-                            baseBuyOrderFrame.setId(Integer.valueOf(bizId));
-                            baseBuyOrderFrame.setStatus((byte)1);
-                            buyFrameService.updateSelective(baseBuyOrderFrame).getData();
-                            break;
-
-                        case WebConstants.WORKFLOW_SALE_ORDER:
-                            BaseExecuteOrder baseExecuteOrder = new BaseExecuteOrder();
-                            baseExecuteOrder.setId(Integer.valueOf(bizId));
-                            baseExecuteOrder.setStatus((byte)1);
-                            executeOrderService.updateSelective(baseExecuteOrder).getData();
-                            break;
-
-                        case WebConstants.WORKFLOW_SALE_FRAME:
-                            BaseExecuteOrderFrame baseExecuteOrderFrame = new BaseExecuteOrderFrame();
-                            baseExecuteOrderFrame.setId(Integer.valueOf(bizId));
-                            baseExecuteOrderFrame.setStatus((byte)1);
-                            saleFrameService.updateSelective(baseExecuteOrderFrame).getData();
-                            break;
-
-                        case WebConstants.WORKFLOW_SALE_EXECUTE:
-                            BaseExecuteOrder baseExecuteOrderExecute = new BaseExecuteOrder();
-                            baseExecuteOrderExecute.setId(Integer.valueOf(bizId));
-                            baseExecuteOrderExecute.setStatus((byte)2);
-                            executeOrderService.updateSelective(baseExecuteOrderExecute).getData();
-                            break;
-                        default:
-                            LOGGER.error("pkey is error.");
-                            break;
-                    }
-
-                    // TODO 判断taskId和新taskid不一致时（重新申请），更新相关业务表
-
-
+            if (WebConstants.WORKFLOW_SALE_ORDER.equals(pkey)) {
+                BaseExecuteOrder baseExecuteOrder = new BaseExecuteOrder();
+                switch (tkey) {
+                    case WebConstants.Audit.SIGN_CONTRACT: // 签署合同
+                        baseExecuteOrder = new BaseExecuteOrder();
+                        baseExecuteOrder.setId(Integer.valueOf(bizId));
+                        baseExecuteOrder.setContractStatus("0");
+                        executeOrderService.updateSelective(baseExecuteOrder).getData();
+                        break;
+                    case WebConstants.Audit.UPLOAD_CONTRACT_IMG: // 上传扫描版合同
+                        baseExecuteOrder = new BaseExecuteOrder();
+                        baseExecuteOrder.setId(Integer.valueOf(bizId));
+                        baseExecuteOrder.setStatus((byte)1);
+                        executeOrderService.updateSelective(baseExecuteOrder).getData();
+                        break;
+                    case WebConstants.Audit.ORIGINAL_CONTRACT: // 追要原章合同
+                        baseExecuteOrder = new BaseExecuteOrder();
+                        baseExecuteOrder.setId(Integer.valueOf(bizId));
+                        baseExecuteOrder.setOriginalContractStatus("0");
+                        executeOrderService.updateSelective(baseExecuteOrder).getData();
+                        break;
+                    default:
+                        break;
                 }
+            }
+
+            if (WebConstants.WORKFLOW_SALE_EXECUTE.equals(pkey)) {
+                BaseExecuteOrder baseExecuteOrder = new BaseExecuteOrder();
+                switch (tkey) {
+                    case WebConstants.Audit.LEGAL_GM: // 法务审核
+                        baseExecuteOrder = new BaseExecuteOrder();
+                        baseExecuteOrder.setId(Integer.valueOf(bizId));
+                        baseExecuteOrder.setStatus((byte)2);
+                        executeOrderService.updateSelective(baseExecuteOrder).getData();
+                        break;
+                    case WebConstants.Audit.UPLOAD_EXECUTE_ORDER_IMG: // 上传扫描版排期单
+                        baseExecuteOrder = new BaseExecuteOrder();
+                        baseExecuteOrder.setId(Integer.valueOf(bizId));
+                        baseExecuteOrder.setExecuteOrderImgStatus("0");
+                        executeOrderService.updateSelective(baseExecuteOrder).getData();
+                        break;
+                    case WebConstants.Audit.ORIGINAL_EXECUTE_ORDER: // 追要原章排期单
+                        baseExecuteOrder = new BaseExecuteOrder();
+                        baseExecuteOrder.setId(Integer.valueOf(bizId));
+                        baseExecuteOrder.setOriginalExecuteOrderStatus("0");
+                        executeOrderService.updateSelective(baseExecuteOrder).getData();
+                        break;
+                    case WebConstants.Audit.CONFIRM_COST: // 成本确认
+                        baseExecuteOrder = new BaseExecuteOrder();
+                        baseExecuteOrder.setId(Integer.valueOf(bizId));
+                        baseExecuteOrder.setConfirmCostStatus("0");
+                        executeOrderService.updateSelective(baseExecuteOrder).getData();
+                        break;
+                    case WebConstants.Audit.REMINDER_PAYMENT: // 催款
+                        baseExecuteOrder = new BaseExecuteOrder();
+                        baseExecuteOrder.setId(Integer.valueOf(bizId));
+                        baseExecuteOrder.setReminderPaymentStatus("0");
+                        executeOrderService.updateSelective(baseExecuteOrder).getData();
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+//            // 判断是否是审核流程的最后一步
+//            HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(pkey).processInstanceId(pid).finished().orderByProcessInstanceEndTime().desc();
+//            List<HistoricProcessInstance> list = query.list();
+//            LOGGER.info("processInstanceId:{}", pid);
+//            LOGGER.info("HistoricProcessInstance-listSize:{}", list.size());
+//            if (list.size() > 0) {
+//
+//                switch (pkey) {
+//                    case WebConstants.WORKFLOW_BUY:
+//                        BaseBuyOrder baseBuyOrder = new BaseBuyOrder();
+//                        baseBuyOrder.setId(Integer.valueOf(bizId));
+//                        baseBuyOrder.setStatus((byte)1);
+//                        buyOrderService.updateSelective(baseBuyOrder).getData();
+//                        break;
+//
+//                    case WebConstants.WORKFLOW_BUY_FRAME:
+//                        BaseBuyOrderFrame baseBuyOrderFrame = new BaseBuyOrderFrame();
+//                        baseBuyOrderFrame.setId(Integer.valueOf(bizId));
+//                        baseBuyOrderFrame.setStatus((byte)1);
+//                        buyFrameService.updateSelective(baseBuyOrderFrame).getData();
+//                        break;
+//
+//                    case WebConstants.WORKFLOW_SALE_FRAME:
+//                        BaseExecuteOrderFrame baseExecuteOrderFrame = new BaseExecuteOrderFrame();
+//                        baseExecuteOrderFrame.setId(Integer.valueOf(bizId));
+//                        baseExecuteOrderFrame.setStatus((byte)1);
+//                        saleFrameService.updateSelective(baseExecuteOrderFrame).getData();
+//                        break;
+//
+//                    case WebConstants.WORKFLOW_SALE_ORDER:
+//                        BaseExecuteOrder baseExecuteOrder = new BaseExecuteOrder();
+//                        baseExecuteOrder.setId(Integer.valueOf(bizId));
+//                        baseExecuteOrder.setStatus((byte)1);
+//                        executeOrderService.updateSelective(baseExecuteOrder).getData();
+//                        break;
+//
+//                    case WebConstants.WORKFLOW_SALE_EXECUTE:
+//                        BaseExecuteOrder baseExecuteOrderExecute = new BaseExecuteOrder();
+//                        baseExecuteOrderExecute.setId(Integer.valueOf(bizId));
+//                        baseExecuteOrderExecute.setStatus((byte)2);
+//                        executeOrderService.updateSelective(baseExecuteOrderExecute).getData();
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+
+
+            List<Task> taskList = taskService.createTaskQuery().processInstanceId(pid).active().list();
+            for (Task newTask:taskList) {
+                LOGGER.info("task_id:{}", newTask.getId());
+                noticeService.doNotify(newTask.getId(), WebConstants.Notify.TEMPLATE_DEMAND);
             }
         } catch (Exception e) {
             LOGGER.error("", e);
@@ -725,6 +811,7 @@ public class TaskController {
         LOGGER.info("task_id:{}", taskId);
         Map<String,Object> variables = taskService.getVariables(taskId);
 
+        // 获取各个审批流程意见
         Iterator iterator = variables.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
@@ -750,6 +837,13 @@ public class TaskController {
                     LOGGER.warn("错误的参数。mapKey is :{}", mapKey);
             }
         }
+
+//
+//        Task newTask = taskService.createTaskQuery().processInstanceId(pid).active().singleResult();
+//        if (newTask != null) {
+//            LOGGER.info("task_id:{}", newTask.getId());
+//            noticeService.doNotify(newTask.getId(), WebConstants.Notify.TEMPLATE_DEMAND);
+//        }
         return "/workflow/ajax/reApply";
     }
     /**

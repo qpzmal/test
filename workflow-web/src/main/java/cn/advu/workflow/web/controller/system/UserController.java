@@ -327,28 +327,30 @@ public class UserController {
                             obj.setWfStep(wfStep);
                             continue;
                         }
-                        Task task = taskService.createTaskQuery().processInstanceId(obj.getProcessInstanceId()).active().singleResult();
-                        if (task == null) {
-                            LOGGER.warn("task is null, biz-id is :{}", obj.getId());
-                            obj.setWfStep(wfStep);
-                            continue;
-                        }
-                        String taskDefKey = task.getTaskDefinitionKey();
-                        switch (taskDefKey) {
-                            case WebConstants.Audit.MEDIA:
-                                wfStep = "2"; // 媒介审核
-                                break;
-                            case WebConstants.Audit.SALER_GM:
-                                wfStep = "3"; // 销售总经理审核
-                                break;
-                            case WebConstants.Audit.FINANCIAL_GM:
-                                wfStep = "4"; //  财务审核
-                                break;
-                            case WebConstants.Audit.LEGAL_GM:
-                                wfStep = "5"; //  法务审核
-                                break;
-                            default:
-                                LOGGER.warn("错误的参数。mapKey is :{}", taskDefKey);
+                        List<Task> taskList = taskService.createTaskQuery().processInstanceId(obj.getProcessInstanceId()).active().list();
+                        for (Task task:taskList) {
+                            if (task == null) {
+                                LOGGER.warn("task is null, biz-id is :{}", obj.getId());
+                                obj.setWfStep(wfStep);
+                                continue;
+                            }
+                            String taskDefKey = task.getTaskDefinitionKey();
+                            switch (taskDefKey) {
+                                case WebConstants.Audit.MEDIA:
+                                    wfStep = "2"; // 媒介审核
+                                    break;
+                                case WebConstants.Audit.SALER_GM:
+                                    wfStep = "3"; // 销售总经理审核
+                                    break;
+                                case WebConstants.Audit.FINANCIAL_GM:
+                                    wfStep = "4"; //  财务审核
+                                    break;
+                                case WebConstants.Audit.LEGAL_GM:
+                                    wfStep = "5"; //  法务审核
+                                    break;
+                                default:
+                                    LOGGER.warn("错误的参数。mapKey is :{}", taskDefKey);
+                            }
                         }
                     }
                     break;

@@ -343,7 +343,7 @@ file_maxSize=1;
             case 'finish':
                 stats = uploader.getStats();
                 if ( stats.successNum ) {
-                    popMsg("上传文件成功！", "/saleOrder/contractList");
+                    popMsg("上传文件成功！", "/workflow/task/todo");
                     // alert( '上传成功' );
                 } else {
                     // 没有成功的图片，重设

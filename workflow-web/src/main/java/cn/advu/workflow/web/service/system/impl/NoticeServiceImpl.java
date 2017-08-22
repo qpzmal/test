@@ -53,6 +53,7 @@ public class NoticeServiceImpl implements NoticeService {
     private SysFuctionMapper sysFuctionMapper;
 
     public void doNotify(String taskId, String template) {
+        LOGGER.info("taskId:{}, template:{}", taskId, template);
 
         // 获取审核人列表
         List<IdentityLink> identityLinkList =  taskService.getIdentityLinksForTask(taskId);
@@ -65,7 +66,16 @@ public class NoticeServiceImpl implements NoticeService {
             LOGGER.debug("#########################################");
 
             SysRole sysRole = sysRoleRepo.queryByActivitiName(identityLink.getGroupId());
-            List<SysUserRole> sysUserRoleList = sysUserRoleRepo.findRoleUser(sysRole.getId());
+
+            List<SysUserRole> sysUserRoleList = new ArrayList<>();
+            if (sysRole == null) {
+                SysUserRole sysUserRole = new SysUserRole();
+                SysUser sysUser = sysUserRepo.findByIdAndName(null, identityLink.getUserId());
+                sysUserRole.setAdmins(sysUser.getId());
+                sysUserRoleList.add(sysUserRole);
+            } else {
+                sysUserRoleList = sysUserRoleRepo.findRoleUser(sysRole.getId());
+            }
 
             List<String> mailList = new ArrayList<>();
             List<String> mobileList = new ArrayList<>();

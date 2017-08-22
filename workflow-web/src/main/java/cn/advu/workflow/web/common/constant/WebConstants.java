@@ -30,6 +30,15 @@ public class WebConstants {
         public static final String FINANCIAL_GM = "financialGMAudit"; // 财务主管审核
         public static final String LEGAL_GM = "legalGMAudit"; // 法务主管审核
         public static final String MODIFY_APPLY = "modifyApply"; // 申请人调整申请
+
+        public static final String SIGN_CONTRACT = "signContract"; // 签署合同
+        public static final String UPLOAD_CONTRACT_IMG = "uploadContractImg"; // 上传扫描版合同
+        public static final String ORIGINAL_CONTRACT = "originalContract"; // 追要原章合同
+        public static final String UPLOAD_EXECUTE_ORDER_IMG = "uploadExecuteOrderImg"; // 上传扫描版排期单
+        public static final String ORIGINAL_EXECUTE_ORDER = "originalExecuteOrder"; // 追要原章排期单
+        public static final String CONFIRM_COST = "confirmCost"; // 成本确认
+        public static final String REMINDER_PAYMENT = "reminderPayment"; // 财务向销售催款
+        public static final String GATHERING = "gathering"; // 催款
     }
 
     public static class AuditPass {
@@ -54,5 +63,10 @@ public class WebConstants {
     public static class Notify {
         public static final String TEMPLATE_DEMAND = "demand"; // 审核
         public static final String TEMPLATE_REMIND = "remind"; // 催款提醒
+    }
+
+    public static class FileUpload {
+        public static final String BIZ_TYPE_1 = "1"; // 1合同图片，
+        public static final String BIZ_TYPE_2 = "2"; // 2排期单图片
     }
 }

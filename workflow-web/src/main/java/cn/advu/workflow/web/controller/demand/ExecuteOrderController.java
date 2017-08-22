@@ -65,11 +65,10 @@ public class ExecuteOrderController {
     SaleFrameService saleFrameService;
 
     @Autowired
-    RoleManager roleManager;
-
-    @Autowired
     FileUploadService fileUploadService;
 
+    @Autowired
+    RoleManager roleManager;
 
     @Autowired
     TreeMananger treeMananger;
@@ -711,7 +710,7 @@ public class ExecuteOrderController {
             if (fileName.length() > 30) { // 文件名过长时，改名
                 fileName = System.currentTimeMillis() + ".jpg";
             }
-            fileName = orderNum + "_" + dateTime.toString("yyyyMMddhhmmss") + "_" + StringUtil.getRandom6Str() + "_" + fileName;
+            fileName = orderNum + "_" + dateTime.toString(DateUtil.DATE_FORMAT_NO_SYMBOL_24H) + "_" + StringUtil.getRandom6Str() + "_" + fileName;
             String filePath = path + fileName;
             LOGGER.debug("file path:{}", filePath);
             LOGGER.debug("file path:{}", filePath.substring(filePath.indexOf("/workflow-admin"), filePath.length()));

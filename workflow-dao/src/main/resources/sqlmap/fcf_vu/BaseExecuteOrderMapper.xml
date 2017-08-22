@@ -694,7 +694,8 @@
       ,
     </if>
     <foreach collection="mediaIdList" item="mediaId" separator="," >
-      (select count(media_cpm_${mediaId}.cpm) from base_order_cpm media_cpm_${mediaId}  where media_cpm_${mediaId}.order_id = base_execute_order.id and media_cpm_${mediaId}.order_cpm_type = 2 and media_cpm_${mediaId}.media_id=${mediaId}) as s_${mediaId}
+      (select count(media_cpm_${mediaId}.cpm) from base_order_cpm media_cpm_${mediaId}  where media_cpm_${mediaId}.order_id = base_execute_order.id
+      and media_cpm_${mediaId}.order_cpm_type IN (1,2) and media_cpm_${mediaId}.media_id=${mediaId}) as s_${mediaId}
     </foreach>
     from base_execute_order left join base_order_cpm on  base_order_cpm.order_id = base_execute_order.id
     left join base_adtype on base_order_cpm.ad_type_id = base_adtype.id

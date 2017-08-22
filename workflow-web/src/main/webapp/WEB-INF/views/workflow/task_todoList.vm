@@ -3,6 +3,10 @@
 #define($cssblock)
 <link href="#springUrl("")/static/css/plugins/jquery-qtip/jquery.qtip.min.css?$!application.getAttribute('/static/css/plugins/jquery-qtip/jquery.qtip.min.css')" rel="stylesheet">
 <link href="#springUrl("")/static/css/plugins/jquery-ui/jquery-ui.min.css?$!application.getAttribute('/static/css/plugins/jquery-ui/jquery-ui.min.css')" rel="stylesheet">
+
+<link href="#springUrl("")/static/css/plugins/webuploader/webuploader.css?$!application.getAttribute('/static/css/plugins/webuploader/webuploader.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/demo/webuploader-demo.min.css?$!application.getAttribute('/static/css/demo/webuploader-demo.min.css')" rel="stylesheet">
+
 #end
 
 <div class="wrapper wrapper-content">
@@ -170,7 +174,7 @@
                                             ##                                    ${pi.suspended ? "已挂起" : "正常" }；
                                                 <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
                                             </td>
-                                            <td>
+                                            <td tid="$!{data.baseExecuteOrder.id}" tname="$!{data.baseExecuteOrder.orderNum}">
                                                 #if(!${data.task.assignee})
                                                     <a href="javascript:;" class="btn btn-info btn-sm button_to_start btn_claim"><i class="fa fa-play "></i> 签收 </a>
                                                 #end
@@ -181,6 +185,15 @@
 
                                                         <a href="javascript:;" class="btn btn-info btn-sm btn_edit" tkey='$!{data.task.taskDefinitionKey}' tname='$!{data.task.name}'><i class="fa fa-pencil "></i> 调整申请</a>
                                                     #else
+                                                        #if($!{data.task.taskDefinitionKey} == 'uploadContractImg')
+                                                            #if($!{data.baseExecuteOrder.contractImgCount} == 0)
+                                                                <a href="javascript:;" class="btn btn-info btn-sm button_contract_img "><i class="fa fa-upload "></i> 上传扫描版合同 </a>
+                                                            #else
+                                                                <a href="javascript:;" class="btn btn-default btn-sm button_view_contract_img "><i class="fa fa-search "></i> 已上传合同 </a>
+                                                                <a href="javascript:;" class="btn btn-info btn-sm button_contract_img_continue "><i class="fa fa-upload "></i> 续传 </a>
+                                                                <a href="javascript:;" class="btn btn-info btn-sm button_contract_img_reupload "><i class="fa fa-upload "></i> 重新上传 </a>
+                                                            #end
+                                                        #end
                                                         <a href="javascript:;" class="btn btn-info btn-sm btn_handle" tkey='$!{data.task.taskDefinitionKey}' tname='$!{data.task.name}'><i class="fa fa-play "></i> 办理</a>
                                                     #end
                                                 #end
@@ -298,7 +311,7 @@
                                                 ##                                    ${pi.suspended ? "已挂起" : "正常" }；
                                                     <b title='流程版本号'>V: $!{data.processDefinition.version}</b>
                                                 </td>
-                                                <td>
+                                                <td tid="$!{data.baseExecuteOrder.id}" tname="$!{data.baseExecuteOrder.orderNum}">
                                                     #if(!${data.task.assignee})
                                                         <a href="javascript:;" class="btn btn-info btn-sm btn_claim"><i class="fa fa-play "></i> 签收 </a>
                                                     #end
@@ -308,6 +321,19 @@
                                                             <a href="javascript:;" class="btn btn-info btn-sm btn_handle_modify" tkey='$!{data.task.taskDefinitionKey}' tname='$!{data.task.name}'><i class="fa fa-play "></i> 处理申请</a>
 
                                                         #else
+                                                            #if($!{data.task.taskDefinitionKey} == 'uploadExecuteOrderImg')
+                                                                #if($!{data.baseExecuteOrder.executeOrderImgCount} == 0)
+                                                                    <a href="javascript:;" class="btn btn-info btn-sm button_execute_order_img "><i class="fa fa-upload "></i> 上传扫描版排期单 </a>
+                                                                #else
+                                                                    <a href="javascript:;" class="btn btn-default btn-sm button_view_execute_img "><i class="fa fa-search "></i> 已上传排期单 </a>
+                                                                    <a href="javascript:;" class="btn btn-info btn-sm button_execute_img_continue "><i class="fa fa-upload "></i> 续传 </a>
+                                                                    <a href="javascript:;" class="btn btn-info btn-sm button_execute_img_reupload "><i class="fa fa-upload "></i> 重新上传 </a>
+                                                                #end
+                                                            #elseif($!{data.task.taskDefinitionKey} == 'confirmCost')
+                                                                <a href="javascript:;" class="btn btn-default btn-sm button_view_confirm_cost"><i class="fa fa-search "></i> 成本确认单 </a>
+                                                            #elseif($!{data.task.taskDefinitionKey} == 'reminderPayment')
+                                                                <a href="javascript:;" class="btn btn-default btn-sm button_view_reminder_payment"><i class="fa fa-search "></i> 应收催款单 </a>
+                                                            #end
                                                             <a href="javascript:;" class="btn btn-info btn-sm btn_handle" tkey='$!{data.task.taskDefinitionKey}' tname='$!{data.task.name}'><i class="fa fa-play "></i> 办理</a>
                                                         #end
 
@@ -364,15 +390,53 @@
 </div>
 
 
+<div class="ibox-content file-upload" style="display:none">
+    <div class="page-container">
+        <p>您可以尝试文件拖拽，使用QQ截屏工具，然后激活窗口后粘贴，或者点击添加图片按钮，来上传图片（仅允许gif,jpg,jpeg,bmp,png格式，单个文件最大1M，批量共计最大10M）</p>
+        <div id="uploader" class="wu-example">
+            <div class="queueList">
+                <div id="dndArea" class="placeholder">
+                    <div id="filePicker"></div>
+                    <p>或将图片拖到这里，单次最多可选30张</p>
+                </div>
+            </div>
+            <div class="statusBar" style="display:none;">
+                <div class="progress">
+                    <span class="text">0%</span>
+                    <span class="percentage"></span>
+                </div>
+                <div class="info"></div>
+                <div class="btns">
+                    <div id="filePicker2"></div>
+                    <div class="uploadBtn">开始上传</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 
 #define($jsblock)
+<script type="text/javascript">
+    // 添加全局站点信息
+    var BASE_URL = '/webuploader';
+    ##    var BASE_URL = '#springUrl("")/static/js/plugins/webuploader/index.html';
+</script>
+
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/jquery-ui/jquery-ui.min.js?$!application.getAttribute('/static/js/plugins/jquery-ui/jquery-ui.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/modules/activiti/workflow.js?$!application.getAttribute('/static/js/modules/activiti/workflow.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/jquery-qtip/jquery.qtip.min.js?$!application.getAttribute('/static/js/plugins/jquery-qtip/jquery.qtip.min.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/jquery-outerhtml/jquery.outerhtml.js?$!application.getAttribute('/static/js/plugins/jquery-outerhtml/jquery.outerhtml.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" ></script>
+
+
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/webuploader/webuploader.min.js?$!application.getAttribute('/static/js/plugins/webuploader/webuploader.min.js')" ></script>
+##<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader-demo.min.js?$!application.getAttribute('/static/js/demo/webuploader-demo.min.js')" ></script>
+##<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader/webuploader.js?$!application.getAttribute('/static/js/demo/webuploader/webuploader.js')" ></script>
+<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader/weiqz-demo.js?$!application.getAttribute('/static/js/demo/webuploader/weiqz-demo.js')" ></script>
 
 <script>
     var taskId;
@@ -409,7 +473,74 @@
         bizId = $(this).parents('tr').attr('id');
         tkey = $(this).attr('tkey');
 //        var url = '/workflow/task/toAudit?pkey=' + pkey + '&tkey='+tkey + '&taskId='+taskId;
-        openPopDivPage_taskAudit();
+        if (tkey == 'signContract') {
+            layer.confirm('是否已经联系客户签署合同', {
+                title: '合同签署',
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                complete(true);
+            }, function(){
+            });
+        } else if (tkey == 'uploadContractImg') {
+            layer.confirm('是否已经上传<label class="text-danger">全部</label>扫描版合同', {
+                title: '上传扫描合同',
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                complete(true);
+            }, function(){
+            });
+        } else if (tkey == 'originalContract') {
+            layer.confirm('是否已经向客户追要原章合同', {
+                title: '追要原章合同',
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                complete(true);
+            }, function(){
+            });
+        } else if (tkey == 'uploadExecuteOrderImg') {
+            layer.confirm('是否已经上传<label class="text-danger">全部</label>扫描版排期单', {
+                title: '上传扫描版排期单',
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                complete(true);
+            }, function(){
+            });
+        } else if (tkey == 'originalExecuteOrder') {
+            layer.confirm('是否已经追要原章排期单', {
+                title: '追要原章排期单',
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                complete(true);
+            }, function(){
+            });
+        } else if (tkey == 'confirmCost') {
+            layer.confirm('是否已经确认收入成本确认单', {
+                title: '收入成本确认',
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                complete(true);
+            }, function(){
+            });
+        } else if (tkey == 'reminderPayment') {
+            layer.confirm('是否已经向发出催款提醒', {
+                title: '催款提醒',
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                complete(true);
+            }, function(){
+            });
+        } else if (tkey == 'gathering') {
+            layer.confirm('是否已经向客户发出催款要求', {
+            title: '向客户催款',
+                    btn: ['确认','取消'] //按钮
+            }, function(){
+                complete(true);
+            }, function(){
+            });
+
+        } else {
+            openPopDivPage_taskAudit();
+        }
     })
 
     ## 打开[申请人调整申请用窗口]页面
@@ -469,7 +600,7 @@
     }
 
 
-    ## 办理（示例：弹出确认页）
+    ## 办理-申请调整（示例：弹出确认页）
     function openPopDivPage_taskModify(){
         var url = "/workflow/task/toReApply";
         $.ajax({
@@ -534,7 +665,7 @@
     })
 
 
-    // 添加
+    // 办理
     function complete(result){
         var url = '/workflow/task/complete.json';
         $.ajax({
@@ -563,6 +694,143 @@
             }
         });
     }
+
+
+
+    /**
+     * 验证文件格式以及文件大小
+     */
+    uploader.on("error",function (type){
+        if (type=="Q_TYPE_DENIED"){
+            layer.msg('请上传gif,jpg,jpeg,bmp,png格式文件');
+        }else if(type=="F_EXCEED_SIZE"){
+            layer.msg("文件大小不能超过"+file_maxSize + "M");
+        }
+    });
+
+
+    ## 上传扫描版合同(首次)
+    $(".button_contract_img").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        uploadContractFile(bizId, "first");
+    })
+    ## 上传扫描版合同(续传)
+    $(".button_contract_img_continue").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        layer.confirm('续传将保留已上传图片，<label class="text-danger">继续增加图片</label>。是否保留已上传图片？', {
+            title: '确认',
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            layer.closeAll('dialog');
+            uploadContractFile(bizId, "continue");
+        }, function(){
+        });
+    })
+    ## 上传扫描版合同(重传)
+    $(".button_contract_img_reupload").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        layer.confirm('重传将删除已上传图片，<label class="text-danger">重新上传图片</label>。是否删除已上传图片？', {
+            title: '确认',
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            layer.closeAll('dialog');
+            uploadContractFile(bizId, "reupload");
+        }, function(){
+        });
+    })
+    function uploadContractFile(bizId, uploadType) {
+        uploadFile(bizId, 1, uploadType);
+    }
+
+
+
+    ## 上传扫描版排期(首次)
+    $(".button_execute_order_img").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        uploadExecuteFile(bizId, "first");
+    })
+    ## 上传扫描版排期(续传)
+    $(".button_execute_img_continue").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        layer.confirm('续传将保留已上传图片，<label class="text-danger">继续增加图片</label>。是否保留已上传图片？', {
+            title: '确认',
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            layer.closeAll('dialog');
+            uploadExecuteFile(bizId, "continue");
+        }, function(){
+        });
+    })
+    ## 上传扫描版排期(重传)
+    $(".button_execute_img_reupload").click(function(){
+        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        layer.confirm('重传将删除已上传图片，<label class="text-danger">重新上传图片</label>。是否删除已上传图片？', {
+            title: '确认',
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            layer.closeAll('dialog');
+            uploadExecuteFile(bizId, "reupload");
+        }, function(){
+        });
+    })
+    function uploadExecuteFile(bizId, uploadType) {
+        uploadFile(bizId, 2, uploadType);
+    }
+
+
+    function uploadFile(bizId, picType, uploadType) {
+        // WebUploader初始化以后添加自定义参数
+        uploader.options.formData.bizId = bizId;
+        uploader.options.formData.picType = picType;
+        uploader.options.formData.uploadType = uploadType;
+        layer.open({
+            type: 1,
+            title: false, //不显示标题
+            skin: 'layui-layer-rim', //加上边框
+            area: ['600px', '400px'], //宽高
+//            closeBtn: 0, //不显示关闭按钮
+            shadeClose: true, //开启遮罩关闭
+            content: $('.file-upload'),
+        });
+        uploader.refresh();
+    }
+
+    ## 预览已上传图片（合同）
+    $(".button_view_contract_img").click(function(){
+        var tid = $(this).parents('td').attr('tid'); // 取申请ID
+        var bizName = $(this).parents('td').attr('tname'); // 项目编号
+        var url = "${rc.contextPath}/saleOrder/preViewImg?bizType=1&bizName="+bizName+"&bizId="+tid;
+        openPopIframePage(url);
+    })
+
+    ## 预览已上传图片（排期单）
+    $(".button_view_execute_img").click(function(){
+        var tid = $(this).parents('td').attr('tid'); // 取申请ID
+        var bizName = $(this).parents('td').attr('tname'); // 项目编号
+        var url = "${rc.contextPath}/saleOrder/preViewImg?bizType=2&bizName="+bizName+"&bizId="+tid;
+        openPopIframePage(url);
+    })
+
+
+
+    ## 查看应收催款单
+    $(".button_view_reminder_payment").click(function(){
+        var tid = $(this).parents('td').attr('tid'); // 取申请ID
+        var bizName = $(this).parents('td').attr('tname'); // 项目编号
+        var url = "${rc.contextPath}/saleOrder/reminderPaymentList?bizId=" + tid;
+        openPopIframePage(url);
+    })
+
+
+    ## 查看成本确认单
+    $(".button_view_confirm_cost").click(function(){
+        var tid = $(this).parents('td').attr('tid'); // 取申请ID
+        var bizName = $(this).parents('td').attr('tname'); // 项目编号
+        var url = "${rc.contextPath}/report/finalReport/?likeSearch=" + bizName;
+        openPopIframePage(url);
+    })
+
+
 
 </script>
 #end
