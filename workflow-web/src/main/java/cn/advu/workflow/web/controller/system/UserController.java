@@ -1,6 +1,9 @@
 package cn.advu.workflow.web.controller.system;
 
-import cn.advu.workflow.domain.fcf_vu.*;
+import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
+import cn.advu.workflow.domain.fcf_vu.SysRole;
+import cn.advu.workflow.domain.fcf_vu.SysUser;
+import cn.advu.workflow.domain.fcf_vu.SysUserRole;
 import cn.advu.workflow.domain.golbal.Page;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
@@ -15,6 +18,7 @@ import cn.advu.workflow.web.vo.MenuVO;
 import com.google.gson.Gson;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -287,6 +291,10 @@ public class UserController {
         dbList = executeOrderService.findAll(param);
         List<BaseExecuteOrder> todoList = dbList.getData();
         LOGGER.info("待处理件数：{}", todoList.size());
+
+
+        TaskQuery taskQuery = taskService.createTaskQuery().taskUnassigned().orderByTaskCreateTime().desc();
+        List<Task> tasks = taskQuery.listPage(0,20);
 
         // 工作看板--进行中
         param.setStatus((byte) 2);

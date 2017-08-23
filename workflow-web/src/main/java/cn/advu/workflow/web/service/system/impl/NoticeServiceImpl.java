@@ -12,7 +12,10 @@ import cn.advu.workflow.repo.fcf_vu.SysUserRepo;
 import cn.advu.workflow.repo.fcf_vu.SysUserRoleRepo;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.common.tool.YunpianTool;
+import cn.advu.workflow.web.example.mail.sms163.SendNeteaseTemplate;
 import cn.advu.workflow.web.service.system.NoticeService;
+import net.sf.json.JSONArray;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.IdentityLink;
 import org.slf4j.Logger;
@@ -46,6 +49,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Autowired
     protected TaskService taskService;
+
     @Autowired
     private SysUserMapper sysUserMapper;
 
@@ -85,51 +89,76 @@ public class NoticeServiceImpl implements NoticeService {
                 mobileList.add(dbUser.getMobile());
             }
 
-
             // 发送邮件
-            MailBean mailBean = new MailBean();
-            mailBean.setFrom(mailFrom);
-            mailBean.setToEmails((String[]) mailList.toArray(new String[mailList.size()]));
-            if (WebConstants.Notify.TEMPLATE_DEMAND.equals(template)) {
-                mailBean.setSubject("您有新申请可处理");
-                mailBean.setTemplate("/mails/demand.vm");//设置的邮件模板
-            } else if (WebConstants.Notify.TEMPLATE_REMIND.equals(template)) {
-                mailBean.setSubject("您有新的收款提醒");
-                mailBean.setTemplate("/mails/reminder.vm");//设置的邮件模板
+            sendMail(mailList, template);
 
-            } else {
-                LOGGER.warn("错误的模版类型：{}", template);
-            }
-            Map data=new HashMap();
-            data.put("username", UserThreadLocalContext.getCurrentUser().getUserName());
-            mailBean.setData(data);
-            try {
-                MailUtilVelocity.getInstance().send(mailBean);
-            } catch (MessagingException e) {
-                LOGGER.warn("", e);
-                e.printStackTrace();
-            }
+            // 发送短信
+//            sendSmsByNetease(mobileList);
+            sendSmsByYunpian(mobileList);
 
-
-//            // 发送短信
-//            List<String> paramsList = new ArrayList<>();
-//            String smsContent = UserThreadLocalContext.getCurrentUser().getUserName();
-//            paramsList.add(smsContent);
-//            paramsList.add("【"+ smsContent +"】");
-//
-//            try {
-//                SendTemplate.send(JSONArray.fromObject(mobileList.toArray()).toString(), JSONArray.fromObject(paramsList.toArray()).toString());
-//            } catch (Exception e) {
-//                LOGGER.error("短信发送出错：", e);
-//            }
         }
     }
 
 
-    private void sendMail () {
+    private void sendMail(List<String> mailList, String template) {
+        // 发送邮件
+        MailBean mailBean = new MailBean();
+        mailBean.setFrom(mailFrom);
+        mailBean.setToEmails((String[]) mailList.toArray(new String[mailList.size()]));
+        if (WebConstants.Notify.TEMPLATE_DEMAND.equals(template)) {
+            mailBean.setSubject("您有新申请可处理");
+            mailBean.setTemplate("/mails/demand.vm");//设置的邮件模板
+        } else if (WebConstants.Notify.TEMPLATE_REMIND.equals(template)) {
+            mailBean.setSubject("您有新的收款提醒");
+            mailBean.setTemplate("/mails/reminder.vm");//设置的邮件模板
+
+        } else {
+            LOGGER.warn("错误的模版类型：{}", template);
+        }
+        Map data=new HashMap();
+        data.put("username", UserThreadLocalContext.getCurrentUser().getUserName());
+        mailBean.setData(data);
+        try {
+            MailUtilVelocity.getInstance().send(mailBean);
+        } catch (MessagingException e) {
+            LOGGER.warn("", e);
+            e.printStackTrace();
+        }
 
     }
-    private void sendSMS() {
 
+    // 使用网易短信服务
+    private void sendSmsByNetease(List<String> mobileList) {
+        // 发送短信
+        List<String> paramsList = new ArrayList<>();
+        String smsContent = UserThreadLocalContext.getCurrentUser().getUserName();
+        paramsList.add(smsContent);
+        paramsList.add("【"+ smsContent +"】");
+
+        try {
+            SendNeteaseTemplate.send(JSONArray.fromObject(mobileList.toArray()).toString(), JSONArray.fromObject(paramsList.toArray()).toString());
+        } catch (Exception e) {
+            LOGGER.error("短信发送出错：", e);
+        }
     }
+    // 使用云片短信服务
+    private void sendSmsByYunpian(List<String> mobileList) {
+        // 发送短信
+        String param = UserThreadLocalContext.getCurrentUser().getUserName();
+        String text = YunpianTool.CONTEXT_1913610.replace("#demand_user_name#", param);
+
+        StringBuffer sb = new StringBuffer();
+        for(String mobile:mobileList) {
+            sb.append(mobile).append(",");
+        }
+        String mobiles = sb.toString();
+        mobiles = mobiles.substring(0, mobiles.length()-1);
+
+        try {
+            YunpianTool.batchSend(text, mobiles);
+        } catch (Exception e) {
+            LOGGER.error("短信发送出错：", e);
+        }
+    }
+
 }
