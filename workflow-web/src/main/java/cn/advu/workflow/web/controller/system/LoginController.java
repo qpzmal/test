@@ -2,6 +2,7 @@ package cn.advu.workflow.web.controller.system;
 
 import cn.advu.workflow.common.constant.Constants;
 import cn.advu.workflow.common.golbal.AjaxJson;
+import cn.advu.workflow.domain.fcf_vu.SysInfo;
 import cn.advu.workflow.web.common.RequestUtil;
 import cn.advu.workflow.web.common.exception.LoginException;
 import cn.advu.workflow.web.common.loginContext.LoginTools;
@@ -9,6 +10,7 @@ import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.facade.workflow.ActivitiFacade;
 import cn.advu.workflow.web.service.system.LoginService;
+import cn.advu.workflow.web.service.system.SysInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.patchca.color.ColorFactory;
 import org.patchca.filter.predefined.*;
@@ -45,6 +47,9 @@ public class LoginController {
     private LoginService loginService;
 
     @Autowired
+    private SysInfoService sysInfoService;
+
+    @Autowired
     private ActivitiFacade activitiFacade;
 
 
@@ -52,6 +57,11 @@ public class LoginController {
     public String toIndex(HttpServletRequest request, HttpSession session, Model model){
         String userName = UserThreadLocalContext.getCurrentUser().getRealName();
 
+        String host = request.getScheme()+"://"+request.getServerName();
+        SysInfo sysInfo = sysInfoService.querySysInfo().getData();
+
+        model.addAttribute("host", host);
+        model.addAttribute("logo", sysInfo.getLogo());
         model.addAttribute("curUserName", userName);
         return "index";
     }

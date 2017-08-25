@@ -104,6 +104,7 @@ public class EhcacheHelper {
         if (EhcacheHelper.checkkey(cacheName+"_"+key)) {
             int c = 10;
             while (c-- > 0) {
+                LOGGER.debug("EHCACHE-GetAndSet， times:{}", c);
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {

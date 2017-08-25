@@ -19,6 +19,7 @@
     <style type="text/css">
         .nav-header {
             /*background: url(/static/img/vu-logo.png) no-repeat; height:100%; width:100%; overflow: hidden; background-size:cover;*/
+            background: url(${host}${logo}) no-repeat; height:100%; width:100%; overflow: hidden; background-size:cover;
         }
     </style>
 </head>

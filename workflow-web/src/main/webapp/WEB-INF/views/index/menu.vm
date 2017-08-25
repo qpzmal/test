@@ -152,6 +152,7 @@
                         <a class="J_menuItem" style="display:none" functionid="50200" href="${rc.contextPath}/role/index">权限管理</a>
                         <a class="J_menuItem admin-item" style="display:none" href="${rc.contextPath}/workflow/model/index">流程模型</a>
                         <a class="J_menuItem admin-item" style="display:none" href="${rc.contextPath}/sysLog/index">数据日志</a>
+                        <a class="J_menuItem admin-item" style="display:none" href="${rc.contextPath}/sysInfo/index">系统设置</a>
 ##                        <a class="J_menuItem admin-item" style="display:none" href="${rc.contextPath}/system/index">系统管理</a>
 ##                        <a class="J_menuItem" style="display:none" href="${rc.contextPath}/workflow/deploy/index">流程部署</a>
                     </li>
@@ -187,7 +188,6 @@
 ##                    </li>
 ##                </ul>
 ##            </li>
-
 ##            <li>
 ##                <a href="#">
 ##                    <i class="fa fa-tasks"></i>

@@ -1,4 +1,4 @@
-file_maxSize=1;
+file_maxSize=800;
 
         $wrap = $('#uploader'),
 
@@ -31,8 +31,8 @@ file_maxSize=1;
         ratio = window.devicePixelRatio || 1,
 
         // 缩略图大小
-        thumbnailWidth = 110 * ratio,
-        thumbnailHeight = 110 * ratio,
+        thumbnailWidth = 220 * ratio,
+        thumbnailHeight = 66 * ratio,
 
         // 可能有pedding, ready, uploading, confirm, done.
         state = 'pedding',
@@ -84,17 +84,17 @@ file_maxSize=1;
 
         chunked: true,
         // server: 'http://webuploader.duapp.com/server/fileupload.php',
-        server: '/saleOrder/fileUpload.json',
-        fileNumLimit: 30, // 批量最大文件数
-        fileSizeLimit: 3 * file_maxSize  * 1024 * 1024,    // 10 M
-        fileSingleSizeLimit: 1 * file_maxSize * 1024 * 1024    // 1 M
+        server: '/sysInfo/fileUpload.json',
+        fileNumLimit: 1, // 批量最大文件数
+        fileSizeLimit: file_maxSize * 1024,    // 800K
+        fileSingleSizeLimit: file_maxSize * 1024    // 800K
     });
-
-    // 添加“添加文件”的按钮，
-    uploader.addButton({
-        id: '#filePicker2',
-        label: '继续添加'
-    });
+    //
+    // // 添加“添加文件”的按钮，
+    // uploader.addButton({
+    //     id: '#filePicker2',
+    //     label: '继续添加'
+    // });
 
     // 当有文件添加进来时执行，负责view的创建
     function addFile( file ) {
@@ -343,7 +343,7 @@ file_maxSize=1;
             case 'finish':
                 stats = uploader.getStats();
                 if ( stats.successNum ) {
-                    popMsg("上传文件成功！", "/workflow/task/todo");
+                    popMsg("上传文件成功！", "/index");
                     // alert( '上传成功' );
                 } else {
                     // 没有成功的图片，重设

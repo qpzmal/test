@@ -436,7 +436,7 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/webuploader/webuploader.min.js?$!application.getAttribute('/static/js/plugins/webuploader/webuploader.min.js')" ></script>
 ##<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader-demo.min.js?$!application.getAttribute('/static/js/demo/webuploader-demo.min.js')" ></script>
 ##<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader/webuploader.js?$!application.getAttribute('/static/js/demo/webuploader/webuploader.js')" ></script>
-<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader/weiqz-demo.js?$!application.getAttribute('/static/js/demo/webuploader/weiqz-demo.js')" ></script>
+<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader/contract_img.js?$!application.getAttribute('/static/js/demo/webuploader/contract_img.js')" ></script>
 
 <script>
     var taskId;

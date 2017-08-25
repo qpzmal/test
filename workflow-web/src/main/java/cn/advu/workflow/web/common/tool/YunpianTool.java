@@ -19,7 +19,7 @@ public class YunpianTool {
     private static Logger LOGGER = LoggerFactory.getLogger(YunpianTool.class);
 
     // 成功注册后登录云片官网,进入后台可查看
-    private static final String API_KEY = "";
+    private static final String API_KEY = "6ca450a1aff23f3f46a0941bd4127e47";
 
     // 批量发送--批量发送相同内容
     private static final String URL_BATCH_SEND = "https://sms.yunpian.com/v2/sms/batch_send.json";
@@ -45,5 +45,9 @@ public class YunpianTool {
 
         LOGGER.info("batchSend-result:{}", httpResult);
         return httpResult;//请自行使用post方式请求,可使用Apache HttpClient
+    }
+
+    public static void main(String[] args) {
+        batchSend(CONTEXT_1913610.replace("#demand_user_name#", "ha ha"), "13240427004,");
     }
 }
