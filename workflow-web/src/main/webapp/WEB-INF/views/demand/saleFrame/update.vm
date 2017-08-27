@@ -192,7 +192,7 @@
                         <label class="col-sm-3 control-label">投放地区编号</label>
                         <div class="col-sm-8">
                             <select id="delivery_area_ids" data-placeholder="选择投放地区" class="chosen-select" multiple style="width:350px;" tabindex="4"
-                                #if($!{hasMediaAuth} == false)
+                                #if($!{hasMediaAuth} == false && $!{hasSaleAuth} == false)
                                     disabled
                                 #end
                             >
@@ -211,14 +211,14 @@
                         <label class="col-sm-3 control-label">投放开始日期</label>
                         <div class="col-sm-4">
                             <input value="$!{format.format($!{baseExecuteOrder.startDate})}" id="start_date" placeholder="开始日期" class="laydate-icon form-control layer-date"
-                                #if($!{hasMediaAuth} == false)
+                                #if($!{hasMediaAuth} == false && $!{hasSaleAuth} == false)
                                    disabled
                                 #end
                             >
                         </div>
                         <div class="col-sm-4">
                             <input value="$!{format.format($!{baseExecuteOrder.endDate})}" id="end_date" placeholder="结束日期" class="laydate-icon form-control layer-date"
-                                #if($!{hasMediaAuth} == false)
+                                #if($!{hasMediaAuth} == false && $!{hasSaleAuth} == false)
                                    disabled
                                 #end
                             >
