@@ -95,7 +95,11 @@ public class LoginController {
         } catch (LoginException e) {
             LOGGER.error("登录失败：" + e.getMessage());
         }
+
+        SysInfo sysInfo = sysInfoService.querySysInfo().getData();
+
         model.addAttribute("returnUrl", returnURL);
+        model.addAttribute("sysInfo", sysInfo);
 
         return "login";
     }

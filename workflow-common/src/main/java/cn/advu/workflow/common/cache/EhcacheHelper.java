@@ -60,7 +60,12 @@ public class EhcacheHelper {
      * @return
      */
     static Object getCacheObject(String cacheName, String key) {
-        Element e = cm.getCache(cacheName).get(key);
+        Cache cache = cm.getCache(cacheName);
+        if (cache == null) {
+            return null;
+        }
+
+        Element e = cache.get(key);
         if (e != null) {
             return e.getObjectValue();
         }
@@ -78,8 +83,8 @@ public class EhcacheHelper {
     }
 
 
-    static public void removeCache(String cacheName) {
-        cm.removeCache(cacheName);
+    static public void removeKey(String cacheName, String key) {
+        cm.getCache(cacheName).remove(key);
     }
 
     static public <T> T getCacheAndSet(String cacheName, String key,
@@ -89,6 +94,7 @@ public class EhcacheHelper {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(cacheName)) {
             return null;
         }
+        LOGGER.debug("cacheName:{}, key:{}", cacheName, key);
 
         Object returnObj = EhcacheHelper.getCacheObject(cacheName, key);
 

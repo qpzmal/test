@@ -42,7 +42,7 @@ public class SysInfoController {
         ResultJson<SysInfo> result = sysInfoService.querySysInfo();
         resultModel.addAttribute("sysInfo", result.getData());
 //        DisplayTool.buttonDisplay(resultModel, "modify", "");
-        return "system/sys/index";
+        return "system/sys/update";
     }
 
 

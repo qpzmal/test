@@ -18,9 +18,11 @@ public class SysInfoServiceImpl implements SysInfoService {
     @Autowired
     private SysInfoMananger sysInfoMananger;
 
+    private static final String SYS_INFO_ID = "1";
+
     @Override
     public ResultJson<SysInfo> querySysInfo() {
-        SysInfo result = EhcacheHelper.getCacheAndSet(EhcacheConstants.SYS_INFO, "1", new CacheCaller<SysInfo>() {
+        SysInfo result = EhcacheHelper.getCacheAndSet(EhcacheConstants.SYS_INFO, SYS_INFO_ID, new CacheCaller<SysInfo>() {
             @Override
             public SysInfo getData() {
                 return sysInfoMananger.querySysInfo();
@@ -34,7 +36,7 @@ public class SysInfoServiceImpl implements SysInfoService {
     @Override
     public ResultJson<Integer> updateSelective(SysInfo sysInfo) {
         int result = sysInfoMananger.updateSelective(sysInfo);
-        EhcacheHelper.removeCache(EhcacheConstants.SYS_INFO);
+        EhcacheHelper.removeKey(EhcacheConstants.SYS_INFO, SYS_INFO_ID);
         ResultJson<Integer> rj = new ResultJson<>();
         rj.setData(result);
         return rj;

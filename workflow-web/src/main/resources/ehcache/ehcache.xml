@@ -12,7 +12,7 @@
            eternal="false" overflowToDisk="false" timeToIdleSeconds="300"
            timeToLiveSeconds="60" memoryStoreEvictionPolicy="LFU"/>
 
-    <cache name="SYS_INFO" maxElementsInMemory="5000"
+    <cache name="SYS_INFO_" maxElementsInMemory="5000"
            eternal="false" overflowToDisk="false" timeToIdleSeconds="300"
            timeToLiveSeconds="60" memoryStoreEvictionPolicy="LFU"/>
 

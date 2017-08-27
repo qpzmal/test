@@ -134,8 +134,9 @@
 
     function updateRegion(){
         var id = $("#id").val();
-        var name = $("#adtype_name").val();
-        var item_status = $(".js-switch")[0].checked?"0":"1";
+        var name = $("#sysInfo_name").val();
+        var email_switch = $(".js-switch")[0].checked?"0":"1";
+        var sms_switch = $(".js-switch")[1].checked?"0":"1";
         var remark = $("#remark").val();
         $.ajax({
             url:"/sysInfo/update.json",
@@ -143,14 +144,20 @@
             data:{
                 id:id,
                 name:name,
-                logo:logo,
                 emailSwitch:email_switch,
                 smsSwitch:sms_switch
             },
             success: function(returnData){
                 console.log(returnData);
                 if(returnData.code == 1){
-                    popMsg('更新成功!', "/sysInfo/index");
+                    layer.msg('更新成功!', {icon: 1});
+                    setTimeout(function(){
+                        if(window.top!==window.self){
+//                            window.top.location=window.location
+                            window.top.location.href="/index"
+                        };
+                        }, 500
+                    );
                 } else{
                     layer.msg(returnData.info);
                 }

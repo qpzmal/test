@@ -343,7 +343,11 @@ file_maxSize=800;
             case 'finish':
                 stats = uploader.getStats();
                 if ( stats.successNum ) {
-                    popMsg("上传文件成功！", "/index");
+                    layer.msg('更新成功!', {icon: 1});
+                    setTimeout(function(){
+                        window.top.location.href="/index"
+                        }, 500
+                    );
                     // alert( '上传成功' );
                 } else {
                     // 没有成功的图片，重设
