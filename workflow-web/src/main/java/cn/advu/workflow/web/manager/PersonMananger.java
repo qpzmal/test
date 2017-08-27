@@ -1,10 +1,7 @@
 package cn.advu.workflow.web.manager;
 
-import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BasePerson;
-import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.repo.fcf_vu.BasePersonRepo;
-import cn.advu.workflow.repo.fcf_vu.SysUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -79,6 +76,10 @@ public class PersonMananger {
             isNameDuplicated = true;
         }
         return isNameDuplicated;
+    }
+
+    public BasePerson queryByUid(Integer uid) {
+        return basePersonRepo.queryByUid(uid);
     }
 
     public Boolean hasSubordinate(Integer id) {

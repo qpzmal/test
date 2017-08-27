@@ -11,6 +11,7 @@
 <div class="ibox-content">
     <form class="form-horizontal m-t" id="commentForm">
         <input type="hidden" id="id" name="id" value="$basePerson.id">
+        <input type="hidden" id="uid" name="uid" value="$basePerson.uid">
         <div class="form-group">
             <label class="col-sm-3 control-label">所属公司<label class="text-danger">(*)</label></label>
             <div id="area_content" class="col-sm-9">
@@ -288,6 +289,7 @@
     function add(){
 
         var id = $("#id").val();
+        var uid = $("#uid").val();
         var name = $("#p_name").val();
         var mobile = $("#mobile").val();
         var address = $("#address").val();
@@ -306,6 +308,7 @@
             async: false,
             data:{
                 id:id,
+                uid:uid,
                 name:name,
                 mobile:mobile,
                 address:address,

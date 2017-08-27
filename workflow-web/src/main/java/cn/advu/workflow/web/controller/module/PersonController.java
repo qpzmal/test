@@ -1,9 +1,6 @@
 package cn.advu.workflow.web.controller.module;
 
-import cn.advu.workflow.domain.fcf_vu.BaseArea;
-import cn.advu.workflow.domain.fcf_vu.BaseDept;
-import cn.advu.workflow.domain.fcf_vu.BasePerson;
-import cn.advu.workflow.domain.fcf_vu.BasePersonExtend;
+import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.manager.PersonMananger;
@@ -11,6 +8,7 @@ import cn.advu.workflow.web.manager.TreeMananger;
 import cn.advu.workflow.web.service.base.AreaService;
 import cn.advu.workflow.web.service.base.DeptService;
 import cn.advu.workflow.web.service.base.PersonService;
+import cn.advu.workflow.web.service.system.SysUserService;
 import cn.advu.workflow.web.util.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,6 +39,8 @@ public class PersonController {
     PersonService personService;
     @Autowired
     PersonMananger personMananger;
+    @Autowired
+    SysUserService sysUserService;
 
     @Autowired
     TreeMananger treeMananger;
@@ -98,41 +98,43 @@ public class PersonController {
     /**
      * 跳转新增员工页面
      *
+     * 20170827 weiqz 为保持sys_user和base_person同步，关闭person的添加入口
+     *
      * @return
      */
-    @RequestMapping("/toAdd")
-    public String toAdd(Integer areaId, Integer deptId, Model model){
-
-        // 区域树
-        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
-        // 部门树
-        String deptTreeJson = null;
-        String areaName = null;
-        if (areaId != null) {
-            deptTreeJson = treeMananger.converToTreeJsonStr(deptService.findAreaDeptNodeList(areaId).getData());
-            BaseArea baseArea = areaService.findById(areaId).getData();
-            areaName = baseArea.getName();
-        }
-        String deptName = "";
-        List<BasePerson> parentList = null;
-        if (deptId != null) {
-            BaseDept parentDept = deptService.findById(deptId).getData();
-            deptName = parentDept.getName();
-            parentList = personMananger.findPersonByDept(deptId);
-        }
-
-        model.addAttribute("deptName", deptName);
-        model.addAttribute("areaId", areaId);
-        model.addAttribute("areaName", areaName);
-        model.addAttribute("deptId", deptId);
-
-        model.addAttribute("parentList", parentList);
-        model.addAttribute("areaTreeJson", areaTreeJson);
-        model.addAttribute("deptTreeJson", deptTreeJson);
-        DisplayTool.buttonDisplay(model, "add", "10501");
-
-        return "modules/person/add";
-    }
+//    @RequestMapping("/toAdd")
+//    public String toAdd(Integer areaId, Integer deptId, Model model){
+//
+//        // 区域树
+//        String areaTreeJson = treeMananger.converToTreeJsonStr(areaService.findAreaNodeList(null).getData());
+//        // 部门树
+//        String deptTreeJson = null;
+//        String areaName = null;
+//        if (areaId != null) {
+//            deptTreeJson = treeMananger.converToTreeJsonStr(deptService.findAreaDeptNodeList(areaId).getData());
+//            BaseArea baseArea = areaService.findById(areaId).getData();
+//            areaName = baseArea.getName();
+//        }
+//        String deptName = "";
+//        List<BasePerson> parentList = null;
+//        if (deptId != null) {
+//            BaseDept parentDept = deptService.findById(deptId).getData();
+//            deptName = parentDept.getName();
+//            parentList = personMananger.findPersonByDept(deptId);
+//        }
+//
+//        model.addAttribute("deptName", deptName);
+//        model.addAttribute("areaId", areaId);
+//        model.addAttribute("areaName", areaName);
+//        model.addAttribute("deptId", deptId);
+//
+//        model.addAttribute("parentList", parentList);
+//        model.addAttribute("areaTreeJson", areaTreeJson);
+//        model.addAttribute("deptTreeJson", deptTreeJson);
+//        DisplayTool.buttonDisplay(model, "add", "10501");
+//
+//        return "modules/person/add";
+//    }
 
     @RequestMapping("/toUpdate")
     public String toUpdate(Integer id, Model model) {
@@ -149,7 +151,7 @@ public class PersonController {
         Integer deptId = basePerson.getDeptId();
 
         String areaName = "";
-        if (areaId != null) {
+        if (areaId != null && areaId != 0) {
             deptTreeJson = treeMananger.converToTreeJsonStr(deptService.findAreaDeptNodeList(areaId).getData());
             BaseArea baseArea = areaService.findById(areaId).getData();
             areaName = baseArea.getName();
@@ -157,7 +159,7 @@ public class PersonController {
 
         List<BasePerson> parentList = null;
         String deptName = "";
-        if (deptId != null) {
+        if (deptId != null && deptId != 0) {
             BaseDept parentDept = deptService.findById(deptId).getData();
             deptName = parentDept.getName();
             parentList = personMananger.findPersonByDept(deptId);
@@ -211,19 +213,27 @@ public class PersonController {
     }
 
     /**
-     * 新增部门
+     * 新增用户
+     *
+     * 20170827 weiqz 为保持sys_user和base_person同步，关闭person的添加入口
      *
      * @return
      */
-    @ResponseBody
-    @RequestMapping(value ="/add", method = RequestMethod.POST)
-    public ResultJson<Integer> add(BasePerson basePerson, HttpServletRequest request){
-        return personService.add(basePerson);
-    }
+//    @ResponseBody
+//    @RequestMapping(value ="/add", method = RequestMethod.POST)
+//    public ResultJson<Integer> add(BasePerson basePerson, HttpServletRequest request){
+//        return personService.add(basePerson);
+//    }
 
     @ResponseBody
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     public ResultJson<Void> update(BasePerson basePerson, HttpServletRequest request){
+        SysUser sysUser = new SysUser();
+        sysUser.setId(Integer.valueOf(basePerson.getUid()));
+        sysUser.setAddress(basePerson.getAddress());
+        sysUser.setEmail(basePerson.getEmail());
+        sysUser.setMobile(basePerson.getMobile());
+        sysUserService.update(sysUser);
         return personService.update(basePerson);
     }
 

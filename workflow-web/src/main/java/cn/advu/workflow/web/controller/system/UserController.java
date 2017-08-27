@@ -1,16 +1,15 @@
 package cn.advu.workflow.web.controller.system;
 
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
-import cn.advu.workflow.domain.fcf_vu.SysRole;
-import cn.advu.workflow.domain.fcf_vu.SysUser;
-import cn.advu.workflow.domain.fcf_vu.SysUserRole;
+import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.domain.golbal.Page;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.dto.system.UserRole;
+import cn.advu.workflow.web.manager.PersonMananger;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
+import cn.advu.workflow.web.service.base.PersonService;
 import cn.advu.workflow.web.service.system.LoginService;
 import cn.advu.workflow.web.service.system.SysRoleService;
 import cn.advu.workflow.web.service.system.SysUserService;
@@ -47,6 +46,11 @@ public class UserController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    PersonService personService;
+    @Autowired
+    PersonMananger personMananger;
 
     @Autowired
     ExecuteOrderService executeOrderService;
@@ -175,6 +179,18 @@ public class UserController {
             return resultJson;
         }
 
+        // 新增通讯录
+        BasePerson basePerson = new BasePerson();
+        basePerson.setUid(sysUser.getId() + "");
+        basePerson.setName(sysUser.getUserName());
+        basePerson.setAddress(sysUser.getAddress());
+        basePerson.setEmail(sysUser.getEmail());
+        basePerson.setMobile(sysUser.getMobile());
+        basePerson.setAreaId(0);
+        basePerson.setDeptId(0);
+        personService.add(basePerson);
+
+
         sysUser.setUserRoleList(userRoleIdListResult.getData());
         resultJson.setData(sysUser);
 
@@ -218,6 +234,15 @@ public class UserController {
             resultJson.setInfo(updateUserRoleResult.getInfo());
             return resultJson;
         }
+
+        // 更新通讯录
+        BasePerson basePerson = personMananger.queryByUid(sysUser.getId());
+        basePerson.setName(sysUser.getUserName());
+        basePerson.setAddress(sysUser.getAddress());
+        basePerson.setEmail(sysUser.getEmail());
+        basePerson.setMobile(sysUser.getMobile());
+        personService.update(basePerson);
+
 
         sysUser.setUserRoleList(userRoleIdList);
         resultJson.setData(sysUser);
