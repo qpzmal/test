@@ -38,4 +38,12 @@ public interface LoginService {
      */
     void queryUserFunction(LoginUser loginUser) throws LoginException;
 
+    /**
+     * 获取用户权限信息
+     * @param loginUser
+     * @return
+     * @throws LoginException
+     */
+    void queryUserRole(LoginUser loginUser) throws LoginException;
+
 }

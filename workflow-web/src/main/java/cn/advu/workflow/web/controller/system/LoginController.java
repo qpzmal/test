@@ -121,6 +121,7 @@ public class LoginController {
             if(loginUser != null ){
                 // 获取用户菜单信息
                 loginService.queryUserFunction(loginUser);
+                loginService.queryUserRole(loginUser);
             } else {
                 LOGGER.warn("loginuser is null. loginname is :{}, pw:{}", uname, passwd);
             }

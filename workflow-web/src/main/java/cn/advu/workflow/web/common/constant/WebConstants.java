@@ -69,4 +69,14 @@ public class WebConstants {
         public static final String BIZ_TYPE_1 = "1"; // 1合同图片，
         public static final String BIZ_TYPE_2 = "2"; // 2排期单图片
     }
+
+    public static class ActivitiRole {
+        public static final String SALER = "saler"; // 销售员工
+        public static final String MEDIA = "media"; // 媒介员工
+        public static final String MEDIA_GM = "mediaGM"; // 媒介主管
+        public static final String SALER_DM = "salerDM"; // 销售主管
+        public static final String SALER_GM = "salerGM"; // 销售总经理
+        public static final String FINANCIAL_GM = "financialGM"; // 财务主管
+        public static final String LEGAL_GM = "legalGM"; // 法务主管
+    }
 }

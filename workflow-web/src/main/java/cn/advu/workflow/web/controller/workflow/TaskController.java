@@ -107,11 +107,13 @@ public class TaskController {
             LOGGER.info("processInstanceId:{}", processInstanceId);
             ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).active().singleResult();
             if (processInstance == null) {
+                LOGGER.warn("processInstance is null");
                 continue;
             }
 
             String businessKey = processInstance.getBusinessKey();
             if (StringUtils.isEmpty(businessKey)) {
+                LOGGER.warn("businessKey is empty");
                 continue;
             }
             LOGGER.info("businessKey:{}", businessKey);
@@ -218,7 +220,6 @@ public class TaskController {
                     LOGGER.error("ProcessDefinitionKey is error.");
                     break;
             }
-
         }
 
         model.addAttribute("baseBuyOrderVOList", baseBuyOrderVOList);

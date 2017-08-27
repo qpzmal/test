@@ -5,19 +5,23 @@ import cn.advu.workflow.common.cache.EhcacheHelper;
 import cn.advu.workflow.common.constant.GlobalConstant;
 import cn.advu.workflow.common.utils.md5.StrMD5;
 import cn.advu.workflow.dao.fcf_vu.SysFuctionMapper;
+import cn.advu.workflow.dao.fcf_vu.SysRoleMapper;
 import cn.advu.workflow.dao.fcf_vu.SysUserMapper;
+import cn.advu.workflow.domain.fcf_vu.SysRole;
 import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.exception.LoginException;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.constants.cache.EhcacheConstants;
 import cn.advu.workflow.web.service.system.LoginService;
+import com.alibaba.dubbo.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,6 +37,10 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private SysFuctionMapper sysFuctionMapper;
+
+
+    @Autowired
+    private SysRoleMapper sysRoleMapper;
 
 
 
@@ -125,10 +133,31 @@ public class LoginServiceImpl implements LoginService {
         });
         LOGGER.info("用户id:{},的菜单件数:{}", userid, userFunList.size());
 
-
-        // TODO 测试时不用缓存
+        // TODO 暂时不用缓存
         userFunList = sysFuctionMapper.queryFunctionByUserId(userid);
         loginUser.setUserFunction(userFunList);
+    }
+
+
+
+    @Override
+    public void queryUserRole(LoginUser loginUser) throws LoginException {
+        final String userid = loginUser.getUserId();
+
+        List<SysRole> userRoleList = sysRoleMapper.queryByUserId(userid);
+        LOGGER.info("用户id:{},的权限件数:{}", userid, userRoleList.size());
+
+        List<String>  sysRoleList = new ArrayList<>();
+        List<Integer> roleIdList = new ArrayList<>();
+        for (SysRole sysRole:userRoleList) {
+            if (StringUtils.isNotEmpty(sysRole.getActivitiName())) {
+                sysRoleList.add(sysRole.getActivitiName());
+            }
+            roleIdList.add(sysRole.getId());
+        }
+
+        loginUser.setSysRoleList(sysRoleList);
+        loginUser.setRoleIdList(roleIdList);
     }
 
 }

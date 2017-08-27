@@ -21,6 +21,10 @@ public class LoginUser implements Serializable {
 
     private List<String> userFunction;
 
+    private List<String> sysRoleList; // 系统内置权限名（activit相关）列表
+
+    private List<Integer> roleIdList; // 用户权限ID列表
+
     public String getUserId() {
         return userId;
     }
@@ -75,6 +79,22 @@ public class LoginUser implements Serializable {
 
     public void setUserFunction(List<String> userFunction) {
         this.userFunction = userFunction;
+    }
+
+    public List<String> getSysRoleList() {
+        return sysRoleList;
+    }
+
+    public void setSysRoleList(List<String> sysRoleList) {
+        this.sysRoleList = sysRoleList;
+    }
+
+    public List<Integer> getRoleIdList() {
+        return roleIdList;
+    }
+
+    public void setRoleIdList(List<Integer> roleIdList) {
+        this.roleIdList = roleIdList;
     }
 
     @Override
