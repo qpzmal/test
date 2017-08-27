@@ -384,7 +384,7 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>工作看板--需求单</h5>
+                <h5>工作看板--排期执行单</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -975,12 +975,18 @@
 
 ## 引入js
 #define($jsblock)
+<script type="text/javascript" src="#springUrl("")/static/js/content.min.js?v=1.0.0?$!application.getAttribute('/static/js/content.min.js?v=1.0.0')"></script>
+
 <script>
 
     ## 查看
     $(".refer-detail").click(function(){
         var id = $(this).attr('tid'); // 取业务ID
-        var url = "${rc.contextPath}/saleOrder/refer?id="+id;
+        var processDefinitionKey = $(this).attr('pdkey'); // 取业务ID
+        if (processDefinitionKey == 'saleExecute') {
+            processDefinitionKey = 'saleOrder';
+        }
+        var url = "/" +processDefinitionKey + "/refer?id="+id;
         openPopIframePage(url);
     })
 </script>

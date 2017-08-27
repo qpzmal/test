@@ -399,6 +399,7 @@ public class UserController {
                     BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
                     dataBoardVO.setId(baseBuyOrder.getId() + "");
                     dataBoardVO.setName(baseBuyOrder.getName());
+                    dataBoardVO.setCreateTime(baseBuyOrder.getCreateTime());
                     dataBoardVO.setUpdateTime(baseBuyOrder.getUpdateTime());
                     dataBoardVO.setProcessInstanceId(processInstance.getProcessInstanceId());
                     dataBoardVO.setProcessDefinitionKey(WebConstants.WORKFLOW_BUY);
@@ -409,6 +410,7 @@ public class UserController {
                     BaseBuyOrderFrame baseBuyOrderFrame = buyFrameService.findById(Integer.valueOf(businessKey)).getData();
                     dataBoardVO.setId(baseBuyOrderFrame.getId() + "");
                     dataBoardVO.setName(baseBuyOrderFrame.getName());
+                    dataBoardVO.setCreateTime(baseBuyOrderFrame.getCreateTime());
                     dataBoardVO.setUpdateTime(baseBuyOrderFrame.getUpdateTime());
                     dataBoardVO.setProcessInstanceId(processInstance.getProcessInstanceId());
                     dataBoardVO.setProcessDefinitionKey(WebConstants.WORKFLOW_BUY_FRAME);
@@ -419,6 +421,7 @@ public class UserController {
                     BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
                     dataBoardVO.setId(baseExecuteOrder.getId() + "");
                     dataBoardVO.setName(baseExecuteOrder.getName());
+                    dataBoardVO.setCreateTime(baseExecuteOrder.getCreateTime());
                     dataBoardVO.setUpdateTime(baseExecuteOrder.getUpdateTime());
                     dataBoardVO.setProcessInstanceId(processInstance.getProcessInstanceId());
                     dataBoardVO.setProcessDefinitionKey(WebConstants.WORKFLOW_SALE_ORDER);
@@ -429,6 +432,7 @@ public class UserController {
                     BaseExecuteOrder baseExecuteOrderExecute = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
                     dataBoardVO.setId(baseExecuteOrderExecute.getId() + "");
                     dataBoardVO.setName(baseExecuteOrderExecute.getName());
+                    dataBoardVO.setCreateTime(baseExecuteOrderExecute.getCreateTime());
                     dataBoardVO.setUpdateTime(baseExecuteOrderExecute.getUpdateTime());
                     dataBoardVO.setProcessInstanceId(processInstance.getProcessInstanceId());
                     dataBoardVO.setProcessDefinitionKey(WebConstants.WORKFLOW_SALE_EXECUTE);
@@ -439,6 +443,7 @@ public class UserController {
                     BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(Integer.valueOf(businessKey)).getData();
                     dataBoardVO.setId(baseExecuteOrderFrame.getId() + "");
                     dataBoardVO.setName(baseExecuteOrderFrame.getName());
+                    dataBoardVO.setCreateTime(baseExecuteOrderFrame.getCreateTime());
                     dataBoardVO.setUpdateTime(baseExecuteOrderFrame.getUpdateTime());
                     dataBoardVO.setProcessInstanceId(processInstance.getProcessInstanceId());
                     dataBoardVO.setProcessDefinitionKey(WebConstants.WORKFLOW_SALE_FRAME);
@@ -476,6 +481,7 @@ public class UserController {
 
             dataBoardVO.setId(baseBuyOrder.getId() + "");
             dataBoardVO.setName(baseBuyOrder.getName());
+            dataBoardVO.setCreateTime(baseBuyOrder.getCreateTime());
             dataBoardVO.setUpdateTime(baseBuyOrder.getUpdateTime());
             dataBoardVO.setProcessInstanceId(baseBuyOrder.getProcessInstanceId());
             dataBoardVO.setProcessDefinitionKey(WebConstants.WORKFLOW_BUY);
@@ -504,6 +510,7 @@ public class UserController {
 
             dataBoardVO.setId(baseBuyOrderFrame.getId() + "");
             dataBoardVO.setName(baseBuyOrderFrame.getName());
+            dataBoardVO.setCreateTime(baseBuyOrderFrame.getCreateTime());
             dataBoardVO.setUpdateTime(baseBuyOrderFrame.getUpdateTime());
             dataBoardVO.setProcessInstanceId(baseBuyOrderFrame.getProcessInstanceId());
             dataBoardVO.setProcessDefinitionKey(WebConstants.WORKFLOW_BUY_FRAME);
@@ -532,6 +539,7 @@ public class UserController {
 
             dataBoardVO.setId(baseExecuteOrder.getId() + "");
             dataBoardVO.setName(baseExecuteOrder.getName());
+            dataBoardVO.setCreateTime(baseExecuteOrder.getCreateTime());
             dataBoardVO.setUpdateTime(baseExecuteOrder.getUpdateTime());
             dataBoardVO.setProcessInstanceId(baseExecuteOrder.getProcessInstanceId());
             dataBoardVO.setProcessDefinitionKey(WebConstants.WORKFLOW_SALE_ORDER);
@@ -560,6 +568,7 @@ public class UserController {
 
             dataBoardVO.setId(baseExecuteOrder.getId() + "");
             dataBoardVO.setName(baseExecuteOrder.getName());
+            dataBoardVO.setCreateTime(baseExecuteOrder.getCreateTime());
             dataBoardVO.setUpdateTime(baseExecuteOrder.getUpdateTime());
             dataBoardVO.setProcessInstanceId(baseExecuteOrder.getProcessInstanceId());
             dataBoardVO.setProcessDefinitionKey(WebConstants.WORKFLOW_SALE_EXECUTE);
@@ -588,6 +597,7 @@ public class UserController {
 
             dataBoardVO.setId(baseExecuteOrderFrame.getId() + "");
             dataBoardVO.setName(baseExecuteOrderFrame.getName());
+            dataBoardVO.setCreateTime(baseExecuteOrderFrame.getCreateTime());
             dataBoardVO.setUpdateTime(baseExecuteOrderFrame.getUpdateTime());
             dataBoardVO.setProcessInstanceId(baseExecuteOrderFrame.getProcessInstanceId());
             dataBoardVO.setProcessDefinitionKey(WebConstants.WORKFLOW_SALE_FRAME);
@@ -629,6 +639,7 @@ public class UserController {
 
             dataBoardVO.setId(baseBuyOrder.getId() + "");
             dataBoardVO.setName(baseBuyOrder.getName());
+            dataBoardVO.setCreateTime(baseBuyOrder.getCreateTime());
             dataBoardVO.setUpdateTime(baseBuyOrder.getUpdateTime());
             dataBoardVO.setProcessInstanceId(baseBuyOrder.getProcessInstanceId());
             dataBoardVO.setWfStep(99);
@@ -661,6 +672,7 @@ public class UserController {
 
             dataBoardVO.setId(baseBuyOrderFrame.getId() + "");
             dataBoardVO.setName(baseBuyOrderFrame.getName());
+            dataBoardVO.setCreateTime(baseBuyOrderFrame.getCreateTime());
             dataBoardVO.setUpdateTime(baseBuyOrderFrame.getUpdateTime());
             dataBoardVO.setProcessInstanceId(baseBuyOrderFrame.getProcessInstanceId());
             dataBoardVO.setWfStep(99);
@@ -693,6 +705,7 @@ public class UserController {
 
             dataBoardVO.setId(baseExecuteOrder.getId() + "");
             dataBoardVO.setName(baseExecuteOrder.getName());
+            dataBoardVO.setCreateTime(baseExecuteOrder.getCreateTime());
             dataBoardVO.setUpdateTime(baseExecuteOrder.getUpdateTime());
             dataBoardVO.setProcessInstanceId(baseExecuteOrder.getProcessInstanceId());
             dataBoardVO.setWfStep(99);
@@ -725,6 +738,7 @@ public class UserController {
 
             dataBoardVO.setId(baseExecuteOrder.getId() + "");
             dataBoardVO.setName(baseExecuteOrder.getName());
+            dataBoardVO.setCreateTime(baseExecuteOrder.getCreateTime());
             dataBoardVO.setUpdateTime(baseExecuteOrder.getUpdateTime());
             dataBoardVO.setProcessInstanceId(baseExecuteOrder.getProcessInstanceId());
             dataBoardVO.setWfStep(99);
@@ -757,6 +771,7 @@ public class UserController {
 
             dataBoardVO.setId(baseExecuteOrderFrame.getId() + "");
             dataBoardVO.setName(baseExecuteOrderFrame.getName());
+            dataBoardVO.setCreateTime(baseExecuteOrderFrame.getCreateTime());
             dataBoardVO.setUpdateTime(baseExecuteOrderFrame.getUpdateTime());
             dataBoardVO.setProcessInstanceId(baseExecuteOrderFrame.getProcessInstanceId());
             dataBoardVO.setWfStep(99);
@@ -795,16 +810,24 @@ public class UserController {
         processList.addAll(finishedListExecuteOrder);
         LOGGER.debug("排序前processList.size:{}", processList.size());
         Collections.sort(processList);
-        processList = processList.subList(0, 20);
+        int listSize = processList.size() >= 20 ? 20 : processList.size();
+        processList = processList.subList(0, listSize);
         LOGGER.debug("排序后processList.size:{}", processList.size());
 
         for (DataBoardVO data:processList) {
+            LOGGER.debug("data is null:{}" , data == null);
+            LOGGER.debug("getWfStep:{}" , data.getWfStep());
             if (data.getWfStep() > 0) {
                 continue;
             }
 
             Task task = taskService.createTaskQuery().processInstanceId(data.getProcessInstanceId()).active().singleResult();
+            if (task == null) {
+                LOGGER.warn("ProcessInstanceId:{}", data.getProcessInstanceId());
+                continue;
+            }
             String taskDefKey = task.getTaskDefinitionKey();
+
             int wfStep = 0;
             switch (data.getProcessDefinitionKey()) {
                 case WebConstants.WORKFLOW_BUY:

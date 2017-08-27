@@ -8,11 +8,12 @@ import java.util.Date;
 public class DataBoardVO implements Comparable<DataBoardVO> {
     private String id;
     private String name;
+    private Date createTime; // 建立时间
     private Date updateTime; // 更新时间
     private String processDefinitionKey;
     private String processInstanceId;
     private String taskDefKey;
-    private Integer wfStep; // 工作流步骤数
+    private Integer wfStep = 0; // 工作流步骤数
 
     public String getId() {
         return id;
@@ -36,6 +37,14 @@ public class DataBoardVO implements Comparable<DataBoardVO> {
 
     public void setProcessDefinitionKey(String processDefinitionKey) {
         this.processDefinitionKey = processDefinitionKey;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {
@@ -72,6 +81,7 @@ public class DataBoardVO implements Comparable<DataBoardVO> {
 
     @Override
     public int compareTo(DataBoardVO o) {
-        return this.getUpdateTime().compareTo(o.getUpdateTime());
+//        return this.getUpdateTime().compareTo(o.getUpdateTime()); // 升序
+        return o.getUpdateTime().compareTo(this.getUpdateTime()); // 降序
     }
 }
