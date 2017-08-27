@@ -6,6 +6,7 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.LoginUser;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.common.tool.ActivitiTool;
 import cn.advu.workflow.web.dto.system.UserRole;
 import cn.advu.workflow.web.manager.PersonMananger;
 import cn.advu.workflow.web.service.base.*;
@@ -474,7 +475,7 @@ public class UserController {
 
             BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
             if (baseBuyOrder.getUserId() != uid) {
-                if (!this.checkViewAuth(sysRoleList)) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
             }
@@ -503,7 +504,7 @@ public class UserController {
 
             BaseBuyOrderFrame baseBuyOrderFrame = buyFrameService.findById(Integer.valueOf(businessKey)).getData();
             if (baseBuyOrderFrame.getUserId() != uid) {
-                if (!this.checkViewAuth(sysRoleList)) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
             }
@@ -532,7 +533,7 @@ public class UserController {
 
             BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
             if (baseExecuteOrder.getUserId() != uid) {
-                if (!this.checkViewAuth(sysRoleList)) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
             }
@@ -561,7 +562,7 @@ public class UserController {
 
             BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
             if (baseExecuteOrder.getUserId() != uid) {
-                if (!this.checkViewAuth(sysRoleList)) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
             }
@@ -590,7 +591,7 @@ public class UserController {
 
             BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(Integer.valueOf(businessKey)).getData();
             if (baseExecuteOrderFrame.getUserId() != uid) {
-                if (!this.checkViewAuth(sysRoleList)) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
             }
@@ -632,7 +633,7 @@ public class UserController {
 
             BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
             if (baseBuyOrder.getUserId() != uid) {
-                if (!this.checkViewAuth(sysRoleList)) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
             }
@@ -665,7 +666,7 @@ public class UserController {
 
             BaseBuyOrderFrame baseBuyOrderFrame = buyFrameService.findById(Integer.valueOf(businessKey)).getData();
             if (baseBuyOrderFrame.getUserId() != uid) {
-                if (!this.checkViewAuth(sysRoleList)) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
             }
@@ -698,7 +699,7 @@ public class UserController {
 
             BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
             if (baseExecuteOrder.getUserId() != uid) {
-                if (!this.checkViewAuth(sysRoleList)) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
             }
@@ -731,7 +732,7 @@ public class UserController {
 
             BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
             if (baseExecuteOrder.getUserId() != uid) {
-                if (!this.checkViewAuth(sysRoleList)) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
             }
@@ -764,7 +765,7 @@ public class UserController {
 
             BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(Integer.valueOf(businessKey)).getData();
             if (baseExecuteOrderFrame.getUserId() != uid) {
-                if (!this.checkViewAuth(sysRoleList)) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
             }
@@ -1074,25 +1075,5 @@ public class UserController {
             userRoleList.add(userRole);
         }
         return userRoleList;
-    }
-
-    /**
-     * 校验是否能查看申请
-     * @param sysRoleList
-     * @return
-     */
-    private boolean checkViewAuth(List<String> sysRoleList){
-        if (sysRoleList.contains(WebConstants.ActivitiRole.FINANCIAL_GM)
-                || sysRoleList.contains(WebConstants.ActivitiRole.LEGAL_GM) ) { // 财务、法务可以看到全部申请
-            return true;
-
-        } else if (sysRoleList.contains(WebConstants.ActivitiRole.MEDIA_GM)
-                || sysRoleList.contains(WebConstants.ActivitiRole.SALER_DM)
-                || sysRoleList.contains(WebConstants.ActivitiRole.SALER_GM) ) { // 媒介主管、销售主管、销售总经理可以看到本公司下的申请
-            return true;
-
-        } else { // 其他人只能看到自己的申请
-            return false;
-        }
     }
 }

@@ -5,6 +5,7 @@ import cn.advu.workflow.repo.fcf_vu.SysUserRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.common.tool.ActivitiTool;
 import cn.advu.workflow.web.service.base.*;
 import cn.advu.workflow.web.service.system.NoticeService;
 import cn.advu.workflow.web.vo.BaseBuyOrderFrameVO;
@@ -246,6 +247,9 @@ public class TaskController {
         List<BaseExecuteOrderFrameVO> baseExecuteOrderFrameVOList = new ArrayList<>();
 
 
+        Integer uid = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+        List<String> sysRoleList = UserThreadLocalContext.getCurrentUser().getSysRoleList();
+
         ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_BUY).active().orderByProcessInstanceId().desc();
         List<ProcessInstance> list = query.list();
 
@@ -260,6 +264,13 @@ public class TaskController {
 
             BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
             BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
+
+            if (baseBuyOrder.getUserId() != uid) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
+                    continue;
+                }
+            }
+
             baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
             baseBuyOrderVO.setProcessInstance(processInstance);
             baseBuyOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
@@ -287,6 +298,13 @@ public class TaskController {
 
             BaseBuyOrderFrameVO baseBuyOrderFrameVO = new BaseBuyOrderFrameVO();
             BaseBuyOrderFrame baseBuyOrderFrame = buyFrameService.findById(Integer.valueOf(businessKey)).getData();
+
+            if (baseBuyOrderFrame.getUserId() != uid) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
+                    continue;
+                }
+            }
+
             baseBuyOrderFrameVO.setBaseBuyOrderFrame(baseBuyOrderFrame);
             baseBuyOrderFrameVO.setProcessInstance(processInstance);
             baseBuyOrderFrameVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
@@ -315,6 +333,13 @@ public class TaskController {
 
             BaseExecuteOrderVO baseExecuteOrderVO = new BaseExecuteOrderVO();
             BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+
+            if (baseExecuteOrder.getUserId() != uid) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
+                    continue;
+                }
+            }
+
             baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
             baseExecuteOrderVO.setProcessInstance(processInstance);
             baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
@@ -342,6 +367,13 @@ public class TaskController {
 
             BaseExecuteOrderVO baseExecuteOrderVO = new BaseExecuteOrderVO();
             BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+
+            if (baseExecuteOrder.getUserId() != uid) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
+                    continue;
+                }
+            }
+
             baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
             baseExecuteOrderVO.setProcessInstance(processInstance);
             baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
@@ -370,6 +402,13 @@ public class TaskController {
 
             BaseExecuteOrderFrameVO baseExecuteOrderFrameVO = new BaseExecuteOrderFrameVO();
             BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(Integer.valueOf(businessKey)).getData();
+
+            if (baseExecuteOrderFrame.getUserId() != uid) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
+                    continue;
+                }
+            }
+
             baseExecuteOrderFrameVO.setBaseExecuteOrderFrame(baseExecuteOrderFrame);
             baseExecuteOrderFrameVO.setProcessInstance(processInstance);
             baseExecuteOrderFrameVO.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
@@ -408,6 +447,8 @@ public class TaskController {
         List<BaseExecuteOrderVO> baseExecuteOrderExecuteVOList = new ArrayList<>();
         List<BaseExecuteOrderFrameVO> baseExecuteOrderFrameVOList = new ArrayList<>();
 
+        Integer uid = Integer.valueOf(UserThreadLocalContext.getCurrentUser().getUserId());
+        List<String> sysRoleList = UserThreadLocalContext.getCurrentUser().getSysRoleList();
 
         HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(WebConstants.WORKFLOW_BUY).finished().orderByProcessInstanceEndTime().desc();
 //        List<HistoricProcessInstance> list = query.listPage(pageParams[0], pageParams[1]);
@@ -425,6 +466,13 @@ public class TaskController {
             BaseBuyOrderVO baseBuyOrderVO = new BaseBuyOrderVO();
 
             BaseBuyOrder baseBuyOrder = buyOrderService.findById(Integer.valueOf(businessKey)).getData();
+
+            if (baseBuyOrder.getUserId() != uid) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
+                    continue;
+                }
+            }
+
             baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
             baseBuyOrderVO.setHistoricProcessInstance(historicProcessInstance);
             baseBuyOrderVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
@@ -458,6 +506,13 @@ public class TaskController {
 
             BaseBuyOrderFrameVO baseBuyOrderFrameVO = new BaseBuyOrderFrameVO();
             BaseBuyOrderFrame baseBuyOrderFrame = buyFrameService.findById(Integer.valueOf(businessKey)).getData();
+
+            if (baseBuyOrderFrame.getUserId() != uid) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
+                    continue;
+                }
+            }
+
             baseBuyOrderFrameVO.setBaseBuyOrderFrame(baseBuyOrderFrame);
             baseBuyOrderFrameVO.setHistoricProcessInstance(historicProcessInstance);
             baseBuyOrderFrameVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
@@ -491,6 +546,13 @@ public class TaskController {
             }
             BaseExecuteOrderVO baseExecuteOrderVO = new BaseExecuteOrderVO();
             BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+
+            if (baseExecuteOrder.getUserId() != uid) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
+                    continue;
+                }
+            }
+
             baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
             baseExecuteOrderVO.setHistoricProcessInstance(historicProcessInstance);
             baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
@@ -524,6 +586,13 @@ public class TaskController {
             }
             BaseExecuteOrderVO baseExecuteOrderVO = new BaseExecuteOrderVO();
             BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(businessKey)).getData();
+
+            if (baseExecuteOrder.getUserId() != uid) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
+                    continue;
+                }
+            }
+
             baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
             baseExecuteOrderVO.setHistoricProcessInstance(historicProcessInstance);
             baseExecuteOrderVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
@@ -557,6 +626,13 @@ public class TaskController {
 
             BaseExecuteOrderFrameVO baseExecuteOrderFrameVO = new BaseExecuteOrderFrameVO();
             BaseExecuteOrderFrame baseExecuteOrderFrame = saleFrameService.findById(Integer.valueOf(businessKey)).getData();
+
+            if (baseExecuteOrderFrame.getUserId() != uid) {
+                if (!ActivitiTool.checkViewAuth(sysRoleList)) {
+                    continue;
+                }
+            }
+
             baseExecuteOrderFrameVO.setBaseExecuteOrderFrame(baseExecuteOrderFrame);
             baseExecuteOrderFrameVO.setHistoricProcessInstance(historicProcessInstance);
             baseExecuteOrderFrameVO.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
