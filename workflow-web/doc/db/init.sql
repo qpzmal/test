@@ -1,3 +1,7 @@
+
+
+INSERT INTO `sys_info` (`name`, `logo`, `email_switch`, `sms_switch`, `creator_id`, `updater_id`) VALUES ('审批', '', 0, 1, 0, 0);
+
 INSERT INTO `sequence` (`name`, `current_value`, `increment`, `dates`) VALUES ('orderNum', 1, 1, 2017);
 
 INSERT INTO `base_financialindex` (`number`, `name`, `value`, `is_system`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C001', '加税率', '1.06', b'1', 0, 0, 0, 0, '备注');

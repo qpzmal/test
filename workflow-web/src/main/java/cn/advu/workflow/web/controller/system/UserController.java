@@ -527,7 +527,7 @@ public class UserController {
             DataBoardVO dataBoardVO = new DataBoardVO();
 
             String businessKey = processInstance.getBusinessKey();
-            if (StringUtils.isEmpty(businessKey)) {
+            if (StringUtils.isEmpty(businessKey) || "null".equals(businessKey)) {
                 continue;
             }
 
