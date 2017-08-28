@@ -763,13 +763,14 @@ public class TaskController {
                     case WebConstants.Audit.UPLOAD_CONTRACT_IMG: // 上传扫描版合同
                         baseExecuteOrder = new BaseExecuteOrder();
                         baseExecuteOrder.setId(Integer.valueOf(bizId));
-                        baseExecuteOrder.setStatus((byte)1);
+                        baseExecuteOrder.setOriginalContractStatus("0");
                         executeOrderService.updateSelective(baseExecuteOrder).getData();
                         break;
                     case WebConstants.Audit.ORIGINAL_CONTRACT: // 追要原章合同
                         baseExecuteOrder = new BaseExecuteOrder();
                         baseExecuteOrder.setId(Integer.valueOf(bizId));
                         baseExecuteOrder.setOriginalContractStatus("0");
+                        baseExecuteOrder.setStatus((byte)1);
                         executeOrderService.updateSelective(baseExecuteOrder).getData();
                         break;
                     default:
@@ -790,6 +791,7 @@ public class TaskController {
                         baseExecuteOrder = new BaseExecuteOrder();
                         baseExecuteOrder.setId(Integer.valueOf(bizId));
                         baseExecuteOrder.setExecuteOrderImgStatus("0");
+                        baseExecuteOrder.setStatus((byte)2);
                         executeOrderService.updateSelective(baseExecuteOrder).getData();
                         break;
                     case WebConstants.Audit.ORIGINAL_EXECUTE_ORDER: // 追要原章排期单

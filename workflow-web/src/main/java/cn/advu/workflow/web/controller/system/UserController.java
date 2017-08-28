@@ -822,136 +822,152 @@ public class UserController {
                 continue;
             }
 
-            Task task = taskService.createTaskQuery().processInstanceId(data.getProcessInstanceId()).active().singleResult();
-            if (task == null) {
+            // 排期需求单有可能有两个task
+            List<Task> taskList = taskService.createTaskQuery().processInstanceId(data.getProcessInstanceId()).active().list();
+            if (taskList == null) {
                 LOGGER.warn("ProcessInstanceId:{}", data.getProcessInstanceId());
                 continue;
             }
-            String taskDefKey = task.getTaskDefinitionKey();
 
-            int wfStep = 0;
-            switch (data.getProcessDefinitionKey()) {
-                case WebConstants.WORKFLOW_BUY:
-                    switch (taskDefKey) {
-                        case WebConstants.Audit.MEDIA:
-                            wfStep = 1; // 媒介审核
-                            break;
-                        case WebConstants.Audit.SALER_GM:
-                            wfStep = 2; // 销售总经理审核
-                            break;
-                        case WebConstants.Audit.FINANCIAL_GM:
-                            wfStep = 3; //  财务审核
-                            break;
-                        case WebConstants.Audit.LEGAL_GM:
-                            wfStep = 4; //  法务审核
-                            break;
-                        default:
-                            LOGGER.warn("WORKFLOW_BUY错误的参数。mapKey is :{}", taskDefKey);
-                    }
-                    break;
+            for (Task task:taskList) {
+                String taskDefKey = task.getTaskDefinitionKey();
 
-                case WebConstants.WORKFLOW_BUY_FRAME:
-                    switch (taskDefKey) {
-                        case WebConstants.Audit.MEDIA:
-                            wfStep = 1; // 媒介审核
-                            break;
-                        case WebConstants.Audit.SALER_GM:
-                            wfStep = 2; // 销售总经理审核
-                            break;
-                        case WebConstants.Audit.FINANCIAL_GM:
-                            wfStep = 3; //  财务审核
-                            break;
-                        default:
-                            LOGGER.warn("WORKFLOW_BUY_FRAME错误的参数。mapKey is :{}", taskDefKey);
-                    }
-                    break;
+                int wfStep = 0;
+                switch (data.getProcessDefinitionKey()) {
+                    case WebConstants.WORKFLOW_BUY:
+                        switch (taskDefKey) {
+                            case WebConstants.Audit.MEDIA:
+                                wfStep = 1; // 媒介审核
+                                break;
+                            case WebConstants.Audit.SALER_GM:
+                                wfStep = 2; // 销售总经理审核
+                                break;
+                            case WebConstants.Audit.FINANCIAL_GM:
+                                wfStep = 3; //  财务审核
+                                break;
+                            case WebConstants.Audit.LEGAL_GM:
+                                wfStep = 4; //  法务审核
+                                break;
+                            default:
+                                LOGGER.warn("WORKFLOW_BUY错误的参数。mapKey is :{}", taskDefKey);
+                        }
+                        break;
 
-                case WebConstants.WORKFLOW_SALE_ORDER:
-                    switch (taskDefKey) {
-                        case WebConstants.Audit.SALER_DM:
-                            wfStep = 1; // 销售主管审核
-                            break;
-                        case WebConstants.Audit.SALER_GM:
-                            wfStep = 2; // 销售总经理审核
-                            break;
-                        case WebConstants.Audit.MEDIA:
-                            wfStep = 3; // 媒介审核
-                            break;
-                        case WebConstants.Audit.FINANCIAL_GM:
-                            wfStep = 4; //  财务审核
-                            break;
-                        case WebConstants.Audit.LEGAL_GM:
-                            wfStep = 5; //  法务审核
-                            break;
-                        case WebConstants.Audit.SIGN_CONTRACT:
-                            wfStep = 6; //  销售-签署合同
-                            break;
-                        case WebConstants.Audit.UPLOAD_CONTRACT_IMG:
-                            wfStep = 7; //  销售-上传扫描合同
-                            break;
-                        case WebConstants.Audit.ORIGINAL_CONTRACT:
-                            wfStep = 8; //  销售-追要原章合同
-                            break;
-                        default:
-                            LOGGER.warn("WORKFLOW_SALE_ORDER错误的参数。mapKey is :{}", taskDefKey);
-                    }
-                    break;
+                    case WebConstants.WORKFLOW_BUY_FRAME:
+                        switch (taskDefKey) {
+                            case WebConstants.Audit.MEDIA:
+                                wfStep = 1; // 媒介审核
+                                break;
+                            case WebConstants.Audit.SALER_GM:
+                                wfStep = 2; // 销售总经理审核
+                                break;
+                            case WebConstants.Audit.FINANCIAL_GM:
+                                wfStep = 3; //  财务审核
+                                break;
+                            default:
+                                LOGGER.warn("WORKFLOW_BUY_FRAME错误的参数。mapKey is :{}", taskDefKey);
+                        }
+                        break;
 
-                case WebConstants.WORKFLOW_SALE_EXECUTE:
-                    switch (taskDefKey) {
-                        case WebConstants.Audit.MEDIA:
-                            wfStep = 1; // 媒介审核
-                            break;
-                        case WebConstants.Audit.SALER_DM:
-                            wfStep = 2; // 销售主管审核
-                            break;
-                        case WebConstants.Audit.SALER_GM:
-                            wfStep = 3; // 销售总经理审核
-                            break;
-                        case WebConstants.Audit.FINANCIAL_GM:
-                            wfStep = 4; //  财务审核
-                            break;
-                        case WebConstants.Audit.UPLOAD_EXECUTE_ORDER_IMG:
-                            wfStep = 5; //  上传扫描版排期单
-                            break;
-                        case WebConstants.Audit.ORIGINAL_EXECUTE_ORDER:
-                            wfStep = 6; //  追要原章排期单
-                            break;
-                        case WebConstants.Audit.CONFIRM_COST:
-                            wfStep = 7; //  成本确认
-                            break;
-                        case WebConstants.Audit.REMINDER_PAYMENT:
-                            wfStep = 8; //  财务向销售催款
-                            break;
-                        case WebConstants.Audit.GATHERING:
-                            wfStep = 9; //  销售向客户催款
-                            break;
-                        default:
-                            LOGGER.warn("WORKFLOW_SALE_ORDER错误的参数。mapKey is :{}", taskDefKey);
-                    }
-                    break;
+                    case WebConstants.WORKFLOW_SALE_ORDER:
+                        switch (taskDefKey) {
+                            case WebConstants.Audit.SALER_DM:
+                                wfStep = 1; // 销售主管审核
+                                break;
+                            case WebConstants.Audit.SALER_GM:
+                                wfStep = 2; // 销售总经理审核
+                                break;
+                            case WebConstants.Audit.MEDIA:
+                                wfStep = 3; // 媒介审核
+                                break;
+                            case WebConstants.Audit.FINANCIAL_GM:
+                                wfStep = 4; //  财务审核
+                                break;
+                            case WebConstants.Audit.LEGAL_GM:
+                                wfStep = 5; //  法务审核
+                                break;
+                            case WebConstants.Audit.SIGN_CONTRACT:
+                                wfStep = 6; //  销售-签署合同
+                                break;
+                            case WebConstants.Audit.UPLOAD_CONTRACT_IMG:
+                                wfStep = 7; //  销售-上传扫描合同
+                                break;
+                            case WebConstants.Audit.ORIGINAL_CONTRACT:
+                                wfStep = 8; //  销售-追要原章合同
+                                break;
+                            default:
+                                LOGGER.warn("WORKFLOW_SALE_ORDER错误的参数。mapKey is :{}", taskDefKey);
+                        }
+                        break;
 
-                case WebConstants.WORKFLOW_SALE_FRAME:
-                    switch (taskDefKey) {
-                        case WebConstants.Audit.SALER_GM:
-                            wfStep = 1; // 销售总经理审核
-                            break;
-                        case WebConstants.Audit.MEDIA:
-                            wfStep = 2; // 媒介审核
-                            break;
-                        case WebConstants.Audit.FINANCIAL_GM:
-                            wfStep = 3; //  财务审核
-                            break;
-                        default:
-                            LOGGER.warn("WORKFLOW_SALE_FRAME错误的参数。mapKey is :{}", taskDefKey);
-                    }
-                    break;
+                    case WebConstants.WORKFLOW_SALE_EXECUTE:
+                        switch (taskDefKey) {
+                            case WebConstants.Audit.MEDIA:
+                                wfStep = 1; // 媒介审核
+                                break;
+                            case WebConstants.Audit.SALER_DM:
+                                wfStep = 2; // 销售主管审核
+                                break;
+                            case WebConstants.Audit.SALER_GM:
+                                wfStep = 3; // 销售总经理审核
+                                break;
+                            case WebConstants.Audit.FINANCIAL_GM:
+                                wfStep = 4; //  财务审核
+                                break;
+                            case WebConstants.Audit.UPLOAD_EXECUTE_ORDER_IMG:
+                                wfStep = 5; //  上传扫描版排期单
+                                break;
+                            case WebConstants.Audit.ORIGINAL_EXECUTE_ORDER:
+                                wfStep = 20; //  追要原章排期单
+                                if (data.getWfStep() > 10) {
+                                    wfStep = wfStep + data.getWfStep();
+                                }
+                                break;
+                            case WebConstants.Audit.CONFIRM_COST:
+                                wfStep = 11; //  成本确认
+                                if (data.getWfStep() > 20) {
+                                    wfStep = wfStep + data.getWfStep();
+                                }
+                                break;
+                            case WebConstants.Audit.REMINDER_PAYMENT:
+                                wfStep = 12; //  财务向销售催款
+                                if (data.getWfStep() > 20) {
+                                    wfStep = wfStep + data.getWfStep();
+                                }
+                                break;
+                            case WebConstants.Audit.GATHERING:
+                                wfStep = 13; //  销售向客户催款
+                                if (data.getWfStep() > 20) {
+                                    wfStep = wfStep + data.getWfStep();
+                                }
+                                break;
+                            default:
+                                LOGGER.warn("WORKFLOW_SALE_ORDER错误的参数。mapKey is :{}", taskDefKey);
+                        }
+                        break;
 
-                default:
-                    LOGGER.error("ProcessDefinitionKey is error.");
-                    break;
+                    case WebConstants.WORKFLOW_SALE_FRAME:
+                        switch (taskDefKey) {
+                            case WebConstants.Audit.SALER_GM:
+                                wfStep = 1; // 销售总经理审核
+                                break;
+                            case WebConstants.Audit.MEDIA:
+                                wfStep = 2; // 媒介审核
+                                break;
+                            case WebConstants.Audit.FINANCIAL_GM:
+                                wfStep = 3; //  财务审核
+                                break;
+                            default:
+                                LOGGER.warn("WORKFLOW_SALE_FRAME错误的参数。mapKey is :{}", taskDefKey);
+                        }
+                        break;
+
+                    default:
+                        LOGGER.error("ProcessDefinitionKey is error.");
+                        break;
+                }
+                data.setWfStep(wfStep);
             }
-            data.setWfStep(wfStep);
         }
 
 

@@ -770,27 +770,27 @@
                                     #end >
                                     扫描排期单</span>
                                 <span
-                                    #if($data.wfStep >= 6)
-                                            style="background: #45FF39"
-                                    #end >
-                                    追要原章排期</span>
-                                <span
-                                    #if($data.wfStep >= 7)
+                                    #if($data.wfStep >= 5)
                                             style="background: #45FF39"
                                     #end >
                                     开始投放</span>
                                 <span
-                                    #if($data.wfStep >= 7)
+                                    #if($data.wfStep >= 20)
+                                            style="background: #45FF39"
+                                    #end >
+                                    追要原章排期</span>
+                                <span
+                                    #if(($data.wfStep >= 11 && $data.wfStep > 20) || ($data.wfStep > 30))
                                             style="background: #45FF39"
                                     #end >
                                     财务确认单据</span>
                                 <span
-                                    #if($data.wfStep >= 8)
+                                    #if(($data.wfStep >= 12 && $data.wfStep > 20) || ($data.wfStep > 30))
                                             style="background: #45FF39"
                                     #end >
                                     催款提醒</span>
                                 <span
-                                    #if($data.wfStep >= 9)
+                                    #if(($data.wfStep >= 13 && $data.wfStep > 20) || ($data.wfStep > 30))
                                             style="background: #45FF39"
                                     #end >
                                     项目已回款</span>
@@ -833,135 +833,135 @@
                         #end
 
 
-                        #set($Integer = 0)
-                        #foreach($data in $unFinishedList)
-                            #set($intWorkFlowStep = $Integer.parseInt($data.wfStep))
-                            #set($intContractStatus = $Integer.parseInt($data.contractStatus))
-                            #set($intContractImgStatus = $Integer.parseInt($data.contractImgStatus))
-                            #set($intOriginalContractStatus = $Integer.parseInt($data.originalContractStatus))
-                            #set($intExecuteOrderImgStatus = $Integer.parseInt($data.executeOrderImgStatus))
-                            #set($intOriginalExecuteOrderStatus = $Integer.parseInt($data.originalExecuteOrderStatus))
-                            #set($intConfirmCostStatus = $Integer.parseInt($data.confirmCostStatus))
-                            #set($intReminderPaymentStatus = $Integer.parseInt($data.reminderPaymentStatus))
-
-                        <tr>
-                            <td class="project-title">
-                                <a href="javascript:;"  class="refer-detail" tid="$!data.id" >$data.name</a>
-                                <br/>
-                                <small>更新于 $!date.format('yyyy-MM-dd HH:mm:ss ',${data.updateTime})</small><br/>
-                                <small>创建于 $!date.format('yyyy-MM-dd HH:mm:ss ',${data.createTime})</small>
-                            </td>
-                            <td class="project-completion">
-                                <span
-                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep >= 1 ) )
-                                        style="background: #45FF39"
-                                    #end >
-                                    客户已下单</span>
-                                <span
-                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 2 ) )
-                                        style="background: #45FF39"
-                                    #end >
-                                    销售已提交</span>
-                                <span
-                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 3 ) )
-                                            style="background: #45FF39"
-                                    #end >
-                                    销售主管审核</span>
-                                <span
-                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 4 ) )
-                                            style="background: #45FF39"
-                                    #end >
-                                    销售总经理审核</span>
-                                <span
-                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 5 ) )
-                                            style="background: #45FF39"
-                                    #end >
-                                    媒介审核</span>
-                                <span
-                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 6 ) )
-                                            style="background: #45FF39"
-                                    #end >
-                                    财务审核</span>
-                                <span
-                                    #if($data.status == 1 || $data.status == 2)
-                                            style="background: #45FF39"
-                                    #end >
-                                    法务审核</span>
-                                <br/>
-                                <span
-                                    #if($data.intContractStatus == 0  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    签署合同</span>
-                                <span
-                                    #if($data.intContractImgStatus == 0  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    扫描合同</span>
-                                <span
-                                    #if($data.intOriginalContractStatus == 0  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    原章合同</span>
-                                <span
-                                    #if($data.status == 2 && $intWorkFlowStep >= 1  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    媒介已处理</span>
-                                <span
-                                    #if($data.status == 2 && $intWorkFlowStep > 2  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    媒介审核</span>
-                                <span
-                                    #if($data.status == 2 && $intWorkFlowStep > 3  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    销售总经理审核</span>
-                                <span
-                                    #if($data.status == 2 && $intWorkFlowStep > 4  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    财务审核</span>
-                                <span
-                                    #if($data.status == 2 && $intWorkFlowStep > 5  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    法务审核</span>
-
-                                <span
-                                    #if($data.executeOrderImgStatus == 0  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    扫描排期单</span>
-                                <span
-                                    #if($data.originalExecuteOrderStatus == 0  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    原章排期单</span>
-                                <span
-                                    #if($data.status == 2 && $intWorkFlowStep > 7  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    开始投放</span>
-                                <span
-                                    #if($data.confirmCostStatus == 0  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    收入成本确认单</span>
-                                <span
-                                    #if($data.reminderPaymentStatus == 0  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    催款提醒</span>
-                                <span
-                                    #if($data.status == 3  )
-                                            style="background: #45FF39"
-                                    #end >
-                                    项目已回款</span>
-                            </td>
-                        </tr>
-                        #end
+##                        #set($Integer = 0)
+##                        #foreach($data in $unFinishedList)
+##                            #set($intWorkFlowStep = $Integer.parseInt($data.wfStep))
+##                            #set($intContractStatus = $Integer.parseInt($data.contractStatus))
+##                            #set($intContractImgStatus = $Integer.parseInt($data.contractImgStatus))
+##                            #set($intOriginalContractStatus = $Integer.parseInt($data.originalContractStatus))
+##                            #set($intExecuteOrderImgStatus = $Integer.parseInt($data.executeOrderImgStatus))
+##                            #set($intOriginalExecuteOrderStatus = $Integer.parseInt($data.originalExecuteOrderStatus))
+##                            #set($intConfirmCostStatus = $Integer.parseInt($data.confirmCostStatus))
+##                            #set($intReminderPaymentStatus = $Integer.parseInt($data.reminderPaymentStatus))
+##
+##                        <tr>
+##                            <td class="project-title">
+##                                <a href="javascript:;"  class="refer-detail" tid="$!data.id" >$data.name</a>
+##                                <br/>
+##                                <small>更新于 $!date.format('yyyy-MM-dd HH:mm:ss ',${data.updateTime})</small><br/>
+##                                <small>创建于 $!date.format('yyyy-MM-dd HH:mm:ss ',${data.createTime})</small>
+##                            </td>
+##                            <td class="project-completion">
+##                                <span
+##                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep >= 1 ) )
+##                                        style="background: #45FF39"
+##                                    #end >
+##                                    客户已下单</span>
+##                                <span
+##                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 2 ) )
+##                                        style="background: #45FF39"
+##                                    #end >
+##                                    销售已提交</span>
+##                                <span
+##                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 3 ) )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    销售主管审核</span>
+##                                <span
+##                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 4 ) )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    销售总经理审核</span>
+##                                <span
+##                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 5 ) )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    媒介审核</span>
+##                                <span
+##                                    #if($data.status == 1 || $data.status == 2 || ($data.status == 0 && $intWorkFlowStep > 6 ) )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    财务审核</span>
+##                                <span
+##                                    #if($data.status == 1 || $data.status == 2)
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    法务审核</span>
+##                                <br/>
+##                                <span
+##                                    #if($data.intContractStatus == 0  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    签署合同</span>
+##                                <span
+##                                    #if($data.intContractImgStatus == 0  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    扫描合同</span>
+##                                <span
+##                                    #if($data.intOriginalContractStatus == 0  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    原章合同</span>
+##                                <span
+##                                    #if($data.status == 2 && $intWorkFlowStep >= 1  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    媒介已处理</span>
+##                                <span
+##                                    #if($data.status == 2 && $intWorkFlowStep > 2  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    媒介审核</span>
+##                                <span
+##                                    #if($data.status == 2 && $intWorkFlowStep > 3  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    销售总经理审核</span>
+##                                <span
+##                                    #if($data.status == 2 && $intWorkFlowStep > 4  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    财务审核</span>
+##                                <span
+##                                    #if($data.status == 2 && $intWorkFlowStep > 5  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    法务审核</span>
+##
+##                                <span
+##                                    #if($data.executeOrderImgStatus == 0  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    扫描排期单</span>
+##                                <span
+##                                    #if($data.originalExecuteOrderStatus == 0  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    原章排期单</span>
+##                                <span
+##                                    #if($data.status == 2 && $intWorkFlowStep > 7  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    开始投放</span>
+##                                <span
+##                                    #if($data.confirmCostStatus == 0  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    收入成本确认单</span>
+##                                <span
+##                                    #if($data.reminderPaymentStatus == 0  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    催款提醒</span>
+##                                <span
+##                                    #if($data.status == 3  )
+##                                            style="background: #45FF39"
+##                                    #end >
+##                                    项目已回款</span>
+##                            </td>
+##                        </tr>
+##                        #end
                         </tbody>
                     </table>
                 </div>
