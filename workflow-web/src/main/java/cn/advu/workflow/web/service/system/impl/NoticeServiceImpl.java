@@ -4,6 +4,7 @@ import cn.advu.workflow.common.utils.mail.MailBean;
 import cn.advu.workflow.common.utils.mail.MailUtilVelocity;
 import cn.advu.workflow.dao.fcf_vu.SysFuctionMapper;
 import cn.advu.workflow.dao.fcf_vu.SysUserMapper;
+import cn.advu.workflow.domain.fcf_vu.SysInfo;
 import cn.advu.workflow.domain.fcf_vu.SysRole;
 import cn.advu.workflow.domain.fcf_vu.SysUser;
 import cn.advu.workflow.domain.fcf_vu.SysUserRole;
@@ -14,6 +15,7 @@ import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
 import cn.advu.workflow.web.common.tool.YunpianTool;
 import cn.advu.workflow.web.example.mail.sms163.SendNeteaseTemplate;
+import cn.advu.workflow.web.manager.SysInfoMananger;
 import cn.advu.workflow.web.service.system.NoticeService;
 import net.sf.json.JSONArray;
 import org.activiti.engine.TaskService;
@@ -46,6 +48,9 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Autowired
     private SysUserRepo sysUserRepo;
+
+    @Autowired
+    private SysInfoMananger sysInfoMananger;
 
     @Autowired
     protected TaskService taskService;
@@ -89,12 +94,17 @@ public class NoticeServiceImpl implements NoticeService {
                 mobileList.add(dbUser.getMobile());
             }
 
-            // 发送邮件
-            sendMail(mailList, template);
+            SysInfo sysInfo = sysInfoMananger.querySysInfo();
+            if (1 == sysInfo.getEmailSwitch()) {
+                // 发送邮件
+                sendMail(mailList, template);
+            }
 
-            // 发送短信
+            if (1 == sysInfo.getSmsSwitch()) {
+                // 发送短信
 //            sendSmsByNetease(mobileList);
-            sendSmsByYunpian(mobileList);
+                sendSmsByYunpian(mobileList);
+            }
 
         }
     }

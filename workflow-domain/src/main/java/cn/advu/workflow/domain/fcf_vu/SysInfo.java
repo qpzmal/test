@@ -8,9 +8,9 @@ public class SysInfo extends AbstractEntity {
 
     private String logo;
 
-    private Byte emailSwitch;
+    private Byte emailSwitch; // email通知开关。0关，1开
 
-    private Byte smsSwitch;
+    private Byte smsSwitch; // 短信通知开关。0关，1开
 
     public String getName() {
         return name;
