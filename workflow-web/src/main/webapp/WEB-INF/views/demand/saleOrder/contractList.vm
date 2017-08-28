@@ -38,6 +38,9 @@
                                     #if($Integer.parseInt($data.intTodoStep) >= 17)
                                         <a href="javascript:;" class="btn btn-default btn-sm button_view_execute_img "><i class="fa fa-search "></i> 已上传排期单 </a>
                                     #end
+                                    #if($Integer.parseInt($data.intTodoStep) == 31)
+                                        <a href="javascript:;" class="btn btn-info btn-sm button_pay_percent "><i class="fa fa-pencil "></i> 回款比例 </a>
+                                    #end
 
 ##                                    #if($data.intTodoStep == 1)
 ##                                        <a href="javascript:;" class="btn btn-info btn-sm button_contract "><i class="fa fa-pencil "></i> 已签署合同 </a>
@@ -104,6 +107,28 @@
 ##</div>
 
 
+## 调整[回款比例]用窗口
+<div class="ibox-content pay_percent" style="display:none">
+    <form class="form-horizontal m-t" id="commentForm" action="">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">付款比例<label class="text-danger">(%)</label></label>
+            <div class="col-sm-8 ">
+                <input id="pay_percent" name="pay_percent" type="text" class="form-control isPercent"
+##                    #if($!{hasFinancialAuth} == false)
+##                       disabled
+##                    #end
+                >
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 col-sm-offset-1">
+                <button class="btn btn-primary modify_pay_percent" type="button"><i class="fa fa-check"></i> 修改</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
 
 #define($jsblock)
 <script type="text/javascript">
@@ -112,14 +137,29 @@
 ##    var BASE_URL = '#springUrl("")/static/js/plugins/webuploader/index.html';
 </script>
 
-<script type="text/javascript" src="#springUrl("")/static/js/plugins/webuploader/webuploader.min.js?$!application.getAttribute('/static/js/plugins/webuploader/webuploader.min.js')" ></script>
+    #define($validblock)#end
+##<script type="text/javascript" src="#springUrl("")/static/js/plugins/webuploader/webuploader.min.js?$!application.getAttribute('/static/js/plugins/webuploader/webuploader.min.js')" ></script>
 ##<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader-demo.min.js?$!application.getAttribute('/static/js/demo/webuploader-demo.min.js')" ></script>
 ##<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader/webuploader.js?$!application.getAttribute('/static/js/demo/webuploader/webuploader.js')" ></script>
-<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader/contract_img.js?$!application.getAttribute('/static/js/demo/webuploader/contract_img.js')" ></script>
+##<script type="text/javascript" src="#springUrl("")/static/js/demo/webuploader/contract_img.js?$!application.getAttribute('/static/js/demo/webuploader/contract_img.js')" ></script>
 
 <script>
     $(function(){
+        $("#commentForm").validate({
+            submitHandler:function(form){
+                modifyPayPercent();
+            }
+        });
     });
+    $.validator.setDefaults(
+            {highlight:function(e){$(e).closest(".form-group").removeClass("has-success").addClass("has-error")},
+                success:function(e){
+                    e.closest(".form-group").removeClass("has-error").addClass("has-success")
+                },
+                errorElement:"span",
+                errorPlacement:function(e,r){e.appendTo(r.is(":radio")||r.is(":checkbox")?r.parent().parent().parent():r.parent())},
+                errorClass:"help-block m-b-none",validClass:"help-block m-b-none"}
+    )
 
 //    /**
 //     * 验证文件格式以及文件大小
@@ -155,6 +195,63 @@
         var url = "${rc.contextPath}/saleOrder/preViewImg?bizType=2&bizName="+bizName+"&bizId="+tid;
         openPopIframePage(url);
     })
+
+
+    var bizId;
+    ## 修改回款比例
+    $(".button_pay_percent").click(function(){
+        bizId = $(this).parents('td').attr('tid');
+        openPopDivPage_ModifyPayPercent();
+    })
+    function openPopDivPage_ModifyPayPercent(){
+        layer.open({
+            type: 1,
+            title: false, //不显示标题
+            skin: 'layui-layer-rim', //加上边框
+            area: ['600px', '240px'], //宽高
+//            closeBtn: 0, //不显示关闭按钮
+            shadeClose: true, //开启遮罩关闭
+            content: $('.pay_percent'),
+        });
+    }
+    ## 修改回款比例
+    $(".modify_pay_percent").click(function(){
+        openPopDivPage_ModifyPayPercent();
+    })
+
+    ## 修改回款比例
+    $(".pay_percent").on("click", ".modify_pay_percent", function(){
+        layer.confirm('确定要修改回款比例？', {
+            title: '回款比例',
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            modifyPayPercent(true);
+        }, function(){
+        });
+    })
+    function modifyPayPercent(){
+        var payPercent = $("#pay_percent").val();
+        var url = "/saleOrder/updateStatus.json";
+        $.ajax({
+            url:url,
+            type:"post",
+            data:{
+                "id":bizId,
+                "payPercent":payPercent
+            },
+            success: function(returnData){
+                if(returnData.code == 1){
+                    popMsg('修改成功!', "/saleOrder/contractList");
+                } else{
+                    layer.msg(returnData.info);
+                    setTimeout(function(){
+                            window.location.href = "/saleOrder/contractList";
+                        }, 500
+                    );
+                }
+            }
+        });
+    }
 
 
 ##    ## 已签署合同

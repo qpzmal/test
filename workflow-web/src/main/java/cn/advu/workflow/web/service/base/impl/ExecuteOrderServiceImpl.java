@@ -263,6 +263,23 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
 
     @Override
     public ResultJson<Integer> updateSelective(BaseExecuteOrder baseExecuteOrder) {
+
+//        BigDecimal num = new BigDecimal(100);
+        if (baseExecuteOrder.getPayPercent() != null) {
+            BaseExecuteOrder oldBaseExecuteOrder = baseExecuteOrderRepo.findOne(baseExecuteOrder.getId());
+            LOGGER.debug("oldBaseExecuteOrder.getPayPercent():"+oldBaseExecuteOrder.getPayPercent());
+            LOGGER.debug("baseExecuteOrder.getPayPercent():"+BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPayPercent()));
+            LOGGER.debug("old and new compare:"+oldBaseExecuteOrder.getPayPercent().compareTo(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPayPercent())));
+            if(oldBaseExecuteOrder.getPayPercent().compareTo(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPayPercent())) > 0) {
+                return new ResultJson<>(WebConstants.OPERATION_FAILURE, "新回款比例小于旧回款比例!旧回款比例为：" + oldBaseExecuteOrder.getPayPercent().multiply(BigDecimalUtil.HUNDRED));
+            }
+
+            if (baseExecuteOrder.getPayPercent().compareTo(BigDecimalUtil.HUNDRED) >= 0) {
+                baseExecuteOrder.setStatus((byte)3);
+            }
+            baseExecuteOrder.setPayPercent(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPayPercent()));
+
+        }
         Integer insertCount = baseExecuteOrderRepo.updateSelective(baseExecuteOrder);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新销售单失败!");

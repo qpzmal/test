@@ -270,7 +270,7 @@ public class ExecuteOrderController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value ="/updateStatus")
+    @RequestMapping(value ="/updateStatus",produces = {"application/json;charset=UTF-8"})
     public ResultJson<Integer> updateStatus(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
         return executeOrderService.updateSelective(baseExecuteOrder);
     }
