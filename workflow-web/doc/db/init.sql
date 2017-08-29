@@ -1,6 +1,6 @@
 
 
-INSERT INTO `sys_info` (`name`, `logo`, `email_switch`, `sms_switch`, `creator_id`, `updater_id`) VALUES ('审批', '', 0, 1, 0, 0);
+INSERT INTO `sys_info` (`name`, `logo`, `email_switch`, `sms_switch`, `creator_id`, `updater_id`) VALUES ('财务报表系统', '', 0, 1, 0, 0);
 
 INSERT INTO `sequence` (`name`, `current_value`, `increment`, `dates`) VALUES ('orderNum', 1, 1, 2017);
 

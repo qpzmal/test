@@ -69,27 +69,27 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#">分公司财务分析 <span class="fa arrow"></span></a>
+                        <a href="#">财务分析 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
 ##                            <li><a class="J_menuItem J_menuItem_40100" style="display:none" functionid="40100" href="${rc.contextPath}/report/area/balance">损益分析</a>
 ##                            </li>
-                            <li><a class="J_menuItem J_menuItem_40100" style="display:none" functionid="40100" href="${rc.contextPath}/report/area/budget">预算完成度分析</a>
+                            <li><a class="J_menuItem J_menuItem_40100" style="display:none" functionid="40100" href="${rc.contextPath}/report/area/budget">预算完成度</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="#">采购报表 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem J_menuItem_40200" style="display:none" functionid="40200" href="${rc.contextPath}/report/buy/resource">资源类别</a>
+                            <li><a class="J_menuItem J_menuItem_40200" style="display:none" functionid="40200" href="${rc.contextPath}/report/buy/resource">资源统计</a>
                             </li>
-                            <li><a class="J_menuItem J_menuItem_40200" style="display:none" functionid="40200" href="${rc.contextPath}/report/buy/area">厂商</a>
+                            <li><a class="J_menuItem J_menuItem_40200" style="display:none" functionid="40200" href="${rc.contextPath}/report/buy/area">厂商统计</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#">客户分析报表 <span class="fa arrow"></span></a>
+                        <a href="#">客户分析 <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li><a class="J_menuItem J_menuItem_40300" style="display:none" functionid="40300" href="${rc.contextPath}/report/customer/profit">毛利/净利贡献率</a>
+                            <li><a class="J_menuItem J_menuItem_40300" style="display:none" functionid="40300" href="${rc.contextPath}/report/customer/profit">利润分析</a>
                             </li>
 ##                            <li><a class="J_menuItem J_menuItem_40300" style="display:none" functionid="40300" href="${rc.contextPath}/report/customer/pay">回款汇总</a>
 ##                            </li>

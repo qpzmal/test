@@ -5,7 +5,6 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.datareport.DataReportService;
 import cn.advu.workflow.web.third.echarts.NormalExtend;
-import cn.advu.workflow.web.util.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.github.abel533.echarts.Option;
 import com.github.abel533.echarts.axis.AxisLine;
@@ -20,6 +19,7 @@ import com.github.abel533.echarts.series.Line;
 import com.github.abel533.echarts.series.Pie;
 import com.github.abel533.echarts.style.ItemStyle;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,8 +74,8 @@ public class ReportSaleController {
         ResultJson result = new ResultJson<>(WebConstants.OPERATION_FAILURE);
 
         lid = StringUtils.isEmpty(lid)?"1":lid;
-        startDate = StringUtils.isEmpty(startDate) ? (DateUtil.getYearFirstDay()) : startDate;
-        endDate = StringUtils.isEmpty(endDate)?(DateUtil.getToday()):endDate;
+        startDate = StringUtils.isEmpty(startDate)?(new DateTime().withDayOfYear(1).withHourOfDay(1).withMinuteOfHour(1).toString("yyyy/MM/dd HH:mm:ss")):startDate;
+        endDate = StringUtils.isEmpty(endDate)?(new DateTime().toString("yyyy/MM/dd HH:mm:ss")):endDate;
         type = StringUtils.isEmpty(type)?"1":type;
 
         LOGGER.info("lid:{},options:{}", lid, type);
@@ -120,8 +120,8 @@ public class ReportSaleController {
             HttpServletRequest request, HttpServletResponse response) {
         ResultJson result = new ResultJson<>(WebConstants.OPERATION_FAILURE);
         lid = StringUtils.isEmpty(lid)?"1":lid;
-        startDate = StringUtils.isEmpty(startDate)?(DateUtil.getYearFirstDay()):startDate;
-        endDate = StringUtils.isEmpty(endDate)?(DateUtil.getToday()):endDate;
+        startDate = StringUtils.isEmpty(startDate)?(new DateTime().withDayOfYear(1).withHourOfDay(1).withMinuteOfHour(1).toString("yyyy/MM/dd HH:mm:ss")):startDate;
+        endDate = StringUtils.isEmpty(endDate)?(new DateTime().toString("yyyy/MM/dd HH:mm:ss")):endDate;
         queryType = StringUtils.isEmpty(queryType)?"0":queryType; //0地域；0以外时间
         Option option = new Option();
 
@@ -162,11 +162,12 @@ public class ReportSaleController {
 //        option.title("销售汇总").tooltip(Trigger.axis).legend("金额（元）");
         option.title("销售汇总").legend("金额（元）").tooltip().trigger();
         //横轴为值轴
-        option.xAxis(new ValueAxis().boundaryGap(0d, 0.01));
+        option.yAxis(new ValueAxis().boundaryGap(0d, 0.01));
         //创建类目轴
         CategoryAxis category = new CategoryAxis();
         //柱状数据
         Bar bar = new Bar("金额（元）");
+        bar.itemStyle().normal().color("rgb(34, 137, 196)");
         //饼图数据
         Pie pie = new Pie("金额（元）");
         //循环数据
@@ -198,13 +199,13 @@ public class ReportSaleController {
             }
         }
         //设置类目轴
-        option.yAxis(category);
+        option.xAxis(category);
         //饼图的圆心和半径
         pie.center("80%","50%").radius(100);
         // 设置柱状图参数
         ItemStyle itemStyle = new ItemStyle();
         NormalExtend normal = new NormalExtend();
-        normal.setPosition("right");
+        normal.setPosition("top");
         normal.setShow(true);
         itemStyle.setNormal(normal);
         bar.setLabel(itemStyle);

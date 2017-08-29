@@ -41,23 +41,23 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-8">
-                                            <div class="checkbox ">
-                                                查询：
-                                                <div data-toggle="buttons" class="btn-group orderCondition">
+                                   ## <div class="form-group">
+                                       ## <div class="col-sm-8">
+                                            ##<div class="checkbox ">
+                                                ##查询：
+                                                ##<div data-toggle="buttons" class="btn-group orderCondition">
 ##                                                    <label class="btn btn-sm btn-white active">
-##                                                        <input type="radio" id="orderKey1" name="orderKey" value="order_date">时间</label>
-                                                    <label class="btn btn-sm btn-white active">
-                                                        <input type="radio" id="orderKey2" name="orderKey" value="cpm_total">CPM数</label>
-                                                    <label class="btn btn-sm btn-white">
-                                                        <input type="radio" id="orderKey3" name="orderKey" value="sale_amount">[媒体单价]总价</label>
-                                                    <label class="btn btn-sm btn-white">
-                                                        <input type="radio" id="orderKey4" name="orderKey" value="buy_amount">[媒体采购成本单价]总价</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+##                                                        ##<input type="radio" id="orderKey1" name="orderKey" value="order_date">时间</label>
+                                                    ##<label class="btn btn-sm btn-white active">
+                                                       ## <input type="radio" id="orderKey2" name="orderKey" value="cpm_total">CPM数</label>
+                                                    ##<label class="btn btn-sm btn-white">
+                                                      ##  <input type="radio" id="orderKey3" name="orderKey" value="sale_amount">[媒体单价]总价</label>
+                                                  ##  <label class="btn btn-sm btn-white">
+                                                       ## <input type="radio" id="orderKey4" name="orderKey" value="buy_amount">[媒体采购成本单价]总价</label>
+                                                ##</div>
+                                           ## </div>
+                                        ##</div>
+                                  ##  </div>
                                 </form>
                             </div>
                         </div>
@@ -70,7 +70,8 @@
                 <div class="col-sm-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-content">
-                            <div id="echart-container" style="height:400px;" ></div>
+                            <div id="echart-container" style="float:left ;  width:50%;height:400px;" ></div>
+                            <div id="echart-bar" style="float:right ;  width:50%;height:400px;" ></div>
                         </div>
                     </div>
                 </div>
@@ -127,12 +128,13 @@
 
     // 基于准备好的dom，初始化echarts实例
     var chart = echarts.init(document.getElementById('echart-container'));
-
+	 var barchart = echarts.init(document.getElementById('echart-bar'));
 
 
     //查询
     function initChart() {
         chart.clear();
+        barchart.clear();
         chart.showLoading({text: '正在努力的读取数据中...'});
 //        var lid = $(".nav-tabs li.active").attr("lid");
         var startDate = $(".tab-content div.active .startDate").val();
@@ -152,8 +154,10 @@
             },
             success: function(returnData){
                 chart.hideLoading();
+                barchart.hideLoading();
                 if (returnData.code == '1') {
                     chart.setOption(returnData.data, true);
+                    barchart.setOption(returnData.line, true);
 //                    chart.setOption(test, true);
                 } else {
                     console.log("返回结果有误");

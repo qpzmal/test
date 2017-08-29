@@ -46,12 +46,12 @@
                                         </div>
 
                                         <div class="col-sm-4 m-b-xs text-right">
-                                            <div data-toggle="buttons" class="btn-group">
-                                                <label class="btn btn-sm btn-white active">
-                                                    <input type="radio" id="option1" name="options" value="1">上半年</label>
-                                                <label class="btn btn-sm btn-white">
-                                                    <input type="radio" id="option2" name="options" value="2">下半年</label>
-                                            </div>
+                                            ##<div data-toggle="buttons" class="btn-group">
+                                               ## <label class="btn btn-sm btn-white active">
+                                                   ## <input type="radio" id="option1" name="options" value="1">上半年</label>
+                                              ##  <label class="btn btn-sm btn-white">
+                                                   ## <input type="radio" id="option2" name="options" value="2">下半年</label>
+                                            ##</div>
                                             <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
                                         </div>
                                     </div>
@@ -67,16 +67,16 @@
                                         </div>
 
                                         <div class="col-sm-4 m-b-xs text-right">
-                                            <div data-toggle="buttons" class="btn-group">
-                                                <label class="btn btn-sm btn-white active">
-                                                    <input type="radio" id="option1" name="options" value="1">一季度</label>
-                                                <label class="btn btn-sm btn-white">
-                                                    <input type="radio" id="option2" name="options" value="2">二季度</label>
-                                                <label class="btn btn-sm btn-white">
-                                                    <input type="radio" id="option3" name="options" value="3">三季度</label>
-                                                <label class="btn btn-sm btn-white">
-                                                    <input type="radio" id="option4" name="options" value="4">四季度</label>
-                                            </div>
+                                           ## <div data-toggle="buttons" class="btn-group">
+                                               ## <label class="btn btn-sm btn-white active">
+                                                  ##  <input type="radio" id="option1" name="options" value="1">一季度</label>
+                                                ##<label class="btn btn-sm btn-white">
+                                                    ##<input type="radio" id="option2" name="options" value="2">二季度</label>
+                                               ## <label class="btn btn-sm btn-white">
+                                                    ##<input type="radio" id="option3" name="options" value="3">三季度</label>
+                                               ## <label class="btn btn-sm btn-white">
+                                                   ## <input type="radio" id="option4" name="options" value="4">四季度</label>
+                                            ##</div>
                                             <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
                                         </div>
                                     </div>
@@ -108,7 +108,7 @@
 ## js文件引入和js代码块
 #define($jsblock)
 <script src="#springUrl("")/static/js/plugins/echarts/echarts-3.6.2.min.js?$!application.getAttribute('/static/js/plugins/echarts/echarts-3.6.2.min.js')" type="text/javascript" language="javascript"></script>
-##<script src="#springUrl("")/static/js/plugins/echarts/echarts.js?$!application.getAttribute('/static/js/plugins/echarts/echarts.js')" type="text/javascript" language="javascript"></script>
+##<script src="#springUrl("")/static/js/plugins/echarts/echarts/build/dist/echarts.js?$!application.getAttribute('/static/js/plugins/echarts/echarts/build/dist/echarts.js')" type="text/javascript" language="javascript"></script>
 <script src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" type="text/javascript" language="javascript"></script>
 <script>
     $(function() {
@@ -155,12 +155,12 @@
 
 
     // 基于准备好的dom，初始化echarts实例
-    var chart = echarts.init(document.getElementById('echart-container'));
+   // var chart = echarts.init(document.getElementById('echart-container'));
 
     //查询
     function initChart() {
-        chart.clear();
-        chart.showLoading({text: '正在努力的读取数据中...'});
+       // chart.clear();
+        //chart.showLoading({text: '正在努力的读取数据中...'});
         var lid = $(".nav-tabs li.active").attr("lid");
         var startDate = $(".tab-content div.active .startDate").val();
         var endDate = $(".tab-content div.active .endDate").val();
@@ -177,9 +177,25 @@
                 type:type
             },
             success: function(returnData){
-                chart.hideLoading();
+                //chart.hideLoading();
                 if (returnData.code == '1') {
-                    chart.setOption(returnData.data, true);
+                   
+                   require.config({
+        paths: {
+            echarts: '../../../static/js/plugins/echarts/echarts/build/dist'
+        }
+    });
+    require(['echarts', 'echarts/chart/bar', 'echarts/chart/line' ],
+		// 基于准备好的dom，初始化echarts图表
+		function (ec) {var myChart = ec.init(document.getElementById('echart-container'));           
+					myChart.setTheme("macarons");
+				     // 为echarts对象加载数据 
+				     myChart.setOption(returnData.data); 
+				       }
+	);
+                   
+                   
+                   // chart.setOption(eval(returnData.data));
 //                    chart.setOption(test, true);
                 } else {
                     console.log("返回结果有误");
