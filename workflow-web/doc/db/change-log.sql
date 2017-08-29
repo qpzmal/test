@@ -5,6 +5,18 @@
 -- 2.20170628 燕燕修改
 -- 1.20170620 兆华建立
 
+
+
+-- 20180829 weiqz
+INSERT INTO `sys_resource` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_type`)
+VALUES
+	(304, '合同与单据', 0, 0, 0, 1);
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_id`, `operate_type_id`)
+VALUES
+	(30401, '回款比例', 0, 0, 0, 304, NULL);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30401, '', 0, NULL, NULL, 0);
+
+
 -- 20180827 weiqz
 ALTER TABLE `base_person`
 	ADD COLUMN `uid` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'sys_user表ID' AFTER `id`;

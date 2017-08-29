@@ -37,6 +37,7 @@ VALUES
 	(301, '待处理流程', 0, 0, 0, 1),
 	(302, '运行中流程', 0, 0, 0, 1),
 	(303, '已结束流程', 0, 0, 0, 1),
+	(304, '合同与单据', 0, 0, 0, 1),
 	(401, '分公司财务分析', 0, 0, 0, 1),
 	(402, '采购报表', 0, 0, 0, 1),
 	(403, '客户分析报表', 0, 0, 0, 1),
@@ -107,6 +108,7 @@ VALUES
 	(30101, '办理待处理流程', 0, 0, 0, 301, NULL),
 	(30201, '查看运行中流程', 0, 0, 0, 302, NULL),
 	(30301, '查看已结束流程', 0, 0, 0, 303, NULL),
+	(30401, '回款比例', 0, 0, 0, 304, NULL),
 	(40101, '查看分公司财务分析', 0, 0, 0, 401, NULL),
 	(40201, '查看采购报表', 0, 0, 0, 402, NULL),
 	(40301, '查看客户分析报表', 0, 0, 0, 403, NULL),
@@ -189,6 +191,7 @@ INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`,
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30101, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30201, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30301, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30401, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 40101, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 40201, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 40301, '', 0, NULL, NULL, 0);

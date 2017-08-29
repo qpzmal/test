@@ -6,6 +6,7 @@ import cn.advu.workflow.domain.fcf_vu.*;
 import cn.advu.workflow.web.common.RequestUtil;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.manager.*;
 import cn.advu.workflow.web.service.base.*;
@@ -239,6 +240,7 @@ public class ExecuteOrderController {
 
         }
         resultModel.addAttribute("dataList", result.getData());
+        DisplayTool.buttonDisplay(resultModel, "payPercent", "30401");
         return "demand/saleOrder/contractList";
     }
 

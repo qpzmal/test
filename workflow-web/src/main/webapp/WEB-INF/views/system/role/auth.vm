@@ -888,6 +888,33 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-4">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            合同与单据
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-warning">
+                                                <input id="contractAllCheck" type="checkbox" class="flowAuditCheck">
+                                                <label for="contractAllCheck">
+                                                    <b>全选</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="30401" type="checkbox" class="contractCheck flowAuditCheck function">
+                                        <label for="30401">
+                                            回款比例
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1530,7 +1557,18 @@
                     checkArr[i].checked = false;
                 };
             };
-
+        })
+        $("#contractAllCheck").change(function(){
+            var checkArr = $(".contractCheck");
+            if (this.checked) {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = true;
+                };
+            } else {
+                for (var i = 0; i < checkArr.length; i++) {
+                    checkArr[i].checked = false;
+                };
+            };
         })
         $("#branchAllCheck").change(function(){
             var checkArr = $(".branchCheck");
