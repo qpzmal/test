@@ -688,14 +688,19 @@
     ifnull(base_execute_order.public_rebate, 0) as publicRebate,
     group_concat(DISTINCT base_adtype.name separator '、') as adTypeName,
     base_execute_order.update_time,
-    count(base_order_cpm.id) as totalCpmCount,
+    SUM(base_order_cpm.cpm) as totalCpmCount,
     sum(IFNULL(first_price,0)*IFNULL(cpm,0)) as totalCpmCost
     <if test="mediaIdList != null ">
       ,
     </if>
     <foreach collection="mediaIdList" item="mediaId" separator="," >
-      (select count(media_cpm_${mediaId}.cpm) from base_order_cpm media_cpm_${mediaId}  where media_cpm_${mediaId}.order_id = base_execute_order.id
-      and media_cpm_${mediaId}.order_cpm_type IN (1,2) and media_cpm_${mediaId}.media_id=${mediaId}) as s_${mediaId}
+      (select SUM(media_cpm_${mediaId}.cpm) from base_order_cpm media_cpm_${mediaId}  where media_cpm_${mediaId}.order_id = base_execute_order.id
+      and media_cpm_${mediaId}.order_cpm_type IN (1,2) and media_cpm_${mediaId}.media_id=${mediaId}) as s_${mediaId},
+      (select (media_cpm_${mediaId}.cpm/SUM(media_cpm_all.cpm))*IFNULL(media_cpm_${mediaId}.first_price,0)
+      from base_order_cpm media_cpm_${mediaId} , base_order_cpm media_cpm_all
+      where media_cpm_${mediaId}.order_id = base_execute_order.id and media_cpm_${mediaId}.order_cpm_type IN (1,2) and media_cpm_${mediaId}.media_id=${mediaId}
+      and media_cpm_all.order_id = base_execute_order.id and media_cpm_all.order_cpm_type IN (1,2)
+      ) as weightingAverageCost_${mediaId}
     </foreach>
     from base_execute_order left join base_order_cpm on  base_order_cpm.order_id = base_execute_order.id
     left join base_adtype on base_order_cpm.ad_type_id = base_adtype.id

@@ -1,8 +1,6 @@
 package cn.advu.workflow.web.controller.report;
 
-import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseMedia;
-import cn.advu.workflow.domain.fcf_vu.datareport.BaseExecuteOrderReportVO;
 import cn.advu.workflow.web.manager.ExecuteOrderManager;
 import cn.advu.workflow.web.manager.FinancialindexMananger;
 import cn.advu.workflow.web.manager.MediaMananger;
@@ -64,6 +62,12 @@ public class ReportFinalController {
         JSONObject fixedTitle = new JSONObject();
         fixedTitle.put("field", "totalCpmNum");
         fixedTitle.put("title", "总CPM量");
+        fixedTitle.put("align", "center");
+        totalTile.add(fixedTitle);
+
+        fixedTitle = new JSONObject();
+        fixedTitle.put("field", "weightingAverageCost");
+        fixedTitle.put("title", "加权平均成本");
         fixedTitle.put("align", "center");
         totalTile.add(fixedTitle);
 
@@ -212,8 +216,25 @@ public class ReportFinalController {
                 baseExecuteOrderVO.put("taxIncome", taxIncome);
                 baseExecuteOrderVO.put("netIncome", netIncome);
 
-                BigDecimal totalCpmNum = BigDecimal.valueOf((Long)baseExecuteOrderReportVO.get("totalCpmCount"));
+
+                LOGGER.debug("totalCpmCount:{}", baseExecuteOrderReportVO.get("totalCpmCount"));
+                BigDecimal totalCpmNum = BigDecimal.valueOf(Long.valueOf(baseExecuteOrderReportVO.get("totalCpmCount").toString()));
                 baseExecuteOrderVO.put("totalCpmNum", totalCpmNum);
+
+                BigDecimal weightingAverageCost = new BigDecimal(0);
+                Set<Map.Entry<String, Object>> entrySet = baseExecuteOrderReportVO.entrySet();
+                for (Map.Entry<String, Object> e : entrySet) {
+                    String name = e.getKey();
+                    String value = e.getValue().toString();
+                    if(name.startsWith("weightingAverageCost")){
+                        LOGGER.debug("weightingAverageCost-value:{}", value);
+                        weightingAverageCost = weightingAverageCost.add(BigDecimal.valueOf(Double.valueOf(value)));
+                        LOGGER.debug("weightingAverageCost:{}", weightingAverageCost);
+                    } else {
+                        continue;
+                    }
+                }
+                baseExecuteOrderVO.put("weightingAverageCost", weightingAverageCost);
 
                 BigDecimal totalCost = (BigDecimal)baseExecuteOrderReportVO.get("totalCpmCost");
                 baseExecuteOrderVO.put("totalCost", totalCost);
@@ -240,7 +261,7 @@ public class ReportFinalController {
                         BigDecimal mediaTotal = mediaCpmNum.get(mediaKey);
                         Object mediaNumObject = baseExecuteOrderReportVO.get(mediaKey);
                         if (mediaNumObject != null) {
-                            BigDecimal mediaNum = BigDecimal.valueOf((Long)mediaNumObject);
+                            BigDecimal mediaNum = BigDecimal.valueOf(Long.valueOf(mediaNumObject.toString()));
                             baseExecuteOrderVO.put(mediaKey, mediaNum);
                             mediaTotal = mediaTotal.add(mediaNum);
                             mediaCpmNum.put(mediaKey, mediaTotal);

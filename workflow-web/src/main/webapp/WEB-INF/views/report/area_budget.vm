@@ -107,8 +107,8 @@
 
 ## js文件引入和js代码块
 #define($jsblock)
-<script src="#springUrl("")/static/js/plugins/echarts/echarts-3.6.2.min.js?$!application.getAttribute('/static/js/plugins/echarts/echarts-3.6.2.min.js')" type="text/javascript" language="javascript"></script>
-##<script src="#springUrl("")/static/js/plugins/echarts/echarts/build/dist/echarts.js?$!application.getAttribute('/static/js/plugins/echarts/echarts/build/dist/echarts.js')" type="text/javascript" language="javascript"></script>
+##<script src="#springUrl("")/static/js/plugins/echarts/echarts-3.6.2.min.js?$!application.getAttribute('/static/js/plugins/echarts/echarts-3.6.2.min.js')" type="text/javascript" language="javascript"></script>
+<script src="#springUrl("")/static/js/plugins/echarts/echarts/build/dist/echarts.js?$!application.getAttribute('/static/js/plugins/echarts/echarts/build/dist/echarts.js')" type="text/javascript" language="javascript"></script>
 <script src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" type="text/javascript" language="javascript"></script>
 <script>
     $(function() {

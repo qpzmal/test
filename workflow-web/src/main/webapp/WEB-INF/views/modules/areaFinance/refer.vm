@@ -27,6 +27,12 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-3 control-label">财务预算</label>
+            <div class="col-sm-8">
+                <label class="control-label" >$!{baseAreaFinance.pay1}</label>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label">房租成本</label>
             <div class="col-sm-8">
                 <label class="control-label" >$!{baseAreaFinance.roomPay}</label>

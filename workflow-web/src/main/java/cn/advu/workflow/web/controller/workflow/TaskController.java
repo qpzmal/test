@@ -763,7 +763,7 @@ public class TaskController {
                     case WebConstants.Audit.UPLOAD_CONTRACT_IMG: // 上传扫描版合同
                         baseExecuteOrder = new BaseExecuteOrder();
                         baseExecuteOrder.setId(Integer.valueOf(bizId));
-                        baseExecuteOrder.setOriginalContractStatus("0");
+                        baseExecuteOrder.setContractImgStatus("0");
                         executeOrderService.updateSelective(baseExecuteOrder).getData();
                         break;
                     case WebConstants.Audit.ORIGINAL_CONTRACT: // 追要原章合同
