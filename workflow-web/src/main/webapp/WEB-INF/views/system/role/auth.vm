@@ -912,6 +912,24 @@
                                             回款比例
                                         </label>
                                     </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="30402" type="checkbox" class="contractCheck flowAuditCheck function">
+                                        <label for="30402">
+                                            查看
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="30403" type="checkbox" class="contractCheck flowAuditCheck function">
+                                        <label for="30403">
+                                            已上传合同
+                                        </label>
+                                    </div>
+                                    <div class="checkbox checkbox-success checkbox-inline ">
+                                        <input id="30404" type="checkbox" class="contractCheck flowAuditCheck function">
+                                        <label for="30404">
+                                            已上传排期单
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1185,9 +1203,9 @@
         $(".btn-default").click(function(){
             history.go(-1);
         })
-        ## 项目基本信息的全选
-        $("#moduleAllCheck").change(function(){
-            var moduleCheck = $(".moduleCheck");
+
+        function selectAllSubCheckBox(className){
+            var moduleCheck = $(className);
             if (this.checked) {
                 for (var i = 0; i < moduleCheck.length; i++) {
                     moduleCheck[i].checked = true;
@@ -1197,459 +1215,135 @@
                     moduleCheck[i].checked = false;
                 };
             };
+        }
 
+        ## 项目基本信息的全选
+        $("#moduleAllCheck").change(function(){
+            selectAllSubCheckBox(".moduleCheck");
         })
         ## 流程审批的全选
         $("#flowAuditAllCheck").change(function(){
-            var moduleCheck = $(".flowAuditCheck");
-            if (this.checked) {
-                for (var i = 0; i < moduleCheck.length; i++) {
-                    moduleCheck[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < moduleCheck.length; i++) {
-                    moduleCheck[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".flowAuditCheck");
         })
         ## 流程申请的全选
         $("#flowApplyAllCheck").change(function(){
-            var moduleCheck = $(".flowApplyCheck");
-            if (this.checked) {
-                for (var i = 0; i < moduleCheck.length; i++) {
-                    moduleCheck[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < moduleCheck.length; i++) {
-                    moduleCheck[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".flowApplyCheck");
         })
         ## 报表中心的全选
         $("#reportAllCheck").change(function(){
-            var moduleCheck = $(".reportCheck");
-            if (this.checked) {
-                for (var i = 0; i < moduleCheck.length; i++) {
-                    moduleCheck[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < moduleCheck.length; i++) {
-                    moduleCheck[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".reportCheck");
         })
         ## 报表中心的全选
         $("#systemAllCheck").change(function(){
-            var moduleCheck = $(".systemCheck");
-            if (this.checked) {
-                for (var i = 0; i < moduleCheck.length; i++) {
-                    moduleCheck[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < moduleCheck.length; i++) {
-                    moduleCheck[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".systemCheck");
         })
         ## 广告类型的全选
         $("#adTypeAllCheck").change(function(){
-            var checkArr = $(".adTypeCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".adTypeCheck");
         })
         ## 客户行业的全选
         $("#industryAllCheck").change(function(){
-            var checkArr = $(".industryCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".industryCheck");
         })
         ## 监测机构的全选
         $("#monitorAllCheck").change(function(){
-            var checkArr = $(".monitorCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".monitorCheck");
         })
         ## 省市地域的全选
         $("#regionAllCheck").change(function(){
-            var checkArr = $(".regionCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".regionCheck");
         })
         ## 通讯录的全选
         $("#personAllCheck").change(function(){
-            var checkArr = $(".personCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".personCheck");
         })
         ## 客户管理的全选
         $("#customAllCheck").change(function(){
-            var checkArr = $(".customCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".customCheck");
         })
         ## 区域的全选
         $("#areaAllCheck").change(function(){
-            var checkArr = $(".areaCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".areaCheck");
         })
         ## 财务指标的全选
         $("#financialAllCheck").change(function(){
-            var checkArr = $(".financialCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".financialCheck");
         })
         ## 媒体的全选
         $("#mediaAllCheck").change(function(){
-            var checkArr = $(".mediaCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".mediaCheck");
         })
         ## 媒体类型的全选
         $("#mediaTypeAllCheck").change(function(){
-            var checkArr = $(".mediaTypeCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".mediaTypeCheck");
         })
         ## 部门的全选
         $("#deptAllCheck").change(function(){
-            var checkArr = $(".deptCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".deptCheck");
         })
         ## 客户结算的全选
         $("#customPayAllCheck").change(function(){
-            var checkArr = $(".customPayCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".customPayCheck");
         })
         ## 区域结算的全选
         $("#areaPayAllCheck").change(function(){
-            var checkArr = $(".areaPayCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".areaPayCheck");
         })
         ## 综合计价的全选
         $("#totalPricingAllCheck").change(function(){
-            var checkArr = $(".totalPricingCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".totalPricingCheck");
         })
         ## 需求单的全选
         $("#executeOrderAllCheck").change(function(){
-            var checkArr = $(".executeOrderCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".executeOrderCheck");
         })
         ## 需求框架单的全选
         $("#executeOrderFrameAllCheck").change(function(){
-            var checkArr = $(".executeOrderFrameCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".executeOrderFrameCheck");
         })
         ## 排期执行单的全选
         $("#executeOrderPaiqiAllCheck").change(function(){
-            var checkArr = $(".executeOrderPaiqiAllCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".executeOrderPaiqiAllCheck");
         })
 
         $("#buyOrderAllCheck").change(function(){
-            var checkArr = $(".buyOrderCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".buyOrderCheck");
         })
         $("#buyOrderFrameAllCheck").change(function(){
-            var checkArr = $(".buyOrderFrameCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".buyOrderFrameCheck");
         })
         $("#undoAllCheck").change(function(){
-            var checkArr = $(".undoCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".undoCheck");
         })
         $("#doingAllCheck").change(function(){
-            var checkArr = $(".doingCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".doingCheck");
         })
         $("#doneAllCheck").change(function(){
-            var checkArr = $(".doneCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
+            selectAllSubCheckBox(".doneCheck");
         })
         $("#contractAllCheck").change(function(){
-            var checkArr = $(".contractCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
+            selectAllSubCheckBox(".contractCheck");
         })
         $("#branchAllCheck").change(function(){
-            var checkArr = $(".branchCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".branchCheck");
         })
         $("#saleALLCheck").change(function(){
-            var checkArr = $(".saleCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".saleCheck");
         })
         $("#customAnalyseAllCheck").change(function(){
-            var checkArr = $(".customAnalyseCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".customAnalyseCheck");
         })
         $("#buyAllCheck").change(function(){
-            var checkArr = $(".buyCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".buyCheck");
         })
         $("#userAllCheck").change(function(){
-            var checkArr = $(".userCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".userCheck");
         })
         $("#authAllCheck").change(function(){
-            var checkArr = $(".authCheck");
-            if (this.checked) {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = true;
-                };
-            } else {
-                for (var i = 0; i < checkArr.length; i++) {
-                    checkArr[i].checked = false;
-                };
-            };
-
+            selectAllSubCheckBox(".authCheck");
         })
-        function auth(){
 
+        function auth(){
             var selectedFunctionJsonStr = getSelectedFunctionJsonStr();
             var roleId = $("#role_id").val();
 
@@ -1690,13 +1384,13 @@
         }
 
         $().ready(
-                function(){
-                    var roleFunctionList = ${roleFunctionList};
+            function(){
+                var roleFunctionList = ${roleFunctionList};
 
-                    for (var i = 0; i < roleFunctionList.length; i++) {
-                        $("#" + roleFunctionList[i])[0].checked = true;
-                    }
+                for (var i = 0; i < roleFunctionList.length; i++) {
+                    $("#" + roleFunctionList[i])[0].checked = true;
                 }
+            }
         );
     </script>
 #end

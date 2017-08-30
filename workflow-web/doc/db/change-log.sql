@@ -7,6 +7,16 @@
 
 
 
+-- 20180830 weiqz
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_id`, `operate_type_id`)
+VALUES
+	(30402, '查看', 0, 0, 0, 304, NULL),
+	(30403, '已上传合同', 0, 0, 0, 304, NULL),
+	(30404, '已上传排期单', 0, 0, 0, 304, NULL);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30402, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30403, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30404, '', 0, NULL, NULL, 0);
+
 -- 20180829 weiqz
 INSERT INTO `sys_resource` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_type`)
 VALUES

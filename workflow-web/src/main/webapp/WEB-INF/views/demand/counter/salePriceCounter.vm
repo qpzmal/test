@@ -46,7 +46,7 @@
                         <tr>
                             <th>广告形式</th>
                             <th>净收入单价</th>
-                            <th>销售量</th>
+                            <th>销售量（CPM数）</th>
                             <th>净收入</th>
                             <th>净利润率</th>
                             <th>净利润</th>
@@ -85,7 +85,6 @@
     ## 收起计算器
     $("#cpm_detail_content").on("click",".child-chevron-up",function(){
                     $(this).parent().parent().parent().parent().children(".ibox-content").slideToggle("slow");
-
         });
 
 
@@ -281,17 +280,6 @@
     )
     $().ready(
             function(){
-//                $("#cpm_info").validate({
-//                        rules:{
-//                            public_rebate:{
-//                                range: "[1,100]"
-//                            },
-//                            sales_incentive_rate:{
-//                                range: "[2,100]"
-//                            }
-//                        }
-//                }
-//                );
                 var config = {
                     ".chosen-select": {},
                     ".chosen-select-deselect": {allow_single_deselect: !0},

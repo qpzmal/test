@@ -236,11 +236,12 @@ public class ExecuteOrderController {
                 LOGGER.warn("合同与单据列表中，出现未知状态：{}", data.getStatus());
 
             }
-
-
         }
         resultModel.addAttribute("dataList", result.getData());
-        DisplayTool.buttonDisplay(resultModel, "payPercent", "30401");
+        DisplayTool.buttonDisplay(resultModel, "payPercent", "30401"); // 回款比例
+        DisplayTool.buttonDisplay(resultModel, "viewDetail", "30402"); // 查看
+        DisplayTool.buttonDisplay(resultModel, "viewContractImg", "30403"); // 已上传合同
+        DisplayTool.buttonDisplay(resultModel, "viewExecuteImg", "30404"); // 已上传排期单
         return "demand/saleOrder/contractList";
     }
 

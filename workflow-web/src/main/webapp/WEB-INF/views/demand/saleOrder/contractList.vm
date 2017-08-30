@@ -30,13 +30,19 @@
                                     $!{data.strTodoStep}
                                 </td>
                                 <td class="right" tid="$!{data.id}" tname="$!{data.orderNum}">
-                                    <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
-
-                                    #if($Integer.parseInt($data.intTodoStep) >= 7)
-                                        <a href="javascript:;" class="btn btn-default btn-sm button_view_contract_img "><i class="fa fa-search "></i> 已上传合同 </a>
+                                    #if($!{viewDetail} == 0)
+                                        <a href="javascript:;" class="btn btn-default btn-sm button_view"><i class="fa fa-search "></i> 查看 </a>
                                     #end
-                                    #if($Integer.parseInt($data.intTodoStep) >= 17)
-                                        <a href="javascript:;" class="btn btn-default btn-sm button_view_execute_img "><i class="fa fa-search "></i> 已上传排期单 </a>
+
+                                    #if($!{viewContractImg} == 0)
+                                        #if($Integer.parseInt($data.intTodoStep) >= 7)
+                                            <a href="javascript:;" class="btn btn-default btn-sm button_view_contract_img "><i class="fa fa-search "></i> 已上传合同 </a>
+                                        #end
+                                    #end
+                                    #if($!{viewExecuteImg} == 0)
+                                        #if($Integer.parseInt($data.intTodoStep) >= 17)
+                                            <a href="javascript:;" class="btn btn-default btn-sm button_view_execute_img "><i class="fa fa-search "></i> 已上传排期单 </a>
+                                        #end
                                     #end
                                     #if($!{payPercent} == 0)
                                         #if($Integer.parseInt($data.intTodoStep) == 31)
