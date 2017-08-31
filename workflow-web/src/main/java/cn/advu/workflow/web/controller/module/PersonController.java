@@ -192,7 +192,9 @@ public class PersonController {
         String areaName = "";
         if (areaId != null) {
             BaseArea baseArea = areaService.findById(areaId).getData();
-            areaName = baseArea.getName();
+            if (baseArea != null) {
+                areaName = baseArea.getName();
+            }
         }
 
         List<BasePerson> parentList = null;
