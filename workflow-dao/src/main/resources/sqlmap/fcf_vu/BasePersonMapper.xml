@@ -46,13 +46,13 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BasePerson"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
-    insert into base_person (id, name, area_id, 
+    insert into base_person (id, uid, name, area_id,
       mobile, address, email, 
       dept_id, state, parent_id, 
       del_flag, item_status, pay2, 
       person_pay, create_time, update_time, 
       remark)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER},
       #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{deptId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
       #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT}, #{pay2,jdbcType=DECIMAL},
@@ -64,6 +64,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="uid != null">
+        uid,
       </if>
       <if test="name != null">
         name,
@@ -114,6 +117,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
