@@ -134,7 +134,7 @@
 
     // 催款
     $(".button_view_reminder_payment").click(function(){
-        var bizId = $(this).parents('td').attr('tid'); // 取申请ID
+        var bizId = $(this).attr('tid'); // 取申请ID
         var url = "/saleOrder/doRemindPayment.json";
 
         layer.confirm('是否发起催款要求？', {

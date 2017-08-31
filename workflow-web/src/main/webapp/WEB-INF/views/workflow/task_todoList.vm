@@ -569,7 +569,10 @@
     $(".btn_edit").click(function(){
         var bizId = $(this).parents('tr').attr('id'); // 取申请ID
         var pkey = $(this).parents('tr').attr('pkey');
-        var url = "${rc.contextPath}/saleOrder/toUpdate?id="+bizId;
+        if (pkey == "saleExecute") {
+            pkey ="saleOrder";
+        }
+        var url = "${rc.contextPath}/"+ pkey+"/toUpdate?id="+bizId;
         openPopIframePage(url);
     })
 

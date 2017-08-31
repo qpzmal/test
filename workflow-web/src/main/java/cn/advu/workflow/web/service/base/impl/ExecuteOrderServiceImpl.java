@@ -326,7 +326,8 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
 
         String processKey = WebConstants.WORKFLOW_SALE_ORDER;
 
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, baseExecuteOrder.getId() + "", new HashMap<String, Object>());
+//        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, baseExecuteOrder.getId() + "", new HashMap<String, Object>());
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(dbBaseExecuteOrder.getProcessInstanceId()).active().singleResult();
         LOGGER.info(" processInstanceId:{}", processInstance.getId());
 
 
