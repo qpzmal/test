@@ -12,6 +12,10 @@
            eternal="false" overflowToDisk="false" timeToIdleSeconds="300"
            timeToLiveSeconds="60" memoryStoreEvictionPolicy="LFU"/>
 
+    <cache name="SYS_INFO_" maxElementsInMemory="5000"
+           eternal="false" overflowToDisk="false" timeToIdleSeconds="300"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LFU"/>
+
     <!-- cahce 任务列表-->
     <cache name="_ehcache_job_list" maxElementsInMemory="5000"
            eternal="false" overflowToDisk="false" timeToIdleSeconds="300"

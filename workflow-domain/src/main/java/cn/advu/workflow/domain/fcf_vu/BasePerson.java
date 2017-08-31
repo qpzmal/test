@@ -5,6 +5,9 @@ import cn.advu.workflow.domain.base.AbstractEntity;
 import java.math.BigDecimal;
 
 public class BasePerson extends AbstractEntity {
+
+    private String uid;
+
     private String name;
 
     private Integer areaId;
@@ -24,6 +27,14 @@ public class BasePerson extends AbstractEntity {
     private BigDecimal pay2;
 
     private BigDecimal personPay;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getName() {
         return name;

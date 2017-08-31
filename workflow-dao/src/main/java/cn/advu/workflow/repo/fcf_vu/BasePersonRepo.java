@@ -1,7 +1,6 @@
 package cn.advu.workflow.repo.fcf_vu;
 
 
-import cn.advu.workflow.domain.fcf_vu.BaseCustom;
 import cn.advu.workflow.domain.fcf_vu.BasePerson;
 import cn.advu.workflow.domain.fcf_vu.BasePersonExtend;
 import cn.advu.workflow.repo.base.IRepo;
@@ -23,6 +22,8 @@ public interface BasePersonRepo extends IRepo<BasePerson> {
     BasePerson findPersonByName(String name);
 
     BasePerson findByIdAndName(Integer id, String name);
+
+    BasePerson queryByUid(Integer uid);
 
     List<BasePerson> findByParentId(Integer parentId);
 }

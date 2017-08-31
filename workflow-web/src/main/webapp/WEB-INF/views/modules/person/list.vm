@@ -45,9 +45,13 @@
             </div>
         </div>
     </div>
-    #if(${add} == 0)
-        <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
-    #end
+
+    ## 20170827 weiqz 为保持sys_user和base_person同步，关闭person的添加入口
+##    #if(${add} == 0)
+##        <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus "></i> 添加</button>
+##    #end
+
+
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
@@ -83,7 +87,7 @@
                                 <td class="right">
                                     <input type="hidden" value="$!{data.id}">
                                     #if(${modify} == 0)
-                                        <a href="javascript:;" class="btn btn-info btn-sm "><i class="fa fa-pencil "></i> 修改 </a>
+                                        <a href="javascript:;" class="btn btn-info btn-sm " uid="$!{data.uid}"><i class="fa fa-pencil "></i> 修改 </a>
                                     #end
                                     #if(${delete} == 0)
                                         <a href="javascript:;" class="btn btn-danger btn-sm "><i class="fa fa-trash "></i> 删除 </a>
@@ -263,15 +267,16 @@
         findDeptBody($("#area_id").val(), $("#parent_id").val());
         hideMenu();
     });
-        // 添加
-        $(".btn-primary").click(function(){
-            window.location.href = "${rc.contextPath}/person/toAdd?areaId=" + $("#area_id").val() + "&deptId=" + $("#parent_id").val();
-        });
+##        // 添加
+##        $(".btn-primary").click(function(){
+##            window.location.href = "${rc.contextPath}/person/toAdd?areaId=" + $("#area_id").val() + "&deptId=" + $("#parent_id").val();
+##        });
 
         // 修改
         $("#person_list_tbody").on("click",".btn-info",function(){
             var id = $(this).parent().children(":first").val();
-            window.location.href = "${rc.contextPath}/person/toUpdate?id=" + id;
+            var uid = $(this).attr("uid");
+            window.location.href = "${rc.contextPath}/person/toUpdate?id=" + id + "&uid=" + uid;
         })
 
         // 查看

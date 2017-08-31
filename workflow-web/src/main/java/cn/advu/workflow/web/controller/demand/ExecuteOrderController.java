@@ -1,17 +1,18 @@
 package cn.advu.workflow.web.controller.demand;
 
+import cn.advu.workflow.common.utils.StringUtil;
 import cn.advu.workflow.domain.enums.RoleEnum;
 import cn.advu.workflow.domain.fcf_vu.*;
+import cn.advu.workflow.web.common.RequestUtil;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.loginContext.UserThreadLocalContext;
+import cn.advu.workflow.web.common.tool.DisplayTool;
 import cn.advu.workflow.web.constants.MessageConstants;
 import cn.advu.workflow.web.manager.*;
-import cn.advu.workflow.web.service.base.AreaService;
-import cn.advu.workflow.web.service.base.ExecuteOrderService;
-import cn.advu.workflow.web.service.base.MonitorRequestService;
-import cn.advu.workflow.web.service.base.SaleFrameService;
+import cn.advu.workflow.web.service.base.*;
 import cn.advu.workflow.web.util.AssertUtil;
 import cn.advu.workflow.web.util.BigDecimalUtil;
+import cn.advu.workflow.web.util.DateUtil;
 import cn.advu.workflow.web.util.StringListUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -29,8 +30,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -38,6 +37,7 @@ import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -63,6 +63,15 @@ public class ExecuteOrderController {
     MonitorRequestService monitorRequestService;
 
     @Autowired
+    SaleFrameService saleFrameService;
+
+    @Autowired
+    FileUploadService fileUploadService;
+
+    @Autowired
+    RoleManager roleManager;
+
+    @Autowired
     TreeMananger treeMananger;
 
     @Autowired
@@ -86,10 +95,7 @@ public class ExecuteOrderController {
     AdtypeMananger adtypeMananger;
 
     @Autowired
-    SaleFrameService saleFrameService;
-
-    @Autowired
-    RoleManager roleManager;
+    ExecuteOrderManager executeOrderManager;
 
     @Value("${upload.img.base}")
     private String uploadImgBase;
@@ -163,46 +169,79 @@ public class ExecuteOrderController {
     @RequestMapping("/contractList")
     public String toContractList(Model resultModel){
 
+        String conditionStartDate = RequestUtil.getStringParamDef(httpServletRequest, "startDate", DateUtil.getYearFirstDay());
+        String conditionEndDate = RequestUtil.getStringParamDef(httpServletRequest, "endDate", DateUtil.getToday());
+
         BaseExecuteOrder param = new BaseExecuteOrder();
         param.setStatusArray("(1, 2)");
         param.setPayPercent(new BigDecimal(100));
+        param.setConditionStartDate(conditionStartDate);
+        param.setConditionEndDate(conditionEndDate);
 
-        ResultJson<List<BaseExecuteOrder>> result = executeOrderService.findAll(param);
+        ResultJson<List<BaseExecuteOrder>> result = executeOrderService.queryAllForContract(param);
         List<BaseExecuteOrder> dataList = result.getData();
         for (BaseExecuteOrder data:dataList) {
+            if (data.getStatus() == 1) { // 未开始--需求单
+                if ("-1".equals(data.getContractStatus())) {
+                    data.setStrTodoStep("待签署合同");
+                    data.setIntTodoStep("1");
 
-            if ("-1".equals(data.getContractStatus())) {
-                data.setStrTodoStatus("待签署合同");
-                data.setIntTodoStatus("1");
+                } else if ("-1".equals(data.getContractImgStatus())) {
+                    data.setStrTodoStep("待上传扫描版合同");
+                    data.setIntTodoStep("6");
+                    if (data.getContractImgCount() > 0) {
+                        data.setIntTodoStep("7");
+                    }
+                } else if ("-1".equals(data.getOriginalContractStatus())) {
+                    data.setStrTodoStep("待获取原章合同");
+                    data.setIntTodoStep("11");
+                } else {
+                    data.setStrTodoStep("待发起排期执行单");
+                    data.setIntTodoStep("14");
 
-            } else if ("-1".equals(data.getContractImgStatus())) {
-                data.setStrTodoStatus("待上传扫描版合同");
-                data.setIntTodoStatus("6");
+                }
 
-            } else if ("-1".equals(data.getOriginalContractStatus())) {
-                data.setStrTodoStatus("待获取原章合同");
-                data.setIntTodoStatus("11");
+            } else if (data.getStatus() == 2) { // 执行中--排期执行单
+                if ("-1".equals(data.getExecuteOrderImgStatus())) {
+                    data.setStrTodoStep("待上传扫描版排期单");
+                    data.setIntTodoStep("16");
+                    if (data.getExecuteOrderImgCount() > 0 ) {
+                        data.setIntTodoStep("17");
+                    }
 
-            } else if ("-1".equals(data.getExecuteOrderImgStatus())) {
-                data.setStrTodoStatus("待上传扫描版排期单");
-                data.setIntTodoStatus("16");
+                } else if ("-1".equals(data.getOriginalExecuteOrderStatus())) {
+                    data.setStrTodoStep("待获取原章排期单");
+                    data.setIntTodoStep("21");
 
-            } else if ("-1".equals(data.getOriginalContractStatus())) {
-                data.setStrTodoStatus("待获取原章排期单");
-                data.setIntTodoStatus("21");
+                } else if ("-1".equals(data.getConfirmCostStatus())) {
+                    data.setStrTodoStep("待确认成本确认单");
+                    data.setIntTodoStep("25");
 
 
-            } else if ("-1".equals(data.getReminderPaymentStatus())) {
-                    data.setStrTodoStatus("待催款");
-                    data.setIntTodoStatus("26");
+                } else if ("-1".equals(data.getReminderPaymentStatus())) {
+                    data.setStrTodoStep("待催款");
+                    data.setIntTodoStep("26");
 
+                } else {
+                    data.setStrTodoStep("待回款");
+                    data.setIntTodoStep("31");
+
+                }
+            } else if (data.getStatus() == 3) {
+                data.setStrTodoStep("已结束");
+                data.setIntTodoStep("99");
             } else {
-                data.setStrTodoStatus("未知状态");
-                LOGGER.warn("合同与单据列表中，出现未知状态");
-            }
+                data.setStrTodoStep("未知状态");
+                data.setIntTodoStep("0");
+                LOGGER.warn("合同与单据列表中，出现未知状态：{}", data.getStatus());
 
+            }
         }
         resultModel.addAttribute("dataList", result.getData());
+        DisplayTool.buttonDisplay(resultModel, "payPercent", "30401"); // 回款比例
+        DisplayTool.buttonDisplay(resultModel, "viewDetail", "30402"); // 查看
+        DisplayTool.buttonDisplay(resultModel, "viewContractImg", "30403"); // 已上传合同
+        DisplayTool.buttonDisplay(resultModel, "viewExecuteImg", "30404"); // 已上传排期单
         return "demand/saleOrder/contractList";
     }
 
@@ -234,7 +273,7 @@ public class ExecuteOrderController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value ="/updateStatus")
+    @RequestMapping(value ="/updateStatus",produces = {"application/json;charset=UTF-8"})
     public ResultJson<Integer> updateStatus(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
         return executeOrderService.updateSelective(baseExecuteOrder);
     }
@@ -628,35 +667,57 @@ public class ExecuteOrderController {
         return "demand/saleOrder/refer";
     }
 
+    /**
+     *
+     * @param bizId base_execute_order表ID
+     * @param picType 1合同；2执行单
+     * @param uploadType 首次、续传、重传
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping(value="fileUpload",produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String fileUpload(Integer bizId, String uploadType, Model model
+    public String fileUpload(Integer bizId, String picType, String uploadType, Model model
 //                             @RequestParam("file") CommonsMultipartFile[] imgFile,
+                             ,HttpServletRequest request
     ){
-        MultipartResolver resolver = new CommonsMultipartResolver(httpServletRequest.getSession().getServletContext());
-        MultipartHttpServletRequest multipartRequest = resolver.resolveMultipart(httpServletRequest);
+//        MultipartResolver resolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+//        MultipartHttpServletRequest multipartRequest = resolver.resolveMultipart(request);
 
-//        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) httpServletRequest;
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         List<MultipartFile> imgFileList = multipartRequest.getFiles("file");
+        LOGGER.info("共上传【{}】个文件", imgFileList.size());
 
         BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(bizId).getData();
         String orderNum = baseExecuteOrder.getOrderNum();
 
         String path = uploadImgBase;
-        if ("1".equals(uploadType)) { // 上传扫描版合同
-            path = path + uploadImgContract;
-        } else if ("2".equals(uploadType)) { // 上传扫描版排期单
-            path = path + uploadImgExeOrder;
+        if ("1".equals(picType)) { // 上传扫描版合同
+            path = path + (new DateTime().getYear()) + uploadImgContract;
+        } else if ("2".equals(picType)) { // 上传扫描版排期单
+            path = path + (new DateTime().getYear()) + uploadImgExeOrder;
         }
-        path = path + File.separator + (new DateTime().getYear());
+        LOGGER.info("文件上传路径：{}", path);
         if(!new File(path).exists())   {
             new File(path).mkdirs();
         }
+
+        if ("reupload".equals(uploadType)) { // 续传
+            fileUploadService.removeByName(baseExecuteOrder.getOrderNum(), picType);
+        }
+
+        DateTime dateTime=new DateTime();
         for (MultipartFile file:imgFileList) {
-            String fileName = file.getName();
-            fileName = orderNum + fileName;
+            String fileName = file.getOriginalFilename();
+            if (fileName.length() > 30) { // 文件名过长时，改名
+                fileName = System.currentTimeMillis() + ".jpg";
+            }
+            fileName = orderNum + "_" + dateTime.toString(DateUtil.DATE_FORMAT_NO_SYMBOL_24H) + "_" + StringUtil.getRandom6Str() + "_" + fileName;
             String filePath = path + fileName;
             LOGGER.debug("file path:{}", filePath);
+            LOGGER.debug("file path:{}", filePath.substring(filePath.indexOf("/workflow-admin"), filePath.length()));
+
 			try {
 	            FileOutputStream fout = new FileOutputStream(filePath);
 	            IOUtils.write(file.getBytes(), fout);
@@ -664,9 +725,84 @@ public class ExecuteOrderController {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
+            BaseFileupload obj = new BaseFileupload();
+            obj.setBizName(baseExecuteOrder.getOrderNum());
+            obj.setBizType(picType);
+            obj.setFileName(filePath.substring(filePath.indexOf("/workflow-admin"), filePath.length()));
+            obj.setCreatorId(UserThreadLocalContext.getCurrentUser().getUserId());
+            fileUploadService.add(obj);
         }
 
-        return "aaaaaa";
+        return "";
+    }
+
+
+
+
+    /**
+     * 预览已上传图片
+     *
+     * @param resultModel
+     * @return
+     */
+    @RequestMapping("/preViewImg")
+    public String preViewImg(Model resultModel){
+
+        String bizId = RequestUtil.getStringParamDef(httpServletRequest, "bizId", "");
+        String bizName = RequestUtil.getStringParamDef(httpServletRequest, "bizName", "");
+        String bizType = RequestUtil.getStringParamDef(httpServletRequest, "bizType", "");
+        LOGGER.info("bizId:{}, bizName:{}, bizType:{}", new Object[]{bizId, bizName, bizType});
+
+
+        BaseExecuteOrder baseExecuteOrder = executeOrderService.findById(Integer.valueOf(bizId)).getData();
+        String displayFlag = "false";
+        if ("1".equals(bizType)) {
+            if ("-1".equals(baseExecuteOrder.getContractImgStatus())) {
+                displayFlag = "true";
+            }
+        } else {
+            if ("-1".equals(baseExecuteOrder.getExecuteOrderImgStatus())) {
+                displayFlag = "true";
+            }
+        }
+
+        ResultJson<List<BaseFileupload>> result = fileUploadService.findByCustom(bizName, bizType);
+
+        String host = httpServletRequest.getScheme()+"://"+httpServletRequest.getServerName();
+
+        resultModel.addAttribute("dataList", result.getData());
+        resultModel.addAttribute("host", host);
+        resultModel.addAttribute("bizId", bizId);
+        resultModel.addAttribute("bizType", bizType);
+        resultModel.addAttribute("displayFlag", displayFlag);
+        return "demand/saleOrder/img_preview";
+    }
+
+
+
+
+    @RequestMapping("/reminderPaymentList")
+    public String reminderPaymentList(Model resultModel){
+        String days = RequestUtil.getStringParamDef(httpServletRequest, "days", "7"); // N日后到达逾期
+        String bizId = RequestUtil.getStringParamDef(httpServletRequest, "bizId", ""); // 需求单、排期单ID
+
+
+        List<Map> dataList = executeOrderManager.reminderPaymentList(days, bizId);
+
+        resultModel.addAttribute("dataList", dataList);
+        resultModel.addAttribute("days", days);
+        return "demand/saleOrder/reminder_payment_list";
+    }
+
+    /**
+     * 提醒收款
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value ="/doRemindPayment")
+    public ResultJson<Integer> doRemindPayment(BaseExecuteOrder baseExecuteOrder, HttpServletRequest request){
+        return executeOrderService.doRemindPayment(baseExecuteOrder);
     }
 
 

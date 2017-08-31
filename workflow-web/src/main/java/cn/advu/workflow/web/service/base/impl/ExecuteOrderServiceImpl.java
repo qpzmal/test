@@ -17,12 +17,15 @@ import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.ExecuteOrderService;
+import cn.advu.workflow.web.service.system.NoticeService;
 import cn.advu.workflow.web.util.AssertUtil;
 import cn.advu.workflow.web.util.BigDecimalUtil;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +63,13 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
     @Autowired
     private IdentityService identityService;
 
+    @Autowired
+    protected TaskService taskService;
+
+    @Autowired
+    NoticeService noticeService;
+
+
 
 
 
@@ -69,6 +79,14 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         result.setData(baseExecuteOrderRepo.findAll(param));
         return result;
     }
+
+    @Override
+    public ResultJson<List<BaseExecuteOrder>> queryAllForContract(BaseExecuteOrder param) {
+        ResultJson<List<BaseExecuteOrder>> result = new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+        result.setData(baseExecuteOrderRepo.queryAllForContract(param));
+        return result;
+    }
+
 
     @Override
     public ResultJson<List<BaseExecuteOrder>> findAllUnFinished() {
@@ -245,6 +263,23 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
 
     @Override
     public ResultJson<Integer> updateSelective(BaseExecuteOrder baseExecuteOrder) {
+
+//        BigDecimal num = new BigDecimal(100);
+        if (baseExecuteOrder.getPayPercent() != null) {
+            BaseExecuteOrder oldBaseExecuteOrder = baseExecuteOrderRepo.findOne(baseExecuteOrder.getId());
+            LOGGER.debug("oldBaseExecuteOrder.getPayPercent():"+oldBaseExecuteOrder.getPayPercent());
+            LOGGER.debug("baseExecuteOrder.getPayPercent():"+BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPayPercent()));
+            LOGGER.debug("old and new compare:"+oldBaseExecuteOrder.getPayPercent().compareTo(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPayPercent())));
+            if(oldBaseExecuteOrder.getPayPercent().compareTo(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPayPercent())) > 0) {
+                return new ResultJson<>(WebConstants.OPERATION_FAILURE, "新回款比例小于旧回款比例!旧回款比例为：" + oldBaseExecuteOrder.getPayPercent().multiply(BigDecimalUtil.HUNDRED));
+            }
+
+            if (baseExecuteOrder.getPayPercent().compareTo(BigDecimalUtil.HUNDRED) >= 0) {
+                baseExecuteOrder.setStatus((byte)3);
+            }
+            baseExecuteOrder.setPayPercent(BigDecimalUtil.percentConvertToDecimal(baseExecuteOrder.getPayPercent()));
+
+        }
         Integer insertCount = baseExecuteOrderRepo.updateSelective(baseExecuteOrder);
         if(insertCount != 1){
             return new ResultJson<>(WebConstants.OPERATION_FAILURE, "更新销售单失败!");
@@ -283,6 +318,35 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
         return result;
     }
 
+    @Override
+    public ResultJson<Integer> doRemindPayment(BaseExecuteOrder baseExecuteOrder) {
+        // DB中状态
+        BaseExecuteOrder dbBaseExecuteOrder = baseExecuteOrderRepo.findOne(baseExecuteOrder.getId());
+
+
+        String processKey = WebConstants.WORKFLOW_SALE_ORDER;
+
+//        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, baseExecuteOrder.getId() + "", new HashMap<String, Object>());
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(dbBaseExecuteOrder.getProcessInstanceId()).active().singleResult();
+        LOGGER.info(" processInstanceId:{}", processInstance.getId());
+
+
+        try {
+            // 获取当前任务信息
+            LOGGER.info("processInstance_id:{}", processInstance.getId());
+            Task currentTask = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().singleResult();
+            LOGGER.info("task_id:{}", currentTask.getId());
+
+            noticeService.doNotify(currentTask.getId(), WebConstants.Notify.TEMPLATE_REMIND);
+        } catch (Exception e) {
+            LOGGER.error("启动[ " + processKey + " ]流程失败：", e);
+            return new ResultJson<>(WebConstants.OPERATION_FAILURE, "系统内部错误！");
+        }
+
+        return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
+    }
+
+
     private ResultJson<Integer> startWorkFlow(BaseExecuteOrder baseExecuteOrder) {
         LOGGER.info("startWorkFlow-flowType:{}", baseExecuteOrder.getFlowType());
         if (WebConstants.WorkFlow.START.equals(baseExecuteOrder.getFlowType())) {
@@ -299,7 +363,6 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
                 // 根据status，决定流程key
                 if (WebConstants.WorkFlow.STATUS_1 == dbBaseExecuteOrder.getStatus()) {
                     processKey = WebConstants.WORKFLOW_SALE_EXECUTE;
-
                 } else {
                     LOGGER.warn("UnExpected status:{}", dbBaseExecuteOrder.getStatus());
                 }
@@ -320,6 +383,15 @@ public class ExecuteOrderServiceImpl extends  AbstractOrderService implements Ex
                     LOGGER.warn("UnExpected status:{}", dbBaseExecuteOrder.getStatus());
                 }
                 baseExecuteOrderRepo.updateSelective(baseExecuteOrder);
+
+
+                // 获取当前任务信息
+                LOGGER.info("processInstance_id:{}", processInstance.getId());
+                Task currentTask = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().singleResult();
+                LOGGER.info("task_id:{}", currentTask.getId());
+
+                noticeService.doNotify(currentTask.getId(), WebConstants.Notify.TEMPLATE_DEMAND);
+
 
             } catch (ActivitiException e) {
                 if (e.getMessage().indexOf("no processes deployed with key") != -1) {

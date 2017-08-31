@@ -1,0 +1,264 @@
+## 结案报告
+
+#define($cssblock)
+##table
+<link href="#springUrl("")/static/css/plugins/bootstrap-table/bootstrap-table.min.css?$!application.getAttribute('/static/css/plugins/bootstrap-table/bootstrap-table.min.css')" rel="stylesheet">
+<link href="#springUrl("")/static/css/plugins/bootstrap-table/bootstrap-editable.css?$!application.getAttribute('/static/css/plugins/bootstrap-table/bootstrap-editable.css')" rel="stylesheet">
+#end
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>查询条件</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="commentForm">
+                        <div class="row">
+##                            <div class="form-group">
+##                                <label class="col-sm-3 control-label">起止日期</label>
+##                                <div class="col-sm-8">
+##                                    <input placeholder="开始日期" class="laydate-icon form-control layer-date startDate" id="startDate">
+##                                    <input placeholder="结束日期" class="laydate-icon form-control layer-date endDate" id="endDate">
+##                                </div>
+##                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">模糊查询</label>
+                                <div class="col-sm-8">
+                                    <input id="like_search" value="$!{likeSearch}" placeholder="项目名称／项目编号" name="like_search" maxlength="100" type="text" class="form-control" >
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button id="search" class="btn btn-success" type="button"><i class="fa fa-search"></i> 查询</button>
+                            </div>
+                            <div class="col-sm-3 col-sm-offset-1">
+                                <button id="clear" class="btn btn-success" type="submit"><i class="fa fa-remove"></i> 清空</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content" style="white-space: nowrap; overflow: hidden; overflow-x: scroll; -webkit-backface-visibility: hidden; -webkit-overflow-scrolling: touch;">
+                    <table id="final_report_table" data-height="500" data-mobile-responsive="true" style="word-break:break-all; word-wrap:break-all;">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+#define($jsblock)
+##table
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-table.min.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-table.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-editable.js')"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-table-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-table-editable.js')"></script>
+<script src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" type="text/javascript" language="javascript"></script>
+
+<script type="text/javascript" src="#springUrl("")/static/js/content.min.js?v=1.0.0?$!application.getAttribute('/static/js/content.min.js?v=1.0.0')"></script>
+<script>
+
+    $(function() {
+//        // 初始化日期控件
+//        initLaydate();
+        // 初始化table
+        initBootstrapTable();
+    })
+
+
+    function initFinalReportTable(tableColumns) {
+        $("#final_report_table").bootstrapTable({
+            sidePagination: "server",
+            url: "list",
+            dataType: "json",
+            pagination: false,
+            pageNumber: 1,
+            pageSize: 30,
+            silent: true,
+            queryParamsType:'',
+            striped: true,      //是否显示行间隔色
+            queryParams: function queryParams(params) {
+
+//                var startDate = $("#startDate").val();
+//                var endDate = $("#endDate").val();
+//                var operator = $("#operator").val();
+//                console.log(params);
+//                console.log(startDate);
+//                console.log(endDate);
+//                console.log(operator);
+                var likeSearch = $("#like_search").val();
+                console.log(likeSearch);
+                var param = {
+//                    pageNumber: params.pageNumber,
+//                    pageSize: params.pageSize,
+//                    startDate:startDate,
+//                    endDate:endDate,
+                    likeSearch:likeSearch
+                };
+                return param;
+            },
+            rowStyle: function (row, index) {
+                //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+                var strclass = "";
+                if (row.adTypeName == "合计") {
+                    strclass = 'info';//还有一个active
+                }
+                else {
+                    return {};
+                }
+                return { classes: strclass }
+            },
+            columns: tableColumns
+//                    [
+//                {
+//                    field: 'orderNum',
+//                    title: '编号',
+//                    align: 'center'
+//                },
+//                {
+//                    field: 'customSign',
+//                    title: '4A公司/直客',
+//                    align: 'center'
+//                }, {
+//                    field: 'name',
+//                    title: '项目',
+//                    align: 'center'
+//                }, {
+//                    field: 'personLeader',
+//                    title: '项目负责人',
+//                    align: 'center'
+//                }, {
+//                    field: 'deliveryAreaNames',
+//                    title: '地区',
+//                    align: 'center'
+//                }, {
+//                    field: 'startDate',
+//                    title: '开始日期',
+//                    align: 'center'
+//                }, {
+//                    field: 'endDate',
+//                    title: '截止日期',
+//                    align: 'center'
+//                }, {
+//                    field: 'operator',
+//                    title: '形式',
+//                    align: 'center'
+//                }, {
+//                    field: 'taxAmount',
+//                    title: '订单金额',
+//                    align: 'center'
+//                }, {
+//                    field: 'rebate',
+//                    title: '返点',
+//                    align: 'center'
+//                }, {
+//                    field: 'taxIncome',
+//                    title: '含税收入',
+//                    align: 'center'
+//                }, {
+//                    field: 'netIncome',
+//                    title: '净收入',
+//                    align: 'center'
+//                }, {
+//                    field: 'totalCpmNum',
+//                    title: '总CPM量',
+//                    align: 'center'
+//                }, {
+//                    field: 'totalCost',
+//                    title: '总成本',
+//                    align: 'center'
+//                }, {
+//                    field: 'grossProfit',
+//                    title: '毛利',
+//                    align: 'center'
+//                }, {
+//                    field: 'grossProfitRate',
+//                    title: '毛利率',
+//                    align: 'center'
+//                }
+//            ]
+        });
+    }
+
+    function initBootstrapTable(){
+
+        var tableColumns = [];
+
+        $.ajax({
+            url: "/report/finalReport/title",
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                var mdata = data.data;
+                for (var i = 0; i < mdata.length; i++) {
+                    var temp = {field: mdata[i].field, title: mdata[i].title};//手动拼接columns
+                    tableColumns.push(temp);
+                }
+                initFinalReportTable(tableColumns);
+            }
+        }
+        );
+
+
+
+
+    }
+
+
+##    ## 开始日期、结束日期
+##    function initLaydate(){
+##        var start = {
+##            elem: "#startDate",
+##            format: "YYYY-MM-DD hh:mm:ss",
+##            max: laydate.now(),
+##            istoday: true,
+##            choose: function(datas) {
+##                end.min = datas;
+##                end.start = datas }
+##        };
+##        var end = {
+##            elem: "#endDate",
+##            format: "YYYY-MM-DD hh:mm:ss",
+##            max: laydate.now(),
+##            istoday: false,
+##            choose: function(datas) {
+##                start.max = datas }
+##        };
+##        laydate(start);
+##        laydate(end);
+##    }
+
+
+
+    // 清空
+    $("#clear").click(function(){
+//        $("#startDate").val("");
+//        $("#endDate").val("");
+        $("#like_search").val("");
+    })
+
+    // 查询
+    $("#search").click(function(){
+        $("#final_report_table").bootstrapTable('destroy');
+        initBootstrapTable();
+    })
+
+</script>
+#end

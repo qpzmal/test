@@ -1,7 +1,6 @@
 package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.domain.enums.LogTypeEnum;
-import cn.advu.workflow.domain.fcf_vu.BaseBuyOrder;
 import cn.advu.workflow.domain.fcf_vu.BaseBuyOrderFrame;
 import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import cn.advu.workflow.repo.fcf_vu.BaseBuyOrderFrameRepo;
@@ -12,10 +11,13 @@ import cn.advu.workflow.web.exception.ServiceException;
 import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.service.base.BuyFrameService;
+import cn.advu.workflow.web.service.system.NoticeService;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +36,22 @@ public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFram
     private static final Logger LOGGER = LoggerFactory.getLogger(BuyFrameServiceImpl.class);
 
     @Autowired
-    private BaseBuyOrderFrameRepo baseBuyOrderFrameRepo;
-    @Autowired
-    CpmManager cpmManager;
-
-    @Autowired
     private RuntimeService runtimeService;
 
     @Autowired
     private IdentityService identityService;
+
+    @Autowired
+    protected TaskService taskService;
+
+    @Autowired
+    NoticeService noticeService;
+
+    @Autowired
+    private BaseBuyOrderFrameRepo baseBuyOrderFrameRepo;
+
+    @Autowired
+    CpmManager cpmManager;
 
     @Autowired
     BizLogManager bizLogManager;
@@ -169,6 +178,13 @@ public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFram
                 baseBuyOrderFrame.setStatus(WebConstants.WorkFlow.STATUS_0);
                 baseBuyOrderFrameRepo.updateSelective(baseBuyOrderFrame);
 
+                // 获取当前任务信息
+                LOGGER.info("processInstance_id:{}", processInstance.getId());
+                Task currentTask = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().singleResult();
+                LOGGER.info("task_id:{}", currentTask.getId());
+
+                noticeService.doNotify(currentTask.getId(), WebConstants.Notify.TEMPLATE_DEMAND);
+
             } catch (ActivitiException e) {
                 if (e.getMessage().indexOf("no processes deployed with key") != -1) {
                     LOGGER.warn("没有部署[ " + processKey + " ]流程!", e);
@@ -181,6 +197,7 @@ public class BuyFrameServiceImpl extends AbstractOrderService implements BuyFram
                 LOGGER.error("启动[ " + processKey + " ]流程失败：", e);
                 return new ResultJson<>(WebConstants.OPERATION_FAILURE, "系统内部错误！");
             }
+
         }
         return new ResultJson<>(WebConstants.OPERATION_SUCCESS);
     }

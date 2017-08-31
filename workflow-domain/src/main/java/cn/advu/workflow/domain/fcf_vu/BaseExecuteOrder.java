@@ -80,6 +80,7 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
     private String originalContractStatus; // 原章合同状态（-1无；0有；）
     private String executeOrderImgStatus; // 扫描版排期单状态（-1未上传；0已上传；）
     private String originalExecuteOrderStatus; // 原章排期状态（-1无；0有；）
+    private String confirmCostStatus; // 成本确认状态（-1未确认；0已确认；）
     private String reminderPaymentStatus; // 催款状态（-1未完成；0已完成）
 
     private String statusArray; // 用于IN查询
@@ -88,8 +89,10 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
 
     private String flowType; // 页面自定义属性：save保存草稿，start开始流程
 
-    private String intTodoStatus; // 待执行流程（下一步流程）
-    private String strTodoStatus; // 待执行流程描述（下一步流程）
+    private String intTodoStep; // 待执行流程（下一步流程）
+    private String strTodoStep; // 待执行流程描述（下一步流程）
+    private Integer contractImgCount; // 已上传的扫描版合同图片数
+    private Integer executeOrderImgCount; // 已上传的扫描版排期单图片数
 
     public String getCustomSignName() {
         return customSignName;
@@ -403,6 +406,14 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
         this.originalExecuteOrderStatus = originalExecuteOrderStatus;
     }
 
+    public String getConfirmCostStatus() {
+        return confirmCostStatus;
+    }
+
+    public void setConfirmCostStatus(String confirmCostStatus) {
+        this.confirmCostStatus = confirmCostStatus;
+    }
+
     public String getReminderPaymentStatus() {
         return reminderPaymentStatus;
     }
@@ -435,19 +446,35 @@ public class BaseExecuteOrder extends AbstractOrderEntity {
         this.flowType = flowType;
     }
 
-    public String getIntTodoStatus() {
-        return intTodoStatus;
+    public String getIntTodoStep() {
+        return intTodoStep;
     }
 
-    public void setIntTodoStatus(String intTodoStatus) {
-        this.intTodoStatus = intTodoStatus;
+    public void setIntTodoStep(String intTodoStep) {
+        this.intTodoStep = intTodoStep;
     }
 
-    public String getStrTodoStatus() {
-        return strTodoStatus;
+    public String getStrTodoStep() {
+        return strTodoStep;
     }
 
-    public void setStrTodoStatus(String strTodoStatus) {
-        this.strTodoStatus = strTodoStatus;
+    public void setStrTodoStep(String strTodoStep) {
+        this.strTodoStep = strTodoStep;
+    }
+
+    public Integer getContractImgCount() {
+        return contractImgCount;
+    }
+
+    public void setContractImgCount(Integer contractImgCount) {
+        this.contractImgCount = contractImgCount;
+    }
+
+    public Integer getExecuteOrderImgCount() {
+        return executeOrderImgCount;
+    }
+
+    public void setExecuteOrderImgCount(Integer executeOrderImgCount) {
+        this.executeOrderImgCount = executeOrderImgCount;
     }
 }

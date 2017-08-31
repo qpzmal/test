@@ -162,11 +162,12 @@ public class ReportSaleController {
 //        option.title("销售汇总").tooltip(Trigger.axis).legend("金额（元）");
         option.title("销售汇总").legend("金额（元）").tooltip().trigger();
         //横轴为值轴
-        option.xAxis(new ValueAxis().boundaryGap(0d, 0.01));
+        option.yAxis(new ValueAxis().boundaryGap(0d, 0.01));
         //创建类目轴
         CategoryAxis category = new CategoryAxis();
         //柱状数据
         Bar bar = new Bar("金额（元）");
+        bar.itemStyle().normal().color("rgb(34, 137, 196)");
         //饼图数据
         Pie pie = new Pie("金额（元）");
         //循环数据
@@ -198,13 +199,13 @@ public class ReportSaleController {
             }
         }
         //设置类目轴
-        option.yAxis(category);
+        option.xAxis(category);
         //饼图的圆心和半径
         pie.center("80%","50%").radius(100);
         // 设置柱状图参数
         ItemStyle itemStyle = new ItemStyle();
         NormalExtend normal = new NormalExtend();
-        normal.setPosition("right");
+        normal.setPosition("top");
         normal.setShow(true);
         itemStyle.setNormal(normal);
         bar.setLabel(itemStyle);

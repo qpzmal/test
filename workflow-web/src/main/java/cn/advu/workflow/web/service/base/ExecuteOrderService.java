@@ -19,6 +19,13 @@ public interface ExecuteOrderService {
      */
     ResultJson<List<BaseExecuteOrder>> findAll(BaseExecuteOrder param);
 
+    /**
+     * 返回需求单（合同、单据用）
+     *
+     * @return
+     */
+    ResultJson<List<BaseExecuteOrder>> queryAllForContract(BaseExecuteOrder param);
+
 
     /**
      * 返回全部需求单
@@ -64,4 +71,13 @@ public interface ExecuteOrderService {
      * @return
      */
     ResultJson<BaseExecuteOrder> findById(Integer id);
+
+    /**
+     * 发送催款要求
+     *
+     * @param baseExecuteOrder
+     * @return
+     */
+    ResultJson<Integer> doRemindPayment(BaseExecuteOrder baseExecuteOrder);
+
 }

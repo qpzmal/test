@@ -164,7 +164,7 @@
                         <label class="col-sm-3 control-label">投放地区编号</label>
                         <div class="col-sm-8">
                             <select id="delivery_area_ids" data-placeholder="选择投放地区" class="chosen-select" multiple style="width:350px;" tabindex="4"
-                                #if($!{hasMediaAuth} == false)
+                                #if($!{hasMediaAuth} == false && $!{hasSaleAuth} == false)
                                     disabled
                                 #end
                             >
@@ -179,14 +179,14 @@
                         <label class="col-sm-3 control-label">投放开始日期</label>
                         <div class="col-sm-4">
                             <input id="start_date" placeholder="开始日期" class="laydate-icon form-control layer-date"
-                                #if($!{hasMediaAuth} == false)
+                                #if($!{hasMediaAuth} == false && $!{hasSaleAuth} == false)
                                    disabled
                                 #end
                             >
                         </div>
                         <div class="col-sm-4">
                             <input id="end_date" placeholder="结束日期" class="laydate-icon form-control layer-date"
-                                #if($!{hasMediaAuth} == false)
+                                #if($!{hasMediaAuth} == false && $!{hasSaleAuth} == false)
                                    disabled
                                 #end
                             >
@@ -285,7 +285,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">对私返点<label class="text-danger">(%)</label></label>
+                        <label class="col-sm-3 control-label">销售激励比例<label class="text-danger">(%)</label></label>
                         <div class="col-sm-8">
                             <input id="private_rebate" name="private_rebate" type="text" class="form-control isPercent" placeholder="填写非负数、小数位不超过2位、不超过100"
                                 #if($!{hasSaleAuth} == false)
@@ -295,7 +295,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">含税金额</label>
+                        <label class="col-sm-3 control-label">销售金额</label>
                         <div class="col-sm-8">
                             <input id="tax_amount" name="tax_amount" type="text" class="form-control isMoney"
                                 #if($!{hasSaleAuth} == false)
@@ -304,16 +304,16 @@
                             >
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">不含税金额</label>
-                        <div class="col-sm-8">
-                            <input id="tax_free_amount" name="tax_free_amount" type="text" class="form-control isMoney"
-                                #if($!{hasSaleAuth} == false)
-                                   disabled
-                                #end
-                            >
-                        </div>
-                    </div>
+##                    <div class="form-group">
+##                        <label class="col-sm-3 control-label">不含税金额</label>
+##                        <div class="col-sm-8">
+##                            <input id="tax_free_amount" name="tax_free_amount" type="text" class="form-control isMoney"
+##                                #if($!{hasSaleAuth} == false)
+##                                   disabled
+##                                #end
+##                            >
+##                        </div>
+##                    </div>
                 </div>
             </div>
         </div>

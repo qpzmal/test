@@ -21,5 +21,7 @@ public interface BasePersonMapper extends BaseDAO<BasePerson> {
 
     BasePerson queryByIdAndName(@Param("id")Integer id, @Param("name")String name);
 
+    BasePerson queryByUid(@Param("uid")Integer uid);
+
     List<BasePerson> queryByParentId(@Param("parentId")Integer parentId);
 }

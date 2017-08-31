@@ -130,12 +130,6 @@
                 <artifactId>spring-jdbc</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            <!-- aop -->
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-aop</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjrt</artifactId>
@@ -547,11 +541,6 @@
                 <groupId>batik</groupId>
                 <artifactId>batik-dom</artifactId>
                 <version>1.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.activiti</groupId>
-                <artifactId>activiti-rest</artifactId>
-                <version>${org.activiti.version}</version>
             </dependency>
 
             <!-- echarts相关jar -->

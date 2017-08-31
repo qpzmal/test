@@ -1,6 +1,96 @@
 开发文档
 =
 
+## 测试环境配置路径
+1. nginx    /usr/local/webserver/nginx/conf/nginx.conf
+    
+
+
+##TODO列表（必做）
+    1.预览图片，看能否再大点显示
+    1.驳回时的流程ID
+	6.排期单审核时，有必填校验
+	8.销售人员有很多个，他们登陆上来，每个销售只能看到自己的单子
+	9.销售主管只能看到自己公司的销售单子；
+	10.媒介也只能看到自己公司的单子
+	1.并行网关的红框
+	4.设置LOGO入口；
+	11.然后你再改改首页，加个logo
+	2.剩下的几个报表；
+	12.短信切换；
+	3.短信和邮件的功能放开；
+    1.需求单、框架合同  中的投放地区编号、投放日期---销售可写
+	7.sys_user和base_person表同步，屏蔽person的入口；
+    1.成本计算，加权
+
+1. 报表
+    1. 销售报表分析系统--2）未来订单--b）无排期
+    1. 资源采购分析系统（全部）
+    1. 分公司财务分析系统--1）
+    1. 分公司财务分析系统--2）--?缺少季度预算
+    1. 客户分析系统--1）--？SQL是否正确
+    1. 客户分析系统--2）--？SQL是否正确
+1. 首页面板--进行中，还没取数据
+1. 流程表中加入wf_step字段--20170805：不加了
+1. 通知发送记录
+1. 日志--进行中
+1. 工作流历史记录的查看（在流程审批--已结束流程作为入口）
+1. 流程触发时的短信、邮件
+1. 其他工作流（盖章收款等）
+1. 定时任务，提前七天收账
+1. 图像上传、修改LOGO
+1. FF浏览器使用测试
+1. 销售，媒介，财务依次填写内容的流程
+1. 单据能够导成EXCEL
+1. ====================
+1. 列表页中的删除按钮，没有触发删除事件
+1. 更新页面如果数据库里该项没有值，则显示空。
+1. 启用停用，做成checkbox样式
+1. UserController里面的index_content和list都是干什么用的？不是我加的
+1. 角色页面，checkbox的展示错误
+
+
+
+##待确认
+1. ====================
+1. 采购框架、销售框架
+
+
+
+##BUG列表
+1. 用户按钮，只有用户自己才能修改和发起流程。
+1. 【客户需求单】--对公返点--填【10】报错：# Cause: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Out of range value for column 'public_rebate' at row 1
+1. ***** Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'person_id' cannot be null
+***** at cn.advu.workflow.repo.fcf_vu.impl.BaseBuyOrderRepoImpl.update(BaseBuyOrderRepoImpl.java:61)
+1. 更新改为动态更新
+1. 给用户赋予admin权限，无法看到日志菜单
+1. 去掉拦截器中最后登录时间的校验
+
+
+
+
+##TODO优化列表（选作）
+1. 用户修改密码
+1. 报表导出excel
+1. 翻页
+1. 查询页面重置功能
+1. 手机号DES加密
+1. sys_user表login_fail_count字段的使用（记录错误的登录次数）
+1. 连接池使用druid？现在使用的是boneCP
+1. 登录认证使用shiro?
+1. 饼图总数（标题下面的subtext）
+
+
+
+##交付前要做的
+1. 建立分支
+1. 整理代码：
+    1. 删除wv等字符
+    1. 删除无用注释
+    1. 删除无用代码
+    1. 删除zi-han代码
+1. aa
+
 
 ## 项目开发
 1. 模版主页：http://www.zi-han.net/theme/hplus/
@@ -27,8 +117,8 @@
     >     `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
     >     `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记 ，0正常，1删除',
     >     `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',
-    >     `creator_id` int(11) unsigned NOT NULL COMMENT '创建者ID',
-    >     `updater_id` int(11) unsigned NOT NULL COMMENT '更新者ID',
+    >     `creator_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建者ID',
+    >     `updater_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新者ID',
     >     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     >     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     >     `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',

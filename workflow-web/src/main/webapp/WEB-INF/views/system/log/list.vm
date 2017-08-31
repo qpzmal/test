@@ -79,6 +79,7 @@
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-editable.js')"></script>
 <script type="text/javascript" src="#springUrl("")/static/js/plugins/bootstrap-table/bootstrap-table-editable.js?$!application.getAttribute('/static/js/plugins/bootstrap-table/bootstrap-table-editable.js')"></script>
 <script src="#springUrl("")/static/js/plugins/layer/laydate/laydate.js?$!application.getAttribute('/static/js/plugins/layer/laydate/laydate.js')" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" src="#springUrl("")/static/js/content.min.js?v=1.0.0?$!application.getAttribute('/static/js/content.min.js?v=1.0.0')"></script>
 
 <script>
 

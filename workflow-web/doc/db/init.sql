@@ -1,3 +1,7 @@
+
+
+INSERT INTO `sys_info` (`name`, `logo`, `email_switch`, `sms_switch`, `creator_id`, `updater_id`) VALUES ('财务报表系统', '', 0, 1, 0, 0);
+
 INSERT INTO `sequence` (`name`, `current_value`, `increment`, `dates`) VALUES ('orderNum', 1, 1, 2017);
 
 INSERT INTO `base_financialindex` (`number`, `name`, `value`, `is_system`, `del_flag`, `item_status`, `creator_id`, `updater_id`,`remark`) VALUES ('C001', '加税率', '1.06', b'1', 0, 0, 0, 0, '备注');
@@ -33,6 +37,7 @@ VALUES
 	(301, '待处理流程', 0, 0, 0, 1),
 	(302, '运行中流程', 0, 0, 0, 1),
 	(303, '已结束流程', 0, 0, 0, 1),
+	(304, '合同与单据', 0, 0, 0, 1),
 	(401, '分公司财务分析', 0, 0, 0, 1),
 	(402, '采购报表', 0, 0, 0, 1),
 	(403, '客户分析报表', 0, 0, 0, 1),
@@ -103,6 +108,10 @@ VALUES
 	(30101, '办理待处理流程', 0, 0, 0, 301, NULL),
 	(30201, '查看运行中流程', 0, 0, 0, 302, NULL),
 	(30301, '查看已结束流程', 0, 0, 0, 303, NULL),
+	(30401, '回款比例', 0, 0, 0, 304, NULL),
+	(30402, '查看', 0, 0, 0, 304, NULL),
+	(30403, '已上传合同', 0, 0, 0, 304, NULL),
+	(30404, '已上传排期单', 0, 0, 0, 304, NULL),
 	(40101, '查看分公司财务分析', 0, 0, 0, 401, NULL),
 	(40201, '查看采购报表', 0, 0, 0, 402, NULL),
 	(40301, '查看客户分析报表', 0, 0, 0, 403, NULL),
@@ -185,6 +194,10 @@ INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`,
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30101, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30201, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30301, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30401, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30402, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30403, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30404, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 40101, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 40201, '', 0, NULL, NULL, 0);
 INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 40301, '', 0, NULL, NULL, 0);

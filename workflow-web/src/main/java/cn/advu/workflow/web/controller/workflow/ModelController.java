@@ -55,11 +55,11 @@ public class ModelController {
         // 2:查询流程定义的信息，对应表（act_re_procdef）
         List<ProcessDefinition> pdList = activitiFacade.findProcessDefinitionList();
 
-        List<org.activiti.engine.repository.Model> list = repositoryService.createModelQuery().list();
+        List<org.activiti.engine.repository.Model> modelList = repositoryService.createModelQuery().orderByCreateTime().desc().list();
 
         model.addAttribute("depList", depList);
         model.addAttribute("pdList", pdList);
-        model.addAttribute("modelList", list);
+        model.addAttribute("modelList", modelList);
         return "workflow/model_index";
     }
 

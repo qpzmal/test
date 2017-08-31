@@ -59,6 +59,11 @@ public class BasePersonRepoImpl extends AbstractRepo<BasePerson> implements Base
     }
 
     @Override
+    public BasePerson queryByUid(Integer uid) {
+        return basePersonMapper.queryByUid(uid);
+    }
+
+    @Override
     public List<BasePerson> findByParentId(Integer parentId) {
         return basePersonMapper.queryByParentId(parentId);
     }

@@ -14,6 +14,7 @@
     <result column="area_id" jdbcType="INTEGER" property="areaId" />
     <result column="sign_type" jdbcType="TINYINT" property="signType" />
     <result column="custom_sign_id" jdbcType="INTEGER" property="customSignId" />
+    <result column="custom_sign_name" jdbcType="VARCHAR" property="customSignName" />
     <result column="custom_adverser_id" jdbcType="INTEGER" property="customAdverserId" />
     <result column="industry_id" jdbcType="INTEGER" property="industryId" />
     <result column="person_sales_id" jdbcType="INTEGER" property="personSalesId" />
@@ -46,16 +47,66 @@
     <result column="original_contract_status" jdbcType="TINYINT" property="originalContractStatus" />
     <result column="execute_order_img_status" jdbcType="TINYINT" property="executeOrderImgStatus" />
     <result column="original_execute_order_status" jdbcType="TINYINT" property="originalExecuteOrderStatus" />
+    <result column="confirm_cost_status" jdbcType="TINYINT" property="confirmCostStatus" />
     <result column="reminder_payment_status" jdbcType="TINYINT" property="reminderPaymentStatus" />
+    <result column="contractImgCount" jdbcType="INTEGER" property="contractImgCount" />
+    <result column="executeOrderImgCount" jdbcType="INTEGER" property="executeOrderImgCount" />
   </resultMap>
+
+  <resultMap id="ReportResultMap" type="cn.advu.workflow.domain.fcf_vu.datareport.BaseExecuteOrderReportVO" extends="BaseResultMap">
+    <result column="ad_type_name" jdbcType="VARCHAR" property="adTypeName" />
+    <result column="person_leader_name" jdbcType="VARCHAR" property="personLeaderName" />
+    <result column="total_cpm_count" jdbcType="DECIMAL" property="totalCpmCount" />
+    <result column="total_cpm_cost" jdbcType="DECIMAL" property="totalCpmCost" />
+  </resultMap>
+
   <sql id="Base_Column_List">
-    id, process_instance_id, name, order_num, sec_order_num, type, order_date, delivery_area_ids, 
-    delivery_area_names, area_id, custom_sign_id, custom_adverser_id, industry_id, person_sales_id, 
-    amount, public_rebate, private_rebate, tax_amount, tax_free_amount, monitor_ids, 
-    monitor_names, start_date, end_date, person_leader_id, our_monitor_name, report_type_id, 
-    status, signing_intention, person_payee_id, pay_percent, user_id, account_period, 
-    del_flag, item_status, create_time, update_time, remark, frame_id,sign_type,
-    contract_status, contract_img_status, original_contract_status, execute_order_img_status, original_execute_order_status, reminder_payment_status
+    base_execute_order.id,
+    base_execute_order.process_instance_id,
+    base_execute_order.name,
+    base_execute_order.order_num,
+    base_execute_order.sec_order_num,
+    base_execute_order.type,
+    base_execute_order.order_date,
+    base_execute_order.delivery_area_ids,
+    base_execute_order.delivery_area_names,
+    base_execute_order.area_id,
+    base_execute_order.custom_sign_id,
+    base_execute_order.custom_adverser_id,
+    base_execute_order.industry_id,
+    base_execute_order.person_sales_id,
+    base_execute_order.amount,
+    base_execute_order.public_rebate,
+    base_execute_order.private_rebate,
+    base_execute_order.tax_amount,
+    base_execute_order.tax_free_amount,
+    base_execute_order.monitor_ids,
+    base_execute_order.monitor_names,
+    base_execute_order.start_date,
+    base_execute_order.end_date,
+    base_execute_order.person_leader_id,
+    base_execute_order.our_monitor_name,
+    base_execute_order.report_type_id,
+    base_execute_order.status,
+    base_execute_order.signing_intention,
+    base_execute_order.person_payee_id,
+    base_execute_order.pay_percent,
+    base_execute_order.user_id,
+    base_execute_order.account_period,
+    base_execute_order.del_flag,
+    base_execute_order.item_status,
+    base_execute_order.create_time,
+    base_execute_order.update_time,
+    base_execute_order.remark,
+    base_execute_order.frame_id,
+    base_execute_order.sign_type,
+    base_execute_order.contract_status,
+    base_execute_order.contract_img_status,
+    base_execute_order.original_contract_status,
+    base_execute_order.execute_order_img_status,
+    base_execute_order.original_execute_order_status,
+    base_execute_order.confirm_cost_status,
+    base_execute_order.reminder_payment_status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -468,6 +519,9 @@
       <if test="originalExecuteOrderStatus != null">
         original_execute_order_status = #{originalExecuteOrderStatus,jdbcType=INTEGER},
       </if>
+      <if test="confirmCostStatus != null">
+        confirm_cost_status = #{confirmCostStatus,jdbcType=INTEGER},
+      </if>
       <if test="reminderPaymentStatus != null">
         reminder_payment_status = #{reminderPaymentStatus,jdbcType=INTEGER},
       </if>
@@ -559,6 +613,57 @@
       limit #{page.start}, #{page.pageSize}
     </if>
   </select>
+
+
+
+  <select id="queryAllForContract" resultMap="BaseResultMap">
+    select
+    base_execute_order.id,
+    base_execute_order.name,
+    base_execute_order.order_num,
+    base_execute_order.status,
+    base_execute_order.contract_status,
+    base_execute_order.contract_img_status,
+    base_execute_order.original_contract_status,
+    base_execute_order.execute_order_img_status,
+    base_execute_order.original_execute_order_status,
+    base_execute_order.confirm_cost_status,
+    base_execute_order.reminder_payment_status,
+    IFNULL(base_fileupload_1.countNum, 0) as contractImgCount,
+    IFNULL(base_fileupload_2.countNum, 0) as executeOrderImgCount
+    from base_execute_order left join
+    (
+    select biz_name, count(biz_name) as countNum from  base_fileupload  where biz_type = 1 group by biz_name
+    ) base_fileupload_1 on  base_execute_order.order_num = base_fileupload_1.biz_name
+    left join
+    (
+    select biz_name, count(biz_name) as countNum from  base_fileupload  where biz_type = 2 group by biz_name
+    ) base_fileupload_2 on base_execute_order.order_num = base_fileupload_2.biz_name
+    where del_flag = '0'
+    <if test="itemStatus != null">
+      and item_status = #{itemStatus,jdbcType=TINYINT}
+    </if>
+    <if test="status != null">
+      and status = #{status,jdbcType=TINYINT}
+    </if>
+    <if test="payPercent != null">
+      and pay_percent <![CDATA[ < ]]> #{payPercent,jdbcType=DECIMAL}
+    </if>
+    <if test="statusArray != null">
+      and status IN ${statusArray}
+    </if>
+    <if test="conditionStartDate != null">
+      AND create_time >= STR_TO_DATE(#{conditionStartDate,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s')
+    </if>
+    <if test="conditionEndDate != null and endDate != '' ">
+      AND create_time <![CDATA[ <= ]]> STR_TO_DATE(#{conditionEndDate,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s')
+    </if>
+    order by update_time desc
+    <if test="page != null">
+      limit #{page.start}, #{page.pageSize}
+    </if>
+  </select>
+
   <select id="findAllUnFinished" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -566,5 +671,85 @@
     where del_flag = '0'
     and status != '3'
     order by update_time desc
+  </select>
+
+
+  <!-- 以上为自动生成SQL，以下为自定义SQL -->
+  <select id="queryFinalReport" resultType="HashMap">
+    select
+    base_execute_order.order_num as orderNum,
+    base_execute_order.name as name,
+    base_custom.name as customSignName,
+    base_person.name as personLeaderName,
+    base_execute_order.delivery_area_names as deliveryAreaNames,
+    base_execute_order.start_date as startDate,
+    base_execute_order.end_date as endDate,
+    ifnull(base_execute_order.tax_amount,0) as amount,
+    ifnull(base_execute_order.public_rebate, 0) as publicRebate,
+    group_concat(DISTINCT base_adtype.name separator '、') as adTypeName,
+    base_execute_order.update_time,
+    SUM(base_order_cpm.cpm) as totalCpmCount,
+    sum(IFNULL(first_price,0)*IFNULL(cpm,0)) as totalCpmCost
+    <if test="mediaIdList != null ">
+      ,
+    </if>
+    <foreach collection="mediaIdList" item="mediaId" separator="," >
+      (select SUM(media_cpm_${mediaId}.cpm) from base_order_cpm media_cpm_${mediaId}  where media_cpm_${mediaId}.order_id = base_execute_order.id
+      and media_cpm_${mediaId}.order_cpm_type IN (1,2) and media_cpm_${mediaId}.media_id=${mediaId}) as s_${mediaId},
+      (select (media_cpm_${mediaId}.cpm/SUM(media_cpm_all.cpm))*IFNULL(media_cpm_${mediaId}.first_price,0)
+      from base_order_cpm media_cpm_${mediaId} , base_order_cpm media_cpm_all
+      where media_cpm_${mediaId}.order_id = base_execute_order.id and media_cpm_${mediaId}.order_cpm_type IN (1,2) and media_cpm_${mediaId}.media_id=${mediaId}
+      and media_cpm_all.order_id = base_execute_order.id and media_cpm_all.order_cpm_type IN (1,2)
+      ) as weightingAverageCost_${mediaId}
+    </foreach>
+    from base_execute_order left join base_order_cpm on  base_order_cpm.order_id = base_execute_order.id
+    left join base_adtype on base_order_cpm.ad_type_id = base_adtype.id
+    left join base_custom on base_execute_order.custom_sign_id = base_custom.id
+    left join base_person on base_execute_order.person_leader_id = base_person.id
+    where base_execute_order.del_flag = '0' and base_order_cpm.order_cpm_type IN (1,2)
+    and base_execute_order.status = '2' and base_execute_order.end_date <![CDATA[ < current_date()]]>
+    <if test="likeSearch != null">
+      and (
+        base_execute_order.name like CONCAT('%',#{likeSearch,jdbcType=VARCHAR},'%')
+        or
+        base_execute_order.order_num like CONCAT('%',#{likeSearch,jdbcType=VARCHAR},'%')
+      )
+    </if>
+    group by base_execute_order.id
+    order by base_execute_order.update_time desc
+  </select>
+
+  <select id="reminderPaymentList" resultType="HashMap">
+    select
+    base_execute_order.id as id,
+    base_execute_order.order_num as orderNum,
+    base_execute_order.name as name,
+    base_custom.name as customSignName,
+    base_person.name as personLeaderName,
+    base_execute_order.delivery_area_names as deliveryAreaNames,
+    base_execute_order.start_date as startDate,
+    base_execute_order.end_date as endDate,
+    group_concat(DISTINCT base_adtype.name separator '、') as adTypeName,
+    case when base_execute_order.end_date <![CDATA[ < ]]> now() then 'stop' else 'playing' end AS playStatus,
+    base_execute_order.tax_amount as taxAmount,
+    date_add(base_execute_order.end_date, interval account_period day) as overdueDate,
+    saleLeader.name as saleLeaderName,
+    base_execute_order.pay_percent AS payPercent,
+    case when base_execute_order.end_date <![CDATA[ < ]]>  date_add(now(), interval -account_period day) then 'true' else 'false' end AS overdueFlag
+    from base_execute_order left join base_order_cpm on  base_order_cpm.order_id = base_execute_order.id
+    left join base_adtype on base_order_cpm.ad_type_id = base_adtype.id
+    left join base_custom on base_execute_order.custom_sign_id = base_custom.id
+    left join base_person on base_execute_order.person_leader_id = base_person.id
+    left join base_person AS saleLeader on base_execute_order.person_leader_id = saleLeader.id
+    where base_execute_order.del_flag = '0' AND
+    base_execute_order.status=2 and base_execute_order.pay_percent <![CDATA[ < ]]> 1 and
+    (base_execute_order.end_date <![CDATA[ < ]]> date_add(now(), interval - account_period day)
+    OR base_execute_order.end_date <![CDATA[ < ]]> date_add(now(), interval -account_period+${days} day)
+    )
+    <if test="bizId != null and bizId != '' ">
+      AND base_execute_order.id = #{bizId,jdbcType=INTEGER}
+    </if>
+    group by base_execute_order.id
+    order by overdueDate desc
   </select>
 </mapper>

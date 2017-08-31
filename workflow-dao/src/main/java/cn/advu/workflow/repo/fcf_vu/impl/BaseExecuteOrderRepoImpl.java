@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 需求订单
@@ -35,8 +36,22 @@ public class BaseExecuteOrderRepoImpl extends AbstractRepo<BaseExecuteOrder> imp
         return baseExecuteOrderMapper.queryAll(baseExecuteOrder);
     }
     @Override
+    public List<BaseExecuteOrder> queryAllForContract(BaseExecuteOrder baseExecuteOrder) {
+        return baseExecuteOrderMapper.queryAllForContract(baseExecuteOrder);
+    }
+    @Override
     public List<BaseExecuteOrder> findAllUnFinished() {
         return baseExecuteOrderMapper.findAllUnFinished();
+    }
+
+    @Override
+    public List<Map> finalReport(String likeSearch, List<String> mediaIdList) {
+        return baseExecuteOrderMapper.queryFinalReport(likeSearch, mediaIdList);
+    }
+
+    @Override
+    public List<Map> reminderPaymentList(String days, String bizId) {
+        return baseExecuteOrderMapper.reminderPaymentList(days, bizId);
     }
 
     @Override

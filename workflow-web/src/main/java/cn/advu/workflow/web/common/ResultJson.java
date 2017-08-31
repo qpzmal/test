@@ -11,24 +11,65 @@ public class ResultJson<T> {
     private int code = WebConstants.OPERATION_SUCCESS;
     private String info = "请联系技术人员!";
     private T data;
-    
+    private T line;
+    private T guangdong;
+    private T sjz;
+
     public ResultJson(){}
-    
+
+
+
+    public T getLine() {
+        return line;
+    }
+
+
+
+    public T getGuangdong() {
+        return guangdong;
+    }
+
+
+
+    public T getSjz() {
+        return sjz;
+    }
+
+
+
+    public void setLine(T line) {
+        this.line = line;
+    }
+
+
+
+    public void setGuangdong(T guangdong) {
+        this.guangdong = guangdong;
+    }
+
+
+
+    public void setSjz(T sjz) {
+        this.sjz = sjz;
+    }
+
+
+
     public ResultJson(int code, String info) {
         super();
         this.code = code;
         this.info = info;
     }
-    
+
     public ResultJson(String info) {
         super();
         this.info = info;
     }
-    
+
     public ResultJson(int code){
         this.code = code;
     }
-    
+
     public T getData() {
         return data;
     }

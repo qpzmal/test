@@ -2,7 +2,10 @@ package cn.advu.workflow.web.service.base.impl;
 
 import cn.advu.workflow.domain.enums.CustomTypeEnum;
 import cn.advu.workflow.domain.enums.LogTypeEnum;
-import cn.advu.workflow.domain.fcf_vu.*;
+import cn.advu.workflow.domain.fcf_vu.BaseArea;
+import cn.advu.workflow.domain.fcf_vu.BaseCustom;
+import cn.advu.workflow.domain.fcf_vu.BaseExecuteOrderFrame;
+import cn.advu.workflow.domain.fcf_vu.BaseOrderCpmVO;
 import cn.advu.workflow.repo.fcf_vu.BaseExecuteOrderFrameRepo;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
@@ -14,12 +17,15 @@ import cn.advu.workflow.web.manager.BizLogManager;
 import cn.advu.workflow.web.manager.CpmManager;
 import cn.advu.workflow.web.manager.CustomMananger;
 import cn.advu.workflow.web.service.base.SaleFrameService;
+import cn.advu.workflow.web.service.system.NoticeService;
 import cn.advu.workflow.web.util.AssertUtil;
 import cn.advu.workflow.web.util.BigDecimalUtil;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +60,12 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
 
     @Autowired
     private IdentityService identityService;
+
+    @Autowired
+    protected TaskService taskService;
+
+    @Autowired
+    NoticeService noticeService;
 
 
     @Autowired
@@ -290,6 +302,13 @@ public class SaleFrameServiceImpl extends AbstractOrderService implements SaleFr
                 baseExecuteOrderFrame.setProcessInstanceId(processInstance.getId());
                 baseExecuteOrderFrame.setStatus(WebConstants.WorkFlow.STATUS_0);
                 baseExecuteOrderFrameRepo.updateSelective(baseExecuteOrderFrame);
+
+                // 获取当前任务信息
+                LOGGER.info("processInstance_id:{}", processInstance.getId());
+                Task currentTask = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().singleResult();
+                LOGGER.info("task_id:{}", currentTask.getId());
+
+                noticeService.doNotify(currentTask.getId(), WebConstants.Notify.TEMPLATE_DEMAND);
 
             } catch (ActivitiException e) {
                 if (e.getMessage().indexOf("no processes deployed with key") != -1) {

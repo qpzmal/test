@@ -4,7 +4,7 @@ import cn.advu.workflow.common.utils.mail.MailBean;
 import cn.advu.workflow.common.utils.mail.MailUtilVelocity;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
-import cn.advu.workflow.web.example.mail.sms163.SendTemplate;
+import cn.advu.workflow.web.example.mail.sms163.SendNeteaseTemplate;
 import net.sf.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +84,7 @@ public class MailController {
         paramsList.add("【"+ smsContent +"】");
 
         try {
-            SendTemplate.send(JSONArray.fromObject(mobileList.toArray()).toString(), JSONArray.fromObject(paramsList.toArray()).toString());
+            SendNeteaseTemplate.send(JSONArray.fromObject(mobileList.toArray()).toString(), JSONArray.fromObject(paramsList.toArray()).toString());
         } catch (Exception e) {
             LOGGER.error("短信发送出错：", e);
         }

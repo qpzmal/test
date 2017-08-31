@@ -20,7 +20,7 @@ import java.util.List;
  * 参考：http://dev.netease.im/docs/product/%E7%9F%AD%E4%BF%A1/%E7%9F%AD%E4%BF%A1%E6%8E%A5%E5%85%A5%E7%A4%BA%E4%BE%8B
  * http://netease.im/price
  */
-public class SendTemplate {
+public class SendNeteaseTemplate {
 
     //发送验证码的请求路径URL
     private static final String SERVER_URL="https://api.netease.im/sms/sendtemplate.action";
@@ -85,6 +85,6 @@ public class SendTemplate {
         mobileList.add("13240427004");
         paramsList.add("abc");
         paramsList.add("【xxxxx】");
-        SendTemplate.send(JSONArray.fromObject(mobileList.toArray()).toString(), JSONArray.fromObject(paramsList.toArray()).toString());
+        SendNeteaseTemplate.send(JSONArray.fromObject(mobileList.toArray()).toString(), JSONArray.fromObject(paramsList.toArray()).toString());
     }
 }

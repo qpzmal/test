@@ -3,6 +3,7 @@
 <mapper namespace="cn.advu.workflow.dao.fcf_vu.BasePersonMapper">
   <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.BasePerson">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="area_id" jdbcType="INTEGER" property="areaId" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
@@ -29,7 +30,7 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    base_person.id, base_person.name, base_person.area_id, base_person.mobile, base_person.address, base_person.email,
+    base_person.id, base_person.uid, base_person.name, base_person.area_id, base_person.mobile, base_person.address, base_person.email,
     base_person.dept_id, base_person.state, base_person.parent_id, base_person.del_flag, base_person.item_status,
     base_person.pay2, base_person.person_pay, base_person.create_time, base_person.update_time, base_person.remark
   </sql>
@@ -45,13 +46,13 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.advu.workflow.domain.fcf_vu.BasePerson"  keyColumn="id" keyProperty="id"  useGeneratedKeys="true">
-    insert into base_person (id, name, area_id, 
+    insert into base_person (id, uid, name, area_id,
       mobile, address, email, 
       dept_id, state, parent_id, 
       del_flag, item_status, pay2, 
       person_pay, create_time, update_time, 
       remark)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER},
       #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{deptId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
       #{delFlag,jdbcType=TINYINT}, #{itemStatus,jdbcType=TINYINT}, #{pay2,jdbcType=DECIMAL},
@@ -63,6 +64,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="uid != null">
+        uid,
       </if>
       <if test="name != null">
         name,
@@ -113,6 +117,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -252,8 +259,8 @@
     base_dept.name as dept_name,
     base_person_parent.name as parent_name,
     <include refid="Base_Column_List" />
-    from base_person inner join base_area on base_person.area_id = base_area.id
-    inner join base_dept on base_person.dept_id = base_dept.id
+    from base_person left join base_area on base_person.area_id = base_area.id
+    left join base_dept on base_person.dept_id = base_dept.id
     left join base_person base_person_parent on base_person.parent_id = base_person_parent.id
     where base_person.del_flag = 0
     <if test="areaId != null">
@@ -306,5 +313,13 @@
     where del_flag = 0
     and base_person.parent_id = #{parentId, jdbcType=INTEGER}
   </select>
+  <select id="queryByUid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from base_person
+    where del_flag = 0
+    and base_person.uid = #{uid, jdbcType=INTEGER}
+  </select>
+
 
 </mapper>

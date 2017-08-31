@@ -1,0 +1,101 @@
+
+#define($cssblock)
+<link href="#springUrl("")/static/css/plugins/blueimp/css/blueimp-gallery.min.css?$!application.getAttribute('/static/css/plugins/blueimp/css/blueimp-gallery.min.css')" rel="stylesheet">
+
+<style>
+    .lightBoxGallery img {
+        margin: 5px;
+        width: 160px;
+    }
+</style>
+#end
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+
+                    <h2>图片预览与确认</h2>
+                    <p>1.点击缩略图，放大图片进行预览；</p>
+                    <p>2.预览时，支持键盘左右键点击、鼠标左右拖拽；</p>
+                    <p>3.预览时，单击图片，会显示操作按钮</p>
+
+                    <div class="lightBoxGallery">
+                        #foreach($data in $dataList)
+                            <a href="${host}${data.fileName}" title="${data.fileName}" data-gallery=""><img src="${host}${data.fileName}"></a>
+                        #end
+
+                        <div id="blueimp-gallery" class="blueimp-gallery">
+                            <div class="slides"></div>
+                            <h3 class="title"></h3>
+                            <a class="prev"><</a>
+                            <a class="next">></a>
+                            <a class="close">×</a>
+                            <a class="play-pause"></a>
+                            <ol class="indicator"></ol>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+##    #if("${displayFlag}" == "true")
+##        <div class="row">
+##            <div class="form-group">
+##                <div class="col-sm-4 col-sm-offset-4 text-right">
+##                    <button class="btn btn-info button_confirm" type="button"><i class="fa fa-play"></i> 确认</button>
+##                </div>
+##            </div>
+##        </div>
+##    #end
+</div>
+
+
+
+#define($jsblock)
+
+<script type="text/javascript" src="#springUrl("")/static/js/plugins/blueimp/jquery.blueimp-gallery.min.js?$!application.getAttribute('/static/js/plugins/blueimp/jquery.blueimp-gallery.min.js')" ></script>
+
+<script>
+    $(function(){
+    });
+
+
+
+
+##    ## 已签署合同
+##    $(".button_confirm").click(function(){
+##        var url = "/saleOrder/updateStatus.json";
+##        var json;
+##        if ("1" == "${bizType}") {
+##            json = {"id":"${bizId}","contractImgStatus":"0"};
+##        } else {
+##            json = {"id":"${bizId}","executeOrderImgStatus":"0"};
+##        }
+##
+##
+##        layer.confirm('此操作不可修改，是否确认已上传全部图片？', {
+##            title: '确认',
+##            btn: ['确认','取消'] //按钮
+##        }, function(){
+##            $.ajax({
+##                url:url,
+##                type:"post",
+##                data:json,
+##                success: function(returnData){
+##                    if(returnData.code == 1){
+##                        popMsg('修改成功!', "/workflow/task/todo");
+##                        parent.location.reload();
+##                    } else{
+##                        layer.msg(returnData.info);
+##                    }
+##                }
+##            });
+##        }, function(){
+##        });
+##    })
+
+</script>
+#end

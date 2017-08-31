@@ -22,6 +22,9 @@ public class AbstractEntity implements IEntity {
 
     private Page page;
 
+    private String conditionStartDate;
+    private String conditionEndDate;
+
     @Override
     public Integer getId() {
         return id;
@@ -108,5 +111,21 @@ public class AbstractEntity implements IEntity {
 
     public void setPage(Page page) {
         this.page = page;
+    }
+
+    public String getConditionStartDate() {
+        return conditionStartDate;
+    }
+
+    public void setConditionStartDate(String conditionStartDate) {
+        this.conditionStartDate = conditionStartDate;
+    }
+
+    public String getConditionEndDate() {
+        return conditionEndDate;
+    }
+
+    public void setConditionEndDate(String conditionEndDate) {
+        this.conditionEndDate = conditionEndDate;
     }
 }

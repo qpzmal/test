@@ -5,6 +5,61 @@
 -- 2.20170628 燕燕修改
 -- 1.20170620 兆华建立
 
+
+
+-- 20180830 weiqz
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_id`, `operate_type_id`)
+VALUES
+	(30402, '查看', 0, 0, 0, 304, NULL),
+	(30403, '已上传合同', 0, 0, 0, 304, NULL),
+	(30404, '已上传排期单', 0, 0, 0, 304, NULL);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30402, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30403, '', 0, NULL, NULL, 0);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30404, '', 0, NULL, NULL, 0);
+
+-- 20180829 weiqz
+INSERT INTO `sys_resource` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_type`)
+VALUES
+	(304, '合同与单据', 0, 0, 0, 1);
+INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_id`, `operate_type_id`)
+VALUES
+	(30401, '回款比例', 0, 0, 0, 304, NULL);
+INSERT INTO `sys_role_fuction` (`role_id`, `function_id`, `name`, `item_status`, `creator_id`, `updater_id`, `del_flag`) VALUES (1, 30401, '', 0, NULL, NULL, 0);
+
+
+-- 20180827 weiqz
+ALTER TABLE `base_person`
+	ADD COLUMN `uid` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'sys_user表ID' AFTER `id`;
+
+CREATE TABLE `sys_info` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(30) NOT NULL DEFAULT '' COMMENT '系统名',
+	`logo` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'logo路径',
+	`email_switch` TINYINT(4) NOT NULL DEFAULT '0' COMMENT 'email通知开关。0关，1开',
+	`sms_switch` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '短信通知开关。0关，1开',
+	`creator_id` INT(11) NOT NULL DEFAULT '0',
+	`updater_id` INT(11) NOT NULL DEFAULT '0',
+	`create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`)
+)
+COMMENT='系统属性配置';
+
+
+
+-- 20170820 weiqz
+ALTER TABLE `base_execute_order`
+	ADD COLUMN `confirm_cost_status` TINYINT(1) NOT NULL DEFAULT '-1' COMMENT '成本确认状态（-1未确认；0已确认；）' AFTER `original_execute_order_status`;
+CREATE TABLE `base_fileupload` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`biz_name` VARCHAR(20) NOT NULL DEFAULT '' COMMENT '业务名',
+	`biz_type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '业务类型：1合同图片，2排期单图片',
+	`file_name` VARCHAR(150) NOT NULL DEFAULT '' COMMENT '文件相对路径',
+	`creator_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+	`create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`)
+);
+
 -- 20170814 weiqz
 ALTER TABLE `base_execute_order`
 	ADD COLUMN `contract_status` TINYINT(1) NOT NULL DEFAULT '-1' COMMENT '合同签署状态（-1未签署；0已签署；）' AFTER `sign_type`,

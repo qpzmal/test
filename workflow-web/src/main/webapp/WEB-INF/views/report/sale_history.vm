@@ -18,7 +18,7 @@
                         </li>
                         <li class="" lid="2"><a data-toggle="tab" href="#tab-2" aria-expanded="false">地域汇总</a>
                         </li>
-                        <li class="" lid="3"><a data-toggle="tab" href="#tab-3" aria-expanded="false">销售人汇总</a>
+                        <li class="" lid="3"><a data-toggle="tab" href="#tab-3" aria-expanded="false">销售汇总</a>
                         </li>
                         <li class="" lid="4"><a data-toggle="tab" href="#tab-4" aria-expanded="false">客户汇总</a>
                         </li>

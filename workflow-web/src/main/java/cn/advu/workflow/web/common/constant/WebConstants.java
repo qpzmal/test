@@ -30,6 +30,15 @@ public class WebConstants {
         public static final String FINANCIAL_GM = "financialGMAudit"; // 财务主管审核
         public static final String LEGAL_GM = "legalGMAudit"; // 法务主管审核
         public static final String MODIFY_APPLY = "modifyApply"; // 申请人调整申请
+
+        public static final String SIGN_CONTRACT = "signContract"; // 签署合同
+        public static final String UPLOAD_CONTRACT_IMG = "uploadContractImg"; // 上传扫描版合同
+        public static final String ORIGINAL_CONTRACT = "originalContract"; // 追要原章合同
+        public static final String UPLOAD_EXECUTE_ORDER_IMG = "uploadExecuteOrderImg"; // 上传扫描版排期单
+        public static final String ORIGINAL_EXECUTE_ORDER = "originalExecuteOrder"; // 追要原章排期单
+        public static final String CONFIRM_COST = "confirmCost"; // 成本确认
+        public static final String REMINDER_PAYMENT = "reminderPayment"; // 财务向销售催款
+        public static final String GATHERING = "gathering"; // 催款
     }
 
     public static class AuditPass {
@@ -49,6 +58,25 @@ public class WebConstants {
         public static final Byte STATUS_1 = 1; // 1，未开始（审核流程通过，但未投放）；
         public static final Byte STATUS_2 = 2; // 2，进行中（开始投放）；
         public static final Byte STATUS_3 = 3; // 3，已结束（投放结束）
+    }
 
+    public static class Notify {
+        public static final String TEMPLATE_DEMAND = "demand"; // 审核
+        public static final String TEMPLATE_REMIND = "remind"; // 催款提醒
+    }
+
+    public static class FileUpload {
+        public static final String BIZ_TYPE_1 = "1"; // 1合同图片，
+        public static final String BIZ_TYPE_2 = "2"; // 2排期单图片
+    }
+
+    public static class ActivitiRole {
+        public static final String SALER = "saler"; // 销售员工
+        public static final String MEDIA = "media"; // 媒介员工
+        public static final String MEDIA_GM = "mediaGM"; // 媒介主管
+        public static final String SALER_DM = "salerDM"; // 销售主管
+        public static final String SALER_GM = "salerGM"; // 销售总经理
+        public static final String FINANCIAL_GM = "financialGM"; // 财务主管
+        public static final String LEGAL_GM = "legalGM"; // 法务主管
     }
 }

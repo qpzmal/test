@@ -70,7 +70,7 @@
             <form method="post" action="/user/" id="id_loginform"  onsubmit="return false">
                 <input type="hidden" name="returnUrl" value="$!escapeTool.html($!returnUrl)">
                 <h4 class="no-margins">登录：</h4>
-                <p class="m-t-md">登录到XXXXX后台</p>
+                <p class="m-t-md">欢迎来到$!{sysInfo.name}后台</p>
                 <input type="text" class="form-control uname" placeholder="用户名" name="uname" />
                 <input type="password" class="form-control pword m-b" placeholder="密码" name="passwd" />
 ##                <a href="#">忘记密码了？</a>
