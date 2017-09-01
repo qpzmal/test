@@ -1,11 +1,4 @@
 -- 数据库变动记录
--- 5.20170706 魏，重新整理建表语句
--- 4.20170702 魏修改，流程相关表增加与activiti关联的process_instance_id字段
--- 3.20170628 兆华修改
--- 2.20170628 燕燕修改
--- 1.20170620 兆华建立
-
-
 
 -- 20180830 weiqz
 INSERT INTO `sys_fuction` (`id`, `name`, `item_status`, `creator_id`, `updater_id`, `resource_id`, `operate_type_id`)
