@@ -1,9 +1,9 @@
 package cn.advu.workflow.web.service.datareport;
 
+import cn.advu.workflow.domain.fcf_vu.datareport.VuDataReport;
+
 import java.util.List;
 import java.util.Map;
-
-import cn.advu.workflow.domain.fcf_vu.datareport.VuDataReport;
 
 /**
  * Created by weiqz on 2017/6/24.
@@ -38,6 +38,7 @@ public interface DataReportService {
      * @return
      */
     List<VuDataReport> querySaleHistoryBySaler(String startDate, String endDate, String type);
+    List<VuDataReport> querySaleHistoryBySalerTOP3(String startDate, String endDate);
     /**
      * 1.	销售报表分析系统
      * 1)	历史订单额汇总
@@ -66,8 +67,8 @@ public interface DataReportService {
      * 包括CPM采购和智能电视和牌照方坑口位置采购等。可自由设定起止时间。默认生成月，季度和半年和年采购汇总数。自动生成
      * @return
      */
-    List<VuDataReport> queryBuyResourceByDate(String startDate, String endDate, String type);
-    List<VuDataReport> queryBuyResourceByDateLine(String startDate, String endDate, String type);
+    Map<String,List> queryBuyResourceByDate(String startDate, String endDate, String type);
+    Map<String,List> queryBuyResourceByDateLine(String startDate, String endDate, String type);
     /**
      * 2.	资源采购分析系统
      * 2)	按照厂商维度汇总数据，例如CPM采购按照厂商，例如创维，康佳，TCL等。自动生成
@@ -105,8 +106,8 @@ public interface DataReportService {
      * 毛利/净利贡献率
      * @return
      */
-    List<VuDataReport> queryCustomerByProfit(String startDate, String endDate, String customerType, String options);
-    List<VuDataReport> queryCustomerByMargin(String startDate, String endDate, String customerType, String options);
+    Map<String,List> queryCustomerByProfit(String startDate, String endDate, String customerType, String options);
+    
     /**
      * 4.	分公司财务分析系统
      * 1)	计算每个4A或者直客以及每个代理商的毛利贡献率和净利润贡献率，可自由设定起止时间。默认生成月，季度和半年和全年。净利润贡献率=净收入（订单额-对公返点）-分摊成本（加权平均计算）-其他综合分摊费用（包括工资，房租，销售提成和其他返点等）。毛利贡献率=净收入（订单额-对公返点）-分摊成本(加权平均计算)。财务填写基础数据而后自动生成

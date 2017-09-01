@@ -50,8 +50,8 @@
                                                         <input type="radio" id="options1-1" name="customerType" value="1">4A公司</label>
                                                     <label class="btn btn-sm btn-white">
                                                         <input type="radio" id="options1-2" name="customerType" value="2">直客</label>
-                                                    <label class="btn btn-sm btn-white">
-                                                        <input type="radio" id="options1-3" name="customerType" value="3">广告主</label>
+                                                    ##<label class="btn btn-sm btn-white">
+                                                        ##<input type="radio" id="options1-3" name="customerType" value="3">广告主</label>
                                                 </div>
                                             </div>
                                         </div>

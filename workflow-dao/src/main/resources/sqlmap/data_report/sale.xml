@@ -7,27 +7,27 @@
     <resultMap id="BaseResultMap" type="cn.advu.workflow.domain.fcf_vu.datareport.VuDataReport">
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="order_date" jdbcType="VARCHAR" property="orderDate" />
-        <result column="start_date" jdbcType="VARCHAR" property="startDate" />
+		<result column="start_date" jdbcType="VARCHAR" property="startDate" />
         <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
         <result column="北京公司" jdbcType="VARCHAR" property="bj" />
         <result column="广东公司" jdbcType="VARCHAR" property="gd" />
         <result column="石家庄" jdbcType="VARCHAR" property="sjz" />
-
+        
         <result column="户外" jdbcType="VARCHAR" property="hw" />
         <result column="智能电视" jdbcType="VARCHAR" property="ds" />
         <result column="应用" jdbcType="VARCHAR" property="yy" />
         <result column="内容商" jdbcType="VARCHAR" property="nr" />
-
+        
         <result column="4A1" jdbcType="VARCHAR" property="a1" />
         <result column="4A2" jdbcType="VARCHAR" property="a2" />
         <result column="4A3" jdbcType="VARCHAR" property="a3" />
         <result column="4A4" jdbcType="VARCHAR" property="a4" />
-
+        
         <result column="直客1" jdbcType="VARCHAR" property="z1" />
         <result column="直客2" jdbcType="VARCHAR" property="z2" />
         <result column="直客3" jdbcType="VARCHAR" property="z3" />
         <result column="直客4" jdbcType="VARCHAR" property="z4" />
-
+        
         <result column="tax_amount" jdbcType="VARCHAR" property="taxAmount" />
         <result column="tax_free_amount" jdbcType="VARCHAR" property="taxFreeAmount" />
 
@@ -39,8 +39,9 @@
 
         <result column="custom_id" jdbcType="VARCHAR" property="customId" />
         <result column="custom_type" jdbcType="VARCHAR" property="customType" />
-        <result column="m_pay" jdbcType="VARCHAR" property="mPay" />
-        <result column="j_pay" jdbcType="VARCHAR" property="jPay" />
+        <result column="M_PAY" jdbcType="VARCHAR" property="mPay" />
+        <result column="J_PAY" jdbcType="VARCHAR" property="jPay" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
         <result column="pay_percent" jdbcType="VARCHAR" property="payPercent" />
     </resultMap>
 
@@ -55,7 +56,7 @@
         AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND  o.status = 3
         GROUP BY o.order_date
-        --         ORDER BY  o.tax_amount ASC
+--         ORDER BY  o.tax_amount ASC
     </select>
     <select id="querySaleHistoryByDateMonth" resultMap="BaseResultMap">
         SELECT
@@ -67,7 +68,7 @@
         AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND  o.status = 3
         GROUP BY date_format(o.order_date,'%Y-%m')
-        --         ORDER BY  SUM(o.tax_amount) ASC
+--         ORDER BY  SUM(o.tax_amount) ASC
     </select>
     <select id="querySaleHistoryByDateQuarter" resultMap="BaseResultMap">
         SELECT
@@ -77,7 +78,7 @@
         AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND  o.status = 3
         GROUP BY CONCAT(YEAR(o.order_date),'年',quarter(o.order_date),'季度')
-        --         ORDER BY  SUM(o.tax_amount) ASC
+--         ORDER BY  SUM(o.tax_amount) ASC
     </select>
     <select id="querySaleHistoryByDateHalfYear" resultMap="BaseResultMap">
         SELECT
@@ -95,7 +96,7 @@
         when month(o.order_date)>=6 then CONCAT(year(o.order_date),'下半年')
         else null
         end
-        --         ORDER BY  SUM(o.tax_amount) ASC
+--         ORDER BY  SUM(o.tax_amount) ASC
     </select>
     <select id="querySaleHistoryByDateWholeYear" resultMap="BaseResultMap">
         SELECT
@@ -105,7 +106,7 @@
         AND o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
         AND  o.status = 3
         GROUP BY year(o.order_date)
-        --         ORDER BY  SUM(o.tax_amount) ASC
+--         ORDER BY  SUM(o.tax_amount) ASC
     </select>
 
 
@@ -132,6 +133,25 @@
         AND   t1.status = 3
         GROUP BY  t2.name
         ORDER BY sum(t1.tax_amount) ASC
+    </select>
+
+<select id="querySaleHistoryBySalerTOP3" resultMap="BaseResultMap">
+        SELECT 
+        t2.name AS name,
+		  count(t1.order_num) AS order_num,
+		  sum(t1.tax_amount) AS tax_amount,
+		  sum(t1.tax_free_amount) AS tax_free_amount
+    FROM base_execute_order t1
+    LEFT JOIN   base_person t2
+      ON   t1.person_sales_id=t2.id
+    WHERE  t1.del_flag = 0 
+	        AND t1.item_status = 0 
+           AND t1.status = 3
+           AND t1.order_date<![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR})
+           AND t1.order_date<![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+    GROUP BY  t2.name
+	 ORDER BY sum(t1.tax_amount) DESC
+	 limit 0,3
     </select>
 
     <select id="querySaleHistoryBySalerMonth" resultMap="BaseResultMap">
@@ -211,186 +231,376 @@
 
 
     <!-- 2.	资源采购分析系统 -->
-    <select id="queryBuyResourceByDateLineMonth" resultMap="BaseResultMap">
-        select order_date,
-        max( case when  type='媒体类型1' then cpm_total else 0  end )as 户外,
-        max( case when  type='媒体类型2' then cpm_total else 0  end )as 智能电视,
-        32500 as 应用,
-        43000 as 内容商
-        from (
-        SELECT date_format(t2.order_date,'%Y-%m') AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total
-        FROM base_order_cpm t1
-        INNER JOIN  base_buy_order t2
-        ON  t1.order_id =t2.id
-        LEFT JOIN base_media AS m
-        ON t1.media_id = m.id
-        LEFT JOIN base_media_type AS mt
-        ON m.type = mt.id
-        WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})  AND t2.order_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
-        GROUP BY mt.name ,date_format(t2.order_date,'%Y-%m')
-        ORDER BY  cpm_total DESC
-        ) t
-        group by order_date
+        <select id="queryBuyResourceByDateLineMonth" resultMap="BaseResultMap">
+SELECT date_format(t2.order_date,'%Y-%m') AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})  AND t2.order_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name ,date_format(t2.order_date,'%Y-%m')
+ORDER BY  cpm_total DESC
+
     </select>
+    
+    <select id="queryBuyResourceNamesLineMonth" resultType="string">
+SELECT mt.name AS type
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})  AND t2.order_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name 
+ORDER BY  sum(t1.cpm) DESC
+
+    </select>
+    
+    <select id="queryBuyResourceTimesLineMonth" resultType="string">
+SELECT date_format(t2.order_date,'%Y-%m') AS order_date 
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})  AND t2.order_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY date_format(t2.order_date,'%Y-%m')
+ORDER BY  sum(t1.cpm) DESC
+
+    </select>
+    
     <select id="queryBuyResourceByDateLineQuarter" resultMap="BaseResultMap">
-        select order_date,
-        max( case when  type='媒体类型1' then cpm_total else 0  end )as 户外,
-        max( case when  type='媒体类型2' then cpm_total else 0  end )as 智能电视,
-        122200 as 应用,
-        455000 as 内容商
-        from (
-        SELECT  CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度') AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total
-        FROM base_order_cpm t1
-        INNER JOIN  base_buy_order t2
-        ON  t1.order_id =t2.id
-        LEFT JOIN base_media AS m
-        ON t1.media_id = m.id
-        LEFT JOIN base_media_type AS mt
-        ON m.type = mt.id
-        WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
-        GROUP BY mt.name , CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度')
-        ORDER BY  cpm_total DESC
-        ) t
-        group by order_date
+SELECT  CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度') AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name , CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度')
+ORDER BY  cpm_total DESC
     </select>
+    
+        <select id="queryBuyResourceNamesLineQuarter" resultType="string">
+SELECT  mt.name AS type
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name 
+ORDER BY  sum(t1.cpm) DESC
+    </select>
+    
+        <select id="queryBuyResourceTimesLineQuarter" resultType="string">
+SELECT  CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度') AS order_date 
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY  CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度')
+ORDER BY  sum(t1.cpm) DESC
+    </select>
+    
     <select id="queryBuyResourceByDateLineHalfYear" resultMap="BaseResultMap">
-        select order_date,
-        max( case when  type='媒体类型1' then cpm_total else 0  end )as 户外,
-        max( case when  type='媒体类型2' then cpm_total else 0  end )as 智能电视,
-        422200 as 应用,
-        955000 as 内容商
-        from (
-        SELECT  case when month(t2.order_date)<![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
-        when month(t2.order_date)<![CDATA[ >= ]]>6 then CONCAT(year(t2.order_date),'下半年')
-        else null
-        end  AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total,SUM(media_price*cpm) AS sale_amount,SUM(first_price*cpm) AS buy_amount
-        FROM base_order_cpm t1
-        INNER JOIN  base_buy_order t2
-        ON  t1.order_id =t2.id
-        LEFT JOIN base_media AS m
-        ON t1.media_id = m.id
-        LEFT JOIN base_media_type AS mt
-        ON m.type = mt.id
-        WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
-        GROUP BY mt.name , case when month(t2.order_date)<![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
-        when month(t2.order_date)<![CDATA[ >= ]]>6 then CONCAT(year(t2.order_date),'下半年')
-        else null
-        end
-        ORDER BY  cpm_total DESC
-        ) t
-        group by order_date
+SELECT  case when month(t2.order_date)<![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
+when month(t2.order_date)<![CDATA[ >= ]]>6 then CONCAT(year(t2.order_date),'下半年')
+else null
+end  AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total,SUM(media_price*cpm) AS sale_amount,SUM(first_price*cpm) AS buy_amount
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name , case when month(t2.order_date)<![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
+when month(t2.order_date)<![CDATA[ >= ]]>6 then CONCAT(year(t2.order_date),'下半年')
+else null
+end
+ORDER BY  cpm_total DESC
     </select>
+    
+        <select id="queryBuyResourceNamesLineHalfYear" resultType="string">
+SELECT  mt.name AS type
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name 
+ORDER BY  sum(t1.cpm) DESC
+    </select>
+    
+        <select id="queryBuyResourceTimesLineHalfYear" resultType="string">
+SELECT  case when month(t2.order_date)<![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
+when month(t2.order_date)<![CDATA[ >= ]]>6 then CONCAT(year(t2.order_date),'下半年')
+else null
+end  AS order_date
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY  case when month(t2.order_date)<![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
+when month(t2.order_date)<![CDATA[ >= ]]>6 then CONCAT(year(t2.order_date),'下半年')
+else null
+end
+ORDER BY  sum(t1.cpm) DESC
+    </select>
+    
     <select id="queryBuyResourceByDateLineWholeYear" resultMap="BaseResultMap">
-        select order_date,
-        max( case when  type='媒体类型1' then cpm_total else 0  end )as 户外,
-        max( case when  type='媒体类型2' then cpm_total else 0  end )as 智能电视,
-        422200 as 应用,
-        955000 as 内容商
-        from (
-        SELECT year(t2.order_date) AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total,SUM(media_price*cpm) AS sale_amount,SUM(first_price*cpm) AS buy_amount
-        FROM base_order_cpm t1
-        INNER JOIN  base_buy_order t2
-        ON  t1.order_id =t2.id
-        LEFT JOIN base_media AS m
-        ON t1.media_id = m.id
-        LEFT JOIN base_media_type AS mt
-        ON m.type = mt.id
-        WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
-        GROUP BY mt.name ,year(t2.order_date)
-        ORDER BY  cpm_total DESC
-        ) t
-        group by order_date
+SELECT year(t2.order_date) AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total,SUM(media_price*cpm) AS sale_amount,SUM(first_price*cpm) AS buy_amount
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name ,year(t2.order_date)
+ORDER BY  cpm_total DESC
+    </select>
+    
+        <select id="queryBuyResourceNamesLineWholeYear" resultType="string">
+SELECT mt.name AS type
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name 
+ORDER BY  sum(t1.cpm) DESC
+    </select>
+    
+        <select id="queryBuyResourceTimesLineWholeYear" resultType="string">
+SELECT year(t2.order_date) AS order_date 
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY year(t2.order_date)
+ORDER BY  sum(t1.cpm) DESC
+    </select>
+    
+    <select id="queryBuyResourceByDateMonth" resultMap="BaseResultMap">
+
+SELECT date_format(t2.order_date,'%Y-%m') AS order_date,mt.name AS type,SUM(first_price*cpm) AS buy_amount
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name ,date_format(t2.order_date,'%Y-%m')
+ORDER BY  buy_amount DESC
+    </select>
+    
+    <select id="queryBuyResourceNamesMonth" resultType="string">
+
+SELECT mt.name AS type
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name 
+ORDER BY SUM(first_price*cpm) DESC
+    </select>
+    
+    <select id="queryBuyResourceTimesMonth" resultType="string">
+
+SELECT date_format(t2.order_date,'%Y-%m') AS order_date 
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY date_format(t2.order_date,'%Y-%m')
+ORDER BY  SUM(first_price*cpm) DESC
+    </select>
+    
+    <select id="queryBuyResourceByDateQuarter" resultMap="BaseResultMap">
+
+SELECT  CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度') AS order_date,mt.name AS type,SUM(first_price*cpm) AS buy_amount
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name , CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度')
+ORDER BY  SUM(first_price*cpm) DESC
+    </select>
+    
+        <select id="queryBuyResourceNamesQuarter" resultType="string">
+
+SELECT  mt.name AS type 
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name  
+ORDER BY  SUM(first_price*cpm) DESC
+    </select>
+    
+        <select id="queryBuyResourceTimesQuarter" resultType="string">
+
+SELECT  CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度') AS order_date 
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度')
+ORDER BY  SUM(first_price*cpm) DESC
+    </select>
+    
+    <select id="queryBuyResourceByDateHalfYear" resultMap="BaseResultMap">
+
+SELECT  case when month(t2.order_date) <![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
+when month(t2.order_date) <![CDATA[ >= ]]>6 then CONCAT(year(t2.order_date),'下半年')
+else null
+end  AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total,SUM(media_price*cpm) AS sale_amount,SUM(first_price*cpm) AS buy_amount
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name , case when month(t2.order_date) <![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
+when month(t2.order_date) <![CDATA[ >= ]]>6 then CONCAT(year(t2.order_date),'下半年')
+else null
+end
+ORDER BY  sum(t1.cpm) DESC
+    </select>
+    
+        <select id="queryBuyResourceNamesHalfYear" resultType="string">
+
+SELECT  mt.name AS type 
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name 
+ORDER BY  sum(t1.cpm) DESC
+    </select>
+    
+        <select id="queryBuyResourceTimesHalfYear" resultType="string">
+
+SELECT  case when month(t2.order_date) <![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
+when month(t2.order_date) <![CDATA[ >= ]]>6 then CONCAT(year(t2.order_date),'下半年')
+else null
+end  AS order_date 
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY  case when month(t2.order_date) <![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
+when month(t2.order_date) <![CDATA[ >= ]]>6 then CONCAT(year(t2.order_date),'下半年')
+else null
+end
+ORDER BY  sum(t1.cpm) DESC
+    </select>
+    
+    <select id="queryBuyResourceByDateWholeYear" resultMap="BaseResultMap">
+SELECT year(t2.order_date) AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total,SUM(media_price*cpm) AS sale_amount,SUM(first_price*cpm) AS buy_amount
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name ,year(t2.order_date)
+ORDER BY  sum(t1.cpm) DESC
     </select>
 
-    <select id="queryBuyResourceByDateMonth" resultMap="BaseResultMap">
-        select order_date,
-        max( case when  type='媒体类型1' then buy_amount else 0  end )as 户外,
-        max( case when  type='媒体类型2' then buy_amount else 0  end )as 智能电视,
-        1222500 as 应用,
-        4553000 as 内容商
-        from (
-        SELECT date_format(t2.order_date,'%Y-%m') AS order_date,mt.name AS type,SUM(first_price*cpm) AS buy_amount
-        FROM base_order_cpm t1
-        INNER JOIN  base_buy_order t2
-        ON  t1.order_id =t2.id
-        LEFT JOIN base_media AS m
-        ON t1.media_id = m.id
-        LEFT JOIN base_media_type AS mt
-        ON m.type = mt.id
-        WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
-        GROUP BY mt.name ,date_format(t2.order_date,'%Y-%m')
-        ORDER BY  buy_amount DESC
-        ) t
-        group by order_date
+<select id="queryBuyResourceNamesWholeYear" resultType="string">
+SELECT  mt.name AS type 
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY mt.name 
+ORDER BY  sum(t1.cpm) DESC
     </select>
-    <select id="queryBuyResourceByDateQuarter" resultMap="BaseResultMap">
-        select order_date,
-        max( case when  type='媒体类型1' then buy_amount else 0  end )as 户外,
-        max( case when  type='媒体类型2' then buy_amount else 0  end )as 智能电视,
-        422200 as 应用,
-        955000 as 内容商
-        from (
-        SELECT  CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度') AS order_date,mt.name AS type,SUM(first_price*cpm) AS buy_amount
-        FROM base_order_cpm t1
-        INNER JOIN  base_buy_order t2
-        ON  t1.order_id =t2.id
-        LEFT JOIN base_media AS m
-        ON t1.media_id = m.id
-        LEFT JOIN base_media_type AS mt
-        ON m.type = mt.id
-        WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
-        GROUP BY mt.name , CONCAT(YEAR(t2.order_date),'年',quarter(t2.order_date),'季度')
-        ORDER BY  buy_amount DESC
-        ) t
-        group by order_date
-    </select>
-    <select id="queryBuyResourceByDateHalfYear" resultMap="BaseResultMap">
-        select order_date,
-        max( case when  type='媒体类型1' then buy_amount else 0  end )as 户外,
-        max( case when  type='媒体类型2' then buy_amount else 0  end )as 智能电视,
-        422200 as 应用,
-        955000 as 内容商
-        from (
-        SELECT  case when month(t2.order_date) <![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
-        when month(t2.order_date) <![CDATA[ >= ]]>6 then CONCAT(year(t2.order_date),'下半年')
-        else null
-        end  AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total,SUM(media_price*cpm) AS sale_amount,SUM(first_price*cpm) AS buy_amount
-        FROM base_order_cpm t1
-        INNER JOIN  base_buy_order t2
-        ON  t1.order_id =t2.id
-        LEFT JOIN base_media AS m
-        ON t1.media_id = m.id
-        LEFT JOIN base_media_type AS mt
-        ON m.type = mt.id
-        WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
-        GROUP BY mt.name , case when month(t2.order_date) <![CDATA[ < ]]>6 then CONCAT(year(t2.order_date),'上半年')
-        when month(t2.order_date) <![CDATA[ >= ]]>6 then CONCAT(year(t2.order_date),'下半年')
-        else null
-        end
-        ORDER BY  cpm_total DESC
-        ) t
-        group by order_date
-    </select>
-    <select id="queryBuyResourceByDateWholeYear" resultMap="BaseResultMap">
-        select order_date,
-        max( case when  type='媒体类型1' then buy_amount else 0  end )as 户外,
-        max( case when  type='媒体类型2' then buy_amount else 0  end )as 智能电视,
-        422200 as 应用,
-        955000 as 内容商
-        from (
-        SELECT year(t2.order_date) AS order_date,mt.name AS type,sum(t1.cpm) AS cpm_total,SUM(media_price*cpm) AS sale_amount,SUM(first_price*cpm) AS buy_amount
-        FROM base_order_cpm t1
-        INNER JOIN  base_buy_order t2
-        ON  t1.order_id =t2.id
-        LEFT JOIN base_media AS m
-        ON t1.media_id = m.id
-        LEFT JOIN base_media_type AS mt
-        ON m.type = mt.id
-        WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
-        GROUP BY mt.name ,year(t2.order_date)
-        ORDER BY  cpm_total DESC
-        ) t
-        group by order_date
+    
+    <select id="queryBuyResourceTimesWholeYear" resultType="string">
+SELECT year(t2.order_date) AS order_date 
+FROM base_order_cpm t1
+INNER JOIN  base_buy_order t2
+ON  t1.order_id =t2.id
+LEFT JOIN base_media AS m
+ON t1.media_id = m.id
+LEFT JOIN base_media_type AS mt
+ON m.type = mt.id
+WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR}) and  t2.del_flag = 0 AND t2.item_status = 0
+GROUP BY year(t2.order_date)
+ORDER BY  sum(t1.cpm) DESC
     </select>
 
 
@@ -402,7 +612,7 @@
         LEFT JOIN base_media m
         ON  t1.media_id=m.id
         WHERE t1.order_cpm_type = 6 AND t2.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND t2.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
-        AND t1.del_flag = 0 AND t1.item_status = 0 AND t2.status = 1
+         AND t1.del_flag = 0 AND t1.item_status = 0 AND t2.status = 1
         GROUP BY m.name
         ORDER BY #{orderKey} DESC;
     </select>
@@ -410,114 +620,162 @@
 
     <!-- 3.	分公司财务分析系统 -->
     <select id="queryAreaBudgetByDateHalfYear" resultMap="BaseResultMap">
-        select order_num,
-        max( case when  name='北京公司' then yswc else 0  end )as 北京公司,
-        max( case when  name='广东公司' then yswc else 0  end )as 广东公司,
-        max( case when  name='石家庄' then yswc else  0 end) as 石家庄
-        from (
-        SELECT
-        case when month(o.order_date)<![CDATA[ < ]]>6 then CONCAT(year(o.order_date),'上半年')
-        when month(o.order_date)<![CDATA[ >= ]]>6 then CONCAT(year(o.order_date),'下半年')
-        else null
-        end  AS order_num ,
+	SELECT 
+        case when month(o.order_date)<![CDATA[ < ]]>6 then CONCAT(year(o.order_date),'上半年') 
+            when month(o.order_date)<![CDATA[ >= ]]>6 then CONCAT(year(o.order_date),'下半年')
+		    else null
+		    end  AS order_num ,
         b.name AS name,count(o.order_num)/SUM(F.pay1)*100  as yswc
-        FROM base_execute_order o
-        LEFT JOIN base_area_finance F
-        ON  o.area_id=F.area_id
-        LEFT JOIN base_area b
+   FROM base_execute_order o
+   LEFT JOIN base_area_finance F
+   ON  o.area_id=F.area_id
+   LEFT JOIN base_area b
         ON   o.area_id=b.id
-        WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
-        and o.order_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND o.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR})
-        GROUP BY  b.name,
-        (case when month(o.order_date)<![CDATA[ < ]]>6 then CONCAT(year(o.order_date),'上半年')
-        when month(o.order_date)<![CDATA[ >= ]]>6 then CONCAT(year(o.order_date),'下半年')
-        else null
-        end)
-        ) t
-        group by order_num
+   WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
+         and o.order_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND o.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR})
+   GROUP BY  b.name,
+            (case when month(o.order_date)<![CDATA[ < ]]>6 then CONCAT(year(o.order_date),'上半年') 
+             when month(o.order_date)<![CDATA[ >= ]]>6 then CONCAT(year(o.order_date),'下半年')
+		         else null
+		         end)
     </select>
+    
+    <select id="queryAreaBudgetNamesHalfYear" resultType="string">
+	SELECT 
+        b.name AS name
+   FROM base_execute_order o
+   LEFT JOIN base_area_finance F
+   ON  o.area_id=F.area_id
+   LEFT JOIN base_area b
+        ON   o.area_id=b.id
+   WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
+         and o.order_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND o.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR})
+   GROUP BY  b.name
+    </select>
+    
+    <select id="queryAreaBudgetTimesHalfYear" resultType="string">
+	SELECT 
+        case when month(o.order_date)<![CDATA[ < ]]>6 then CONCAT(year(o.order_date),'上半年') 
+            when month(o.order_date)<![CDATA[ >= ]]>6 then CONCAT(year(o.order_date),'下半年')
+		    else null
+		    end  AS order_num 
+   FROM base_execute_order o
+   LEFT JOIN base_area_finance F
+   ON  o.area_id=F.area_id
+   LEFT JOIN base_area b
+        ON   o.area_id=b.id
+   WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
+         and o.order_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR}) AND o.order_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR})
+   GROUP BY  
+            (case when month(o.order_date)<![CDATA[ < ]]>6 then CONCAT(year(o.order_date),'上半年') 
+             when month(o.order_date)<![CDATA[ >= ]]>6 then CONCAT(year(o.order_date),'下半年')
+		         else null
+		         end)
+    </select>
+    
     <select id="queryAreaBudgetByDateWholeYear1" resultMap="BaseResultMap">
-        select order_num,
-        max( case when  name='北京公司' then yswc else 0  end )as 北京公司,
-        max( case when  name='广东公司' then yswc else 0  end )as 广东公司,
-        max( case when  name='石家庄' then yswc else  0 end) as 石家庄
-        from (
-        SELECT
+       select order_num,
+      max( case when  name='北京公司' then yswc else 0  end )as 北京公司,
+      max( case when  name='广东公司' then yswc else 0  end )as 广东公司,
+      max( case when  name='石家庄' then yswc else  0 end) as 石家庄
+from (
+	SELECT 
         year(o.order_date) AS order_num ,b.name AS name,count(o.order_num)/SUM(F.pay1)*100 as yswc
-        FROM base_execute_order o
-        LEFT JOIN base_area_finance F
-        ON  o.area_id=F.area_id
-        LEFT JOIN base_area b
+   FROM base_execute_order o
+   LEFT JOIN base_area_finance F
+   ON  o.area_id=F.area_id
+   LEFT JOIN base_area b
         ON   o.area_id=b.id
-        WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
-        and o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
-        GROUP BY  b.name,year(o.order_date)
-
-        ) t
-        group by order_num
+   WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
+    and o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+   GROUP BY  b.name,year(o.order_date) 
+   
+   ) t
+   group by order_num
     </select>
-
+    
     <select id="queryAreaBudgetByDateWholeYear" resultMap="BaseResultMap">
-        SELECT
+	SELECT 
         year(o.order_date) AS order_num ,b.name AS name,count(o.order_num)/SUM(F.pay1)*100 as yswc
-        FROM base_execute_order o
-        LEFT JOIN base_area_finance F
-        ON  o.area_id=F.area_id
-        LEFT JOIN base_area b
+   FROM base_execute_order o
+   LEFT JOIN base_area_finance F
+   ON  o.area_id=F.area_id
+   LEFT JOIN base_area b
         ON   o.area_id=b.id
-        WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
-        and o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
-        GROUP BY  b.name,year(o.order_date)
+   WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
+    and o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+   GROUP BY  b.name,year(o.order_date) 
 
     </select>
     <select id="queryAreaBudgetNamesWholeYear" resultType="string">
-        SELECT
+	SELECT 
         b.name AS name
-        FROM base_execute_order o
-        LEFT JOIN base_area_finance F
-        ON  o.area_id=F.area_id
-        LEFT JOIN base_area b
+   FROM base_execute_order o
+   LEFT JOIN base_area_finance F
+   ON  o.area_id=F.area_id
+   LEFT JOIN base_area b
         ON   o.area_id=b.id
-        WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
-        and o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
-        GROUP BY  b.name
+   WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
+    and o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+   GROUP BY  b.name
 
     </select>
     <select id="queryAreaBudgetTimesWholeYear"  resultType="string">
-        SELECT
-        year(o.order_date) AS order_num
-        FROM base_execute_order o
-        LEFT JOIN base_area_finance F
-        ON  o.area_id=F.area_id
-        LEFT JOIN base_area b
+	SELECT 
+        year(o.order_date) AS order_num 
+   FROM base_execute_order o
+   LEFT JOIN base_area_finance F
+   ON  o.area_id=F.area_id
+   LEFT JOIN base_area b
         ON   o.area_id=b.id
-        WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
-        and o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
-        GROUP BY  year(o.order_date)
+   WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
+    and o.order_date <![CDATA[ >= ]]> date(#{startDate,jdbcType=VARCHAR}) AND o.order_date <![CDATA[ <= ]]> date(#{endDate,jdbcType=VARCHAR})
+   GROUP BY  year(o.order_date) 
 
     </select>
+    
+    
+	<select id="queryAreaBudgetByDateQuarterYear" resultMap="BaseResultMap">
 
-
-    <select id="queryAreaBudgetByDateQuarterYear" resultMap="BaseResultMap">
-        select order_num,
-        max( case when  name='北京公司' then yswc else 0  end )as 北京公司,
-        max( case when  name='广东公司' then yswc else 0  end )as 广东公司,
-        max( case when  name='石家庄' then yswc else  0 end) as 石家庄
-        from (
-        SELECT
-        CONCAT(YEAR(o.order_date),'年',quarter(o.order_date),'季度')  AS order_num ,
+	SELECT 
+         CONCAT(YEAR(o.order_date),'年',quarter(o.order_date),'季度')  AS order_num ,
         b.name AS name,count(o.order_num)/SUM(F.pay1)*100  as yswc
-        FROM base_execute_order o
-        LEFT JOIN base_area_finance F
-        ON  o.area_id=F.area_id
-        LEFT JOIN base_area b
+   FROM base_execute_order o
+   LEFT JOIN base_area_finance F
+   ON  o.area_id=F.area_id
+   LEFT JOIN base_area b
         ON   o.area_id=b.id
-        WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
-        and o.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR})  AND o.order_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})
-        GROUP BY  b.name, CONCAT(YEAR(o.order_date),'年',quarter(o.order_date),'季度')
+   WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
+         and o.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR})  AND o.order_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})  
+   GROUP BY  b.name, CONCAT(YEAR(o.order_date),'年',quarter(o.order_date),'季度')
+    </select>
 
-        ) t
-        group by order_num
+<select id="queryAreaBudgetNamesQuarterYear" resultType="string">
+
+	SELECT 
+        b.name AS name 
+   FROM base_execute_order o
+   LEFT JOIN base_area_finance F
+   ON  o.area_id=F.area_id
+   LEFT JOIN base_area b
+        ON   o.area_id=b.id
+   WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
+         and o.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR})  AND o.order_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})  
+   GROUP BY  b.name
+    </select>
+    
+    <select id="queryAreaBudgetTimesQuarterYear" resultType="string">
+
+	SELECT 
+         CONCAT(YEAR(o.order_date),'年',quarter(o.order_date),'季度')  AS order_num 
+   FROM base_execute_order o
+   LEFT JOIN base_area_finance F
+   ON  o.area_id=F.area_id
+   LEFT JOIN base_area b
+        ON   o.area_id=b.id
+   WHERE o.del_flag = 0 AND o.item_status = 0 AND o.status in (2,3) and f.del_flag = 0 AND f.item_status = 0
+         and o.order_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR})  AND o.order_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})  
+   GROUP BY  CONCAT(YEAR(o.order_date),'年',quarter(o.order_date),'季度')
     </select>
 
 
@@ -542,534 +800,168 @@
         GROUP BY t1.custom_id
         ORDER BY J_PAY DESC;
     </select>
-
-
+    
+    
     <select id="queryCustomerByProfitDateMonth" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='4A1' then J_PAY else 0  end )as 4A1,
-        max( case when  name='4A2' then J_PAY else 0  end )as 4A2,
-        max( case when  name='4A3' then J_PAY else 0  end )as 4A3,
-        max( case when  name='4A4' then J_PAY else 0  end )as 4A4
-        from (
-
         SELECT date_format(t1.start_date,'%Y-%m')  start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '4A公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR}) AND t2.custom_type='1'
-        GROUP BY t1.custom_id ,date_format(t1.start_date,'%Y-%m')
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '201701',100000,200000,150000,170000
-        UNION ALL
-        SELECT '201702',200000,140000,120000,180000
-        UNION ALL
-        SELECT '201703',160000,210000,120000,140000
-        UNION ALL
-        SELECT '201704',140000,220000,110000,145000
-        UNION ALL
-        SELECT '201705',180000,260000,150000,190000
-        UNION ALL
-        SELECT '201706',150000,240000,130000,130000
-        UNION ALL
-        SELECT '201707',140000,260000,100000,170000
+t1.custom_id AS custom_id ,
+t2.name AS name,
+t2.custom_type 	AS custom_type,
+SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
+SUM(t1.income-t1.cost_buy) AS M_PAY
+FROM base_custom_finance t1
+INNER JOIN base_custom t2
+ON  t1.custom_id=t2.id
+WHERE t2.custom_type =#{customerType,jdbcType=TINYINT} AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR})
+AND t1.end_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR})
+GROUP BY t1.custom_id ,date_format(t1.start_date,'%Y-%m')
     </select>
+    
+    
+    <select id="queryCustomerNamesMonth" resultType="string">
+        SELECT 
+t2.name AS name
+FROM base_custom_finance t1
+INNER JOIN base_custom t2
+ON  t1.custom_id=t2.id
+WHERE t2.custom_type =#{customerType,jdbcType=TINYINT} AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
+AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})
+GROUP BY t2.name
+    </select>
+    
+        <select id="queryCustomerTimesMonth" resultType="string">
+        SELECT date_format(t1.start_date,'%Y-%m')  start_date 
+FROM base_custom_finance t1
+INNER JOIN base_custom t2
+ON  t1.custom_id=t2.id
+WHERE t2.custom_type =#{customerType,jdbcType=TINYINT} AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
+AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})
+GROUP BY date_format(t1.start_date,'%Y-%m')
+    </select>
+    
     <select id="queryCustomerByProfitDateQuarter" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='4A1' then J_PAY else 0  end )as 4A1,
-        max( case when  name='4A2' then J_PAY else 0  end )as 4A2,
-        max( case when  name='4A3' then J_PAY else 0  end )as 4A3,
-        max( case when  name='4A4' then J_PAY else 0  end )as 4A4
-        from (
-
-        SELECT CONCAT(YEAR(t1.start_date),'年',quarter(t1.start_date),'季度')  start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '4A公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})   AND t2.custom_type='1'
-        GROUP BY t1.custom_id ,CONCAT(YEAR(t1.start_date),'年',quarter(t1.start_date),'季度')
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '2017第一季度',1700000,2200000,1250000,1670000
-        UNION ALL
-        SELECT '2017第二季度',2700000,1840000,1920000,1880000
-        UNION ALL
-        SELECT '2017第三季度',1860000,2510000,1520000,1540000
-        UNION ALL
-        SELECT '2017第四季度',1140000,2120000,1110000,1145000
+SELECT CONCAT(YEAR(t1.start_date),'年',quarter(t1.start_date),'季度')    start_date,
+t1.custom_id AS custom_id ,
+t2.name AS name,
+t2.custom_type 	AS custom_type,
+SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
+SUM(t1.income-t1.cost_buy) AS M_PAY
+FROM base_custom_finance t1
+INNER JOIN base_custom t2
+ON  t1.custom_id=t2.id
+WHERE t2.custom_type =#{customerType,jdbcType=TINYINT} AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
+AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})
+GROUP BY t1.custom_id ,CONCAT(YEAR(t1.start_date),'年',quarter(t1.start_date),'季度')
     </select>
+    
+    <select id="queryCustomerNamesQuarter" resultType="string">
+SELECT  
+t2.name AS name 
+FROM base_custom_finance t1
+INNER JOIN base_custom t2
+ON  t1.custom_id=t2.id
+WHERE t2.custom_type =#{customerType,jdbcType=TINYINT} AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
+AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})
+GROUP BY t2.name
+    </select>
+    
+    <select id="queryCustomerTimesQuarter" resultType="string">
+SELECT CONCAT(YEAR(t1.start_date),'年',quarter(t1.start_date),'季度')    start_date 
+FROM base_custom_finance t1
+INNER JOIN base_custom t2
+ON  t1.custom_id=t2.id
+WHERE t2.custom_type =#{customerType,jdbcType=TINYINT} AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
+AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})
+GROUP BY CONCAT(YEAR(t1.start_date),'年',quarter(t1.start_date),'季度')
+    </select>
+    
     <select id="queryCustomerByProfitDateHalfYear" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='4A1' then J_PAY else 0  end )as 4A1,
-        max( case when  name='4A2' then J_PAY else 0  end )as 4A2,
-        max( case when  name='4A3' then J_PAY else 0  end )as 4A3,
-        max( case when  name='4A4' then J_PAY else 0  end )as 4A4
-        from (
-
         SELECT case when month(t1.start_date)<![CDATA[ < ]]>6 then CONCAT(year(t1.start_date),'上半年')
-        when month(t1.start_date)<![CDATA[ >= ]]>6 then CONCAT(year(t1.start_date),'下半年')
-        else null
-        end   start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '4A公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='1'
-        GROUP BY t1.custom_id ,case when month(t1.start_date)<![CDATA[ < ]]>6 then CONCAT(year(t1.start_date),'上半年')
-        when month(t1.start_date)<![CDATA[ >= ]]>6 then CONCAT(year(t1.start_date),'下半年')
-        else null
-        end
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '2016上半年',370000,420000,125000,167000
-        UNION ALL
-        SELECT '2016下半年',570000,184000,192000,188000
-        UNION ALL
-        SELECT '2017上半年',186000,31000,152000,154000
-        UNION ALL
-        SELECT '2017下半年',140000,220000,110000,114500
+when month(t1.start_date)<![CDATA[ >= ]]>6 then CONCAT(year(t1.start_date),'下半年')
+else null
+end as start_date,
+t1.custom_id AS custom_id ,
+t2.name AS name,
+t2.custom_type 	AS custom_type,
+SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
+SUM(t1.income-t1.cost_buy) AS M_PAY
+FROM base_custom_finance t1
+INNER JOIN base_custom t2
+ON  t1.custom_id=t2.id
+WHERE t2.custom_type=#{customerType,jdbcType=TINYINT} AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
+AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})
+GROUP BY t1.custom_id ,
+case when month(t1.start_date)<![CDATA[ < ]]>6 then CONCAT(year(t1.start_date),'上半年')
+when month(t1.start_date)<![CDATA[ >= ]]>6 then CONCAT(year(t1.start_date),'下半年')
+else null
+end
     </select>
+    
+    
+     <select id="queryCustomerNamesHalfYear" resultType="string">
+        SELECT  
+t2.name AS name 
+FROM base_custom_finance t1
+INNER JOIN base_custom t2
+ON  t1.custom_id=t2.id
+WHERE t2.custom_type=#{customerType,jdbcType=TINYINT} AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
+AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})
+GROUP BY t2.name
+    </select>
+    
+     <select id="queryCustomerTimesHalfYear" resultType="string">
+        SELECT case when month(t1.start_date)<![CDATA[ < ]]>6 then CONCAT(year(t1.start_date),'上半年')
+when month(t1.start_date)<![CDATA[ >= ]]>6 then CONCAT(year(t1.start_date),'下半年')
+else null
+end as start_date 
+FROM base_custom_finance t1
+INNER JOIN base_custom t2
+ON  t1.custom_id=t2.id
+WHERE t2.custom_type=#{customerType,jdbcType=TINYINT} AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
+AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})
+GROUP BY  case when month(t1.start_date)<![CDATA[ < ]]>6 then CONCAT(year(t1.start_date),'上半年')
+when month(t1.start_date)<![CDATA[ >= ]]>6 then CONCAT(year(t1.start_date),'下半年')
+else null
+end
+    </select>
+    
     <select id="queryCustomerByProfitDateWholeYear" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='直客1' then J_PAY else 0  end )as 4A1,
-        max( case when  name='直客2' then J_PAY else 0  end )as 4A2,
-        max( case when  name='直客3' then J_PAY else 0  end )as 4A3,
-        max( case when  name='直客4' then J_PAY else 0  end )as 4A4
-        from (
-
-        SELECT year(t1.start_date)  start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '直客公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='1'
-        GROUP BY t1.custom_id ,year(t1.start_date)
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '2015年',470000,220000,125000,567000
-        UNION ALL
-        SELECT '2016年',570000,614000,292000,788000
-        UNION ALL
-        SELECT '2017年',616000,251000,252000,454000
+       SELECT year(t1.start_date) as start_date,
+t1.custom_id AS custom_id ,
+t2.name AS name,
+t2.custom_type 	AS custom_type,
+SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
+SUM(t1.income-t1.cost_buy) AS M_PAY
+FROM base_custom_finance t1
+INNER JOIN base_custom t2
+ON  t1.custom_id=t2.id
+WHERE t2.custom_type =#{customerType,jdbcType=TINYINT} AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
+AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})
+GROUP BY t1.custom_id ,
+         year(t1.start_date)
     </select>
-
-
-    <select id="queryCustomerByProfitDateMonth2" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='直客1' then J_PAY else 0  end )as 直客1,
-        max( case when  name='直客2' then J_PAY else 0  end )as 直客2,
-        max( case when  name='直客3' then J_PAY else 0  end )as 直客3,
-        max( case when  name='直客4' then J_PAY else 0  end )as 直客4
-        from (
-
-        SELECT date_format(t1.start_date,'%Y-%m')  start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '直客公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='2'
-        GROUP BY t1.custom_id ,date_format(t1.start_date,'%Y-%m')
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '201701',100000,200000,150000,170000
-        UNION ALL
-        SELECT '201702',200000,140000,120000,180000
-        UNION ALL
-        SELECT '201703',160000,210000,120000,140000
-        UNION ALL
-        SELECT '201704',140000,220000,110000,145000
-        UNION ALL
-        SELECT '201705',180000,260000,150000,190000
-        UNION ALL
-        SELECT '201706',150000,240000,130000,130000
-        UNION ALL
-        SELECT '201707',140000,260000,100000,170000
+    
+    <select id="queryCustomerNamesWholeYear" resultType="string">
+       SELECT 
+t2.name AS name 
+FROM base_custom_finance t1
+INNER JOIN base_custom t2
+ON  t1.custom_id=t2.id
+WHERE t2.custom_type =#{customerType,jdbcType=TINYINT} AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
+AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})
+GROUP BY t2.name
     </select>
-    <select id="queryCustomerByProfitDateQuarter2" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='直客1' then J_PAY else 0  end )as 直客1,
-        max( case when  name='直客2' then J_PAY else 0  end )as 直客2,
-        max( case when  name='直客3' then J_PAY else 0  end )as 直客3,
-        max( case when  name='直客4' then J_PAY else 0  end )as 直客4
-        from (
-
-        SELECT CONCAT(YEAR(t1.start_date),'年',quarter(t1.start_date),'季度')  start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '直客公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='2'
-        GROUP BY t1.custom_id ,CONCAT(YEAR(t1.start_date),'年',quarter(t1.start_date),'季度')
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '2017第一季度',1700000,2200000,1250000,1670000
-        UNION ALL
-        SELECT '2017第二季度',2700000,1840000,1920000,1880000
-        UNION ALL
-        SELECT '2017第三季度',1860000,2510000,1520000,1540000
-        UNION ALL
-        SELECT '2017第四季度',1140000,2120000,1110000,1145000
+    
+    <select id="queryCustomerTimesWholeYear" resultType="string">
+       SELECT year(t1.start_date) as start_date 
+FROM base_custom_finance t1
+INNER JOIN base_custom t2
+ON  t1.custom_id=t2.id
+WHERE t2.custom_type =#{customerType,jdbcType=TINYINT} AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
+AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})
+GROUP BY year(t1.start_date)
     </select>
-    <select id="queryCustomerByProfitDateHalfYear2" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='直客1' then J_PAY else 0  end )as 直客1,
-        max( case when  name='直客2' then J_PAY else 0  end )as 直客2,
-        max( case when  name='直客3' then J_PAY else 0  end )as 直客3,
-        max( case when  name='直客4' then J_PAY else 0  end )as 直客4
-        from (
-
-        SELECT case when month(t1.start_date)<![CDATA[ < ]]>6 then CONCAT(year(t1.start_date),'上半年')
-        when month(t1.start_date)<![CDATA[ >= ]]>6 then CONCAT(year(t1.start_date),'下半年')
-        else null
-        end   start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '4A公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='2'
-        GROUP BY t1.custom_id ,case when month(t1.start_date)<![CDATA[ < ]]>6 then CONCAT(year(t1.start_date),'上半年')
-        when month(t1.start_date)<![CDATA[ >= ]]>6 then CONCAT(year(t1.start_date),'下半年')
-        else null
-        end
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '2016上半年',170000,220000,125000,167000
-        UNION ALL
-        SELECT '2016下半年',270000,184000,192000,188000
-        UNION ALL
-        SELECT '2017上半年',186000,251000,152000,154000
-        UNION ALL
-        SELECT '2017下半年',140000,220000,110000,114500
-    </select>
-    <select id="queryCustomerByProfitDateWholeYear2" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='直客1' then J_PAY else 0  end )as 直客1,
-        max( case when  name='直客2' then J_PAY else 0  end )as 直客2,
-        max( case when  name='直客3' then J_PAY else 0  end )as 直客3,
-        max( case when  name='直客4' then J_PAY else 0  end )as 直客4
-        from (
-
-        SELECT year(t1.start_date)   start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '4A公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='2'
-        GROUP BY t1.custom_id ,year(t1.start_date)
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '2015年',4170000,2220000,1125000,5167000
-        UNION ALL
-        SELECT '2016年',5270000,6184000,2192000,7188000
-        UNION ALL
-        SELECT '2017年',6186000,5251000,2152000,4154000
-    </select>
-
-    <select id="queryCustomerByMarginDateMonth" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='4A1' then M_PAY else 0  end )as 4A1,
-        max( case when  name='4A2' then M_PAY else 0  end )as 4A2,
-        max( case when  name='4A3' then M_PAY else 0  end )as 4A3,
-        max( case when  name='4A4' then M_PAY else 0  end )as 4A4
-        from (
-
-        SELECT date_format(t1.start_date,'%Y-%m')  start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '4A公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})   AND t2.custom_type='1'
-        GROUP BY t1.custom_id ,date_format(t1.start_date,'%Y-%m')
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '201701',1700000,2200000,1250000,1670000
-        UNION ALL
-        SELECT '201702',2700000,1840000,1920000,1880000
-        UNION ALL
-        SELECT '201703',1860000,2510000,1520000,1540000
-        UNION ALL
-        SELECT '201704',1140000,2120000,1110000,1145000
-        UNION ALL
-        SELECT '201705',1180000,2610000,1150000,1190000
-        UNION ALL
-        SELECT '201706',1530000,2340000,1330000,1330000
-        UNION ALL
-        SELECT '201707',1640000,2680000,1800000,1880000
-    </select>
-    <select id="queryCustomerByMarginDateQuarter" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='4A1' then M_PAY else 0  end )as 4A1,
-        max( case when  name='4A2' then M_PAY else 0  end )as 4A2,
-        max( case when  name='4A3' then M_PAY else 0  end )as 4A3,
-        max( case when  name='4A4' then M_PAY else 0  end )as 4A4
-        from (
-
-        SELECT CONCAT(YEAR(t1.start_date),'年',quarter(t1.start_date),'季度')  start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '4A公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='1'
-        GROUP BY t1.custom_id ,CONCAT(YEAR(t1.start_date),'年',quarter(t1.start_date),'季度')
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '2017第一季度',1700000,2200000,1250000,1670000
-        UNION ALL
-        SELECT '2017第二季度',2700000,1840000,1920000,1880000
-        UNION ALL
-        SELECT '2017第三季度',1860000,2510000,1520000,1540000
-        UNION ALL
-        SELECT '2017第四季度',1140000,2120000,1110000,1145000
-    </select>
-    <select id="queryCustomerByMarginDateHalfYear" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='4A1' then M_PAY else 0  end )as 4A1,
-        max( case when  name='4A2' then M_PAY else 0  end )as 4A2,
-        max( case when  name='4A3' then M_PAY else 0  end )as 4A3,
-        max( case when  name='4A4' then M_PAY else 0  end )as 4A4
-        from (
-
-        SELECT case when month(t1.start_date)<![CDATA[ < ]]>6 then CONCAT(year(t1.start_date),'上半年')
-        when month(t1.start_date)<![CDATA[ >= ]]>6 then CONCAT(year(t1.start_date),'下半年')
-        else null
-        end   start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '4A公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date(#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='1'
-        GROUP BY t1.custom_id ,case when month(t1.start_date)<![CDATA[ < ]]>6 then CONCAT(year(t1.start_date),'上半年')
-        when month(t1.start_date)<![CDATA[ >= ]]>6 then CONCAT(year(t1.start_date),'下半年')
-        else null
-        end
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '2016上半年',1700000,2200000,1250000,1670000
-        UNION ALL
-        SELECT '2016下半年',2700000,1840000,1920000,1880000
-        UNION ALL
-        SELECT '2017上半年',1860000,2510000,1520000,1540000
-        UNION ALL
-        SELECT '2017下半年',1140000,2120000,1110000,1145000
-
-    </select>
-    <select id="queryCustomerByMarginDateWholeYear" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='直客1' then M_PAY else 0  end )as 4A1,
-        max( case when  name='直客2' then M_PAY else 0  end )as 4A2,
-        max( case when  name='直客3' then M_PAY else 0  end )as 4A3,
-        max( case when  name='直客4' then M_PAY else 0  end )as 4A4
-        from (
-
-        SELECT year(t1.start_date)  start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '直客公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date(#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='1'
-        GROUP BY t1.custom_id ,year(t1.start_date)
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '2015年',470000,220000,125000,567000
-        UNION ALL
-        SELECT '2016年',570000,614000,292000,788000
-        UNION ALL
-        SELECT '2017年',616000,251000,252000,454000
-    </select>
-
-
-    <select id="queryCustomerByMarginDateMonth2" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='直客1' then M_PAY else 0  end )as 直客1,
-        max( case when  name='直客2' then M_PAY else 0  end )as 直客2,
-        max( case when  name='直客3' then M_PAY else 0  end )as 直客3,
-        max( case when  name='直客4' then M_PAY else 0  end )as 直客4
-        from (
-
-        SELECT date_format(t1.start_date,'%Y-%m')  start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '直客公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date (#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date (#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='2'
-        GROUP BY t1.custom_id ,date_format(t1.start_date,'%Y-%m')
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '201701',1700000,2200000,1250000,1670000
-        UNION ALL
-        SELECT '201702',2700000,1840000,1920000,1880000
-        UNION ALL
-        SELECT '201703',1860000,2510000,1520000,1540000
-        UNION ALL
-        SELECT '201704',1140000,2120000,1110000,1145000
-        UNION ALL
-        SELECT '201705',1180000,2610000,1150000,1190000
-        UNION ALL
-        SELECT '201706',1530000,2340000,1330000,1330000
-        UNION ALL
-        SELECT '201707',1640000,2680000,1800000,1880000
-    </select>
-    <select id="queryCustomerByMarginDateQuarter2" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='直客1' then M_PAY else 0  end )as  直客1,
-        max( case when  name='直客2' then M_PAY else 0  end )as 直客2,
-        max( case when  name='直客3' then M_PAY else 0  end )as 直客3,
-        max( case when  name='直客4' then M_PAY else 0  end )as 直客4
-        from (
-
-        SELECT CONCAT(YEAR(t1.start_date),'年',quarter(t1.start_date),'季度')  start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '直客公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date  (#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date  (#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='2'
-        GROUP BY t1.custom_id ,CONCAT(YEAR(t1.start_date),'年',quarter(t1.start_date),'季度')
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '2017第一季度',17800000,22800000,12580000,16780000
-        UNION ALL
-        SELECT '2017第二季度',27800000,18840000,18920000,18880000
-        UNION ALL
-        SELECT '2017第三季度',18860000,25810000,18520000,18540000
-        UNION ALL
-        SELECT '2017第四季度',18140000,21820000,11810000,18145000
-    </select>
-    <select id="queryCustomerByMarginDateHalfYear2" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='直客1' then M_PAY else 0  end )as 直客1,
-        max( case when  name='直客2' then M_PAY else 0  end )as 直客2,
-        max( case when  name='直客3' then M_PAY else 0  end )as 直客3,
-        max( case when  name='直客4' then M_PAY else 0  end )as 直客4
-        from (
-
-        SELECT case when month(t1.start_date)<![CDATA[ < ]]>6 then CONCAT(year(t1.start_date),'上半年')
-        when month(t1.start_date)<![CDATA[ >= ]]>6 then CONCAT(year(t1.start_date),'下半年')
-        else null
-        end   start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '4A公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date  (#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date  (#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='2'
-        GROUP BY t1.custom_id ,case when month(t1.start_date)<![CDATA[ < ]]>6 then CONCAT(year(t1.start_date),'上半年')
-        when month(t1.start_date)<![CDATA[ >= ]]>6 then CONCAT(year(t1.start_date),'下半年')
-        else null
-        end
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '2016上半年',70000,20000,25000,67000
-        UNION ALL
-        SELECT '2016下半年',70000,84000,92000,88000
-        UNION ALL
-        SELECT '2017上半年',86000,51000,52000,54000
-        UNION ALL
-        SELECT '2017下半年',40000,20000,10000,14500
-
-    </select>
-    <select id="queryCustomerByMarginDateWholeYear2" resultMap="BaseResultMap">
-        select start_date,
-        max( case when  name='直客1' then M_PAY else 0  end )as 直客1,
-        max( case when  name='直客2' then M_PAY else 0  end )as 直客2,
-        max( case when  name='直客3' then M_PAY else 0  end )as 直客3,
-        max( case when  name='直客4' then M_PAY else 0  end )as 直客4
-        from (
-
-        SELECT year(t1.start_date)   start_date,
-        t1.custom_id AS custom_id ,
-        t2.name AS name,
-        '4A公司' AS custom_type,
-        SUM(t1.income-t1.cost_buy-t1.room_pay-t1.person_pay-t1.tax-t1.sales_commission-other_pay) AS J_PAY,
-        SUM(income-cost_buy) AS M_PAY
-        FROM base_custom_finance t1
-        INNER JOIN base_custom t2
-        ON  t1.custom_id=t2.id
-        WHERE t2.custom_type IN(1,2) AND t1.del_flag = 0 AND t1.item_status = 0 AND t1.start_date<![CDATA[ >= ]]>date  (#{startDate,jdbcType=VARCHAR})
-        AND t1.end_date<![CDATA[ <= ]]>date  (#{endDate,jdbcType=VARCHAR})  AND t2.custom_type='2'
-        GROUP BY t1.custom_id ,year(t1.start_date)
-        ) M GROUP BY start_date
-        UNION ALL
-        SELECT '2015年',4170000,2220000,1125000,5167000
-        UNION ALL
-        SELECT '2016年',5270000,6184000,2192000,7188000
-        UNION ALL
-        SELECT '2017年',6186000,5251000,2152000,4154000
-    </select>
-
-
+    
     <select id="queryCustomerByPay" resultMap="BaseResultMap">
         SELECT t1.custom_id AS custom_id,t1.name AS name,t2.pay_percent AS pay_percent
         FROM  base_custom_finance t1
