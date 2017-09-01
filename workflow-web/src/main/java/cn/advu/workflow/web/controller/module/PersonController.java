@@ -154,7 +154,9 @@ public class PersonController {
         if (areaId != null && areaId != 0) {
             deptTreeJson = treeMananger.converToTreeJsonStr(deptService.findAreaDeptNodeList(areaId).getData());
             BaseArea baseArea = areaService.findById(areaId).getData();
-            areaName = baseArea.getName();
+            if (baseArea != null) {
+                areaName = baseArea.getName();
+            }
         }
 
         List<BasePerson> parentList = null;
@@ -162,7 +164,9 @@ public class PersonController {
         if (deptId != null && deptId != 0) {
             BaseDept parentDept = deptService.findById(deptId).getData();
             deptName = parentDept.getName();
-            parentList = personMananger.findPersonByDept(deptId);
+            if (deptName != null) {
+                parentList = personMananger.findPersonByDept(deptId);
+            }
         }
         model.addAttribute("deptName", deptName);
         model.addAttribute("areaName", areaName);
