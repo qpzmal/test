@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `base_buy_order` (
   `pay_percent` decimal(5,4) DEFAULT '0.0000' COMMENT '付款比例',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `area_id` int(11) NOT NULL DEFAULT '0' COMMENT '所属区域Id',
-  `wf_step` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '工作流步骤数(暂时没使用)',
+  `wf_step` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '工作流步骤数',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记 ，0正常，1删除',
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -256,19 +256,41 @@ CREATE TABLE IF NOT EXISTS `base_execute_order` (
   `our_monitor_name` varchar(50) NOT NULL DEFAULT '' COMMENT '我方监测',
   `report_type_id` varchar(50) NOT NULL DEFAULT '0' COMMENT '报告类型Id',
   `signing_intention` varchar(30) DEFAULT NULL COMMENT '签约意向',
-  `person_payee_id` VARCHAR(30) NOT NULL DEFAULT '' COMMENT '收款负责人',
-  `pay_percent` decimal(5,4) DEFAULT '0.0000' COMMENT '付款比例',
+  `person_payee_id` varchar(30) NOT NULL DEFAULT '' COMMENT '收款负责人',
+  `pay_percent` decimal(5,4) DEFAULT '0.0000' COMMENT '回款比例',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '登录用户id',
   `account_period` int(5) DEFAULT '0' COMMENT '账期，以日为单位',
   `frame_id` int(11) DEFAULT NULL COMMENT '框架协议id',
   `sign_type` tinyint(1) NOT NULL COMMENT '签约类型：1：代理2：直客',
+  `contract_status` tinyint(1) NOT NULL DEFAULT '-1' COMMENT '合同签署状态（-1未签署；0已签署；）',
+  `contract_img_status` tinyint(1) NOT NULL DEFAULT '-1' COMMENT '扫描版合同状态（-1未上传；0已上传；）',
+  `original_contract_status` tinyint(1) NOT NULL DEFAULT '-1' COMMENT '原章合同状态（-1无；0有；）',
+  `execute_order_img_status` tinyint(1) NOT NULL DEFAULT '-1' COMMENT '扫描版排期单状态（-1未上传；0已上传；）',
+  `original_execute_order_status` tinyint(1) NOT NULL DEFAULT '-1' COMMENT '原章排期状态（-1无；0有；）',
+  `confirm_cost_status` tinyint(1) NOT NULL DEFAULT '-1' COMMENT '成本确认状态（-1未确认；0已确认；）',
+  `reminder_payment_status` tinyint(1) NOT NULL DEFAULT '-1' COMMENT '催款状态（-1未完成；0已完成）',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记 ，0正常，1删除',
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `remark` varchar(255) DEFAULT '' COMMENT '备注',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `order_num` (`order_num`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户需求单';
+
+-- 数据导出被取消选择。
+
+
+-- 导出  表 fcf_vu.base_execute_order_activiti_history 结构
+DROP TABLE IF EXISTS `base_execute_order_activiti_history`;
+CREATE TABLE IF NOT EXISTS `base_execute_order_activiti_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ececute_order_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `activiti_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'PROC_INST_ID_',
+  `creator_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='base_execute_order表和activiti的历史记录表。';
 
 -- 数据导出被取消选择。
 
@@ -303,8 +325,8 @@ CREATE TABLE IF NOT EXISTS `base_execute_order_frame` (
   `our_monitor_name` varchar(50) NOT NULL DEFAULT '' COMMENT '我方监测',
   `report_type_id` varchar(50) NOT NULL DEFAULT '' COMMENT '报告类型Id',
   `signing_intention` varchar(30) DEFAULT '' COMMENT '签约意向',
-  `person_payee_id` VARCHAR(30) NOT NULL DEFAULT '' COMMENT '收款负责人',
-  `pay_percent` decimal(5,4) DEFAULT '0.0000' COMMENT '付款比例',
+  `person_payee_id` varchar(30) NOT NULL DEFAULT '' COMMENT '收款负责人',
+  `pay_percent` decimal(5,4) DEFAULT '0.0000' COMMENT '回款比例',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '登录用户id',
   `account_period` int(5) DEFAULT '0' COMMENT '账期，以日为单位',
   `frame_id` int(11) DEFAULT '0' COMMENT '框架协议id',
@@ -320,6 +342,21 @@ CREATE TABLE IF NOT EXISTS `base_execute_order_frame` (
 -- 数据导出被取消选择。
 
 
+-- 导出  表 fcf_vu.base_fileupload 结构
+DROP TABLE IF EXISTS `base_fileupload`;
+CREATE TABLE IF NOT EXISTS `base_fileupload` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `biz_name` varchar(20) NOT NULL DEFAULT '' COMMENT '业务名',
+  `biz_type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '业务类型：1合同图片，2排期单图片',
+  `file_name` varchar(150) NOT NULL DEFAULT '' COMMENT '文件相对路径',
+  `creator_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 数据导出被取消选择。
+
+
 -- 导出  表 fcf_vu.base_financialindex 结构
 DROP TABLE IF EXISTS `base_financialindex`;
 CREATE TABLE IF NOT EXISTS `base_financialindex` (
@@ -327,6 +364,7 @@ CREATE TABLE IF NOT EXISTS `base_financialindex` (
   `number` varchar(64) NOT NULL DEFAULT '' COMMENT '编号',
   `name` varchar(100) NOT NULL DEFAULT '' COMMENT '标签名',
   `value` varchar(30) NOT NULL DEFAULT '' COMMENT '数据值',
+  `is_system` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否系统内置，0非系统内置，1系统内置',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记 ，0正常，1删除',
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',
   `creator_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建者ID',
@@ -335,7 +373,7 @@ CREATE TABLE IF NOT EXISTS `base_financialindex` (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `remark` varchar(255) DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `number` (`number`)
+  UNIQUE KEY `number` (`number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='财务指标管理';
 
 -- 数据导出被取消选择。
@@ -361,7 +399,7 @@ DROP TABLE IF EXISTS `base_media`;
 CREATE TABLE IF NOT EXISTS `base_media` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `code` varchar(20) NOT NULL DEFAULT '' COMMENT '媒体编码（对应广告曝光的厂商编码）',
-  `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '媒体类型 与base_media_type关联',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '媒体类型 与base_media_type关联',
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '媒体名字',
   `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记 ，0正常，1删除',
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',
@@ -439,6 +477,7 @@ CREATE TABLE IF NOT EXISTS `base_order_cpm` (
 DROP TABLE IF EXISTS `base_person`;
 CREATE TABLE IF NOT EXISTS `base_person` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '公司人员Id',
+  `uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'sys_user表ID',
   `name` varchar(10) NOT NULL DEFAULT '' COMMENT '人名',
   `area_id` int(11) NOT NULL DEFAULT '0' COMMENT '所属区域（公司）Id',
   `mobile` varchar(30) NOT NULL DEFAULT '' COMMENT '手机',
@@ -589,15 +628,34 @@ DROP TABLE IF EXISTS `sys_fuction`;
 CREATE TABLE IF NOT EXISTS `sys_fuction` (
   `id` int(11) unsigned NOT NULL COMMENT 'id',
   `name` varchar(255) NOT NULL COMMENT '名称',
+  `resource_id` int(11) DEFAULT '0' COMMENT '资源ID',
+  `operate_type_id` tinyint(3) unsigned DEFAULT '0' COMMENT '操作类型ID',
   `item_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 ，0正常；1停用',
   `creator_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建者ID',
   `updater_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新者ID',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `resource_id` int(11) DEFAULT '0' COMMENT '资源ID',
-  `operate_type_id` TINYINT UNSIGNED NULL DEFAULT '0' COMMENT '操作类型ID',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `resource_id` (`resource_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='功能列表';
+
+-- 数据导出被取消选择。
+
+
+-- 导出  表 fcf_vu.sys_info 结构
+DROP TABLE IF EXISTS `sys_info`;
+CREATE TABLE IF NOT EXISTS `sys_info` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL DEFAULT '' COMMENT '系统名',
+  `logo` varchar(255) NOT NULL DEFAULT '' COMMENT 'logo路径',
+  `email_switch` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'email通知开关。0关，1开',
+  `sms_switch` tinyint(4) NOT NULL DEFAULT '0' COMMENT '短信通知开关。0关，1开',
+  `creator_id` int(11) NOT NULL DEFAULT '0',
+  `updater_id` int(11) NOT NULL DEFAULT '0',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统属性配置';
 
 -- 数据导出被取消选择。
 
@@ -606,13 +664,13 @@ CREATE TABLE IF NOT EXISTS `sys_fuction` (
 DROP TABLE IF EXISTS `sys_log`;
 CREATE TABLE IF NOT EXISTS `sys_log` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '日志id',
-  `content` longtext COMMENT '变更内容，包含更新前和更新后的内容',
+  `operator` varchar(255) DEFAULT '0' COMMENT '操作者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `type` int(11) NOT NULL COMMENT '1.save,2.update,3delete',
   `ip` varchar(255) NOT NULL DEFAULT '' COMMENT 'ip地址',
   `operation` varchar(255) DEFAULT '' COMMENT '操作URL',
-  `operator` varchar(255) DEFAULT '0' COMMENT '操作者',
+  `content` longtext COMMENT '变更内容，包含更新前和更新后的内容',
   `parameter` longtext COMMENT '参数',
-  `type` int(11) NOT NULL COMMENT '1.save,2.update,3delete',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
