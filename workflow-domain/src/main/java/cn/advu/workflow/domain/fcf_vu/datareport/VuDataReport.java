@@ -11,24 +11,25 @@ public class VuDataReport implements IDomain {
     private String name; // 名称
     private String orderDate; // 日期
     private String startDate; // 日期
+    private String type;
     //分公司
     private String bj;
     private String gd;
     private String sjz;
-
+    
     //媒介
     private String ds;
     private String yy;
     private String hw;
     private String nr;
-
-    //4A
+    
+  //4A
     private String a1;
     private String a2;
     private String a3;
     private String a4;
-
-    //直客
+    
+  //直客
     private String z1;
     private String z2;
     private String z3;
@@ -57,6 +58,14 @@ public class VuDataReport implements IDomain {
     private String payPercent; // 净利润贡献率
 
 
+    
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getStartDate() {
         return startDate;

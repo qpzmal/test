@@ -76,18 +76,18 @@
                                         </div>
 
                                         <div class="col-sm-4 m-b-xs text-right">
-                                            <div data-toggle="buttons" class="btn-group">
-                                                <label class="btn btn-sm btn-white active">
-                                                    <input type="radio" id="option0" name="options" value="0">无</label>
-                                                <label class="btn btn-sm btn-white ">
-                                                    <input type="radio" id="option1" name="options" value="1">月</label>
-                                                <label class="btn btn-sm btn-white">
-                                                    <input type="radio" id="option2" name="options" value="2">季度</label>
-                                                <label class="btn btn-sm btn-white">
-                                                    <input type="radio" id="option3" name="options" value="3">半年</label>
-                                                <label class="btn btn-sm btn-white">
-                                                    <input type="radio" id="option4" name="options" value="4">年</label>
-                                            </div>
+                                            ##<div data-toggle="buttons" class="btn-group">
+                                                ##<label class="btn btn-sm btn-white active">
+                                                    ##<input type="radio" id="option0" name="options" value="0">无</label>
+                                              ##  <label class="btn btn-sm btn-white ">
+                                                  ##  <input type="radio" id="option1" name="options" value="1">月</label>
+                                                ##<label class="btn btn-sm btn-white">
+                                                ##    <input type="radio" id="option2" name="options" value="2">季度</label>
+                                               ## <label class="btn btn-sm btn-white">
+                                                  ##  <input type="radio" id="option3" name="options" value="3">半年</label>
+                                                ##<label class="btn btn-sm btn-white">
+                                                 ##   <input type="radio" id="option4" name="options" value="4">年</label>
+                                            ##</div>
                                             <a href="javascript:;" class="btn btn-success button_view"><i class="fa fa-search "></i> 查询 </a>
                                         </div>
                                     </div>
@@ -133,10 +133,16 @@
             ## 查询结果
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-content">
-                            <div id="echart-container" style="height:400px;" ></div>
-                        </div>
+                    <div class="ibox float-e-margins"  >
+                        <div class="ibox float-e-margins"  >
+							<div class="ibox-content" id="top3" style="height:450px;display:none;" >
+								<div id="echart-container" style="margin-left:-100px;float:left;width:650px;height:400px;" ></div>
+								 <div id="echart-top3" style="margin-right:50px;float:right;width:450px;height:400px;" ></div>
+							</div>
+							<div class="ibox-content" id="bar">
+								<div id="echart-bar" style="width:1100px;height:450px;" ></div>                          
+							</div>
+						</div>
                     </div>
                 </div>
             </div>
@@ -269,10 +275,13 @@
 
     // 基于准备好的dom，初始化echarts实例
     var chart = echarts.init(document.getElementById('echart-container'));
-
+	var topchart = echarts.init(document.getElementById('echart-top3'));
+	var barchart = echarts.init(document.getElementById('echart-bar'));
     //查询
     function initChart() {
         chart.clear();
+        topchart.clear();
+		barchart.clear();
         chart.showLoading({text: '正在努力的读取数据中...'});
         var lid = $(".nav-tabs li.active").attr("lid");
         var startDate = $(".tab-content div.active .startDate").val();
@@ -292,7 +301,16 @@
             success: function(returnData){
                 chart.hideLoading();
                 if (returnData.code == '1') {
-                    chart.setOption(returnData.data, true);
+                    if(returnData.line.title){
+                   		$("#top3").show();
+						$("#bar").hide();
+                   		chart.setOption(returnData.data, true);
+                   		topchart.setOption(returnData.line, true);
+                    }else{
+						$("#top3").hide();
+						$("#bar").show();
+						barchart.setOption(returnData.data, true);
+					}
 //                    chart.setOption(test, true);
                 } else {
                     console.log("返回结果有误");

@@ -73,7 +73,15 @@ public class DataReportServiceImpl implements DataReportService {
 
         return result;
     }
+    
+    @Override
+    public List<VuDataReport> querySaleHistoryBySalerTOP3(String startDate, String endDate) {
+        List<VuDataReport> result = new ArrayList<>();
+       return  dataReportMapper.querySaleHistoryBySalerTOP3(startDate, endDate);
 
+
+    }
+    
     @Override
     public List<VuDataReport> querySaleHistoryByCustomType(String startDate, String endDate, String customType) {
         List<VuDataReport> result = new ArrayList<>();
@@ -91,49 +99,95 @@ public class DataReportServiceImpl implements DataReportService {
     }
 
     @Override
-    public List<VuDataReport> queryBuyResourceByDate(String startDate, String endDate, String type) {
-
-        List<VuDataReport> result = new ArrayList<>();
+    public Map<String,List> queryBuyResourceByDate(String startDate, String endDate, String type) {
+    	
+    	 List<VuDataReport> result = new ArrayList<>();
+         List<String> names = new ArrayList<>();
+         List<String> times = new ArrayList<>();
+         Map<String,List> maps = new HashMap<String,List>();
         if ("1".equals(type)) {
             result = dataReportMapper.queryBuyResourceByDateMonth(startDate, endDate);
+            names = dataReportMapper.queryBuyResourceNamesMonth(startDate, endDate);
+        	times = dataReportMapper.queryBuyResourceTimesMonth(startDate, endDate);
+        	maps.put("result", result);
+        	maps.put("names", names);
+        	maps.put("times", times);
 
         } else if ("2".equals(type)) {
             result = dataReportMapper.queryBuyResourceByDateQuarter(startDate, endDate);
+            names = dataReportMapper.queryBuyResourceNamesQuarter(startDate, endDate);
+        	times = dataReportMapper.queryBuyResourceTimesQuarter(startDate, endDate);
+        	maps.put("result", result);
+        	maps.put("names", names);
+        	maps.put("times", times);
 
         } else if ("3".equals(type)) {
             result = dataReportMapper.queryBuyResourceByDateHalfYear(startDate, endDate);
+            names = dataReportMapper.queryBuyResourceNamesHalfYear(startDate, endDate);
+        	times = dataReportMapper.queryBuyResourceTimesHalfYear(startDate, endDate);
+        	maps.put("result", result);
+        	maps.put("names", names);
+        	maps.put("times", times);
 
         } else if ("4".equals(type)) {
             result = dataReportMapper.queryBuyResourceByDateWholeYear(startDate, endDate);
+            names = dataReportMapper.queryBuyResourceNamesWholeYear(startDate, endDate);
+        	times = dataReportMapper.queryBuyResourceTimesWholeYear(startDate, endDate);
+        	maps.put("result", result);
+        	maps.put("names", names);
+        	maps.put("times", times);
 
         } else {
             LOGGER.warn("input parameter error:type-{}", type);
         }
 
-        return result;
+        return maps;
     }
 
     @Override
-    public List<VuDataReport> queryBuyResourceByDateLine(String startDate, String endDate, String type) {
+    public Map<String,List> queryBuyResourceByDateLine(String startDate, String endDate, String type) {
 
-        List<VuDataReport> result = new ArrayList<>();
+    	List<VuDataReport> result = new ArrayList<>();
+        List<String> names = new ArrayList<>();
+        List<String> times = new ArrayList<>();
+        Map<String,List> maps = new HashMap<String,List>();
         if ("1".equals(type)) {
             result = dataReportMapper.queryBuyResourceByDateLineMonth(startDate, endDate);
+            names = dataReportMapper.queryBuyResourceNamesLineMonth(startDate, endDate);
+        	times = dataReportMapper.queryBuyResourceTimesLineMonth(startDate, endDate);
+        	maps.put("result", result);
+        	maps.put("names", names);
+        	maps.put("times", times);
 
         } else if ("2".equals(type)) {
             result = dataReportMapper.queryBuyResourceByDateLineQuarter(startDate, endDate);
+            names = dataReportMapper.queryBuyResourceNamesLineQuarter(startDate, endDate);
+        	times = dataReportMapper.queryBuyResourceTimesLineQuarter(startDate, endDate);
+        	maps.put("result", result);
+        	maps.put("names", names);
+        	maps.put("times", times);
 
         } else if ("3".equals(type)) {
             result = dataReportMapper.queryBuyResourceByDateLineHalfYear(startDate, endDate);
+            names = dataReportMapper.queryBuyResourceNamesLineHalfYear(startDate, endDate);
+        	times = dataReportMapper.queryBuyResourceTimesLineHalfYear(startDate, endDate);
+        	maps.put("result", result);
+        	maps.put("names", names);
+        	maps.put("times", times);
 
         } else if ("4".equals(type)) {
             result = dataReportMapper.queryBuyResourceByDateLineWholeYear(startDate, endDate);
+            names = dataReportMapper.queryBuyResourceNamesLineWholeYear(startDate, endDate);
+        	times = dataReportMapper.queryBuyResourceTimesLineWholeYear(startDate, endDate);
+        	maps.put("result", result);
+        	maps.put("names", names);
+        	maps.put("times", times);
 
         } else {
             LOGGER.warn("input parameter error:type-{}", type);
         }
 
-        return result;
+        return maps;
     }
 
     @Override
@@ -159,9 +213,19 @@ public class DataReportServiceImpl implements DataReportService {
 
         } else if ("2".equals(type)) {
             result = dataReportMapper.queryAreaBudgetByDateHalfYear(startDate, endDate);
+            names = dataReportMapper.queryAreaBudgetNamesHalfYear(startDate, endDate);
+        	times = dataReportMapper.queryAreaBudgetTimesHalfYear(startDate, endDate);
+        	maps.put("result", result);
+        	maps.put("names", names);
+        	maps.put("times", times);
 
         } else if("3".equals(type)) {
             result = dataReportMapper.queryAreaBudgetByDateQuarterYear(startDate, endDate);
+            names = dataReportMapper.queryAreaBudgetNamesQuarterYear(startDate, endDate);
+        	times = dataReportMapper.queryAreaBudgetTimesQuarterYear(startDate, endDate);
+        	maps.put("result", result);
+        	maps.put("names", names);
+        	maps.put("times", times);
 
         }
 
@@ -188,66 +252,44 @@ public class DataReportServiceImpl implements DataReportService {
     }
     
     @Override
-    public List<VuDataReport> queryCustomerByProfit(String startDate, String endDate, String customerType, String options) {
-        List<VuDataReport> result = new ArrayList<>();
-        if ("1".equals(customerType)) {
+    public Map<String,List> queryCustomerByProfit(String startDate, String endDate, String customerType, String options) {
+    	List<VuDataReport> result = new ArrayList<>();
+        List<String> names = new ArrayList<>();
+        List<String> times = new ArrayList<>();
+        Map<String,List> maps = new HashMap<String,List>();
         	if("1".equals(options)){
-        		result = dataReportMapper.queryCustomerByProfitDateMonth(startDate, endDate, customerType);
+        		result = dataReportMapper.queryCustomerByProfitDateMonth(startDate, endDate, Integer.valueOf(customerType));
+        		names = dataReportMapper.queryCustomerNamesMonth(startDate, endDate, Integer.valueOf(customerType));
+            	times = dataReportMapper.queryCustomerTimesMonth(startDate, endDate, Integer.valueOf(customerType));
+            	maps.put("result", result);
+            	maps.put("names", names);
+            	maps.put("times", times);
         	}else if("2".equals(options)){
-        		result = dataReportMapper.queryCustomerByProfitDateQuarter(startDate, endDate, customerType);
+        		result = dataReportMapper.queryCustomerByProfitDateQuarter(startDate, endDate, Integer.valueOf(customerType));
+        		names = dataReportMapper.queryCustomerNamesQuarter(startDate, endDate, Integer.valueOf(customerType));
+            	times = dataReportMapper.queryCustomerTimesQuarter(startDate, endDate, Integer.valueOf(customerType));
+            	maps.put("result", result);
+            	maps.put("names", names);
+            	maps.put("times", times);
         	}else if("3".equals(options)){
-        		 result = dataReportMapper.queryCustomerByProfitDateHalfYear(startDate, endDate, customerType);
+        		 result = dataReportMapper.queryCustomerByProfitDateHalfYear(startDate, endDate, Integer.valueOf(customerType));
+        		 names = dataReportMapper.queryCustomerNamesHalfYear(startDate, endDate, Integer.valueOf(customerType));
+             	times = dataReportMapper.queryCustomerTimesHalfYear(startDate, endDate, Integer.valueOf(customerType));
+             	maps.put("result", result);
+             	maps.put("names", names);
+             	maps.put("times", times);
         	}else if("4".equals(options)){
-        		result = dataReportMapper.queryCustomerByProfitDateWholeYear(startDate, endDate, customerType);
-        	}
-            
-
-        } else if ("2".equals(customerType)) {
-        	if("1".equals(options)){
-        		result = dataReportMapper.queryCustomerByProfitDateMonth2(startDate, endDate, customerType);
-        	}else if("2".equals(options)){
-        		result = dataReportMapper.queryCustomerByProfitDateQuarter2(startDate, endDate, customerType);
-        	}else if("3".equals(options)){
-        		 result = dataReportMapper.queryCustomerByProfitDateHalfYear2(startDate, endDate, customerType);
-        	}else if("4".equals(options)){
-        		result = dataReportMapper.queryCustomerByProfitDateWholeYear2(startDate, endDate, customerType);
+        		result = dataReportMapper.queryCustomerByProfitDateWholeYear(startDate, endDate, Integer.valueOf(customerType));
+        		names = dataReportMapper.queryCustomerNamesWholeYear(startDate, endDate, Integer.valueOf(customerType));
+            	times = dataReportMapper.queryCustomerTimesWholeYear(startDate, endDate, Integer.valueOf(customerType));
+            	maps.put("result", result);
+            	maps.put("names", names);
+            	maps.put("times", times);
         	}
 
-        } 
-
-        return result;
+        return maps;
     }
     
-    @Override
-    public List<VuDataReport> queryCustomerByMargin(String startDate, String endDate, String customerType, String options) {
-        List<VuDataReport> result = new ArrayList<>();
-        if ("1".equals(customerType)) {
-        	if("1".equals(options)){
-        		result = dataReportMapper.queryCustomerByMarginDateMonth(startDate, endDate, customerType);
-        	}else if("2".equals(options)){
-        		result = dataReportMapper.queryCustomerByMarginDateQuarter(startDate, endDate, customerType);
-        	}else if("3".equals(options)){
-        		 result = dataReportMapper.queryCustomerByMarginDateHalfYear(startDate, endDate, customerType);
-        	}else if("4".equals(options)){
-        		result = dataReportMapper.queryCustomerByMarginDateWholeYear(startDate, endDate, customerType);
-        	}
-            
-
-        } else if ("2".equals(customerType)) {
-        	if("1".equals(options)){
-        		result = dataReportMapper.queryCustomerByMarginDateMonth2(startDate, endDate, customerType);
-        	}else if("2".equals(options)){
-        		result = dataReportMapper.queryCustomerByMarginDateQuarter2(startDate, endDate, customerType);
-        	}else if("3".equals(options)){
-        		 result = dataReportMapper.queryCustomerByMarginDateHalfYear2(startDate, endDate, customerType);
-        	}else if("4".equals(options)){
-        		result = dataReportMapper.queryCustomerByMarginDateWholeYear2(startDate, endDate, customerType);
-        	}
-
-        } 
-
-        return result;
-    }
     
     @Override
     public List<VuDataReport> queryCustomerByPay(String startDate, String endDate) {

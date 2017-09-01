@@ -10,6 +10,7 @@ import com.github.abel533.echarts.Label;
 import com.github.abel533.echarts.Option;
 import com.github.abel533.echarts.axis.CategoryAxis;
 import com.github.abel533.echarts.axis.ValueAxis;
+import com.github.abel533.echarts.code.SeriesType;
 import com.github.abel533.echarts.series.Bar;
 import com.github.abel533.echarts.series.Series;
 import com.github.abel533.echarts.style.ItemStyle;
@@ -27,10 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by weiqz on 2017/7/13.
@@ -149,11 +147,11 @@ public class ReportAreaController {
 
         Option option = new Option();
         
-//        Map<String,List> maps = new HashMap<String,List>();
-//        maps = dataReportService.queryAreaBudgetByDate(startDate, endDate, lid);
-        List<VuDataReport> list = new ArrayList<>();
-        list = dataReportService.queryAreaBudgetByDate1(startDate, endDate, lid);
-        option = this.createChartWithType(list);
+        Map<String,List> maps = new HashMap<String,List>();
+        maps = dataReportService.queryAreaBudgetByDate(startDate, endDate, lid);
+//        List<VuDataReport> list = new ArrayList<>();
+//        list = dataReportService.queryAreaBudgetByDate1(startDate, endDate, lid);
+        option = this.createChartWithType(maps);
         
         result.setData(option);
 
@@ -335,6 +333,7 @@ public class ReportAreaController {
         	Bar bar = new Bar(names.get(i));
         	option.legend().data(names.get(i));
             bar.stack(names.get(i));  
+            bar.setName(names.get(i));
         	for(int j=0;j<times.size();j++){
         		
         		boolean flag = false;
@@ -360,11 +359,19 @@ public class ReportAreaController {
         normal.setPosition("outer");
         normal.setShow(true);
         itemStyle.setNormal(normal);
+        
        List<Series> series = new ArrayList<Series>();
-        for(Bar b:bars){
+        for(final Bar b:bars){
     	   b.setItemStyle(itemStyle);
-    	   Series s= new Series<Bar>() {
+    	   Series<Bar> s= new Series<Bar>() {
+    		   @Override
+    		public Bar type(SeriesType type) {
+    			// TODO Auto-generated method stub
+    			return b;
+    		}
     		};
+    		s.setType(SeriesType.bar);
+    		s.setName(b.getName());
     		s.setData(b.data());
     		s.setItemStyle(itemStyle);
     		series.add(s);

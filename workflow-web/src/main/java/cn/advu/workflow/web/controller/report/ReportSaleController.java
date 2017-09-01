@@ -5,6 +5,7 @@ import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
 import cn.advu.workflow.web.service.datareport.DataReportService;
 import cn.advu.workflow.web.third.echarts.NormalExtend;
+
 import com.alibaba.fastjson.JSON;
 import com.github.abel533.echarts.Option;
 import com.github.abel533.echarts.axis.AxisLine;
@@ -13,11 +14,13 @@ import com.github.abel533.echarts.axis.SplitLine;
 import com.github.abel533.echarts.axis.ValueAxis;
 import com.github.abel533.echarts.code.Trigger;
 import com.github.abel533.echarts.code.X;
+import com.github.abel533.echarts.code.Y;
 import com.github.abel533.echarts.data.PieData;
 import com.github.abel533.echarts.series.Bar;
 import com.github.abel533.echarts.series.Line;
 import com.github.abel533.echarts.series.Pie;
 import com.github.abel533.echarts.style.ItemStyle;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -29,6 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.*;
 
 /**
@@ -74,15 +78,17 @@ public class ReportSaleController {
         ResultJson result = new ResultJson<>(WebConstants.OPERATION_FAILURE);
 
         lid = StringUtils.isEmpty(lid)?"1":lid;
-        startDate = StringUtils.isEmpty(startDate)?(new DateTime().withDayOfYear(1).withHourOfDay(1).withMinuteOfHour(1).toString("yyyy/MM/dd HH:mm:ss")):startDate;
-        endDate = StringUtils.isEmpty(endDate)?(new DateTime().toString("yyyy/MM/dd HH:mm:ss")):endDate;
+        startDate = StringUtils.isEmpty(startDate)?("1980-01-01"):startDate;
+        endDate = StringUtils.isEmpty(endDate)?("2100-01-01"):endDate;
         type = StringUtils.isEmpty(type)?"1":type;
 
         LOGGER.info("lid:{},options:{}", lid, type);
         LOGGER.info("startDate:{},endDate:{}", startDate, endDate);
 
         List<VuDataReport> list = new ArrayList<>();
+        List<VuDataReport> top3 = new ArrayList<>();
         Option option = new Option();
+        Option option1 = new Option();
         if ("1".equals(lid)) {
             list = dataReportService.querySaleHistoryByDate(startDate, endDate, type);
             option = this.createChart4Date(list);
@@ -91,11 +97,10 @@ public class ReportSaleController {
             option = this.createChart4Area(list);
         } else if ("3".equals(lid)) {
             list = dataReportService.querySaleHistoryBySaler(startDate, endDate, type);
-            if ("0".equals(type)) {
-                option = this.createChart4Saler(list); // 柱状图
-            } else {
-                option = this.createChart(list); // 折线图
-            }
+            top3 = dataReportService.querySaleHistoryBySalerTOP3(startDate, endDate);
+            option = this.createChart4Saler(list); // 柱状图
+            option1 = this.createChartWithTypeTop3(top3);
+
         } else if ("4".equals(lid)) {
             list = dataReportService.querySaleHistoryByCustomType(startDate, endDate, type);
             option = this.createChart4CustomType(list);
@@ -106,6 +111,7 @@ public class ReportSaleController {
 
 
         result.setData(option);
+        result.setLine(option1);
         result.setCode(WebConstants.OPERATION_SUCCESS).setInfo("成功");
         LOGGER.info("result:{}", JSON.toJSONString(result));
         return JSON.toJSONString(result);
@@ -156,17 +162,57 @@ public class ReportSaleController {
     }
 
 
-    private Option createChartWithType(List<VuDataReport> list, int type) {
+    private Option createChartWithTypeTop3(List<VuDataReport> list) {
         //创建Option
         Option option = new Option();
 //        option.title("销售汇总").tooltip(Trigger.axis).legend("金额（元）");
-        option.title("销售汇总").legend("金额（元）").tooltip().trigger();
+        option.tooltip(Trigger.axis).title().text("销售额TOP3").x(X.center);
         //横轴为值轴
         option.yAxis(new ValueAxis().boundaryGap(0d, 0.01));
         //创建类目轴
         CategoryAxis category = new CategoryAxis();
         //柱状数据
         Bar bar = new Bar("金额（元）");
+        option.legend().data("金额（元）").x(X.center).y(Y.bottom);
+        bar.itemStyle().normal().color("rgb(215, 38, 59)");
+        //循环数据
+        for (VuDataReport vuDataReport : list) {
+            
+                category.data(vuDataReport.getName());
+                //类目对应的柱状图
+                bar.data(vuDataReport.getTaxAmount());
+        }
+        //设置类目轴
+        option.xAxis(category);
+        // 设置柱状图参数
+        ItemStyle itemStyle = new ItemStyle();
+        NormalExtend normal = new NormalExtend();
+        normal.setPosition("top");
+        normal.setShow(true);
+        itemStyle.setNormal(normal);
+        bar.setLabel(itemStyle);
+
+        //设置数据
+        option.series(bar);
+        //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
+        option.grid().x(180).width("50%");
+        //返回Option
+
+        return option;
+    }
+    
+    private Option createChartWithType(List<VuDataReport> list, int type) {
+        //创建Option
+        Option option = new Option();
+//        option.title("销售汇总").tooltip(Trigger.axis).legend("金额（元）");
+        option.tooltip(Trigger.axis).title().text("销售汇总").x(X.center);
+        //横轴为值轴
+        option.yAxis(new ValueAxis().boundaryGap(0d, 0.01));
+        //创建类目轴
+        CategoryAxis category = new CategoryAxis();
+        //柱状数据
+        Bar bar = new Bar("金额（元）");
+        option.legend().data("金额（元）").x(X.center).y(Y.bottom);
         bar.itemStyle().normal().color("rgb(34, 137, 196)");
         //饼图数据
         Pie pie = new Pie("金额（元）");
@@ -211,14 +257,13 @@ public class ReportSaleController {
         bar.setLabel(itemStyle);
 
         //设置数据
-        option.series(bar, pie);
+        option.series(bar);
         //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
         option.grid().x(180).width("50%");
         //返回Option
 
         return option;
     }
-
 
 
     private Option createChart(List<VuDataReport> list) {

@@ -1,5 +1,22 @@
 package cn.advu.workflow.web.controller.report;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import cn.advu.workflow.domain.fcf_vu.datareport.VuDataReport;
 import cn.advu.workflow.web.common.ResultJson;
 import cn.advu.workflow.web.common.constant.WebConstants;
@@ -11,27 +28,14 @@ import com.github.abel533.echarts.Label;
 import com.github.abel533.echarts.Option;
 import com.github.abel533.echarts.axis.CategoryAxis;
 import com.github.abel533.echarts.axis.ValueAxis;
+import com.github.abel533.echarts.code.SeriesType;
 import com.github.abel533.echarts.code.Trigger;
 import com.github.abel533.echarts.code.X;
 import com.github.abel533.echarts.data.PieData;
 import com.github.abel533.echarts.series.Bar;
 import com.github.abel533.echarts.series.Pie;
+import com.github.abel533.echarts.series.Series;
 import com.github.abel533.echarts.style.ItemStyle;
-
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by weiqz on 2017/7/13.
@@ -80,19 +84,18 @@ public class ReportCustomerController {
         customerType = StringUtils.isEmpty(customerType)?"1":customerType;
         profitType = StringUtils.isEmpty(profitType)?"1":profitType;
 
-        List<VuDataReport> list = new ArrayList<>();
-        List<VuDataReport> list1 = new ArrayList<>();
+        Map<String,List> maps = new HashMap<String,List>();
         Option option = new Option();
         Option option1 = new Option();
-        list = dataReportService.queryCustomerByProfit(startDate, endDate, customerType, options);
-        list1 = dataReportService.queryCustomerByMargin(startDate, endDate, customerType, options);
+        maps = dataReportService.queryCustomerByProfit(startDate, endDate, customerType, options);
+       
         //毛利率
         if("1".equals(customerType)){
-        	option = this.createChart4Profit(list);
-            option1 = this.createChart4Profit1(list1);
+        	option = this.createChart4Profit(maps);
+            option1 = this.createChart4Profit1(maps);
         }else{
-        	option = this.createChart4Margin(list);
-            option1 = this.createChart4Margin1(list1);
+        	option = this.createChart4Margin(maps);
+            option1 = this.createChart4Margin1(maps);
         }
        
         result.setData(option);
@@ -467,6 +470,332 @@ public class ReportCustomerController {
 
        
         option.series(bar,bar1,bar2,bar3);
+        //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
+        option.grid().x(180);
+        //返回Option
+
+        return option;
+    }
+    
+    
+    private Option createChart4Profit(Map<String,List> maps) {
+       
+    	List<VuDataReport> list = new ArrayList<>();
+        List<String> names = new ArrayList<>();
+        List<String> times = new ArrayList<>();
+        list = maps.get("result");
+        names = maps.get("names");
+        times = maps.get("times");
+        
+    	//创建Option
+        Option option = new Option();
+//        option.title("销售汇总").tooltip(Trigger.axis).legend("金额（元）");
+        option.tooltip(Trigger.axis).title().text("毛利率统计").x(X.left);
+
+        ValueAxis valueAxis = new ValueAxis();  
+        valueAxis.splitLine().show(false);  
+        valueAxis.axisLine().lineStyle().width(1);  
+        valueAxis.axisLabel().textStyle().fontFamily("方正兰亭黑简体").color("rgb(130, 130, 130)");  
+        option.yAxis(valueAxis);  
+        
+        //创建类目轴
+        CategoryAxis category = new CategoryAxis();
+       
+        List<Bar> bars = new ArrayList<Bar>();
+        for(String t:times){
+        	category.data(t);
+        }
+        for(int i=0;i<names.size();i++){
+        	Bar bar = new Bar(names.get(i));
+        	option.legend().data(names.get(i));
+            bar.stack(names.get(i));  
+            bar.setName(names.get(i));
+        	for(int j=0;j<times.size();j++){
+        		
+        		boolean flag = false;
+        		for (VuDataReport vuDataReport : list) {
+        			if(vuDataReport.getStartDate().equals(times.get(j))&&vuDataReport.getName().equals(names.get(i))){
+        				bar.data(vuDataReport.getmPay());
+        				flag=true;
+        			}
+        		}
+        		if(!flag){
+        			bar.data(0);
+        		}
+        	}
+        	bars.add(bar);
+        }
+        //设置类目轴
+        option.xAxis(category);
+        // 设置柱状图参数
+        ItemStyle itemStyle = new ItemStyle();
+        NormalExtend normal = new NormalExtend();
+        Label label = new Label();
+        normal.setLabel(label);
+        normal.setPosition("outer");
+        normal.setShow(true);
+        itemStyle.setNormal(normal);
+        
+       List<Series> series = new ArrayList<Series>();
+        for(final Bar b:bars){
+    	   b.setItemStyle(itemStyle);
+    	   Series<Bar> s= new Series<Bar>() {
+    		   @Override
+    		public Bar type(SeriesType type) {
+    			// TODO Auto-generated method stub
+    			return b;
+    		}
+    		};
+    		s.setType(SeriesType.bar);
+    		s.setName(b.getName());
+    		s.setData(b.data());
+    		s.setItemStyle(itemStyle);
+    		series.add(s);
+       }
+       option.series(series);
+        //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
+        option.grid().x(180);
+        //返回Option
+
+        return option;
+    }
+    
+    private Option createChart4Profit1(Map<String,List> maps) {
+        
+    	List<VuDataReport> list = new ArrayList<>();
+        List<String> names = new ArrayList<>();
+        List<String> times = new ArrayList<>();
+        list = maps.get("result");
+        names = maps.get("names");
+        times = maps.get("times");
+    	//创建Option
+        Option option = new Option();
+//        option.title("销售汇总").tooltip(Trigger.axis).legend("金额（元）");
+        option.tooltip(Trigger.axis).title().text("净利率统计").x(X.left);
+
+        ValueAxis valueAxis = new ValueAxis();  
+        valueAxis.splitLine().show(false);  
+        valueAxis.axisLine().lineStyle().width(1);  
+        valueAxis.axisLabel().textStyle().fontFamily("方正兰亭黑简体").color("rgb(130, 130, 130)");  
+        option.yAxis(valueAxis);  
+        
+        //创建类目轴
+        CategoryAxis category = new CategoryAxis();
+       
+        List<Bar> bars = new ArrayList<Bar>();
+        for(String t:times){
+        	category.data(t);
+        }
+        for(int i=0;i<names.size();i++){
+        	Bar bar = new Bar(names.get(i));
+        	option.legend().data(names.get(i));
+            bar.stack(names.get(i));  
+            bar.setName(names.get(i));
+        	for(int j=0;j<times.size();j++){
+        		
+        		boolean flag = false;
+        		for (VuDataReport vuDataReport : list) {
+        			if(vuDataReport.getStartDate().equals(times.get(j))&&vuDataReport.getName().equals(names.get(i))){
+        				bar.data(vuDataReport.getjPay());
+        				flag=true;
+        			}
+        		}
+        		if(!flag){
+        			bar.data(0);
+        		}
+        	}
+        	bars.add(bar);
+        }
+        //设置类目轴
+        option.xAxis(category);
+        // 设置柱状图参数
+        ItemStyle itemStyle = new ItemStyle();
+        NormalExtend normal = new NormalExtend();
+        Label label = new Label();
+        normal.setLabel(label);
+        normal.setPosition("outer");
+        normal.setShow(true);
+        itemStyle.setNormal(normal);
+        
+       List<Series> series = new ArrayList<Series>();
+        for(final Bar b:bars){
+    	   b.setItemStyle(itemStyle);
+    	   Series<Bar> s= new Series<Bar>() {
+    		   @Override
+    		public Bar type(SeriesType type) {
+    			// TODO Auto-generated method stub
+    			return b;
+    		}
+    		};
+    		s.setType(SeriesType.bar);
+    		s.setName(b.getName());
+    		s.setData(b.data());
+    		s.setItemStyle(itemStyle);
+    		series.add(s);
+       }
+       option.series(series);
+        //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
+        option.grid().x(180);
+        //返回Option
+
+        return option;
+    }
+    
+    private Option createChart4Margin(Map<String,List> maps) {
+    	  
+    	List<VuDataReport> list = new ArrayList<>();
+        List<String> names = new ArrayList<>();
+        List<String> times = new ArrayList<>();
+        list = maps.get("result");
+        names = maps.get("names");
+        times = maps.get("times");
+    	//创建Option
+        Option option = new Option();
+//        option.title("销售汇总").tooltip(Trigger.axis).legend("金额（元）");
+        option.tooltip(Trigger.axis).title().text("毛利率统计").x(X.left);
+
+        ValueAxis valueAxis = new ValueAxis();  
+        valueAxis.splitLine().show(false);  
+        valueAxis.axisLine().lineStyle().width(1);  
+        valueAxis.axisLabel().textStyle().fontFamily("方正兰亭黑简体").color("rgb(130, 130, 130)");  
+        option.yAxis(valueAxis);  
+        
+        //创建类目轴
+        CategoryAxis category = new CategoryAxis();
+       
+        List<Bar> bars = new ArrayList<Bar>();
+        for(String t:times){
+        	category.data(t);
+        }
+        for(int i=0;i<names.size();i++){
+        	Bar bar = new Bar(names.get(i));
+        	option.legend().data(names.get(i));
+            bar.stack(names.get(i));  
+            bar.setName(names.get(i));
+        	for(int j=0;j<times.size();j++){
+        		
+        		boolean flag = false;
+        		for (VuDataReport vuDataReport : list) {
+        			if(vuDataReport.getStartDate().equals(times.get(j))&&vuDataReport.getName().equals(names.get(i))){
+        				bar.data(vuDataReport.getmPay());
+        				flag=true;
+        			}
+        		}
+        		if(!flag){
+        			bar.data(0);
+        		}
+        	}
+        	bars.add(bar);
+        }
+        //设置类目轴
+        option.xAxis(category);
+        // 设置柱状图参数
+        ItemStyle itemStyle = new ItemStyle();
+        NormalExtend normal = new NormalExtend();
+        Label label = new Label();
+        normal.setLabel(label);
+        normal.setPosition("outer");
+        normal.setShow(true);
+        itemStyle.setNormal(normal);
+        
+       List<Series> series = new ArrayList<Series>();
+        for(final Bar b:bars){
+    	   b.setItemStyle(itemStyle);
+    	   Series<Bar> s= new Series<Bar>() {
+    		   @Override
+    		public Bar type(SeriesType type) {
+    			// TODO Auto-generated method stub
+    			return b;
+    		}
+    		};
+    		s.setType(SeriesType.bar);
+    		s.setName(b.getName());
+    		s.setData(b.data());
+    		s.setItemStyle(itemStyle);
+    		series.add(s);
+       }
+       option.series(series);
+        //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
+        option.grid().x(180);
+        //返回Option
+
+        return option;
+    }
+    
+    private Option createChart4Margin1(Map<String,List> maps) {
+      
+    	List<VuDataReport> list = new ArrayList<>();
+        List<String> names = new ArrayList<>();
+        List<String> times = new ArrayList<>();
+        list = maps.get("result");
+        names = maps.get("names");
+        times = maps.get("times");
+    	//创建Option
+        Option option = new Option();
+//        option.title("销售汇总").tooltip(Trigger.axis).legend("金额（元）");
+        option.tooltip(Trigger.axis).title().text("净利率统计").x(X.left);
+
+        ValueAxis valueAxis = new ValueAxis();  
+        valueAxis.splitLine().show(false);  
+        valueAxis.axisLine().lineStyle().width(1);  
+        valueAxis.axisLabel().textStyle().fontFamily("方正兰亭黑简体").color("rgb(130, 130, 130)");  
+        option.yAxis(valueAxis);  
+        
+        //创建类目轴
+        CategoryAxis category = new CategoryAxis();
+       
+        List<Bar> bars = new ArrayList<Bar>();
+        for(String t:times){
+        	category.data(t);
+        }
+        for(int i=0;i<names.size();i++){
+        	Bar bar = new Bar(names.get(i));
+        	option.legend().data(names.get(i));
+            bar.stack(names.get(i));  
+            bar.setName(names.get(i));
+        	for(int j=0;j<times.size();j++){
+        		
+        		boolean flag = false;
+        		for (VuDataReport vuDataReport : list) {
+        			if(vuDataReport.getStartDate().equals(times.get(j))&&vuDataReport.getName().equals(names.get(i))){
+        				bar.data(vuDataReport.getjPay());
+        				flag=true;
+        			}
+        		}
+        		if(!flag){
+        			bar.data(0);
+        		}
+        	}
+        	bars.add(bar);
+        }
+        //设置类目轴
+        option.xAxis(category);
+        // 设置柱状图参数
+        ItemStyle itemStyle = new ItemStyle();
+        NormalExtend normal = new NormalExtend();
+        Label label = new Label();
+        normal.setLabel(label);
+        normal.setPosition("outer");
+        normal.setShow(true);
+        itemStyle.setNormal(normal);
+        
+       List<Series> series = new ArrayList<Series>();
+        for(final Bar b:bars){
+    	   b.setItemStyle(itemStyle);
+    	   Series<Bar> s= new Series<Bar>() {
+    		   @Override
+    		public Bar type(SeriesType type) {
+    			// TODO Auto-generated method stub
+    			return b;
+    		}
+    		};
+    		s.setType(SeriesType.bar);
+    		s.setName(b.getName());
+    		s.setData(b.data());
+    		s.setItemStyle(itemStyle);
+    		series.add(s);
+       }
+       option.series(series);
         //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
         option.grid().x(180);
         //返回Option

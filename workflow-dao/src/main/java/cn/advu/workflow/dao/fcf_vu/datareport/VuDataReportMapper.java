@@ -76,6 +76,7 @@ public interface VuDataReportMapper extends ISqlMapper {
      * @return
      */
     List<VuDataReport> querySaleHistoryBySaler(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<VuDataReport> querySaleHistoryBySalerTOP3(@Param("startDate") String startDate, @Param("endDate") String endDate);
     /**
      * 1.	销售报表分析系统
      * 1)	历史订单额汇总
@@ -136,16 +137,38 @@ public interface VuDataReportMapper extends ISqlMapper {
      * @return
      */
     List<VuDataReport> queryBuyResourceByDateMonth(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceNamesMonth(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceTimesMonth(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
     List<VuDataReport> queryBuyResourceByDateQuarter(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceNamesQuarter(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceTimesQuarter(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
     List<VuDataReport> queryBuyResourceByDateHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceNamesHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceTimesHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
     List<VuDataReport> queryBuyResourceByDateWholeYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceNamesWholeYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceTimesWholeYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
 
     List<VuDataReport> queryBuyResourceByDateLineMonth(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceNamesLineMonth(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceTimesLineMonth(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
     List<VuDataReport> queryBuyResourceByDateLineQuarter(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceNamesLineQuarter(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceTimesLineQuarter(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
     List<VuDataReport> queryBuyResourceByDateLineHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceNamesLineHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceTimesLineHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
     List<VuDataReport> queryBuyResourceByDateLineWholeYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
-
+    List<String> queryBuyResourceNamesLineWholeYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryBuyResourceTimesLineWholeYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
     /**
      * 按照厂商维度汇总数据，例如CPM采购按照厂商，例如创维，康佳，TCL等。自动生成
      * @param startDate
@@ -166,6 +189,8 @@ public interface VuDataReportMapper extends ISqlMapper {
      * @return
      */
     List<VuDataReport> queryAreaBudgetByDateHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryAreaBudgetNamesHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryAreaBudgetTimesHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
     /**
      * 3.	分公司财务分析系统
      * 2)	各分公司季度预算，半年预算和全年预算完成度分析，当期各分公司实际完成数（历史已经完成订单+已经有排期的未来订单）/ 当期预算数=当期预算完成百分比。财务填写基础数据而后自动生成
@@ -180,7 +205,10 @@ public interface VuDataReportMapper extends ISqlMapper {
     List<String> queryAreaBudgetTimesWholeYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
     List<VuDataReport> queryAreaBudgetByDateQuarterYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
-
+    List<String> queryAreaBudgetNamesQuarterYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<String> queryAreaBudgetTimesQuarterYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
+    
     /**
      * 4.	分公司财务分析系统
      * 1)	计算每个4A或者直客以及每个代理商的毛利贡献率和净利润贡献率，可自由设定起止时间。默认生成月，季度和半年和全年。净利润贡献率=净收入（订单额-对公返点）-分摊成本（加权平均计算）-其他综合分摊费用（包括工资，房租，销售提成和其他返点等）。毛利贡献率=净收入（订单额-对公返点）-分摊成本(加权平均计算)。财务填写基础数据而后自动生成
@@ -188,25 +216,23 @@ public interface VuDataReportMapper extends ISqlMapper {
      * @return
      */
     List<VuDataReport> queryCustomerByProfitNoDate(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByProfitDateMonth(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByProfitDateQuarter(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByProfitDateHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByProfitDateWholeYear(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-
-    List<VuDataReport> queryCustomerByProfitDateMonth2(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByProfitDateQuarter2(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByProfitDateHalfYear2(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByProfitDateWholeYear2(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-
-    List<VuDataReport> queryCustomerByMarginDateMonth(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByMarginDateQuarter(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByMarginDateHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByMarginDateWholeYear(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-
-    List<VuDataReport> queryCustomerByMarginDateMonth2(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByMarginDateQuarter2(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByMarginDateHalfYear2(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
-    List<VuDataReport> queryCustomerByMarginDateWholeYear2(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") String customerType);
+   
+    List<VuDataReport> queryCustomerByProfitDateMonth(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") int customerType);
+    List<String> queryCustomerNamesMonth(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") int customerType);
+    List<String> queryCustomerTimesMonth(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") int customerType);
+    
+    List<VuDataReport> queryCustomerByProfitDateQuarter(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") int customerType);
+    List<String> queryCustomerNamesQuarter(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") int customerType);
+    List<String> queryCustomerTimesQuarter(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") int customerType);
+    
+    List<VuDataReport> queryCustomerByProfitDateHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") int customerType);
+    List<String> queryCustomerNamesHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") int customerType);
+    List<String> queryCustomerTimesHalfYear(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") int customerType);
+    
+    List<VuDataReport> queryCustomerByProfitDateWholeYear(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") int customerType);
+    List<String> queryCustomerNamesWholeYear(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") int customerType);
+    List<String> queryCustomerTimesWholeYear(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("customerType") int customerType);
+    
 
     /**
      * 4.	分公司财务分析系统
