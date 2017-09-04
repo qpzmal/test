@@ -163,8 +163,8 @@ public class PersonController {
         String deptName = "";
         if (deptId != null && deptId != 0) {
             BaseDept parentDept = deptService.findById(deptId).getData();
-            deptName = parentDept.getName();
-            if (deptName != null) {
+            if (parentDept != null) {
+                deptName = parentDept.getName();
                 parentList = personMananger.findPersonByDept(deptId);
             }
         }
