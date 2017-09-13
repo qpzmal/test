@@ -1,5 +1,7 @@
 package cn.advu.workflow.web.service.workflow;
 
+import cn.advu.workflow.domain.fcf_vu.SysRole;
+import cn.advu.workflow.repo.fcf_vu.SysRoleRepo;
 import cn.advu.workflow.web.common.util.activiti.WorkflowUtils;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
@@ -45,6 +47,9 @@ public class WorkflowTraceService {
 
     @Autowired
     protected IdentityService identityService;
+
+    @Autowired
+    private SysRoleRepo sysRoleRepo;
 
     /**
      * 流程跟踪图
@@ -148,7 +153,10 @@ public class WorkflowTraceService {
         String roles = "";
         for (Expression expression : candidateGroupIdExpressions) {
             String expressionText = expression.getExpressionText();
-            String roleName = identityService.createGroupQuery().groupId(expressionText).singleResult().getName();
+//            String roleName = identityService.createGroupQuery().groupId(expressionText).singleResult().getName();
+
+            SysRole sysRole = sysRoleRepo.queryByActivitiName(expressionText);
+            String roleName = sysRole.getName();
             roles += roleName;
         }
         vars.put("任务所属角色", roles);
