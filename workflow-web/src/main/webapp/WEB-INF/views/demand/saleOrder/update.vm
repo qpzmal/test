@@ -695,7 +695,16 @@
                     },
                     {
                         field: "cpm",
-                        title: "CPM数"
+                        title: "CPM数",
+                        editable: {
+                            validate:function (value) {
+                                value = $.trim(value);
+                                if (!(value = '' || /^(\-|\+)?\d{1,10}$/.test(value)))
+                                {
+                                    return '请输入整数数字';
+                                }
+                            }
+                        }
                     },
                     {
                         field: "remark",
