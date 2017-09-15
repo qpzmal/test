@@ -763,9 +763,9 @@
     laydate(start);
     laydate(end);
     laydate(order_date);
-    $('#start_date').val(laydate.now(0, 'YYYY-MM-DD'));
-    $('#end_date').val(laydate.now(0, 'YYYY-MM-DD'));
-    $('#order_date').val(laydate.now(0, 'YYYY-MM-DD'));
+##    $('#start_date').val(laydate.now(0, 'YYYY-MM-DD'));
+##    $('#end_date').val(laydate.now(0, 'YYYY-MM-DD'));
+##    $('#order_date').val(laydate.now(0, 'YYYY-MM-DD'));
 
     var config = {
         ".chosen-select": {},
