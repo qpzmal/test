@@ -472,6 +472,9 @@ public class TaskController {
                     continue;
                 }
             }
+            if (baseBuyOrder.getStatus() == -99) { // 过滤[作废]申请
+                continue;
+            }
 
             baseBuyOrderVO.setBaseBuyOrder(baseBuyOrder);
             baseBuyOrderVO.setHistoricProcessInstance(historicProcessInstance);
@@ -511,6 +514,9 @@ public class TaskController {
                 if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
+            }
+            if (baseBuyOrderFrame.getStatus() == -99) { // 过滤[作废]申请
+                continue;
             }
 
             baseBuyOrderFrameVO.setBaseBuyOrderFrame(baseBuyOrderFrame);
@@ -552,6 +558,10 @@ public class TaskController {
                     continue;
                 }
             }
+            if (baseExecuteOrder.getStatus() == -99) { // 过滤[作废]申请
+                continue;
+            }
+
 
             baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
             baseExecuteOrderVO.setHistoricProcessInstance(historicProcessInstance);
@@ -592,6 +602,10 @@ public class TaskController {
                     continue;
                 }
             }
+            if (baseExecuteOrder.getStatus() == -99) { // 过滤[作废]申请
+                continue;
+            }
+
 
             baseExecuteOrderVO.setBaseExecuteOrder(baseExecuteOrder);
             baseExecuteOrderVO.setHistoricProcessInstance(historicProcessInstance);
@@ -632,6 +646,10 @@ public class TaskController {
                     continue;
                 }
             }
+            if (baseExecuteOrderFrame.getStatus() == -99) { // 过滤[作废]申请
+                continue;
+            }
+
 
             baseExecuteOrderFrameVO.setBaseExecuteOrderFrame(baseExecuteOrderFrame);
             baseExecuteOrderFrameVO.setHistoricProcessInstance(historicProcessInstance);
