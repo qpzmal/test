@@ -815,8 +815,48 @@ public class TaskController {
                     default:
                         break;
                 }
-
             }
+
+            // 终止申请流程时，更新业务数据状态
+            if (WebConstants.Audit.MODIFY_APPLY.equals(tkey) && !resultBoolean) {
+                switch (pkey) {
+                    case WebConstants.WORKFLOW_BUY:
+                        BaseBuyOrder baseBuyOrder = new BaseBuyOrder();
+                        baseBuyOrder.setId(Integer.valueOf(bizId));
+                        baseBuyOrder.setStatus((byte) -99);
+                        buyOrderService.updateSelective(baseBuyOrder).getData();
+                        break;
+                    case WebConstants.WORKFLOW_BUY_FRAME:
+                        BaseBuyOrderFrame baseBuyOrderFrame = new BaseBuyOrderFrame();
+                        baseBuyOrderFrame.setId(Integer.valueOf(bizId));
+                        baseBuyOrderFrame.setStatus((byte) -99);
+                        buyFrameService.updateSelective(baseBuyOrderFrame).getData();
+                        break;
+                    case WebConstants.WORKFLOW_SALE_ORDER:
+                        BaseExecuteOrder baseExecuteOrder1 = new BaseExecuteOrder();
+                        baseExecuteOrder1.setId(Integer.valueOf(bizId));
+                        baseExecuteOrder1.setStatus((byte) -99);
+                        executeOrderService.updateSelective(baseExecuteOrder1).getData();
+                        break;
+                    case WebConstants.WORKFLOW_SALE_EXECUTE:
+                        BaseExecuteOrder baseExecuteOrder2 = new BaseExecuteOrder();
+                        baseExecuteOrder2.setId(Integer.valueOf(bizId));
+                        baseExecuteOrder2.setStatus((byte) -99);
+                        executeOrderService.updateSelective(baseExecuteOrder2).getData();
+                        break;
+                    case WebConstants.WORKFLOW_SALE_FRAME:
+                        BaseExecuteOrderFrame baseExecuteOrderFrame = new BaseExecuteOrderFrame();
+                        baseExecuteOrderFrame.setId(Integer.valueOf(bizId));
+                        baseExecuteOrderFrame.setStatus((byte) -99);
+                        saleFrameService.updateSelective(baseExecuteOrderFrame).getData();
+                        break;
+                    default:
+                        LOGGER.error("ProcessDefinitionKey is error.");
+                        break;
+                }
+            }
+
+
 
 //            // 判断是否是审核流程的最后一步
 //            HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(pkey).processInstanceId(pid).finished().orderByProcessInstanceEndTime().desc();
