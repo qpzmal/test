@@ -637,6 +637,9 @@ public class UserController {
                     continue;
                 }
             }
+            if (baseBuyOrder.getStatus() == -99) { // 过滤[作废]申请
+                continue;
+            }
 
             dataBoardVO.setId(baseBuyOrder.getId() + "");
             dataBoardVO.setName(baseBuyOrder.getName());
@@ -669,6 +672,9 @@ public class UserController {
                 if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
+            }
+            if (baseBuyOrderFrame.getStatus() == -99) { // 过滤[作废]申请
+                continue;
             }
 
             dataBoardVO.setId(baseBuyOrderFrame.getId() + "");
@@ -703,6 +709,9 @@ public class UserController {
                     continue;
                 }
             }
+            if (baseExecuteOrder.getStatus() == -99) { // 过滤[作废]申请
+                continue;
+            }
 
             dataBoardVO.setId(baseExecuteOrder.getId() + "");
             dataBoardVO.setName(baseExecuteOrder.getName());
@@ -736,6 +745,9 @@ public class UserController {
                     continue;
                 }
             }
+            if (baseExecuteOrder.getStatus() == -99) { // 过滤[作废]申请
+                continue;
+            }
 
             dataBoardVO.setId(baseExecuteOrder.getId() + "");
             dataBoardVO.setName(baseExecuteOrder.getName());
@@ -768,6 +780,9 @@ public class UserController {
                 if (!ActivitiTool.checkViewAuth(sysRoleList)) {
                     continue;
                 }
+            }
+            if (baseExecuteOrderFrame.getStatus() == -99) { // 过滤[作废]申请
+                continue;
             }
 
             dataBoardVO.setId(baseExecuteOrderFrame.getId() + "");
