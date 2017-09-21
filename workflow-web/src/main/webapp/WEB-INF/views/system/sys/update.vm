@@ -22,7 +22,7 @@
             <label class="col-sm-3 control-label">邮件通知开关</label>
             <div class="col-sm-8">
                 <input id="email_switch" name="email_switch" type="checkbox" class="js-switch"
-                    #if($!{sysInfo.emailSwitch} == "0")
+                    #if($!{sysInfo.emailSwitch} == "1")
                        checked
                     #end
                 />
@@ -32,7 +32,7 @@
             <label class="col-sm-3 control-label">短信通知开关</label>
             <div class="col-sm-8">
                 <input id="sms_switch" name="sms_switch" type="checkbox" class="js-switch"
-                    #if($!{sysInfo.smsSwitch} == "0")
+                    #if($!{sysInfo.smsSwitch} == "1")
                        checked
                     #end
                 />
@@ -135,8 +135,8 @@
     function updateRegion(){
         var id = $("#id").val();
         var name = $("#sysInfo_name").val();
-        var email_switch = $(".js-switch")[0].checked?"0":"1";
-        var sms_switch = $(".js-switch")[1].checked?"0":"1";
+        var email_switch = $(".js-switch")[0].checked?"1":"0";
+        var sms_switch = $(".js-switch")[1].checked?"1":"0";
         var remark = $("#remark").val();
         $.ajax({
             url:"/sysInfo/update.json",
