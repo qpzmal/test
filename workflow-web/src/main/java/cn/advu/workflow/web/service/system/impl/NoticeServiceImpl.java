@@ -17,6 +17,7 @@ import cn.advu.workflow.web.common.tool.YunpianTool;
 import cn.advu.workflow.web.example.mail.sms163.SendNeteaseTemplate;
 import cn.advu.workflow.web.manager.SysInfoMananger;
 import cn.advu.workflow.web.service.system.NoticeService;
+import com.alibaba.dubbo.common.utils.StringUtils;
 import net.sf.json.JSONArray;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.IdentityLink;
@@ -90,8 +91,12 @@ public class NoticeServiceImpl implements NoticeService {
             List<String> mobileList = new ArrayList<>();
             for (SysUserRole user:sysUserRoleList) {
                 SysUser dbUser = sysUserRepo.findOne(user.getAdmins());
-                mailList.add(dbUser.getEmail());
-                mobileList.add(dbUser.getMobile());
+                if (StringUtils.isNotEmpty(dbUser.getEmail())) {
+                    mailList.add(dbUser.getEmail());
+                }
+                if (StringUtils.isNotEmpty(dbUser.getMobile())) {
+                    mobileList.add(dbUser.getMobile());
+                }
             }
 
             SysInfo sysInfo = sysInfoMananger.querySysInfo();
